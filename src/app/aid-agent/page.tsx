@@ -2087,7 +2087,7 @@ export default function AidAgentPage() {
                   {" "}— Purpose-built on 34 CFR · FSA Handbook · HEA Title IV · Federal Student Aid Policy
                 </p>
                 <p className="text-[10px] text-center text-white/20">
-                  <Link href="/legal" className="underline underline-offset-2 hover:text-white/40 transition-colors">Terms & Privacy</Link>
+                  <Link href="/legal" className="underline underline-offset-2 hover:text-white/40 transition-colors">Terms &amp; Privacy</Link>
                 </p>
               </div>
             </div>
