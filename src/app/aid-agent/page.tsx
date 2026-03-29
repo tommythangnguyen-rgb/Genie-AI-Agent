@@ -34,6 +34,8 @@ import {
   DollarSign,
   CheckCircle,
   Hash,
+  Menu,
+  X,
 } from "lucide-react";
 
 // ─── Genie Bottle Logo ────────────────────────────────────────────────────────
@@ -969,6 +971,8 @@ export default function AidAgentPage() {
   const readerRef = useRef<ReadableStreamDefaultReader<Uint8Array> | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [showDisclaimer, setShowDisclaimer] = useState(true);
+  const [showMobileLeft, setShowMobileLeft] = useState(false);
+  const [showMobileRight, setShowMobileRight] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("genie-terms-accepted")) setShowDisclaimer(false);
@@ -1505,10 +1509,18 @@ export default function AidAgentPage() {
 
       <EducationalBackground />
 
+      {/* Mobile panel backdrop */}
+      {(showMobileLeft || showMobileRight) && (
+        <div
+          className="fixed inset-0 z-40 bg-black/60 lg:hidden"
+          onClick={() => { setShowMobileLeft(false); setShowMobileRight(false); }}
+        />
+      )}
+
       <div className="h-screen flex overflow-hidden">
 
         {/* ── Sidebar ── */}
-        <aside className="hidden lg:flex flex-col w-72 shrink-0 border-r border-white/[0.10] bg-white/[0.07] backdrop-blur-2xl">
+        <aside className={`${showMobileLeft ? "flex fixed inset-y-0 left-0 z-50" : "hidden"} lg:flex lg:static lg:z-auto flex-col w-72 shrink-0 border-r border-white/[0.10] bg-[#071035] lg:bg-white/[0.07] backdrop-blur-2xl`}>
 
           {/* Brand — Students & Parents */}
           <div className="px-4 pt-4 pb-3 border-b border-white/[0.07]">
@@ -1709,7 +1721,7 @@ export default function AidAgentPage() {
 
           {/* Header */}
           <header className="relative shrink-0 border-b border-white/[0.10] bg-white/[0.07] backdrop-blur-xl px-5 py-3 flex items-center justify-between">
-            {/* Left — home + mobile brand icon */}
+            {/* Left — home + mobile left-panel toggle */}
             <div className="flex items-center gap-2 w-36">
               <button
                 onClick={goHome}
@@ -1719,22 +1731,23 @@ export default function AidAgentPage() {
                 <Home className="h-3.5 w-3.5" />
                 <span className="hidden sm:inline">Home</span>
               </button>
-              <div className="lg:hidden p-1.5 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 shrink-0">
-                <GenieBottle className="h-4 w-4 text-white" />
-              </div>
+              <button
+                onClick={() => { setShowMobileLeft(!showMobileLeft); setShowMobileRight(false); }}
+                title="Students & Parents panel"
+                className="lg:hidden p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+              >
+                {showMobileLeft ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+              </button>
             </div>
 
-            {/* Center — genie bottle logo + title */}
+            {/* Center — title only */}
             <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 select-none">
-              <div className="p-1.5 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 shadow-lg shadow-indigo-500/30">
-                <GenieBottle className="h-5 w-5 text-white" />
-              </div>
               <h1 className="text-2xl font-extrabold tracking-tight leading-none bg-gradient-to-r from-sky-300 via-indigo-300 to-violet-400 bg-clip-text text-transparent whitespace-nowrap">
                 Genie
               </h1>
             </div>
 
-            {/* Right — status + actions */}
+            {/* Right — status + mobile right-panel toggle + actions */}
             <div className="flex items-center gap-2 w-36 justify-end">
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 ring-1 ring-emerald-500/20">
                 <span className="relative flex h-1.5 w-1.5">
@@ -1743,6 +1756,13 @@ export default function AidAgentPage() {
                 </span>
                 <span className="hidden sm:inline">Online</span>
               </span>
+              <button
+                onClick={() => { setShowMobileRight(!showMobileRight); setShowMobileLeft(false); }}
+                title="Admins & Auditors panel"
+                className="xl:hidden p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+              >
+                {showMobileRight ? <X className="h-4 w-4" /> : <Zap className="h-4 w-4" />}
+              </button>
               {messages.length > 0 && (
                 <button
                   onClick={() => setMessages([])}
@@ -1772,7 +1792,7 @@ export default function AidAgentPage() {
                 </div>
 
                 <h2 className="text-2xl font-bold tracking-tight text-white mb-2 text-center">
-                  Student Planning & Administrator Expert
+                  Student Planning & Administrator Companion
                 </h2>
                 <p className="text-sm text-white/45 leading-relaxed max-w-lg text-center mb-8">
                   Generate FA offer letters, run R2T4 calculations, prep for FSA audits,
@@ -1992,8 +2012,8 @@ export default function AidAgentPage() {
             <div className="relative max-w-3xl mx-auto">
               {/* Prompt label row */}
               <div className="flex items-center gap-2 mb-2 px-1">
-                <Sparkles className="h-3 w-3 text-indigo-400/70 shrink-0" />
-                <span className="text-[11px] font-semibold bg-gradient-to-r from-sky-300 via-indigo-300 to-violet-400 bg-clip-text text-transparent tracking-wide">
+                <Sparkles className="h-3.5 w-3.5 text-indigo-300/90 shrink-0" />
+                <span className="text-sm font-bold bg-gradient-to-r from-sky-300 via-indigo-300 to-violet-400 bg-clip-text text-transparent tracking-wide">
                   Ask Genie
                 </span>
                 <div className="h-px flex-1 bg-gradient-to-r from-indigo-500/20 to-transparent" />
@@ -2096,7 +2116,7 @@ export default function AidAgentPage() {
         </main>
 
         {/* ── Right Panel — Coverage + Quick Actions ── */}
-        <aside className="hidden xl:flex flex-col w-72 shrink-0 border-l border-white/[0.10] bg-white/[0.07] backdrop-blur-2xl">
+        <aside className={`${showMobileRight ? "flex fixed inset-y-0 right-0 z-50" : "hidden"} xl:flex xl:static xl:z-auto flex-col w-72 shrink-0 border-l border-white/[0.10] bg-[#071035] xl:bg-white/[0.07] backdrop-blur-2xl`}>
 
           {/* Header — Administrators, Executives & Auditors */}
           <div className="px-4 pt-4 pb-4 border-b border-white/[0.07]">
