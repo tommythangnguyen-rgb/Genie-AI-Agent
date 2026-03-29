@@ -324,16 +324,161 @@ const FEDERAL_RESOURCES = [
       { name: "IFAP – ED Policy Guidance", url: "https://ifap.ed.gov" },
       { name: "NSLDS Professional Access", url: "https://nslds.ed.gov" },
       { name: "COD – Common Origination & Disbursement", url: "https://cod.ed.gov" },
-      { name: "eCampus-Based", url: "https://ecampusbased.ed.gov" },
-      { name: "AskRegs – Reg Q&A", url: "https://askregs.nasfaa.org" },
+      { name: "eCampus-Based (Campus-Based Aid)", url: "https://ecampusbased.ed.gov" },
+      { name: "AskRegs – NASFAA Reg Q&A", url: "https://askregs.nasfaa.org" },
+      { name: "studentaid.gov – Professionals", url: "https://studentaid.gov/help-center/answers/topic/professionals" },
+      { name: "FSA Partner Connect", url: "https://fsapartners.ed.gov" },
+      { name: "2025-26 Verification Guide (IFAP)", url: "https://ifap.ed.gov/ilibrary/document-type/verification-guide" },
+      { name: "2026-27 Verification Guide (IFAP)", url: "https://ifap.ed.gov/ilibrary/document-type/verification-guide" },
+    ],
+    more: [
+      { name: "Dear Colleague Letters (DCL) – All Years", url: "https://ifap.ed.gov/dear-colleague-letters" },
+      { name: "Dear Colleague Letters 2025-26", url: "https://ifap.ed.gov/dear-colleague-letters" },
+      { name: "Dear Colleague Letters 2026-27", url: "https://ifap.ed.gov/dear-colleague-letters" },
+      { name: "Electronic Announcement – IFAP", url: "https://ifap.ed.gov/electronic-announcements" },
+      { name: "G5 – Grants Management System", url: "https://www.g5.gov" },
+      { name: "SAIG Enrollment (TDClient)", url: "https://fsawebenroll.ed.gov" },
+      { name: "EDExpress – FA Software", url: "https://fsapartners.ed.gov/knowledge-center/fsa-software/edexpress" },
+      { name: "EdConnect – SAIG Transmission", url: "https://fsapartners.ed.gov/knowledge-center/fsa-software/edconnect" },
+      { name: "FSA Training & Professional Development", url: "https://fsapartners.ed.gov/training-events" },
+      { name: "FSA Data Center (FAFSA Data)", url: "https://studentaid.gov/data-center" },
+      { name: "CPS (Central Processing System) Info", url: "https://ifap.ed.gov" },
+      { name: "SAR / ISIR Interpretation", url: "https://studentaid.gov/help-center/answers/topic/professionals" },
+      { name: "FAFSA Simplification Act Resources", url: "https://fsapartners.ed.gov/knowledge-center/fafsa-simplification" },
+      { name: "FAFSA Partner Toolkit", url: "https://studentaid.gov/help-center/answers/topic/outreach-and-resources" },
+      { name: "MPN – Master Promissory Note", url: "https://studentaid.gov/mpn" },
+      { name: "Entrance Counseling – studentaid.gov", url: "https://studentaid.gov/entrance-counseling" },
+      { name: "Exit Counseling – studentaid.gov", url: "https://studentaid.gov/exit-counseling" },
+      { name: "Professional Judgment Guidance (IFAP)", url: "https://ifap.ed.gov/ilibrary/document-type/professional-judgment" },
+      { name: "Dependency Override Policy Guidance", url: "https://ifap.ed.gov" },
+      { name: "Conflicting Information Policy (34 CFR 668.16)", url: "https://www.ecfr.gov/current/title-34/subtitle-B/chapter-VI/part-668/subpart-B/section-668.16" },
+      { name: "Consortium Agreement Guidance", url: "https://ifap.ed.gov" },
+      { name: "Study Abroad Aid Processing", url: "https://ifap.ed.gov" },
+      { name: "Unusual Enrollment History (UEH) Guidance", url: "https://ifap.ed.gov" },
+      { name: "Satisfactory Academic Progress (SAP) Regulations", url: "https://www.ecfr.gov/current/title-34/part-668/subpart-C" },
+      { name: "R2T4 Policy & Worksheets (IFAP)", url: "https://ifap.ed.gov/ilibrary/document-type/return-title-iv" },
+      { name: "Disbursement Timing Rules (34 CFR 668.164)", url: "https://www.ecfr.gov/current/title-34/subtitle-B/chapter-VI/part-668/subpart-K/section-668.164" },
+      { name: "Award Year Crossover Guidance", url: "https://ifap.ed.gov" },
+      { name: "Transfer Monitoring – NSLDS", url: "https://nslds.ed.gov" },
+      { name: "Credit Balance Management (34 CFR 668.164(e))", url: "https://www.ecfr.gov/current/title-34/subtitle-B/chapter-VI/part-668/subpart-K/section-668.164" },
+      { name: "Campus-Based Aid Allocation", url: "https://ecampusbased.ed.gov" },
+      { name: "FISAP Filing (ecampusbased.ed.gov)", url: "https://ecampusbased.ed.gov" },
+      { name: "TEACH Grant Program", url: "https://studentaid.gov/teach-grant-program" },
+      { name: "Iraq/Afghanistan Service Grant", url: "https://studentaid.gov/understand-aid/types/grants/iraq-afghanistan-service" },
+      { name: "Federal Pell Grant Lifetime Eligibility", url: "https://studentaid.gov/understand-aid/types/grants/pell/calculate-eligibility" },
+      { name: "Pell Grant LEU Tracking – NSLDS", url: "https://nslds.ed.gov" },
+      { name: "Direct Loan Aggregate Limits Guidance", url: "https://studentaid.gov/understand-aid/types/loans/subsidized-unsubsidized" },
+      { name: "PLUS Loan Processing (COD)", url: "https://cod.ed.gov" },
+      { name: "FSA Loan Origination & Disbursement (COD)", url: "https://cod.ed.gov" },
+      { name: "Default Prevention Resources", url: "https://studentaid.gov/help-center/answers/topic/managing-repayment" },
+      { name: "CDR – Cohort Default Rate Guide (IFAP)", url: "https://ifap.ed.gov/ilibrary/document-type/cohort-default-rate-guide" },
+      { name: "IPEDS Data Collection (NCES)", url: "https://nces.ed.gov/ipeds" },
+      { name: "Gainful Employment Disclosure Tool", url: "https://studentaid.gov/gainful-employment" },
+      { name: "90/10 Rule Guidance (HEA § 487(a)(24))", url: "https://ifap.ed.gov" },
+      { name: "Financial Responsibility Standards (Composite Score)", url: "https://studentaid.gov/financialresponsibility" },
+      { name: "Incarcerated Students Initiative", url: "https://studentaid.gov/incarcerated" },
+      { name: "Distance Education – Accreditation Guidance", url: "https://ifap.ed.gov" },
+      { name: "Clock-to-Credit Hour Conversion", url: "https://ifap.ed.gov" },
+      { name: "State Authorization Resources (NC-SARA)", url: "https://nc-sara.org" },
+      { name: "Homeless/Foster Youth (Unaccompanied Youth)", url: "https://studentaid.gov/help-center/answers/article/foster-youth-and-homeless-youth" },
+      { name: "AmeriCorps Segal Education Award Info", url: "https://americorps.gov/members-volunteers/segal-americorps-education-award" },
+      { name: "Verification 2025-26 – IRS Tax Year 2023 Data", url: "https://ifap.ed.gov/ilibrary/document-type/verification-guide" },
+      { name: "Verification 2026-27 – IRS Tax Year 2024 Data", url: "https://ifap.ed.gov/ilibrary/document-type/verification-guide" },
+      { name: "IRS Data Retrieval Tool (FAFSA)", url: "https://studentaid.gov/help-center/answers/article/what-is-irs-data-retrieval-tool" },
+      { name: "IRS Get Transcript (Verification)", url: "https://www.irs.gov/individuals/get-transcript" },
+      { name: "IRS Publication 970 – Tax Benefits for Education", url: "https://www.irs.gov/publications/p970" },
+      { name: "IRS Form 1098-T (Tuition Statement)", url: "https://www.irs.gov/forms-pubs/about-form-1098-t" },
+      { name: "IRS AOTC – American Opportunity Tax Credit", url: "https://www.irs.gov/credits-deductions/individuals/aotc" },
+      { name: "IRS LLC – Lifetime Learning Credit", url: "https://www.irs.gov/credits-deductions/individuals/llc" },
+      { name: "IRS Student Loan Interest Deduction", url: "https://www.irs.gov/taxtopics/tc456" },
+      { name: "IRS Free File (Tax Years 2020–2024)", url: "https://www.irs.gov/filing/free-file-do-your-federal-taxes-for-free" },
+      { name: "IRS Tax Return Transcripts (2020–2024)", url: "https://www.irs.gov/individuals/get-transcript" },
+      { name: "IRS Form 4506-C (Transcript Request)", url: "https://www.irs.gov/forms-pubs/about-form-4506-c" },
+      { name: "IRS EIN / ITIN for FAFSA", url: "https://www.irs.gov/individuals/individual-taxpayer-identification-number" },
+      { name: "R2T4 Tracking Spreadsheet Template (NASFAA)", url: "https://www.nasfaa.org/tools_resources" },
+      { name: "NASFAA Tools & Resources Library", url: "https://www.nasfaa.org/tools_resources" },
     ],
   },
   {
     group: "Leaders, Auditors & Compliance",
     links: [
-      { name: "Federal Register – ED Rules", url: "https://www.federalregister.gov/agencies/education-department" },
+      { name: "Federal Register – ED Rules & Regulations", url: "https://www.federalregister.gov/agencies/education-department" },
       { name: "U.S. Dept. of Education", url: "https://www.ed.gov" },
-      { name: "NASFAA", url: "https://www.nasfaa.org" },
+      { name: "NASFAA – National Assoc. of Student Financial Aid", url: "https://www.nasfaa.org" },
+      { name: "ED Office of Inspector General (OIG)", url: "https://www2.ed.gov/about/offices/list/oig/index.html" },
+      { name: "OIG Semiannual Report to Congress", url: "https://www2.ed.gov/about/offices/list/oig/semiann/index.html" },
+      { name: "34 CFR Part 668 – Student Assistance General", url: "https://www.ecfr.gov/current/title-34/part-668" },
+      { name: "34 CFR Part 685 – Direct Loan Program", url: "https://www.ecfr.gov/current/title-34/part-685" },
+      { name: "34 CFR Part 690 – Federal Pell Grant Program", url: "https://www.ecfr.gov/current/title-34/part-690" },
+      { name: "OMB Uniform Guidance (2 CFR Part 200)", url: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200" },
+      { name: "GAO – Government Auditing Standards (Yellow Book)", url: "https://www.gao.gov/yellowbook" },
+    ],
+    more: [
+      { name: "Single Audit Act (31 U.S.C. § 7501)", url: "https://www.govinfo.gov/content/pkg/USCODE-2011-title31/pdf/USCODE-2011-title31-subtitleV-chap75.pdf" },
+      { name: "AICPA – Audit Standards (SAS)", url: "https://www.aicpa.org/research/standards/auditattest/clarity.html" },
+      { name: "FSA Audit Guide – Title IV", url: "https://www2.ed.gov/about/offices/list/oig/aireports/auditguide.html" },
+      { name: "Program Review Protocols – FSA", url: "https://studentaid.gov/about/announcements/program-review" },
+      { name: "OIG Audit Reports – Higher Education", url: "https://www2.ed.gov/about/offices/list/oig/aireports/aireports.html" },
+      { name: "34 CFR Part 674 – Federal Perkins Loan", url: "https://www.ecfr.gov/current/title-34/part-674" },
+      { name: "34 CFR Part 675 – Federal Work-Study", url: "https://www.ecfr.gov/current/title-34/part-675" },
+      { name: "34 CFR Part 676 – FSEOG", url: "https://www.ecfr.gov/current/title-34/part-676" },
+      { name: "34 CFR Part 682 – FFEL Program", url: "https://www.ecfr.gov/current/title-34/part-682" },
+      { name: "34 CFR Part 692 – LEAP Program", url: "https://www.ecfr.gov/current/title-34/part-692" },
+      { name: "34 CFR Part 99 – FERPA", url: "https://www.ecfr.gov/current/title-34/part-99" },
+      { name: "FERPA – Family Educational Rights & Privacy", url: "https://studentprivacy.ed.gov" },
+      { name: "HEA Title IV – Higher Education Act", url: "https://uscode.house.gov/browse/prelim@title20/chapter28&edition=prelim" },
+      { name: "FSA 2025-26 Final Rules (Federal Register)", url: "https://www.federalregister.gov/agencies/education-department" },
+      { name: "FSA 2026-27 Award Year Regulations (Federal Register)", url: "https://www.federalregister.gov/agencies/education-department" },
+      { name: "2025-26 Verification Requirements (34 CFR 668 Subpart E)", url: "https://www.ecfr.gov/current/title-34/part-668/subpart-E" },
+      { name: "2026-27 Verification Requirements (34 CFR 668 Subpart E)", url: "https://www.ecfr.gov/current/title-34/part-668/subpart-E" },
+      { name: "CDR Cohort Default Rate – National Data", url: "https://studentaid.gov/data-center/school/default" },
+      { name: "90/10 Rule – HEA § 487(a)(24)", url: "https://ifap.ed.gov" },
+      { name: "Composite Score / Financial Responsibility", url: "https://studentaid.gov/financialresponsibility" },
+      { name: "Letters of Credit – ED Financial Standards", url: "https://studentaid.gov/financialresponsibility" },
+      { name: "Gainful Employment Regulations (2023)", url: "https://www.federalregister.gov/documents/2023/10/30/2023-23715/programs-leading-to-gainful-employment" },
+      { name: "Borrower Defense Regulations", url: "https://www.federalregister.gov/agencies/education-department" },
+      { name: "Program Integrity Rules (34 CFR 668)", url: "https://www.ecfr.gov/current/title-34/part-668" },
+      { name: "Cash Management Rules (34 CFR 668.162–164)", url: "https://www.ecfr.gov/current/title-34/part-668/subpart-K" },
+      { name: "Foreign Gift Reporting (HEA § 117)", url: "https://www.ed.gov/about/offices/list/ope/foreigngifts.html" },
+      { name: "Clery Act Compliance", url: "https://www2.ed.gov/admins/lead/safety/campus.html" },
+      { name: "Drug-Free Schools & Communities Act", url: "https://www2.ed.gov/policy/elsec/guid/secletter/120725.html" },
+      { name: "Title IX Compliance – ED OCR", url: "https://www2.ed.gov/about/offices/list/ocr/docs/tix_dis.html" },
+      { name: "ADA Compliance in Higher Education", url: "https://www.ada.gov" },
+      { name: "HEOA – Higher Education Opportunity Act", url: "https://www.congress.gov/110/plaws/publ315/PLAW-110publ315.pdf" },
+      { name: "HEERF / CARES Act Audit Requirements", url: "https://www2.ed.gov/about/offices/list/oig/aireports/auditguide.html" },
+      { name: "Emergency Aid – COVID Relief Reporting", url: "https://www2.ed.gov/about/offices/list/ope/caresact.html" },
+      { name: "IPEDS Reporting (NCES)", url: "https://nces.ed.gov/ipeds" },
+      { name: "Title III – HBCUs & Strengthening Institutions", url: "https://www.ed.gov/about/offices/list/ope/idues/index.html" },
+      { name: "Title V – Hispanic-Serving Institutions", url: "https://www.ed.gov/about/offices/list/ope/idues/index.html" },
+      { name: "MSI – Minority Serving Institutions", url: "https://www.ed.gov/about/offices/list/ope/idues/index.html" },
+      { name: "State Authorization – NC-SARA", url: "https://nc-sara.org" },
+      { name: "Accreditation Recognition Database (DAPIP)", url: "https://ope.ed.gov/dapip" },
+      { name: "NASFAA Standards of Excellence (SOE)", url: "https://www.nasfaa.org/SOE" },
+      { name: "NASFAA Code of Ethics & Professional Standards", url: "https://www.nasfaa.org/professional_standards" },
+      { name: "NASFAA AskRegs – Compliance Q&A", url: "https://askregs.nasfaa.org" },
+      { name: "FSA Modernization – FUTURE Act", url: "https://fsapartners.ed.gov/knowledge-center/fafsa-simplification" },
+      { name: "Overpayment Recovery – NSLDS", url: "https://nslds.ed.gov" },
+      { name: "Title IV Reconciliation Guidance", url: "https://cod.ed.gov" },
+      { name: "Internal Controls – 2 CFR 200.303", url: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/section-200.303" },
+      { name: "Allowable Costs – 2 CFR 200.420-.476", url: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-E" },
+      { name: "Questioned Costs & Findings – 2 CFR 200.516", url: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-F/section-200.516" },
+      { name: "Corrective Action Plans – OIG Guidance", url: "https://www2.ed.gov/about/offices/list/oig/aireports/aireports.html" },
+      { name: "IRS Publication 970 – Tax Benefits for Education", url: "https://www.irs.gov/publications/p970" },
+      { name: "IRS AOTC Audit Compliance (Institutions)", url: "https://www.irs.gov/credits-deductions/individuals/aotc" },
+      { name: "IRS Form 1098-T Reporting Requirements", url: "https://www.irs.gov/forms-pubs/about-form-1098-t" },
+      { name: "IRS Tax Filing 2020 – Resources Archive", url: "https://www.irs.gov/filing" },
+      { name: "IRS Tax Filing 2021 – Resources Archive", url: "https://www.irs.gov/filing" },
+      { name: "IRS Tax Filing 2022 – Resources Archive", url: "https://www.irs.gov/filing" },
+      { name: "IRS Tax Filing 2023 – Resources Archive", url: "https://www.irs.gov/filing" },
+      { name: "IRS Tax Filing 2024 – Current Year Guide", url: "https://www.irs.gov/filing" },
+      { name: "IRS Get Transcript (All Tax Years)", url: "https://www.irs.gov/individuals/get-transcript" },
+      { name: "IRS Form 4506-C – Transcript for Third Parties", url: "https://www.irs.gov/forms-pubs/about-form-4506-c" },
+      { name: "GLBA – Gramm-Leach-Bliley Cybersecurity (FTC)", url: "https://www.ftc.gov/business-guidance/privacy-security/gramm-leach-bliley-act" },
+      { name: "COPPA Compliance (Children Under 13)", url: "https://www.ftc.gov/business-guidance/privacy-security/childrens-privacy" },
+      { name: "CCPA – California Consumer Privacy Act", url: "https://oag.ca.gov/privacy/ccpa" },
+      { name: "FSA Access – MyFSAID Account Management", url: "https://fsaid.ed.gov" },
+      { name: "SAIG Mailbox Management & Security", url: "https://fsawebenroll.ed.gov" },
+      { name: "Congressional Research Service – Higher Ed Reports", url: "https://crsreports.congress.gov" },
     ],
   },
   {
@@ -2752,9 +2897,11 @@ export default function AidAgentPage() {
             })}
 
             {/* ── Admin Federal Resources (collapsible by group) ── */}
-            {FEDERAL_RESOURCES.filter(({ group }) => group !== "Students & Parents").map(({ group, links }) => {
+            {FEDERAL_RESOURCES.filter(({ group }) => group !== "Students & Parents").map(({ group, links, more }) => {
               const key = `sec-admin-${group}`;
+              const moreKey = `more-admin-${group}`;
               const isOpen = expandedSections.has(key);
+              const isMoreOpen = expandedSections.has(moreKey);
               return (
                 <div key={group} className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection(key)}
@@ -2772,6 +2919,23 @@ export default function AidAgentPage() {
                           <span className="text-right">{name}</span>
                         </a>
                       ))}
+                      {more && more.length > 0 && (
+                        <>
+                          {isMoreOpen && more.map(({ name, url }) => (
+                            <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                              title={name}
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-indigo-500/20 ring-1 ring-transparent hover:ring-indigo-500/20 transition-all duration-150 group">
+                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-indigo-400 shrink-0" />
+                              <span className="text-right">{name}</span>
+                            </a>
+                          ))}
+                          <button
+                            onClick={() => toggleSection(moreKey)}
+                            className="w-full text-right px-3 py-1.5 text-[10px] font-medium text-indigo-400/80 hover:text-indigo-300 transition-colors">
+                            {isMoreOpen ? "Show less" : `Show ${more.length} more`}
+                          </button>
+                        </>
+                      )}
                     </div>
                   )}
                 </div>
