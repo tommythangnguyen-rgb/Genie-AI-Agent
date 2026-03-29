@@ -1460,7 +1460,7 @@ export default function AidAgentPage() {
               </div>
               <div>
                 <h2 id="disclaimer-title" className="text-base font-bold text-white leading-tight">Genie — Financial Aid Hub</h2>
-                <p className="text-xs text-white/60 mt-0.5">Please review and accept before continuing</p>
+                <p className="text-xs text-white/60 mt-0.5">Developed by a 15-year Financial Aid Professional</p>
               </div>
             </div>
 
@@ -2107,10 +2107,17 @@ export default function AidAgentPage() {
                 <p className="text-[10px] text-center text-white/25">
                   Unofficial reference tool — not affiliated with the U.S. Department of Education
                 </p>
+                <p className="text-[10px] text-center text-white/30 italic mt-0.5">
+                  Built by a 15-year Student Financial Aid professional. Designed for the people who do this work every day.
+                </p>
                 <p className="text-[10px] text-center text-white/20">
                   <Link href="/legal" className="underline underline-offset-2 hover:text-white/40 transition-colors">Terms &amp; Privacy</Link>
                   {" · "}
                   <Link href="/dpa" className="underline underline-offset-2 hover:text-white/40 transition-colors">School DPA</Link>
+                  {" · "}
+                  <Link href="/about" className="underline underline-offset-2 hover:text-white/40 transition-colors">About</Link>
+                  {" · "}
+                  <Link href="/institutions" className="underline underline-offset-2 hover:text-white/40 transition-colors">For Schools</Link>
                   {" · "}
                   <Link href="/legal#ccpa" className="underline underline-offset-2 hover:text-white/40 transition-colors">Do Not Sell My Info</Link>
                 </p>

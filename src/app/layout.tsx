@@ -14,7 +14,11 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Genie | Financial Aid Hub",
-  description: "AI-powered financial aid assistant for students, parents, and institutions.",
+  description: "AI-powered financial aid companion for students, parents, and administrators. Built on 34 CFR, FSA Handbook, and HEA Title IV.",
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 export default function RootLayout({
