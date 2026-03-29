@@ -47,7 +47,7 @@ const TERMS_SECTIONS = [
   {
     n: "7",
     title: "Intellectual Property",
-    body: "All content and branding are owned by the developer (One27) and protected by copyright law.",
+    body: "All content, design, code, branding, and materials on this platform are the exclusive intellectual property of askGenie Financial Aid Hub, developed by One27. Unauthorized reproduction, distribution, or commercial use without express written permission is strictly prohibited under U.S. copyright law (17 U.S.C. § 101 et seq.).\n\nAI-generated responses do not constitute original works owned by the user. The platform, its design, prompts, and systems remain the exclusive property of One27.\n\naskGenie Financial Aid Hub is an independent product. Use of federal regulatory references including 34 CFR, HEA, and the FSA Handbook is for informational purposes only and does not imply endorsement by the U.S. Department of Education or any federal agency.",
   },
   {
     n: "8",
