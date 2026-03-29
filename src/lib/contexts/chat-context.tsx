@@ -7,10 +7,15 @@ import {
   useEffect,
   useState,
 } from "react";
-import { useChat as useAIChat } from "@ai-sdk/react";
-import { Message } from "ai";
 import { useFileSystem } from "./file-system-context";
 import { setHasAnonWork } from "@/lib/anon-work-tracker";
+
+interface Message {
+  id: string;
+  role: "user" | "assistant" | "system";
+  content: string;
+  parts?: any[];
+}
 
 interface ChatContextProps {
   projectId?: string;
@@ -35,7 +40,24 @@ export function ChatProvider({
   const { fileSystem, handleToolCall, createFile, updateFile, getAllFiles } = useFileSystem();
 
   const [inputState, setInputState] = useState("");
-  const [localMessages, setLocalMessages] = useState<Message[]>(initialMessages);
+
+  const normalizeInitialMessages = (msgs: any[]): Message[] =>
+    msgs
+      .filter((m) => m.role === "user" || m.role === "assistant")
+      .map((m) => ({
+        ...m,
+        content: Array.isArray(m.content)
+          ? m.content
+              .filter((p: any) => p.type === "text")
+              .map((p: any) => p.text || "")
+              .join("")
+          : (m.content ?? ""),
+      }));
+
+  const [localMessages, setLocalMessages] = useState<Message[]>(
+    normalizeInitialMessages(initialMessages)
+  );
+  const [status, setStatus] = useState("idle");
 
   // Function to remove code blocks from content for chat display
   const removeCodeBlocks = (content: string): string => {
@@ -97,38 +119,11 @@ export function ChatProvider({
     });
   };
 
-  const chatHook = useAIChat({
-    api: "/proxy/3000/api/chat",
-    initialMessages,
-    body: {
-      files: fileSystem.serialize(),
-      projectId,
-    },
-    onToolCall: ({ toolCall }) => {
-      handleToolCall(toolCall);
-    },
-  });
+  const messages = localMessages;
+  const input = inputState;
 
-  const {
-    messages: aiMessages,
-    input: aiInput,
-    handleInputChange: aiHandleInputChange,
-    handleSubmit: aiHandleSubmit,
-    status,
-  } = chatHook;
-
-  // Use AI messages if available, otherwise use local messages
-  const messages = aiMessages.length > 0 ? aiMessages : localMessages;
-
-  // Use local state for input if AI SDK input is not working
-  const input = aiInput !== undefined ? aiInput : inputState;
-  
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (aiHandleInputChange) {
-      aiHandleInputChange(e);
-    } else {
-      setInputState(e.target.value);
-    }
+    setInputState(e.target.value);
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -153,7 +148,7 @@ export function ChatProvider({
       setInputState(""); // Clear input immediately
       
       try {
-        const response = await fetch("/proxy/3000/api/chat", {
+        const response = await fetch("/api/chat", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -168,14 +163,30 @@ export function ChatProvider({
         if (response.ok) {
           const data = await response.json();
           console.log("API call successful!");
-          
+
+          // Apply file system state returned from the server (tool-based generation)
+          if (data.files && Object.keys(data.files).length > 0) {
+            for (const [path, node] of Object.entries(data.files as Record<string, any>)) {
+              if (node && node.content !== undefined) {
+                const existingFiles = getAllFiles();
+                if (existingFiles.has(path)) {
+                  updateFile(path, node.content);
+                } else {
+                  createFile(path, node.content);
+                }
+              }
+            }
+          }
+
           // Add AI response to local messages
           if (data.message) {
             const fullContent = data.message.content;
-            
-            // Extract code from the full response and create files
-            extractAndCreateFiles(fullContent);
-            
+
+            // Extract code from the full response and create files (text-based generation fallback)
+            if (!data.files || Object.keys(data.files).length === 0) {
+              extractAndCreateFiles(fullContent);
+            }
+
             // Create chat message with filtered content (no code blocks)
             const aiMessage: Message = {
               id: (Date.now() + 1).toString(),

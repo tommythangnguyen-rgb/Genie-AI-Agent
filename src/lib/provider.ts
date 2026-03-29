@@ -1,20 +1,19 @@
 import { anthropic } from "@ai-sdk/anthropic";
 import { bedrock } from "@ai-sdk/amazon-bedrock";
 import {
-  LanguageModelV1,
-  LanguageModelV1StreamPart,
-  LanguageModelV1Message,
+  LanguageModelV2,
+  LanguageModelV2StreamPart,
+  LanguageModelV2Message,
 } from "@ai-sdk/provider";
-import type { LanguageModel } from "ai";
 
-const ANTHROPIC_MODEL = "claude-sonnet-4-0";
+const ANTHROPIC_MODEL = "claude-sonnet-4-5";
 const BEDROCK_MODEL = "us.anthropic.claude-sonnet-4-20250514-v1:0";
 
-export class MockLanguageModel implements LanguageModelV1 {
-  readonly specificationVersion = "v1" as const;
+export class MockLanguageModel implements LanguageModelV2 {
+  readonly specificationVersion = "v2" as const;
   readonly provider = "mock";
   readonly modelId: string;
-  readonly defaultObjectGenerationMode = "tool" as const;
+  readonly supportedUrls = {};
 
   constructor(modelId: string) {
     this.modelId = modelId;
@@ -24,43 +23,26 @@ export class MockLanguageModel implements LanguageModelV1 {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  private extractUserPrompt(messages: LanguageModelV1Message[]): string {
-    // Find the last user message
+  private extractUserPrompt(messages: LanguageModelV2Message[]): string {
     for (let i = messages.length - 1; i >= 0; i--) {
       const message = messages[i];
       if (message.role === "user") {
         const content = message.content;
         if (Array.isArray(content)) {
-          // Extract text from content parts
           const textParts = content
             .filter((part: any) => part.type === "text")
             .map((part: any) => part.text);
           return textParts.join(" ");
-        } else if (typeof content === "string") {
-          return content;
         }
       }
     }
     return "";
   }
 
-  private getLastToolResult(messages: LanguageModelV1Message[]): any {
-    // Find the last tool message
-    for (let i = messages.length - 1; i >= 0; i--) {
-      if (messages[i].role === "tool") {
-        const content = messages[i].content;
-        if (Array.isArray(content) && content.length > 0) {
-          return content[0];
-        }
-      }
-    }
-    return null;
-  }
-
   private async *generateMockStream(
-    messages: LanguageModelV1Message[],
+    messages: LanguageModelV2Message[],
     userPrompt: string
-  ): AsyncGenerator<LanguageModelV1StreamPart> {
+  ): AsyncGenerator<LanguageModelV2StreamPart> {
     // Count tool messages to determine which step we're on
     const toolMessageCount = messages.filter((m) => m.role === "tool").length;
 
@@ -80,17 +62,19 @@ export class MockLanguageModel implements LanguageModelV1 {
     // Step 1: Create component file
     if (toolMessageCount === 1) {
       const text = `I'll create a ${componentName} component for you.`;
+      yield { type: "stream-start", warnings: [] };
+      yield { type: "text-start", id: "text_1" };
       for (const char of text) {
-        yield { type: "text-delta", textDelta: char };
+        yield { type: "text-delta", id: "text_1", delta: char };
         await this.delay(25);
       }
+      yield { type: "text-end", id: "text_1" };
 
       yield {
         type: "tool-call",
-        toolCallType: "function",
         toolCallId: `call_1`,
         toolName: "str_replace_editor",
-        args: JSON.stringify({
+        input: JSON.stringify({
           command: "create",
           path: `/components/${componentName}.jsx`,
           file_text: this.getComponentCode(componentType),
@@ -100,10 +84,7 @@ export class MockLanguageModel implements LanguageModelV1 {
       yield {
         type: "finish",
         finishReason: "tool-calls",
-        usage: {
-          promptTokens: 50,
-          completionTokens: 30,
-        },
+        usage: { inputTokens: 50, outputTokens: 30, totalTokens: 80 },
       };
       return;
     }
@@ -111,17 +92,19 @@ export class MockLanguageModel implements LanguageModelV1 {
     // Step 2: Enhance component
     if (toolMessageCount === 2) {
       const text = `Now let me enhance the component with better styling.`;
+      yield { type: "stream-start", warnings: [] };
+      yield { type: "text-start", id: "text_2" };
       for (const char of text) {
-        yield { type: "text-delta", textDelta: char };
+        yield { type: "text-delta", id: "text_2", delta: char };
         await this.delay(25);
       }
+      yield { type: "text-end", id: "text_2" };
 
       yield {
         type: "tool-call",
-        toolCallType: "function",
         toolCallId: `call_2`,
         toolName: "str_replace_editor",
-        args: JSON.stringify({
+        input: JSON.stringify({
           command: "str_replace",
           path: `/components/${componentName}.jsx`,
           old_str: this.getOldStringForReplace(componentType),
@@ -132,10 +115,7 @@ export class MockLanguageModel implements LanguageModelV1 {
       yield {
         type: "finish",
         finishReason: "tool-calls",
-        usage: {
-          promptTokens: 50,
-          completionTokens: 30,
-        },
+        usage: { inputTokens: 50, outputTokens: 30, totalTokens: 80 },
       };
       return;
     }
@@ -143,17 +123,19 @@ export class MockLanguageModel implements LanguageModelV1 {
     // Step 3: Create App.jsx
     if (toolMessageCount === 0) {
       const text = `This is a static response. You can place an Anthropic API key in the .env file to use the Anthropic API for component generation. Let me create an App.jsx file to display the component.`;
+      yield { type: "stream-start", warnings: [] };
+      yield { type: "text-start", id: "text_3" };
       for (const char of text) {
-        yield { type: "text-delta", textDelta: char };
+        yield { type: "text-delta", id: "text_3", delta: char };
         await this.delay(15);
       }
+      yield { type: "text-end", id: "text_3" };
 
       yield {
         type: "tool-call",
-        toolCallType: "function",
         toolCallId: `call_3`,
         toolName: "str_replace_editor",
-        args: JSON.stringify({
+        input: JSON.stringify({
           command: "create",
           path: "/App.jsx",
           file_text: this.getAppCode(componentName),
@@ -163,10 +145,7 @@ export class MockLanguageModel implements LanguageModelV1 {
       yield {
         type: "finish",
         finishReason: "tool-calls",
-        usage: {
-          promptTokens: 50,
-          completionTokens: 30,
-        },
+        usage: { inputTokens: 50, outputTokens: 30, totalTokens: 80 },
       };
       return;
     }
@@ -180,18 +159,18 @@ export class MockLanguageModel implements LanguageModelV1 {
 
 The component is now ready to use. You can see the preview on the right side of the screen.`;
 
+      yield { type: "stream-start", warnings: [] };
+      yield { type: "text-start", id: "text_4" };
       for (const char of text) {
-        yield { type: "text-delta", textDelta: char };
+        yield { type: "text-delta", id: "text_4", delta: char };
         await this.delay(30);
       }
+      yield { type: "text-end", id: "text_4" };
 
       yield {
         type: "finish",
         finishReason: "stop",
-        usage: {
-          promptTokens: 50,
-          completionTokens: 50,
-        },
+        usage: { inputTokens: 50, outputTokens: 50, totalTokens: 100 },
       };
       return;
     }
@@ -273,7 +252,7 @@ const ContactForm = () => {
         
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 transition-colors"
+          className="w-full bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white font-semibold py-2.5 px-5 rounded-xl shadow-lg shadow-indigo-500/25 active:scale-[0.98] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
         >
           Send Message
         </button>
@@ -287,24 +266,24 @@ export default ContactForm;`;
       case "card":
         return `import React from 'react';
 
-const Card = ({ 
-  title = "Welcome to Our Service", 
+const Card = ({
+  title = "Welcome to Our Service",
   description = "Discover amazing features and capabilities that will transform your experience.",
   imageUrl,
-  actions 
+  actions
 }) => {
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="bg-white rounded-2xl ring-1 ring-gray-900/5 shadow-sm overflow-hidden">
       {imageUrl && (
-        <img 
-          src={imageUrl} 
+        <img
+          src={imageUrl}
           alt={title}
           className="w-full h-48 object-cover"
         />
       )}
       <div className="p-6">
-        <h3 className="text-xl font-semibold mb-2">{title}</h3>
-        <p className="text-gray-600 mb-4">{description}</p>
+        <h3 className="text-xl font-semibold tracking-tight text-gray-900 mb-2">{title}</h3>
+        <p className="text-sm text-gray-500 leading-relaxed mb-4">{description}</p>
         {actions && (
           <div className="mt-4">
             {actions}
@@ -336,25 +315,25 @@ const Counter = () => {
   };
 
   return (
-    <div className="flex flex-col items-center p-6 bg-white rounded-lg shadow-md">
-      <h2 className="text-2xl font-bold mb-4">Counter</h2>
-      <div className="text-4xl font-bold mb-6">{count}</div>
-      <div className="flex gap-4">
-        <button 
+    <div className="flex flex-col items-center p-8 bg-white rounded-2xl ring-1 ring-gray-900/5 shadow-sm">
+      <h2 className="text-2xl font-bold tracking-tight text-gray-900 mb-4">Counter</h2>
+      <div className="text-5xl font-bold tabular-nums text-gray-900 mb-8">{count}</div>
+      <div className="flex gap-3">
+        <button
           onClick={decrement}
-          className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+          className="bg-rose-600 hover:bg-rose-700 text-white font-semibold py-2.5 px-5 rounded-xl active:scale-[0.98] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-rose-500"
         >
           Decrease
         </button>
-        <button 
+        <button
           onClick={reset}
-          className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors"
+          className="bg-white hover:bg-gray-50 text-gray-700 font-medium py-2.5 px-5 rounded-xl ring-1 ring-gray-200 hover:ring-gray-300 active:scale-[0.98] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
         >
           Reset
         </button>
-        <button 
+        <button
           onClick={increment}
-          className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors"
+          className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white font-semibold py-2.5 px-5 rounded-xl shadow-lg shadow-indigo-500/25 active:scale-[0.98] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500"
         >
           Increase
         </button>
@@ -395,13 +374,13 @@ export default Counter;`;
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50/40 flex items-center justify-center p-8">
       <div className="w-full max-w-md">
-        <Card 
+        <Card
           title="Amazing Product"
           description="This is a fantastic product that will change your life. Experience the difference today!"
           actions={
-            <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-colors">
+            <button className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white font-semibold py-2.5 px-5 rounded-xl shadow-lg shadow-indigo-500/25 active:scale-[0.98] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500">
               Learn More
             </button>
           }
@@ -416,7 +395,7 @@ export default function App() {
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-indigo-50/40 flex items-center justify-center p-8">
       <div className="w-full max-w-md">
         <${componentName} />
       </div>
@@ -426,64 +405,49 @@ export default function App() {
   }
 
   async doGenerate(
-    options: Parameters<LanguageModelV1["doGenerate"]>[0]
-  ): Promise<Awaited<ReturnType<LanguageModelV1["doGenerate"]>>> {
+    options: Parameters<LanguageModelV2["doGenerate"]>[0]
+  ): Promise<Awaited<ReturnType<LanguageModelV2["doGenerate"]>>> {
     const userPrompt = this.extractUserPrompt(options.prompt);
 
-    // Collect all stream parts
-    const parts: LanguageModelV1StreamPart[] = [];
-    for await (const part of this.generateMockStream(
-      options.prompt,
-      userPrompt
-    )) {
+    const parts: LanguageModelV2StreamPart[] = [];
+    for await (const part of this.generateMockStream(options.prompt, userPrompt)) {
       parts.push(part);
     }
 
-    // Build response from parts
-    const textParts = parts
+    const textContent = parts
       .filter((p) => p.type === "text-delta")
-      .map((p) => (p as any).textDelta)
+      .map((p) => (p as any).delta)
       .join("");
 
     const toolCalls = parts
       .filter((p) => p.type === "tool-call")
       .map((p) => ({
-        toolCallType: "function" as const,
+        type: "tool-call" as const,
         toolCallId: (p as any).toolCallId,
         toolName: (p as any).toolName,
-        args: (p as any).args,
+        input: (p as any).input,
       }));
 
-    // Get finish reason from finish part
     const finishPart = parts.find((p) => p.type === "finish") as any;
-    const finishReason = finishPart?.finishReason || "stop";
+    const content: any[] = [];
+    if (textContent) content.push({ type: "text", text: textContent });
+    content.push(...toolCalls);
 
     return {
-      text: textParts,
-      toolCalls,
-      finishReason: finishReason as any,
-      usage: {
-        promptTokens: 100,
-        completionTokens: 200,
-      },
+      content,
+      finishReason: (finishPart?.finishReason ?? "stop") as any,
+      usage: { inputTokens: 100, outputTokens: 200, totalTokens: 300 },
       warnings: [],
-      rawCall: {
-        rawPrompt: options.prompt,
-        rawSettings: {
-          maxTokens: options.maxTokens,
-          temperature: options.temperature,
-        },
-      },
     };
   }
 
   async doStream(
-    options: Parameters<LanguageModelV1["doStream"]>[0]
-  ): Promise<Awaited<ReturnType<LanguageModelV1["doStream"]>>> {
+    options: Parameters<LanguageModelV2["doStream"]>[0]
+  ): Promise<Awaited<ReturnType<LanguageModelV2["doStream"]>>> {
     const userPrompt = this.extractUserPrompt(options.prompt);
     const self = this;
 
-    const stream = new ReadableStream<LanguageModelV1StreamPart>({
+    const stream = new ReadableStream<LanguageModelV2StreamPart>({
       async start(controller) {
         try {
           const generator = self.generateMockStream(options.prompt, userPrompt);
@@ -497,15 +461,7 @@ export default function App() {
       },
     });
 
-    return {
-      stream,
-      warnings: [],
-      rawCall: {
-        rawPrompt: options.prompt,
-        rawSettings: {},
-      },
-      rawResponse: { headers: {} },
-    };
+    return { stream };
   }
 }
 

@@ -1,6 +1,6 @@
 import type { FileNode } from "@/lib/file-system";
 import { VirtualFileSystem } from "@/lib/file-system";
-import { streamText, streamObject } from "ai";
+import { streamText, streamObject, stepCountIs } from "ai";
 import { buildStrReplaceTool } from "@/lib/tools/str-replace";
 import { buildFileManagerTool } from "@/lib/tools/file-manager";
 import { prisma } from "@/lib/prisma";
@@ -29,21 +29,19 @@ export async function POST(req: Request) {
   fileSystem.deserializeFromNodes(files);
 
   const model = getLanguageModel();
-  // Use fewer steps for mock provider to prevent repetition
   const isMockProvider = !process.env.ANTHROPIC_API_KEY && !process.env.AWS_BEARER_TOKEN_BEDROCK;
   const result = streamText({
     model,
     messages,
-    maxTokens: 10_000,
-    maxSteps: isMockProvider ? 4 : 40,
+    maxOutputTokens: 10_000,
+    stopWhen: stepCountIs(isMockProvider ? 4 : 40),
     onError: (err: any) => {
       console.error(err);
     },
-    // Temporarily disable tools to test basic generation
-    // tools: {
-    //   str_replace_editor: buildStrReplaceTool(fileSystem),
-    //   file_manager: buildFileManagerTool(fileSystem),
-    // },
+    tools: {
+      str_replace_editor: buildStrReplaceTool(fileSystem),
+      file_manager: buildFileManagerTool(fileSystem),
+    },
     onFinish: async ({ response }) => {
       // Save to project if projectId is provided and user is authenticated
       if (projectId) {
@@ -55,13 +53,22 @@ export async function POST(req: Request) {
             return;
           }
 
-          // Get the messages from the response
+          const normalizeContent = (content: any): string => {
+            if (typeof content === "string") return content;
+            if (Array.isArray(content)) {
+              return content
+                .filter((p: any) => p.type === "text")
+                .map((p: any) => p.text || "")
+                .join("");
+            }
+            return "";
+          };
+
           const responseMessages = response.messages || [];
-          // Combine original messages with response messages
           const allMessages = [
             ...messages.filter((m) => m.role !== "system"),
-            ...responseMessages
-          ];
+            ...responseMessages.filter((m: any) => m.role === "user" || m.role === "assistant"),
+          ].map((m: any) => ({ ...m, content: normalizeContent(m.content) }));
 
           await prisma.project.update({
             where: {
@@ -91,12 +98,13 @@ export async function POST(req: Request) {
     return Response.json({ error: 'Failed to generate content' }, { status: 500 });
   }
 
-  // Return complete generated content as JSON
+  // Return complete generated content as JSON, including updated file system
   return Response.json({
     message: {
       role: 'assistant',
       content: generatedContent,
     },
+    files: fileSystem.serialize(),
     success: true,
   });
 }

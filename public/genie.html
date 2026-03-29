@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Genie — Financial Aid Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg-a:#060d1c;--bg-b:#091a3d;--bg-c:#0c2660;
+  --glass:rgba(255,255,255,.065);--glass2:rgba(255,255,255,.10);
+  --border:rgba(255,255,255,.10);--bl:rgba(255,255,255,.07);
+  --t1:rgba(255,255,255,.90);--t2:rgba(255,255,255,.55);
+  --t3:rgba(255,255,255,.30);--t4:rgba(255,255,255,.18);
+}
+html,body{height:100%;font-family:'Inter',system-ui,sans-serif;overflow:hidden}
+body{background:linear-gradient(145deg,var(--bg-a) 0%,var(--bg-b) 45%,var(--bg-c) 100%);color:var(--t1)}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.14);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.24)}
+.orb{position:fixed;border-radius:50%;pointer-events:none;z-index:0;filter:blur(110px)}
+.orb1{width:560px;height:560px;background:radial-gradient(circle,rgba(99,102,241,.14) 0%,transparent 70%);top:-180px;left:-100px}
+.orb2{width:460px;height:460px;background:radial-gradient(circle,rgba(167,139,250,.11) 0%,transparent 70%);bottom:-80px;right:-60px}
+.orb3{width:340px;height:340px;background:radial-gradient(circle,rgba(56,189,248,.07) 0%,transparent 70%);top:44%;left:48%;transform:translate(-50%,-50%)}
+#app{height:100vh;display:flex;flex-direction:column;position:relative;z-index:1}
+
+/* HEADER */
+header{display:flex;align-items:center;justify-content:space-between;padding:0 16px;height:56px;flex-shrink:0;background:rgba(6,13,28,.7);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:9px}
+.logo-pill{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#a78bfa);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(99,102,241,.38)}
+.logo-pill svg{width:17px;height:17px;fill:white}
+.logo-name{font-size:20px;font-weight:800;letter-spacing:-.4px;background:linear-gradient(90deg,#93c5fd,#818cf8,#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hdr-mid{position:absolute;left:50%;transform:translateX(-50%);font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--t3);white-space:nowrap}
+.hdr-r{display:flex;align-items:center;gap:7px}
+.spill{display:flex;align-items:center;gap:5px;padding:3px 9px;border-radius:20px;background:rgba(52,211,153,.09);border:1px solid rgba(52,211,153,.2);font-size:11px;font-weight:600;color:#34d399}
+.sdot{width:6px;height:6px;border-radius:50%;background:#34d399;position:relative}
+.sdot::before{content:'';position:absolute;inset:-2px;border-radius:50%;background:#34d399;opacity:.45;animation:ping 1.6s ease-in-out infinite}
+@keyframes ping{0%,100%{transform:scale(1);opacity:.45}50%{transform:scale(2);opacity:0}}
+.ibtn{width:30px;height:30px;border-radius:8px;border:1px solid var(--bl);background:var(--glass);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);transition:all .15s}
+.ibtn:hover{background:var(--glass2);color:var(--t1)}
+.ibtn svg{width:14px;height:14px}
+.ibtn.off{display:none}
+
+/* LAYOUT */
+#layout{flex:1;display:flex;overflow:hidden;min-height:0}
+
+/* PANELS */
+.panel{width:268px;flex-shrink:0;background:var(--glass);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);display:flex;flex-direction:column;overflow:hidden}
+#lp{border-right:1px solid var(--border)}
+#rp{border-left:1px solid var(--border)}
+@media(max-width:1279px){#rp{display:none}}
+@media(max-width:1023px){#lp{display:none}}
+
+.ph{padding:13px 15px 11px;border-bottom:1px solid var(--bl);flex-shrink:0}
+.ph-row{display:flex;align-items:center;gap:9px}
+.ph-row.rev{flex-direction:row-reverse}
+.ph-ico{width:29px;height:29px;border-radius:9px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.ph-ico svg{width:14px;height:14px}
+.ph-txt{display:flex;flex-direction:column}
+.ph-txt.ra{text-align:right}
+.ph-sub{font-size:10px;font-weight:700;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
+.ph-name{font-size:13px;font-weight:600}
+
+.pb{flex:1;overflow-y:auto;padding:7px 9px;display:flex;flex-direction:column;gap:4px}
+
+/* ACCORDION */
+.acc{border-radius:10px;overflow:hidden;border:1px solid var(--bl);background:rgba(255,255,255,.03)}
+.ab{width:100%;display:flex;align-items:center;justify-content:space-between;padding:8px 11px;background:transparent;border:none;cursor:pointer;font-family:inherit;transition:background .15s}
+.ab:hover{background:rgba(255,255,255,.05)}
+.ab .ch{width:13px;height:13px;flex-shrink:0;color:rgba(255,255,255,.25);transition:transform .2s}
+.ab .ch.op{transform:rotate(90deg)}
+.ab .at{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.6)}
+.ab.rv{flex-direction:row-reverse}
+.ab.rv .at{text-align:right}
+.ac{display:none;flex-direction:column;gap:1px;padding:2px 5px 7px}
+.ac.op{display:flex}
+
+/* LINKS */
+.lnk{display:flex;align-items:center;justify-content:space-between;padding:6px 9px;border-radius:8px;text-decoration:none;font-size:11.5px;color:rgba(255,255,255,.45);transition:all .15s;gap:6px}
+.lnk:hover{background:rgba(255,255,255,.07);color:rgba(147,197,253,.85)}
+.lnk svg{width:10px;height:10px;flex-shrink:0;opacity:.28;transition:opacity .15s}
+.lnk:hover svg{opacity:.75}
+.lnk.rv{flex-direction:row-reverse}
+.lnk.rv span{text-align:right}
+
+/* PANEL QA ITEMS */
+.qi{display:flex;align-items:flex-start;gap:8px;padding:7px 9px;border-radius:8px;cursor:pointer;background:transparent;border:none;font-family:inherit;transition:background .15s;text-align:left;width:100%}
+.qi:hover{background:rgba(255,255,255,.06)}
+.qi:hover .qi-i{background:rgba(99,102,241,.2)}
+.qi:hover .qi-l{color:rgba(255,255,255,.9)}
+.qi.rv{flex-direction:row-reverse;text-align:right}
+.qi-i{width:25px;height:25px;border-radius:7px;flex-shrink:0;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center;margin-top:1px;transition:background .15s}
+.qi-i svg{width:11px;height:11px}
+.qi-t{flex:1;min-width:0}
+.qi-l{font-size:11px;font-weight:500;color:rgba(255,255,255,.68);line-height:1.3;transition:color .15s}
+.qi-d{font-size:10px;color:var(--t3);margin-top:2px;line-height:1.3}
+.qi-a{width:10px;height:10px;color:rgba(255,255,255,.18);flex-shrink:0;margin-top:4px;transition:color .15s}
+.qi:hover .qi-a{color:rgba(99,102,241,.7)}
+
+/* CHIPS */
+.chips{display:flex;flex-wrap:wrap;gap:4px;padding:4px 6px 6px;justify-content:flex-end}
+.chip{padding:3px 8px;border-radius:6px;font-size:10px;font-weight:500;background:rgba(255,255,255,.07);color:rgba(255,255,255,.5);border:1px solid rgba(255,255,255,.09);cursor:pointer;transition:all .15s}
+.chip:hover{background:rgba(99,102,241,.2);color:rgba(147,197,253,.9);border-color:rgba(99,102,241,.3)}
+.chip:disabled{opacity:.4;cursor:not-allowed}
+
+/* CENTER */
+#cp{flex:1;min-width:0;display:flex;flex-direction:column;overflow:hidden}
+.ch{display:flex;align-items:center;justify-content:space-between;padding:0 15px;height:46px;flex-shrink:0;border-bottom:1px solid var(--bl);background:rgba(6,13,28,.4);backdrop-filter:blur(12px);position:relative}
+.ch-l{display:flex;align-items:center;gap:7px;min-width:70px}
+.ch-m{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:8px}
+.c-pill{width:27px;height:27px;border-radius:8px;background:linear-gradient(135deg,#6366f1,#a78bfa);display:flex;align-items:center;justify-content:center;box-shadow:0 3px 10px rgba(99,102,241,.35)}
+.c-pill svg{width:14px;height:14px;fill:white}
+.c-nm{font-size:19px;font-weight:800;letter-spacing:-.4px;background:linear-gradient(90deg,#93c5fd,#818cf8,#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.ch-r{display:flex;align-items:center;gap:5px;min-width:70px;justify-content:flex-end}
+
+#chat-area{flex:1;overflow-y:auto;scroll-behavior:smooth}
+
+/* WELCOME */
+#welcome{display:flex;flex-direction:column;align-items:center;padding:34px 20px 22px;max-width:660px;margin:0 auto}
+.hw{position:relative;margin-bottom:17px}
+.hi{width:62px;height:62px;border-radius:20px;background:linear-gradient(135deg,#6366f1,#a78bfa);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(99,102,241,.4)}
+.hi svg{width:30px;height:30px;fill:white}
+.hb{position:absolute;top:-4px;right:-4px;width:18px;height:18px;background:#34d399;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 7px rgba(52,211,153,.5)}
+.hb svg{width:9px;height:9px;fill:white}
+.hh{font-size:21px;font-weight:800;letter-spacing:-.4px;text-align:center;margin-bottom:7px}
+.hp{font-size:13px;color:var(--t2);text-align:center;line-height:1.65;max-width:460px;margin-bottom:22px}
+.rtabs{display:flex;gap:5px;flex-wrap:wrap;justify-content:center;margin-bottom:11px}
+.rtab{padding:4px 12px;border-radius:20px;border:1px solid transparent;font-size:11px;font-weight:600;cursor:pointer;color:var(--t3);background:transparent;font-family:inherit;transition:all .15s}
+.rtab:hover{color:var(--t2);background:var(--glass)}
+.rtab.on{color:var(--t1);background:rgba(255,255,255,.10);border-color:rgba(255,255,255,.13)}
+.qg{display:grid;grid-template-columns:1fr 1fr;gap:7px;width:100%}
+.qc{background:var(--glass);border:1px solid var(--bl);border-radius:13px;padding:12px;cursor:pointer;text-align:left;transition:all .2s;display:flex;flex-direction:column;gap:7px;backdrop-filter:blur(12px)}
+.qc:hover{background:var(--glass2);border-color:rgba(99,102,241,.35);transform:translateY(-1px)}
+.qci{width:25px;height:25px;border-radius:7px;background:rgba(255,255,255,.07);display:flex;align-items:center;justify-content:center}
+.qci svg{width:12px;height:12px}
+.qcl{font-size:11.5px;font-weight:600;color:rgba(255,255,255,.82);line-height:1.3}
+.qcd{font-size:10.5px;color:var(--t3);line-height:1.4}
+
+/* MESSAGES */
+#messages{display:none;padding:16px;max-width:700px;margin:0 auto;width:100%}
+.msg{display:flex;gap:9px;margin-bottom:14px;animation:fu .22s ease-out}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.msg.u{flex-direction:row-reverse}
+.mav{width:27px;height:27px;border-radius:8px;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.mav.ga{background:linear-gradient(135deg,#6366f1,#a78bfa);box-shadow:0 2px 8px rgba(99,102,241,.3)}
+.mav.ga svg{width:13px;height:13px;fill:white}
+.mav.ua{background:linear-gradient(135deg,#0ea5e9,#6366f1)}
+.mav.ua svg{width:12px;height:12px;stroke:white;fill:none}
+.mb{max-width:calc(100% - 72px);display:flex;flex-direction:column;gap:3px}
+.bub{padding:10px 14px;border-radius:14px;font-size:13.5px;line-height:1.68;word-break:break-word}
+.gb{background:var(--glass);border:1px solid var(--bl);backdrop-filter:blur(12px);border-radius:3px 14px 14px 14px;color:rgba(255,255,255,.88)}
+.ub{background:linear-gradient(135deg,rgba(99,102,241,.68),rgba(167,139,250,.58));border:1px solid rgba(167,139,250,.28);border-radius:14px 3px 14px 14px;color:rgba(255,255,255,.95)}
+.bub h2,.bub h3{font-size:13.5px;font-weight:700;color:rgba(255,255,255,.95);margin:10px 0 4px}
+.bub h2:first-child,.bub h3:first-child{margin-top:0}
+.bub h4{font-size:13px;font-weight:600;color:rgba(255,255,255,.85);margin:8px 0 3px}
+.bub strong{font-weight:600;color:rgba(255,255,255,.96)}
+.bub em{font-style:italic;color:rgba(255,255,255,.74)}
+.bub ul,.bub ol{padding-left:16px;margin:4px 0}
+.bub li{margin:2px 0;color:rgba(255,255,255,.82)}
+.bub p{margin:3px 0}
+.bub p:first-child{margin-top:0}
+.bub p:last-child{margin-bottom:0}
+.bub code{font-family:'SF Mono','Fira Code',monospace;font-size:11.5px;background:rgba(255,255,255,.10);padding:1px 5px;border-radius:4px;color:#93c5fd}
+.bub pre{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.08);border-radius:9px;padding:10px 12px;margin:7px 0;overflow-x:auto}
+.bub pre code{background:none;padding:0}
+.bub hr{border:none;border-top:1px solid rgba(255,255,255,.10);margin:8px 0}
+.bub a{color:#93c5fd;text-underline-offset:3px}
+.mac{display:flex;gap:3px;opacity:0;transition:opacity .15s;margin-top:2px}
+.msg:hover .mac{opacity:1}
+.abt{width:24px;height:24px;background:var(--glass);border:1px solid var(--bl);border-radius:6px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t3);transition:all .15s}
+.abt:hover{background:var(--glass2);color:var(--t1)}
+.abt.sp{background:rgba(99,102,241,.2);border-color:rgba(99,102,241,.3);color:#818cf8}
+.abt svg{width:11px;height:11px}
+.typdots{display:flex;gap:4px;padding:12px 14px;background:var(--glass);border:1px solid var(--bl);border-radius:3px 14px 14px 14px;width:fit-content}
+.td{width:5px;height:5px;background:rgba(255,255,255,.28);border-radius:50%;animation:td 1.2s ease-in-out infinite}
+.td:nth-child(2){animation-delay:.2s}.td:nth-child(3){animation-delay:.4s}
+@keyframes td{0%,60%,100%{transform:translateY(0);opacity:.28}30%{transform:translateY(-5px);opacity:.8}}
+.streaming::after{content:'▋';color:#818cf8;animation:blink .75s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* INPUT */
+#iw{flex-shrink:0;padding:10px 15px 14px;background:rgba(6,13,28,.7);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid var(--border)}
+.ir{display:flex;align-items:flex-end;gap:6px;max-width:700px;margin:0 auto}
+.is{flex:1;display:flex;align-items:flex-end;gap:5px;background:rgba(255,255,255,.055);border:1px solid var(--border);border-radius:14px;padding:7px 8px 7px 12px;transition:border-color .15s}
+.is:focus-within{border-color:rgba(99,102,241,.4);background:rgba(255,255,255,.075)}
+#ta{flex:1;background:transparent;border:none;outline:none;color:var(--t1);font-family:inherit;font-size:13.5px;line-height:1.5;resize:none;min-height:22px;max-height:130px;overflow-y:auto;padding:2px 0}
+#ta::placeholder{color:var(--t4)}
+.micb{width:32px;height:32px;border-radius:9px;border:1px solid var(--bl);background:var(--glass);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t3);transition:all .2s;flex-shrink:0}
+.micb:hover{background:var(--glass2);color:var(--t2)}
+.micb.rec{background:rgba(239,68,68,.14);border-color:rgba(239,68,68,.28);color:#f87171;animation:mpl 1s ease-in-out infinite}
+@keyframes mpl{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.3)}50%{box-shadow:0 0 0 5px rgba(239,68,68,0)}}
+.micb svg{width:14px;height:14px}
+#sendb{height:33px;padding:0 14px;flex-shrink:0;cursor:pointer;background:linear-gradient(135deg,#38bdf8,#6366f1,#a78bfa);border:none;border-radius:9px;color:white;font-family:inherit;font-size:12px;font-weight:700;display:flex;align-items:center;gap:5px;box-shadow:0 4px 14px rgba(99,102,241,.38);transition:all .15s}
+#sendb:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(99,102,241,.5)}
+#sendb:active{transform:scale(.97)}
+#sendb:disabled{opacity:.32;cursor:not-allowed;transform:none;box-shadow:none}
+#sendb svg{width:13px;height:13px}
+#stopb{height:33px;padding:0 12px;flex-shrink:0;cursor:pointer;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:9px;color:rgba(255,255,255,.68);font-family:inherit;font-size:12px;font-weight:600;display:none;align-items:center;gap:5px}
+#stopb.show{display:flex}
+#stopb:hover{background:rgba(255,255,255,.12)}
+#stopb svg{width:12px;height:12px;fill:currentColor}
+.hint{max-width:700px;margin:5px auto 0;text-align:center;font-size:10px;color:var(--t4);letter-spacing:.02em}
+.hint .g{background:linear-gradient(90deg,#93c5fd,#818cf8,#c4b5fd);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:600}
+#rectoast{display:none;position:fixed;bottom:78px;left:50%;transform:translateX(-50%);background:rgba(239,68,68,.13);border:1px solid rgba(239,68,68,.28);border-radius:11px;padding:8px 15px;font-size:12px;font-weight:600;color:#fca5a5;z-index:50;backdrop-filter:blur(12px);align-items:center;gap:6px;animation:rfade 1.4s ease-in-out infinite;white-space:nowrap}
+#rectoast.show{display:flex}
+@keyframes rfade{0%,100%{opacity:1}50%{opacity:.6}}
+#rectoast svg{width:11px;height:11px;fill:currentColor}
+
+/* SETTINGS */
+#mbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);backdrop-filter:blur(5px);z-index:200;align-items:center;justify-content:center}
+#mbg.op{display:flex}
+#sett{background:linear-gradient(140deg,#0b1732,#0f2050);border:1px solid var(--border);border-radius:20px;padding:22px;width:430px;max-width:92vw;max-height:90vh;overflow-y:auto;box-shadow:0 28px 64px rgba(0,0,0,.65);animation:sup .2s ease-out}
+@keyframes sup{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.stit{font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+.sg{margin-bottom:14px}
+.sl{font-size:11px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+.sh{font-size:11px;color:var(--t4);margin-top:3px;line-height:1.4}
+.sh a{color:#818cf8;text-decoration:none}
+.si,.ss{width:100%;background:rgba(255,255,255,.055);border:1px solid var(--border);border-radius:9px;padding:8px 11px;color:var(--t1);font-family:inherit;font-size:13px;outline:none;transition:border-color .15s}
+.si:focus,.ss:focus{border-color:rgba(99,102,241,.42)}
+.si::placeholder{color:var(--t4)}
+.ss{cursor:pointer;appearance:none}
+.sdv{border:none;border-top:1px solid var(--bl);margin:14px 0}
+.ssv{width:100%;padding:10px;background:linear-gradient(135deg,#6366f1,#a78bfa);border:none;border-radius:9px;color:white;font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;margin-top:4px;transition:all .15s}
+.ssv:hover{opacity:.9;transform:translateY(-1px)}
+
+@media(max-width:600px){.qg{grid-template-columns:1fr}.hdr-mid{display:none}#messages{padding:9px}#iw{padding:8px 10px 12px}#welcome{padding:26px 12px 16px}}
+</style>
+</head>
+<body>
+<div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div>
+
+<div id="app">
+<!-- HEADER -->
+<header>
+  <div class="logo">
+    <div class="logo-pill"><svg viewBox="0 0 24 24"><rect x="9.5" y="1" width="5" height="2.5" rx="1.25"/><path d="M10.5 3.5 10.5 7.5C8.8 8.3 7 10.8 7 14.5 7 18.5 9.2 22 12 22c2.8 0 5-3.5 5-7.5 0-3.7-1.8-6.2-3.5-7l0-4z"/></svg></div>
+    <span class="logo-name">Genie</span>
+  </div>
+  <div class="hdr-mid">Financial Aid Hub &middot; AI Agent</div>
+  <div class="hdr-r">
+    <div class="spill"><div class="sdot"></div>Online</div>
+    <button class="ibtn off" id="ncb" title="New chat" onclick="newChat()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4z"/></svg>
+    </button>
+    <button class="ibtn" title="Settings" onclick="openSet()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- LAYOUT -->
+<div id="layout">
+
+<!-- LEFT PANEL -->
+<aside class="panel" id="lp">
+  <div class="ph">
+    <div class="ph-row">
+      <div class="ph-ico" style="background:linear-gradient(135deg,#38bdf8,#6366f1);box-shadow:0 4px 14px rgba(56,189,248,.3)">
+        <svg viewBox="0 0 24 24" fill="white"><rect x="9.5" y="1" width="5" height="2.5" rx="1.25"/><path d="M10.5 3.5 10.5 7.5C8.8 8.3 7 10.8 7 14.5 7 18.5 9.2 22 12 22c2.8 0 5-3.5 5-7.5 0-3.7-1.8-6.2-3.5-7l0-4z"/></svg>
+      </div>
+      <div class="ph-txt">
+        <span class="ph-sub">Financial Aid Hub</span>
+        <span class="ph-name" style="background:linear-gradient(90deg,#93c5fd,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Students &amp; Parents</span>
+      </div>
+    </div>
+  </div>
+  <div class="pb" id="lpb">
+    <!-- Left panel content injected by JS -->
+  </div>
+</aside>
+
+<!-- CENTER -->
+<div id="cp">
+  <div class="ch">
+    <div class="ch-l">
+      <button class="ibtn" title="Home" onclick="newChat()" style="gap:5px;padding:0 8px;width:auto;font-size:11px;font-weight:500;color:var(--t3)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </button>
+    </div>
+    <div class="ch-m">
+      <div class="c-pill"><svg viewBox="0 0 24 24"><rect x="9.5" y="1" width="5" height="2.5" rx="1.25"/><path d="M10.5 3.5 10.5 7.5C8.8 8.3 7 10.8 7 14.5 7 18.5 9.2 22 12 22c2.8 0 5-3.5 5-7.5 0-3.7-1.8-6.2-3.5-7l0-4z"/></svg></div>
+      <span class="c-nm">Genie</span>
+    </div>
+    <div class="ch-r">
+      <button class="ibtn off" id="ncb2" title="New chat" onclick="newChat()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="chat-area">
+    <!-- WELCOME -->
+    <div id="welcome">
+      <div class="hw">
+        <div class="hi"><svg viewBox="0 0 24 24"><rect x="9.5" y="1" width="5" height="2.5" rx="1.25"/><path d="M10.5 3.5 10.5 7.5C8.8 8.3 7 10.8 7 14.5 7 18.5 9.2 22 12 22c2.8 0 5-3.5 5-7.5 0-3.7-1.8-6.2-3.5-7l0-4z"/></svg></div>
+        <div class="hb"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.3L12 17l-6.2 4.2 2.4-7.3L2 9.4h7.6z"/></svg></div>
+      </div>
+      <h1 class="hh">Student Planning &amp; Administrator Expert</h1>
+      <p class="hp">Generate FA offer letters, run R2T4 calculations, prep for FSA audits, and get answers on Title IV regulations, FAFSA, SAP, tax credits, state aid, and repayment.</p>
+      <div class="rtabs" id="rtabs"></div>
+      <div class="qg" id="qg"></div>
+    </div>
+    <div id="messages"></div>
+  </div>
+
+  <!-- RECORDING TOAST -->
+  <div id="rectoast"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2H3v2a9 9 0 008 8.94V23h2v-2.06A9 9 0 0021 12v-2z"/></svg>Listening&hellip; click mic to stop</div>
+
+  <!-- INPUT -->
+  <div id="iw">
+    <div class="ir">
+      <button class="micb" id="micb" title="Voice input" onclick="toggleVoice()">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2H3v2a9 9 0 008 8.94V23h2v-2.06A9 9 0 0021 12v-2z"/></svg>
+      </button>
+      <div class="is">
+        <textarea id="ta" rows="1" placeholder="Ask Genie about financial aid, FAFSA, R2T4, Title IV regulations…"></textarea>
+      </div>
+      <button id="stopb" onclick="stopStream()">
+        <svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="2"/></svg>Stop
+      </button>
+      <button id="sendb" onclick="send()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Send
+      </button>
+    </div>
+    <p class="hint">Enter to send &middot; Shift+Enter new line &middot; Verify compliance with the FSA Handbook &nbsp;&middot;&nbsp; <span class="g">Genie</span> &mdash; 34 CFR &middot; FSA Handbook &middot; HEA Title IV</p>
+  </div>
+</div>
+
+<!-- RIGHT PANEL -->
+<aside class="panel" id="rp">
+  <div class="ph">
+    <div class="ph-row rev">
+      <div class="ph-ico" style="background:linear-gradient(135deg,#a78bfa,#6366f1);box-shadow:0 4px 14px rgba(167,139,250,.3)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      </div>
+      <div class="ph-txt ra">
+        <span class="ph-sub">Financial Aid Hub</span>
+        <span class="ph-name" style="background:linear-gradient(90deg,#c4b5fd,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Admins, Executives &amp; Auditors</span>
+      </div>
+    </div>
+  </div>
+  <div class="pb" id="rpb">
+    <!-- Right panel content injected by JS -->
+  </div>
+</aside>
+
+</div><!-- /layout -->
+</div><!-- /app -->
+
+<!-- SETTINGS MODAL -->
+<div id="mbg" onclick="bgClose(event)">
+  <div id="sett">
+    <div class="stit">
+      <span>⚙️&nbsp; Settings</span>
+      <button class="ibtn" style="width:27px;height:27px;border-radius:7px" onclick="closeSet()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="sg">
+      <div class="sl">API Mode</div>
+      <select class="ss" id="sm" onchange="onMode()">
+        <option value="local">Local — Next.js /api/aid-agent (same origin)</option>
+        <option value="anthropic">Direct Anthropic API (standalone deployment)</option>
+        <option value="demo">Demo Mode (no API key)</option>
+      </select>
+      <p class="sh">Use <strong>Local</strong> when served from your Next.js app. Use <strong>Direct</strong> for standalone Vercel/Netlify deploy.</p>
+    </div>
+    <div class="sg" id="kg" style="display:none">
+      <div class="sl">Anthropic API Key</div>
+      <input type="password" class="si" id="sk" placeholder="sk-ant-api03-…"/>
+      <p class="sh">Get a key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>. Stored in localStorage only.</p>
+    </div>
+    <div class="sg" id="mg" style="display:none">
+      <div class="sl">Model</div>
+      <select class="ss" id="smo">
+        <option value="claude-sonnet-4-6">Claude Sonnet 4.6 — Recommended</option>
+        <option value="claude-opus-4-6">Claude Opus 4.6 — Most capable</option>
+        <option value="claude-haiku-4-5-20251001">Claude Haiku 4.5 — Fastest</option>
+      </select>
+    </div>
+    <hr class="sdv"/>
+    <div class="sg">
+      <div class="sl">ElevenLabs API Key <span style="font-weight:400;text-transform:none;letter-spacing:0">(optional TTS)</span></div>
+      <input type="password" class="si" id="sel" placeholder="Leave blank — uses Web Speech API"/>
+      <p class="sh">Key from <a href="https://elevenlabs.io" target="_blank">elevenlabs.io</a>. Without it, Genie uses browser TTS.</p>
+    </div>
+    <div class="sg">
+      <div class="sl">Voice</div>
+      <select class="ss" id="sv"><option value="">System Default</option></select>
+    </div>
+    <div class="sg">
+      <div class="sl">Speech Rate</div>
+      <select class="ss" id="sr">
+        <option value="0.85">Slow</option>
+        <option value="0.95" selected>Normal</option>
+        <option value="1.1">Fast</option>
+        <option value="1.3">Very Fast</option>
+      </select>
+    </div>
+    <button class="ssv" onclick="saveSet()">Save &amp; Close</button>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════
+//  SYSTEM PROMPT
+// ═══════════════════════════════════
+const SYS = `You are Genie, an expert AI assistant for the Financial Aid Hub — a Student Planning, Admissions Advisor & Administrator Expert with deep, authoritative knowledge across all areas of U.S. higher education financial aid.
+
+## Your Expertise
+
+**1. Financial Aid Administration** — 34 CFR Parts 600–690, HEA Title IV, FSA Handbook, Program Participation Agreements, Title IV eligibility, verification, professional judgment, packaging, disbursement, Return to Title IV (R2T4), Satisfactory Academic Progress (SAP), Cost of Attendance (COA), Student Aid Index (SAI), dependency status, unusual enrollment history, consortium agreements.
+
+**2. Student & Parent Advisor** — FAFSA guidance, aid eligibility, scholarship strategies, financial aid appeals, understanding aid offers, special circumstances, dependency overrides, state aid programs across all 50 states.
+
+**3. Administrator & Compliance Expert** — FSA compliance audits, ED program reviews, OIG investigations, gainful employment rule, cohort default rates, 90/10 rule, financial responsibility standards, administrative capability, Title IV reconciliation, cash management (34 CFR 668.162–668.164), recordkeeping.
+
+**4. Executive & Institutional Advisor** — Institutional financial aid strategy, enrollment management, net revenue optimization, compliance risk, policy development, accreditation implications, board reporting, student-centric institutional design. Ask me how your institution can be more student-centric and deliver a better student experience.
+
+**5. Auditor & Compliance Specialist** — GAGAS/Yellow Book 2024, Single Audit (2 CFR 200), A-133, Title IV audit procedures, findings and remediation, internal controls, risk-based audit planning, corrective action plans.
+
+**6. Financial Aid Officer** — Day-to-day FA office operations, award processing, student communication, regulatory updates, packaging philosophy, Banner/PeopleSoft/Ellucian tips.
+
+**7. Student Life & Planning Advisor** — Personal budgeting, student credit cards (building credit, secured cards, rewards, traps), student loans (federal vs. private, repayment strategies, income-driven plans, PSLF, forgiveness, refinancing, avoiding default), student debt psychology (stress, anxiety, shame, decision fatigue), financial literacy (APR, credit scores, investing basics, emergency funds, frugal living, side income), student wellness (burnout, imposter syndrome, campus resources), student-specific challenges (housing, food insecurity, transportation, childcare, work-school balance), life planning (career paths, grad school ROI, gap years, building a financial foundation after graduation).
+
+## Response Style
+Cite specific regulations when relevant · Use clear headers and bullets · Lead with the direct answer · Warm, accessible language · Empathy and zero judgment for personal financial stress · Always recommend verifying compliance with the FSA Handbook`;
+
+// ═══════════════════════════════════
+//  DATA
+// ═══════════════════════════════════
+const QA = {
+  Students:[
+    {icon:'grad',lbl:'Decode My Aid Letter',dsc:'Break down grants, loans & work-study',q:'Help me understand my financial aid offer letter. What does each component mean and how do I compare offers from different schools?'},
+    {icon:'doc',lbl:'FAFSA Step-by-Step',dsc:'Complete guidance & common mistakes',q:'Walk me through completing the FAFSA step by step. What documents do I need and what are the most common mistakes to avoid?'},
+    {icon:'star',lbl:'Find Scholarships',dsc:'Best search engines & winning tips',q:'What are the best scholarship search strategies for a college student? Where should I look and how do I increase my chances of winning?'},
+    {icon:'chat',lbl:'Appeal My Aid',dsc:'Write a compelling aid review letter',q:'How do I write a financial aid appeal letter? What circumstances qualify and what should I include to be most effective?'},
+  ],
+  Parents:[
+    {icon:'plus',lbl:'Parent PLUS Loans',dsc:'Eligibility, rates & repayment options',q:'Explain Parent PLUS Loans — eligibility, interest rates, repayment options, and how they compare to private parent loans.'},
+    {icon:'tax',lbl:'Education Tax Credits',dsc:'AOTC, LLC & 529 strategies',q:'What education tax credits are available to parents? Explain the AOTC, Lifetime Learning Credit, and how 529 plans affect financial aid.'},
+    {icon:'chart',lbl:'Compare Aid Offers',dsc:'Find the true net cost of each school',q:'How should parents compare financial aid offers from multiple schools? What is the true net cost and what questions should we ask?'},
+    {icon:'info',lbl:'CSS Profile Tips',dsc:'Maximize institutional aid',q:'What are strategies for completing the CSS Profile to maximize institutional financial aid? What assets and income factors should I understand?'},
+  ],
+  Administrators:[
+    {icon:'trend',lbl:'R2T4 Calculation',dsc:'Return to Title IV walkthrough',q:'Walk me through a complete R2T4 (Return to Title IV) calculation. Include an example with a student who withdrew at 40% of the payment period.'},
+    {icon:'check',lbl:'SAP Policy Review',dsc:'Federal SAP requirements & audit traps',q:'What are the federal requirements for a compliant SAP policy? What must it include and what are the most common audit findings?'},
+    {icon:'doc',lbl:'Audit Prep Checklist',dsc:'FSA compliance readiness guide',q:'Give me a comprehensive FSA compliance audit preparation checklist. What are the most common findings and how do we prevent them?'},
+    {icon:'shield',lbl:'Verification Process',dsc:'Title IV verification requirements',q:'What are the current FAFSA verification requirements? Walk me through a compliant verification process including tracking groups and documentation.'},
+  ],
+  Executives:[
+    {icon:'chart',lbl:'Aid Strategy',dsc:'Enrollment & net revenue optimization',q:'How should we think about our institutional aid strategy to balance enrollment goals with net revenue? What are best practices for merit and need packaging?'},
+    {icon:'alert',lbl:'Compliance Risk',dsc:'Top Title IV risk areas right now',q:'What are the highest compliance risk areas for Title IV institutions right now? How should we prioritize our risk management efforts?'},
+    {icon:'people',lbl:'Student-Centric Design',dsc:'Improve the student experience',q:'How can our institution become more student-centric in financial aid delivery? What are best practices for improving the student aid experience?'},
+    {icon:'grid',lbl:'Policy Development',dsc:'Board-level FA policy considerations',q:'What financial aid policies should every institution have documented and reviewed annually? What are the key board-level considerations?'},
+  ],
+  Auditors:[
+    {icon:'clock',lbl:'GAGAS Standards',dsc:'Yellow Book 2024 updates',q:'What are the 2024 Yellow Book (GAGAS) updates relevant to financial aid audits? Cover independence standards, documentation requirements, and peer review obligations.'},
+    {icon:'link',lbl:'Single Audit',dsc:'2 CFR 200 / A-133 requirements',q:'Explain the Single Audit requirements for Title IV recipients. What are the major program compliance requirements we must test?'},
+    {icon:'search',lbl:'Common Audit Findings',dsc:'Top findings and how to fix them',q:'What are the most common Title IV audit findings? For each, describe the root cause, how auditors identify them, and recommended remediation.'},
+    {icon:'lock',lbl:'Internal Controls',dsc:'Control environment assessment',q:'What internal controls should institutions have over Title IV financial aid? How do we assess and document our control environment for audit purposes?'},
+  ],
+};
+
+const LP_QA = {
+  Students:[
+    {lbl:'Decode My Aid Letter',dsc:'Break down aid offer',q:'Help me understand my financial aid offer letter.'},
+    {lbl:'FAFSA Help',dsc:'Step-by-step guidance',q:'Walk me through completing the FAFSA step by step.'},
+    {lbl:'Find Scholarships',dsc:'Best search strategies',q:'What are the best scholarship search strategies for college students?'},
+    {lbl:'Appeal My Aid',dsc:'Write a compelling letter',q:'How do I write a financial aid appeal letter?'},
+  ],
+  Parents:[
+    {lbl:'Parent PLUS Loans',dsc:'Eligibility & repayment',q:'Explain Parent PLUS Loans — eligibility, interest rates, and repayment options.'},
+    {lbl:'Education Tax Credits',dsc:'AOTC, LLC & 529',q:'What education tax credits are available to parents and how do 529 plans affect financial aid?'},
+    {lbl:'Compare Aid Offers',dsc:'Find the true net cost',q:'How should parents compare financial aid offers from multiple schools?'},
+    {lbl:'Special Circumstances',dsc:'Unusual financial situations',q:'What special circumstances can be considered for professional judgment in financial aid?'},
+  ],
+};
+
+const SCHOLARSHIPS=[
+  {n:'Scholarships.com',u:'https://www.scholarships.com'},
+  {n:'Fastweb',u:'https://www.fastweb.com'},
+  {n:'BigFuture — College Board',u:'https://bigfuture.collegeboard.org/scholarship-search'},
+  {n:'Cappex',u:'https://www.cappex.com'},
+  {n:'Niche.com',u:'https://www.niche.com/colleges/scholarships'},
+  {n:'Bold.org',u:'https://bold.org'},
+  {n:'Going Merry',u:'https://www.goingmerry.com'},
+  {n:'Chegg Scholarships',u:'https://www.chegg.com/scholarships'},
+  {n:'Unigo',u:'https://www.unigo.com'},
+  {n:'College Greenlight',u:'https://www.collegegreenlight.com'},
+  {n:'Peterson\'s Scholarship Search',u:'https://www.petersons.com/scholarship-search.aspx'},
+  {n:'UNCF Scholarships',u:'https://uncf.org/scholarships'},
+  {n:'Hispanic Scholarship Fund',u:'https://www.hsf.net'},
+  {n:'Gates Scholarship',u:'https://www.thegatesscholarship.org'},
+  {n:'Sallie Mae Scholarship Search',u:'https://www.salliemae.com/college-planning/scholarships'},
+];
+
+const FINLIT=[
+  {n:'Consumer Financial Protection Bureau',u:'https://www.consumerfinance.gov/consumer-tools/money-as-you-grow'},
+  {n:'Khan Academy — Personal Finance',u:'https://www.khanacademy.org/college-careers-more/personal-finance'},
+  {n:'NerdWallet',u:'https://www.nerdwallet.com'},
+  {n:'Investopedia',u:'https://www.investopedia.com'},
+  {n:'Mint — Budget Tracker',u:'https://mint.intuit.com'},
+  {n:'YNAB (You Need A Budget)',u:'https://www.ynab.com'},
+  {n:'Credit Karma',u:'https://www.creditkarma.com'},
+  {n:'AnnualCreditReport.gov',u:'https://www.annualcreditreport.com'},
+  {n:'Student Loan Hero',u:'https://studentloanhero.com'},
+  {n:'National Foundation for Credit Counseling',u:'https://www.nfcc.org'},
+  {n:'America Saves',u:'https://americasaves.org'},
+  {n:'MyMoney.gov',u:'https://www.mymoney.gov'},
+  {n:'Vanguard Investor Education',u:'https://investor.vanguard.com/investor-resources-education'},
+  {n:'Bankrate',u:'https://www.bankrate.com'},
+  {n:'The Balance — Money',u:'https://www.thebalancemoney.com'},
+];
+
+const LOANS=[
+  {n:'Sallie Mae',u:'https://www.salliemae.com'},
+  {n:'Earnest',u:'https://www.earnest.com'},
+  {n:'College Ave Student Loans',u:'https://www.collegeavestudentloans.com'},
+  {n:'Discover Student Loans',u:'https://www.discover.com/student-loans'},
+  {n:'Ascent Student Loans',u:'https://www.ascentfunding.com'},
+  {n:'Citizens Bank Student Loans',u:'https://www.citizensbank.com/student-loans'},
+  {n:'SoFi Student Loans',u:'https://www.sofi.com/student-loans'},
+  {n:'CommonBond',u:'https://www.commonbond.co'},
+];
+
+const FED_STUDENTS=[
+  {n:'Federal Student Aid',u:'https://studentaid.gov'},
+  {n:'FAFSA Application',u:'https://studentaid.gov/h/apply-for-aid/fafsa'},
+  {n:'Loan Simulator',u:'https://studentaid.gov/loan-simulator'},
+];
+
+const FED_ADMIN=[
+  {group:'Administrators & Advisors',links:[
+    {n:'FSA Partner Connect',u:'https://fsapartners.ed.gov'},
+    {n:'NSLDS Professional Access',u:'https://nsldsfap.ed.gov'},
+    {n:'COD System',u:'https://cod.ed.gov'},
+    {n:'eCampus-Based System',u:'https://ecampusbased.ed.gov'},
+    {n:'FSA Assessment',u:'https://fsassessments.ed.gov'},
+  ]},
+  {group:'Executives, Auditors & Compliance',links:[
+    {n:'FSA Handbook',u:'https://fsapartners.ed.gov/knowledge-center/fsa-handbook'},
+    {n:'Electronic Announcements',u:'https://fsapartners.ed.gov/knowledge-center/library/electronic-announcements'},
+    {n:'Program Integrity Tools',u:'https://studentaid.gov/announcements-events/program-integrity'},
+    {n:'OIG Hotline',u:'https://www2.ed.gov/about/offices/list/oig/hotline.html'},
+    {n:'OMB Uniform Guidance (2 CFR 200)',u:'https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200'},
+  ]},
+  {group:'Private Loan Administrator Portals',links:[
+    {n:'Sallie Mae — Schools',u:'https://www.salliemae.com/schools'},
+    {n:'ELMSelect',u:'https://www.elmselect.com'},
+    {n:'Finaid — Admin Resources',u:'https://www.finaid.org'},
+  ]},
+];
+
+const COVERAGE=[
+  {t:'34 CFR Parts 600–690',q:'Give me an overview of 34 CFR Parts 600–690 and how they apply to Title IV financial aid administration.'},
+  {t:'HEA Title IV',q:'Explain the key provisions of HEA Title IV and how they govern student financial aid programs.'},
+  {t:'FA Offer Letters',q:'Generate a sample financial aid offer letter template that complies with current ED guidance.'},
+  {t:'R2T4 Calculator',q:'Walk me through a Return to Title IV (R2T4) calculation with a detailed example.'},
+  {t:'FSA Compliance Audits',q:'What are the key areas FSA compliance audits typically focus on, and how should institutions prepare?'},
+  {t:'ED Program Reviews',q:'What should we expect during an ED program review and how should we prepare our office?'},
+  {t:'OIG Audits',q:'What are OIG audit and investigation procedures for Title IV programs and how should institutions respond?'},
+  {t:'FAFSA Simplification Act',q:'What are the major changes from the FAFSA Simplification Act and how do they affect financial aid processing?'},
+  {t:'One Big Beautiful Bill',q:'What financial aid provisions are in the One Big Beautiful Bill and how might they impact students and institutions?'},
+  {t:'SAVE Plan & Litigation',q:'What is the current status of the SAVE repayment plan and its ongoing litigation?'},
+  {t:'IRS Education Tax Credits',q:'Explain the IRS education tax credits available to students and families, including the AOTC and LLC.'},
+  {t:'State Aid (50 states)',q:'What state financial aid programs are available across all 50 states and how do they interact with federal aid?'},
+  {t:'SAP Policies',q:'What are the requirements for Satisfactory Academic Progress (SAP) policies under Title IV?'},
+  {t:'Loan Repayment & Forgiveness',q:'What federal student loan repayment plans and forgiveness programs are currently available?'},
+  {t:'529 Plans & Tax Strategy',q:'How do 529 plans work and what tax strategies should students and families consider?'},
+  {t:'Gainful Employment Rule',q:'What is the Gainful Employment Rule and what are the current compliance requirements for institutions?'},
+];
+
+// Icon SVGs
+const ICO={
+  grad:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>`,
+  doc:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
+  star:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+  chat:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`,
+  plus:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`,
+  tax:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>`,
+  chart:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>`,
+  info:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+  trend:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>`,
+  check:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>`,
+  shield:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+  alert:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`,
+  people:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>`,
+  grid:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`,
+  clock:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+  link:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>`,
+  search:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`,
+  lock:`<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.5)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>`,
+  ext:`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`,
+  chev:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`,
+  arr:`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`,
+};
+
+// ═══════════════════════════════════
+//  STATE
+// ═══════════════════════════════════
+let msgs=[], streaming=false, rdr=null, activeRole='Students';
+let speakId=null, recog=null, recOn=false, voices=[], audioEl=null;
+let cfg={mode:'local',key:'',model:'claude-sonnet-4-6',elKey:'',voice:'',rate:'0.95'};
+let openSections=new Set();
+
+// ═══════════════════════════════════
+//  PANELS RENDER
+// ═══════════════════════════════════
+function chevSVG(cls=''){return`<svg class="ch ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`}
+function extSVG(){return`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`}
+
+function buildAcc(key,title,bodyHTML,rightAlign=false){
+  const isOpen=openSections.has(key);
+  return `<div class="acc">
+    <button class="ab ${rightAlign?'rv':''}" onclick="tog('${key}',this)">
+      ${rightAlign?'':chevSVG(isOpen?'op':'')}
+      <span class="at">${title}</span>
+      ${rightAlign?chevSVG(isOpen?'op':''):''}
+    </button>
+    <div class="ac ${isOpen?'op':''}" id="ac-${key}">${bodyHTML}</div>
+  </div>`;
+}
+
+function buildLinks(links,right=false){
+  return links.map(l=>`<a href="${l.u}" target="_blank" rel="noopener noreferrer" class="lnk ${right?'rv':''}">
+    ${right?extSVG():''}
+    <span>${l.n}</span>
+    ${right?'':extSVG()}
+  </a>`).join('');
+}
+
+function buildQIs(items,right=false){
+  return items.map(it=>`<button class="qi ${right?'rv':''}" onclick="sendQ(${JSON.stringify(it.q)})" ${streaming?'disabled':''}>
+    <div class="qi-i">${ICO[it.icon]||ICO.doc}</div>
+    <div class="qi-t"><div class="qi-l">${it.lbl}</div><div class="qi-d">${it.dsc}</div></div>
+    ${right?`<svg class="qi-a" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>`
+            :`<svg class="qi-a" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`}
+  </button>`).join('');
+}
+
+function renderLeft(){
+  let h='';
+  // Student Quick Actions
+  h+=buildAcc('lqa-s','Students Quick Actions',buildQIs(LP_QA.Students,false));
+  // Parent Quick Actions
+  h+=buildAcc('lqa-p','Parents Quick Actions',buildQIs(LP_QA.Parents,false));
+  // Scholarships
+  h+=buildAcc('scholarships','Scholarship Search Engines',buildLinks(SCHOLARSHIPS,false));
+  // Financial Literacy
+  h+=buildAcc('finlit','Financial Literacy',buildLinks(FINLIT,false));
+  // Private Loans
+  h+=buildAcc('loans','Private Student Loans',buildLinks(LOANS,false));
+  // Federal (students only)
+  h+=buildAcc('fed-s','Federal Student Aid',buildLinks(FED_STUDENTS,false));
+  document.getElementById('lpb').innerHTML=h;
+}
+
+function renderRight(){
+  let h='';
+  // Right panel admin quick actions (Admins, Executives, Auditors)
+  ['Administrators','Executives','Auditors'].forEach(role=>{
+    const items=QA[role]||[];
+    h+=buildAcc('rqa-'+role, role+' Quick Actions', buildQIs(items,true), true);
+  });
+  // Admin federal resources
+  FED_ADMIN.forEach(({group,links})=>{
+    h+=buildAcc('fed-'+group, group, buildLinks(links,true), true);
+  });
+  // Topics covered (clickable chips)
+  const chipsHTML=`<div class="chips">${COVERAGE.map(c=>`<button class="chip" onclick="sendQ(${JSON.stringify(c.q)})" ${streaming?'disabled':''}>${c.t}</button>`).join('')}</div>`;
+  h+=buildAcc('coverage','Topics Covered',chipsHTML,true);
+  document.getElementById('rpb').innerHTML=h;
+}
+
+function tog(key,btn){
+  const body=document.getElementById('ac-'+key);
+  if(!body)return;
+  const isOpen=body.classList.contains('op');
+  body.classList.toggle('op',!isOpen);
+  const ch=btn.querySelector('.ch');
+  if(ch)ch.classList.toggle('op',!isOpen);
+  if(isOpen)openSections.delete(key);else openSections.add(key);
+}
+
+// ═══════════════════════════════════
+//  WELCOME RENDER
+// ═══════════════════════════════════
+function renderTabs(){
+  document.getElementById('rtabs').innerHTML=Object.keys(QA).map(r=>
+    `<button class="rtab ${r===activeRole?'on':''}" onclick="setRole('${r}')">${r}</button>`
+  ).join('');
+}
+function setRole(r){activeRole=r;renderTabs();renderCards()}
+function renderCards(){
+  document.getElementById('qg').innerHTML=(QA[activeRole]||[]).map(it=>
+    `<button class="qc" onclick='sendQ(${JSON.stringify(it.q)})'>
+      <div class="qci">${ICO[it.icon]||ICO.doc}</div>
+      <div><div class="qcl">${it.lbl}</div><div class="qcd">${it.dsc}</div></div>
+    </button>`
+  ).join('');
+}
+
+// ═══════════════════════════════════
+//  SETTINGS
+// ═══════════════════════════════════
+function loadCfg(){try{const s=localStorage.getItem('genie-cfg');if(s)cfg={...cfg,...JSON.parse(s)}}catch(_){}}
+function saveCfg(){cfg.mode=document.getElementById('sm').value;cfg.key=document.getElementById('sk').value;cfg.model=document.getElementById('smo').value;cfg.elKey=document.getElementById('sel').value;cfg.voice=document.getElementById('sv').value;cfg.rate=document.getElementById('sr').value;localStorage.setItem('genie-cfg',JSON.stringify(cfg))}
+function openSet(){document.getElementById('sm').value=cfg.mode;document.getElementById('sk').value=cfg.key;document.getElementById('smo').value=cfg.model;document.getElementById('sel').value=cfg.elKey;document.getElementById('sr').value=cfg.rate;popVoices();setTimeout(()=>{document.getElementById('sv').value=cfg.voice},50);onMode();document.getElementById('mbg').classList.add('op')}
+function closeSet(){document.getElementById('mbg').classList.remove('op')}
+function bgClose(e){if(e.target===document.getElementById('mbg'))closeSet()}
+function saveSet(){saveCfg();closeSet()}
+function onMode(){const d=document.getElementById('sm').value==='anthropic';document.getElementById('kg').style.display=d?'':'none';document.getElementById('mg').style.display=d?'':'none'}
+function popVoices(){voices=(window.speechSynthesis?.getVoices()||[]).filter(v=>v.lang.startsWith('en'));const sel=document.getElementById('sv');sel.innerHTML='<option value="">System Default</option>';voices.forEach(v=>{const o=document.createElement('option');o.value=v.name;o.textContent=`${v.name} (${v.lang})`;sel.appendChild(o)})}
+
+// ═══════════════════════════════════
+//  VOICE / TTS
+// ═══════════════════════════════════
+function setupRecog(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR)return;
+  recog=new SR();recog.continuous=false;recog.interimResults=true;recog.lang='en-US';
+  let fin='';
+  recog.onstart=()=>{recOn=true;fin='';document.getElementById('micb').classList.add('rec');document.getElementById('rectoast').classList.add('show')};
+  recog.onresult=e=>{let interim='';for(let i=e.resultIndex;i<e.results.length;i++){const t=e.results[i].transcript;e.results[i].isFinal?(fin+=t):(interim=t)}const ta=document.getElementById('ta');ta.value=fin||interim;resize(ta)};
+  recog.onend=recog.onerror=()=>{recOn=false;document.getElementById('micb').classList.remove('rec');document.getElementById('rectoast').classList.remove('show')};
+}
+function toggleVoice(){if(!recog){alert('Speech recognition not supported. Try Chrome or Edge.');return}recOn?recog.stop():(document.getElementById('ta').value='',recog.start())}
+
+async function speakMsg(id){
+  const row=document.querySelector(`[data-id="${id}"]`);if(!row)return;
+  const txt=row.dataset.plain||'';if(!txt)return;
+  if(speakId===id){stopSpeak();return}stopSpeak();speakId=id;setSpBtn(id,true);
+  cfg.elKey?await speakEL(id,txt):speakBr(id,txt);
+}
+function speakBr(id,txt){
+  const syn=window.speechSynthesis;if(!syn)return;
+  const u=new SpeechSynthesisUtterance(txt.replace(/[#*`_~]/g,' ').slice(0,5000));
+  u.lang='en-US';u.rate=parseFloat(cfg.rate)||0.95;
+  if(cfg.voice){const v=syn.getVoices().find(v=>v.name===cfg.voice);if(v)u.voice=v}
+  u.onend=u.onerror=()=>{speakId=null;setSpBtn(id,false)};syn.speak(u);
+}
+async function speakEL(id,txt){
+  try{
+    const r=await fetch(`https://api.elevenlabs.io/v1/text-to-speech/XB0fDUnXU5powFXDhCwa/stream?output_format=mp3_44100_128`,{method:'POST',headers:{'xi-api-key':cfg.elKey,'Content-Type':'application/json'},body:JSON.stringify({text:txt.replace(/[#*`_~]/g,' ').slice(0,4900),model_id:'eleven_multilingual_v2',voice_settings:{stability:.42,similarity_boost:.85,style:.38,use_speaker_boost:true}})});
+    if(!r.ok)throw new Error('EL '+r.status);
+    const url=URL.createObjectURL(await r.blob());
+    audioEl=new Audio(url);
+    audioEl.onended=audioEl.onerror=()=>{speakId=null;setSpBtn(id,false);URL.revokeObjectURL(url)};audioEl.play();
+  }catch(e){console.warn('EL failed, browser TTS',e);speakBr(id,txt)}
+}
+function stopSpeak(){window.speechSynthesis?.cancel();if(audioEl){audioEl.pause();audioEl.src='';audioEl=null}speakId=null;document.querySelectorAll('.abt.sp').forEach(b=>b.classList.remove('sp'))}
+function setSpBtn(id,on){const b=document.querySelector(`[data-speak="${id}"]`);if(b)b.classList.toggle('sp',on)}
+
+// ═══════════════════════════════════
+//  MARKDOWN
+// ═══════════════════════════════════
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function md(text){
+  if(!text)return'';
+  const blocks=[];
+  text=text.replace(/```[\w]*\n?([\s\S]*?)```/g,(_,c)=>{const i=blocks.length;blocks.push(`<pre><code>${esc(c.trim())}</code></pre>`);return`\x00B${i}\x00`});
+  text=text.replace(/`([^`\n]+)`/g,(_,c)=>`<code>${esc(c)}</code>`);
+  text=text.replace(/\*\*\*(.+?)\*\*\*/g,'<strong><em>$1</em></strong>');
+  text=text.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+  text=text.replace(/\*([^*\n]+?)\*/g,'<em>$1</em>');
+  text=text.replace(/^[-*_]{3,}$/gm,'<hr>');
+  const parts=text.split(/\n\n+/).map(p=>{
+    p=p.trim();if(!p)return'';
+    if(/^#{1,4} /.test(p)){return p.replace(/^#### (.+)$/m,'<h4>$1</h4>').replace(/^### (.+)$/m,'<h3>$1</h3>').replace(/^#{1,2} (.+)$/m,'<h2>$1</h2>')}
+    if(p.startsWith('<h')||p.startsWith('<hr')||p.startsWith('<pre')||p.startsWith('\x00B'))return p;
+    if(/^[-*•]\s/.test(p)||/^\d+\.\s/.test(p)){const ord=/^\d+\.\s/.test(p);const items=p.split('\n').filter(l=>l.trim()).map(l=>`<li>${l.replace(/^[-*•]\s+/,'').replace(/^\d+\.\s+/,'')}</li>`).join('');return ord?`<ol>${items}</ol>`:`<ul>${items}</ul>`}
+    if(p.includes('\n'))return p.split('\n').map(l=>/^#{1,4} /.test(l)?l.replace(/^#### (.+)$/,'<h4>$1</h4>').replace(/^### (.+)$/,'<h3>$1</h3>').replace(/^#{1,2} (.+)$/,'<h2>$1</h2>'):l).join('<br>');
+    return`<p>${p}</p>`;
+  });
+  let result=parts.filter(Boolean).join('\n');
+  blocks.forEach((b,i)=>{result=result.replace(`\x00B${i}\x00`,b)});
+  return result;
+}
+
+// ═══════════════════════════════════
+//  CHAT
+// ═══════════════════════════════════
+const BOTTLE=`<svg viewBox="0 0 24 24" fill="white"><rect x="9.5" y="1" width="5" height="2.5" rx="1.25"/><path d="M10.5 3.5 10.5 7.5C8.8 8.3 7 10.8 7 14.5 7 18.5 9.2 22 12 22c2.8 0 5-3.5 5-7.5 0-3.7-1.8-6.2-3.5-7l0-4z"/></svg>`;
+const USER=`<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
+
+function sendQ(q){document.getElementById('ta').value=q;send()}
+function send(){
+  const ta=document.getElementById('ta'),text=ta.value.trim();
+  if(!text||streaming)return;
+  ta.value='';resize(ta);
+  document.getElementById('welcome').style.display='none';
+  document.getElementById('messages').style.display='block';
+  document.getElementById('ncb').classList.remove('off');
+  document.getElementById('ncb2').classList.remove('off');
+  msgs.push({role:'user',content:text});
+  appendMsg('user',text,'u'+Date.now());
+  streamResp();
+}
+
+async function streamResp(){
+  streaming=true;
+  document.getElementById('sendb').disabled=true;
+  document.getElementById('stopb').classList.add('show');
+  const id='a'+Date.now(),obj={role:'assistant',content:''};
+  msgs.push(obj);
+  const row=mkRow('assistant',id,true);
+  document.getElementById('messages').appendChild(row);scrollEnd();
+  const bub=row.querySelector('.bub');
+  try{
+    if(cfg.mode==='demo')await demoStr(bub,obj);
+    else if(cfg.mode==='anthropic')await anthropicStr(bub,obj);
+    else await localStr(bub,obj);
+  }catch(e){console.error(e);bub.classList.remove('streaming');bub.innerHTML+=`<p style="color:#f87171;font-size:12px;margin-top:8px">⚠️ ${e.message}</p>`}
+  bub.classList.remove('streaming');
+  row.dataset.plain=obj.content.replace(/[#*`_~]/g,' ');
+  attachActs(row,id,obj.content);
+  streaming=false;rdr=null;
+  document.getElementById('sendb').disabled=false;
+  document.getElementById('stopb').classList.remove('show');
+  scrollEnd();
+  // Re-render panels to enable chips/items after stream
+  renderRight();renderLeft();
+}
+
+async function localStr(bub,obj){
+  const res=await fetch('/api/aid-agent',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:msgs.slice(0,-1)})});
+  if(!res.ok)throw new Error(`HTTP ${res.status}: ${await res.text()}`);
+  rdr=res.body.getReader();const dec=new TextDecoder();
+  while(true){const{done,value}=await rdr.read();if(done)break;obj.content+=dec.decode(value,{stream:true});bub.innerHTML=md(obj.content);bub.classList.add('streaming');scrollEnd()}
+}
+
+async function anthropicStr(bub,obj){
+  if(!cfg.key)throw new Error('No Anthropic API key. Open ⚙️ Settings → Direct Anthropic API.');
+  const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'x-api-key':cfg.key,'anthropic-version':'2023-06-01','content-type':'application/json','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:cfg.model||'claude-sonnet-4-6',max_tokens:3000,temperature:.4,stream:true,system:SYS,messages:msgs.slice(0,-1).map(m=>({role:m.role,content:m.content}))})});
+  if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error?.message||`HTTP ${res.status}`)}
+  rdr=res.body.getReader();const dec=new TextDecoder();let buf='';
+  while(true){const{done,value}=await rdr.read();if(done)break;buf+=dec.decode(value,{stream:true});const lines=buf.split('\n');buf=lines.pop()||'';for(const ln of lines){if(!ln.startsWith('data: '))continue;const d=ln.slice(6).trim();if(d==='[DONE]')break;try{const p=JSON.parse(d);if(p.type==='content_block_delta'&&p.delta?.text){obj.content+=p.delta.text;bub.innerHTML=md(obj.content);bub.classList.add('streaming');scrollEnd()}}catch(_){}}}
+}
+
+async function demoStr(bub,obj){
+  const D=`**Welcome to Genie — FA Hub AI Agent!**
+
+I'm your Financial Aid Hub expert, built for students, parents, administrators, executives, and auditors across all areas of U.S. higher education financial aid.
+
+**This is Demo Mode.** Open **⚙️ Settings** to connect:
+- **Local** — works when served by your Next.js app at \`localhost:3000/genie.html\`
+- **Direct Anthropic API** — paste your API key for any standalone deployment
+
+---
+
+**I can help you with:**
+
+- **Students & Parents** — FAFSA, aid offers, scholarships, appeals, tax credits, Parent PLUS Loans, special circumstances
+- **Administrators** — R2T4, SAP policies, verification, audit prep, packaging, professional judgment
+- **Executives** — Aid strategy, enrollment management, compliance risk, student-centric institutional design
+- **Auditors** — GAGAS/Yellow Book 2024, Single Audit, common Title IV findings, internal controls
+- **Student Life** — Budgeting, student credit cards, loans & debt management, repayment plans, loan forgiveness, financial literacy
+
+*🎤 Click the mic button to speak your question.*
+*🔊 Click the speaker icon on any response to have Genie read it aloud.*
+*Use the panels on left and right to browse resources and quick actions.*`;
+  let i=0;
+  await new Promise(resolve=>{const iv=setInterval(()=>{if(!streaming){clearInterval(iv);resolve();return}obj.content+=D.slice(i,i+12);i+=12;bub.innerHTML=md(obj.content);bub.classList.add('streaming');scrollEnd();if(i>=D.length){clearInterval(iv);resolve()}},18)});
+}
+
+function stopStream(){
+  streaming=false;rdr?.cancel();rdr=null;
+  document.getElementById('sendb').disabled=false;document.getElementById('stopb').classList.remove('show');
+  document.querySelectorAll('.streaming').forEach(e=>e.classList.remove('streaming'));
+  const rows=document.querySelectorAll('.msg.g');const last=rows[rows.length-1];
+  if(last&&!last.querySelector('.mac')&&msgs.length){const m=msgs[msgs.length-1];if(m.role==='assistant'){last.dataset.plain=m.content.replace(/[#*`_~]/g,' ');attachActs(last,last.dataset.id,m.content)}}
+  renderRight();renderLeft();
+}
+
+function newChat(){
+  stopSpeak();rdr?.cancel();rdr=null;streaming=false;msgs=[];
+  document.getElementById('messages').innerHTML='';document.getElementById('messages').style.display='none';
+  document.getElementById('welcome').style.display='flex';
+  document.getElementById('ncb').classList.add('off');document.getElementById('ncb2').classList.add('off');
+  document.getElementById('sendb').disabled=false;document.getElementById('stopb').classList.remove('show');
+  renderRight();renderLeft();
+}
+
+// ═══════════════════════════════════
+//  MESSAGE DOM
+// ═══════════════════════════════════
+function appendMsg(role,text,id){
+  const row=mkRow(role,id,false);
+  const bub=row.querySelector('.bub');
+  if(role==='assistant'){bub.innerHTML=md(text);row.dataset.plain=text.replace(/[#*`_~]/g,' ');attachActs(row,id,text)}
+  else{bub.textContent=text}
+  document.getElementById('messages').appendChild(row);scrollEnd();
+}
+
+function mkRow(role,id,isStr){
+  const isU=role==='user';const row=document.createElement('div');
+  row.className=`msg ${isU?'u':'g'}`;row.dataset.id=id;
+  row.innerHTML=`<div class="mav ${isU?'ua':'ga'}">${isU?USER:BOTTLE}</div>
+    <div class="mb"><div class="bub ${isU?'ub':'gb'}${isStr?' streaming':''}">${isStr?`<div class="typdots"><div class="td"></div><div class="td"></div><div class="td"></div></div>`:''}</div></div>`;
+  return row;
+}
+
+function attachActs(row,id,content){
+  if(row.classList.contains('u'))return;if(row.querySelector('.mac'))return;
+  const body=row.querySelector('.mb');const div=document.createElement('div');div.className='mac';
+  div.innerHTML=`<button class="abt" title="Copy" data-copy="${id}" onclick="cpyMsg('${id}')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+  </button>
+  <button class="abt" title="Read aloud" data-speak="${id}" onclick="speakMsg('${id}')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
+  </button>`;
+  body.appendChild(div);row.dataset.content=content;
+}
+
+function cpyMsg(id){
+  const row=document.querySelector(`[data-id="${id}"]`);const text=row?.dataset.content||'';
+  navigator.clipboard.writeText(text).then(()=>{const b=row?.querySelector('[data-copy]');if(!b)return;const o=b.innerHTML;b.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;setTimeout(()=>{b.innerHTML=o},1600)});
+}
+
+// ═══════════════════════════════════
+//  TEXTAREA
+// ═══════════════════════════════════
+function resize(ta){ta.style.height='auto';ta.style.height=Math.min(ta.scrollHeight,130)+'px'}
+function scrollEnd(){const e=document.getElementById('chat-area');e.scrollTop=e.scrollHeight}
+
+// ═══════════════════════════════════
+//  INIT
+// ═══════════════════════════════════
+function init(){
+  loadCfg();renderLeft();renderRight();renderTabs();renderCards();setupRecog();
+  if(window.speechSynthesis?.onvoiceschanged!==undefined)window.speechSynthesis.onvoiceschanged=popVoices;
+  const ta=document.getElementById('ta');
+  ta.addEventListener('input',()=>resize(ta));
+  ta.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});
+}
+init();
+</script>
+</body>
+</html>

@@ -29,6 +29,26 @@ model Project {
   data      String   @default("{}")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
+
   user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// Stores the latest fetched regulatory updates for the aid agent
+model RegulationUpdate {
+  id          String    @id @default(cuid())
+  category    String    // "TitleIV" | "IRS" | "Legislative" | "SchoolUpdates"
+  title       String
+  summary     String
+  sourceUrl   String?
+  publishedAt DateTime?
+  fetchedAt   DateTime  @default(now())
+}
+
+// Audit log of every scheduled / manual fetch
+model RegulationFetchLog {
+  id          String   @id @default(cuid())
+  fetchedAt   DateTime @default(now())
+  success     Boolean
+  updateCount Int      @default(0)
+  error       String?
 }
