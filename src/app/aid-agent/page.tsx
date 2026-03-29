@@ -2973,36 +2973,35 @@ export default function AidAgentPage() {
               return (
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection(key)}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-fuchsia-500">
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Religion, Faith & Philosophy</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-right">Religion, Faith & Philosophy</span>
                   </button>
                   {isOpen && (
-                    <div className="px-1.5 pb-2 space-y-0.5">
-                      {RELIGION_FAITH_PHILOSOPHY.map(({ name, url }) => (
-                        <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                          title={name}
-                          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-fuchsia-500/20 ring-1 ring-transparent hover:ring-fuchsia-500/20 transition-all duration-150 group">
-                          <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-fuchsia-400 shrink-0" />
-                          <span className="text-right">{name}</span>
-                        </a>
-                      ))}
-                      {RELIGION_FAITH_PHILOSOPHY_MORE.length > 0 && (
-                        <>
-                          {isMoreOpen && RELIGION_FAITH_PHILOSOPHY_MORE.map(({ name, url }) => (
-                            <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                              title={name}
-                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-fuchsia-500/20 ring-1 ring-transparent hover:ring-fuchsia-500/20 transition-all duration-150 group">
-                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-fuchsia-400 shrink-0" />
-                              <span className="text-right">{name}</span>
-                            </a>
-                          ))}
-                          <button onClick={() => toggleSection(moreKey)}
-                            className="w-full text-center py-1.5 text-[10px] font-semibold text-fuchsia-400/70 hover:text-fuchsia-300 transition-colors">
-                            {isMoreOpen ? "Show less" : `Show ${RELIGION_FAITH_PHILOSOPHY_MORE.length} more`}
-                          </button>
-                        </>
-                      )}
+                    <div className="px-1.5 pb-2">
+                      <div className="space-y-0.5">
+                        {RELIGION_FAITH_PHILOSOPHY.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                            title={name}
+                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-fuchsia-500/20 ring-1 ring-transparent hover:ring-fuchsia-500/20 transition-all duration-150 group">
+                            <span>{name}</span>
+                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-fuchsia-400 shrink-0" />
+                          </a>
+                        ))}
+                        {isMoreOpen && RELIGION_FAITH_PHILOSOPHY_MORE.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                            title={name}
+                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-fuchsia-500/20 ring-1 ring-transparent hover:ring-fuchsia-500/20 transition-all duration-150 group">
+                            <span>{name}</span>
+                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-fuchsia-400 shrink-0" />
+                          </a>
+                        ))}
+                      </div>
+                      <button onClick={() => toggleSection(moreKey)}
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-indigo-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
+                        <ChevronRight className={`h-3 w-3 transition-transform ${isMoreOpen ? "rotate-90" : "-rotate-90"}`} />
+                        {isMoreOpen ? "Show less" : `View ${RELIGION_FAITH_PHILOSOPHY_MORE.length} more`}
+                      </button>
                     </div>
                   )}
                 </div>
@@ -3018,36 +3017,35 @@ export default function AidAgentPage() {
               return (
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection(key)}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-orange-500">
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Consumer Rights & Whistleblower</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-right">Consumer Rights & Whistleblower</span>
                   </button>
                   {isOpen && (
-                    <div className="px-1.5 pb-2 space-y-0.5">
-                      {CONSUMER_RIGHTS.map(({ name, url }) => (
-                        <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                          title={name}
-                          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-orange-500/20 ring-1 ring-transparent hover:ring-orange-500/20 transition-all duration-150 group">
-                          <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-orange-400 shrink-0" />
-                          <span className="text-right">{name}</span>
-                        </a>
-                      ))}
-                      {CONSUMER_RIGHTS_MORE.length > 0 && (
-                        <>
-                          {isMoreOpen && CONSUMER_RIGHTS_MORE.map(({ name, url }) => (
-                            <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                              title={name}
-                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-orange-500/20 ring-1 ring-transparent hover:ring-orange-500/20 transition-all duration-150 group">
-                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-orange-400 shrink-0" />
-                              <span className="text-right">{name}</span>
-                            </a>
-                          ))}
-                          <button onClick={() => toggleSection(moreKey)}
-                            className="w-full text-center py-1.5 text-[10px] font-semibold text-orange-400/70 hover:text-orange-300 transition-colors">
-                            {isMoreOpen ? "Show less" : `Show ${CONSUMER_RIGHTS_MORE.length} more`}
-                          </button>
-                        </>
-                      )}
+                    <div className="px-1.5 pb-2">
+                      <div className="space-y-0.5">
+                        {CONSUMER_RIGHTS.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                            title={name}
+                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-orange-500/20 ring-1 ring-transparent hover:ring-orange-500/20 transition-all duration-150 group">
+                            <span>{name}</span>
+                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-orange-400 shrink-0" />
+                          </a>
+                        ))}
+                        {isMoreOpen && CONSUMER_RIGHTS_MORE.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                            title={name}
+                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-orange-500/20 ring-1 ring-transparent hover:ring-orange-500/20 transition-all duration-150 group">
+                            <span>{name}</span>
+                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-orange-400 shrink-0" />
+                          </a>
+                        ))}
+                      </div>
+                      <button onClick={() => toggleSection(moreKey)}
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-indigo-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
+                        <ChevronRight className={`h-3 w-3 transition-transform ${isMoreOpen ? "rotate-90" : "-rotate-90"}`} />
+                        {isMoreOpen ? "Show less" : `View ${CONSUMER_RIGHTS_MORE.length} more`}
+                      </button>
                     </div>
                   )}
                 </div>
@@ -3063,36 +3061,35 @@ export default function AidAgentPage() {
               return (
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection(key)}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-emerald-500">
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Mental Health Literacy</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-right">Mental Health Literacy</span>
                   </button>
                   {isOpen && (
-                    <div className="px-1.5 pb-2 space-y-0.5">
-                      {MENTAL_HEALTH_STUDENT.map(({ name, url }) => (
-                        <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                          title={name}
-                          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-emerald-500/20 ring-1 ring-transparent hover:ring-emerald-500/20 transition-all duration-150 group">
-                          <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-emerald-400 shrink-0" />
-                          <span className="text-right">{name}</span>
-                        </a>
-                      ))}
-                      {MENTAL_HEALTH_STUDENT_MORE.length > 0 && (
-                        <>
-                          {isMoreOpen && MENTAL_HEALTH_STUDENT_MORE.map(({ name, url }) => (
-                            <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                              title={name}
-                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-emerald-500/20 ring-1 ring-transparent hover:ring-emerald-500/20 transition-all duration-150 group">
-                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-emerald-400 shrink-0" />
-                              <span className="text-right">{name}</span>
-                            </a>
-                          ))}
-                          <button onClick={() => toggleSection(moreKey)}
-                            className="w-full text-center py-1.5 text-[10px] font-semibold text-emerald-400/70 hover:text-emerald-300 transition-colors">
-                            {isMoreOpen ? "Show less" : `Show ${MENTAL_HEALTH_STUDENT_MORE.length} more`}
-                          </button>
-                        </>
-                      )}
+                    <div className="px-1.5 pb-2">
+                      <div className="space-y-0.5">
+                        {MENTAL_HEALTH_STUDENT.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                            title={name}
+                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-emerald-500/20 ring-1 ring-transparent hover:ring-emerald-500/20 transition-all duration-150 group">
+                            <span>{name}</span>
+                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-emerald-400 shrink-0" />
+                          </a>
+                        ))}
+                        {isMoreOpen && MENTAL_HEALTH_STUDENT_MORE.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                            title={name}
+                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-emerald-500/20 ring-1 ring-transparent hover:ring-emerald-500/20 transition-all duration-150 group">
+                            <span>{name}</span>
+                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-emerald-400 shrink-0" />
+                          </a>
+                        ))}
+                      </div>
+                      <button onClick={() => toggleSection(moreKey)}
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-indigo-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
+                        <ChevronRight className={`h-3 w-3 transition-transform ${isMoreOpen ? "rotate-90" : "-rotate-90"}`} />
+                        {isMoreOpen ? "Show less" : `View ${MENTAL_HEALTH_STUDENT_MORE.length} more`}
+                      </button>
                     </div>
                   )}
                 </div>
@@ -3236,7 +3233,7 @@ export default function AidAgentPage() {
                 </div>
 
                 <h2 className="text-2xl font-extrabold tracking-tight text-white mb-1.5 text-center">
-                  Financial Aid HUB. AI Simplified.
+                  Student Financial Aid HUB. AI Simplified.
                 </h2>
                 <p className="text-sm text-white/45 leading-relaxed max-w-lg text-center mb-8">
                   Generate estimated FA offer letters as a student/parent prior to visiting a FA office, run tentative R2T4 calculations as a student/institution, prep for FSA audits, and get answers on Title IV regulations, FAFSA, SAP, tax credits, state aid, repayment, and much more.

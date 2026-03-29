@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Home, ChevronRight, Users, Target, Lightbulb, BookOpen, Mail, Building2, GraduationCap, ShieldCheck, CheckCircle } from "lucide-react";
+import { Home, ChevronRight, Users, Target, Lightbulb, BookOpen, Mail, Building2, GraduationCap, ShieldCheck, CheckCircle, Sparkles, Heart } from "lucide-react";
 
 function GenieBottle({ className }: { className?: string }) {
   return (
@@ -82,19 +82,66 @@ export default function AboutPage() {
             </div>
             <h2 className="text-xl font-bold text-white">Our Mission</h2>
           </div>
-          <div className="rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.08] px-8 py-6">
-            <p className="text-white/90 leading-relaxed mb-4">
+          <div className="rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.08] px-8 py-6 space-y-5">
+            <p className="text-white/90 leading-relaxed">
               Make financial aid understandable, accessible, and actionable for every person who interacts with it — whether you are a first-generation student filling out a FAFSA for the first time, a parent trying to decode an award letter, or a financial aid administrator processing a withdrawal.
             </p>
-            <div className="grid sm:grid-cols-2 gap-3 mt-5">
+            <p className="text-white/90 leading-relaxed">
+              Beyond financial aid, our mission reaches further: <strong className="text-white">to inspire past, recent, and future generations to stay curious</strong> — to want to learn more about anything and everything. Education does not stop at graduation. Understanding the world around us — how systems work, what rights we have, how to navigate challenges — is a lifelong journey worth taking.
+            </p>
+            <p className="text-white/90 leading-relaxed">
+              We believe in the power of accessible information to motivate people who may have felt left behind by traditional systems. If you are here — whether figuring out financial aid, exploring a new field, or simply looking for answers — that curiosity matters. It deserves to be met with clarity, not confusion.
+            </p>
+            <div className="grid sm:grid-cols-2 gap-3 mt-2">
               {[
                 "Clear answers without the jargon",
                 "Built on official federal regulation (34 CFR, FSA Handbook, HEA)",
                 "Designed for accuracy, not approximation",
                 "Always pointing users back to official sources",
+                "Inspiring lifelong curiosity across all generations",
+                "Accessible to anyone, regardless of background or experience",
               ].map((item) => (
                 <div key={item} className="flex items-start gap-2.5">
                   <CheckCircle className="h-4 w-4 text-indigo-400 shrink-0 mt-0.5" />
+                  <span className="text-sm text-white/85">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* AI & Our Intentions */}
+        <section className="mb-10">
+          <div className="flex items-center gap-3 mb-5">
+            <div className="p-2 rounded-xl bg-indigo-600/30 ring-1 ring-indigo-500/30">
+              <Sparkles className="h-5 w-5 text-indigo-300" />
+            </div>
+            <h2 className="text-xl font-bold text-white">AI, Transparency & Our Intentions</h2>
+          </div>
+          <div className="rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.08] px-8 py-6 space-y-5">
+            <p className="text-white/90 leading-relaxed">
+              We want to be honest with you: <strong className="text-white">AI technology can feel intimidating.</strong> The conversations around artificial intelligence often focus on what could go wrong — job displacement, misinformation, loss of human connection. Those concerns are real, and they deserve to be taken seriously.
+            </p>
+            <p className="text-white/90 leading-relaxed">
+              But AI can also be one of the most powerful tools humanity has ever had access to — <strong className="text-white">if it is built and used with care, transparency, and intention.</strong> When AI is designed to assist people rather than replace the human elements that matter most — empathy, judgment, relationships, accountability — it becomes something genuinely helpful.
+            </p>
+            <p className="text-white/90 leading-relaxed">
+              <strong className="text-white">askGenie is not here to eliminate jobs.</strong> Financial aid professionals, advisors, counselors, and administrators bring irreplaceable knowledge, relationships, and human judgment to the students they serve. No AI tool changes that. What askGenie does is help fill the gaps — the 2 a.m. question before a deadline, the explanation of an award letter at home, the quick regulatory lookup during a busy season — so that the people doing this work can focus on what truly requires a human presence.
+            </p>
+            <p className="text-white/90 leading-relaxed">
+              Our intention is clear and simple: <strong className="text-white">provide a tool built specifically for student financial aid</strong> — its processes, procedures, data, and concerns — and deliver that information in the manner that is easiest, most efficient, and most useful given who you are and what you need right now.
+            </p>
+            <div className="mt-4 grid sm:grid-cols-2 gap-3">
+              {[
+                "Not a replacement for financial aid professionals",
+                "Designed to assist, not automate away, human judgment",
+                "Transparent about AI limitations and uncertainty",
+                "Built to empower users, not create dependency",
+                "Coded specifically for student financial aid processes",
+                "Serving students, families, and FA offices equally",
+              ].map((item) => (
+                <div key={item} className="flex items-start gap-2.5">
+                  <Heart className="h-4 w-4 text-violet-400 shrink-0 mt-0.5" />
                   <span className="text-sm text-white/85">{item}</span>
                 </div>
               ))}
