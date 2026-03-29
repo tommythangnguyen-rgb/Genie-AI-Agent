@@ -16,7 +16,7 @@ const DPA_SECTIONS = [
   {
     n: "1",
     title: "Parties",
-    body: "This Data Processing Agreement (\"Agreement\") is entered into between the educational institution identified in the applicable Order Form or service enrollment (\"Institution\" or \"School\") and Genie Financial Aid Hub, developed by One27 (\"Service Provider\"). This Agreement governs the processing of personal data in connection with the Institution's use of the Genie AI financial aid assistant service (\"Service\").",
+    body: "This Data Processing Agreement (\"Agreement\") is entered into between the educational institution identified in the applicable Order Form or service enrollment (\"Institution\" or \"School\") and askGenie Financial Aid Hub, developed by One27 (\"Service Provider\"). This Agreement governs the processing of personal data in connection with the Institution's use of the Genie AI financial aid assistant service (\"Service\").",
   },
   {
     n: "2",
@@ -81,7 +81,7 @@ const DPA_SECTIONS = [
   {
     n: "14",
     title: "Execution",
-    body: "This Agreement is a sample template provided for institutional review. Institutions should review this template with their legal counsel before executing any data processing agreement. To execute a signed DPA with Genie Financial Aid Hub, contact: [your-email@domain.com]. This template does not constitute a legally binding agreement until signed by authorized representatives of both parties.",
+    body: "This Agreement is a sample template provided for institutional review. Institutions should review this template with their legal counsel before executing any data processing agreement. To execute a signed DPA with askGenie Financial Aid Hub, contact: [your-email@domain.com]. This template does not constitute a legally binding agreement until signed by authorized representatives of both parties.",
   },
 ];
 
@@ -97,14 +97,14 @@ export default function DpaPage() {
             className="flex items-center gap-2 text-white/50 hover:text-white transition-colors text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 rounded-lg px-2 py-1"
           >
             <Home className="h-4 w-4" />
-            <span className="hidden sm:inline">Back to Genie</span>
+            <span className="hidden sm:inline">Back to askGenie</span>
           </Link>
 
           <div className="flex items-center gap-2">
             <div className="p-1.5 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600">
               <GenieBottle className="h-4 w-4 text-white" />
             </div>
-            <span className="font-bold text-white tracking-tight">Genie</span>
+            <span className="font-bold text-white tracking-tight">askGenie</span>
             <ChevronRight className="h-3.5 w-3.5 text-white/30" />
             <span className="text-white/50 text-sm">School DPA</span>
           </div>
@@ -151,7 +151,7 @@ export default function DpaPage() {
                 </span>
                 <div className="flex-1 min-w-0">
                   <h2 className="text-sm font-semibold text-white mb-2 leading-snug">{title}</h2>
-                  <p className="text-sm text-white/55 leading-relaxed whitespace-pre-line">{body}</p>
+                  <p className="text-sm text-white/85 leading-relaxed whitespace-pre-line">{body}</p>
                 </div>
               </div>
             </div>
@@ -161,7 +161,7 @@ export default function DpaPage() {
         {/* Footer */}
         <div className="mt-12 pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-center sm:text-left">
-            <p className="text-xs text-white/25">© 2026 Genie Financial Aid Hub | Developed by One27 | All Rights Reserved</p>
+            <p className="text-xs text-white/25">© 2026 askGenie Financial Aid Hub | Developed by One27 | All Rights Reserved</p>
             <p className="text-xs text-white/20 mt-0.5">Unofficial reference tool — not affiliated with the U.S. Department of Education</p>
           </div>
           <div className="flex items-center gap-2">
@@ -173,7 +173,7 @@ export default function DpaPage() {
               className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
             >
               <GenieBottle className="h-3.5 w-3.5" />
-              Back to Genie
+              Back to askGenie
             </Link>
           </div>
         </div>

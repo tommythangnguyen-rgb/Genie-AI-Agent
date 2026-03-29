@@ -1203,14 +1203,27 @@ Office of Financial Aid
 ---
 
 #### ESTIMATED COST OF ATTENDANCE (2025–26)
+
+**Direct Costs** *(billed directly by the institution — you will receive a bill for these)*
 | Component | Annual Amount |
 |-----------|--------------|
 | Tuition & Fees | $XX,XXX |
-| Room & Board | $XX,XXX |
+| Room & Board (on-campus) | $XX,XXX |
+| **Subtotal — Direct Costs** | **$XX,XXX** |
+
+**Indirect Costs** *(not billed by the institution — estimated personal expenses you will incur)*
+| Component | Annual Amount |
+|-----------|--------------|
 | Books & Supplies | $X,XXX |
 | Transportation | $X,XXX |
 | Personal/Miscellaneous | $X,XXX |
-| **Total Estimated COA** | **$XX,XXX** |
+| **Subtotal — Indirect Costs** | **$X,XXX** |
+
+| | |
+|-|-|
+| **Total Estimated COA (Direct + Indirect)** | **$XX,XXX** |
+
+> **What's the difference?** Direct costs appear on your student account bill and must be paid to the school by the payment deadline. Indirect costs are real expenses you will likely incur (books, getting to campus, daily living) but are not charged by the institution — you manage and pay these yourself. Both are included in your COA because financial aid can be used to cover all of them.
 
 ---
 
@@ -1310,6 +1323,7 @@ When the user asks for an FA offer letter, do the following in order:
 4. **If award year is not specified**: Default to 2025–26; note that 2026–27 rates are not yet set (interest rates will be announced May 2026).
 5. **Always include**:
    - A clear net price calculation (COA minus grants only)
+   - COA broken into **Direct Costs** (billed by institution: tuition, fees, room & board) and **Indirect Costs** (not billed: books, transportation, personal expenses), with a plain-language explanation of the difference
    - State grant if applicable
    - A note about the OBBB legislative risk for graduate borrowers
    - Next steps section

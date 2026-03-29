@@ -1224,7 +1224,7 @@ export default function AidAgentPage() {
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Genie — FA Hub Response</title>
+  <title>askGenie — FA Hub Response</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
@@ -1391,7 +1391,7 @@ export default function AidAgentPage() {
       <div class="letterhead-left">
         <div class="letterhead-icon">🎓</div>
         <div>
-          <div class="letterhead-title">Genie</div>
+          <div class="letterhead-title">askGenie</div>
           <div class="letterhead-sub">Financial Aid Hub &nbsp;·&nbsp; AI-Powered Guidance</div>
         </div>
       </div>
@@ -1463,7 +1463,7 @@ export default function AidAgentPage() {
               </div>
               <div>
                 <h2 id="disclaimer-title" className="text-base font-bold text-white leading-tight">askGenie — Financial Aid Hub</h2>
-                <p className="text-xs text-white/60 mt-0.5">Developed by a 15-year Financial Aid Professional</p>
+                <p className="text-xs text-white/75 mt-0.5">Developed by a 15-year Financial Aid Professional</p>
               </div>
             </div>
 
@@ -1475,7 +1475,7 @@ export default function AidAgentPage() {
                 </p>
               </div>
 
-              <ul className="space-y-2.5 text-sm text-white/60">
+              <ul className="space-y-2.5 text-sm text-white/80">
                 <li className="flex items-start gap-2.5">
                   <span className="mt-1 h-1.5 w-1.5 rounded-full bg-indigo-400 shrink-0" />
                   <span>All responses are <strong className="text-white/80">AI-generated</strong> and may contain errors. Cross-reference with official sources.</span>
@@ -1719,9 +1719,8 @@ export default function AidAgentPage() {
                 General guidance only. Verify with the FSA Handbook and consult legal counsel for institution-specific decisions.
               </p>
             </div>
-            <div className="flex items-center justify-between mt-2">
+            <div className="flex items-center mt-2">
               <Link href="/legal" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">Legal</Link>
-              <p className="text-[11px] text-white/20">Developed by One27</p>
             </div>
           </div>
         </aside>

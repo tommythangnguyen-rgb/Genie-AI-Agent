@@ -17,17 +17,17 @@ const TERMS_SECTIONS = [
   {
     n: "1",
     title: "Acceptance of Terms",
-    body: "By accessing or using Genie, you agree to be bound by these Terms of Service. If you do not agree, do not use the Service.",
+    body: "By accessing or using askGenie, you agree to be bound by these Terms of Service. If you do not agree, do not use the Service.",
   },
   {
     n: "2",
     title: "Description of Service",
-    body: "Genie is an AI-powered informational tool helping students, parents, financial aid administrators, and institutions understand financial aid concepts including FAFSA, Title IV regulations, R2T4 calculations, and related topics.",
+    body: "askGenie is an AI-powered informational tool helping students, parents, financial aid administrators, and institutions understand financial aid concepts including FAFSA, Title IV regulations, R2T4 calculations, and related topics.",
   },
   {
     n: "3",
     title: "Informational Purpose Only — Not Professional Advice",
-    body: "Genie provides general educational content only. It does not constitute legal, financial, tax, or professional advice. Always verify information with your institution's financial aid office, a licensed attorney, and official sources including studentaid.gov and the FSA Handbook.",
+    body: "askGenie provides general educational content only. It does not constitute legal, financial, tax, or professional advice. Always verify information with your institution's financial aid office, a licensed attorney, and official sources including studentaid.gov and the FSA Handbook.",
   },
   {
     n: "4",
@@ -52,7 +52,7 @@ const TERMS_SECTIONS = [
   {
     n: "8",
     title: "Limitation of Liability",
-    body: "To the maximum extent permitted by law, Genie and its developers are not liable for any damages arising from use of or reliance on the Service.",
+    body: "To the maximum extent permitted by law, askGenie and its developers are not liable for any damages arising from use of or reliance on the Service.",
   },
   {
     n: "9",
@@ -80,7 +80,7 @@ const PRIVACY_SECTIONS = [
   {
     n: "1",
     title: "Introduction",
-    body: "This Privacy Policy explains how Genie collects, uses, and protects your information.",
+    body: "This Privacy Policy explains how askGenie collects, uses, and protects your information.",
   },
   {
     n: "2",
@@ -100,12 +100,12 @@ const PRIVACY_SECTIONS = [
   {
     n: "5",
     title: "FERPA Notice",
-    body: "Genie does not knowingly receive or store student education records as defined by FERPA. Institutions must not submit student PII through this Service without appropriate data processing agreements.",
+    body: "askGenie does not knowingly receive or store student education records as defined by FERPA. Institutions must not submit student PII through this Service without appropriate data processing agreements.",
   },
   {
     n: "6",
     title: "Children's Privacy (COPPA)",
-    body: "Genie is not directed at children under 13. We do not knowingly collect information from children under 13. Parents who believe their child submitted information should contact us immediately.",
+    body: "askGenie is not directed at children under 13. We do not knowingly collect information from children under 13. Parents who believe their child submitted information should contact us immediately.",
   },
   {
     n: "7",
@@ -135,7 +135,7 @@ const PRIVACY_SECTIONS = [
   {
     n: "12",
     title: "Contact",
-    body: "Genie Financial Aid Hub\nDeveloped by One27\nEmail: [your-email@domain.com]\nWebsite: https://uigen-dusky-eight.vercel.app\n\nUnofficial reference tool — not affiliated with the U.S. Department of Education.",
+    body: "askGenie Financial Aid Hub\nDeveloped by One27\nEmail: [your-email@domain.com]\nWebsite: https://uigen-dusky-eight.vercel.app\n\nUnofficial reference tool — not affiliated with the U.S. Department of Education.",
   },
 ];
 
@@ -155,14 +155,14 @@ export default function LegalPage() {
             className="flex items-center gap-2 text-white/50 hover:text-white transition-colors text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 rounded-lg px-2 py-1"
           >
             <Home className="h-4 w-4" />
-            <span className="hidden sm:inline">Back to Genie</span>
+            <span className="hidden sm:inline">Back to askGenie</span>
           </Link>
 
           <div className="flex items-center gap-2">
             <div className="p-1.5 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600">
               <GenieBottle className="h-4 w-4 text-white" />
             </div>
-            <span className="font-bold text-white tracking-tight">Genie</span>
+            <span className="font-bold text-white tracking-tight">askGenie</span>
             <ChevronRight className="h-3.5 w-3.5 text-white/30" />
             <span className="text-white/50 text-sm">Legal</span>
           </div>
@@ -220,7 +220,7 @@ export default function LegalPage() {
                 </span>
                 <div className="flex-1 min-w-0">
                   <h2 className="text-sm font-semibold text-white mb-2 leading-snug">{title}</h2>
-                  <p className="text-sm text-white/55 leading-relaxed whitespace-pre-line">{body}</p>
+                  <p className="text-sm text-white/85 leading-relaxed whitespace-pre-line">{body}</p>
                 </div>
               </div>
             </div>
@@ -230,7 +230,7 @@ export default function LegalPage() {
         {/* Footer */}
         <div className="mt-12 pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-center sm:text-left">
-            <p className="text-xs text-white/25">© 2026 Genie Financial Aid Hub | Developed by One27 | All Rights Reserved</p>
+            <p className="text-xs text-white/25">© 2026 askGenie Financial Aid Hub | Developed by One27 | All Rights Reserved</p>
             <p className="text-xs text-white/20 mt-0.5">Unofficial reference tool — not affiliated with the U.S. Department of Education</p>
           </div>
           <Link
@@ -238,7 +238,7 @@ export default function LegalPage() {
             className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
           >
             <GenieBottle className="h-3.5 w-3.5" />
-            Back to Genie
+            Back to askGenie
           </Link>
         </div>
       </main>

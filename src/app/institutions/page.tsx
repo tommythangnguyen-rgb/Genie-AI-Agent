@@ -88,7 +88,7 @@ export default function InstitutionsPage() {
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-sky-300 via-indigo-200 to-violet-400 bg-clip-text text-transparent mb-6 leading-tight">
             Built by someone who sat<br className="hidden sm:block" /> where you sit.
           </h1>
-          <p className="text-lg text-white/60 max-w-2xl mx-auto leading-relaxed mb-8">
+          <p className="text-lg text-white/85 max-w-2xl mx-auto leading-relaxed mb-8">
             askGenie was created by a financial aid professional with 15 years of hands-on experience. Every feature was designed for the real work that happens inside a financial aid office — not just the theory.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
@@ -121,7 +121,7 @@ export default function InstitutionsPage() {
                 <div className="shrink-0 w-16 h-16 rounded-2xl bg-indigo-600/30 ring-1 ring-indigo-500/30 flex items-center justify-center">
                   <span className="text-sm font-extrabold text-indigo-300">{stat}</span>
                 </div>
-                <p className="text-sm text-white/65 leading-snug">{label}</p>
+                <p className="text-sm text-white/85 leading-snug">{label}</p>
               </div>
             ))}
           </div>
@@ -137,7 +137,7 @@ export default function InstitutionsPage() {
                   <Icon className="h-4 w-4 text-indigo-300" />
                 </div>
                 <h3 className="text-sm font-semibold text-white mb-2">{title}</h3>
-                <p className="text-xs text-white/55 leading-relaxed">{desc}</p>
+                <p className="text-xs text-white/85 leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
@@ -157,7 +157,7 @@ export default function InstitutionsPage() {
             ].map((item) => (
               <div key={item} className="flex items-start gap-2.5">
                 <CheckCircle className="h-4 w-4 text-indigo-400 shrink-0 mt-0.5" />
-                <span className="text-sm text-white/65">{item}</span>
+                <span className="text-sm text-white/85">{item}</span>
               </div>
             ))}
           </div>
@@ -176,7 +176,7 @@ export default function InstitutionsPage() {
               <div className="flex flex-col items-center gap-3 py-8 text-center">
                 <CheckCircle className="h-10 w-10 text-indigo-400" />
                 <p className="text-base font-semibold text-white">Demo request received!</p>
-                <p className="text-sm text-white/55">We will reach out to your institution email within 2 business days.</p>
+                <p className="text-sm text-white/85">We will reach out to your institution email within 2 business days.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
