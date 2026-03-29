@@ -17,7 +17,7 @@ const FEATURES = [
   {
     icon: Calculator,
     title: "R2T4 Worksheets",
-    desc: "Walk through Return to Title IV calculations step by step. Genie generates pre-withdrawal worksheets with built-in compliance reminders.",
+    desc: "Walk through Return to Title IV calculations step by step. askGenie generates pre-withdrawal worksheets with built-in compliance reminders.",
   },
   {
     icon: ClipboardList,
@@ -42,7 +42,7 @@ const FEATURES = [
   {
     icon: Zap,
     title: "Always Current",
-    desc: "Genie pulls from live regulatory update feeds to surface the latest FSA guidance, Dear Colleague Letters, and policy changes.",
+    desc: "askGenie pulls from live regulatory update feeds to surface the latest FSA guidance, Dear Colleague Letters, and policy changes.",
   },
 ];
 
@@ -63,13 +63,13 @@ export default function InstitutionsPage() {
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link href="/aid-agent" className="flex items-center gap-2 text-white/50 hover:text-white transition-colors text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 rounded-lg px-2 py-1">
             <Home className="h-4 w-4" />
-            <span className="hidden sm:inline">Back to Genie</span>
+            <span className="hidden sm:inline">Back to askGenie</span>
           </Link>
           <div className="flex items-center gap-2">
             <div className="p-1.5 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600">
               <GenieBottle className="h-4 w-4 text-white" />
             </div>
-            <span className="font-bold text-white tracking-tight">Genie</span>
+            <span className="font-bold text-white tracking-tight">askGenie</span>
             <ChevronRight className="h-3.5 w-3.5 text-white/30" />
             <span className="text-white/50 text-sm">For Schools</span>
           </div>
@@ -89,7 +89,7 @@ export default function InstitutionsPage() {
             Built by someone who sat<br className="hidden sm:block" /> where you sit.
           </h1>
           <p className="text-lg text-white/60 max-w-2xl mx-auto leading-relaxed mb-8">
-            Genie was created by a financial aid professional with 15 years of hands-on experience. Every feature was designed for the real work that happens inside a financial aid office — not just the theory.
+            askGenie was created by a financial aid professional with 15 years of hands-on experience. Every feature was designed for the real work that happens inside a financial aid office — not just the theory.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
@@ -109,7 +109,7 @@ export default function InstitutionsPage() {
 
         {/* Why Genie for Institutions */}
         <section className="mb-14 rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.08] px-8 py-8">
-          <h2 className="text-xl font-bold text-white mb-6">Why Financial Aid Offices Choose Genie</h2>
+          <h2 className="text-xl font-bold text-white mb-6">Why Financial Aid Offices Choose askGenie</h2>
           <div className="grid sm:grid-cols-2 gap-6">
             {[
               { stat: "15", label: "Years of FA office experience behind every feature" },
@@ -129,7 +129,7 @@ export default function InstitutionsPage() {
 
         {/* Features Grid */}
         <section className="mb-14">
-          <h2 className="text-xl font-bold text-white mb-6">What Genie Does for Your Office</h2>
+          <h2 className="text-xl font-bold text-white mb-6">What askGenie Does for Your Office</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {FEATURES.map(({ icon: Icon, title, desc }) => (
               <div key={title} className="rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.08] px-6 py-5 hover:bg-white/[0.08] transition-colors">
@@ -239,7 +239,7 @@ export default function InstitutionsPage() {
         {/* Footer */}
         <div className="pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-center sm:text-left">
-            <p className="text-xs text-white/25">© 2026 Genie Financial Aid Hub | Developed by One27 | All Rights Reserved</p>
+            <p className="text-xs text-white/25">© 2026 askGenie Financial Aid Hub | Developed by One27 | All Rights Reserved</p>
             <p className="text-xs text-white/20 mt-0.5">Unofficial reference tool — not affiliated with the U.S. Department of Education</p>
           </div>
           <div className="flex items-center gap-2">
@@ -248,7 +248,7 @@ export default function InstitutionsPage() {
             <Link href="/legal" className="px-3 py-1.5 rounded-lg text-white/40 hover:text-white text-xs font-medium transition-colors">Legal</Link>
             <Link href="/aid-agent" className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors">
               <GenieBottle className="h-3.5 w-3.5" />
-              Open Genie
+              Open askGenie
             </Link>
           </div>
         </div>
