@@ -41,6 +41,8 @@ import {
   Paperclip,
   Camera,
   ImageIcon,
+  Mic,
+  MicOff,
 } from "lucide-react";
 
 // ─── Genie Bottle Logo ────────────────────────────────────────────────────────
@@ -69,8 +71,8 @@ interface Message {
 
 interface AttachedFile {
   name: string;
-  content: string;           // base64 for images, raw text for documents
-  type: "image" | "text";
+  content: string;           // base64 for images, raw text for documents/audio transcripts
+  type: "image" | "text" | "audio";
   mimeType?: string;
 }
 
@@ -211,7 +213,7 @@ const QUICK_ACTIONS_BY_ROLE = [
     ],
   },
   {
-    role: "Executives",
+    role: "Leaders",
     color: "text-violet-400",
     items: [
       { icon: Landmark, label: "Big Beautiful Bill", description: "2025 reconciliation & SAVE plan", q: "What student aid changes are proposed in the One Big Beautiful Bill reconciliation legislation, and what is the current status of the SAVE plan litigation?" },
@@ -235,6 +237,8 @@ const QUICK_ACTIONS_BY_ROLE = [
       { icon: CheckCircle, label: "IPEDS Compliance", description: "Reporting accuracy & penalties", q: "What are our IPEDS data submission obligations, what are the key data elements that receive ED scrutiny, and what are the penalties for inaccurate or late reporting?" },
       { icon: Receipt, label: "Endowment Aid Reporting", description: "Institutional grant transparency", q: "What are our institutional grant and endowment disclosure obligations under HEA Section 136, and how should we communicate institutional aid on student award notifications?" },
       { icon: Users, label: "Enrollment Management Linkage", description: "Aid strategy & net tuition revenue", q: "How should our financial aid strategy align with enrollment management goals to optimize net tuition revenue while maintaining access for low-income students?" },
+      { icon: FileText, label: "AI Excel Spreadsheet", description: "Build FA reporting or analysis sheet", q: "Help me build an Excel-compatible spreadsheet for financial aid leadership reporting. Generate a fully structured spreadsheet with column headers, sample formulas, and data rows for an executive dashboard tracking Pell disbursements, R2T4 returns, CDR trends, and SAP evaluation rates by term. Format it so it can be pasted directly into Excel." },
+      { icon: ClipboardList, label: "Clarify Audit Finding", description: "Plain-language regulatory explanation", q: "Please clarify this audit finding or regulatory requirement in plain language: identify the relevant 34 CFR citation, describe the likely root cause, and outline the corrective action steps an institution should take to resolve it." },
     ],
   },
   {
@@ -325,7 +329,7 @@ const FEDERAL_RESOURCES = [
     ],
   },
   {
-    group: "Executives, Auditors & Compliance",
+    group: "Leaders, Auditors & Compliance",
     links: [
       { name: "Federal Register – ED Rules", url: "https://www.federalregister.gov/agencies/education-department" },
       { name: "U.S. Dept. of Education", url: "https://www.ed.gov" },
@@ -802,6 +806,7 @@ const ROLE_TIPS = [
       { text: "Get plain-English answers to any FAFSA question, including EFC vs. SAI and dependency rules.", prompt: "What is the difference between EFC and SAI under FAFSA Simplification, and how does it affect my aid?" },
       { text: "Understand how withdrawing mid-semester affects your aid and what you may owe back.", prompt: "If I withdraw from school this semester, how will it affect my financial aid and will I owe money back?" },
       { text: "Explore scholarship strategies, income-driven repayment plans, and loan forgiveness programs.", prompt: "What loan forgiveness programs am I eligible for as a student, and how do income-driven repayment plans work?" },
+      { text: "Upload any documents and ask me to review, analyze, inform and/or clarify.", prompt: "I'm uploading a document — please review it, analyze the key financial aid information, and clarify anything that may be confusing or important for me to understand." },
     ],
   },
   {
@@ -831,7 +836,7 @@ const ROLE_TIPS = [
     ],
   },
   {
-    role: "Executive",
+    role: "Leader",
     icon: Landmark,
     gradient: "from-violet-500 to-purple-600",
     accent: "bg-violet-500/15 ring-violet-500/25",
@@ -842,6 +847,8 @@ const ROLE_TIPS = [
       { text: "Understand cohort default rate trends and strategies to reduce institutional exposure.", prompt: "What strategies can an institution use to reduce its cohort default rate and what are the consequences of a high CDR?" },
       { text: "Evaluate the implications of gainful employment and financial value transparency rules.", prompt: "Explain the gainful employment and financial value transparency regulations and their implications for our institution's programs." },
       { text: "Ask me how your institution can be more student centric and better student experience.", prompt: "How can our institution become more student-centric and improve the overall student experience in financial aid services?" },
+      { text: "Ask me to clarify an audit finding, or rule/regulation.", prompt: "Please clarify the following audit finding or regulatory requirement for me — explain it in plain language, identify the relevant 34 CFR citation, and describe the corrective steps an institution should take." },
+      { text: "Ask me to help you build an AI Excel spreadsheet for financial aid reporting or analysis.", prompt: "Help me build an Excel spreadsheet for financial aid reporting. Generate a fully structured Excel-compatible spreadsheet with formulas, column headers, and sample data. I need it for [describe your use case — e.g., R2T4 tracking, SAP monitoring, award reconciliation, CDR analysis, etc.]." },
     ],
   },
   {
@@ -863,7 +870,7 @@ const ROLE_OPTIONS = [
   { label: "Student",       color: "text-sky-400",    ring: "ring-sky-500/40",    bg: "bg-sky-500/15"    },
   { label: "Parent",        color: "text-blue-400",   ring: "ring-blue-500/40",   bg: "bg-blue-500/15"   },
   { label: "Administrator", color: "text-emerald-400",ring: "ring-emerald-500/40",bg: "bg-emerald-500/15"},
-  { label: "Executive",     color: "text-violet-400", ring: "ring-violet-500/40", bg: "bg-violet-500/15" },
+  { label: "Leader",        color: "text-violet-400", ring: "ring-violet-500/40", bg: "bg-violet-500/15" },
   { label: "Auditor",       color: "text-rose-400",   ring: "ring-rose-500/40",   bg: "bg-rose-500/15"   },
 ];
 
@@ -1013,6 +1020,9 @@ export default function AidAgentPage() {
   const [attachedFile, setAttachedFile] = useState<AttachedFile | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const cameraInputRef = useRef<HTMLInputElement>(null);
+  const [isRecording, setIsRecording] = useState(false);
+  const [voiceTranscript, setVoiceTranscript] = useState("");
+  const recognitionRef = useRef<any>(null);
 
   useEffect(() => {
     if (localStorage.getItem("genie-terms-accepted")) setShowDisclaimer(false);
@@ -1068,6 +1078,44 @@ export default function AidAgentPage() {
     }
   };
 
+  const startVoiceRecording = () => {
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRecognition) {
+      alert("Voice recording is not supported in this browser. Please try Chrome or Edge.");
+      return;
+    }
+    const recognition = new SpeechRecognition();
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    recognition.lang = "en-US";
+    let finalText = "";
+    recognition.onresult = (event: any) => {
+      let interim = "";
+      for (let i = event.resultIndex; i < event.results.length; i++) {
+        if (event.results[i].isFinal) finalText += event.results[i][0].transcript + " ";
+        else interim += event.results[i][0].transcript;
+      }
+      setVoiceTranscript(finalText + interim);
+    };
+    recognition.onerror = () => { setIsRecording(false); setVoiceTranscript(""); };
+    recognition.onend = () => {
+      setIsRecording(false);
+      if (finalText.trim()) {
+        setAttachedFile({ name: "Voice recording", content: finalText.trim(), type: "audio" });
+      }
+      setVoiceTranscript("");
+    };
+    recognitionRef.current = recognition;
+    recognition.start();
+    setIsRecording(true);
+    setVoiceTranscript("");
+  };
+
+  const stopVoiceRecording = () => {
+    recognitionRef.current?.stop();
+    recognitionRef.current = null;
+  };
+
   const goHome = useCallback(() => {
     readerRef.current?.cancel();
     readerRef.current = null;
@@ -1104,6 +1152,8 @@ export default function AidAgentPage() {
       ];
     } else if (attachedFile?.type === "text") {
       apiContent = `${trimmed}\n\n[Attached document: ${attachedFile.name}]\n\n${attachedFile.content}`;
+    } else if (attachedFile?.type === "audio") {
+      apiContent = `${trimmed}\n\n[Voice Recording Transcript]: ${attachedFile.content}`;
     } else {
       apiContent = trimmed;
     }
@@ -2173,6 +2223,8 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-2 px-3 py-2 mb-1.5 rounded-xl bg-indigo-500/20 ring-1 ring-indigo-500/30">
                   {attachedFile.type === "image" ? (
                     <ImageIcon className="h-3.5 w-3.5 text-indigo-300 shrink-0" />
+                  ) : attachedFile.type === "audio" ? (
+                    <Mic className="h-3.5 w-3.5 text-rose-300 shrink-0" />
                   ) : (
                     <Paperclip className="h-3.5 w-3.5 text-indigo-300 shrink-0" />
                   )}
@@ -2190,7 +2242,7 @@ export default function AidAgentPage() {
                   onSubmit={handleSubmit}
                   className="flex gap-2 items-end px-3 py-2.5 rounded-2xl bg-[#0a2a72]/90 backdrop-blur-sm"
                 >
-                  {/* Upload buttons */}
+                  {/* Upload + mic buttons */}
                   <div className="flex items-center gap-0.5 shrink-0 mb-0.5">
                     <button type="button" title="Upload document (.pdf, .txt, .doc, .csv)"
                       onClick={() => fileInputRef.current?.click()}
@@ -2202,18 +2254,35 @@ export default function AidAgentPage() {
                       className="p-1.5 rounded-lg text-white/35 hover:text-indigo-300 hover:bg-indigo-500/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
                       <Camera className="h-4 w-4" />
                     </button>
+                    <button type="button"
+                      title={isRecording ? "Stop recording" : "Record voice message"}
+                      onClick={isRecording ? stopVoiceRecording : startVoiceRecording}
+                      className={`p-1.5 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+                        isRecording
+                          ? "text-rose-400 bg-rose-500/20 animate-pulse"
+                          : "text-white/35 hover:text-indigo-300 hover:bg-indigo-500/20"
+                      }`}>
+                      {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+                    </button>
                   </div>
-                  <textarea
-                    ref={textareaRef}
-                    value={input}
-                    onChange={handleInputChange}
-                    onKeyDown={handleKeyDown}
-                    aria-label="Ask Genie a financial aid question"
-                    placeholder="askGenie — or tell Genie what you're concerned about…"
-                    rows={1}
-                    className="flex-1 resize-none px-2 py-1.5 bg-transparent text-white text-sm placeholder:text-white/25 focus:outline-none leading-relaxed"
-                    style={{ minHeight: "40px", maxHeight: "160px" }}
-                  />
+                  <div className="flex-1 relative">
+                    {isRecording && voiceTranscript && (
+                      <p className="absolute top-0 left-2 right-2 text-xs text-rose-300/80 italic pointer-events-none truncate">
+                        🎙 {voiceTranscript}
+                      </p>
+                    )}
+                    <textarea
+                      ref={textareaRef}
+                      value={input}
+                      onChange={handleInputChange}
+                      onKeyDown={handleKeyDown}
+                      aria-label="Ask Genie a financial aid question"
+                      placeholder={isRecording ? "🎙 Listening… speak your question…" : "askGenie — or tell Genie what you're concerned about…"}
+                      rows={1}
+                      className="w-full resize-none px-2 py-1.5 bg-transparent text-white text-sm placeholder:text-white/25 focus:outline-none leading-relaxed"
+                      style={{ minHeight: "40px", maxHeight: "160px" }}
+                    />
+                  </div>
                   {isStreaming ? (
                     <button
                       type="button"
@@ -2240,7 +2309,7 @@ export default function AidAgentPage() {
               {/* Footer hints */}
               <div className="mt-2.5 flex flex-col items-center gap-0.5">
                 <p className="text-[10px] text-white/20 text-center tracking-wide">
-                  Enter to send · Shift+Enter for new line · 📎 Upload docs or 📷 photos for context · Always verify with the FSA Handbook
+                  Enter to send · Shift+Enter new line · 📎 Docs · 📷 Photo · 🎙 Voice · Always verify with the FSA Handbook
                 </p>
                 <p className="text-[10px] text-center text-white/25">
                   Unofficial reference tool — not affiliated with the U.S. Department of Education
@@ -2271,13 +2340,13 @@ export default function AidAgentPage() {
         {/* ── Right Panel — Coverage + Quick Actions ── */}
         <aside className={`${showMobileRight ? "flex fixed inset-y-0 right-0 z-50" : "hidden"} xl:flex xl:static xl:z-auto flex-col w-72 shrink-0 border-l border-white/[0.10] bg-[#071035] xl:bg-white/[0.07] backdrop-blur-2xl`}>
 
-          {/* Header — Administrators, Executives & Auditors */}
+          {/* Header — Administrators, Leaders & Auditors */}
           <div className="px-4 pt-4 pb-4 border-b border-white/[0.07]">
             <div className="flex items-center justify-end gap-2.5">
               <div className="text-right">
                 <p className="text-[11px] font-bold text-white/40 uppercase tracking-widest leading-none mb-0.5">Financial Aid Hub</p>
                 <p className="text-sm font-semibold bg-gradient-to-r from-violet-300 to-indigo-300 bg-clip-text text-transparent leading-tight">
-                  Admins, Executives &amp; Auditors
+                  Admins, Leaders &amp; Auditors
                 </p>
               </div>
               <div className="p-1.5 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 shadow-lg shadow-violet-500/25 shrink-0">
@@ -2290,7 +2359,7 @@ export default function AidAgentPage() {
           <div className="flex-1 overflow-y-auto genie-scroll px-3 py-3 space-y-1.5">
 
             {/* ── Quick Actions (collapsible by role) ── */}
-            {QUICK_ACTIONS_BY_ROLE.filter(({ role }) => role === "Administrators" || role === "Executives" || role === "Auditors").map(({ role, color, items, more }) => {
+            {QUICK_ACTIONS_BY_ROLE.filter(({ role }) => role === "Administrators" || role === "Leaders" || role === "Auditors").map(({ role, color, items, more }) => {
               const isOpen = expandedSections.has(`rqa-open-${role}`);
               return (
                 <div key={role} className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
