@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import Link from "next/link";
 import { MarkdownRenderer } from "@/components/chat/MarkdownRenderer";
 import {
   Send,
@@ -1444,41 +1445,60 @@ export default function AidAgentPage() {
         .genie-scroll-main { scrollbar-width: thin; scrollbar-color: rgba(96,165,250,0.30) rgba(10,46,122,0.25); }
       `}</style>
       {showDisclaimer && (
-        <div role="dialog" aria-modal="true" aria-labelledby="disclaimer-title" className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-          <div className="relative w-full max-w-lg bg-[#071035] border border-indigo-500/30 rounded-2xl shadow-2xl p-8">
-            <div className="flex items-center gap-3 mb-5">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 shrink-0">
-                <AlertTriangle className="h-5 w-5 text-white" aria-hidden="true" />
+        <div role="dialog" aria-modal="true" aria-labelledby="disclaimer-title" className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
+          <div className="relative w-full max-w-md bg-[#071035] border border-indigo-500/25 rounded-2xl shadow-2xl overflow-hidden">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-indigo-600 to-violet-700 px-7 py-5 flex items-center gap-3">
+              <div className="p-2 rounded-xl bg-white/15 shrink-0">
+                <GenieBottle className="h-5 w-5 text-white" />
               </div>
-              <h2 id="disclaimer-title" className="text-lg font-bold text-white">Before You Begin</h2>
+              <div>
+                <h2 id="disclaimer-title" className="text-base font-bold text-white leading-tight">Genie — Financial Aid Hub</h2>
+                <p className="text-xs text-white/60 mt-0.5">Please review and accept before continuing</p>
+              </div>
             </div>
 
-            <div className="space-y-4 text-sm leading-relaxed mb-6">
-              <p className="text-white/90 font-medium">
-                Genie provides general informational guidance only and does not constitute legal, financial, or professional advice. Always verify with your institution's financial aid office and the official FSA Handbook.
+            {/* Body */}
+            <div className="px-7 py-6 space-y-4">
+              <div className="rounded-xl bg-amber-500/10 ring-1 ring-amber-500/25 px-4 py-3">
+                <p className="text-sm text-amber-200/90 leading-relaxed">
+                  <strong className="text-amber-300">Not professional advice.</strong> Genie provides general informational guidance only and does not constitute legal, financial, or professional advice. Always verify with your institution's financial aid office and the official FSA Handbook.
+                </p>
+              </div>
+
+              <ul className="space-y-2.5 text-sm text-white/60">
+                <li className="flex items-start gap-2.5">
+                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-indigo-400 shrink-0" />
+                  <span>All responses are <strong className="text-white/80">AI-generated</strong> and may contain errors. Cross-reference with official sources.</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-indigo-400 shrink-0" />
+                  <span>Your conversations are <strong className="text-white/80">not stored or logged.</strong> Do not enter SSNs, student IDs, or FERPA-protected data.</span>
+                </li>
+                <li className="flex items-start gap-2.5">
+                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-indigo-400 shrink-0" />
+                  <span>You must be <strong className="text-white/80">13 or older</strong> to use this service.</span>
+                </li>
+              </ul>
+
+              <p className="text-xs text-white/30 leading-relaxed">
+                By clicking "I Accept" you agree to our{" "}
+                <Link href="/legal" target="_blank" className="text-indigo-400 hover:text-indigo-300 underline underline-offset-2 transition-colors">
+                  Terms of Service &amp; Privacy Policy
+                </Link>
+                . Powered by Claude AI (Anthropic) in compliance with Anthropic's usage policies.
               </p>
-
-              <div className="border-t border-white/10 pt-4">
-                <p className="font-semibold text-white/80 mb-1.5">Privacy &amp; FERPA</p>
-                <p className="text-white/60">Genie does not store, log, or retain your conversations or any student financial aid data. Conversations are processed in real-time and not saved. <strong className="text-white/80">Do not enter personally identifiable student information</strong> (FERPA-protected data) into this tool.</p>
-              </div>
-
-              <div className="border-t border-white/10 pt-4">
-                <p className="font-semibold text-white/80 mb-1.5">AI-Generated Content (FTC Disclosure)</p>
-                <p className="text-white/60">All responses are generated by Claude AI (Anthropic). Content may be incomplete or outdated. Always cross-reference with official sources including studentaid.gov, the FSA Handbook, and qualified legal counsel.</p>
-              </div>
-
-              <div className="border-t border-white/10 pt-4">
-                <p className="text-white/40 text-xs">California &amp; state residents: This tool does not constitute licensed financial counseling. Consult a licensed professional for personalized advice. Powered by Claude (Anthropic) in compliance with Anthropic's usage policies.</p>
-              </div>
             </div>
 
-            <button
-              onClick={handleAccept}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-600 text-white font-semibold text-sm shadow-lg hover:opacity-90 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-400"
-            >
-              I Understand &amp; Accept
-            </button>
+            {/* Actions */}
+            <div className="px-7 pb-6">
+              <button
+                onClick={handleAccept}
+                className="w-full py-3 rounded-xl bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-600 text-white font-semibold text-sm shadow-lg shadow-indigo-900/40 hover:opacity-90 active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-400"
+              >
+                I Accept — Continue to Genie
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -1677,7 +1697,10 @@ export default function AidAgentPage() {
                 General guidance only. Verify with the FSA Handbook and consult legal counsel for institution-specific decisions.
               </p>
             </div>
-            <p className="text-[11px] text-white/20 text-center mt-2">Developed by 127</p>
+            <p className="text-[11px] text-white/20 text-center mt-2">
+              Developed by 127 ·{" "}
+              <Link href="/legal" className="underline underline-offset-2 hover:text-white/40 transition-colors">Terms & Privacy</Link>
+            </p>
           </div>
         </aside>
 
@@ -2061,7 +2084,8 @@ export default function AidAgentPage() {
                 </p>
                 <p className="text-[10px] text-center text-white/20">
                   <span className="font-semibold bg-gradient-to-r from-sky-300 via-indigo-300 to-violet-400 bg-clip-text text-transparent">Genie</span>
-                  {" "}— Purpose-built on 34 CFR · FSA Handbook · HEA Title IV · Federal Student Aid Policy
+                  {" "}— Purpose-built on 34 CFR · FSA Handbook · HEA Title IV · Federal Student Aid Policy ·{" "}
+                  <Link href="/legal" className="underline underline-offset-2 hover:text-white/40 transition-colors">Legal</Link>
                 </p>
               </div>
             </div>
