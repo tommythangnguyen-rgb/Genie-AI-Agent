@@ -2093,6 +2093,8 @@ export default function AidAgentPage() {
             </div>
           </div>
 
+        </main>
+
         {/* ── Right Panel — Coverage + Quick Actions ── */}
         <aside className="hidden xl:flex flex-col w-72 shrink-0 border-l border-white/[0.10] bg-white/[0.07] backdrop-blur-2xl">
 
@@ -2202,8 +2204,6 @@ export default function AidAgentPage() {
           </div>
 
         </aside>
-
-        </main>
 
       </div>
     </>
