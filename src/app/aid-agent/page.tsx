@@ -1697,10 +1697,7 @@ export default function AidAgentPage() {
                 General guidance only. Verify with the FSA Handbook and consult legal counsel for institution-specific decisions.
               </p>
             </div>
-            <p className="text-[11px] text-white/20 text-center mt-2">
-              Developed by 127 ·{" "}
-              <Link href="/legal" className="underline underline-offset-2 hover:text-white/40 transition-colors">Terms & Privacy</Link>
-            </p>
+            <p className="text-[11px] text-white/20 text-right mt-2">Developed by One27</p>
           </div>
         </aside>
 
@@ -2084,8 +2081,10 @@ export default function AidAgentPage() {
                 </p>
                 <p className="text-[10px] text-center text-white/20">
                   <span className="font-semibold bg-gradient-to-r from-sky-300 via-indigo-300 to-violet-400 bg-clip-text text-transparent">Genie</span>
-                  {" "}— Purpose-built on 34 CFR · FSA Handbook · HEA Title IV · Federal Student Aid Policy ·{" "}
-                  <Link href="/legal" className="underline underline-offset-2 hover:text-white/40 transition-colors">Legal</Link>
+                  {" "}— Purpose-built on 34 CFR · FSA Handbook · HEA Title IV · Federal Student Aid Policy
+                </p>
+                <p className="text-[10px] text-center text-white/20">
+                  <Link href="/legal" className="underline underline-offset-2 hover:text-white/40 transition-colors">Terms & Privacy</Link>
                 </p>
               </div>
             </div>
