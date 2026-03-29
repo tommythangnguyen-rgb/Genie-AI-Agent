@@ -38,6 +38,9 @@ import {
   X,
   Sun,
   Moon,
+  Paperclip,
+  Camera,
+  ImageIcon,
 } from "lucide-react";
 
 // ─── Genie Bottle Logo ────────────────────────────────────────────────────────
@@ -59,7 +62,16 @@ interface Message {
   id: string;
   role: "user" | "assistant";
   content: string;
+  apiContent?: any;          // multipart content for API (images etc.)
   senderRole?: string;
+  attachedFileName?: string; // display label for attached file
+}
+
+interface AttachedFile {
+  name: string;
+  content: string;           // base64 for images, raw text for documents
+  type: "image" | "text";
+  mimeType?: string;
 }
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
@@ -536,14 +548,13 @@ const PRIVATE_STUDENT_LOANS = [
   { name: "Earnest", url: "https://www.earnest.com/student-loans" },
   { name: "SoFi Student Loans", url: "https://www.sofi.com/student-loans" },
   { name: "Discover Student Loans", url: "https://www.discover.com/student-loans" },
-];
-const PRIVATE_STUDENT_LOANS_MORE = [
   { name: "Citizens Bank Student Loans", url: "https://www.citizensbank.com/learning/student-loans.aspx" },
   { name: "Ascent Student Loans", url: "https://www.ascentfunding.com" },
   { name: "MEFA (MA Educational Financing)", url: "https://www.mefa.org/loans" },
   { name: "RISLA (RI Student Loan Auth.)", url: "https://www.risla.com" },
-  { name: "Aidvantage (Navient Transfer)", url: "https://aidvantage.com" },
   { name: "Laurel Road", url: "https://www.laurelroad.com" },
+];
+const PRIVATE_STUDENT_LOANS_MORE = [
   { name: "LendKey", url: "https://www.lendkey.com" },
   { name: "MPOWER (International Students)", url: "https://www.mpowerfinancing.com" },
   { name: "Prodigy Finance (International)", url: "https://prodigyfinance.com" },
@@ -553,6 +564,28 @@ const PRIVATE_STUDENT_LOANS_MORE = [
   { name: "Advantage Education Loan (KHESLC)", url: "https://www.advantageeducationloan.com" },
   { name: "EdFinancial Services", url: "https://edfinancial.com" },
   { name: "MOHELA Servicer Portal", url: "https://www.mohela.com" },
+  { name: "Aidvantage (Navient Transfer)", url: "https://aidvantage.com" },
+  { name: "NaviRefi by Navient", url: "https://www.navient.com/loans/repay/refinancing" },
+  { name: "Splash Financial", url: "https://www.splashfinancial.com" },
+  { name: "Nelnet Bank", url: "https://www.nelnetbank.com" },
+  { name: "Education Loan Finance (ELFI)", url: "https://www.elfi.com" },
+  { name: "EDvestinU", url: "https://www.edvestinu.com" },
+  { name: "Funding U (no cosigner)", url: "https://www.fundingeducation.com" },
+  { name: "Edly (income-based repayment)", url: "https://www.edly.com" },
+  { name: "Navy Federal CU Education Loans", url: "https://www.navyfederal.org/loans-cards/student-loans.html" },
+  { name: "PenFed Credit Union", url: "https://www.penfed.org/student-loans" },
+  { name: "First Tech FCU Student Loans", url: "https://www.firsttechfed.com/borrow/student-loans" },
+  { name: "Purefy (refi marketplace)", url: "https://www.purefy.com" },
+  { name: "Brazos Higher Education", url: "https://www.brazos.org" },
+  { name: "South Carolina Student Loan", url: "https://www.scstudentloan.org" },
+  { name: "College Foundation of NC (CFNC)", url: "https://www.cfnc.org/pay-for-college/apply-for-a-loan" },
+  { name: "VSAC (Vermont Student Assistance)", url: "https://www.vsac.org/pay/loans" },
+  { name: "HESC (NY Higher Education Svcs.)", url: "https://www.hesc.ny.gov" },
+  { name: "PHEAA (PA Higher Education)", url: "https://www.pheaa.org" },
+  { name: "HESAA (NJ Higher Education)", url: "https://www.hesaa.org" },
+  { name: "Juno (group negotiated rates)", url: "https://joinjuno.com" },
+  { name: "Student Choice (CU network)", url: "https://www.studentchoice.org" },
+  { name: "Yrefy (defaulted loan refi)", url: "https://www.yrefy.com" },
 ];
 
 const FINANCIAL_LITERACY = [
@@ -977,6 +1010,9 @@ export default function AidAgentPage() {
   const [showMobileRight, setShowMobileRight] = useState(false);
   const [isDark, setIsDark] = useState(true);
   const [showCookieNotice, setShowCookieNotice] = useState(false);
+  const [attachedFile, setAttachedFile] = useState<AttachedFile | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const cameraInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (localStorage.getItem("genie-terms-accepted")) setShowDisclaimer(false);
@@ -1015,6 +1051,23 @@ export default function AidAgentPage() {
       return next;
     }), []);
 
+  const handleFileSelect = (file: File) => {
+    const reader = new FileReader();
+    if (file.type.startsWith("image/")) {
+      reader.onload = (e) => {
+        const dataUrl = e.target?.result as string;
+        const base64 = dataUrl.split(",")[1];
+        setAttachedFile({ name: file.name, content: base64, type: "image", mimeType: file.type });
+      };
+      reader.readAsDataURL(file);
+    } else {
+      reader.onload = (e) => {
+        setAttachedFile({ name: file.name, content: e.target?.result as string, type: "text" });
+      };
+      reader.readAsText(file);
+    }
+  };
+
   const goHome = useCallback(() => {
     readerRef.current?.cancel();
     readerRef.current = null;
@@ -1038,14 +1091,33 @@ export default function AidAgentPage() {
 
   const sendMessage = async (text: string) => {
     const trimmed = text.trim();
-    if (!trimmed || isLoading || isStreaming) return;
+    if (!trimmed && !attachedFile || isLoading || isStreaming) return;
     stopSpeaking();
+
+    // Build display content and API content separately
+    const displayContent = trimmed || (attachedFile ? `[Attached: ${attachedFile.name}]` : "");
+    let apiContent: any;
+    if (attachedFile?.type === "image") {
+      apiContent = [
+        { type: "image", source: { type: "base64", media_type: attachedFile.mimeType ?? "image/jpeg", data: attachedFile.content } },
+        ...(trimmed ? [{ type: "text", text: trimmed }] : [{ type: "text", text: "Please review this image and provide relevant financial aid information or analysis." }]),
+      ];
+    } else if (attachedFile?.type === "text") {
+      apiContent = `${trimmed}\n\n[Attached document: ${attachedFile.name}]\n\n${attachedFile.content}`;
+    } else {
+      apiContent = trimmed;
+    }
+
+    const currentFile = attachedFile;
+    setAttachedFile(null); // clear immediately after capturing
 
     const userMsg: Message = {
       id: Date.now().toString(),
       role: "user",
-      content: trimmed,
+      content: displayContent,
+      apiContent,
       senderRole: selectedRole ?? undefined,
+      attachedFileName: currentFile?.name,
     };
 
     setMessages((prev) => [...prev, userMsg]);
@@ -1054,12 +1126,18 @@ export default function AidAgentPage() {
 
     const assistantId = (Date.now() + 1).toString();
 
-    // Build API payload — inject role context into content without altering display
-    const apiMessages = [...messages, userMsg].map((msg) =>
-      msg.role === "user" && msg.senderRole
-        ? { ...msg, content: `[I am a ${msg.senderRole}]\n\n${msg.content}` }
-        : msg
-    );
+    // Build API payload — inject role context, use apiContent for the API call
+    const apiMessages = [...messages, userMsg].map((msg) => {
+      const content = msg.apiContent ?? msg.content;
+      if (msg.role === "user" && msg.senderRole) {
+        if (typeof content === "string") {
+          return { ...msg, content: `[I am a ${msg.senderRole}]\n\n${content}`, apiContent: undefined };
+        }
+        // multipart — prepend role as first text block
+        return { ...msg, content: [{ type: "text", text: `[I am a ${msg.senderRole}]` }, ...content], apiContent: undefined };
+      }
+      return { ...msg, content, apiContent: undefined };
+    });
 
     try {
       const res = await fetch("/api/aid-agent", {
@@ -1514,9 +1592,9 @@ export default function AidAgentPage() {
 
       <EducationalBackground />
 
-      {/* Bright theme overlay */}
+      {/* Bright theme overlay — slightly lighter cobalt blue, still dark enough for white text contrast */}
       {!isDark && (
-        <div className="fixed inset-0 -z-9 pointer-events-none" style={{ background: "linear-gradient(135deg, #1a56c8cc 0%, #2b72e0cc 50%, #3d8ef5cc 100%)" }} />
+        <div className="fixed inset-0 -z-9 pointer-events-none" style={{ background: "linear-gradient(135deg, #0f3ba0d0 0%, #1a52ccd0 50%, #1e60ddd0 100%)" }} />
       )}
 
       {/* Mobile panel backdrop */}
@@ -1557,22 +1635,23 @@ export default function AidAgentPage() {
                 <div key={role} className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection(`lqa-open-${role}`)}
                     className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/60">{role} Quick Actions</span>
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">{role} Quick Actions</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
                   {isOpen && (
                     <div className="space-y-0.5 px-1.5 pb-2">
                       {[...items, ...more].map(({ icon: Icon, label, description, q }) => (
                         <button key={`lqa-${role}-${label}`} onClick={() => sendMessage(q)} disabled={isBusy}
-                          className="w-full flex items-start gap-2.5 px-2.5 py-2 rounded-lg text-left group transition-all duration-150 hover:bg-white/[0.07] disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
-                          <div className="mt-0.5 p-1.5 rounded-lg bg-white/[0.07] group-hover:bg-sky-500/20 transition-colors shrink-0">
-                            <Icon className="h-3 w-3 text-white/50 group-hover:text-sky-400 transition-colors" />
+                          title={label}
+                          className="w-full flex items-start gap-2.5 px-2.5 py-2 rounded-lg text-left group transition-all duration-150 hover:bg-sky-500/20 ring-1 ring-transparent hover:ring-sky-500/20 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
+                          <div className="mt-0.5 p-1.5 rounded-lg bg-white/[0.08] group-hover:bg-sky-500/30 transition-colors shrink-0">
+                            <Icon className="h-3 w-3 text-white/60 group-hover:text-sky-300 transition-colors" />
                           </div>
                           <div className="min-w-0 flex-1">
-                            <p className="text-[11px] font-medium text-white/70 group-hover:text-white transition-colors leading-tight">{label}</p>
-                            <p className="text-[10px] text-white/35 mt-0.5 leading-tight">{description}</p>
+                            <p className="text-xs font-semibold text-white/85 group-hover:text-white transition-colors leading-tight">{label}</p>
+                            <p className="text-[10px] text-white/55 mt-0.5 leading-tight">{description}</p>
                           </div>
-                          <ChevronRight className="h-3 w-3 text-white/20 group-hover:text-sky-400 transition-colors shrink-0 mt-1" />
+                          <ChevronRight className="h-3 w-3 text-white/25 group-hover:text-sky-400 transition-colors shrink-0 mt-1" />
                         </button>
                       ))}
                     </div>
@@ -1590,7 +1669,7 @@ export default function AidAgentPage() {
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection("sec-scholarships")}
                     className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/60">Scholarship Search Engines</span>
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Scholarship Search Engines</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
                   {isOpen && (
@@ -1598,9 +1677,10 @@ export default function AidAgentPage() {
                       <div className="space-y-0.5">
                         {list.map(({ name, url }) => (
                           <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs text-white/45 hover:text-indigo-300 hover:bg-white/[0.07] transition-all duration-150 group">
+                            title={name}
+                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-sky-500/20 ring-1 ring-transparent hover:ring-sky-500/20 transition-all duration-150 group">
                             <span>{name}</span>
-                            <ExternalLink className="h-3 w-3 text-white/25 group-hover:text-indigo-400 shrink-0" />
+                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-sky-400 shrink-0" />
                           </a>
                         ))}
                       </div>
@@ -1624,7 +1704,7 @@ export default function AidAgentPage() {
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection("sec-finlit")}
                     className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/60">Financial Literacy</span>
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Financial Literacy</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
                   {isOpen && (
@@ -1658,7 +1738,7 @@ export default function AidAgentPage() {
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection("sec-loans")}
                     className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/60">Private Student Loans</span>
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Private Student Loans</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
                   {isOpen && (
@@ -1666,16 +1746,17 @@ export default function AidAgentPage() {
                       <div className="space-y-0.5">
                         {list.map(({ name, url }) => (
                           <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs text-white/45 hover:text-violet-300 hover:bg-white/[0.07] transition-all duration-150 group">
+                            title={name}
+                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-violet-500/20 ring-1 ring-transparent hover:ring-violet-500/20 transition-all duration-150 group">
                             <span>{name}</span>
-                            <ExternalLink className="h-3 w-3 text-white/25 group-hover:text-violet-400 shrink-0" />
+                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-violet-400 shrink-0" />
                           </a>
                         ))}
                       </div>
                       <button onClick={() => toggleSection("loans")}
                         className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-violet-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
                         <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
-                        {showMore ? "Show less" : `View ${PRIVATE_STUDENT_LOANS_MORE.length} more`}
+                        {showMore ? "Show fewer" : `View ${PRIVATE_STUDENT_LOANS_MORE.length} more`}
                       </button>
                     </div>
                   )}
@@ -1691,16 +1772,17 @@ export default function AidAgentPage() {
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection("sec-federal-students")}
                     className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/60">Federal Student Aid</span>
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Federal Student Aid</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
                   {isOpen && studentGroup && (
                     <div className="px-1.5 pb-2 space-y-0.5">
                       {studentGroup.links.map(({ name, url }) => (
                         <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs text-white/45 hover:text-sky-300 hover:bg-white/[0.07] transition-all duration-150 group">
+                          title={name}
+                          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-sky-500/20 ring-1 ring-transparent hover:ring-sky-500/20 transition-all duration-150 group">
                           <span>{name}</span>
-                          <ExternalLink className="h-3 w-3 text-white/25 group-hover:text-sky-400 shrink-0" />
+                          <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-sky-400 shrink-0" />
                         </a>
                       ))}
                     </div>
@@ -1949,6 +2031,12 @@ export default function AidAgentPage() {
                               </span>
                             );
                           })()}
+                          {msg.attachedFileName && (
+                            <div className="flex items-center gap-1.5 mb-1.5 text-[10px] text-white/50">
+                              <Paperclip className="h-3 w-3 shrink-0" />
+                              <span className="truncate">{msg.attachedFileName}</span>
+                            </div>
+                          )}
                           <p>{msg.content}</p>
                         </div>
                       ) : (
@@ -2072,12 +2160,49 @@ export default function AidAgentPage() {
                 )}
               </div>
 
+              {/* Hidden file inputs */}
+              <input ref={fileInputRef} type="file" className="hidden"
+                accept=".pdf,.txt,.doc,.docx,.csv,.md"
+                onChange={(e) => { if (e.target.files?.[0]) handleFileSelect(e.target.files[0]); e.target.value = ""; }} />
+              <input ref={cameraInputRef} type="file" className="hidden"
+                accept="image/*" capture="environment"
+                onChange={(e) => { if (e.target.files?.[0]) handleFileSelect(e.target.files[0]); e.target.value = ""; }} />
+
+              {/* Attached file preview */}
+              {attachedFile && (
+                <div className="flex items-center gap-2 px-3 py-2 mb-1.5 rounded-xl bg-indigo-500/20 ring-1 ring-indigo-500/30">
+                  {attachedFile.type === "image" ? (
+                    <ImageIcon className="h-3.5 w-3.5 text-indigo-300 shrink-0" />
+                  ) : (
+                    <Paperclip className="h-3.5 w-3.5 text-indigo-300 shrink-0" />
+                  )}
+                  <span className="text-xs text-white/80 flex-1 truncate">{attachedFile.name}</span>
+                  <button type="button" onClick={() => setAttachedFile(null)}
+                    className="text-white/35 hover:text-white transition-colors">
+                    <X className="h-3.5 w-3.5" />
+                  </button>
+                </div>
+              )}
+
               {/* Gradient-border form wrapper */}
               <div className="p-[1px] rounded-2xl bg-gradient-to-r from-sky-500/40 via-indigo-500/50 to-violet-500/40 focus-within:from-sky-400/70 focus-within:via-indigo-400/70 focus-within:to-violet-400/70 transition-all duration-300 shadow-lg shadow-indigo-900/30">
                 <form
                   onSubmit={handleSubmit}
                   className="flex gap-2 items-end px-3 py-2.5 rounded-2xl bg-[#0a2a72]/90 backdrop-blur-sm"
                 >
+                  {/* Upload buttons */}
+                  <div className="flex items-center gap-0.5 shrink-0 mb-0.5">
+                    <button type="button" title="Upload document (.pdf, .txt, .doc, .csv)"
+                      onClick={() => fileInputRef.current?.click()}
+                      className="p-1.5 rounded-lg text-white/35 hover:text-indigo-300 hover:bg-indigo-500/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
+                      <Paperclip className="h-4 w-4" />
+                    </button>
+                    <button type="button" title="Take or upload a photo for context"
+                      onClick={() => cameraInputRef.current?.click()}
+                      className="p-1.5 rounded-lg text-white/35 hover:text-indigo-300 hover:bg-indigo-500/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
+                      <Camera className="h-4 w-4" />
+                    </button>
+                  </div>
                   <textarea
                     ref={textareaRef}
                     value={input}
@@ -2102,7 +2227,7 @@ export default function AidAgentPage() {
                   ) : (
                     <button
                       type="submit"
-                      disabled={!input.trim() || isLoading}
+                      disabled={(!input.trim() && !attachedFile) || isLoading}
                       className="shrink-0 mb-0.5 flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-600 hover:from-sky-400 hover:via-indigo-400 hover:to-violet-500 text-white text-xs font-semibold shadow-lg shadow-indigo-600/40 hover:shadow-indigo-500/60 active:scale-95 transition-all duration-150 disabled:opacity-35 disabled:cursor-not-allowed disabled:active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-400"
                     >
                       <Send className="h-3.5 w-3.5" />
@@ -2115,7 +2240,7 @@ export default function AidAgentPage() {
               {/* Footer hints */}
               <div className="mt-2.5 flex flex-col items-center gap-0.5">
                 <p className="text-[10px] text-white/20 text-center tracking-wide">
-                  Enter to send · Shift+Enter for new line · Always verify with the FSA Handbook
+                  Enter to send · Shift+Enter for new line · 📎 Upload docs or 📷 photos for context · Always verify with the FSA Handbook
                 </p>
                 <p className="text-[10px] text-center text-white/25">
                   Unofficial reference tool — not affiliated with the U.S. Department of Education
@@ -2135,7 +2260,7 @@ export default function AidAgentPage() {
                   <Link href="/legal#ccpa" className="underline underline-offset-2 hover:text-white/40 transition-colors">Do Not Sell My Info</Link>
                 </p>
                 <p className="text-[10px] text-center text-white/15 mt-0.5">
-                  © 2026 Genie Financial Aid Hub | Developed by One27 | All Rights Reserved
+                  © 2026 askGenie Financial Aid Hub | Developed by One27 | All Rights Reserved
                 </p>
               </div>
             </div>
@@ -2172,20 +2297,21 @@ export default function AidAgentPage() {
                   <button onClick={() => toggleSection(`rqa-open-${role}`)}
                     className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/60 text-right">{role} Quick Actions</span>
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-right">{role} Quick Actions</span>
                   </button>
                   {isOpen && (
                     <div className="space-y-0.5 px-1.5 pb-2">
                       {[...items, ...more].map(({ icon: Icon, label, description, q }) => (
                         <button key={`rqa-${role}-${label}`} onClick={() => sendMessage(q)} disabled={isBusy}
-                          className="w-full flex items-start gap-2.5 px-2.5 py-2 rounded-lg text-right group transition-all duration-150 hover:bg-white/[0.07] disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
-                          <ChevronRight className="h-3 w-3 text-white/20 group-hover:text-indigo-400 transition-colors shrink-0 mt-1" />
-                          <div className="mt-0.5 p-1.5 rounded-lg bg-white/[0.07] group-hover:bg-indigo-500/20 transition-colors shrink-0">
-                            <Icon className="h-3 w-3 text-white/50 group-hover:text-indigo-400 transition-colors" />
+                          title={label}
+                          className="w-full flex items-start gap-2.5 px-2.5 py-2 rounded-lg text-right group transition-all duration-150 hover:bg-indigo-500/20 ring-1 ring-transparent hover:ring-indigo-500/20 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
+                          <ChevronRight className="h-3 w-3 text-white/25 group-hover:text-indigo-400 transition-colors shrink-0 mt-1" />
+                          <div className="mt-0.5 p-1.5 rounded-lg bg-white/[0.08] group-hover:bg-indigo-500/30 transition-colors shrink-0">
+                            <Icon className="h-3 w-3 text-white/60 group-hover:text-indigo-300 transition-colors" />
                           </div>
                           <div className="min-w-0 flex-1 text-right">
-                            <p className="text-[11px] font-medium text-white/70 group-hover:text-white transition-colors leading-tight">{label}</p>
-                            <p className="text-[10px] text-white/35 mt-0.5 leading-tight">{description}</p>
+                            <p className="text-xs font-semibold text-white/85 group-hover:text-white transition-colors leading-tight">{label}</p>
+                            <p className="text-[10px] text-white/55 mt-0.5 leading-tight">{description}</p>
                           </div>
                         </button>
                       ))}
@@ -2204,14 +2330,15 @@ export default function AidAgentPage() {
                   <button onClick={() => toggleSection(key)}
                     className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/60 text-right">{group}</span>
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-right">{group}</span>
                   </button>
                   {isOpen && (
                     <div className="px-1.5 pb-2 space-y-0.5">
                       {links.map(({ name, url }) => (
                         <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs text-white/45 hover:text-indigo-300 hover:bg-white/[0.07] transition-all duration-150 group">
-                          <ExternalLink className="h-3 w-3 text-white/25 group-hover:text-indigo-400 shrink-0" />
+                          title={name}
+                          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-indigo-500/20 ring-1 ring-transparent hover:ring-indigo-500/20 transition-all duration-150 group">
+                          <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-indigo-400 shrink-0" />
                           <span className="text-right">{name}</span>
                         </a>
                       ))}
@@ -2229,7 +2356,7 @@ export default function AidAgentPage() {
                   <button onClick={() => toggleSection("rp-coverage")}
                     className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/60 text-right">Topics Covered</span>
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-right">Topics Covered</span>
                   </button>
                   {isOpen && (
                     <div className="px-2 pb-2.5 pt-1 flex flex-wrap gap-1 justify-end">
