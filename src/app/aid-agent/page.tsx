@@ -36,6 +36,8 @@ import {
   Hash,
   Menu,
   X,
+  Sun,
+  Moon,
 } from "lucide-react";
 
 // ─── Genie Bottle Logo ────────────────────────────────────────────────────────
@@ -973,6 +975,7 @@ export default function AidAgentPage() {
   const [showDisclaimer, setShowDisclaimer] = useState(true);
   const [showMobileLeft, setShowMobileLeft] = useState(false);
   const [showMobileRight, setShowMobileRight] = useState(false);
+  const [isDark, setIsDark] = useState(true);
   const [showCookieNotice, setShowCookieNotice] = useState(false);
 
   useEffect(() => {
@@ -1459,7 +1462,7 @@ export default function AidAgentPage() {
                 <GenieBottle className="h-5 w-5 text-white" />
               </div>
               <div>
-                <h2 id="disclaimer-title" className="text-base font-bold text-white leading-tight">Genie — Financial Aid Hub</h2>
+                <h2 id="disclaimer-title" className="text-base font-bold text-white leading-tight">askGenie — Financial Aid Hub</h2>
                 <p className="text-xs text-white/60 mt-0.5">Developed by a 15-year Financial Aid Professional</p>
               </div>
             </div>
@@ -1511,6 +1514,11 @@ export default function AidAgentPage() {
 
       <EducationalBackground />
 
+      {/* Bright theme overlay */}
+      {!isDark && (
+        <div className="fixed inset-0 -z-9 pointer-events-none" style={{ background: "linear-gradient(135deg, #1a56c8cc 0%, #2b72e0cc 50%, #3d8ef5cc 100%)" }} />
+      )}
+
       {/* Mobile panel backdrop */}
       {(showMobileLeft || showMobileRight) && (
         <div
@@ -1519,7 +1527,7 @@ export default function AidAgentPage() {
         />
       )}
 
-      <div className="h-screen flex overflow-hidden">
+      <div className="h-screen flex overflow-hidden" style={{ height: "100dvh" }}>
 
         {/* ── Sidebar ── */}
         <aside className={`${showMobileLeft ? "flex fixed inset-y-0 left-0 z-50" : "hidden"} lg:flex lg:static lg:z-auto flex-col w-72 shrink-0 border-r border-white/[0.10] bg-[#071035] lg:bg-white/[0.07] backdrop-blur-2xl`}>
@@ -1719,16 +1727,23 @@ export default function AidAgentPage() {
         </aside>
 
         {/* ── Main ── */}
-        <main className="flex flex-1 flex-col min-w-0" aria-label="Genie AI Assistant">
+        <main className="flex flex-1 flex-col min-w-0 min-h-0" aria-label="askGenie AI Assistant">
 
           {/* Header */}
           <header className="relative shrink-0 border-b border-white/[0.10] bg-white/[0.07] backdrop-blur-xl px-5 py-3 flex items-center justify-between">
-            {/* Left — home + mobile left-panel toggle */}
-            <div className="flex items-center gap-2 w-36">
+            {/* Left — theme toggle + home + mobile left-panel toggle */}
+            <div className="flex items-center gap-1.5 w-40">
+              <button
+                onClick={() => setIsDark(!isDark)}
+                title={isDark ? "Switch to bright mode" : "Switch to dark mode"}
+                className="p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+              >
+                {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              </button>
               <button
                 onClick={goHome}
                 title="Home"
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 text-xs font-medium"
+                className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 text-xs font-medium"
               >
                 <Home className="h-3.5 w-3.5" />
                 <span className="hidden sm:inline">Home</span>
@@ -1742,10 +1757,10 @@ export default function AidAgentPage() {
               </button>
             </div>
 
-            {/* Center — title only */}
+            {/* Center — title */}
             <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 select-none">
-              <h1 className="text-2xl font-extrabold tracking-tight leading-none bg-gradient-to-r from-sky-300 via-indigo-300 to-violet-400 bg-clip-text text-transparent whitespace-nowrap">
-                Genie
+              <h1 className="text-3xl font-black tracking-tight leading-none bg-gradient-to-r from-sky-300 via-indigo-200 to-violet-400 bg-clip-text text-transparent whitespace-nowrap drop-shadow-lg">
+                askGenie
               </h1>
             </div>
 
@@ -1778,7 +1793,7 @@ export default function AidAgentPage() {
           </header>
 
           {/* Messages / Welcome */}
-          <div className="flex-1 overflow-y-auto genie-scroll-main" role="log" aria-live="polite" aria-label="Conversation">
+          <div className="flex-1 overflow-y-auto min-h-0 genie-scroll-main" role="log" aria-live="polite" aria-label="Conversation">
             {messages.length === 0 ? (
 
               /* ── Welcome state ── */
@@ -1793,12 +1808,11 @@ export default function AidAgentPage() {
                   </div>
                 </div>
 
-                <h2 className="text-2xl font-bold tracking-tight text-white mb-2 text-center">
-                  Student Planning & Administrator Companion
+                <h2 className="text-2xl font-extrabold tracking-tight text-white mb-1.5 text-center">
+                  Financial Aid HUB. AI Simplified.
                 </h2>
                 <p className="text-sm text-white/45 leading-relaxed max-w-lg text-center mb-8">
-                  Generate FA offer letters, run R2T4 calculations, prep for FSA audits,
-                  and get answers on Title IV regulations, FAFSA, SAP, tax credits, state aid, and repayment.
+                  Generate estimated FA offer letters as a student/parent prior to visiting a FA office, run tentative R2T4 calculations as a student/institution, prep for FSA audits, and get answers on Title IV regulations, FAFSA, SAP, tax credits, state aid, repayment, and much more.
                 </p>
 
                 {/* Quick actions — role tabs + 2×2 grid */}
@@ -2014,9 +2028,9 @@ export default function AidAgentPage() {
             <div className="relative max-w-3xl mx-auto">
               {/* Prompt label row */}
               <div className="flex items-center gap-2 mb-2 px-1">
-                <Sparkles className="h-3.5 w-3.5 text-indigo-300/90 shrink-0" />
-                <span className="text-sm font-bold bg-gradient-to-r from-sky-300 via-indigo-300 to-violet-400 bg-clip-text text-transparent tracking-wide">
-                  Ask Genie
+                <Sparkles className="h-4 w-4 text-indigo-300 shrink-0" />
+                <span className="text-base font-black bg-gradient-to-r from-sky-300 via-indigo-200 to-violet-400 bg-clip-text text-transparent tracking-wide">
+                  askGenie
                 </span>
                 <div className="h-px flex-1 bg-gradient-to-r from-indigo-500/20 to-transparent" />
                 {messages.length > 0 && (
@@ -2071,7 +2085,7 @@ export default function AidAgentPage() {
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
                     aria-label="Ask Genie a financial aid question"
-                    placeholder="Ask about Title IV, R2T4, SAP, FAFSA, loan limits, tax credits, audit findings…"
+                    placeholder="askGenie — or tell Genie what you're concerned about…"
                     rows={1}
                     className="flex-1 resize-none px-2 py-1.5 bg-transparent text-white text-sm placeholder:text-white/25 focus:outline-none leading-relaxed"
                     style={{ minHeight: "40px", maxHeight: "160px" }}

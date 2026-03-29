@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Genie | Financial Aid Hub",
+  title: "askGenie | FA HUB",
   description: "AI-powered financial aid companion for students, parents, and administrators. Built on 34 CFR, FSA Handbook, and HEA Title IV.",
   icons: {
     icon: "/favicon.ico",
