@@ -1697,7 +1697,10 @@ export default function AidAgentPage() {
                 General guidance only. Verify with the FSA Handbook and consult legal counsel for institution-specific decisions.
               </p>
             </div>
-            <p className="text-[11px] text-white/20 text-right mt-2">Developed by One27</p>
+            <div className="flex items-center justify-between mt-2">
+              <Link href="/legal" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">Legal</Link>
+              <p className="text-[11px] text-white/20">Developed by One27</p>
+            </div>
           </div>
         </aside>
 
