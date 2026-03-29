@@ -592,6 +592,226 @@ const PRIVATE_STUDENT_LOANS_MORE = [
   { name: "Yrefy (defaulted loan refi)", url: "https://www.yrefy.com" },
 ];
 
+const STUDENT_JOB_SEARCH = [
+  { name: "Handshake (College Students)", url: "https://joinhandshake.com" },
+  { name: "Indeed", url: "https://www.indeed.com" },
+  { name: "LinkedIn Jobs", url: "https://www.linkedin.com/jobs" },
+  { name: "Glassdoor", url: "https://www.glassdoor.com" },
+  { name: "ZipRecruiter", url: "https://www.ziprecruiter.com" },
+  { name: "College Recruiter", url: "https://www.collegerecruiter.com" },
+  { name: "AfterCollege", url: "https://www.aftercollege.com" },
+  { name: "WayUp", url: "https://www.wayup.com" },
+  { name: "USAJobs (Federal)", url: "https://www.usajobs.gov" },
+  { name: "Idealist (Nonprofit)", url: "https://www.idealist.org" },
+];
+const STUDENT_JOB_SEARCH_MORE = [
+  { name: "Monster", url: "https://www.monster.com" },
+  { name: "CareerBuilder", url: "https://www.careerbuilder.com" },
+  { name: "SimplyHired", url: "https://www.simplyhired.com" },
+  { name: "Dice (Tech)", url: "https://www.dice.com" },
+  { name: "Wellfound / AngelList (Startups)", url: "https://wellfound.com" },
+  { name: "Built In (Tech Startups)", url: "https://builtin.com" },
+  { name: "FlexJobs (Remote/Flexible)", url: "https://www.flexjobs.com" },
+  { name: "We Work Remotely", url: "https://weworkremotely.com" },
+  { name: "Remote.co", url: "https://remote.co" },
+  { name: "Snagajob (Hourly/Part-Time)", url: "https://www.snagajob.com" },
+  { name: "JobList", url: "https://www.joblist.com" },
+  { name: "Nexxt", url: "https://www.nexxt.com" },
+  { name: "HealthcareJobsite", url: "https://www.healthcarejobsite.com" },
+  { name: "Health eCareers", url: "https://www.healthecareers.com" },
+  { name: "eFinancialCareers", url: "https://www.efinancialcareers.com" },
+  { name: "HigherEdJobs", url: "https://www.higheredjobs.com" },
+  { name: "Chronicle of Higher Ed Jobs", url: "https://jobs.chronicle.com" },
+  { name: "GovernmentJobs.com", url: "https://www.governmentjobs.com" },
+  { name: "ClearanceJobs (Security Clearance)", url: "https://www.clearancejobs.com" },
+  { name: "PowerToFly (Women & Diversity)", url: "https://powertofly.com" },
+  { name: "Jopwell (Diverse Professionals)", url: "https://www.jopwell.com" },
+  { name: "DiversityJobs", url: "https://www.diversityjobs.com" },
+  { name: "iHispano", url: "https://ihispano.com" },
+  { name: "VetJobs (Veterans)", url: "https://www.vetjobs.com" },
+  { name: "HireHeroesUSA (Veterans)", url: "https://www.hireheroesusa.org" },
+  { name: "DisabilityJobs.net", url: "https://www.disabilityjobs.net" },
+  { name: "AbilityLinks", url: "https://abilitylinks.org" },
+  { name: "LawJobs", url: "https://www.lawjobs.com" },
+  { name: "Mediabistro (Media/Comms)", url: "https://www.mediabistro.com" },
+  { name: "JournalismJobs", url: "https://www.journalismjobs.com" },
+  { name: "EngineeringJobs.com", url: "https://www.engineeringjobs.com" },
+  { name: "AccountingJobsToday", url: "https://www.accountingjobstoday.com" },
+  { name: "The Ladders ($100K+)", url: "https://www.theladders.com" },
+  { name: "Vault Career Guides", url: "https://www.vault.com" },
+  { name: "Chegg Internships & Jobs", url: "https://www.chegg.com/internships" },
+  { name: "Parker Dewey (Micro-Internships)", url: "https://www.parkerdewey.com" },
+  { name: "Campus Job", url: "https://www.campusjob.com" },
+  { name: "JobSpider", url: "https://www.jobspider.com" },
+  { name: "Career.io", url: "https://career.io" },
+  { name: "Himalayas (Remote Jobs)", url: "https://himalayas.app" },
+];
+
+const INTERNSHIP_SEARCH = [
+  { name: "Handshake Internships", url: "https://joinhandshake.com" },
+  { name: "Internships.com", url: "https://www.internships.com" },
+  { name: "WayUp", url: "https://www.wayup.com" },
+  { name: "Chegg Internships", url: "https://www.chegg.com/internships" },
+  { name: "Forage (Virtual Internships)", url: "https://www.theforage.com" },
+  { name: "Parker Dewey (Micro-Internships)", url: "https://www.parkerdewey.com" },
+  { name: "LinkedIn Internships", url: "https://www.linkedin.com/jobs" },
+  { name: "Indeed Internships", url: "https://www.indeed.com" },
+  { name: "Virtual Internships", url: "https://www.virtualinternships.com" },
+  { name: "INROADS (Diversity)", url: "https://inroads.org" },
+];
+const INTERNSHIP_SEARCH_MORE = [
+  { name: "InternQueen", url: "https://www.internqueen.com" },
+  { name: "Idealist Internships", url: "https://www.idealist.org" },
+  { name: "Go Overseas (Abroad)", url: "https://www.gooverseas.com" },
+  { name: "AIESEC (International)", url: "https://aiesec.org" },
+  { name: "BUNAC (Work Abroad)", url: "https://www.bunac.org" },
+  { name: "Global Experiences (Abroad)", url: "https://www.globalexperiences.com" },
+  { name: "IAESTE (STEM Abroad)", url: "https://www.iaeste.us" },
+  { name: "SEO Career (Diversity)", url: "https://www.seo-usa.org" },
+  { name: "Management Leadership for Tomorrow (MLT)", url: "https://mlt.org" },
+  { name: "Out for Undergrad (O4U)", url: "https://www.outforundergrad.org" },
+  { name: "Hispanic Scholarship Fund Internships", url: "https://www.hsf.net" },
+  { name: "UNCF Internship Programs", url: "https://uncf.org" },
+  { name: "Congressional Black Caucus Foundation", url: "https://www.cbcfinc.org" },
+  { name: "Washington Center Internships", url: "https://twc.edu" },
+  { name: "White House Internship Program", url: "https://www.whitehouse.gov/get-involved/internships" },
+  { name: "State Department Student Internships", url: "https://www.state.gov/internships" },
+  { name: "NSF REU Programs (Research)", url: "https://www.nsf.gov/crssprgm/reu" },
+  { name: "NASA Internships", url: "https://intern.nasa.gov" },
+  { name: "NIH Training & Internships", url: "https://www.training.nih.gov" },
+  { name: "CDC Student Internships", url: "https://www.cdc.gov/employment" },
+  { name: "DOE Science Internships (WDTS)", url: "https://science.osti.gov/wdts" },
+  { name: "Smithsonian Internships", url: "https://www.si.edu/OFG/Internships" },
+  { name: "Peace Corps (Post-Grad)", url: "https://www.peacecorps.gov" },
+  { name: "AmeriCorps", url: "https://americorps.gov" },
+  { name: "City Year", url: "https://www.cityyear.org" },
+  { name: "Teach For America", url: "https://www.teachforamerica.org" },
+  { name: "Google STEP Internship", url: "https://buildyourfuture.withgoogle.com/programs/step" },
+  { name: "Microsoft Intern Programs", url: "https://careers.microsoft.com/students" },
+  { name: "Goldman Sachs Summer Analyst", url: "https://www.goldmansachs.com/careers/students" },
+  { name: "Apple Internships", url: "https://jobs.apple.com/en-us/search?team=internships-STDNT-INTRN" },
+  { name: "Facebook/Meta Internships", url: "https://www.metacareers.com/students-and-grads" },
+  { name: "Amazon Student Programs", url: "https://www.amazon.jobs/en/teams/internships-for-students" },
+  { name: "Getting Hired (Disability)", url: "https://www.gettinghired.com" },
+  { name: "Jopwell Internships (Diversity)", url: "https://www.jopwell.com" },
+  { name: "Vault Internship Rankings", url: "https://www.vault.com/best-companies/internships" },
+  { name: "College Recruiter Internships", url: "https://www.collegerecruiter.com" },
+  { name: "Glassdoor Internships", url: "https://www.glassdoor.com" },
+  { name: "ZipRecruiter Internships", url: "https://www.ziprecruiter.com" },
+  { name: "USAJobs Student Programs", url: "https://www.usajobs.gov/students" },
+  { name: "Hire Heroes USA (Veterans Internships)", url: "https://www.hireheroesusa.org" },
+];
+
+const RESUME_ASSISTANCE = [
+  { name: "Resume.io", url: "https://resume.io" },
+  { name: "Canva Resume Builder (Free)", url: "https://www.canva.com/resumes" },
+  { name: "Zety Resume Builder", url: "https://zety.com" },
+  { name: "Novoresume", url: "https://novoresume.com" },
+  { name: "Enhancv", url: "https://enhancv.com" },
+  { name: "Resume Genius", url: "https://resumegenius.com" },
+  { name: "VisualCV", url: "https://www.visualcv.com" },
+  { name: "Kickresume", url: "https://www.kickresume.com" },
+  { name: "JobScan (ATS Optimization)", url: "https://www.jobscan.co" },
+  { name: "Rezi (AI Resume Builder)", url: "https://www.rezi.ai" },
+];
+const RESUME_ASSISTANCE_MORE = [
+  { name: "Teal HQ (AI Career Tools)", url: "https://www.tealhq.com" },
+  { name: "ResumeWorded (AI Feedback)", url: "https://resumeworded.com" },
+  { name: "My Perfect Resume", url: "https://www.myperfectresume.com" },
+  { name: "LiveCareer", url: "https://www.livecareer.com" },
+  { name: "Resume Now", url: "https://www.resume-now.com" },
+  { name: "Standard Resume", url: "https://standardresume.co" },
+  { name: "CakeResume", url: "https://www.cakeresume.com" },
+  { name: "RxResume (Free & Open Source)", url: "https://rxresu.me" },
+  { name: "Indeed Resume Builder", url: "https://www.indeed.com/create-resume" },
+  { name: "LinkedIn Resume Builder", url: "https://www.linkedin.com/resume-builder" },
+  { name: "Wonsulting AI Resume", url: "https://www.wonsulting.com" },
+  { name: "TopResume (Professional Service)", url: "https://www.topresume.com" },
+  { name: "ZipJob (Professional Service)", url: "https://www.zipjob.com" },
+  { name: "ResumeSpice (Professional)", url: "https://www.resumespice.com" },
+  { name: "Big Interview (Mock Interviews)", url: "https://biginterview.com" },
+  { name: "Pramp (Mock Interviews)", url: "https://www.pramp.com" },
+  { name: "InterviewBit", url: "https://www.interviewbit.com" },
+  { name: "PathRise (Career Coaching)", url: "https://www.pathrise.com" },
+  { name: "Career Contessa", url: "https://www.careercontessa.com" },
+  { name: "The Muse — Resume Tips", url: "https://www.themuse.com/advice/resume" },
+  { name: "Purdue OWL Resume Guide", url: "https://owl.purdue.edu/owl/job_search_writing/resumes_and_vitas" },
+  { name: "Harvard OCS Resume Guide", url: "https://ocs.fas.harvard.edu/resumes-cvs" },
+  { name: "MIT Resume Guide", url: "https://capd.mit.edu/jobs-and-internships/resumes-cvs-cover-letters-linkedin" },
+  { name: "NACE Career Resources", url: "https://www.naceweb.org" },
+  { name: "Google Docs Resume Templates", url: "https://docs.google.com/templates" },
+  { name: "Microsoft Office Resume Templates", url: "https://templates.office.com/en-us/resumes-and-cover-letters" },
+  { name: "Grammarly (Writing Polish)", url: "https://www.grammarly.com" },
+  { name: "Hemingway Editor (Clarity)", url: "https://hemingwayapp.com" },
+  { name: "Quillbot (Paraphrase & Improve)", url: "https://quillbot.com" },
+  { name: "Career Karma (Bootcamp/Tech)", url: "https://careerkarma.com" },
+  { name: "Vault Career Guides", url: "https://www.vault.com" },
+  { name: "Monster Resume Advice", url: "https://www.monster.com/career-advice/article/how-to-write-a-resume" },
+  { name: "Glassdoor Resume Tips", url: "https://www.glassdoor.com/blog/guide/how-to-write-a-resume" },
+  { name: "Creddle (Visual Resume)", url: "https://creddle.io" },
+  { name: "Resume Builder (Free)", url: "https://www.resumebuilder.com" },
+  { name: "Resumake (Open Source)", url: "https://resumake.io" },
+  { name: "Skillroads (AI Resume)", url: "https://skillroads.com" },
+  { name: "Interview Warmup (Google)", url: "https://grow.google/certificates/interview-warmup" },
+  { name: "LinkedIn Interview Prep", url: "https://www.linkedin.com/interview-prep" },
+  { name: "iinterview AI (Mock)", url: "https://iinterview.ai" },
+];
+
+const AI_LITERACY = [
+  { name: "Elements of AI (Free)", url: "https://www.elementsofai.com" },
+  { name: "Google AI Essentials (Free)", url: "https://grow.google/intl/en_us/courses-and-tools" },
+  { name: "Microsoft AI Skills Initiative (Free)", url: "https://microsoft.com/en-us/ai/ai-skills" },
+  { name: "Coursera: AI for Everyone — Andrew Ng (Free Audit)", url: "https://www.coursera.org/learn/ai-for-everyone" },
+  { name: "DeepLearning.AI Short Courses (Free)", url: "https://www.deeplearning.ai/short-courses" },
+  { name: "Google ML Crash Course (Free)", url: "https://developers.google.com/machine-learning/crash-course" },
+  { name: "Kaggle Learn — AI/ML (Free)", url: "https://www.kaggle.com/learn" },
+  { name: "fast.ai — Practical Deep Learning (Free)", url: "https://www.fast.ai" },
+  { name: "Harvard CS50 AI with Python (Free)", url: "https://cs50.harvard.edu/ai" },
+  { name: "IBM AI Fundamentals (Free)", url: "https://skills.yourlearning.ibm.com" },
+];
+const AI_LITERACY_MORE = [
+  { name: "Hugging Face AI Courses (Free)", url: "https://huggingface.co/learn" },
+  { name: "Google Generative AI Learning Path (Free)", url: "https://cloudskillsboost.google/paths/118" },
+  { name: "AWS AI/ML Training (Free Tier)", url: "https://aws.amazon.com/training/learn-about/machine-learning" },
+  { name: "NVIDIA Deep Learning Institute (Free/Paid)", url: "https://www.nvidia.com/en-us/training" },
+  { name: "MIT OpenCourseWare — AI (Free)", url: "https://ocw.mit.edu/courses/6-034-artificial-intelligence-fall-2010" },
+  { name: "Stanford HAI Resources (Free)", url: "https://hai.stanford.edu" },
+  { name: "AI Business School — Microsoft (Free)", url: "https://www.microsoft.com/en-us/ai/ai-business-school" },
+  { name: "Salesforce AI Associate — Trailhead (Free)", url: "https://trailhead.salesforce.com" },
+  { name: "Class Central — AI Courses (Free Aggregator)", url: "https://www.classcentral.com/subject/ai" },
+  { name: "OpenAI Prompt Engineering Guide (Free)", url: "https://platform.openai.com/docs/guides/prompt-engineering" },
+  { name: "Anthropic Prompt Library (Free)", url: "https://docs.anthropic.com/en/prompt-library/library" },
+  { name: "ChatGPT Prompt Engineering for Developers (Free)", url: "https://learn.deeplearning.ai/chatgpt-prompt-eng" },
+  { name: "Coursera: Machine Learning Specialization (Paid Cert)", url: "https://www.coursera.org/specializations/machine-learning-introduction" },
+  { name: "Coursera: Deep Learning Specialization (Paid Cert)", url: "https://www.coursera.org/specializations/deep-learning" },
+  { name: "edX AI MicroMasters Programs (Paid)", url: "https://www.edx.org/micromasters" },
+  { name: "Udacity AI Nanodegree (Paid)", url: "https://www.udacity.com/school-of-ai" },
+  { name: "Udemy AI & Machine Learning Courses (Paid)", url: "https://www.udemy.com/topic/artificial-intelligence" },
+  { name: "DataCamp AI & ML (Paid)", url: "https://www.datacamp.com/category/machine-learning" },
+  { name: "Pluralsight AI Paths (Paid)", url: "https://www.pluralsight.com/browse/data-professional/artificial-intelligence" },
+  { name: "LinkedIn Learning AI Courses (Paid/Free Trial)", url: "https://www.linkedin.com/learning/topics/artificial-intelligence" },
+  { name: "Brilliant.org AI (Paid)", url: "https://brilliant.org/courses/artificial-intelligence" },
+  { name: "Codecademy AI (Free/Paid)", url: "https://www.codecademy.com/catalog/subject/artificial-intelligence" },
+  { name: "W3Schools AI Tutorial (Free)", url: "https://www.w3schools.com/ai" },
+  { name: "FutureLearn AI Courses (Free/Paid)", url: "https://www.futurelearn.com/subjects/it-and-computer-science-courses/ai" },
+  { name: "AI4K12 Initiative (Free)", url: "https://ai4k12.org" },
+  { name: "PAIR Explorables — Google (Free)", url: "https://pair.withgoogle.com/explorables" },
+  { name: "UNESCO AI Competency Framework (Free)", url: "https://www.unesco.org/en/digital-education/ai-future-learning" },
+  { name: "Partnership on AI Resources (Free)", url: "https://partnershiponai.org" },
+  { name: "Stanford AI Index Report (Free)", url: "https://aiindex.stanford.edu" },
+  { name: "3Blue1Brown — Neural Networks (Free YouTube)", url: "https://www.youtube.com/playlist?list=PLZHQObOWTQDNU6R1_67000Dx_ZCJB-3pi" },
+  { name: "Lex Fridman AI Lectures (Free YouTube)", url: "https://www.youtube.com/@lexfridman" },
+  { name: "Towards Data Science (Free Articles)", url: "https://towardsdatascience.com" },
+  { name: "AI Explained — YouTube (Free)", url: "https://www.youtube.com/@aiexplained-official" },
+  { name: "Coursera: AI in Education (Paid Cert)", url: "https://www.coursera.org/learn/ai-education" },
+  { name: "Perplexity AI Learning Guide (Free)", url: "https://www.perplexity.ai" },
+  { name: "Claude.ai — Hands-On AI Practice (Free)", url: "https://claude.ai" },
+  { name: "ChatGPT — Hands-On AI Practice (Free/Paid)", url: "https://chatgpt.com" },
+  { name: "Google NotebookLM (Free)", url: "https://notebooklm.google.com" },
+  { name: "Gamma AI Presentations (Free/Paid)", url: "https://gamma.app" },
+  { name: "Coursera: Generative AI for Everyone (Free Audit)", url: "https://www.coursera.org/learn/generative-ai-for-everyone" },
+];
+
 const FINANCIAL_LITERACY = [
   // Budgeting & money basics
   { name: "CFPB — Your Money, Your Goals", url: "https://www.consumerfinance.gov/consumer-tools/money-as-you-grow" },
@@ -1710,7 +1930,34 @@ export default function AidAgentPage() {
               );
             })}
 
-            {/* ── Scholarship Search Engines (collapsible) ── */}
+            {/* ── Federal Student Aid ── */}
+            {(() => {
+              const isOpen = expandedSections.has("sec-federal-students");
+              const studentGroup = FEDERAL_RESOURCES.find(({ group }) => group === "Students & Parents");
+              return (
+                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                  <button onClick={() => toggleSection("sec-federal-students")}
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Federal Student Aid</span>
+                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                  </button>
+                  {isOpen && studentGroup && (
+                    <div className="px-1.5 pb-2 space-y-0.5">
+                      {studentGroup.links.map(({ name, url }) => (
+                        <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                          title={name}
+                          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-sky-500/20 ring-1 ring-transparent hover:ring-sky-500/20 transition-all duration-150 group">
+                          <span>{name}</span>
+                          <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-sky-400 shrink-0" />
+                        </a>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+
+            {/* ── Scholarship Search Engines ── */}
             {(() => {
               const isOpen = expandedSections.has("sec-scholarships");
               const showMore = expandedSections.has("scholarships");
@@ -1745,7 +1992,147 @@ export default function AidAgentPage() {
               );
             })()}
 
-            {/* ── Financial Literacy (collapsible) ── */}
+            {/* ── Student Centered Job Search Engines ── */}
+            {(() => {
+              const isOpen = expandedSections.has("sec-jobs");
+              const showMore = expandedSections.has("jobs");
+              const list = showMore ? [...STUDENT_JOB_SEARCH, ...STUDENT_JOB_SEARCH_MORE] : STUDENT_JOB_SEARCH;
+              return (
+                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                  <button onClick={() => toggleSection("sec-jobs")}
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Student Job Search</span>
+                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                  </button>
+                  {isOpen && (
+                    <div className="px-1.5 pb-2">
+                      <div className="space-y-0.5">
+                        {list.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                            title={name}
+                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-emerald-500/20 ring-1 ring-transparent hover:ring-emerald-500/20 transition-all duration-150 group">
+                            <span>{name}</span>
+                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-emerald-400 shrink-0" />
+                          </a>
+                        ))}
+                      </div>
+                      <button onClick={() => toggleSection("jobs")}
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-emerald-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
+                        <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
+                        {showMore ? "Show less" : `View ${STUDENT_JOB_SEARCH_MORE.length} more`}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+
+            {/* ── Internship / Externship Search ── */}
+            {(() => {
+              const isOpen = expandedSections.has("sec-internships");
+              const showMore = expandedSections.has("internships");
+              const list = showMore ? [...INTERNSHIP_SEARCH, ...INTERNSHIP_SEARCH_MORE] : INTERNSHIP_SEARCH;
+              return (
+                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                  <button onClick={() => toggleSection("sec-internships")}
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Internship / Externship Search</span>
+                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                  </button>
+                  {isOpen && (
+                    <div className="px-1.5 pb-2">
+                      <div className="space-y-0.5">
+                        {list.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                            title={name}
+                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-teal-500/20 ring-1 ring-transparent hover:ring-teal-500/20 transition-all duration-150 group">
+                            <span>{name}</span>
+                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-teal-400 shrink-0" />
+                          </a>
+                        ))}
+                      </div>
+                      <button onClick={() => toggleSection("internships")}
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-teal-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
+                        <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
+                        {showMore ? "Show less" : `View ${INTERNSHIP_SEARCH_MORE.length} more`}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+
+            {/* ── Resume Assistance ── */}
+            {(() => {
+              const isOpen = expandedSections.has("sec-resume");
+              const showMore = expandedSections.has("resume");
+              const list = showMore ? [...RESUME_ASSISTANCE, ...RESUME_ASSISTANCE_MORE] : RESUME_ASSISTANCE;
+              return (
+                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                  <button onClick={() => toggleSection("sec-resume")}
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Resume Assistance</span>
+                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                  </button>
+                  {isOpen && (
+                    <div className="px-1.5 pb-2">
+                      <div className="space-y-0.5">
+                        {list.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                            title={name}
+                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-amber-500/20 ring-1 ring-transparent hover:ring-amber-500/20 transition-all duration-150 group">
+                            <span>{name}</span>
+                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-amber-400 shrink-0" />
+                          </a>
+                        ))}
+                      </div>
+                      <button onClick={() => toggleSection("resume")}
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-amber-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
+                        <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
+                        {showMore ? "Show less" : `View ${RESUME_ASSISTANCE_MORE.length} more`}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+
+            {/* ── AI Literacy ── */}
+            {(() => {
+              const isOpen = expandedSections.has("sec-ai-literacy");
+              const showMore = expandedSections.has("ai-literacy");
+              const list = showMore ? [...AI_LITERACY, ...AI_LITERACY_MORE] : AI_LITERACY;
+              return (
+                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                  <button onClick={() => toggleSection("sec-ai-literacy")}
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">AI Literacy</span>
+                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                  </button>
+                  {isOpen && (
+                    <div className="px-1.5 pb-2">
+                      <div className="space-y-0.5">
+                        {list.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                            title={name}
+                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-violet-500/20 ring-1 ring-transparent hover:ring-violet-500/20 transition-all duration-150 group">
+                            <span>{name}</span>
+                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-violet-400 shrink-0" />
+                          </a>
+                        ))}
+                      </div>
+                      <button onClick={() => toggleSection("ai-literacy")}
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-violet-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
+                        <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
+                        {showMore ? "Show less" : `View ${AI_LITERACY_MORE.length} more`}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+
+            {/* ── Financial Literacy ── */}
             {(() => {
               const isOpen = expandedSections.has("sec-finlit");
               const showMore = expandedSections.has("finlit");
@@ -1762,14 +2149,15 @@ export default function AidAgentPage() {
                       <div className="space-y-0.5">
                         {list.map(({ name, url }) => (
                           <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs text-white/45 hover:text-emerald-300 hover:bg-white/[0.07] transition-all duration-150 group">
+                            title={name}
+                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-sky-500/20 ring-1 ring-transparent hover:ring-sky-500/20 transition-all duration-150 group">
                             <span>{name}</span>
-                            <ExternalLink className="h-3 w-3 text-white/25 group-hover:text-emerald-400 shrink-0" />
+                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-sky-400 shrink-0" />
                           </a>
                         ))}
                       </div>
                       <button onClick={() => toggleSection("finlit")}
-                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-emerald-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-sky-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
                         <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
                         {showMore ? "Show less" : `View ${FINANCIAL_LITERACY_MORE.length} more`}
                       </button>
@@ -1779,7 +2167,7 @@ export default function AidAgentPage() {
               );
             })()}
 
-            {/* ── Private Student Loans (collapsible) ── */}
+            {/* ── Private Student Loans ── */}
             {(() => {
               const isOpen = expandedSections.has("sec-loans");
               const showMore = expandedSections.has("loans");
@@ -1808,33 +2196,6 @@ export default function AidAgentPage() {
                         <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
                         {showMore ? "Show fewer" : `View ${PRIVATE_STUDENT_LOANS_MORE.length} more`}
                       </button>
-                    </div>
-                  )}
-                </div>
-              );
-            })()}
-
-            {/* ── Federal Student Aid — Students & Parents only (collapsible) ── */}
-            {(() => {
-              const isOpen = expandedSections.has("sec-federal-students");
-              const studentGroup = FEDERAL_RESOURCES.find(({ group }) => group === "Students & Parents");
-              return (
-                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
-                  <button onClick={() => toggleSection("sec-federal-students")}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Federal Student Aid</span>
-                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
-                  </button>
-                  {isOpen && studentGroup && (
-                    <div className="px-1.5 pb-2 space-y-0.5">
-                      {studentGroup.links.map(({ name, url }) => (
-                        <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                          title={name}
-                          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-sky-500/20 ring-1 ring-transparent hover:ring-sky-500/20 transition-all duration-150 group">
-                          <span>{name}</span>
-                          <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-sky-400 shrink-0" />
-                        </a>
-                      ))}
                     </div>
                   )}
                 </div>
