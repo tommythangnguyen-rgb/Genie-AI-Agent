@@ -13,11 +13,30 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "askGenie | FA HUB",
-  description: "AI-powered financial aid companion for students, parents, and administrators. Built on 34 CFR, FSA Handbook, and HEA Title IV.",
+  title: "askGenie | Financial Aid Hub",
+  description:
+    "AI-powered financial aid companion for students, parents, and financial aid administrators. Expert guidance on FAFSA, Title IV, R2T4, verification, and more.",
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
     apple: "/apple-touch-icon.png",
+    other: [{ rel: "android-chrome-192x192", url: "/android-chrome-192x192.png" }],
+  },
+  manifest: "/site.webmanifest",
+  openGraph: {
+    title: "askGenie | Financial Aid Hub",
+    description:
+      "AI-powered financial aid companion. Expert guidance on FAFSA, Title IV, R2T4, and more.",
+    type: "website",
+    url: "https://uigen-dusky-eight.vercel.app",
+  },
+  twitter: {
+    card: "summary",
+    title: "askGenie | Financial Aid Hub",
+    description:
+      "AI-powered financial aid companion for students, parents, and administrators.",
   },
 };
 

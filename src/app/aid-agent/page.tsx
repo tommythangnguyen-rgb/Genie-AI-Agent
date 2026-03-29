@@ -497,6 +497,247 @@ const FEDERAL_RESOURCES = [
       { name: "EdFinancial Services", url: "https://edfinancial.com" },
     ],
   },
+  {
+    group: "Mental Health — Staff & Institutional",
+    links: [
+      { name: "JED Foundation Campus Program", url: "https://jedfoundation.org/jed-campus" },
+      { name: "Active Minds — Campus Consulting", url: "https://www.activeminds.org/programs/campus-consulting" },
+      { name: "Higher Education Mental Health Alliance", url: "https://hemha.org" },
+      { name: "ACCA — College Counseling Centers", url: "https://www.collegecounseling.org" },
+      { name: "CCMH — Center for Collegiate Mental Health", url: "https://ccmh.psu.edu" },
+      { name: "Healthy Minds Network — Research Data", url: "https://healthymindsnetwork.org" },
+      { name: "NASPA — Mental Health Resources for SA", url: "https://www.naspa.org/topics/mental-health" },
+      { name: "ACHA — National College Health Assessment", url: "https://www.acha.org/NCHA" },
+      { name: "QPR Suicide Prevention Training for Staff", url: "https://qprinstitute.com" },
+      { name: "Mental Health First Aid — Workplace", url: "https://www.mentalhealthfirstaid.org/apply/workplace" },
+    ],
+    more: [
+      { name: "Zero Suicide in Health & Behavioral Health", url: "https://zerosuicide.edc.org" },
+      { name: "SPRC — Campus Suicide Prevention", url: "https://sprc.org/settings/colleges-universities" },
+      { name: "Kognito — Faculty/Staff Training Simulations", url: "https://kognito.com/products/at-risk-for-college-faculty-staff-and-administrators" },
+      { name: "SilverCloud for Institutions", url: "https://www.silvercloudhealth.com" },
+      { name: "SAMHSA — Prevention & Behavioral Health", url: "https://www.samhsa.gov" },
+      { name: "National Council for Mental Wellbeing", url: "https://www.thenationalcouncil.org" },
+      { name: "NASW — Social Work & Mental Health", url: "https://www.socialworkers.org/Practice/Mental-Health" },
+      { name: "ACPA — Campus Wellness Commission", url: "https://myacpa.org/commission-for-wellness-and-health" },
+      { name: "FERPA & Mental Health Records Guidance", url: "https://studentprivacy.ed.gov/resources/ferpa-and-covid-19" },
+      { name: "Title IX & Mental Health — ED OCR", url: "https://www2.ed.gov/about/offices/list/ocr/docs/tix_dis.html" },
+      { name: "Mandated Reporter Training (Darkness to Light)", url: "https://www.d2l.org/education/stewards-of-children" },
+      { name: "Campus Crisis Response Protocols — ATIXA", url: "https://atixa.org" },
+      { name: "AFSP — Suicide Prevention on Campus", url: "https://afsp.org/chapter/programs/campus-programs" },
+      { name: "Clery Act & Campus Safety Reporting", url: "https://www2.ed.gov/admins/lead/safety/campus.html" },
+      { name: "Campus SAVE Act Compliance", url: "https://www2.ed.gov/admins/lead/safety/campus.html" },
+      { name: "ADA — Mental Health Accommodations", url: "https://www.ada.gov/employment/employ.htm" },
+      { name: "Section 504 — Mental Health Disability", url: "https://www2.ed.gov/about/offices/list/ocr/504faq.html" },
+      { name: "EAP — Employee Assistance Program Guide", url: "https://www.opm.gov/policy-data-oversight/worklife/employee-assistance-programs" },
+      { name: "NBCC — Counselor Certification Board", url: "https://www.nbcc.org" },
+      { name: "APA — Psychologist Finder", url: "https://locator.apa.org" },
+      { name: "AUCCCD — University Counseling Center Directors", url: "https://www.aucccd.org" },
+      { name: "IACS — International Accreditation for Counseling", url: "https://iacsinc.org" },
+      { name: "Campus Mental Health Emergency Protocol", url: "https://sprc.org/resources/emergency-response" },
+      { name: "Title II ADA — Campus Accessibility", url: "https://www.ada.gov/resources/title-ii-primer" },
+      { name: "OSHA — Workplace Mental Health", url: "https://www.osha.gov/workplace-stress" },
+      { name: "ADA.gov — Reasonable Accommodations", url: "https://www.ada.gov/employment/employ.htm" },
+      { name: "EEOC — Mental Health in the Workplace", url: "https://www.eeoc.gov/laws/guidance/depression-ptsd-other-mental-health-conditions-workplace-you-have-rights" },
+      { name: "OPM — Federal Employee Wellness Resources", url: "https://www.opm.gov/policy-data-oversight/worklife" },
+      { name: "TIAA — Financial Wellness & Mental Health", url: "https://www.tiaa.org/public/institute/research/wellness" },
+      { name: "NBHA — National Behavioral Health Association", url: "https://www.thenationalcouncil.org" },
+      { name: "NAMI On Campus — College Chapter Program", url: "https://www.nami.org/Support-Education/Mental-Health-Education/NAMI-on-Campus-Clubs" },
+      { name: "Active Minds — Changing Minds Award", url: "https://www.activeminds.org/about-mental-health/for-educators" },
+      { name: "MHCC — Mental Health Commission of Canada", url: "https://www.mentalhealthcommission.ca" },
+      { name: "NAADAC — Addiction Counselors", url: "https://www.naadac.org" },
+      { name: "SAMHSA — Strategic Prevention Framework", url: "https://www.samhsa.gov/sites/default/files/20190620-samhsa-strategic-prevention-framework.pdf" },
+      { name: "Suicide Safe — SAMHSA App for Clinicians", url: "https://store.samhsa.gov/product/suicide-safe-SMA15-4906" },
+      { name: "Crisis Now — Transforming Crisis Services", url: "https://www.crisistextline.org/crisisnow" },
+      { name: "LivingWorks — ASIST Suicide Intervention", url: "https://www.livingworks.net/asist" },
+      { name: "safeTALK — Suicide Alertness Training", url: "https://www.livingworks.net/safetalk" },
+      { name: "Campus Compact — Service-Learning & Wellbeing", url: "https://compact.org" },
+      { name: "SHEEO — State Higher Ed Executive Officers", url: "https://sheeo.org" },
+      { name: "ACE — American Council on Education Wellness", url: "https://www.acenet.edu" },
+      { name: "NASPA — Equity & Inclusion Mental Health", url: "https://www.naspa.org/divisions/equity-inclusion-and-social-justice" },
+      { name: "ACUI — Campus Union Mental Health Events", url: "https://www.acui.org" },
+      { name: "NIRSA — Campus Recreation & Mental Health", url: "https://nirsa.net" },
+      { name: "NACADA — Academic Advising & Student Wellbeing", url: "https://www.nacada.ksu.edu" },
+      { name: "ASCA — American School Counselor Association", url: "https://www.schoolcounselor.org" },
+      { name: "CACREP — Counseling Program Accreditation", url: "https://www.cacrep.org" },
+      { name: "SAMHSA — Trauma-Informed Care", url: "https://www.samhsa.gov/trauma-violence" },
+      { name: "National Child Traumatic Stress Network", url: "https://www.nctsn.org" },
+      { name: "Substance Abuse & Financial Aid (NASFAA)", url: "https://www.nasfaa.org" },
+      { name: "AUCCCD Annual Survey — Counseling Trends", url: "https://www.aucccd.org/assets/documents/surveys/2022-aucccd-survey-monograph-public.pdf" },
+      { name: "HEMHA — Campus Mental Health Toolkit", url: "https://hemha.org/toolkit" },
+      { name: "NASPA — Mental Health Awareness Campaign", url: "https://www.naspa.org/constituent-groups/kcs/mental-health" },
+      { name: "ACPA — Equity Mental Health Resources", url: "https://myacpa.org" },
+      { name: "NAMI — Institutional Partnerships", url: "https://www.nami.org" },
+      { name: "CDC — Violence Prevention on Campus", url: "https://www.cdc.gov/violenceprevention/index.html" },
+      { name: "Safe Campus — Campus Violence Prevention", url: "https://www2.ed.gov/admins/lead/safety/campus.html" },
+      { name: "ATIXA — Title IX & Campus Safety", url: "https://atixa.org" },
+      { name: "World Health Organization — Workplace MH", url: "https://www.who.int/teams/mental-health-and-substance-use/promotion-prevention/mental-health-in-the-workplace" },
+    ],
+  },
+  {
+    group: "Religion, Faith & Philosophy — Campus",
+    links: [
+      { name: "Interfaith Youth Core (IFYC)", url: "https://ifyc.org" },
+      { name: "Parliament of World Religions", url: "https://parliamentofreligions.org" },
+      { name: "Stanford Encyclopedia of Philosophy", url: "https://plato.stanford.edu" },
+      { name: "Internet Encyclopedia of Philosophy", url: "https://iep.utm.edu" },
+      { name: "Greater Good Science Center — UC Berkeley", url: "https://greatergood.berkeley.edu" },
+      { name: "Markkula Center for Applied Ethics — SCU", url: "https://www.scu.edu/ethics" },
+      { name: "Ethics Unwrapped — UT Austin", url: "https://ethicsunwrapped.utexas.edu" },
+      { name: "Hillel International — Jewish Campus Life", url: "https://www.hillel.org" },
+      { name: "Catholic Campus Ministry Assoc. (CCMA)", url: "https://www.ccmanet.org" },
+      { name: "Muslim Students Association — National", url: "https://msanational.org" },
+    ],
+    more: [
+      { name: "InterVarsity Christian Fellowship", url: "https://intervarsity.org" },
+      { name: "Campus Crusade for Christ (CRU)", url: "https://www.cru.org" },
+      { name: "Wesley Foundation — Methodist Campus", url: "https://gbhem.org/campus-ministry" },
+      { name: "Secular Student Alliance", url: "https://www.secularstudents.org" },
+      { name: "Unitarian Universalist Campus Ministry", url: "https://www.uua.org/lgbtq/youth/campus" },
+      { name: "Greek Orthodox Campus Ministry", url: "https://www.goarch.org" },
+      { name: "Chi Alpha Campus Ministries", url: "https://chialpha.com" },
+      { name: "IFYC — Interfaith Campus Research", url: "https://ifyc.org/research" },
+      { name: "Center for Contemplative Mind in Society", url: "https://www.contemplativemind.org" },
+      { name: "Fetzer Institute — Love & Forgiveness", url: "https://fetzer.org" },
+      { name: "Spirituality & Practice", url: "https://www.spiritualityandpractice.com" },
+      { name: "Daily Stoic — Staff Resilience", url: "https://dailystoic.com" },
+      { name: "Modern Stoicism", url: "https://modernstoicism.com" },
+      { name: "The School of Life — Life Philosophy", url: "https://www.theschooloflife.com" },
+      { name: "Viktor Frankl — Logotherapy & Purpose", url: "https://www.viktorfrankl.org" },
+      { name: "Self-Compassion — Kristin Neff", url: "https://self-compassion.org" },
+      { name: "Brené Brown — Courage & Vulnerability", url: "https://brenebrown.com" },
+      { name: "Positive Psychology Center — Penn", url: "https://www.authentichappiness.sas.upenn.edu" },
+      { name: "VIA Character Strengths Survey", url: "https://www.viacharacter.org" },
+      { name: "Harvard Human Flourishing Program", url: "https://hwpi.harvard.edu/humanflourishingprogram" },
+      { name: "Character Lab — Character Research", url: "https://characterlab.org" },
+      { name: "Growth Mindset — Carol Dweck", url: "https://www.mindsetonline.com" },
+      { name: "Grit Scale — Angela Duckworth", url: "https://angeladuckworth.com" },
+      { name: "Mindful.org — Mindfulness in Education", url: "https://www.mindful.org/mindfulness-in-higher-education" },
+      { name: "UMass MBSR — Mindfulness Research", url: "https://www.umassmed.edu/cfm" },
+      { name: "Brown Contemplative Studies Program", url: "https://www.brown.edu/academics/contemplative-studies" },
+      { name: "On Being — Krista Tippett", url: "https://onbeing.org" },
+      { name: "Philosophy Now — For Educators", url: "https://philosophynow.org" },
+      { name: "MIT OCW Philosophy", url: "https://ocw.mit.edu/search/?d=Philosophy" },
+      { name: "Yale OCW — Death & Philosophy", url: "https://oyc.yale.edu/death/phil-176" },
+      { name: "Patheos — Faith in Higher Education", url: "https://www.patheos.com/channels/higheredprofessor" },
+      { name: "Religion News Service — Campus Religion", url: "https://religionnews.com/category/campus" },
+      { name: "Association for the Sociology of Religion", url: "https://www.sociologyofreligion.com" },
+      { name: "American Academy of Religion", url: "https://www.aarweb.org" },
+      { name: "Society for the Scientific Study of Religion", url: "https://www.sssrweb.org" },
+      { name: "Journal of College & Character", url: "https://www.tandfonline.com/toc/ujcc20/current" },
+      { name: "NACADA — Advising Students of Faith", url: "https://www.nacada.ksu.edu" },
+      { name: "NASPA — Spirituality & Faith in Student Affairs", url: "https://www.naspa.org/constituent-groups/kcs/spirituality" },
+      { name: "ACPA — Spirituality in Higher Ed", url: "https://myacpa.org" },
+      { name: "Civic Responsibility & Religious Freedom — FIRE", url: "https://www.thefire.org/issues/religious-liberty" },
+      { name: "Becket Fund — Religious Freedom Law", url: "https://www.becketlaw.org" },
+      { name: "First Amendment — Religious Expression on Campus", url: "https://www.thefire.org/rights/first-amendment" },
+      { name: "Campus Ministry Today", url: "https://campusministrytoday.org" },
+      { name: "Campus Compact — Community & Service", url: "https://compact.org" },
+      { name: "Ethics & Religious Liberty Commission", url: "https://erlc.com" },
+      { name: "ACE — Religion in Higher Education", url: "https://www.acenet.edu" },
+      { name: "Harvard Divinity School — Resources", url: "https://hds.harvard.edu" },
+      { name: "Fuller Theological Seminary", url: "https://fuller.edu" },
+      { name: "Duke Divinity School — Resources", url: "https://divinity.duke.edu" },
+      { name: "Yale Divinity School", url: "https://divinity.yale.edu" },
+      { name: "Gordon-Conwell Theological Seminary", url: "https://www.gordonconwell.edu" },
+      { name: "Jewish Theological Seminary", url: "https://www.jtsa.edu" },
+      { name: "Islamic Online University", url: "https://www.islamiconlineuniversity.com" },
+      { name: "Mindfulness in Higher Education Network", url: "https://mindfuleducation.net" },
+      { name: "Association for Contemplative Mind in Higher Ed", url: "https://www.contemplativemind.org/programs/acmhe" },
+      { name: "Institute for Mindful Leadership", url: "https://instituteformindfulleadership.org" },
+      { name: "Courage & Renewal — Parker Palmer", url: "https://couragerenewal.org" },
+      { name: "Appreciative Inquiry Commons", url: "https://appreciativeinquiry.champlain.edu" },
+      { name: "Positive Organizational Scholarship", url: "https://positiveorgs.bus.umich.edu" },
+      { name: "Human Dignity — Witherspoon Institute", url: "https://www.winst.org" },
+      { name: "Veritas Forum — Faith & Ideas", url: "https://www.veritas.org" },
+      { name: "Q Ideas — Christian Thought Leadership", url: "https://qideas.org" },
+      { name: "BioLogos — Faith & Science", url: "https://biologos.org" },
+      { name: "Reasons to Believe — Apologetics", url: "https://reasons.org" },
+      { name: "Liberty University — Faith Integration", url: "https://www.liberty.edu" },
+      { name: "WorldViews in Conflict — Wheaton College", url: "https://www.wheaton.edu" },
+    ],
+  },
+  {
+    group: "Consumer Rights & Whistleblower",
+    links: [
+      { name: "CFPB — Consumer Financial Protection Bureau", url: "https://www.consumerfinance.gov" },
+      { name: "CFPB — File a Complaint", url: "https://www.consumerfinance.gov/complaint" },
+      { name: "FTC — Consumer Reporting Portal", url: "https://reportfraud.ftc.gov" },
+      { name: "ED OIG — Report Fraud/Waste/Abuse", url: "https://www2.ed.gov/about/offices/list/oig/hotline.html" },
+      { name: "ED OCR — File Civil Rights Complaint", url: "https://www2.ed.gov/about/offices/list/ocr/complaintintro.html" },
+      { name: "OSHA Whistleblower Protection Program", url: "https://www.whistleblowers.gov" },
+      { name: "OSC — Office of Special Counsel", url: "https://osc.gov" },
+      { name: "DOJ — False Claims Act / Qui Tam", url: "https://www.justice.gov/civil/frauds-section" },
+      { name: "FSA Ombudsman — Student Loan Disputes", url: "https://studentaid.gov/feedback-center" },
+      { name: "Borrower Defense to Repayment (ED)", url: "https://studentaid.gov/borrower-defense" },
+    ],
+    more: [
+      { name: "Government Accountability Project", url: "https://whistleblower.org" },
+      { name: "National Whistleblower Center", url: "https://www.whistleblowers.org" },
+      { name: "Taxpayers Against Fraud — False Claims Act", url: "https://www.taf.org" },
+      { name: "Project on Government Oversight (POGO)", url: "https://www.pogo.org" },
+      { name: "Whistleblower Aid — Legal Support", url: "https://whistlebloweraid.org" },
+      { name: "SEC Whistleblower Program", url: "https://www.sec.gov/whistleblower" },
+      { name: "CFTC Whistleblower Program", url: "https://www.cftc.gov/whistleblower" },
+      { name: "Inspector General Network — Whistleblower", url: "https://www.ignet.gov/content/whistleblower-protection-resources" },
+      { name: "GAO — Federal Whistleblower Resources", url: "https://www.gao.gov/legal/other-legal-work/whistleblower-protection" },
+      { name: "SecureDrop — Anonymous Tips to Media", url: "https://securedrop.org" },
+      { name: "GlobalLeaks — Secure Whistleblowing", url: "https://www.globaleaks.org" },
+      { name: "EFF — Electronic Frontier Foundation", url: "https://www.eff.org" },
+      { name: "EFF — Surveillance Self-Defense", url: "https://ssd.eff.org" },
+      { name: "Signal — Encrypted Communication", url: "https://signal.org" },
+      { name: "ProtonMail — Anonymous Encrypted Email", url: "https://proton.me" },
+      { name: "Tor Project — Anonymous Browsing", url: "https://www.torproject.org" },
+      { name: "FOIA — Freedom of Information Act", url: "https://www.foia.gov" },
+      { name: "PrivacyRights.org — Consumer Data Rights", url: "https://privacyrights.org" },
+      { name: "FERPA — Student Privacy Rights", url: "https://studentprivacy.ed.gov" },
+      { name: "CCPA — California Consumer Privacy Act", url: "https://oag.ca.gov/privacy/ccpa" },
+      { name: "EPIC — Electronic Privacy Info Center", url: "https://epic.org" },
+      { name: "NCLC — Student Loan Borrower Rights", url: "https://www.nclc.org/issues/student-loans.html" },
+      { name: "TICAS — College Access & Student Rights", url: "https://ticas.org" },
+      { name: "Public Citizen — Consumer Advocacy", url: "https://www.citizen.org" },
+      { name: "National Consumer Law Center", url: "https://www.nclc.org" },
+      { name: "LawHelp.org — Legal Aid by State", url: "https://www.lawhelp.org" },
+      { name: "LSC — Legal Services Corporation", url: "https://www.lsc.gov" },
+      { name: "ABA — Free Legal Answers", url: "https://www.lawhelp.org" },
+      { name: "FTC — Scholarship & FA Scam Alerts", url: "https://consumer.ftc.gov/articles/scholarship-and-financial-aid-scams" },
+      { name: "USA.gov — Student Aid Scam Resources", url: "https://www.usa.gov/student-aid-scams" },
+      { name: "College Scorecard — School Verification", url: "https://collegescorecard.ed.gov" },
+      { name: "DAPIP — Accreditation Database", url: "https://ope.ed.gov/dapip" },
+      { name: "Diploma Mill Awareness — ED", url: "https://www.ed.gov/accreditation" },
+      { name: "School Closure Discharge (ED)", url: "https://studentaid.gov/manage-loans/forgiveness-cancellation/closed-school" },
+      { name: "False Certification Discharge (ED)", url: "https://studentaid.gov/manage-loans/forgiveness-cancellation/false-certification" },
+      { name: "IRS — Tax Scams & Fraud Alerts", url: "https://www.irs.gov/newsroom/tax-scams-consumer-alerts" },
+      { name: "FBI — Financial Crime Reporting", url: "https://www.fbi.gov/investigate/white-collar-crime/financial-crimes" },
+      { name: "IC3 — Internet Crime Complaint Center", url: "https://www.ic3.gov" },
+      { name: "EEOC — File Discrimination Complaint", url: "https://www.eeoc.gov/filing-charge-discrimination" },
+      { name: "DOJ — ADA Disability Rights Complaints", url: "https://www.ada.gov/filing-a-complaint" },
+      { name: "HUD — Housing Discrimination Complaints", url: "https://www.hud.gov/topics/housing_discrimination" },
+      { name: "ACLU — Know Your Rights", url: "https://www.aclu.org/know-your-rights" },
+      { name: "NAACP Legal Defense Fund", url: "https://www.naacpldf.org" },
+      { name: "Asian Americans Advancing Justice", url: "https://www.advancingjustice-aajc.org" },
+      { name: "MALDEF — Latino Civil Rights", url: "https://maldef.org" },
+      { name: "NCUA — Credit Union Consumer Resources", url: "https://www.ncua.gov/consumers" },
+      { name: "OCC — National Bank Customer Assistance", url: "https://www.helpwithmybank.gov" },
+      { name: "FDIC — Consumer Resources", url: "https://www.fdic.gov/consumers" },
+      { name: "Federal Reserve — Consumer Resources", url: "https://www.federalreserve.gov/consumerscommunities.htm" },
+      { name: "FINRA — Investor Complaint Center", url: "https://www.finra.org/investors/have-problem/file-complaint" },
+      { name: "SEC — Investor Complaint Center", url: "https://investor.gov" },
+      { name: "BBB — Better Business Bureau Complaints", url: "https://www.bbb.org" },
+      { name: "USA.gov — Consumer Complaint Resources", url: "https://www.usa.gov/consumer-complaints" },
+      { name: "State AG — Consumer Protection Finder", url: "https://www.naag.org/find-my-ag" },
+      { name: "Reporters Without Borders", url: "https://rsf.org" },
+      { name: "Reporter's Committee for Freedom of Press", url: "https://www.rcfp.org" },
+      { name: "AARP Fraud Watch Network", url: "https://www.aarp.org/money/scams-fraud" },
+      { name: "FTC Identity Theft Resources", url: "https://www.identitytheft.gov" },
+      { name: "Identity Theft Resource Center", url: "https://www.idtheftcenter.org" },
+      { name: "HHS OIG — Report Fraud Hotline", url: "https://oig.hhs.gov/fraud/report-fraud" },
+      { name: "CFPB — Know Before You Owe", url: "https://www.consumerfinance.gov/paying-for-college" },
+      { name: "Gainful Employment Disclosure Tool", url: "https://studentaid.gov/gainful-employment" },
+      { name: "90/10 Rule Consumer Protection", url: "https://studentaid.gov" },
+      { name: "NASFAA — Ethical Standards & Complaints", url: "https://www.nasfaa.org/professional_standards" },
+    ],
+  },
 ];
 
 const SCHOLARSHIP_ENGINES = [
@@ -955,6 +1196,417 @@ const AI_LITERACY_MORE = [
   { name: "Google NotebookLM (Free)", url: "https://notebooklm.google.com" },
   { name: "Gamma AI Presentations (Free/Paid)", url: "https://gamma.app" },
   { name: "Coursera: Generative AI for Everyone (Free Audit)", url: "https://www.coursera.org/learn/generative-ai-for-everyone" },
+];
+
+// ── Mental Health Literacy — Students & Parents ──
+const MENTAL_HEALTH_STUDENT = [
+  { name: "988 Suicide & Crisis Lifeline", url: "https://988lifeline.org" },
+  { name: "Crisis Text Line — Text HOME to 741741", url: "https://www.crisistextline.org" },
+  { name: "NAMI — National Alliance on Mental Illness", url: "https://www.nami.org" },
+  { name: "Active Minds — Student Mental Health", url: "https://www.activeminds.org" },
+  { name: "JED Foundation — Young Adult Mental Health", url: "https://jedfoundation.org" },
+  { name: "MentalHealth.gov — What Is Mental Health", url: "https://www.mentalhealth.gov" },
+  { name: "SAMHSA National Helpline 1-800-662-4357", url: "https://www.samhsa.gov/find-help/national-helpline" },
+  { name: "Trevor Project — LGBTQ+ Youth Crisis", url: "https://www.thetrevorproject.org" },
+  { name: "Suicide Prevention Resource Center (SPRC)", url: "https://sprc.org" },
+  { name: "National Eating Disorders Association (NEDA)", url: "https://www.nationaleatingdisorders.org" },
+];
+const MENTAL_HEALTH_STUDENT_MORE = [
+  { name: "AFSP — American Foundation for Suicide Prevention", url: "https://afsp.org" },
+  { name: "Half of Us — Campus Mental Health", url: "https://halfofus.com" },
+  { name: "ULifeline — College Mental Health Resource", url: "https://www.ulifeline.org" },
+  { name: "Headspace for Students", url: "https://www.headspace.com/students" },
+  { name: "Calm App — Stress & Sleep", url: "https://www.calm.com" },
+  { name: "Woebot — AI Mental Health Support", url: "https://woebothealth.com" },
+  { name: "BetterHelp — Online Therapy", url: "https://www.betterhelp.com" },
+  { name: "Talkspace — Online Therapy for Students", url: "https://www.talkspace.com" },
+  { name: "NAMI HelpLine 1-800-950-6264", url: "https://www.nami.org/help" },
+  { name: "MHA — Mental Health America Screening", url: "https://screening.mhanational.org" },
+  { name: "Anxiety & Depression Association (ADAA)", url: "https://adaa.org" },
+  { name: "Child Mind Institute — Youth Mental Health", url: "https://childmind.org" },
+  { name: "Psychology Today Therapist Finder", url: "https://www.psychologytoday.com/us/therapists" },
+  { name: "Open Path Collective — Affordable Therapy", url: "https://openpathcollective.org" },
+  { name: "7 Cups — Free Online Chat Support", url: "https://www.7cups.com" },
+  { name: "Sanvello — Anxiety & Depression App", url: "https://www.sanvello.com" },
+  { name: "Shine — Mental Health for People of Color", url: "https://www.theshineapp.com" },
+  { name: "Therapy Aid Coalition — Free/Low-Cost Therapy", url: "https://www.therapyaid.org" },
+  { name: "OK2Talk — Teen & Young Adult Support", url: "https://ok2talk.org" },
+  { name: "Teen Line — Teen-to-Teen Support", url: "https://www.teenlineonline.org" },
+  { name: "Boys Town National Hotline 1-800-448-3000", url: "https://www.boystown.org/hotline" },
+  { name: "RAINN — Sexual Assault Hotline", url: "https://www.rainn.org" },
+  { name: "Love is Respect — Relationship Abuse", url: "https://www.loveisrespect.org" },
+  { name: "National DV Hotline 1-800-799-7233", url: "https://www.thehotline.org" },
+  { name: "NEDA Helpline 1-800-931-2237", url: "https://www.nationaleatingdisorders.org/help-support/contact-helpline" },
+  { name: "ANAD — Eating Disorders Support", url: "https://anad.org" },
+  { name: "SMART Recovery — Addiction Support", url: "https://www.smartrecovery.org" },
+  { name: "SAMHSA Treatment Locator", url: "https://findtreatment.samhsa.gov" },
+  { name: "Alcoholics Anonymous", url: "https://www.aa.org" },
+  { name: "Narcotics Anonymous", url: "https://www.na.org" },
+  { name: "Student Veterans of America — Mental Health", url: "https://studentveterans.org/programs/mental-health" },
+  { name: "Veterans Crisis Line 1-800-273-8255 #1", url: "https://www.veteranscrisisline.net" },
+  { name: "NAMI Veterans & Military Resource", url: "https://www.nami.org/Your-Journey/Veterans-Active-Duty" },
+  { name: "APA — Student Mental Health Resources", url: "https://www.apa.org/topics/mental-health/index" },
+  { name: "NIMH — National Institute of Mental Health", url: "https://www.nimh.nih.gov" },
+  { name: "CDC Mental Health Resources", url: "https://www.cdc.gov/mentalhealth/index.htm" },
+  { name: "Springtide Research — Gen Z Faith & Mental Health", url: "https://springtideresearch.org" },
+  { name: "Campus Calm — Student Wellness", url: "https://campuscalm.com" },
+  { name: "Student Success — Stress Management Tips", url: "https://www.collegeraptor.com/plan-for-college/articles/college-life/student-mental-health-resources" },
+  { name: "National Alliance on Mental Illness — College Students", url: "https://www.nami.org/Support-Education/Mental-Health-Education/NAMI-on-Campus-Clubs" },
+  { name: "Peer Support International", url: "https://www.peersupportinternational.org" },
+  { name: "Born This Way Foundation — Youth Mental Health", url: "https://bornthisway.foundation" },
+  { name: "Erika's Lighthouse — Teen Depression", url: "https://erikaslighthouse.org" },
+  { name: "Hope for the Day — Proactive Suicide Prevention", url: "https://hftd.org" },
+  { name: "To Write Love on Her Arms", url: "https://twloha.com" },
+  { name: "DBSA — Depression & Bipolar Support Alliance", url: "https://www.dbsalliance.org" },
+  { name: "International OCD Foundation", url: "https://iocdf.org" },
+  { name: "PTSD Alliance", url: "https://www.ptsdalliance.org" },
+  { name: "Insomnia Coach — Sleep & Mental Health", url: "https://www.insomniacoach.org" },
+  { name: "Black Mental Health Alliance", url: "https://blackmentalhealth.com" },
+  { name: "Asian Mental Health Collective", url: "https://www.asianmhc.org" },
+  { name: "Latinx Therapy — Therapist Directory", url: "https://latinxtherapy.com" },
+  { name: "NQTTCN — Queer Trans Therapists of Color", url: "https://www.nqttcn.com" },
+  { name: "National Council for Mental Wellbeing", url: "https://www.thenationalcouncil.org" },
+  { name: "CHADD — ADHD Resources", url: "https://chadd.org" },
+  { name: "Autism Society of America", url: "https://autismsociety.org" },
+  { name: "ADAA — Find a Therapist (Anxiety)", url: "https://adaa.org/finding-help/finding-therapist" },
+  { name: "NARSAD — Mental Health Research", url: "https://www.bbrfoundation.org" },
+  { name: "SAMHSA Mental Health Treatment Locator", url: "https://findtreatment.samhsa.gov" },
+  { name: "United Way 211 — Local Mental Health Services", url: "https://www.211.org" },
+  { name: "Peer.org — Peer Support Community", url: "https://peer.org" },
+  { name: "Child Welfare Information Gateway", url: "https://www.childwelfare.gov/topics/responding/mental-health" },
+  { name: "Understood.org — Learning & Mental Health", url: "https://www.understood.org" },
+  { name: "Mindfulness-Based Stress Reduction (MBSR)", url: "https://www.umassmed.edu/cfm/mindfulness-based-programs/mbsr-courses" },
+  { name: "Headspace Guide to Meditation (Netflix)", url: "https://www.netflix.com/title/81280926" },
+  { name: "Ten Percent Happier — Meditation App", url: "https://www.tenpercent.com" },
+  { name: "Insight Timer — Free Meditation App", url: "https://insighttimer.com" },
+  { name: "Financial Stress & Mental Health — NFCC", url: "https://www.nfcc.org/resources/mental-health-financial-stress" },
+  { name: "Student Loan Anxiety — NFCC Resources", url: "https://www.nfcc.org" },
+  { name: "Financial Therapy Association", url: "https://www.financialtherapyassociation.org" },
+  { name: "Project Semicolon — Mental Health Advocacy", url: "https://www.projectsemicolon.com" },
+  { name: "Bring Change to Mind", url: "https://bringchange2mind.org" },
+  { name: "Mental Health First Aid USA", url: "https://www.mentalhealthfirstaid.org" },
+  { name: "QPR Institute — Suicide Prevention Training", url: "https://qprinstitute.com" },
+  { name: "Zero Suicide Institute", url: "https://zerosuicide.edc.org" },
+  { name: "Safe Messaging Guidelines — AFSP", url: "https://afsp.org/safe-messaging-guidelines" },
+  { name: "IMAlive — Online Crisis Network", url: "https://www.imalive.org" },
+  { name: "SilverCloud Health — Digital Mental Health", url: "https://www.silvercloudhealth.com" },
+  { name: "Daylio — Mood Journal App", url: "https://daylio.net" },
+  { name: "Moodfit — Mental Health App", url: "https://www.getmoodfit.com" },
+  { name: "Youper — AI Emotional Health App", url: "https://www.youper.ai" },
+  { name: "NAMI Warmline Directory", url: "https://www.nami.org/Support-Education/Support-Groups/NAMI-Warmline" },
+  { name: "Crisis Support Services of Nevada", url: "https://www.crisisupportservices.org" },
+  { name: "The Steve Fund — BIPOC Mental Health", url: "https://stevefund.org" },
+  { name: "AFSP — Campus Programs", url: "https://afsp.org/chapter/programs/campus-programs" },
+  { name: "Suicide Attempt Survivors — AFSP", url: "https://afsp.org/find-your-local-chapter" },
+  { name: "Now Matters Now — DBT Skills", url: "https://www.nowmattersnow.org" },
+  { name: "Calm Harm App — Self Harm", url: "https://calmharm.co.uk" },
+  { name: "ReachOut Australia — Youth Mental Health", url: "https://au.reachout.com" },
+  { name: "Mindline Trans+ — Trans Mental Health", url: "https://mindlinetrans.org.uk" },
+  { name: "Safe Space — LGBTQ+ Mental Health", url: "https://www.safespace.org" },
+  { name: "NSVRC — Sexual Violence & Mental Health", url: "https://www.nsvrc.org" },
+  { name: "ASCA — Adult Survivors of Child Abuse", url: "https://www.ascasupport.org" },
+  { name: "After Suicide Loss — AFSP", url: "https://afsp.org/find-your-local-chapter" },
+  { name: "Alliance of Hope for Suicide Loss Survivors", url: "https://allianceofhope.org" },
+  { name: "Grief Share — Grief Recovery Support", url: "https://www.griefshare.org" },
+  { name: "What's Your Grief — Grief Education", url: "https://whatsyourgrief.com" },
+  { name: "Campus Mental Health — ACPA Resource", url: "https://myacpa.org/commission-for-wellness-and-health" },
+  { name: "NASPA — Student Affairs Mental Health", url: "https://www.naspa.org/topics/mental-health" },
+  { name: "Healthy Minds Network — College Mental Health Data", url: "https://healthymindsnetwork.org" },
+  { name: "CCMH — Center for Collegiate Mental Health", url: "https://ccmh.psu.edu" },
+  { name: "Higher Education Mental Health Alliance (HEMHA)", url: "https://hemha.org" },
+  { name: "American College Health Association (ACHA)", url: "https://www.acha.org/NCHA" },
+  { name: "ACHA — National College Health Assessment", url: "https://www.acha.org/NCHA/About_ACHA_NCHA/NCHA_Background/NCHA/About/About_NCHA.aspx" },
+  { name: "National Student Assistance Association (NSAA)", url: "https://www.nsaa.us" },
+  { name: "Community Mental Health Association", url: "https://www.cmhanational.org" },
+  { name: "NAMI Peer-to-Peer Program", url: "https://www.nami.org/Support-Education/Mental-Health-Education/NAMI-Peer-to-Peer" },
+  { name: "NAMI Family Support Group", url: "https://www.nami.org/Support-Education/Support-Groups/NAMI-Family-Support-Group" },
+  { name: "Family Lives — Parenting & Mental Health", url: "https://www.familylives.org.uk" },
+  { name: "Parents.com — Child Mental Health", url: "https://www.parents.com/health/mental-health" },
+  { name: "Zero to Three — Early Childhood Mental Health", url: "https://www.zerotothree.org" },
+  { name: "Postpartum Support International", url: "https://www.postpartum.net" },
+  { name: "Mental Health Foundation — UK", url: "https://www.mentalhealth.org.uk" },
+  { name: "Mind.org — UK Mental Health Charity", url: "https://www.mind.org.uk" },
+  { name: "WHO — Mental Health", url: "https://www.who.int/health-topics/mental-health" },
+  { name: "PAHO — Mental Health in the Americas", url: "https://www.paho.org/en/topics/mental-health" },
+  { name: "International Association for Suicide Prevention", url: "https://www.iasp.info" },
+  { name: "Finding Hope in College — Flourishing in FA", url: "https://studentaid.gov/help-center/answers/topic/general-info" },
+  { name: "NAMI — Mental Health & Financial Stress", url: "https://www.nami.org/Blogs/NAMI-Blog/November-2019/How-Financial-Stress-Can-Impact-Mental-Health" },
+  { name: "College and Career Readiness & Mental Health", url: "https://www.cdc.gov/healthyyouth/mental-health/index.htm" },
+  { name: "SAMHSA — College Mental Health", url: "https://www.samhsa.gov/resource-search/ebp?f[0]=population_group%3A1552" },
+];
+
+// ── Religion, Faith & Philosophy ──
+const RELIGION_FAITH_PHILOSOPHY = [
+  { name: "Patheos — World Religions & Philosophy", url: "https://www.patheos.com" },
+  { name: "Beliefnet — Spirituality & Faith", url: "https://www.beliefnet.com" },
+  { name: "Philosophy Bro — Accessible Philosophy", url: "https://www.philosophybro.com" },
+  { name: "Stanford Encyclopedia of Philosophy", url: "https://plato.stanford.edu" },
+  { name: "Internet Encyclopedia of Philosophy", url: "https://iep.utm.edu" },
+  { name: "Daily Stoic — Stoic Philosophy", url: "https://dailystoic.com" },
+  { name: "Awakin.org — Inner-Life Weekly Readings", url: "https://www.awakin.org" },
+  { name: "Coursera — Religion & Philosophy Courses", url: "https://www.coursera.org/browse/arts-and-humanities/philosophy" },
+  { name: "Khan Academy — World History of Religion", url: "https://www.khanacademy.org/humanities/world-history/world-history-beginnings/birth-of-religion/a/the-first-religions" },
+  { name: "TED Talks — Philosophy & Religion", url: "https://www.ted.com/topics/philosophy" },
+];
+const RELIGION_FAITH_PHILOSOPHY_MORE = [
+  // Christianity
+  { name: "BibleGateway — Bible Study Online", url: "https://www.biblegateway.com" },
+  { name: "Christianity Today — Faith & Culture", url: "https://www.christianitytoday.com" },
+  { name: "United States Conference of Catholic Bishops", url: "https://www.usccb.org" },
+  { name: "Vatican — Official Catholic Resources", url: "https://www.vatican.va" },
+  { name: "Luther.edu — Lutheran Faith Resources", url: "https://www.luther.edu" },
+  { name: "UMC — United Methodist Church", url: "https://www.umc.org" },
+  { name: "Presbyterian Church USA", url: "https://www.pcusa.org" },
+  { name: "The Episcopal Church", url: "https://www.episcopalchurch.org" },
+  { name: "Southern Baptist Convention Resources", url: "https://www.sbc.net" },
+  { name: "Christianity.com — Bible & Devotionals", url: "https://www.christianity.com" },
+  // Islam
+  { name: "IslamicFinder — Prayer Times & Quran", url: "https://www.islamicfinder.org" },
+  { name: "Quran.com — Read & Listen to Quran", url: "https://quran.com" },
+  { name: "Islamic Society of North America (ISNA)", url: "https://www.isna.net" },
+  { name: "Yaqeen Institute — Islamic Research", url: "https://yaqeeninstitute.org" },
+  { name: "SeekersGuidance — Islamic Learning", url: "https://seekersguidance.org" },
+  // Judaism
+  { name: "My Jewish Learning — Torah & Traditions", url: "https://www.myjewishlearning.com" },
+  { name: "Chabad.org — Jewish Resources", url: "https://www.chabad.org" },
+  { name: "Union for Reform Judaism", url: "https://urj.org" },
+  { name: "United Synagogue of Conservative Judaism", url: "https://www.uscj.org" },
+  { name: "Jewish Virtual Library", url: "https://www.jewishvirtuallibrary.org" },
+  // Hinduism
+  { name: "Hinduism Today — Cultural Magazine", url: "https://www.hinduismtoday.com" },
+  { name: "Hindu American Foundation", url: "https://www.hinduamerican.org" },
+  { name: "Vedanta Society — Vedanta Philosophy", url: "https://www.vedanta.org" },
+  { name: "Bhagavad Gita Online", url: "https://www.holy-bhagavad-gita.org" },
+  // Buddhism
+  { name: "Lion's Roar — Buddhist Wisdom", url: "https://www.lionsroar.com" },
+  { name: "Dharma.org — Insight Meditation", url: "https://www.dharma.org" },
+  { name: "BuddhaNet — Buddhist Education", url: "https://www.buddhanet.net" },
+  { name: "Zen Mountain Monastery", url: "https://zmm.org" },
+  { name: "Plum Village — Thich Nhat Hanh", url: "https://plumvillage.org" },
+  // Sikhism
+  { name: "Sikh Net — Sikh Resource Center", url: "https://www.sikhnet.com" },
+  { name: "Sri Granth — Guru Granth Sahib", url: "https://www.srigranth.org" },
+  { name: "Sikh Coalition", url: "https://www.sikhcoalition.org" },
+  // Indigenous / Earth-based
+  { name: "Native American Church Resources", url: "https://www.nativeamericanchurchofna.org" },
+  { name: "Longhouse Media — Indigenous Spirituality", url: "https://www.longhousemedia.org" },
+  // Bahai
+  { name: "Bahai.org — Bahai Faith", url: "https://www.bahai.org" },
+  // Interfaith & Spiritual but not Religious
+  { name: "Interfaith Youth Core (IFYC)", url: "https://ifyc.org" },
+  { name: "Parliament of World Religions", url: "https://parliamentofreligions.org" },
+  { name: "Fetzer Institute — Love & Forgiveness", url: "https://fetzer.org" },
+  { name: "Spirituality & Practice — Multifaith", url: "https://www.spiritualityandpractice.com" },
+  { name: "Secular Student Alliance", url: "https://www.secularstudents.org" },
+  { name: "Unitarian Universalist Association", url: "https://www.uua.org" },
+  { name: "Center for Contemplative Mind in Society", url: "https://www.contemplativemind.org" },
+  // Philosophy — Classical & Modern
+  { name: "Philosophy Now — Philosophy Magazine", url: "https://philosophynow.org" },
+  { name: "Philosophy Pages — Western Philosophy", url: "https://www.philosophypages.com" },
+  { name: "The School of Life — Life Philosophy", url: "https://www.theschooloflife.com" },
+  { name: "Big Think — Philosophy & Ideas", url: "https://bigthink.com/series/the-big-think-interview" },
+  { name: "Closer to Truth — Cosmos & Philosophy", url: "https://www.closertotruth.com" },
+  { name: "Philosophy Talk — Radio Show & Podcast", url: "https://www.philosophytalk.org" },
+  // Stoicism & Positive Philosophy
+  { name: "The Stoic Fellowship", url: "https://stoicfellowship.com" },
+  { name: "Modern Stoicism — Stoic Week", url: "https://modernstoicism.com" },
+  { name: "Stoicism Today", url: "https://stoicismtoday.com" },
+  { name: "Stoic Meditations — Ryan Holiday", url: "https://ryanholiday.net/stoicism" },
+  { name: "Marcus Aurelius — Meditations (Free)", url: "https://classics.mit.edu/Antoninus/meditations.html" },
+  { name: "Epictetus Discourses (Online Text)", url: "https://www.gutenberg.org/ebooks/4135" },
+  { name: "Seneca's Letters (Online Text)", url: "https://www.gutenberg.org/ebooks/900" },
+  { name: "Positive Psychology — VIA Strengths", url: "https://www.viacharacter.org" },
+  { name: "Greater Good Science Center — UC Berkeley", url: "https://greatergood.berkeley.edu" },
+  { name: "Happiness Lab — Yale Course", url: "https://www.happinesslab.fm" },
+  { name: "Mindfulness-Based Cognitive Therapy", url: "https://www.mbct.com" },
+  // Existentialism & Ethics
+  { name: "Existentialism — SparkNotes Philosophy", url: "https://www.sparknotes.com/philosophy" },
+  { name: "Ethics Unwrapped — UT Austin", url: "https://ethicsunwrapped.utexas.edu" },
+  { name: "Practical Ethics — Oxford University", url: "https://www.practicalethics.ox.ac.uk" },
+  { name: "Markkula Center for Applied Ethics", url: "https://www.scu.edu/ethics" },
+  { name: "Philosophy Foundation — UK Outreach", url: "https://www.philosophy-foundation.org" },
+  // Eastern Philosophy
+  { name: "Tao Te Ching — Laozi (Free Text)", url: "https://www.gutenberg.org/ebooks/216" },
+  { name: "Confucius Institute Online", url: "https://www.chinese-ki.com" },
+  { name: "Alan Watts Lectures — Eastern Philosophy", url: "https://www.alanwatts.org" },
+  { name: "Zen Buddhism Resources — Shambhala", url: "https://www.shambhala.org" },
+  // Growth & Purpose
+  { name: "Purpose in Life — Stanford Center on Longevity", url: "https://longevity.stanford.edu" },
+  { name: "The Purpose Institute", url: "https://www.thepurposeinstitute.com" },
+  { name: "Viktor Frankl Institute — Logotherapy", url: "https://www.viktorfrankl.org" },
+  { name: "Simon Sinek — Find Your Why", url: "https://simonsinek.com" },
+  { name: "Character Strengths — VIA Survey", url: "https://www.viacharacter.org/surveys/takesurvey" },
+  { name: "Flourishing — Harvard Divinity School", url: "https://hwpi.harvard.edu/humanflourishingprogram" },
+  { name: "Positive Intelligence — Shirzad Chamine", url: "https://www.positiveintelligence.com" },
+  // Mindfulness & Contemplative Practice
+  { name: "Center for Mindfulness — UMass Medical", url: "https://www.umassmed.edu/cfm" },
+  { name: "Mindful.org — Mindfulness Resources", url: "https://www.mindful.org" },
+  { name: "Insight Meditation Society", url: "https://www.dharma.org" },
+  { name: "Contemplative Studies — Brown University", url: "https://www.brown.edu/academics/contemplative-studies" },
+  { name: "Tara Brach — Meditation & Teachings", url: "https://www.tarabrach.com" },
+  { name: "Jack Kornfield — Mindfulness & Buddhism", url: "https://jackkornfield.com" },
+  { name: "Pema Chodron — Buddhist Teachings", url: "https://pemachodronfoundation.org" },
+  // Prayer & Devotion
+  { name: "Daily Prayer — Pray.com", url: "https://pray.com" },
+  { name: "Hallow — Catholic Prayer App", url: "https://hallow.com" },
+  { name: "YouVersion Bible App", url: "https://www.bible.com" },
+  { name: "Jewish Prayer Resources — Siddur", url: "https://www.jewishvirtuallibrary.org/jewish-prayer" },
+  { name: "Islamicity — Quran & Hadith", url: "https://www.islamicity.org" },
+  // Open Courseware
+  { name: "MIT OpenCourseWare — Philosophy", url: "https://ocw.mit.edu/search/?d=Philosophy" },
+  { name: "Yale Open Courses — Philosophy & Death", url: "https://oyc.yale.edu/death/phil-176" },
+  { name: "Coursera — Buddhism & Modern Psychology", url: "https://www.coursera.org/learn/science-of-meditation" },
+  { name: "edX — World Religions & Spirituality", url: "https://www.edx.org/search?q=religion" },
+  { name: "FutureLearn — Philosophy Courses", url: "https://www.futurelearn.com/subjects/philosophy-and-religion-courses" },
+  { name: "Udemy — Philosophy for Beginners", url: "https://www.udemy.com/topic/philosophy" },
+  // Books & Reading
+  { name: "Goodreads — Philosophy & Religion Reading Lists", url: "https://www.goodreads.com/shelf/show/philosophy" },
+  { name: "Project Gutenberg — Free Philosophy Texts", url: "https://www.gutenberg.org/ebooks/search/?query=philosophy&submit_search=Search+Catalog" },
+  { name: "Open Library — Free Religion Books", url: "https://openlibrary.org/subjects/religion" },
+  // Campus & Interfaith
+  { name: "IFYC Campus Programs — Interfaith", url: "https://ifyc.org/campuses" },
+  { name: "Catholic Campus Ministry Association", url: "https://www.ccmanet.org" },
+  { name: "Hillel International — Jewish Campus Life", url: "https://www.hillel.org" },
+  { name: "Muslim Students Association — National", url: "https://msanational.org" },
+  { name: "Campus Buddhist Fellowship", url: "https://bcbsdharma.org/student-resources" },
+  { name: "Wesley Foundation — Methodist Campus Ministry", url: "https://gbhem.org/campus-ministry" },
+  { name: "Newman Centers — Catholic Campus Ministry", url: "https://www.usccb.org/committees/catholic-education/campus-ministry" },
+  { name: "Campus Crusade for Christ (CRU)", url: "https://www.cru.org" },
+  { name: "InterVarsity Christian Fellowship", url: "https://intervarsity.org" },
+  { name: "Chi Alpha Campus Ministries", url: "https://chialpha.com" },
+  { name: "Greek Orthodox Archdiocese — Campus Ministry", url: "https://www.goarch.org" },
+  { name: "Buddhist Chaplains — Soka University", url: "https://www.soka.edu/student-life/spiritual-life" },
+  { name: "Secular Humanist Society", url: "https://humanists.international/community/organizations" },
+  // Growth mindset & Resilience
+  { name: "Carol Dweck — Growth Mindset", url: "https://www.mindsetonline.com" },
+  { name: "Angela Duckworth — Grit & Resilience", url: "https://angeladuckworth.com" },
+  { name: "Martin Seligman — Positive Psychology", url: "https://www.authentichappiness.sas.upenn.edu" },
+  { name: "Self-Compassion — Kristin Neff", url: "https://self-compassion.org" },
+  { name: "Brené Brown — Vulnerability & Courage", url: "https://brenebrown.com" },
+  { name: "Oprah's SuperSoul — Spiritual Growth", url: "https://www.oprah.com/app/super-soul.html" },
+  { name: "Goop — Wellness & Spiritual Exploration", url: "https://goop.com" },
+  { name: "Sounds True — Spiritual Audio Resources", url: "https://www.soundstrue.com" },
+  { name: "Tricycle — Buddhist Teachings", url: "https://tricycle.org" },
+  { name: "Parabola — Myth & Meaning", url: "https://parabola.org" },
+  // Podcasts & Audio
+  { name: "On Being — Krista Tippett Podcast", url: "https://onbeing.org" },
+  { name: "Secular Buddhism Podcast", url: "https://secularbuddhism.com" },
+  { name: "Pray.com — Christian Podcasts", url: "https://pray.com/podcasts" },
+  { name: "Philosophy Bites — Free Podcast", url: "https://philosophybites.com" },
+  { name: "Hi Phi Nation — Story-Driven Philosophy", url: "https://hiphination.org" },
+  { name: "Philosophize This! — Podcast", url: "https://www.philosophizethis.org" },
+  { name: "Making Sense — Sam Harris Philosophy", url: "https://www.samharris.org/podcasts" },
+  { name: "The Rubin Report — Ideas & Culture", url: "https://rubinreport.com" },
+  { name: "The Liturgists — Progressive Faith", url: "https://theliturgists.com" },
+  { name: "The RobCast — Rob Bell Spirituality", url: "https://robbell.com/portfolio/robcast" },
+];
+
+// ── Consumer Rights & Whistleblower Protection ──
+const CONSUMER_RIGHTS = [
+  { name: "CFPB — Consumer Financial Protection Bureau", url: "https://www.consumerfinance.gov" },
+  { name: "FTC — Federal Trade Commission Consumer Info", url: "https://consumer.ftc.gov" },
+  { name: "CFPB Student Loan Complaint Portal", url: "https://www.consumerfinance.gov/complaint" },
+  { name: "ED Feedback System — Ombudsman", url: "https://studentaid.gov/feedback-center" },
+  { name: "FSA Ombudsman (Student Loan Disputes)", url: "https://studentaid.gov/feedback-center" },
+  { name: "FTC Identity Theft Resources", url: "https://www.identitytheft.gov" },
+  { name: "BBB — Better Business Bureau", url: "https://www.bbb.org" },
+  { name: "USA.gov — File a Consumer Complaint", url: "https://www.usa.gov/consumer-complaints" },
+  { name: "State Attorney General — Consumer Protection", url: "https://www.naag.org/find-my-ag" },
+  { name: "ED OIG Hotline — Report Fraud/Waste/Abuse", url: "https://www2.ed.gov/about/offices/list/oig/hotline.html" },
+];
+const CONSUMER_RIGHTS_MORE = [
+  // Consumer financial protection
+  { name: "CFPB — Know Before You Owe (Student Loans)", url: "https://www.consumerfinance.gov/paying-for-college" },
+  { name: "CFPB — Paying for College Tool", url: "https://www.consumerfinance.gov/paying-for-college" },
+  { name: "CFPB — Private Student Loan Complaints", url: "https://www.consumerfinance.gov/complaint" },
+  { name: "CFPB — Servicer Complaint Database", url: "https://www.consumerfinance.gov/data-research/consumer-complaints" },
+  { name: "Federal Reserve — Consumer Resources", url: "https://www.federalreserve.gov/consumerscommunities.htm" },
+  { name: "NCUA — Credit Union Consumer Protection", url: "https://www.ncua.gov/consumers" },
+  { name: "OCC — Bank Customer Assistance", url: "https://www.helpwithmybank.gov" },
+  { name: "FDIC — Deposit Insurance & Consumer Info", url: "https://www.fdic.gov/consumers" },
+  { name: "SEC — Investor Protection Resources", url: "https://investor.gov" },
+  { name: "FINRA — Investor Complaint Center", url: "https://www.finra.org/investors/have-problem/file-complaint" },
+  // Whistleblower protection — Federal
+  { name: "Whistleblower Protection Program — OSHA", url: "https://www.whistleblowers.gov" },
+  { name: "SEC Whistleblower Program", url: "https://www.sec.gov/whistleblower" },
+  { name: "CFTC Whistleblower Program", url: "https://www.cftc.gov/whistleblower" },
+  { name: "DOJ — False Claims Act / Qui Tam", url: "https://www.justice.gov/civil/frauds-section" },
+  { name: "GAO — Federal Whistleblower Resources", url: "https://www.gao.gov/legal/other-legal-work/whistleblower-protection" },
+  { name: "OSC — Office of Special Counsel (Federal)", url: "https://osc.gov" },
+  { name: "Inspector General Whistleblower Resources", url: "https://www.ignet.gov/content/whistleblower-protection-resources" },
+  { name: "ED OIG — Report Financial Aid Fraud", url: "https://www2.ed.gov/about/offices/list/oig/hotline.html" },
+  { name: "FTC Reporting — Education Scams", url: "https://reportfraud.ftc.gov" },
+  { name: "HHS Office of Inspector General Hotline", url: "https://oig.hhs.gov/fraud/report-fraud" },
+  // Whistleblower — State & legal
+  { name: "NELA — National Employment Law Association", url: "https://www.nela.org" },
+  { name: "PEER — Government Accountability", url: "https://peer.org" },
+  { name: "Government Accountability Project", url: "https://whistleblower.org" },
+  { name: "National Whistleblower Center", url: "https://www.whistleblowers.org" },
+  { name: "Taxpayers Against Fraud — False Claims Act", url: "https://www.taf.org" },
+  { name: "Project on Government Oversight (POGO)", url: "https://www.pogo.org" },
+  { name: "Public Citizen — Consumer & Civic Action", url: "https://www.citizen.org" },
+  { name: "Alliance for Justice — Legal Resources", url: "https://www.afj.org" },
+  { name: "National Consumer Law Center", url: "https://www.nclc.org" },
+  { name: "NCLC — Student Loan Borrower Rights", url: "https://www.nclc.org/issues/student-loans.html" },
+  // Financial Aid specific consumer rights
+  { name: "Borrower Defense to Repayment (ED)", url: "https://studentaid.gov/borrower-defense" },
+  { name: "School Closure Discharge (ED)", url: "https://studentaid.gov/manage-loans/forgiveness-cancellation/closed-school" },
+  { name: "False Certification Discharge", url: "https://studentaid.gov/manage-loans/forgiveness-cancellation/false-certification" },
+  { name: "Unpaid Refund Discharge", url: "https://studentaid.gov/manage-loans/forgiveness-cancellation/unpaid-refund" },
+  { name: "Servicer Complaints — MOHELA", url: "https://www.mohela.com/customer-service" },
+  { name: "Student Loan Ombudsman — CFPB", url: "https://www.consumerfinance.gov/student-loans" },
+  { name: "NASFAA — Student Rights & Responsibilities", url: "https://www.nasfaa.org" },
+  { name: "Net Price Calculator Accuracy — College Scorecard", url: "https://collegescorecard.ed.gov" },
+  { name: "Gainful Employment Disclosure Tool", url: "https://studentaid.gov/gainful-employment" },
+  { name: "TICAS — The Institute for College Access & Success", url: "https://ticas.org" },
+  // Privacy & data rights
+  { name: "FERPA — Student Privacy Rights", url: "https://studentprivacy.ed.gov" },
+  { name: "FOIA — Freedom of Information Act Requests", url: "https://www.foia.gov" },
+  { name: "PrivacyRights.org — Consumer Data Rights", url: "https://privacyrights.org" },
+  { name: "CCPA — California Consumer Privacy", url: "https://oag.ca.gov/privacy/ccpa" },
+  { name: "FTC — Privacy Consumer Information", url: "https://consumer.ftc.gov/privacy-identity-online-security" },
+  { name: "Electronic Privacy Information Center (EPIC)", url: "https://epic.org" },
+  { name: "Privacy International", url: "https://privacyinternational.org" },
+  { name: "Data Privacy Day Resources", url: "https://staysafeonline.org/programs/data-privacy-week" },
+  // Discrimination & civil rights
+  { name: "ED Office for Civil Rights (OCR)", url: "https://www2.ed.gov/about/offices/list/ocr/complaintintro.html" },
+  { name: "OCR — File a Discrimination Complaint", url: "https://www2.ed.gov/about/offices/list/ocr/complaintintro.html" },
+  { name: "EEOC — File an Employment Complaint", url: "https://www.eeoc.gov/filing-charge-discrimination" },
+  { name: "DOJ Civil Rights Division", url: "https://www.justice.gov/crt" },
+  { name: "HUD — Housing Discrimination Complaints", url: "https://www.hud.gov/topics/housing_discrimination" },
+  { name: "ADA.gov — Disability Rights Complaints", url: "https://www.ada.gov/filing-a-complaint" },
+  { name: "ACLU — Know Your Rights", url: "https://www.aclu.org/know-your-rights" },
+  { name: "NAACP — Legal Defense Fund", url: "https://www.naacpldf.org" },
+  { name: "MALDEF — Latino Civil Rights", url: "https://maldef.org" },
+  { name: "Asian Americans Advancing Justice", url: "https://www.advancingjustice-aajc.org" },
+  // Anonymous reporting & secure channels
+  { name: "SecureDrop — Anonymous Tip to Media", url: "https://securedrop.org" },
+  { name: "GlobalLeaks — Secure Whistleblowing Platform", url: "https://www.globaleaks.org" },
+  { name: "EFF — Electronic Frontier Foundation", url: "https://www.eff.org" },
+  { name: "Tor Project — Anonymous Browsing", url: "https://www.torproject.org" },
+  { name: "Signal — Secure Messaging App", url: "https://signal.org" },
+  { name: "ProtonMail — Encrypted Email", url: "https://proton.me" },
+  { name: "EFF — Surveillance Self-Defense", url: "https://ssd.eff.org" },
+  { name: "Reporter's Committee — Legal Defense", url: "https://www.rcfp.org" },
+  { name: "Reporters Without Borders", url: "https://rsf.org" },
+  { name: "Whistleblower Aid — Legal Support", url: "https://whistlebloweraid.org" },
+  // Fraud & scam awareness
+  { name: "FTC Scam Alerts", url: "https://consumer.ftc.gov/features/scam-alerts" },
+  { name: "USA.gov — Student Financial Aid Scams", url: "https://www.usa.gov/student-aid-scams" },
+  { name: "FBI — Financial Fraud", url: "https://www.fbi.gov/investigate/white-collar-crime/financial-crimes" },
+  { name: "IRS — Tax Scams & Fraud", url: "https://www.irs.gov/newsroom/tax-scams-consumer-alerts" },
+  { name: "AARP Fraud Watch Network", url: "https://www.aarp.org/money/scams-fraud" },
+  { name: "Scholarship Scam Alert — FTC", url: "https://consumer.ftc.gov/articles/scholarship-and-financial-aid-scams" },
+  { name: "Diploma Mill Awareness — ED", url: "https://www.ed.gov/accreditation" },
+  { name: "College Scorecard — Verify Schools", url: "https://collegescorecard.ed.gov" },
+  { name: "DAPIP — Accreditation Database", url: "https://ope.ed.gov/dapip" },
+  { name: "Title IV School Eligibility — studentaid.gov", url: "https://studentaid.gov/understand-aid/eligibility/requirements/school-eligibility" },
+  // Legal aid & free assistance
+  { name: "LawHelp.org — Legal Aid by State", url: "https://www.lawhelp.org" },
+  { name: "LSC — Legal Services Corporation", url: "https://www.lsc.gov" },
+  { name: "ABA — Free Legal Answers", url: "https://www.lawhelp.org/dc/resource/american-bar-association-free-legal-answers" },
+  { name: "Student Legal Services — Law School Clinics", url: "https://lawschool.westlaw.com" },
+  { name: "Volunteer Lawyers Project", url: "https://vlpnet.org" },
 ];
 
 const FINANCIAL_LITERACY = [
@@ -2312,6 +2964,141 @@ export default function AidAgentPage() {
               );
             })()}
 
+            {/* Religion, Faith & Philosophy */}
+            {(() => {
+              const key = "lp-religion-faith";
+              const moreKey = "lp-religion-faith-more";
+              const isOpen = expandedSections.has(key);
+              const isMoreOpen = expandedSections.has(moreKey);
+              return (
+                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                  <button onClick={() => toggleSection(key)}
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-fuchsia-500">
+                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-right">Religion, Faith & Philosophy</span>
+                  </button>
+                  {isOpen && (
+                    <div className="px-1.5 pb-2 space-y-0.5">
+                      {RELIGION_FAITH_PHILOSOPHY.map(({ name, url }) => (
+                        <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                          title={name}
+                          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-fuchsia-500/20 ring-1 ring-transparent hover:ring-fuchsia-500/20 transition-all duration-150 group">
+                          <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-fuchsia-400 shrink-0" />
+                          <span className="text-right">{name}</span>
+                        </a>
+                      ))}
+                      {RELIGION_FAITH_PHILOSOPHY_MORE.length > 0 && (
+                        <>
+                          {isMoreOpen && RELIGION_FAITH_PHILOSOPHY_MORE.map(({ name, url }) => (
+                            <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                              title={name}
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-fuchsia-500/20 ring-1 ring-transparent hover:ring-fuchsia-500/20 transition-all duration-150 group">
+                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-fuchsia-400 shrink-0" />
+                              <span className="text-right">{name}</span>
+                            </a>
+                          ))}
+                          <button onClick={() => toggleSection(moreKey)}
+                            className="w-full text-center py-1.5 text-[10px] font-semibold text-fuchsia-400/70 hover:text-fuchsia-300 transition-colors">
+                            {isMoreOpen ? "Show less" : `Show ${RELIGION_FAITH_PHILOSOPHY_MORE.length} more`}
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+
+            {/* Consumer Rights & Whistleblower */}
+            {(() => {
+              const key = "lp-consumer-rights";
+              const moreKey = "lp-consumer-rights-more";
+              const isOpen = expandedSections.has(key);
+              const isMoreOpen = expandedSections.has(moreKey);
+              return (
+                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                  <button onClick={() => toggleSection(key)}
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-orange-500">
+                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-right">Consumer Rights & Whistleblower</span>
+                  </button>
+                  {isOpen && (
+                    <div className="px-1.5 pb-2 space-y-0.5">
+                      {CONSUMER_RIGHTS.map(({ name, url }) => (
+                        <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                          title={name}
+                          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-orange-500/20 ring-1 ring-transparent hover:ring-orange-500/20 transition-all duration-150 group">
+                          <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-orange-400 shrink-0" />
+                          <span className="text-right">{name}</span>
+                        </a>
+                      ))}
+                      {CONSUMER_RIGHTS_MORE.length > 0 && (
+                        <>
+                          {isMoreOpen && CONSUMER_RIGHTS_MORE.map(({ name, url }) => (
+                            <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                              title={name}
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-orange-500/20 ring-1 ring-transparent hover:ring-orange-500/20 transition-all duration-150 group">
+                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-orange-400 shrink-0" />
+                              <span className="text-right">{name}</span>
+                            </a>
+                          ))}
+                          <button onClick={() => toggleSection(moreKey)}
+                            className="w-full text-center py-1.5 text-[10px] font-semibold text-orange-400/70 hover:text-orange-300 transition-colors">
+                            {isMoreOpen ? "Show less" : `Show ${CONSUMER_RIGHTS_MORE.length} more`}
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+
+            {/* Mental Health Literacy — Students & Parents */}
+            {(() => {
+              const key = "lp-mental-health";
+              const moreKey = "lp-mental-health-more";
+              const isOpen = expandedSections.has(key);
+              const isMoreOpen = expandedSections.has(moreKey);
+              return (
+                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                  <button onClick={() => toggleSection(key)}
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-emerald-500">
+                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-right">Mental Health Literacy</span>
+                  </button>
+                  {isOpen && (
+                    <div className="px-1.5 pb-2 space-y-0.5">
+                      {MENTAL_HEALTH_STUDENT.map(({ name, url }) => (
+                        <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                          title={name}
+                          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-emerald-500/20 ring-1 ring-transparent hover:ring-emerald-500/20 transition-all duration-150 group">
+                          <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-emerald-400 shrink-0" />
+                          <span className="text-right">{name}</span>
+                        </a>
+                      ))}
+                      {MENTAL_HEALTH_STUDENT_MORE.length > 0 && (
+                        <>
+                          {isMoreOpen && MENTAL_HEALTH_STUDENT_MORE.map(({ name, url }) => (
+                            <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                              title={name}
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-emerald-500/20 ring-1 ring-transparent hover:ring-emerald-500/20 transition-all duration-150 group">
+                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-emerald-400 shrink-0" />
+                              <span className="text-right">{name}</span>
+                            </a>
+                          ))}
+                          <button onClick={() => toggleSection(moreKey)}
+                            className="w-full text-center py-1.5 text-[10px] font-semibold text-emerald-400/70 hover:text-emerald-300 transition-colors">
+                            {isMoreOpen ? "Show less" : `Show ${MENTAL_HEALTH_STUDENT_MORE.length} more`}
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+
             {/* ── Private Student Loans ── */}
             {(() => {
               const isOpen = expandedSections.has("sec-loans");
@@ -2357,7 +3144,10 @@ export default function AidAgentPage() {
                 General guidance only. Verify with the FSA Handbook and consult legal counsel for institution-specific decisions.
               </p>
             </div>
-            <div className="flex items-center mt-2">
+            <div className="flex items-center gap-3 mt-2 flex-wrap">
+              <Link href="/pricing" className="text-[11px] text-indigo-400/60 underline underline-offset-2 hover:text-indigo-300 transition-colors">Plans & Pricing</Link>
+              <Link href="/account" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">Account</Link>
+              <Link href="/support" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">Support Dev</Link>
               <Link href="/legal" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">Legal</Link>
             </div>
           </div>

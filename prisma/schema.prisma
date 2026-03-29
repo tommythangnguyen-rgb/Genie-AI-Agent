@@ -11,14 +11,37 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum SubscriptionTier {
+  FREE
+  MONTHLY
+  MONTHLY_PLUS
+  YEARLY
+}
+
 model User {
   id        String   @id @default(cuid())
   email     String   @unique
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
+
   projects  Project[]
+
+  // Subscription
+  subscriptionTier      SubscriptionTier @default(FREE)
+  stripeCustomerId      String?          @unique
+  stripeSubscriptionId  String?          @unique
+  subscriptionStatus    String?
+  subscriptionPeriodEnd DateTime?
+
+  // Rate limiting
+  dailyQuestionCount   Int       @default(0)
+  dailyQuestionResetAt DateTime?
+
+  // Multi-seat accounts (max 3 users per paid account)
+  accountOwnerId String?
+  accountOwner   User?   @relation("AccountMembers", fields: [accountOwnerId], references: [id])
+  accountMembers User[]  @relation("AccountMembers")
 }
 
 model Project {
@@ -51,4 +74,13 @@ model RegulationFetchLog {
   success     Boolean
   updateCount Int      @default(0)
   error       String?
+}
+
+model GuestSession {
+  id                   String    @id @default(cuid())
+  sessionId            String    @unique
+  dailyQuestionCount   Int       @default(0)
+  dailyQuestionResetAt DateTime?
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
 }
