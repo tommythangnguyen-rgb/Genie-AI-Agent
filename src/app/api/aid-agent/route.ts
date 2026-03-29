@@ -26,17 +26,22 @@ export async function POST(req: Request) {
 
   const model = getLanguageModel();
 
+  // No user input is logged or persisted — messages are processed in-memory only.
   const result = streamText({
     model,
     messages: allMessages,
-    maxOutputTokens: 3000, // down from 8000 — concise responses stream ~2.5× faster
-    temperature: 0.4,      // lower = more focused, less wandering, faster convergence
+    maxOutputTokens: 3000,
+    temperature: 0.4,
     onError: (err: any) => {
-      console.error("Aid agent error:", err);
+      // Log only the error code/type — never the message content — to avoid
+      // capturing user input in Vercel function logs.
+      console.error("Aid agent stream error:", err?.error?.name ?? "UnknownError");
     },
   });
 
-  return result.toTextStreamResponse();
+  const response = result.toTextStreamResponse();
+  response.headers.set("Cache-Control", "no-store");
+  return response;
 }
 
 export const maxDuration = 120;
