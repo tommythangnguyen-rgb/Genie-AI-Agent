@@ -973,9 +973,11 @@ export default function AidAgentPage() {
   const [showDisclaimer, setShowDisclaimer] = useState(true);
   const [showMobileLeft, setShowMobileLeft] = useState(false);
   const [showMobileRight, setShowMobileRight] = useState(false);
+  const [showCookieNotice, setShowCookieNotice] = useState(false);
 
   useEffect(() => {
     if (localStorage.getItem("genie-terms-accepted")) setShowDisclaimer(false);
+    if (!localStorage.getItem("genie-cookie-accepted")) setShowCookieNotice(true);
   }, []);
 
   const handleAccept = () => {
@@ -1938,9 +1940,9 @@ export default function AidAgentPage() {
                         </div>
                       ) : (
                         <div className="relative">
-                          <div className="flex items-center gap-1 mb-2" aria-label="AI-generated response">
-                            <Sparkles className="h-2.5 w-2.5 text-indigo-400/50" aria-hidden="true" />
-                            <span className="text-[10px] font-semibold text-indigo-300/50 uppercase tracking-widest">AI-generated response</span>
+                          <div className="flex items-center gap-1.5 mb-2" aria-label="AI-generated response">
+                            <Sparkles className="h-3 w-3 text-indigo-400/70" aria-hidden="true" />
+                            <span className="text-[10px] font-semibold text-indigo-300/70 uppercase tracking-widest">Powered by AI · Responses are AI-generated</span>
                           </div>
                           <MarkdownRenderer
                             content={msg.content}
@@ -2102,12 +2104,18 @@ export default function AidAgentPage() {
                 <p className="text-[10px] text-white/20 text-center tracking-wide">
                   Enter to send · Shift+Enter for new line · Always verify with the FSA Handbook
                 </p>
-                <p className="text-[10px] text-center text-white/20">
-                  <span className="font-semibold bg-gradient-to-r from-sky-300 via-indigo-300 to-violet-400 bg-clip-text text-transparent">Genie</span>
-                  {" "}— Purpose-built on 34 CFR · FSA Handbook · HEA Title IV · Federal Student Aid Policy
+                <p className="text-[10px] text-center text-white/25">
+                  Unofficial reference tool — not affiliated with the U.S. Department of Education
                 </p>
                 <p className="text-[10px] text-center text-white/20">
                   <Link href="/legal" className="underline underline-offset-2 hover:text-white/40 transition-colors">Terms &amp; Privacy</Link>
+                  {" · "}
+                  <Link href="/dpa" className="underline underline-offset-2 hover:text-white/40 transition-colors">School DPA</Link>
+                  {" · "}
+                  <Link href="/legal#ccpa" className="underline underline-offset-2 hover:text-white/40 transition-colors">Do Not Sell My Info</Link>
+                </p>
+                <p className="text-[10px] text-center text-white/15 mt-0.5">
+                  © 2026 Genie Financial Aid Hub | Developed by One27 | All Rights Reserved
                 </p>
               </div>
             </div>
@@ -2226,6 +2234,30 @@ export default function AidAgentPage() {
         </aside>
 
       </div>
+
+      {/* Cookie / data notice — first visit */}
+      {showCookieNotice && (
+        <div className="fixed bottom-0 inset-x-0 z-50 flex justify-center px-4 pb-4 pointer-events-none">
+          <div className="pointer-events-auto max-w-xl w-full rounded-2xl bg-[#071035]/95 border border-white/[0.12] shadow-2xl shadow-black/40 backdrop-blur-xl px-5 py-4 flex items-start gap-3">
+            <ShieldCheck className="h-4 w-4 text-indigo-400 shrink-0 mt-0.5" />
+            <div className="flex-1 min-w-0">
+              <p className="text-xs text-white/70 leading-relaxed">
+                Genie uses essential session cookies only. We do not sell or share your personal information.
+                See our{" "}
+                <Link href="/legal" className="underline underline-offset-2 text-indigo-400 hover:text-indigo-300 transition-colors">Privacy Policy</Link>
+                {" "}for details.{" "}
+                <Link href="/legal#ccpa" className="underline underline-offset-2 text-indigo-400/70 hover:text-indigo-300 transition-colors">Do Not Sell My Personal Information</Link>.
+              </p>
+            </div>
+            <button
+              onClick={() => { localStorage.setItem("genie-cookie-accepted", "true"); setShowCookieNotice(false); }}
+              className="shrink-0 px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+            >
+              Got it
+            </button>
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -47,7 +47,7 @@ const TERMS_SECTIONS = [
   {
     n: "7",
     title: "Intellectual Property",
-    body: "All content and branding are owned by the developer (Developed by 127) and protected by copyright law.",
+    body: "All content and branding are owned by the developer (One27) and protected by copyright law.",
   },
   {
     n: "8",
@@ -119,8 +119,8 @@ const PRIVACY_SECTIONS = [
   },
   {
     n: "9",
-    title: "Your Rights",
-    body: "You may have the right to access, correct, or delete your personal data. California residents have additional rights under CCPA including the right to know what data is collected. We do not sell personal information.",
+    title: "Your Rights & CCPA — Do Not Sell My Personal Information",
+    body: "You may have the right to access, correct, or delete your personal data.\n\nCalifornia residents have additional rights under the California Consumer Privacy Act (CCPA):\n• Right to know what personal information is collected, used, shared, or sold\n• Right to delete personal information\n• Right to opt out of the sale of personal information\n• Right to non-discrimination for exercising CCPA rights\n\nWe do NOT sell your personal information to any third party.\n\nTo submit a CCPA request or opt out of any future data sharing, contact us at [your-email@domain.com] with the subject line \"CCPA Request.\" We will respond within 45 days.",
   },
   {
     n: "10",
@@ -135,7 +135,7 @@ const PRIVACY_SECTIONS = [
   {
     n: "12",
     title: "Contact",
-    body: "Genie — Financial Aid Hub\nDeveloped by 127\nEmail: [your-email@domain.com]\nWebsite: https://uigen-dusky-eight.vercel.app",
+    body: "Genie Financial Aid Hub\nDeveloped by One27\nEmail: [your-email@domain.com]\nWebsite: https://uigen-dusky-eight.vercel.app\n\nUnofficial reference tool — not affiliated with the U.S. Department of Education.",
   },
 ];
 
@@ -229,9 +229,10 @@ export default function LegalPage() {
 
         {/* Footer */}
         <div className="mt-12 pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-white/25 text-center sm:text-left">
-            © 2026 Genie — Financial Aid Hub. Developed by 127. All rights reserved.
-          </p>
+          <div className="text-center sm:text-left">
+            <p className="text-xs text-white/25">© 2026 Genie Financial Aid Hub | Developed by One27 | All Rights Reserved</p>
+            <p className="text-xs text-white/20 mt-0.5">Unofficial reference tool — not affiliated with the U.S. Department of Education</p>
+          </div>
           <Link
             href="/aid-agent"
             className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
