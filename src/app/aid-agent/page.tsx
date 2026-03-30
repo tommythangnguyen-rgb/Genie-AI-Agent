@@ -512,7 +512,7 @@ const FEDERAL_RESOURCES = [
     ],
   },
   {
-    group: "Mental Health — Staff & Institutional",
+    group: "Student Wellness & Support",
     links: [
       { name: "JED Foundation Campus Program", url: "https://jedfoundation.org/jed-campus" },
       { name: "Active Minds — Campus Consulting", url: "https://www.activeminds.org/programs/campus-consulting" },
@@ -589,7 +589,7 @@ const FEDERAL_RESOURCES = [
     ],
   },
   {
-    group: "Religion, Faith & Philosophy — Campus",
+    group: "Spiritual Care & Life",
     links: [
       { name: "Interfaith Youth Core (IFYC)", url: "https://ifyc.org" },
       { name: "Parliament of World Religions", url: "https://parliamentofreligions.org" },
@@ -672,7 +672,7 @@ const FEDERAL_RESOURCES = [
     ],
   },
   {
-    group: "Consumer Rights & Whistleblower",
+    group: "Student Rights & Consumer Protections",
     links: [
       { name: "CFPB — Consumer Financial Protection Bureau", url: "https://www.consumerfinance.gov" },
       { name: "CFPB — File a Complaint", url: "https://www.consumerfinance.gov/complaint" },
@@ -2988,7 +2988,7 @@ export default function AidAgentPage() {
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection(key)}
                     className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Religion, Faith & Philosophy</span>
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Spiritual Care & Life</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
                   {isOpen && (
@@ -3032,7 +3032,7 @@ export default function AidAgentPage() {
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection(key)}
                     className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-left">Consumer Rights & Whistleblower</span>
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-left">Student Rights & Consumer Protections</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
                   {isOpen && (
@@ -3076,7 +3076,7 @@ export default function AidAgentPage() {
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection(key)}
                     className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Mental Health Literacy</span>
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Student Wellness & Support</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
                   {isOpen && (
