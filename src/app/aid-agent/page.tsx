@@ -50,10 +50,24 @@ import {
 function GenieBottle({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
-      {/* Narrow stopper cap */}
       <rect x="9.5" y="1" width="5" height="2.5" rx="1.25" />
-      {/* Slim Aladdin genie bottle — tall elegant vase with narrow neck, round belly, tapered base */}
       <path d="M10.5 3.5L10.5 7.5C8.8 8.3 7 10.8 7 14.5C7 18.5 9.2 22 12 22C14.8 22 17 18.5 17 14.5C17 10.8 15.2 8.3 13.5 7.5L13.5 3.5Z" />
+    </svg>
+  );
+}
+
+// ─── Graduation Cap Icon ──────────────────────────────────────────────────────
+
+function GraduationCap({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
+      {/* Board */}
+      <path d="M12 2L2 7l10 5 10-5-10-5z" />
+      {/* Left tassel string */}
+      <path d="M4 9.5v5c0 2.5 3.6 4.5 8 4.5s8-2 8-4.5v-5L12 14 4 9.5z" />
+      {/* Tassel cord */}
+      <path d="M20 7v6" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" />
+      <circle cx="20" cy="14" r="1.2" />
     </svg>
   );
 }
@@ -2681,7 +2695,7 @@ export default function AidAgentPage() {
           <div className="px-4 pt-4 pb-3 border-b border-white/[0.07]">
             <div className="flex items-center gap-2.5">
               <div className="p-1.5 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 shadow-lg shadow-sky-500/25 shrink-0">
-                <GenieBottle className="h-4 w-4 text-white" />
+                <GraduationCap className="h-4 w-4 text-white" />
               </div>
               <div>
                 <p className="text-[11px] font-bold text-white/40 uppercase tracking-widest leading-none mb-0.5">Financial Aid Hub</p>
@@ -3018,7 +3032,7 @@ export default function AidAgentPage() {
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection(key)}
                     className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Consumer Rights & Whistleblower</span>
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-left">Consumer Rights & Whistleblower</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
                   {isOpen && (
@@ -3693,8 +3707,8 @@ export default function AidAgentPage() {
                 <div key={group} className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection(key)}
                     className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">{group}</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-right">{group}</span>
                   </button>
                   {isOpen && (
                     <div className="px-1.5 pb-2 space-y-0.5">
