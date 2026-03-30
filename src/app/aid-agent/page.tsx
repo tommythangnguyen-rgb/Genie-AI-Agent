@@ -1904,18 +1904,44 @@ const ROLE_OPTIONS = [
 function EducationalBackground() {
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
-      {/* Light sky-blue base */}
-      <div className="absolute inset-0 bg-[#0d3b8e]" />
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0a2e7a] via-[#0e4099] to-[#1252b8]" />
+      {/* Deep navy base */}
+      <div className="absolute inset-0 bg-[#071e3d]" />
+      <div className="absolute inset-0" style={{ background: "linear-gradient(145deg, #071e3d 0%, #0a2540 30%, #0d3b52 60%, #082f3e 100%)" }} />
 
-      {/* Atmospheric orbs — brighter sky / azure / cerulean palette */}
-      <div className="absolute -top-48 -left-48 w-[700px] h-[700px] rounded-full bg-sky-300/[0.22] blur-[140px]" />
-      <div className="absolute top-1/3 -right-64 w-[600px] h-[600px] rounded-full bg-blue-300/[0.18] blur-[120px]" />
-      <div className="absolute -bottom-32 left-1/4 w-[500px] h-[500px] rounded-full bg-cyan-400/[0.16] blur-[110px]" />
-      <div className="absolute top-2/3 left-2/3 w-[300px] h-[300px] rounded-full bg-sky-200/[0.14] blur-[90px]" />
-      <div className="absolute top-1/4 left-1/2 w-[400px] h-[400px] rounded-full bg-indigo-300/[0.12] blur-[100px]" />
+      {/* Atmospheric orbs — teal + gold glow */}
+      <div className="genie-orb absolute -top-48 -left-48 w-[700px] h-[700px] rounded-full blur-[140px]" style={{ background: "radial-gradient(circle, rgba(0,191,165,0.20) 0%, transparent 70%)", "--dur": "22s", "--delay": "0s" } as React.CSSProperties} />
+      <div className="genie-orb absolute top-1/3 -right-64 w-[600px] h-[600px] rounded-full blur-[120px]" style={{ background: "radial-gradient(circle, rgba(6,182,212,0.16) 0%, transparent 70%)", "--dur": "18s", "--delay": "3s" } as React.CSSProperties} />
+      <div className="genie-orb absolute -bottom-32 left-1/4 w-[500px] h-[500px] rounded-full blur-[110px]" style={{ background: "radial-gradient(circle, rgba(251,191,36,0.12) 0%, transparent 70%)", "--dur": "25s", "--delay": "6s" } as React.CSSProperties} />
+      <div className="genie-orb absolute top-2/3 left-2/3 w-[350px] h-[350px] rounded-full blur-[90px]" style={{ background: "radial-gradient(circle, rgba(0,191,165,0.13) 0%, transparent 70%)", "--dur": "20s", "--delay": "9s" } as React.CSSProperties} />
+      <div className="genie-orb absolute top-1/4 left-1/2 w-[400px] h-[400px] rounded-full blur-[100px]" style={{ background: "radial-gradient(circle, rgba(251,191,36,0.09) 0%, transparent 70%)", "--dur": "28s", "--delay": "4s" } as React.CSSProperties} />
 
-      {/* SVG: dot grid + educational symbols in blue/cyan tones */}
+      {/* Floating gold sparkle particles */}
+      {[
+        { top:"8%",  left:"12%", size:5,  dur:"4.2s", delay:"0s"   },
+        { top:"15%", left:"78%", size:4,  dur:"3.5s", delay:"0.8s" },
+        { top:"42%", left:"6%",  size:3,  dur:"5.1s", delay:"1.4s" },
+        { top:"55%", left:"88%", size:6,  dur:"3.8s", delay:"0.3s" },
+        { top:"72%", left:"22%", size:4,  dur:"4.6s", delay:"2.1s" },
+        { top:"80%", left:"65%", size:3,  dur:"3.2s", delay:"1.0s" },
+        { top:"28%", left:"45%", size:5,  dur:"4.9s", delay:"1.7s" },
+        { top:"90%", left:"40%", size:4,  dur:"3.6s", delay:"0.5s" },
+        { top:"62%", left:"55%", size:3,  dur:"5.4s", delay:"2.5s" },
+        { top:"35%", left:"92%", size:5,  dur:"4.1s", delay:"1.2s" },
+      ].map((p, i) => (
+        <div
+          key={i}
+          className="genie-particle"
+          style={{
+            top: p.top, left: p.left,
+            width: p.size, height: p.size,
+            background: i % 3 === 0 ? "#fbbf24" : i % 3 === 1 ? "#5eead4" : "#a5f3fc",
+            boxShadow: i % 3 === 0 ? "0 0 6px 2px rgba(251,191,36,0.7)" : "0 0 6px 2px rgba(0,191,165,0.7)",
+            "--dur": p.dur, "--delay": p.delay,
+          } as React.CSSProperties}
+        />
+      ))}
+
+      {/* SVG: dot grid + educational symbols in teal/gold tones */}
       <svg
         className="absolute inset-0 w-full h-full"
         xmlns="http://www.w3.org/2000/svg"
@@ -1923,93 +1949,91 @@ function EducationalBackground() {
         preserveAspectRatio="xMidYMid slice"
       >
         <defs>
-          {/* Dot grid — brighter sky-blue tint on lighter bg */}
           <pattern id="edu-dots" x="0" y="0" width="48" height="48" patternUnits="userSpaceOnUse">
-            <circle cx="24" cy="24" r="0.9" fill="#bae6fd" fillOpacity="0.28" />
+            <circle cx="24" cy="24" r="0.9" fill="#5eead4" fillOpacity="0.20" />
           </pattern>
-          {/* Grid lines */}
           <pattern id="edu-grid" x="0" y="0" width="120" height="120" patternUnits="userSpaceOnUse">
-            <path d="M120 0 L0 0 0 120" fill="none" stroke="#bfdbfe" strokeWidth="0.4" strokeOpacity="0.13" />
+            <path d="M120 0 L0 0 0 120" fill="none" stroke="#2dd4bf" strokeWidth="0.4" strokeOpacity="0.10" />
           </pattern>
         </defs>
 
-        {/* Grid layers */}
         <rect width="1440" height="900" fill="url(#edu-grid)" />
         <rect width="1440" height="900" fill="url(#edu-dots)" />
 
-        {/* ── Mathematical & academic symbols — brighter on lighter bg ── */}
-        <text x="62" y="155" fontSize="96" fill="#e0f2fe" fillOpacity="0.09" fontFamily="Georgia, 'Times New Roman', serif" fontWeight="400">∑</text>
-        <text x="1280" y="110" fontSize="72" fill="#e0f2fe" fillOpacity="0.08" fontFamily="Georgia, 'Times New Roman', serif">π</text>
-        <text x="620" y="78" fontSize="60" fill="#f0f9ff" fillOpacity="0.08" fontFamily="Georgia, 'Times New Roman', serif">∫</text>
-        <text x="1380" y="300" fontSize="80" fill="#e0f2fe" fillOpacity="0.08" fontFamily="Georgia, 'Times New Roman', serif">√</text>
-        <text x="75" y="500" fontSize="68" fill="#f0f9ff" fillOpacity="0.07" fontFamily="Georgia, 'Times New Roman', serif">φ</text>
-        <text x="850" y="520" fontSize="74" fill="#e0f2fe" fillOpacity="0.08" fontFamily="Georgia, 'Times New Roman', serif">Δ</text>
-        <text x="380" y="798" fontSize="66" fill="#f0f9ff" fillOpacity="0.07" fontFamily="Georgia, 'Times New Roman', serif">∞</text>
-        <text x="1175" y="820" fontSize="54" fill="#e0f2fe" fillOpacity="0.08" fontFamily="Georgia, 'Times New Roman', serif">≈</text>
-        <text x="38" y="845" fontSize="60" fill="#f0f9ff" fillOpacity="0.07" fontFamily="Georgia, 'Times New Roman', serif">θ</text>
-        <text x="710" y="878" fontSize="52" fill="#e0f2fe" fillOpacity="0.07" fontFamily="Georgia, 'Times New Roman', serif">λ</text>
-        <text x="1340" y="520" fontSize="58" fill="#f0f9ff" fillOpacity="0.08" fontFamily="Georgia, 'Times New Roman', serif">Ω</text>
-        <text x="240" y="330" fontSize="50" fill="#e0f2fe" fillOpacity="0.07" fontFamily="Georgia, 'Times New Roman', serif">α</text>
+        {/* Academic symbols — teal palette */}
+        <text x="62" y="155" fontSize="96" fill="#5eead4" fillOpacity="0.07" fontFamily="Georgia, 'Times New Roman', serif" fontWeight="400">∑</text>
+        <text x="1280" y="110" fontSize="72" fill="#5eead4" fillOpacity="0.06" fontFamily="Georgia, 'Times New Roman', serif">π</text>
+        <text x="620" y="78" fontSize="60" fill="#a5f3fc" fillOpacity="0.07" fontFamily="Georgia, 'Times New Roman', serif">∫</text>
+        <text x="1380" y="300" fontSize="80" fill="#5eead4" fillOpacity="0.06" fontFamily="Georgia, 'Times New Roman', serif">√</text>
+        <text x="75" y="500" fontSize="68" fill="#a5f3fc" fillOpacity="0.06" fontFamily="Georgia, 'Times New Roman', serif">φ</text>
+        <text x="850" y="520" fontSize="74" fill="#5eead4" fillOpacity="0.07" fontFamily="Georgia, 'Times New Roman', serif">Δ</text>
+        <text x="380" y="798" fontSize="66" fill="#a5f3fc" fillOpacity="0.06" fontFamily="Georgia, 'Times New Roman', serif">∞</text>
+        <text x="240" y="330" fontSize="50" fill="#5eead4" fillOpacity="0.06" fontFamily="Georgia, 'Times New Roman', serif">α</text>
 
-        {/* Financial aid domain labels */}
-        <text x="1330" y="168" fontSize="58" fill="#f0f9ff" fillOpacity="0.07" fontFamily="Georgia, serif" fontStyle="italic">$</text>
-        <text x="290" y="198" fontSize="34" fill="#bfdbfe" fillOpacity="0.09" fontFamily="'Courier New', monospace" letterSpacing="3">34 CFR</text>
-        <text x="960" y="862" fontSize="30" fill="#e0f2fe" fillOpacity="0.07" fontFamily="'Courier New', monospace" letterSpacing="4">FAFSA</text>
-        <text x="100" y="695" fontSize="28" fill="#bfdbfe" fillOpacity="0.07" fontFamily="'Courier New', monospace" letterSpacing="3">Title IV</text>
-        <text x="1200" y="660" fontSize="26" fill="#e0f2fe" fillOpacity="0.07" fontFamily="'Courier New', monospace" letterSpacing="2">HEA</text>
+        {/* Financial aid labels — gold tint */}
+        <text x="1330" y="168" fontSize="58" fill="#fbbf24" fillOpacity="0.08" fontFamily="Georgia, serif" fontStyle="italic">$</text>
+        <text x="290" y="198" fontSize="34" fill="#fbbf24" fillOpacity="0.08" fontFamily="'Courier New', monospace" letterSpacing="3">34 CFR</text>
+        <text x="960" y="862" fontSize="30" fill="#fcd34d" fillOpacity="0.07" fontFamily="'Courier New', monospace" letterSpacing="4">FAFSA</text>
+        <text x="100" y="695" fontSize="28" fill="#fbbf24" fillOpacity="0.07" fontFamily="'Courier New', monospace" letterSpacing="3">Title IV</text>
+        <text x="1200" y="660" fontSize="26" fill="#fcd34d" fillOpacity="0.07" fontFamily="'Courier New', monospace" letterSpacing="2">HEA</text>
 
-        {/* ── Geometric decorations — brighter strokes ── */}
-        <circle cx="145" cy="248" r="92" fill="none" stroke="#bae6fd" strokeOpacity="0.18" strokeWidth="0.8" />
-        <circle cx="1310" cy="580" r="135" fill="none" stroke="#93c5fd" strokeOpacity="0.14" strokeWidth="0.8" />
-        <circle cx="720" cy="830" r="68" fill="none" stroke="#bae6fd" strokeOpacity="0.16" strokeWidth="0.8" />
-        <circle cx="1050" cy="200" r="55" fill="none" stroke="#e0f2fe" strokeOpacity="0.14" strokeWidth="0.8" />
-        <circle cx="420" cy="620" r="44" fill="none" stroke="#93c5fd" strokeOpacity="0.13" strokeWidth="0.6" />
+        {/* Geometric rings — teal */}
+        <circle cx="145" cy="248" r="92" fill="none" stroke="#2dd4bf" strokeOpacity="0.16" strokeWidth="0.8" />
+        <circle cx="1310" cy="580" r="135" fill="none" stroke="#5eead4" strokeOpacity="0.12" strokeWidth="0.8" />
+        <circle cx="720" cy="830" r="68" fill="none" stroke="#2dd4bf" strokeOpacity="0.14" strokeWidth="0.8" />
+        <circle cx="1050" cy="200" r="55" fill="none" stroke="#a5f3fc" strokeOpacity="0.12" strokeWidth="0.8" />
+        <circle cx="420" cy="620" r="44" fill="none" stroke="#5eead4" strokeOpacity="0.11" strokeWidth="0.6" />
+
+        {/* Gold accent rings */}
+        <circle cx="900" cy="140" r="38" fill="none" stroke="#fbbf24" strokeOpacity="0.10" strokeWidth="0.7" />
+        <circle cx="350" cy="750" r="28" fill="none" stroke="#fcd34d" strokeOpacity="0.09" strokeWidth="0.6" />
 
         {/* Hexagons */}
-        <polygon points="215,52 255,75 255,121 215,144 175,121 175,75" fill="none" stroke="#bae6fd" strokeOpacity="0.16" strokeWidth="0.8" />
-        <polygon points="1350,640 1378,656 1378,688 1350,704 1322,688 1322,656" fill="none" stroke="#93c5fd" strokeOpacity="0.13" strokeWidth="0.7" />
+        <polygon points="215,52 255,75 255,121 215,144 175,121 175,75" fill="none" stroke="#2dd4bf" strokeOpacity="0.14" strokeWidth="0.8" />
+        <polygon points="1350,640 1378,656 1378,688 1350,704 1322,688 1322,656" fill="none" stroke="#5eead4" strokeOpacity="0.11" strokeWidth="0.7" />
 
-        {/* Diagonal perspective lines */}
-        <line x1="0" y1="0" x2="432" y2="900" stroke="#e0f2fe" strokeOpacity="0.08" strokeWidth="0.8" />
-        <line x1="1440" y1="0" x2="1008" y2="900" stroke="#e0f2fe" strokeOpacity="0.07" strokeWidth="0.8" />
-        <line x1="0" y1="900" x2="600" y2="0" stroke="#f0f9ff" strokeOpacity="0.05" strokeWidth="0.6" />
+        {/* Diagonal lines */}
+        <line x1="0" y1="0" x2="432" y2="900" stroke="#2dd4bf" strokeOpacity="0.06" strokeWidth="0.8" />
+        <line x1="1440" y1="0" x2="1008" y2="900" stroke="#2dd4bf" strokeOpacity="0.05" strokeWidth="0.8" />
 
-        {/* Constellation dots — brighter azure */}
-        <circle cx="504" cy="148" r="2.2" fill="#7dd3fc" fillOpacity="0.55" />
-        <circle cx="936" cy="198" r="3.0" fill="#38bdf8" fillOpacity="0.45" />
-        <circle cx="288" cy="442" r="2.0" fill="#7dd3fc" fillOpacity="0.50" />
-        <circle cx="1152" cy="336" r="2.5" fill="#38bdf8" fillOpacity="0.40" />
-        <circle cx="720" cy="468" r="1.8" fill="#bae6fd" fillOpacity="0.60" />
-        <circle cx="216" cy="756" r="2.2" fill="#7dd3fc" fillOpacity="0.50" />
-        <circle cx="1224" cy="756" r="3.0" fill="#38bdf8" fillOpacity="0.38" />
-        <circle cx="576" cy="828" r="1.6" fill="#bae6fd" fillOpacity="0.35" />
-        <circle cx="864" cy="108" r="2.4" fill="#7dd3fc" fillOpacity="0.28" />
-        <circle cx="1368" cy="432" r="1.8" fill="#38bdf8" fillOpacity="0.30" />
+        {/* Constellation dots — teal + gold mix */}
+        <circle cx="504" cy="148" r="2.2" fill="#5eead4" fillOpacity="0.60" />
+        <circle cx="936" cy="198" r="2.5" fill="#fbbf24" fillOpacity="0.55" />
+        <circle cx="288" cy="442" r="2.0" fill="#5eead4" fillOpacity="0.50" />
+        <circle cx="1152" cy="336" r="2.5" fill="#2dd4bf" fillOpacity="0.45" />
+        <circle cx="720" cy="468" r="1.8" fill="#fcd34d" fillOpacity="0.50" />
+        <circle cx="216" cy="756" r="2.2" fill="#5eead4" fillOpacity="0.50" />
+        <circle cx="1224" cy="756" r="2.8" fill="#fbbf24" fillOpacity="0.40" />
+        <circle cx="576" cy="828" r="1.6" fill="#a5f3fc" fillOpacity="0.40" />
+        <circle cx="864" cy="108" r="2.4" fill="#fbbf24" fillOpacity="0.35" />
+        <circle cx="1368" cy="432" r="1.8" fill="#5eead4" fillOpacity="0.35" />
 
-        {/* Constellation connector lines */}
-        <line x1="504" y1="148" x2="936" y2="198" stroke="#7dd3fc" strokeOpacity="0.12" strokeWidth="0.6" />
-        <line x1="936" y1="198" x2="1152" y2="336" stroke="#93c5fd" strokeOpacity="0.10" strokeWidth="0.6" />
-        <line x1="288" y1="442" x2="720" y2="468" stroke="#7dd3fc" strokeOpacity="0.12" strokeWidth="0.6" />
-        <line x1="720" y1="468" x2="864" y2="108" stroke="#bae6fd" strokeOpacity="0.09" strokeWidth="0.5" />
+        {/* Constellation lines */}
+        <line x1="504" y1="148" x2="936" y2="198" stroke="#5eead4" strokeOpacity="0.12" strokeWidth="0.6" />
+        <line x1="936" y1="198" x2="1152" y2="336" stroke="#2dd4bf" strokeOpacity="0.10" strokeWidth="0.6" />
+        <line x1="288" y1="442" x2="720" y2="468" stroke="#fbbf24" strokeOpacity="0.09" strokeWidth="0.6" />
 
-        {/* Genie lamp silhouette */}
-        <g transform="translate(1135, 50)" fill="#bfdbfe" fillOpacity="0.065">
-          {/* Flame */}
+        {/* Graduation cap silhouette — top right */}
+        <g transform="translate(1100, 60)" fill="#5eead4" fillOpacity="0.07">
+          <polygon points="60,0 120,30 60,60 0,30" />
+          <rect x="100" y="30" width="5" height="30" />
+          <ellipse cx="60" cy="60" rx="40" ry="15" />
+          <circle cx="105" cy="60" r="6" />
+        </g>
+
+        {/* Genie lamp silhouette — bottom left, now with warm gold */}
+        <g transform="translate(68, 600)" fill="#fbbf24" fillOpacity="0.06">
           <path d="M102 32C108 22 109 12 103 4C97 12 95 24 102 32Z" />
-          {/* Spout */}
           <path d="M60 60C66 47 76 36 88 28L97 36C87 45 79 56 76 66Z" />
-          {/* Lid */}
           <ellipse cx="42" cy="56" rx="22" ry="7" />
           <ellipse cx="42" cy="50" rx="13" ry="5" />
-          {/* Handle */}
           <path d="M10 66C2 63 -4 71 -3 80C-2 89 6 93 11 89C4 86 2 77 6 72C9 68 10 66 10 66Z" />
-          {/* Body */}
           <ellipse cx="46" cy="88" rx="46" ry="26" />
           <path d="M6 92C4 85 6 75 16 67C26 59 36 56 46 56C60 56 74 62 80 70C86 78 85 87 77 94C67 103 52 108 38 108C23 107 9 102 6 92Z" />
         </g>
 
         {/* Open book silhouette */}
-        <g transform="translate(68, 560)" fill="none" stroke="#7dd3fc" strokeOpacity="0.10" strokeWidth="1.2">
+        <g transform="translate(1300, 700)" fill="none" stroke="#5eead4" strokeOpacity="0.09" strokeWidth="1.2">
           <path d="M40,0 Q20,-10 0,0 L0,65 Q20,55 40,65 Q60,55 80,65 L80,0 Q60,-10 40,0 Z" />
           <line x1="40" y1="0" x2="40" y2="65" />
         </g>
@@ -3161,7 +3185,7 @@ export default function AidAgentPage() {
         <main className="flex flex-1 flex-col min-w-0 min-h-0" aria-label="askGenie AI Assistant">
 
           {/* Header */}
-          <header className="relative shrink-0 border-b border-white/[0.10] bg-white/[0.07] backdrop-blur-xl px-5 py-3 flex items-center justify-between">
+          <header className="relative shrink-0 border-b border-teal-500/[0.15] backdrop-blur-xl px-5 py-3 flex items-center justify-between" style={{ background: "linear-gradient(90deg, rgba(7,30,61,0.92) 0%, rgba(10,37,64,0.95) 50%, rgba(7,30,61,0.92) 100%)" }}>
             {/* Left — theme toggle + home + mobile left-panel toggle */}
             <div className="flex items-center gap-1.5 w-40">
               <button
@@ -3189,10 +3213,11 @@ export default function AidAgentPage() {
             </div>
 
             {/* Center — title */}
-            <div className="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 select-none">
-              <h1 className="text-3xl font-black tracking-tight leading-none bg-gradient-to-r from-sky-300 via-indigo-200 to-violet-400 bg-clip-text text-transparent whitespace-nowrap drop-shadow-lg">
+            <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center select-none">
+              <h1 className="text-3xl font-black tracking-tight leading-none whitespace-nowrap genie-shimmer-text drop-shadow-lg">
                 askGenie
               </h1>
+              <p className="hidden sm:block text-[10px] text-teal-300/50 font-medium tracking-wide mt-0.5 whitespace-nowrap">Your calm, expert financial aid companion</p>
             </div>
 
             {/* Right — status + mobile right-panel toggle + actions */}
@@ -3228,22 +3253,31 @@ export default function AidAgentPage() {
             {messages.length === 0 ? (
 
               /* ── Welcome state ── */
-              <div className="flex flex-col items-center px-6 py-12">
+              <div className="flex flex-col items-center px-6 py-12 genie-fade-in-up">
                 {/* Hero badge */}
-                <div className="relative mb-5">
-                  <div className="p-4 rounded-2xl bg-gradient-to-br from-indigo-500 to-violet-600 shadow-2xl shadow-indigo-500/30 ring-1 ring-white/10">
-                    <GenieBottle className="h-9 w-9 text-white" />
+                <div className="relative mb-6">
+                  {/* Orbiting sparkles */}
+                  {[0,1,2,3].map(i => (
+                    <div key={i} className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ transform: `rotate(${i * 90}deg)` }}>
+                      <div className="genie-particle" style={{ top: "-4px", left: "50%", transform: "translateX(-50%)", width: 5, height: 5, background: i % 2 === 0 ? "#fbbf24" : "#5eead4", "--dur": `${2.5 + i * 0.4}s`, "--delay": `${i * 0.6}s` } as React.CSSProperties} />
+                    </div>
+                  ))}
+                  <div className="genie-badge-glow p-5 rounded-3xl ring-2 ring-teal-400/30" style={{ background: "linear-gradient(135deg, #0d9488 0%, #0891b2 50%, #6366f1 100%)" }}>
+                    <GenieBottle className="h-11 w-11 text-white drop-shadow-lg" />
                   </div>
-                  <div className="absolute -top-1 -right-1 p-1 rounded-full bg-emerald-400 shadow-lg shadow-emerald-500/40">
-                    <Sparkles className="h-3 w-3 text-white" />
+                  <div className="absolute -top-1.5 -right-1.5 genie-gold-glow p-1.5 rounded-full bg-gradient-to-br from-amber-400 to-yellow-500 shadow-lg">
+                    <Sparkles className="h-3.5 w-3.5 text-white" />
                   </div>
                 </div>
 
-                <h2 className="text-2xl font-extrabold tracking-tight text-white mb-1.5 text-center">
-                  Student Financial Aid HUB. AI Simplified.
+                <h2 className="text-2xl font-extrabold tracking-tight text-white mb-2 text-center drop-shadow-sm">
+                  Student Financial Aid HUB. <span className="bg-gradient-to-r from-teal-300 to-cyan-300 bg-clip-text text-transparent">AI Simplified.</span>
                 </h2>
-                <p className="text-sm text-white/45 leading-relaxed max-w-lg text-center mb-8">
-                  Generate estimated FA offer letters as a student/parent prior to visiting a FA office, run tentative R2T4 calculations as a student/institution, prep for FSA audits, and get answers on Title IV regulations, FAFSA, SAP, tax credits, state aid, repayment, and much more.
+                <p className="text-sm text-white/50 leading-relaxed max-w-lg text-center mb-2">
+                  Your calm, expert companion for FAFSA, award letters &amp; financial aid.
+                </p>
+                <p className="text-xs text-teal-400/60 leading-relaxed max-w-md text-center mb-8">
+                  Generate FA offer letters · Run R2T4 calculations · Prep FSA audits · Title IV · SAP · Scholarships &amp; more
                 </p>
 
                 {/* Quick actions — role tabs + 2×2 grid */}
@@ -3272,7 +3306,7 @@ export default function AidAgentPage() {
                         <button
                           key={`${role}-${label}`}
                           onClick={() => sendMessage(q)}
-                          className="flex flex-col gap-2 p-3 rounded-xl bg-white/[0.05] hover:bg-white/[0.10] ring-1 ring-white/[0.09] hover:ring-indigo-400/40 text-left transition-all duration-200 group backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+                          className="flex flex-col gap-2 p-3 rounded-xl bg-white/[0.05] hover:bg-teal-500/[0.10] ring-1 ring-white/[0.09] hover:ring-teal-400/40 text-left transition-all duration-200 group backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 hover:shadow-lg hover:shadow-teal-500/10"
                         >
                           <div className={`p-1.5 rounded-lg bg-white/[0.07] group-hover:bg-white/[0.12] transition-colors w-fit`}>
                             <Icon className={`h-3.5 w-3.5 text-white/40 group-hover:${color} transition-colors`} />
@@ -3358,7 +3392,7 @@ export default function AidAgentPage() {
                   >
                     {msg.role === "assistant" && (
                       <div className="shrink-0 mt-1">
-                        <div className="p-1.5 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 shadow-lg shadow-indigo-500/25">
+                        <div className="genie-gold-glow p-1.5 rounded-xl ring-1 ring-teal-400/30" style={{ background: "linear-gradient(135deg, #0d9488 0%, #0891b2 60%, #6366f1 100%)" }}>
                           <GenieBottle className="h-4 w-4 text-white" />
                         </div>
                       </div>
@@ -3367,9 +3401,13 @@ export default function AidAgentPage() {
                     <div
                       className={`relative ${
                         msg.role === "user"
-                          ? "max-w-[72%] bg-gradient-to-br from-indigo-500 to-violet-600 text-white px-4 py-3 rounded-2xl rounded-tr-sm shadow-xl shadow-indigo-500/20 text-sm leading-relaxed ring-1 ring-white/10"
-                          : "max-w-[82%] bg-white/[0.07] ring-1 ring-white/[0.10] px-5 py-4 rounded-2xl rounded-tl-sm"
+                          ? "max-w-[72%] text-white px-4 py-3 rounded-2xl rounded-tr-sm shadow-xl text-sm leading-relaxed ring-1 ring-white/10"
+                          : "max-w-[82%] ring-1 ring-teal-500/[0.18] px-5 py-4 rounded-2xl rounded-tl-sm shadow-lg shadow-teal-900/20"
                       }`}
+                      style={msg.role === "user"
+                        ? { background: "linear-gradient(135deg, #0d9488 0%, #0891b2 40%, #6366f1 100%)", boxShadow: "0 8px 24px rgba(13,148,136,0.25)" }
+                        : { background: "linear-gradient(145deg, rgba(13,148,136,0.08) 0%, rgba(255,255,255,0.06) 100%)" }
+                      }
                     >
                       {msg.role === "user" ? (
                         <div>
@@ -3392,8 +3430,8 @@ export default function AidAgentPage() {
                       ) : (
                         <div className="relative">
                           <div className="flex items-center gap-1.5 mb-2" aria-label="AI-generated response">
-                            <Sparkles className="h-3 w-3 text-indigo-400/70" aria-hidden="true" />
-                            <span className="text-[10px] font-semibold text-indigo-300/70 uppercase tracking-widest">Powered by AI · Responses are AI-generated</span>
+                            <Sparkles className="h-3 w-3 text-amber-400/80" aria-hidden="true" />
+                            <span className="text-[10px] font-semibold text-teal-300/60 uppercase tracking-widest">Powered by AI · Responses are AI-generated</span>
                           </div>
                           <MarkdownRenderer
                             content={msg.content}
@@ -3434,17 +3472,17 @@ export default function AidAgentPage() {
 
                 {/* Typing indicator */}
                 {isLoading && (
-                  <div className="flex gap-3 justify-start">
-                    <div className="shrink-0 mt-1 p-1.5 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 shadow-lg shadow-indigo-500/25">
+                  <div className="flex gap-3 justify-start genie-fade-in-up">
+                    <div className="shrink-0 mt-1 genie-gold-glow p-1.5 rounded-xl ring-1 ring-teal-400/30" style={{ background: "linear-gradient(135deg, #0d9488 0%, #0891b2 60%, #6366f1 100%)" }}>
                       <GenieBottle className="h-4 w-4 text-white" />
                     </div>
-                    <div className="bg-white/[0.07] ring-1 ring-white/[0.10] px-5 py-4 rounded-2xl rounded-tl-sm">
+                    <div className="ring-1 ring-teal-500/[0.18] px-5 py-4 rounded-2xl rounded-tl-sm" style={{ background: "linear-gradient(145deg, rgba(13,148,136,0.08) 0%, rgba(255,255,255,0.06) 100%)" }}>
                       <div className="flex items-center gap-1.5">
                         {[0, 1, 2].map((i) => (
                           <span
                             key={i}
-                            className="h-2 w-2 rounded-full bg-indigo-400/60 animate-bounce"
-                            style={{ animationDelay: `${i * 0.15}s` }}
+                            className="genie-typing-dot"
+                            style={{ background: i === 1 ? "#fbbf24" : "#5eead4", animationDelay: `${i * 0.18}s` }}
                           />
                         ))}
                       </div>
