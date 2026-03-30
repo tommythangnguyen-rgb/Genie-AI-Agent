@@ -3693,8 +3693,8 @@ export default function AidAgentPage() {
                 <div key={group} className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection(key)}
                     className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">{group}</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-right">{group}</span>
                   </button>
                   {isOpen && (
                     <div className="px-1.5 pb-2 space-y-0.5">
@@ -3702,8 +3702,8 @@ export default function AidAgentPage() {
                         <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                           title={name}
                           className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-indigo-500/20 ring-1 ring-transparent hover:ring-indigo-500/20 transition-all duration-150 group">
+                          <span>{name}</span>
                           <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-indigo-400 shrink-0" />
-                          <span className="text-right">{name}</span>
                         </a>
                       ))}
                       {more && more.length > 0 && (
@@ -3712,13 +3712,13 @@ export default function AidAgentPage() {
                             <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                               title={name}
                               className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-indigo-500/20 ring-1 ring-transparent hover:ring-indigo-500/20 transition-all duration-150 group">
+                              <span>{name}</span>
                               <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-indigo-400 shrink-0" />
-                              <span className="text-right">{name}</span>
                             </a>
                           ))}
                           <button
                             onClick={() => toggleSection(moreKey)}
-                            className="w-full text-right px-3 py-1.5 text-[10px] font-medium text-indigo-400/80 hover:text-indigo-300 transition-colors">
+                            className="w-full text-left px-3 py-1.5 text-[10px] font-medium text-indigo-400/80 hover:text-indigo-300 transition-colors">
                             {isMoreOpen ? "Show less" : `Show ${more.length} more`}
                           </button>
                         </>

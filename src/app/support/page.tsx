@@ -15,8 +15,8 @@ function GenieBottle({ className }: { className?: string }) {
 
 const WALLETS = [
   { label: "Bitcoin (BTC)", address: "[YOUR_BTC_WALLET_ADDRESS]" },
-  { label: "Ethereum (ETH)", address: "[YOUR_ETH_WALLET_ADDRESS]" },
-  { label: "USDC", address: "[YOUR_USDC_WALLET_ADDRESS]" },
+  { label: "Ethereum (ETH)", address: "0xae91ffb368eb76fcf9c8dbaf95dd71fed8360abb" },
+  { label: "USDC", address: "0xae91ffb368eb76fcf9c8dbaf95dd71fed8360abb" },
 ];
 
 function CopyButton({ text }: { text: string }) {
@@ -96,7 +96,7 @@ export default function SupportPage() {
               </div>
             </div>
             <a
-              href="https://buymeacoffee.com"
+              href="https://buymeacoffee.com/one27"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-white text-sm font-semibold shadow-lg active:scale-[0.98] transition-all"
@@ -148,7 +148,7 @@ export default function SupportPage() {
               </div>
             </div>
             <a
-              href="https://buy.stripe.com/[YOUR_PAYMENT_LINK]"
+              href="https://buy.stripe.com/28E3cx6WZgpqa3sfbe4wM00"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-600 text-white text-sm font-semibold shadow-lg hover:opacity-90 active:scale-[0.98] transition-all"
