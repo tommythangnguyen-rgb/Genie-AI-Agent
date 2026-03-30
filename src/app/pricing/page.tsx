@@ -15,19 +15,30 @@ function GenieBottle({ className }: { className?: string }) {
 
 export default function PricingPage() {
   const [loading, setLoading] = useState<string | null>(null);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
 
   async function subscribe(tier: string) {
     setLoading(tier);
-    const res = await fetch("/api/stripe/checkout", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ tier }),
-    });
-    const data = await res.json();
-    if (data.url) {
-      window.location.href = data.url;
-    } else {
-      window.location.href = "/aid-agent";
+    setCheckoutError(null);
+    try {
+      const res = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tier }),
+      });
+      if (res.status === 401) {
+        setCheckoutError("Please sign in to subscribe. Visit askGenie and create an account first.");
+        setLoading(null);
+        return;
+      }
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        setCheckoutError(data.error || "Unable to start checkout. Please try again.");
+      }
+    } catch {
+      setCheckoutError("Connection error. Please check your internet and try again.");
     }
     setLoading(null);
   }
@@ -150,6 +161,14 @@ export default function PricingPage() {
             Get expert financial aid guidance on your schedule. No contracts, cancel anytime.
           </p>
         </section>
+
+        {/* Checkout error */}
+        {checkoutError && (
+          <div className="max-w-lg mx-auto mb-6 flex items-start gap-3 px-5 py-4 rounded-xl bg-red-500/10 ring-1 ring-red-400/30">
+            <span className="text-red-400 text-lg shrink-0">⚠</span>
+            <p className="text-sm text-red-300">{checkoutError}</p>
+          </div>
+        )}
 
         {/* Multi-seat note */}
         <div className="flex items-center justify-center gap-2 mb-10">
