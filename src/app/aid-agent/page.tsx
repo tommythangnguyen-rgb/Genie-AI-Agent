@@ -90,6 +90,13 @@ interface AttachedFile {
   mimeType?: string;
 }
 
+// ─── Link list helpers ────────────────────────────────────────────────────────
+
+type LinkItem = { name: string; url: string };
+type SubcatItem = { subcat: string };
+type MaybeSubcat = LinkItem | SubcatItem;
+function isSubcat(item: MaybeSubcat): item is SubcatItem { return "subcat" in item; }
+
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
 const QUICK_QUESTIONS = [
@@ -346,59 +353,68 @@ const FEDERAL_RESOURCES = [
       { name: "2026-27 Verification Guide (IFAP)", url: "https://ifap.ed.gov/ilibrary/document-type/verification-guide" },
     ],
     more: [
+      { subcat: "Policy Guidance & Bulletins" },
       { name: "Dear Colleague Letters (DCL) – All Years", url: "https://ifap.ed.gov/dear-colleague-letters" },
       { name: "Dear Colleague Letters 2025-26", url: "https://ifap.ed.gov/dear-colleague-letters" },
       { name: "Dear Colleague Letters 2026-27", url: "https://ifap.ed.gov/dear-colleague-letters" },
       { name: "Electronic Announcement – IFAP", url: "https://ifap.ed.gov/electronic-announcements" },
+      { subcat: "Systems & Software" },
       { name: "G5 – Grants Management System", url: "https://www.g5.gov" },
       { name: "SAIG Enrollment (TDClient)", url: "https://fsawebenroll.ed.gov" },
       { name: "EDExpress – FA Software", url: "https://fsapartners.ed.gov/knowledge-center/fsa-software/edexpress" },
       { name: "EdConnect – SAIG Transmission", url: "https://fsapartners.ed.gov/knowledge-center/fsa-software/edconnect" },
       { name: "FSA Training & Professional Development", url: "https://fsapartners.ed.gov/training-events" },
       { name: "FSA Data Center (FAFSA Data)", url: "https://studentaid.gov/data-center" },
+      { subcat: "FAFSA & Verification" },
       { name: "CPS (Central Processing System) Info", url: "https://ifap.ed.gov" },
       { name: "SAR / ISIR Interpretation", url: "https://studentaid.gov/help-center/answers/topic/professionals" },
       { name: "FAFSA Simplification Act Resources", url: "https://fsapartners.ed.gov/knowledge-center/fafsa-simplification" },
       { name: "FAFSA Partner Toolkit", url: "https://studentaid.gov/help-center/answers/topic/outreach-and-resources" },
+      { name: "Verification 2025-26 – IRS Tax Year 2023 Data", url: "https://ifap.ed.gov/ilibrary/document-type/verification-guide" },
+      { name: "Verification 2026-27 – IRS Tax Year 2024 Data", url: "https://ifap.ed.gov/ilibrary/document-type/verification-guide" },
+      { name: "IRS Data Retrieval Tool (FAFSA)", url: "https://studentaid.gov/help-center/answers/article/what-is-irs-data-retrieval-tool" },
+      { subcat: "Loan Processing & Counseling" },
       { name: "MPN – Master Promissory Note", url: "https://studentaid.gov/mpn" },
       { name: "Entrance Counseling – studentaid.gov", url: "https://studentaid.gov/entrance-counseling" },
       { name: "Exit Counseling – studentaid.gov", url: "https://studentaid.gov/exit-counseling" },
+      { name: "Direct Loan Aggregate Limits Guidance", url: "https://studentaid.gov/understand-aid/types/loans/subsidized-unsubsidized" },
+      { name: "PLUS Loan Processing (COD)", url: "https://cod.ed.gov" },
+      { name: "FSA Loan Origination & Disbursement (COD)", url: "https://cod.ed.gov" },
+      { subcat: "Student File & Aid Processing" },
       { name: "Professional Judgment Guidance (IFAP)", url: "https://ifap.ed.gov/ilibrary/document-type/professional-judgment" },
       { name: "Dependency Override Policy Guidance", url: "https://ifap.ed.gov" },
       { name: "Conflicting Information Policy (34 CFR 668.16)", url: "https://www.ecfr.gov/current/title-34/subtitle-B/chapter-VI/part-668/subpart-B/section-668.16" },
       { name: "Consortium Agreement Guidance", url: "https://ifap.ed.gov" },
       { name: "Study Abroad Aid Processing", url: "https://ifap.ed.gov" },
       { name: "Unusual Enrollment History (UEH) Guidance", url: "https://ifap.ed.gov" },
+      { name: "Transfer Monitoring – NSLDS", url: "https://nslds.ed.gov" },
+      { name: "Homeless/Foster Youth (Unaccompanied Youth)", url: "https://studentaid.gov/help-center/answers/article/foster-youth-and-homeless-youth" },
+      { name: "Incarcerated Students Initiative", url: "https://studentaid.gov/incarcerated" },
+      { subcat: "SAP, R2T4 & Disbursement" },
       { name: "Satisfactory Academic Progress (SAP) Regulations", url: "https://www.ecfr.gov/current/title-34/part-668/subpart-C" },
       { name: "R2T4 Policy & Worksheets (IFAP)", url: "https://ifap.ed.gov/ilibrary/document-type/return-title-iv" },
       { name: "Disbursement Timing Rules (34 CFR 668.164)", url: "https://www.ecfr.gov/current/title-34/subtitle-B/chapter-VI/part-668/subpart-K/section-668.164" },
       { name: "Award Year Crossover Guidance", url: "https://ifap.ed.gov" },
-      { name: "Transfer Monitoring – NSLDS", url: "https://nslds.ed.gov" },
       { name: "Credit Balance Management (34 CFR 668.164(e))", url: "https://www.ecfr.gov/current/title-34/subtitle-B/chapter-VI/part-668/subpart-K/section-668.164" },
+      { subcat: "Grant & Aid Programs" },
       { name: "Campus-Based Aid Allocation", url: "https://ecampusbased.ed.gov" },
       { name: "FISAP Filing (ecampusbased.ed.gov)", url: "https://ecampusbased.ed.gov" },
       { name: "TEACH Grant Program", url: "https://studentaid.gov/teach-grant-program" },
       { name: "Iraq/Afghanistan Service Grant", url: "https://studentaid.gov/understand-aid/types/grants/iraq-afghanistan-service" },
       { name: "Federal Pell Grant Lifetime Eligibility", url: "https://studentaid.gov/understand-aid/types/grants/pell/calculate-eligibility" },
       { name: "Pell Grant LEU Tracking – NSLDS", url: "https://nslds.ed.gov" },
-      { name: "Direct Loan Aggregate Limits Guidance", url: "https://studentaid.gov/understand-aid/types/loans/subsidized-unsubsidized" },
-      { name: "PLUS Loan Processing (COD)", url: "https://cod.ed.gov" },
-      { name: "FSA Loan Origination & Disbursement (COD)", url: "https://cod.ed.gov" },
+      { name: "AmeriCorps Segal Education Award Info", url: "https://americorps.gov/members-volunteers/segal-americorps-education-award" },
+      { subcat: "Institutional Compliance" },
       { name: "Default Prevention Resources", url: "https://studentaid.gov/help-center/answers/topic/managing-repayment" },
       { name: "CDR – Cohort Default Rate Guide (IFAP)", url: "https://ifap.ed.gov/ilibrary/document-type/cohort-default-rate-guide" },
       { name: "IPEDS Data Collection (NCES)", url: "https://nces.ed.gov/ipeds" },
       { name: "Gainful Employment Disclosure Tool", url: "https://studentaid.gov/gainful-employment" },
       { name: "90/10 Rule Guidance (HEA § 487(a)(24))", url: "https://ifap.ed.gov" },
       { name: "Financial Responsibility Standards (Composite Score)", url: "https://studentaid.gov/financialresponsibility" },
-      { name: "Incarcerated Students Initiative", url: "https://studentaid.gov/incarcerated" },
       { name: "Distance Education – Accreditation Guidance", url: "https://ifap.ed.gov" },
       { name: "Clock-to-Credit Hour Conversion", url: "https://ifap.ed.gov" },
       { name: "State Authorization Resources (NC-SARA)", url: "https://nc-sara.org" },
-      { name: "Homeless/Foster Youth (Unaccompanied Youth)", url: "https://studentaid.gov/help-center/answers/article/foster-youth-and-homeless-youth" },
-      { name: "AmeriCorps Segal Education Award Info", url: "https://americorps.gov/members-volunteers/segal-americorps-education-award" },
-      { name: "Verification 2025-26 – IRS Tax Year 2023 Data", url: "https://ifap.ed.gov/ilibrary/document-type/verification-guide" },
-      { name: "Verification 2026-27 – IRS Tax Year 2024 Data", url: "https://ifap.ed.gov/ilibrary/document-type/verification-guide" },
-      { name: "IRS Data Retrieval Tool (FAFSA)", url: "https://studentaid.gov/help-center/answers/article/what-is-irs-data-retrieval-tool" },
+      { subcat: "IRS & Tax Resources" },
       { name: "IRS Get Transcript (Verification)", url: "https://www.irs.gov/individuals/get-transcript" },
       { name: "IRS Publication 970 – Tax Benefits for Education", url: "https://www.irs.gov/publications/p970" },
       { name: "IRS Form 1098-T (Tuition Statement)", url: "https://www.irs.gov/forms-pubs/about-form-1098-t" },
@@ -409,6 +425,7 @@ const FEDERAL_RESOURCES = [
       { name: "IRS Tax Return Transcripts (2020–2024)", url: "https://www.irs.gov/individuals/get-transcript" },
       { name: "IRS Form 4506-C (Transcript Request)", url: "https://www.irs.gov/forms-pubs/about-form-4506-c" },
       { name: "IRS EIN / ITIN for FAFSA", url: "https://www.irs.gov/individuals/individual-taxpayer-identification-number" },
+      { subcat: "NASFAA & Professional Tools" },
       { name: "R2T4 Tracking Spreadsheet Template (NASFAA)", url: "https://www.nasfaa.org/tools_resources" },
       { name: "NASFAA Tools & Resources Library", url: "https://www.nasfaa.org/tools_resources" },
     ],
@@ -428,23 +445,26 @@ const FEDERAL_RESOURCES = [
       { name: "GAO – Government Auditing Standards (Yellow Book)", url: "https://www.gao.gov/yellowbook" },
     ],
     more: [
-      { name: "Single Audit Act (31 U.S.C. § 7501)", url: "https://www.govinfo.gov/content/pkg/USCODE-2011-title31/pdf/USCODE-2011-title31-subtitleV-chap75.pdf" },
-      { name: "AICPA – Audit Standards (SAS)", url: "https://www.aicpa.org/research/standards/auditattest/clarity.html" },
-      { name: "FSA Audit Guide – Title IV", url: "https://www2.ed.gov/about/offices/list/oig/aireports/auditguide.html" },
-      { name: "Program Review Protocols – FSA", url: "https://studentaid.gov/about/announcements/program-review" },
-      { name: "OIG Audit Reports – Higher Education", url: "https://www2.ed.gov/about/offices/list/oig/aireports/aireports.html" },
+      { subcat: "Federal Regulations (CFR)" },
       { name: "34 CFR Part 674 – Federal Perkins Loan", url: "https://www.ecfr.gov/current/title-34/part-674" },
       { name: "34 CFR Part 675 – Federal Work-Study", url: "https://www.ecfr.gov/current/title-34/part-675" },
       { name: "34 CFR Part 676 – FSEOG", url: "https://www.ecfr.gov/current/title-34/part-676" },
       { name: "34 CFR Part 682 – FFEL Program", url: "https://www.ecfr.gov/current/title-34/part-682" },
       { name: "34 CFR Part 692 – LEAP Program", url: "https://www.ecfr.gov/current/title-34/part-692" },
       { name: "34 CFR Part 99 – FERPA", url: "https://www.ecfr.gov/current/title-34/part-99" },
-      { name: "FERPA – Family Educational Rights & Privacy", url: "https://studentprivacy.ed.gov" },
       { name: "HEA Title IV – Higher Education Act", url: "https://uscode.house.gov/browse/prelim@title20/chapter28&edition=prelim" },
       { name: "FSA 2025-26 Final Rules (Federal Register)", url: "https://www.federalregister.gov/agencies/education-department" },
       { name: "FSA 2026-27 Award Year Regulations (Federal Register)", url: "https://www.federalregister.gov/agencies/education-department" },
       { name: "2025-26 Verification Requirements (34 CFR 668 Subpart E)", url: "https://www.ecfr.gov/current/title-34/part-668/subpart-E" },
       { name: "2026-27 Verification Requirements (34 CFR 668 Subpart E)", url: "https://www.ecfr.gov/current/title-34/part-668/subpart-E" },
+      { subcat: "Audit Standards" },
+      { name: "Single Audit Act (31 U.S.C. § 7501)", url: "https://www.govinfo.gov/content/pkg/USCODE-2011-title31/pdf/USCODE-2011-title31-subtitleV-chap75.pdf" },
+      { name: "AICPA – Audit Standards (SAS)", url: "https://www.aicpa.org/research/standards/auditattest/clarity.html" },
+      { name: "FSA Audit Guide – Title IV", url: "https://www2.ed.gov/about/offices/list/oig/aireports/auditguide.html" },
+      { name: "Program Review Protocols – FSA", url: "https://studentaid.gov/about/announcements/program-review" },
+      { name: "OIG Audit Reports – Higher Education", url: "https://www2.ed.gov/about/offices/list/oig/aireports/aireports.html" },
+      { name: "HEERF / CARES Act Audit Requirements", url: "https://www2.ed.gov/about/offices/list/oig/aireports/auditguide.html" },
+      { subcat: "Institutional Compliance" },
       { name: "CDR Cohort Default Rate – National Data", url: "https://studentaid.gov/data-center/school/default" },
       { name: "90/10 Rule – HEA § 487(a)(24)", url: "https://ifap.ed.gov" },
       { name: "Composite Score / Financial Responsibility", url: "https://studentaid.gov/financialresponsibility" },
@@ -453,30 +473,38 @@ const FEDERAL_RESOURCES = [
       { name: "Borrower Defense Regulations", url: "https://www.federalregister.gov/agencies/education-department" },
       { name: "Program Integrity Rules (34 CFR 668)", url: "https://www.ecfr.gov/current/title-34/part-668" },
       { name: "Cash Management Rules (34 CFR 668.162–164)", url: "https://www.ecfr.gov/current/title-34/part-668/subpart-K" },
+      { name: "IPEDS Reporting (NCES)", url: "https://nces.ed.gov/ipeds" },
+      { name: "FERPA – Family Educational Rights & Privacy", url: "https://studentprivacy.ed.gov" },
+      { subcat: "Statutory Compliance" },
       { name: "Foreign Gift Reporting (HEA § 117)", url: "https://www.ed.gov/about/offices/list/ope/foreigngifts.html" },
       { name: "Clery Act Compliance", url: "https://www2.ed.gov/admins/lead/safety/campus.html" },
       { name: "Drug-Free Schools & Communities Act", url: "https://www2.ed.gov/policy/elsec/guid/secletter/120725.html" },
       { name: "Title IX Compliance – ED OCR", url: "https://www2.ed.gov/about/offices/list/ocr/docs/tix_dis.html" },
       { name: "ADA Compliance in Higher Education", url: "https://www.ada.gov" },
       { name: "HEOA – Higher Education Opportunity Act", url: "https://www.congress.gov/110/plaws/publ315/PLAW-110publ315.pdf" },
-      { name: "HEERF / CARES Act Audit Requirements", url: "https://www2.ed.gov/about/offices/list/oig/aireports/auditguide.html" },
       { name: "Emergency Aid – COVID Relief Reporting", url: "https://www2.ed.gov/about/offices/list/ope/caresact.html" },
-      { name: "IPEDS Reporting (NCES)", url: "https://nces.ed.gov/ipeds" },
+      { subcat: "Minority & Specialized Institutions" },
       { name: "Title III – HBCUs & Strengthening Institutions", url: "https://www.ed.gov/about/offices/list/ope/idues/index.html" },
       { name: "Title V – Hispanic-Serving Institutions", url: "https://www.ed.gov/about/offices/list/ope/idues/index.html" },
       { name: "MSI – Minority Serving Institutions", url: "https://www.ed.gov/about/offices/list/ope/idues/index.html" },
       { name: "State Authorization – NC-SARA", url: "https://nc-sara.org" },
       { name: "Accreditation Recognition Database (DAPIP)", url: "https://ope.ed.gov/dapip" },
+      { subcat: "Professional Standards & Ethics" },
       { name: "NASFAA Standards of Excellence (SOE)", url: "https://www.nasfaa.org/SOE" },
       { name: "NASFAA Code of Ethics & Professional Standards", url: "https://www.nasfaa.org/professional_standards" },
       { name: "NASFAA AskRegs – Compliance Q&A", url: "https://askregs.nasfaa.org" },
       { name: "FSA Modernization – FUTURE Act", url: "https://fsapartners.ed.gov/knowledge-center/fafsa-simplification" },
+      { name: "Congressional Research Service – Higher Ed Reports", url: "https://crsreports.congress.gov" },
+      { subcat: "Recovery, Controls & Governance" },
       { name: "Overpayment Recovery – NSLDS", url: "https://nslds.ed.gov" },
       { name: "Title IV Reconciliation Guidance", url: "https://cod.ed.gov" },
       { name: "Internal Controls – 2 CFR 200.303", url: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/section-200.303" },
       { name: "Allowable Costs – 2 CFR 200.420-.476", url: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-E" },
       { name: "Questioned Costs & Findings – 2 CFR 200.516", url: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-F/section-200.516" },
       { name: "Corrective Action Plans – OIG Guidance", url: "https://www2.ed.gov/about/offices/list/oig/aireports/aireports.html" },
+      { name: "FSA Access – MyFSAID Account Management", url: "https://fsaid.ed.gov" },
+      { name: "SAIG Mailbox Management & Security", url: "https://fsawebenroll.ed.gov" },
+      { subcat: "IRS & Tax" },
       { name: "IRS Publication 970 – Tax Benefits for Education", url: "https://www.irs.gov/publications/p970" },
       { name: "IRS AOTC Audit Compliance (Institutions)", url: "https://www.irs.gov/credits-deductions/individuals/aotc" },
       { name: "IRS Form 1098-T Reporting Requirements", url: "https://www.irs.gov/forms-pubs/about-form-1098-t" },
@@ -487,12 +515,10 @@ const FEDERAL_RESOURCES = [
       { name: "IRS Tax Filing 2024 – Current Year Guide", url: "https://www.irs.gov/filing" },
       { name: "IRS Get Transcript (All Tax Years)", url: "https://www.irs.gov/individuals/get-transcript" },
       { name: "IRS Form 4506-C – Transcript for Third Parties", url: "https://www.irs.gov/forms-pubs/about-form-4506-c" },
+      { subcat: "Privacy & Digital Security" },
       { name: "GLBA – Gramm-Leach-Bliley Cybersecurity (FTC)", url: "https://www.ftc.gov/business-guidance/privacy-security/gramm-leach-bliley-act" },
       { name: "COPPA Compliance (Children Under 13)", url: "https://www.ftc.gov/business-guidance/privacy-security/childrens-privacy" },
       { name: "CCPA – California Consumer Privacy Act", url: "https://oag.ca.gov/privacy/ccpa" },
-      { name: "FSA Access – MyFSAID Account Management", url: "https://fsaid.ed.gov" },
-      { name: "SAIG Mailbox Management & Security", url: "https://fsawebenroll.ed.gov" },
-      { name: "Congressional Research Service – Higher Ed Reports", url: "https://crsreports.congress.gov" },
     ],
   },
   {
@@ -754,8 +780,8 @@ const SCHOLARSHIP_ENGINES = [
   { name: "Cappex", url: "https://www.cappex.com" },
   { name: "College Raptor", url: "https://www.collegeraptor.com/scholarships" },
 ];
-const SCHOLARSHIP_ENGINES_MORE = [
-  // General search engines
+const SCHOLARSHIP_ENGINES_MORE: MaybeSubcat[] = [
+  { subcat: "General Search Engines" },
   { name: "Going Merry", url: "https://www.goingmerry.com" },
   { name: "Bold.org", url: "https://bold.org/scholarships" },
   { name: "Unigo", url: "https://www.unigo.com" },
@@ -771,7 +797,7 @@ const SCHOLARSHIP_ENGINES_MORE = [
   { name: "Sallie Mae Scholarships", url: "https://www.salliemae.com/college-planning/scholarships" },
   { name: "Chegg Scholarships", url: "https://www.chegg.com/scholarships" },
   { name: "Student Scholarship Search", url: "https://www.studentscholarshipsearch.com" },
-  // Prestigious national programs
+  { subcat: "Prestigious Programs" },
   { name: "QuestBridge", url: "https://www.questbridge.org" },
   { name: "Jack Kent Cooke Foundation", url: "https://www.jkcf.org" },
   { name: "Gates Scholarship", url: "https://www.thegatesscholarship.org" },
@@ -787,7 +813,7 @@ const SCHOLARSHIP_ENGINES_MORE = [
   { name: "American Legion Scholarships", url: "https://www.legion.org/scholarships" },
   { name: "Regeneron Science Talent Search", url: "https://www.societyforscience.org/regeneron-sts" },
   { name: "Google Generation Scholarship", url: "https://buildyourfuture.withgoogle.com/scholarships" },
-  // Minority & diversity
+  { subcat: "Diversity & Inclusion" },
   { name: "Hispanic Scholarship Fund", url: "https://www.hsf.net" },
   { name: "United Negro College Fund (UNCF)", url: "https://uncf.org/scholarships" },
   { name: "American Indian College Fund", url: "https://collegefund.org" },
@@ -803,7 +829,7 @@ const SCHOLARSHIP_ENGINES_MORE = [
   { name: "NAACP Scholarships", url: "https://naacp.org/find-resources/scholarships-awards-internships" },
   { name: "Esperanza Education Fund", url: "https://www.esperanzaeducationfund.org" },
   { name: "Native Forward Scholars Fund", url: "https://nativeforward.org" },
-  // Women's scholarships
+  { subcat: "Women's Scholarships" },
   { name: "American Association of University Women (AAUW)", url: "https://www.aauw.org/resources/programs/fellowships-grants" },
   { name: "Jeannette Rankin Women's Scholarship", url: "https://rankinfoundation.org" },
   { name: "P.E.O. International Scholarships", url: "https://www.peointernational.org/about-peo-scholar-awards" },
@@ -814,7 +840,7 @@ const SCHOLARSHIP_ENGINES_MORE = [
   { name: "Soroptimist Live Your Dream", url: "https://www.soroptimist.org/our-work/live-your-dream" },
   { name: "National Women's Studies Association", url: "https://www.nwsa.org/scholarships" },
   { name: "Women's Independence Scholarship Program", url: "https://www.wispinc.org" },
-  // STEM scholarships
+  { subcat: "STEM" },
   { name: "NSF Graduate Research Fellowship", url: "https://www.nsfgrfp.org" },
   { name: "Barry Goldwater Scholarship", url: "https://goldwaterscholarship.gov" },
   { name: "SMART Scholarship (DoD)", url: "https://www.smartscholarship.org" },
@@ -830,7 +856,7 @@ const SCHOLARSHIP_ENGINES_MORE = [
   { name: "Astronaut Scholarship Foundation", url: "https://astronautscholarship.org" },
   { name: "ACM/IEEE-CS Computing Scholarship", url: "https://www.computer.org/volunteering/awards/scholarships" },
   { name: "CRA Outstanding Undergrad Researcher", url: "https://cra.org/crae/awards/cra-outstanding-undergraduate-researchers" },
-  // Healthcare & nursing
+  { subcat: "Healthcare & Nursing" },
   { name: "NHSC Scholarship (Health Corps)", url: "https://nhsc.hrsa.gov/scholarships" },
   { name: "American Nurses Foundation Scholarship", url: "https://www.americannursesfoundation.org/programs/scholarships" },
   { name: "Jonas Nursing & Veterans Healthcare", url: "https://www.jonas.org" },
@@ -841,7 +867,7 @@ const SCHOLARSHIP_ENGINES_MORE = [
   { name: "American Dental Association Foundation", url: "https://adafoundation.org/scholarships" },
   { name: "Pharmacy Scholarship Foundation", url: "https://www.pswf.org" },
   { name: "Minority Serving Institutions STEM Health", url: "https://www.minorityhealth.hhs.gov" },
-  // Business & finance
+  { subcat: "Business & Finance" },
   { name: "NFIB Young Entrepreneur Foundation", url: "https://www.nfib.com/yef/scholarships" },
   { name: "National Business Education Association", url: "https://www.nbea.org/scholarships" },
   { name: "Accounting & Financial Women's Alliance", url: "https://www.afwa.org/scholarship" },
@@ -852,7 +878,7 @@ const SCHOLARSHIP_ENGINES_MORE = [
   { name: "Risk Management Scholarship (Spencer)", url: "https://www.spencered.org" },
   { name: "National Association of Insurance Women", url: "https://www.naiw.org/scholarships.html" },
   { name: "Investment Management Education Alliance", url: "https://www.imea.org/scholarships" },
-  // Arts, humanities & social sciences
+  { subcat: "Arts, Humanities & Social Sciences" },
   { name: "Scholastic Art & Writing Awards", url: "https://www.artandwriting.org" },
   { name: "Worldstudio AIGA Scholarships", url: "https://www.aiga.org/worldstudio-scholarships" },
   { name: "College Art Association (CAA)", url: "https://www.collegeart.org/programs/fellowships" },
@@ -863,7 +889,7 @@ const SCHOLARSHIP_ENGINES_MORE = [
   { name: "American Philosophical Society Grants", url: "https://www.amphilsoc.org/grants/fellowships" },
   { name: "National Endowment for the Humanities", url: "https://www.neh.gov/grants" },
   { name: "Kennedy Center Fellowships", url: "https://www.kennedy-center.org/education/opportunities-for-artists" },
-  // Military & veterans
+  { subcat: "Military & Veterans" },
   { name: "Veterans of Foreign Wars (VFW) Scholarships", url: "https://www.vfw.org/scholarship" },
   { name: "Military Officers Association of America", url: "https://www.moaa.org/content/education/education" },
   { name: "Fisher House Foundation Scholarships", url: "https://www.fisherhouse.org/programs/scholarship-programs" },
@@ -874,7 +900,7 @@ const SCHOLARSHIP_ENGINES_MORE = [
   { name: "Air Force Aid Society", url: "https://www.afas.org/educational-assistance" },
   { name: "Army Emergency Relief Scholarships", url: "https://www.aerhq.org/programs-scholarships.asp" },
   { name: "Coast Guard Foundation Scholarships", url: "https://www.coastguardfoundation.org/scholarships" },
-  // State higher education agencies
+  { subcat: "State Programs (All 50 States)" },
   { name: "Alabama PACT / STARS Scholarship", url: "https://www.ache.edu/scholarships" },
   { name: "Alaska Commission on Postsecondary Education", url: "https://acpe.alaska.gov/FINANCIAL_AID" },
   { name: "Arizona Commission for Postsecondary Ed", url: "https://azregents.edu/financial-aid" },
@@ -926,7 +952,7 @@ const SCHOLARSHIP_ENGINES_MORE = [
   { name: "Wisconsin Higher Educational Aids Board (HEAB)", url: "https://heab.state.wi.us" },
   { name: "Wyoming Department of Education Financial Aid", url: "https://edu.wyoming.gov/beyond-the-classroom" },
   { name: "DC Office of the State Superintendent of Education", url: "https://osse.dc.gov/service/financial-aid-resources" },
-  // International & study abroad
+  { subcat: "International & Study Abroad" },
   { name: "Fulbright U.S. Student Program", url: "https://us.fulbrightonline.org" },
   { name: "Benjamin A. Gilman International Scholarship", url: "https://www.gilmanscholarship.org" },
   { name: "Rhodes Scholarship", url: "https://www.rhodesscholar.org" },
@@ -997,47 +1023,55 @@ const STUDENT_JOB_SEARCH = [
   { name: "USAJobs (Federal)", url: "https://www.usajobs.gov" },
   { name: "Idealist (Nonprofit)", url: "https://www.idealist.org" },
 ];
-const STUDENT_JOB_SEARCH_MORE = [
+const STUDENT_JOB_SEARCH_MORE: MaybeSubcat[] = [
+  { subcat: "General Platforms" },
   { name: "Monster", url: "https://www.monster.com" },
   { name: "CareerBuilder", url: "https://www.careerbuilder.com" },
   { name: "SimplyHired", url: "https://www.simplyhired.com" },
-  { name: "Dice (Tech)", url: "https://www.dice.com" },
   { name: "Wellfound / AngelList (Startups)", url: "https://wellfound.com" },
   { name: "Built In (Tech Startups)", url: "https://builtin.com" },
-  { name: "FlexJobs (Remote/Flexible)", url: "https://www.flexjobs.com" },
-  { name: "We Work Remotely", url: "https://weworkremotely.com" },
-  { name: "Remote.co", url: "https://remote.co" },
-  { name: "Snagajob (Hourly/Part-Time)", url: "https://www.snagajob.com" },
-  { name: "JobList", url: "https://www.joblist.com" },
-  { name: "Nexxt", url: "https://www.nexxt.com" },
+  { name: "The Ladders ($100K+)", url: "https://www.theladders.com" },
+  { name: "Vault Career Guides", url: "https://www.vault.com" },
+  { subcat: "Tech & Specialty" },
+  { name: "Dice (Tech)", url: "https://www.dice.com" },
   { name: "HealthcareJobsite", url: "https://www.healthcarejobsite.com" },
   { name: "Health eCareers", url: "https://www.healthecareers.com" },
   { name: "eFinancialCareers", url: "https://www.efinancialcareers.com" },
-  { name: "HigherEdJobs", url: "https://www.higheredjobs.com" },
-  { name: "Chronicle of Higher Ed Jobs", url: "https://jobs.chronicle.com" },
-  { name: "GovernmentJobs.com", url: "https://www.governmentjobs.com" },
-  { name: "ClearanceJobs (Security Clearance)", url: "https://www.clearancejobs.com" },
-  { name: "PowerToFly (Women & Diversity)", url: "https://powertofly.com" },
-  { name: "Jopwell (Diverse Professionals)", url: "https://www.jopwell.com" },
-  { name: "DiversityJobs", url: "https://www.diversityjobs.com" },
-  { name: "iHispano", url: "https://ihispano.com" },
-  { name: "VetJobs (Veterans)", url: "https://www.vetjobs.com" },
-  { name: "HireHeroesUSA (Veterans)", url: "https://www.hireheroesusa.org" },
-  { name: "DisabilityJobs.net", url: "https://www.disabilityjobs.net" },
-  { name: "AbilityLinks", url: "https://abilitylinks.org" },
   { name: "LawJobs", url: "https://www.lawjobs.com" },
   { name: "Mediabistro (Media/Comms)", url: "https://www.mediabistro.com" },
   { name: "JournalismJobs", url: "https://www.journalismjobs.com" },
   { name: "EngineeringJobs.com", url: "https://www.engineeringjobs.com" },
   { name: "AccountingJobsToday", url: "https://www.accountingjobstoday.com" },
-  { name: "The Ladders ($100K+)", url: "https://www.theladders.com" },
-  { name: "Vault Career Guides", url: "https://www.vault.com" },
+  { subcat: "Remote & Flexible" },
+  { name: "FlexJobs (Remote/Flexible)", url: "https://www.flexjobs.com" },
+  { name: "We Work Remotely", url: "https://weworkremotely.com" },
+  { name: "Remote.co", url: "https://remote.co" },
+  { name: "Himalayas (Remote Jobs)", url: "https://himalayas.app" },
+  { subcat: "Hourly & Part-Time" },
+  { name: "Snagajob (Hourly/Part-Time)", url: "https://www.snagajob.com" },
+  { name: "JobList", url: "https://www.joblist.com" },
+  { name: "Nexxt", url: "https://www.nexxt.com" },
+  { subcat: "Government & Higher Ed" },
+  { name: "GovernmentJobs.com", url: "https://www.governmentjobs.com" },
+  { name: "ClearanceJobs (Security Clearance)", url: "https://www.clearancejobs.com" },
+  { name: "HigherEdJobs", url: "https://www.higheredjobs.com" },
+  { name: "Chronicle of Higher Ed Jobs", url: "https://jobs.chronicle.com" },
+  { subcat: "Diversity & Inclusion" },
+  { name: "PowerToFly (Women & Diversity)", url: "https://powertofly.com" },
+  { name: "Jopwell (Diverse Professionals)", url: "https://www.jopwell.com" },
+  { name: "DiversityJobs", url: "https://www.diversityjobs.com" },
+  { name: "iHispano", url: "https://ihispano.com" },
+  { subcat: "Veterans & Disability" },
+  { name: "VetJobs (Veterans)", url: "https://www.vetjobs.com" },
+  { name: "HireHeroesUSA (Veterans)", url: "https://www.hireheroesusa.org" },
+  { name: "DisabilityJobs.net", url: "https://www.disabilityjobs.net" },
+  { name: "AbilityLinks", url: "https://abilitylinks.org" },
+  { subcat: "Student-Focused" },
   { name: "Chegg Internships & Jobs", url: "https://www.chegg.com/internships" },
   { name: "Parker Dewey (Micro-Internships)", url: "https://www.parkerdewey.com" },
   { name: "Campus Job", url: "https://www.campusjob.com" },
   { name: "JobSpider", url: "https://www.jobspider.com" },
   { name: "Career.io", url: "https://career.io" },
-  { name: "Himalayas (Remote Jobs)", url: "https://himalayas.app" },
 ];
 
 const INTERNSHIP_SEARCH = [
@@ -1052,47 +1086,53 @@ const INTERNSHIP_SEARCH = [
   { name: "Virtual Internships", url: "https://www.virtualinternships.com" },
   { name: "INROADS (Diversity)", url: "https://inroads.org" },
 ];
-const INTERNSHIP_SEARCH_MORE = [
+const INTERNSHIP_SEARCH_MORE: MaybeSubcat[] = [
+  { subcat: "General Platforms" },
   { name: "InternQueen", url: "https://www.internqueen.com" },
   { name: "Idealist Internships", url: "https://www.idealist.org" },
+  { name: "Vault Internship Rankings", url: "https://www.vault.com/best-companies/internships" },
+  { name: "College Recruiter Internships", url: "https://www.collegerecruiter.com" },
+  { name: "Glassdoor Internships", url: "https://www.glassdoor.com" },
+  { name: "ZipRecruiter Internships", url: "https://www.ziprecruiter.com" },
+  { subcat: "International & Abroad" },
   { name: "Go Overseas (Abroad)", url: "https://www.gooverseas.com" },
   { name: "AIESEC (International)", url: "https://aiesec.org" },
   { name: "BUNAC (Work Abroad)", url: "https://www.bunac.org" },
   { name: "Global Experiences (Abroad)", url: "https://www.globalexperiences.com" },
   { name: "IAESTE (STEM Abroad)", url: "https://www.iaeste.us" },
+  { subcat: "Diversity & Inclusion" },
   { name: "SEO Career (Diversity)", url: "https://www.seo-usa.org" },
   { name: "Management Leadership for Tomorrow (MLT)", url: "https://mlt.org" },
   { name: "Out for Undergrad (O4U)", url: "https://www.outforundergrad.org" },
   { name: "Hispanic Scholarship Fund Internships", url: "https://www.hsf.net" },
   { name: "UNCF Internship Programs", url: "https://uncf.org" },
   { name: "Congressional Black Caucus Foundation", url: "https://www.cbcfinc.org" },
+  { name: "Jopwell Internships (Diversity)", url: "https://www.jopwell.com" },
+  { name: "Getting Hired (Disability)", url: "https://www.gettinghired.com" },
+  { subcat: "Government & Public Service" },
   { name: "Washington Center Internships", url: "https://twc.edu" },
   { name: "White House Internship Program", url: "https://www.whitehouse.gov/get-involved/internships" },
   { name: "State Department Student Internships", url: "https://www.state.gov/internships" },
+  { name: "USAJobs Student Programs", url: "https://www.usajobs.gov/students" },
+  { name: "Peace Corps (Post-Grad)", url: "https://www.peacecorps.gov" },
+  { name: "AmeriCorps", url: "https://americorps.gov" },
+  { name: "City Year", url: "https://www.cityyear.org" },
+  { name: "Teach For America", url: "https://www.teachforamerica.org" },
+  { name: "Hire Heroes USA (Veterans Internships)", url: "https://www.hireheroesusa.org" },
+  { subcat: "Federal Research & Science" },
   { name: "NSF REU Programs (Research)", url: "https://www.nsf.gov/crssprgm/reu" },
   { name: "NASA Internships", url: "https://intern.nasa.gov" },
   { name: "NIH Training & Internships", url: "https://www.training.nih.gov" },
   { name: "CDC Student Internships", url: "https://www.cdc.gov/employment" },
   { name: "DOE Science Internships (WDTS)", url: "https://science.osti.gov/wdts" },
   { name: "Smithsonian Internships", url: "https://www.si.edu/OFG/Internships" },
-  { name: "Peace Corps (Post-Grad)", url: "https://www.peacecorps.gov" },
-  { name: "AmeriCorps", url: "https://americorps.gov" },
-  { name: "City Year", url: "https://www.cityyear.org" },
-  { name: "Teach For America", url: "https://www.teachforamerica.org" },
+  { subcat: "Top Companies" },
   { name: "Google STEP Internship", url: "https://buildyourfuture.withgoogle.com/programs/step" },
   { name: "Microsoft Intern Programs", url: "https://careers.microsoft.com/students" },
   { name: "Goldman Sachs Summer Analyst", url: "https://www.goldmansachs.com/careers/students" },
   { name: "Apple Internships", url: "https://jobs.apple.com/en-us/search?team=internships-STDNT-INTRN" },
   { name: "Facebook/Meta Internships", url: "https://www.metacareers.com/students-and-grads" },
   { name: "Amazon Student Programs", url: "https://www.amazon.jobs/en/teams/internships-for-students" },
-  { name: "Getting Hired (Disability)", url: "https://www.gettinghired.com" },
-  { name: "Jopwell Internships (Diversity)", url: "https://www.jopwell.com" },
-  { name: "Vault Internship Rankings", url: "https://www.vault.com/best-companies/internships" },
-  { name: "College Recruiter Internships", url: "https://www.collegerecruiter.com" },
-  { name: "Glassdoor Internships", url: "https://www.glassdoor.com" },
-  { name: "ZipRecruiter Internships", url: "https://www.ziprecruiter.com" },
-  { name: "USAJobs Student Programs", url: "https://www.usajobs.gov/students" },
-  { name: "Hire Heroes USA (Veterans Internships)", url: "https://www.hireheroesusa.org" },
 ];
 
 const RESUME_ASSISTANCE = [
@@ -2733,7 +2773,7 @@ export default function AidAgentPage() {
                 <GraduationCap className="h-4 w-4 text-white" />
               </div>
               <div>
-                <p className="text-[11px] font-bold text-white/40 uppercase tracking-widest leading-none mb-0.5">Financial Aid Hub</p>
+                <p className="text-[11px] font-bold text-white/40 uppercase tracking-widest leading-none mb-0.5">Student Aid HUB</p>
                 <p className="text-sm font-semibold bg-gradient-to-r from-sky-300 to-indigo-300 bg-clip-text text-transparent leading-tight">
                   Students &amp; Parents
                 </p>
@@ -2818,19 +2858,24 @@ export default function AidAgentPage() {
                   {isOpen && (
                     <div className="px-1.5 pb-2">
                       <div className="space-y-0.5">
-                        {list.map(({ name, url }) => (
-                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                            title={name}
-                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-sky-500/20 ring-1 ring-transparent hover:ring-sky-500/20 transition-all duration-150 group">
-                            <span>{name}</span>
-                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-sky-400 shrink-0" />
-                          </a>
-                        ))}
+                        {list.map((item, idx) => {
+                          if (isSubcat(item)) {
+                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                          }
+                          return (
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                              title={item.name}
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-sky-500/20 ring-1 ring-transparent hover:ring-sky-500/20 transition-all duration-150 group">
+                              <span>{item.name}</span>
+                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-sky-400 shrink-0" />
+                            </a>
+                          );
+                        })}
                       </div>
                       <button onClick={() => toggleSection("scholarships")}
                         className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-indigo-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
                         <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
-                        {showMore ? "Show less" : `View ${SCHOLARSHIP_ENGINES_MORE.length} more`}
+                        {showMore ? "Show less" : `View more`}
                       </button>
                     </div>
                   )}
@@ -2853,19 +2898,24 @@ export default function AidAgentPage() {
                   {isOpen && (
                     <div className="px-1.5 pb-2">
                       <div className="space-y-0.5">
-                        {list.map(({ name, url }) => (
-                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                            title={name}
-                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-emerald-500/20 ring-1 ring-transparent hover:ring-emerald-500/20 transition-all duration-150 group">
-                            <span>{name}</span>
-                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-emerald-400 shrink-0" />
-                          </a>
-                        ))}
+                        {list.map((item, idx) => {
+                          if (isSubcat(item)) {
+                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                          }
+                          return (
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                              title={item.name}
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-emerald-500/20 ring-1 ring-transparent hover:ring-emerald-500/20 transition-all duration-150 group">
+                              <span>{item.name}</span>
+                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-emerald-400 shrink-0" />
+                            </a>
+                          );
+                        })}
                       </div>
                       <button onClick={() => toggleSection("jobs")}
                         className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-emerald-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
                         <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
-                        {showMore ? "Show less" : `View ${STUDENT_JOB_SEARCH_MORE.length} more`}
+                        {showMore ? "Show less" : `View more`}
                       </button>
                     </div>
                   )}
@@ -2888,19 +2938,24 @@ export default function AidAgentPage() {
                   {isOpen && (
                     <div className="px-1.5 pb-2">
                       <div className="space-y-0.5">
-                        {list.map(({ name, url }) => (
-                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                            title={name}
-                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-teal-500/20 ring-1 ring-transparent hover:ring-teal-500/20 transition-all duration-150 group">
-                            <span>{name}</span>
-                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-teal-400 shrink-0" />
-                          </a>
-                        ))}
+                        {list.map((item, idx) => {
+                          if (isSubcat(item)) {
+                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                          }
+                          return (
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                              title={item.name}
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-teal-500/20 ring-1 ring-transparent hover:ring-teal-500/20 transition-all duration-150 group">
+                              <span>{item.name}</span>
+                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-teal-400 shrink-0" />
+                            </a>
+                          );
+                        })}
                       </div>
                       <button onClick={() => toggleSection("internships")}
                         className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-teal-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
                         <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
-                        {showMore ? "Show less" : `View ${INTERNSHIP_SEARCH_MORE.length} more`}
+                        {showMore ? "Show less" : `View more`}
                       </button>
                     </div>
                   )}
@@ -3235,7 +3290,7 @@ export default function AidAgentPage() {
               <h1 className="text-3xl font-black tracking-tight leading-none whitespace-nowrap genie-shimmer-text drop-shadow-lg">
                 askGenie
               </h1>
-              <p className="hidden sm:block text-[10px] text-teal-300/50 font-medium tracking-wide mt-0.5 whitespace-nowrap">Your calm, expert financial aid companion</p>
+              <p className="hidden sm:block text-[10px] text-teal-300/50 font-medium tracking-wide mt-0.5 whitespace-nowrap">Your calm, expert student aid companion</p>
             </div>
 
             {/* Right — status + mobile right-panel toggle + actions */}
@@ -3289,7 +3344,7 @@ export default function AidAgentPage() {
                 </div>
 
                 <h2 className="text-2xl font-extrabold tracking-tight text-white mb-2 text-center drop-shadow-sm">
-                  Student Financial Aid HUB. <span className="bg-gradient-to-r from-teal-300 to-cyan-300 bg-clip-text text-transparent">AI Simplified.</span>
+                  Student Aid HUB. <span className="bg-gradient-to-r from-teal-300 to-cyan-300 bg-clip-text text-transparent">AI Simplified.</span>
                 </h2>
                 <p className="text-sm text-white/50 leading-relaxed max-w-lg text-center mb-2">
                   Your calm, expert companion for FAFSA, award letters &amp; financial aid.
@@ -3700,7 +3755,7 @@ export default function AidAgentPage() {
           <div className="px-4 pt-4 pb-4 border-b border-white/[0.07]">
             <div className="flex items-center justify-end gap-2.5">
               <div className="text-right">
-                <p className="text-[11px] font-bold text-white/40 uppercase tracking-widest leading-none mb-0.5">Financial Aid Hub</p>
+                <p className="text-[11px] font-bold text-white/40 uppercase tracking-widest leading-none mb-0.5">Student Aid HUB</p>
                 <p className="text-sm font-semibold bg-gradient-to-r from-violet-300 to-indigo-300 bg-clip-text text-transparent leading-tight">
                   Admins, Leaders &amp; Auditors
                 </p>
@@ -3771,18 +3826,23 @@ export default function AidAgentPage() {
                       ))}
                       {more && more.length > 0 && (
                         <>
-                          {isMoreOpen && more.map(({ name, url }) => (
-                            <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                              title={name}
-                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-indigo-500/20 ring-1 ring-transparent hover:ring-indigo-500/20 transition-all duration-150 group">
-                              <span>{name}</span>
-                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-indigo-400 shrink-0" />
-                            </a>
-                          ))}
+                          {isMoreOpen && (more as MaybeSubcat[]).map((item, idx) => {
+                            if (isSubcat(item)) {
+                              return <div key={`rsc-${idx}`} className="px-3 pt-2.5 pb-0.5 text-right"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                            }
+                            return (
+                              <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                                title={item.name}
+                                className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-indigo-500/20 ring-1 ring-transparent hover:ring-indigo-500/20 transition-all duration-150 group">
+                                <span>{item.name}</span>
+                                <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-indigo-400 shrink-0" />
+                              </a>
+                            );
+                          })}
                           <button
                             onClick={() => toggleSection(moreKey)}
                             className="w-full text-left px-3 py-1.5 text-[10px] font-medium text-indigo-400/80 hover:text-indigo-300 transition-colors">
-                            {isMoreOpen ? "Show less" : `Show ${more.length} more`}
+                            {isMoreOpen ? "Show less" : `Show more`}
                           </button>
                         </>
                       )}
