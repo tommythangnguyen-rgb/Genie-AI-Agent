@@ -55,26 +55,37 @@ export default function AboutPage() {
         <section className="pt-16 pb-14 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-600/20 ring-1 ring-indigo-500/30 text-indigo-300 text-xs font-semibold mb-6 tracking-wide">
             <ShieldCheck className="h-3.5 w-3.5" />
-            15 Years · Student Financial Aid
+            15 Years · Student Financial Aid · For-Profit Post-Secondary Education
           </div>
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-sky-300 via-indigo-200 to-violet-400 bg-clip-text text-transparent mb-4 leading-tight">
             Built From the Inside
           </h1>
-          <p className="text-lg text-white/85 max-w-2xl mx-auto leading-relaxed">
-            Developed by a 15-year Financial Aid Professional. Designed for the people who do this work every day.
+          <p className="text-lg text-white/85 max-w-2xl mx-auto leading-relaxed mb-8">
+            askGenie was created by someone who spent 15 years in the trenches of student financial aid — not reading about it, but living it, every single day.
           </p>
+          <Link
+            href="/aid-agent"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-600 text-white font-semibold text-sm shadow-lg hover:opacity-90 active:scale-[0.98] transition-all"
+          >
+            <GenieBottle className="h-4 w-4" />
+            Try askGenie — It&apos;s Free
+          </Link>
         </section>
 
         {/* Origin Story */}
         <section className="mb-12 rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.08] px-8 py-8">
-          <p className="text-base text-white/90 leading-relaxed mb-5">
-            The creator of askGenie spent <strong className="text-white">15 years working directly in Student Financial Aid</strong> — addressing student concerns, processing FAFSA applications, running R2T4 calculations, navigating Title IV audits, and helping thousands of students understand and process their aid packages.
+          <h2 className="text-lg font-bold text-white mb-5">The Story Behind askGenie</h2>
+          <p className="text-base text-white/90 leading-relaxed mb-4">
+            Over 15 years in the for-profit post-secondary education sector, I worked as a <strong className="text-white">Student Financial Aid Planner, Assistant Director, Director, Analyst, Temporary Intake Specialist, and Senior Analyst</strong>. I personally helped thousands of students navigate FAFSA applications, decode award letters, process R2T4 calculations, survive Title IV audits, and understand SAP policies and verification requirements.
           </p>
-          <p className="text-base text-white/90 leading-relaxed mb-5">
-            askGenie was born from a simple frustration: <strong className="text-white">students and families deserve clear, accurate answers about financial aid</strong> without waiting days for an appointment or wading through government handbooks.
+          <p className="text-base text-white/90 leading-relaxed mb-4">
+            What I saw, year after year, was the same pattern: <strong className="text-white">students and families had urgent questions and nowhere to turn.</strong> Financial aid offices are understaffed. Appointments take days. Government handbooks are dense and written for compliance officers, not students. And the stakes — tuition, enrollment, federal aid eligibility — could not be higher.
+          </p>
+          <p className="text-base text-white/90 leading-relaxed mb-4">
+            askGenie was built to close that gap. <strong className="text-white">Not as a replacement for your financial aid office</strong> — but as a knowledgeable companion that gives you clarity at 2 a.m. before a deadline, helps you understand your award letter before your appointment, and empowers you to walk into any financial aid conversation prepared.
           </p>
           <p className="text-base text-white/90 leading-relaxed">
-            Every feature in askGenie reflects real experiences from the financial aid office — built for students, parents, and the administrators who serve them.
+            Every feature in this tool reflects real experiences from the financial aid office. The questions are real. The edge cases are real. <strong className="text-white">The expertise behind the answers is real.</strong>
           </p>
         </section>
 
@@ -86,24 +97,24 @@ export default function AboutPage() {
             </div>
             <h2 className="text-xl font-bold text-white">Our Mission</h2>
           </div>
-          <div className="rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.08] px-8 py-6 space-y-5">
+          <div className="rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.08] px-8 py-6 space-y-4">
             <p className="text-white/90 leading-relaxed">
-              Make financial aid understandable, accessible, and actionable for every person who interacts with it — whether you are a first-generation student filling out a FAFSA for the first time, a parent trying to decode an award letter, or a financial aid administrator processing a withdrawal.
+              Make financial aid <strong className="text-white">understandable, accessible, and actionable</strong> for every person who touches it — whether you are a first-generation student, a parent decoding an award letter, or a financial aid administrator running an R2T4 withdrawal.
             </p>
             <p className="text-white/90 leading-relaxed">
-              Beyond financial aid, our mission reaches further: <strong className="text-white">to inspire past, recent, and future generations to stay curious</strong> — to want to learn more about anything and everything. Education does not stop at graduation. Understanding the world around us — how systems work, what rights we have, how to navigate challenges — is a lifelong journey worth taking.
+              But the mission reaches further: <strong className="text-white">to inspire curiosity and lifelong learning.</strong> Education does not end at graduation. Understanding how systems work — your rights, your options, your obligations — is a skill that pays dividends for life. If you are here, that curiosity deserves to be met with clarity, not confusion.
             </p>
             <p className="text-white/90 leading-relaxed">
-              We believe in the power of accessible information to motivate people who may have felt left behind by traditional systems. If you are here — whether figuring out financial aid, exploring a new field, or simply looking for answers — that curiosity matters. It deserves to be met with clarity, not confusion.
+              <strong className="text-white">askGenie is designed to cover API and hosting costs initially.</strong> If genuine demand grows, we will explore sustainable paths that keep the tool affordable and accessible for the students and families who need it most. The tool exists to serve users — not the other way around.
             </p>
             <div className="grid sm:grid-cols-2 gap-3 mt-2">
               {[
                 "Clear answers without the jargon",
-                "Built on official federal regulation (34 CFR, FSA Handbook, HEA)",
+                "Grounded in 34 CFR, FSA Handbook, and HEA Title IV",
                 "Designed for accuracy, not approximation",
-                "Always pointing users back to official sources",
-                "Inspiring lifelong curiosity across all generations",
-                "Accessible to anyone, regardless of background or experience",
+                "Always points you back to official sources",
+                "Inspires lifelong curiosity and self-advocacy",
+                "Accessible to anyone, regardless of background",
               ].map((item) => (
                 <div key={item} className="flex items-start gap-2.5">
                   <CheckCircle className="h-4 w-4 text-indigo-400 shrink-0 mt-0.5" />
@@ -114,7 +125,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        {/* AI & Our Intentions */}
+        {/* AI & Intentions */}
         <section className="mb-10">
           <div className="flex items-center gap-3 mb-5">
             <div className="p-2 rounded-xl bg-indigo-600/30 ring-1 ring-indigo-500/30">
@@ -122,27 +133,27 @@ export default function AboutPage() {
             </div>
             <h2 className="text-xl font-bold text-white">AI, Transparency & Our Intentions</h2>
           </div>
-          <div className="rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.08] px-8 py-6 space-y-5">
+          <div className="rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.08] px-8 py-6 space-y-4">
             <p className="text-white/90 leading-relaxed">
-              We want to be honest with you: <strong className="text-white">AI technology can feel intimidating.</strong> The conversations around artificial intelligence often focus on what could go wrong — job displacement, misinformation, loss of human connection. Those concerns are real, and they deserve to be taken seriously.
+              We want to be direct with you: <strong className="text-white">AI is a powerful tool — and a responsibility.</strong> The conversations around artificial intelligence are real: job displacement, misinformation, loss of human connection. Those concerns deserve to be taken seriously, and they shaped how askGenie was built.
             </p>
             <p className="text-white/90 leading-relaxed">
-              But AI can also be one of the most powerful tools humanity has ever had access to — <strong className="text-white">if it is built and used with care, transparency, and intention.</strong> When AI is designed to assist people rather than replace the human elements that matter most — empathy, judgment, relationships, accountability — it becomes something genuinely helpful.
+              <strong className="text-white">askGenie is not here to eliminate jobs.</strong> Financial aid professionals, advisors, and counselors bring irreplaceable judgment, relationships, and human accountability to the students they serve. No AI changes that. What askGenie does is <strong className="text-white">fill the gaps</strong> — the after-hours question, the clarity before a meeting, the regulatory reference during a busy season — so that professionals can focus on what truly requires a human presence.
             </p>
             <p className="text-white/90 leading-relaxed">
-              <strong className="text-white">askGenie is not here to eliminate jobs.</strong> Financial aid professionals, advisors, counselors, and administrators bring irreplaceable knowledge, relationships, and human judgment to the students they serve. No AI tool changes that. What askGenie does is help fill the gaps — the 2 a.m. question before a deadline, the explanation of an award letter at home, the quick regulatory lookup during a busy season — so that the people doing this work can focus on what truly requires a human presence.
+              When AI is built with <strong className="text-white">care, transparency, and intention</strong> — and used to assist rather than replace — it becomes something genuinely helpful. That is the only version of AI we are interested in building.
             </p>
             <p className="text-white/90 leading-relaxed">
-              Our intention is clear and simple: <strong className="text-white">provide a tool built specifically for student financial aid</strong> — its processes, procedures, data, and concerns — and deliver that information in the manner that is easiest, most efficient, and most useful given who you are and what you need right now.
+              <strong className="text-white">Always verify.</strong> askGenie provides general information based on federal regulation and best practices. It is not legal or financial advice. Always confirm important decisions with your institution's financial aid office and official FSA resources.
             </p>
             <div className="mt-4 grid sm:grid-cols-2 gap-3">
               {[
-                "Not a replacement for financial aid professionals",
+                "Not a replacement for FA professionals",
                 "Designed to assist, not automate away, human judgment",
-                "Transparent about AI limitations and uncertainty",
+                "Transparent about AI limitations",
                 "Built to empower users, not create dependency",
-                "Coded specifically for student financial aid processes",
-                "Serving students, families, and FA offices equally",
+                "Anchored to student financial aid regulation",
+                "Equally serving students, families, and FA offices",
               ].map((item) => (
                 <div key={item} className="flex items-start gap-2.5">
                   <Heart className="h-4 w-4 text-violet-400 shrink-0 mt-0.5" />
@@ -166,17 +177,17 @@ export default function AboutPage() {
               {
                 icon: GraduationCap,
                 title: "Students & Families",
-                desc: "First-generation students, transfer students, graduate students, and their parents navigating aid packages, FAFSA, and enrollment decisions.",
+                desc: "First-generation students, transfer students, graduate students, and their parents navigating FAFSA, award letters, enrollment decisions, and repayment.",
               },
               {
                 icon: Building2,
                 title: "Financial Aid Offices",
-                desc: "Administrators processing R2T4 calculations, Title IV compliance, SAP policies, verification, and award packaging.",
+                desc: "Administrators running R2T4 calculations, managing Title IV compliance, processing SAP, verification, and award packaging — especially during peak season.",
               },
               {
                 icon: BookOpen,
                 title: "Institutions & Auditors",
-                desc: "Compliance officers, executives, and auditors who need quick reference to federal regulations and program requirements.",
+                desc: "Compliance officers, executives, and auditors needing quick, reliable reference to federal regulations, program requirements, and audit preparation.",
               },
             ].map(({ icon: Icon, title, desc }) => (
               <div key={title} className="rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.08] px-6 py-5">
@@ -188,6 +199,15 @@ export default function AboutPage() {
               </div>
             ))}
           </div>
+          <div className="mt-6 text-center">
+            <Link
+              href="/aid-agent"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/[0.08] ring-1 ring-white/[0.15] hover:bg-white/[0.14] text-white text-sm font-semibold transition-all"
+            >
+              <GenieBottle className="h-4 w-4" />
+              See askGenie in action
+            </Link>
+          </div>
         </section>
 
         {/* Why askGenie */}
@@ -196,25 +216,29 @@ export default function AboutPage() {
             <div className="p-2 rounded-xl bg-indigo-600/30 ring-1 ring-indigo-500/30">
               <Lightbulb className="h-5 w-5 text-indigo-300" />
             </div>
-            <h2 className="text-xl font-bold text-white">Why askGenie</h2>
+            <h2 className="text-xl font-bold text-white">Why askGenie — and Not Something Else</h2>
           </div>
           <div className="space-y-3">
             {[
               {
-                label: "Built by a practitioner",
-                body: "Not a startup that read the regulations once — built by someone who lived them for 15 years.",
+                label: "Built by a practitioner, not a startup",
+                body: "15 years as a Financial Aid Planner, Assistant Director, Director, Analyst, and Senior Analyst — across every level of the office. The nuance in these answers comes from lived experience, not a document read once.",
               },
               {
-                label: "Grounded in real regulation",
-                body: "Responses are anchored to 34 CFR, the FSA Handbook, and HEA Title IV — the same sources your financial aid office uses.",
+                label: "Grounded in the same sources your FA office uses",
+                body: "Responses are anchored to 34 CFR, the FSA Handbook, and HEA Title IV — the exact regulatory foundation of every financial aid decision.",
               },
               {
-                label: "Privacy-first",
-                body: "Conversations are not stored. No SSNs, no student IDs. FERPA compliance is a design principle, not an afterthought.",
+                label: "Privacy is a design principle, not a checkbox",
+                body: "Conversations are not stored or used to train future models. No SSNs, no student IDs. FERPA compliance is built in from the start.",
               },
               {
-                label: "Honest about limitations",
-                body: "askGenie is a general information tool. It always directs you to your institution's financial aid office and official FSA sources for decisions.",
+                label: "Honest about what it is — and what it isn't",
+                body: "askGenie is a general reference tool. It will always direct you to your institution and official FSA sources for decisions. Curiosity is encouraged. Dependency is not.",
+              },
+              {
+                label: "Stay curious. Ask questions. Verify everything.",
+                body: "The most empowered users are the ones who ask follow-up questions, do their own research, and confirm information with official sources. askGenie is here to help you start — not finish — that journey.",
               },
             ].map(({ label, body }) => (
               <div key={label} className="rounded-xl bg-white/[0.04] ring-1 ring-white/[0.07] px-6 py-4">
@@ -261,7 +285,7 @@ export default function AboutPage() {
                       required
                       value={formState.email}
                       onChange={(e) => setFormState({ ...formState, email: e.target.value })}
-                      placeholder="you@institution.edu"
+                      placeholder="you@example.com"
                       className="w-full bg-white/[0.06] ring-1 ring-white/[0.10] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
                     />
                   </div>
@@ -289,7 +313,7 @@ export default function AboutPage() {
                     rows={4}
                     value={formState.message}
                     onChange={(e) => setFormState({ ...formState, message: e.target.value })}
-                    placeholder="Tell us about your institution, your team's needs, or request a demo..."
+                    placeholder="Tell us about your needs, your institution, or request a demo..."
                     className="w-full bg-white/[0.06] ring-1 ring-white/[0.10] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all resize-none"
                   />
                 </div>
@@ -300,12 +324,19 @@ export default function AboutPage() {
                   Send Message
                 </button>
                 <p className="text-[10px] text-center text-white/25">
-                  For institutional demo requests, please use your institution email address.
+                  For institutional demo requests, please use your institution email address. All inquiries go to elementone27@gmail.com.
                 </p>
               </form>
             )}
           </div>
         </section>
+
+        {/* Disclaimer */}
+        <div className="rounded-xl bg-white/[0.03] ring-1 ring-white/[0.06] px-6 py-4 mb-10 text-center">
+          <p className="text-xs text-white/40 leading-relaxed">
+            askGenie is an unofficial reference tool and is not affiliated with, endorsed by, or connected to the U.S. Department of Education or any federal agency. Information provided is for general educational purposes only and does not constitute legal, financial, or professional advice. Always verify information with your institution&apos;s financial aid office and official FSA sources at studentaid.gov.
+          </p>
+        </div>
 
         {/* Footer */}
         <div className="pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">

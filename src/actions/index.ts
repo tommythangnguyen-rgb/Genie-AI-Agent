@@ -73,10 +73,9 @@ export async function signUp(
 
     revalidatePath("/");
     return { success: true };
-  } catch (error: any) {
+  } catch (error) {
     console.error("Sign up error:", error);
-    const msg = error?.message ?? String(error);
-    return { success: false, error: `Sign up failed: ${msg}` };
+    return { success: false, error: "An error occurred during sign up" };
   }
 }
 
