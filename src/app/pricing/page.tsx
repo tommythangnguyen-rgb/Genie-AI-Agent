@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Home, ChevronRight, Check, Star, Zap, Users } from "lucide-react";
+import { Home, ChevronRight, Check, Star, Zap, Users, ChevronDown } from "lucide-react";
 
 function GenieBottle({ className }: { className?: string }) {
   return (
@@ -13,9 +13,37 @@ function GenieBottle({ className }: { className?: string }) {
   );
 }
 
+const FAQ_ITEMS = [
+  {
+    q: "Can I cancel at any time?",
+    a: "Yes. Cancel anytime from your account page with one click. Your access continues until the end of your current billing period — no penalties or fees.",
+  },
+  {
+    q: "What does 'up to 3 seats' mean?",
+    a: "All paid plans let you add up to 2 additional users under your account. Each seat gets the same daily question limit as the primary account holder. Seats are managed from your account page.",
+  },
+  {
+    q: "How accurate are the answers?",
+    a: "askGenie is built by a 15-year financial aid professional and references 34 CFR Parts 600–690, FSA Handbook, IFAP policy guidance, and current regulations. It's designed for professional-grade accuracy, though it's an AI tool — always verify critical compliance decisions with official sources.",
+  },
+  {
+    q: "Is my data private?",
+    a: "Yes. We do not sell or share your personal information. Each conversation is independent; no chat history is stored between sessions. See our Privacy Policy for full details.",
+  },
+  {
+    q: "How does the Yearly plan save me money?",
+    a: "The Yearly plan is $69.99/year — equivalent to about $5.83/month versus $16.99/month for Monthly Plus. That's roughly $134 in savings over 12 months for unlimited questions.",
+  },
+  {
+    q: "Do I need a credit card for the free plan?",
+    a: "No credit card required to use the Basic (free) plan. You only need to add a payment method when upgrading to a paid plan.",
+  },
+];
+
 export default function PricingPage() {
   const [loading, setLoading] = useState<string | null>(null);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
 
   async function subscribe(tier: string) {
     setLoading(tier);
@@ -245,20 +273,48 @@ export default function PricingPage() {
           ))}
         </div>
 
-        {/* FAQ note */}
-        <div className="rounded-2xl bg-white/[0.04] ring-1 ring-white/[0.07] px-8 py-6 text-center mb-12">
-          <p className="text-sm text-white/60 leading-relaxed">
-            All subscriptions renew automatically. Cancel anytime from your{" "}
-            <Link href="/account" className="text-indigo-300 hover:text-indigo-200 underline underline-offset-2">
-              account page
+        {/* Annual savings callout */}
+        <div className="flex items-center justify-center gap-3 mb-12 px-5 py-4 rounded-2xl bg-emerald-500/10 ring-1 ring-emerald-400/20 max-w-lg mx-auto">
+          <Star className="h-4 w-4 text-emerald-400 shrink-0" />
+          <p className="text-sm text-emerald-300 leading-relaxed">
+            <span className="font-bold">Save ~$134/year</span> with the Yearly plan vs. Monthly Plus — unlimited questions for just $5.83/month.
+          </p>
+        </div>
+
+        {/* FAQ */}
+        <section className="mb-12" aria-labelledby="faq-heading">
+          <h2 id="faq-heading" className="text-xl font-bold text-white text-center mb-6">Frequently Asked Questions</h2>
+          <div className="max-w-2xl mx-auto space-y-2">
+            {FAQ_ITEMS.map((item, i) => (
+              <div key={i} className="rounded-xl bg-white/[0.04] ring-1 ring-white/[0.08] overflow-hidden">
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  aria-expanded={openFaq === i}
+                  className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500 hover:bg-white/[0.04] transition-colors"
+                >
+                  <span className="text-sm font-semibold text-white/85">{item.q}</span>
+                  <ChevronDown className={`h-4 w-4 text-white/30 shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-180" : ""}`} />
+                </button>
+                {openFaq === i && (
+                  <div className="px-5 pb-4">
+                    <p className="text-sm text-white/55 leading-relaxed">{item.a}</p>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+          <p className="text-xs text-white/30 text-center mt-6">
+            More questions?{" "}
+            <Link href="/support" className="text-indigo-400 hover:text-indigo-300 underline underline-offset-2">
+              Contact support
             </Link>
-            . Questions? Visit our{" "}
-            <Link href="/about#contact" className="text-indigo-300 hover:text-indigo-200 underline underline-offset-2">
-              contact page
+            {" "}or{" "}
+            <Link href="/about" className="text-indigo-400 hover:text-indigo-300 underline underline-offset-2">
+              learn about askGenie
             </Link>
             .
           </p>
-        </div>
+        </section>
 
         {/* Footer */}
         <div className="pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">

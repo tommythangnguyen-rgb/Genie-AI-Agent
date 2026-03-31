@@ -13,9 +13,23 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "askGenie | Financial Aid Hub",
+  title: "askGenie | Student Aid HUB — AI Financial Aid Expert",
   description:
-    "AI-powered financial aid companion for students, parents, and financial aid administrators. Expert guidance on FAFSA, Title IV, R2T4, verification, and more.",
+    "AI-powered financial aid expert built by a 15-year FA professional. Instant guidance on FAFSA, Title IV, R2T4 calculations, SAP policies, FSA audits, and 34 CFR compliance — for students, parents, administrators, leaders, and auditors.",
+  keywords: [
+    "financial aid AI",
+    "FAFSA help",
+    "R2T4 calculator",
+    "Title IV compliance",
+    "SAP policy",
+    "FSA audit",
+    "student aid",
+    "34 CFR",
+    "financial aid administrator",
+    "NSLDS",
+    "Direct Loans",
+    "askGenie",
+  ],
   icons: {
     icon: [
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
@@ -26,17 +40,22 @@ export const metadata: Metadata = {
   },
   manifest: "/site.webmanifest",
   openGraph: {
-    title: "askGenie | Financial Aid Hub",
+    title: "askGenie | Student Aid HUB — AI Financial Aid Expert",
     description:
-      "AI-powered financial aid companion. Expert guidance on FAFSA, Title IV, R2T4, and more.",
+      "Instant AI guidance on FAFSA, Title IV, R2T4, FSA audits, and more. Built by a 15-year financial aid professional for students, parents & FA offices.",
     type: "website",
-    url: "https://uigen-dusky-eight.vercel.app",
+    url: process.env.NEXT_PUBLIC_APP_URL ?? "https://uigen-dusky-eight.vercel.app",
+    siteName: "askGenie",
   },
   twitter: {
-    card: "summary",
-    title: "askGenie | Financial Aid Hub",
+    card: "summary_large_image",
+    title: "askGenie | Student Aid HUB",
     description:
-      "AI-powered financial aid companion for students, parents, and administrators.",
+      "AI-powered financial aid companion for students, parents, FA administrators, leaders & auditors. Covers FAFSA, Title IV, R2T4, 34 CFR, SAP, and more.",
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Home, ChevronRight, Users, Target, Lightbulb, BookOpen, Mail, Building2, GraduationCap, ShieldCheck, CheckCircle, Sparkles, Heart } from "lucide-react";
+import { Home, ChevronRight, Users, Target, Lightbulb, BookOpen, Mail, Building2, GraduationCap, ShieldCheck, CheckCircle, Sparkles, Heart, Paperclip } from "lucide-react";
 
 function GenieBottle({ className }: { className?: string }) {
   return (
@@ -70,6 +70,31 @@ export default function AboutPage() {
             <GenieBottle className="h-4 w-4" />
             Try askGenie — It&apos;s Free
           </Link>
+        </section>
+
+        {/* How it works */}
+        <section id="how-it-works" className="mb-12">
+          <div className="flex items-center gap-2 mb-5">
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/[0.08]" />
+            <span className="text-[11px] font-bold uppercase tracking-widest text-white/30 px-2">How it works</span>
+            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/[0.08]" />
+          </div>
+          <div className="grid sm:grid-cols-3 gap-4">
+            {([
+              { n: "1", icon: Sparkles,    title: "Choose your role",    body: "Select Student, Parent, Admin, Leader, or Auditor — Genie tailors every answer to your context and expertise level." },
+              { n: "2", icon: Paperclip,   title: "Ask or upload",       body: "Type a question, upload an award letter or policy document, or pick a quick-start prompt. Attach ISIR data or 34 CFR text." },
+              { n: "3", icon: CheckCircle, title: "Get expert guidance", body: "Plain-English answers with regulation citations, step-by-step calculations, and responses you can print or share." },
+            ] as const).map(({ n, icon: Icon, title, body }) => (
+              <div key={n} className="relative flex flex-col gap-3 p-5 rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.08]">
+                <div className="absolute -top-3 -left-1 w-6 h-6 rounded-full flex items-center justify-center bg-gradient-to-br from-teal-400 to-cyan-500 shadow-md shadow-teal-500/30">
+                  <span className="text-[10px] font-black text-white leading-none">{n}</span>
+                </div>
+                <Icon className="h-5 w-5 text-teal-300/60 mt-1" aria-hidden="true" />
+                <p className="text-sm font-semibold text-white/90 leading-tight">{title}</p>
+                <p className="text-xs text-white/55 leading-relaxed">{body}</p>
+              </div>
+            ))}
+          </div>
         </section>
 
         {/* Origin Story */}

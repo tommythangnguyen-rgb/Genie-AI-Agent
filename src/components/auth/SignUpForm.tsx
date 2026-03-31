@@ -130,7 +130,7 @@ export function SignUpForm({ onSuccess }: SignUpFormProps) {
         </div>
       )}
 
-      <Button type="submit" className="w-full" disabled={isLoading || strength.level === 0}>
+      <Button type="submit" className="w-full" disabled={isLoading || password.length < 8}>
         {isLoading ? "Creating account..." : "Sign Up"}
       </Button>
     </form>

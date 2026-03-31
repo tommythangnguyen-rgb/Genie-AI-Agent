@@ -15,6 +15,14 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
   }
 
+  if (!plan.priceId) {
+    console.error(`Missing Stripe price ID for plan: ${tier}. Set STRIPE_${tier}_PRICE_ID in environment variables.`);
+    return NextResponse.json(
+      { error: "This plan is not available for purchase. Please contact support." },
+      { status: 503 }
+    );
+  }
+
   const user = await prisma.user.findUnique({
     where: { id: session.userId },
     select: { email: true, stripeCustomerId: true },
@@ -31,7 +39,9 @@ export async function POST(req: NextRequest) {
     });
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://uigen-dusky-eight.vercel.app";
+  const baseUrl =
+    process.env.NEXT_PUBLIC_APP_URL ||
+    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
 
   const checkoutSession = await stripe.checkout.sessions.create({
     customer: customerId,

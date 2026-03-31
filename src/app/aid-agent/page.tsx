@@ -965,7 +965,8 @@ const SCHOLARSHIP_ENGINES_MORE: MaybeSubcat[] = [
   { name: "Critical Language Scholarship (U.S. Dept of State)", url: "https://clscholarship.org" },
 ];
 
-const PRIVATE_STUDENT_LOANS = [
+const PRIVATE_STUDENT_LOANS: MaybeSubcat[] = [
+  { subcat: "Major National Lenders" },
   { name: "Sallie Mae", url: "https://www.salliemae.com/student-loans" },
   { name: "College Ave Student Loans", url: "https://www.collegeavestudentloans.com" },
   { name: "Earnest", url: "https://www.earnest.com/student-loans" },
@@ -973,18 +974,22 @@ const PRIVATE_STUDENT_LOANS = [
   { name: "Discover Student Loans", url: "https://www.discover.com/student-loans" },
   { name: "Citizens Bank Student Loans", url: "https://www.citizensbank.com/learning/student-loans.aspx" },
   { name: "Ascent Student Loans", url: "https://www.ascentfunding.com" },
+  { subcat: "State & Regional Programs" },
   { name: "MEFA (MA Educational Financing)", url: "https://www.mefa.org/loans" },
   { name: "RISLA (RI Student Loan Auth.)", url: "https://www.risla.com" },
   { name: "Laurel Road", url: "https://www.laurelroad.com" },
 ];
-const PRIVATE_STUDENT_LOANS_MORE = [
+const PRIVATE_STUDENT_LOANS_MORE: MaybeSubcat[] = [
+  { subcat: "Banks & Credit Unions" },
   { name: "LendKey", url: "https://www.lendkey.com" },
+  { name: "PNC Student Loans", url: "https://www.pnc.com/student-loans" },
+  { name: "Navy Federal CU Education Loans", url: "https://www.navyfederal.org/loans-cards/student-loans.html" },
+  { name: "PenFed Credit Union", url: "https://www.penfed.org/student-loans" },
+  { name: "First Tech FCU Student Loans", url: "https://www.firsttechfed.com/borrow/student-loans" },
+  { subcat: "International Students" },
   { name: "MPOWER (International Students)", url: "https://www.mpowerfinancing.com" },
   { name: "Prodigy Finance (International)", url: "https://prodigyfinance.com" },
-  { name: "PNC Student Loans", url: "https://www.pnc.com/student-loans" },
-  { name: "Custom Choice (SouthState)", url: "https://www.customchoiceloan.com" },
-  { name: "ISL Education Lending", url: "https://islelend.com" },
-  { name: "Advantage Education Loan (KHESLC)", url: "https://www.advantageeducationloan.com" },
+  { subcat: "Servicers & Refinance" },
   { name: "EdFinancial Services", url: "https://edfinancial.com" },
   { name: "MOHELA Servicer Portal", url: "https://www.mohela.com" },
   { name: "Aidvantage (Navient Transfer)", url: "https://aidvantage.com" },
@@ -995,10 +1000,7 @@ const PRIVATE_STUDENT_LOANS_MORE = [
   { name: "EDvestinU", url: "https://www.edvestinu.com" },
   { name: "Funding U (no cosigner)", url: "https://www.fundingeducation.com" },
   { name: "Edly (income-based repayment)", url: "https://www.edly.com" },
-  { name: "Navy Federal CU Education Loans", url: "https://www.navyfederal.org/loans-cards/student-loans.html" },
-  { name: "PenFed Credit Union", url: "https://www.penfed.org/student-loans" },
-  { name: "First Tech FCU Student Loans", url: "https://www.firsttechfed.com/borrow/student-loans" },
-  { name: "Purefy (refi marketplace)", url: "https://www.purefy.com" },
+  { subcat: "State Authority Programs" },
   { name: "Brazos Higher Education", url: "https://www.brazos.org" },
   { name: "South Carolina Student Loan", url: "https://www.scstudentloan.org" },
   { name: "College Foundation of NC (CFNC)", url: "https://www.cfnc.org/pay-for-college/apply-for-a-loan" },
@@ -1006,9 +1008,14 @@ const PRIVATE_STUDENT_LOANS_MORE = [
   { name: "HESC (NY Higher Education Svcs.)", url: "https://www.hesc.ny.gov" },
   { name: "PHEAA (PA Higher Education)", url: "https://www.pheaa.org" },
   { name: "HESAA (NJ Higher Education)", url: "https://www.hesaa.org" },
+  { subcat: "Marketplaces & Alternatives" },
   { name: "Juno (group negotiated rates)", url: "https://joinjuno.com" },
   { name: "Student Choice (CU network)", url: "https://www.studentchoice.org" },
   { name: "Yrefy (defaulted loan refi)", url: "https://www.yrefy.com" },
+  { name: "Purefy (refi marketplace)", url: "https://www.purefy.com" },
+  { name: "ISL Education Lending", url: "https://islelend.com" },
+  { name: "Advantage Education Loan (KHESLC)", url: "https://www.advantageeducationloan.com" },
+  { name: "Custom Choice (SouthState)", url: "https://www.customchoiceloan.com" },
 ];
 
 const STUDENT_JOB_SEARCH = [
@@ -1135,21 +1142,30 @@ const INTERNSHIP_SEARCH_MORE: MaybeSubcat[] = [
   { name: "Amazon Student Programs", url: "https://www.amazon.jobs/en/teams/internships-for-students" },
 ];
 
-const RESUME_ASSISTANCE = [
+const RESUME_ASSISTANCE: MaybeSubcat[] = [
+  { subcat: "AI-Powered Builders" },
   { name: "Resume.io", url: "https://resume.io" },
+  { name: "Rezi (AI Resume Builder)", url: "https://www.rezi.ai" },
+  { subcat: "Design & Visual" },
   { name: "Canva Resume Builder (Free)", url: "https://www.canva.com/resumes" },
+  { name: "VisualCV", url: "https://www.visualcv.com" },
+  { subcat: "Classic Builders" },
   { name: "Zety Resume Builder", url: "https://zety.com" },
   { name: "Novoresume", url: "https://novoresume.com" },
   { name: "Enhancv", url: "https://enhancv.com" },
   { name: "Resume Genius", url: "https://resumegenius.com" },
-  { name: "VisualCV", url: "https://www.visualcv.com" },
   { name: "Kickresume", url: "https://www.kickresume.com" },
+  { subcat: "ATS Optimization" },
   { name: "JobScan (ATS Optimization)", url: "https://www.jobscan.co" },
-  { name: "Rezi (AI Resume Builder)", url: "https://www.rezi.ai" },
 ];
-const RESUME_ASSISTANCE_MORE = [
+const RESUME_ASSISTANCE_MORE: MaybeSubcat[] = [
+  { subcat: "AI Career Tools" },
   { name: "Teal HQ (AI Career Tools)", url: "https://www.tealhq.com" },
   { name: "ResumeWorded (AI Feedback)", url: "https://resumeworded.com" },
+  { name: "Wonsulting AI Resume", url: "https://www.wonsulting.com" },
+  { name: "Skillroads (AI Resume)", url: "https://skillroads.com" },
+  { name: "iinterview AI (Mock)", url: "https://iinterview.ai" },
+  { subcat: "Traditional Platforms" },
   { name: "My Perfect Resume", url: "https://www.myperfectresume.com" },
   { name: "LiveCareer", url: "https://www.livecareer.com" },
   { name: "Resume Now", url: "https://www.resume-now.com" },
@@ -1158,51 +1174,57 @@ const RESUME_ASSISTANCE_MORE = [
   { name: "RxResume (Free & Open Source)", url: "https://rxresu.me" },
   { name: "Indeed Resume Builder", url: "https://www.indeed.com/create-resume" },
   { name: "LinkedIn Resume Builder", url: "https://www.linkedin.com/resume-builder" },
-  { name: "Wonsulting AI Resume", url: "https://www.wonsulting.com" },
+  { name: "Resume Builder (Free)", url: "https://www.resumebuilder.com" },
+  { name: "Resumake (Open Source)", url: "https://resumake.io" },
+  { name: "Creddle (Visual Resume)", url: "https://creddle.io" },
+  { subcat: "Professional Services" },
   { name: "TopResume (Professional Service)", url: "https://www.topresume.com" },
   { name: "ZipJob (Professional Service)", url: "https://www.zipjob.com" },
   { name: "ResumeSpice (Professional)", url: "https://www.resumespice.com" },
+  { subcat: "Interview Prep" },
   { name: "Big Interview (Mock Interviews)", url: "https://biginterview.com" },
   { name: "Pramp (Mock Interviews)", url: "https://www.pramp.com" },
   { name: "InterviewBit", url: "https://www.interviewbit.com" },
+  { name: "Interview Warmup (Google)", url: "https://grow.google/certificates/interview-warmup" },
+  { name: "LinkedIn Interview Prep", url: "https://www.linkedin.com/interview-prep" },
   { name: "PathRise (Career Coaching)", url: "https://www.pathrise.com" },
-  { name: "Career Contessa", url: "https://www.careercontessa.com" },
-  { name: "The Muse — Resume Tips", url: "https://www.themuse.com/advice/resume" },
+  { subcat: "Writing & Polish" },
+  { name: "Grammarly (Writing Polish)", url: "https://www.grammarly.com" },
+  { name: "Hemingway Editor (Clarity)", url: "https://hemingwayapp.com" },
+  { name: "Quillbot (Paraphrase & Improve)", url: "https://quillbot.com" },
+  { subcat: "University Guides" },
   { name: "Purdue OWL Resume Guide", url: "https://owl.purdue.edu/owl/job_search_writing/resumes_and_vitas" },
   { name: "Harvard OCS Resume Guide", url: "https://ocs.fas.harvard.edu/resumes-cvs" },
   { name: "MIT Resume Guide", url: "https://capd.mit.edu/jobs-and-internships/resumes-cvs-cover-letters-linkedin" },
   { name: "NACE Career Resources", url: "https://www.naceweb.org" },
+  { subcat: "Templates" },
   { name: "Google Docs Resume Templates", url: "https://docs.google.com/templates" },
   { name: "Microsoft Office Resume Templates", url: "https://templates.office.com/en-us/resumes-and-cover-letters" },
-  { name: "Grammarly (Writing Polish)", url: "https://www.grammarly.com" },
-  { name: "Hemingway Editor (Clarity)", url: "https://hemingwayapp.com" },
-  { name: "Quillbot (Paraphrase & Improve)", url: "https://quillbot.com" },
-  { name: "Career Karma (Bootcamp/Tech)", url: "https://careerkarma.com" },
-  { name: "Vault Career Guides", url: "https://www.vault.com" },
+  { subcat: "Career Research" },
+  { name: "The Muse — Resume Tips", url: "https://www.themuse.com/advice/resume" },
+  { name: "Career Contessa", url: "https://www.careercontessa.com" },
   { name: "Monster Resume Advice", url: "https://www.monster.com/career-advice/article/how-to-write-a-resume" },
   { name: "Glassdoor Resume Tips", url: "https://www.glassdoor.com/blog/guide/how-to-write-a-resume" },
-  { name: "Creddle (Visual Resume)", url: "https://creddle.io" },
-  { name: "Resume Builder (Free)", url: "https://www.resumebuilder.com" },
-  { name: "Resumake (Open Source)", url: "https://resumake.io" },
-  { name: "Skillroads (AI Resume)", url: "https://skillroads.com" },
-  { name: "Interview Warmup (Google)", url: "https://grow.google/certificates/interview-warmup" },
-  { name: "LinkedIn Interview Prep", url: "https://www.linkedin.com/interview-prep" },
-  { name: "iinterview AI (Mock)", url: "https://iinterview.ai" },
+  { name: "Vault Career Guides", url: "https://www.vault.com" },
+  { name: "Career Karma (Bootcamp/Tech)", url: "https://careerkarma.com" },
 ];
 
-const AI_LITERACY = [
+const AI_LITERACY: MaybeSubcat[] = [
+  { subcat: "Free Beginner Courses" },
   { name: "Elements of AI (Free)", url: "https://www.elementsofai.com" },
   { name: "Google AI Essentials (Free)", url: "https://grow.google/intl/en_us/courses-and-tools" },
   { name: "Microsoft AI Skills Initiative (Free)", url: "https://microsoft.com/en-us/ai/ai-skills" },
   { name: "Coursera: AI for Everyone — Andrew Ng (Free Audit)", url: "https://www.coursera.org/learn/ai-for-everyone" },
   { name: "DeepLearning.AI Short Courses (Free)", url: "https://www.deeplearning.ai/short-courses" },
+  { subcat: "Technical Free Courses" },
   { name: "Google ML Crash Course (Free)", url: "https://developers.google.com/machine-learning/crash-course" },
   { name: "Kaggle Learn — AI/ML (Free)", url: "https://www.kaggle.com/learn" },
   { name: "fast.ai — Practical Deep Learning (Free)", url: "https://www.fast.ai" },
   { name: "Harvard CS50 AI with Python (Free)", url: "https://cs50.harvard.edu/ai" },
   { name: "IBM AI Fundamentals (Free)", url: "https://skills.yourlearning.ibm.com" },
 ];
-const AI_LITERACY_MORE = [
+const AI_LITERACY_MORE: MaybeSubcat[] = [
+  { subcat: "Free — Cloud & Industry" },
   { name: "Hugging Face AI Courses (Free)", url: "https://huggingface.co/learn" },
   { name: "Google Generative AI Learning Path (Free)", url: "https://cloudskillsboost.google/paths/118" },
   { name: "AWS AI/ML Training (Free Tier)", url: "https://aws.amazon.com/training/learn-about/machine-learning" },
@@ -1212,9 +1234,11 @@ const AI_LITERACY_MORE = [
   { name: "AI Business School — Microsoft (Free)", url: "https://www.microsoft.com/en-us/ai/ai-business-school" },
   { name: "Salesforce AI Associate — Trailhead (Free)", url: "https://trailhead.salesforce.com" },
   { name: "Class Central — AI Courses (Free Aggregator)", url: "https://www.classcentral.com/subject/ai" },
+  { subcat: "Prompt Engineering" },
   { name: "OpenAI Prompt Engineering Guide (Free)", url: "https://platform.openai.com/docs/guides/prompt-engineering" },
   { name: "Anthropic Prompt Library (Free)", url: "https://docs.anthropic.com/en/prompt-library/library" },
   { name: "ChatGPT Prompt Engineering for Developers (Free)", url: "https://learn.deeplearning.ai/chatgpt-prompt-eng" },
+  { subcat: "Paid Certifications" },
   { name: "Coursera: Machine Learning Specialization (Paid Cert)", url: "https://www.coursera.org/specializations/machine-learning-introduction" },
   { name: "Coursera: Deep Learning Specialization (Paid Cert)", url: "https://www.coursera.org/specializations/deep-learning" },
   { name: "edX AI MicroMasters Programs (Paid)", url: "https://www.edx.org/micromasters" },
@@ -1225,6 +1249,7 @@ const AI_LITERACY_MORE = [
   { name: "LinkedIn Learning AI Courses (Paid/Free Trial)", url: "https://www.linkedin.com/learning/topics/artificial-intelligence" },
   { name: "Brilliant.org AI (Paid)", url: "https://brilliant.org/courses/artificial-intelligence" },
   { name: "Codecademy AI (Free/Paid)", url: "https://www.codecademy.com/catalog/subject/artificial-intelligence" },
+  { subcat: "Free References & Media" },
   { name: "W3Schools AI Tutorial (Free)", url: "https://www.w3schools.com/ai" },
   { name: "FutureLearn AI Courses (Free/Paid)", url: "https://www.futurelearn.com/subjects/it-and-computer-science-courses/ai" },
   { name: "AI4K12 Initiative (Free)", url: "https://ai4k12.org" },
@@ -1236,37 +1261,41 @@ const AI_LITERACY_MORE = [
   { name: "Lex Fridman AI Lectures (Free YouTube)", url: "https://www.youtube.com/@lexfridman" },
   { name: "Towards Data Science (Free Articles)", url: "https://towardsdatascience.com" },
   { name: "AI Explained — YouTube (Free)", url: "https://www.youtube.com/@aiexplained-official" },
-  { name: "Coursera: AI in Education (Paid Cert)", url: "https://www.coursera.org/learn/ai-education" },
-  { name: "Perplexity AI Learning Guide (Free)", url: "https://www.perplexity.ai" },
+  { subcat: "Hands-On Tools" },
   { name: "Claude.ai — Hands-On AI Practice (Free)", url: "https://claude.ai" },
   { name: "ChatGPT — Hands-On AI Practice (Free/Paid)", url: "https://chatgpt.com" },
   { name: "Google NotebookLM (Free)", url: "https://notebooklm.google.com" },
   { name: "Gamma AI Presentations (Free/Paid)", url: "https://gamma.app" },
+  { name: "Perplexity AI Learning Guide (Free)", url: "https://www.perplexity.ai" },
   { name: "Coursera: Generative AI for Everyone (Free Audit)", url: "https://www.coursera.org/learn/generative-ai-for-everyone" },
 ];
 
 // ── Mental Health Literacy — Students & Parents ──
-const MENTAL_HEALTH_STUDENT = [
+const MENTAL_HEALTH_STUDENT: MaybeSubcat[] = [
+  { subcat: "Crisis & Immediate Help" },
   { name: "988 Suicide & Crisis Lifeline", url: "https://988lifeline.org" },
   { name: "Crisis Text Line — Text HOME to 741741", url: "https://www.crisistextline.org" },
+  { name: "Trevor Project — LGBTQ+ Youth Crisis", url: "https://www.thetrevorproject.org" },
+  { name: "SAMHSA National Helpline 1-800-662-4357", url: "https://www.samhsa.gov/find-help/national-helpline" },
+  { name: "Suicide Prevention Resource Center (SPRC)", url: "https://sprc.org" },
+  { name: "National Eating Disorders Association (NEDA)", url: "https://www.nationaleatingdisorders.org" },
+  { subcat: "Organizations & Advocacy" },
   { name: "NAMI — National Alliance on Mental Illness", url: "https://www.nami.org" },
   { name: "Active Minds — Student Mental Health", url: "https://www.activeminds.org" },
   { name: "JED Foundation — Young Adult Mental Health", url: "https://jedfoundation.org" },
   { name: "MentalHealth.gov — What Is Mental Health", url: "https://www.mentalhealth.gov" },
-  { name: "SAMHSA National Helpline 1-800-662-4357", url: "https://www.samhsa.gov/find-help/national-helpline" },
-  { name: "Trevor Project — LGBTQ+ Youth Crisis", url: "https://www.thetrevorproject.org" },
-  { name: "Suicide Prevention Resource Center (SPRC)", url: "https://sprc.org" },
-  { name: "National Eating Disorders Association (NEDA)", url: "https://www.nationaleatingdisorders.org" },
 ];
-const MENTAL_HEALTH_STUDENT_MORE = [
-  { name: "AFSP — American Foundation for Suicide Prevention", url: "https://afsp.org" },
-  { name: "Half of Us — Campus Mental Health", url: "https://halfofus.com" },
-  { name: "ULifeline — College Mental Health Resource", url: "https://www.ulifeline.org" },
+const MENTAL_HEALTH_STUDENT_MORE: MaybeSubcat[] = [
+  { subcat: "Therapy & Counseling" },
+  { name: "BetterHelp — Online Therapy", url: "https://www.betterhelp.com" },
+  { name: "Talkspace — Online Therapy for Students", url: "https://www.talkspace.com" },
   { name: "Headspace for Students", url: "https://www.headspace.com/students" },
   { name: "Calm App — Stress & Sleep", url: "https://www.calm.com" },
   { name: "Woebot — AI Mental Health Support", url: "https://woebothealth.com" },
-  { name: "BetterHelp — Online Therapy", url: "https://www.betterhelp.com" },
-  { name: "Talkspace — Online Therapy for Students", url: "https://www.talkspace.com" },
+  { subcat: "College Mental Health" },
+  { name: "AFSP — American Foundation for Suicide Prevention", url: "https://afsp.org" },
+  { name: "Half of Us — Campus Mental Health", url: "https://halfofus.com" },
+  { name: "ULifeline — College Mental Health Resource", url: "https://www.ulifeline.org" },
   { name: "NAMI HelpLine 1-800-950-6264", url: "https://www.nami.org/help" },
   { name: "MHA — Mental Health America Screening", url: "https://screening.mhanational.org" },
   { name: "Anxiety & Depression Association (ADAA)", url: "https://adaa.org" },
@@ -1275,7 +1304,6 @@ const MENTAL_HEALTH_STUDENT_MORE = [
   { name: "Open Path Collective — Affordable Therapy", url: "https://openpathcollective.org" },
   { name: "7 Cups — Free Online Chat Support", url: "https://www.7cups.com" },
   { name: "Sanvello — Anxiety & Depression App", url: "https://www.sanvello.com" },
-  { name: "Shine — Mental Health for People of Color", url: "https://www.theshineapp.com" },
   { name: "Therapy Aid Coalition — Free/Low-Cost Therapy", url: "https://www.therapyaid.org" },
   { name: "OK2Talk — Teen & Young Adult Support", url: "https://ok2talk.org" },
   { name: "Teen Line — Teen-to-Teen Support", url: "https://www.teenlineonline.org" },
@@ -1289,9 +1317,30 @@ const MENTAL_HEALTH_STUDENT_MORE = [
   { name: "SAMHSA Treatment Locator", url: "https://findtreatment.samhsa.gov" },
   { name: "Alcoholics Anonymous", url: "https://www.aa.org" },
   { name: "Narcotics Anonymous", url: "https://www.na.org" },
+  { subcat: "Specific Populations" },
   { name: "Student Veterans of America — Mental Health", url: "https://studentveterans.org/programs/mental-health" },
   { name: "Veterans Crisis Line 1-800-273-8255 #1", url: "https://www.veteranscrisisline.net" },
   { name: "NAMI Veterans & Military Resource", url: "https://www.nami.org/Your-Journey/Veterans-Active-Duty" },
+  { name: "Black Mental Health Alliance", url: "https://blackmentalhealth.com" },
+  { name: "Asian Mental Health Collective", url: "https://www.asianmhc.org" },
+  { name: "Latinx Therapy — Therapist Directory", url: "https://latinxtherapy.com" },
+  { name: "NQTTCN — Queer Trans Therapists of Color", url: "https://www.nqttcn.com" },
+  { name: "The Steve Fund — BIPOC Mental Health", url: "https://stevefund.org" },
+  { name: "Shine — Mental Health for People of Color", url: "https://www.theshineapp.com" },
+  { name: "Mindline Trans+ — Trans Mental Health", url: "https://mindlinetrans.org.uk" },
+  { name: "Safe Space — LGBTQ+ Mental Health", url: "https://www.safespace.org" },
+  { name: "CHADD — ADHD Resources", url: "https://chadd.org" },
+  { name: "Autism Society of America", url: "https://autismsociety.org" },
+  { name: "ADAA — Find a Therapist (Anxiety)", url: "https://adaa.org/finding-help/finding-therapist" },
+  { name: "Understood.org — Learning & Mental Health", url: "https://www.understood.org" },
+  { name: "DBSA — Depression & Bipolar Support Alliance", url: "https://www.dbsalliance.org" },
+  { name: "International OCD Foundation", url: "https://iocdf.org" },
+  { name: "PTSD Alliance", url: "https://www.ptsdalliance.org" },
+  { name: "Insomnia Coach — Sleep & Mental Health", url: "https://www.insomniacoach.org" },
+  { name: "Postpartum Support International", url: "https://www.postpartum.net" },
+  { name: "NSVRC — Sexual Violence & Mental Health", url: "https://www.nsvrc.org" },
+  { name: "ASCA — Adult Survivors of Child Abuse", url: "https://www.ascasupport.org" },
+  { subcat: "Research & Policy" },
   { name: "APA — Student Mental Health Resources", url: "https://www.apa.org/topics/mental-health/index" },
   { name: "NIMH — National Institute of Mental Health", url: "https://www.nimh.nih.gov" },
   { name: "CDC Mental Health Resources", url: "https://www.cdc.gov/mentalhealth/index.htm" },
@@ -1304,24 +1353,11 @@ const MENTAL_HEALTH_STUDENT_MORE = [
   { name: "Erika's Lighthouse — Teen Depression", url: "https://erikaslighthouse.org" },
   { name: "Hope for the Day — Proactive Suicide Prevention", url: "https://hftd.org" },
   { name: "To Write Love on Her Arms", url: "https://twloha.com" },
-  { name: "DBSA — Depression & Bipolar Support Alliance", url: "https://www.dbsalliance.org" },
-  { name: "International OCD Foundation", url: "https://iocdf.org" },
-  { name: "PTSD Alliance", url: "https://www.ptsdalliance.org" },
-  { name: "Insomnia Coach — Sleep & Mental Health", url: "https://www.insomniacoach.org" },
-  { name: "Black Mental Health Alliance", url: "https://blackmentalhealth.com" },
-  { name: "Asian Mental Health Collective", url: "https://www.asianmhc.org" },
-  { name: "Latinx Therapy — Therapist Directory", url: "https://latinxtherapy.com" },
-  { name: "NQTTCN — Queer Trans Therapists of Color", url: "https://www.nqttcn.com" },
-  { name: "National Council for Mental Wellbeing", url: "https://www.thenationalcouncil.org" },
-  { name: "CHADD — ADHD Resources", url: "https://chadd.org" },
-  { name: "Autism Society of America", url: "https://autismsociety.org" },
-  { name: "ADAA — Find a Therapist (Anxiety)", url: "https://adaa.org/finding-help/finding-therapist" },
   { name: "NARSAD — Mental Health Research", url: "https://www.bbrfoundation.org" },
   { name: "SAMHSA Mental Health Treatment Locator", url: "https://findtreatment.samhsa.gov" },
   { name: "United Way 211 — Local Mental Health Services", url: "https://www.211.org" },
   { name: "Peer.org — Peer Support Community", url: "https://peer.org" },
   { name: "Child Welfare Information Gateway", url: "https://www.childwelfare.gov/topics/responding/mental-health" },
-  { name: "Understood.org — Learning & Mental Health", url: "https://www.understood.org" },
   { name: "Mindfulness-Based Stress Reduction (MBSR)", url: "https://www.umassmed.edu/cfm/mindfulness-based-programs/mbsr-courses" },
   { name: "Headspace Guide to Meditation (Netflix)", url: "https://www.netflix.com/title/81280926" },
   { name: "Ten Percent Happier — Meditation App", url: "https://www.tenpercent.com" },
@@ -1342,16 +1378,11 @@ const MENTAL_HEALTH_STUDENT_MORE = [
   { name: "Youper — AI Emotional Health App", url: "https://www.youper.ai" },
   { name: "NAMI Warmline Directory", url: "https://www.nami.org/Support-Education/Support-Groups/NAMI-Warmline" },
   { name: "Crisis Support Services of Nevada", url: "https://www.crisisupportservices.org" },
-  { name: "The Steve Fund — BIPOC Mental Health", url: "https://stevefund.org" },
   { name: "AFSP — Campus Programs", url: "https://afsp.org/chapter/programs/campus-programs" },
   { name: "Suicide Attempt Survivors — AFSP", url: "https://afsp.org/find-your-local-chapter" },
   { name: "Now Matters Now — DBT Skills", url: "https://www.nowmattersnow.org" },
   { name: "Calm Harm App — Self Harm", url: "https://calmharm.co.uk" },
   { name: "ReachOut Australia — Youth Mental Health", url: "https://au.reachout.com" },
-  { name: "Mindline Trans+ — Trans Mental Health", url: "https://mindlinetrans.org.uk" },
-  { name: "Safe Space — LGBTQ+ Mental Health", url: "https://www.safespace.org" },
-  { name: "NSVRC — Sexual Violence & Mental Health", url: "https://www.nsvrc.org" },
-  { name: "ASCA — Adult Survivors of Child Abuse", url: "https://www.ascasupport.org" },
   { name: "After Suicide Loss — AFSP", url: "https://afsp.org/find-your-local-chapter" },
   { name: "Alliance of Hope for Suicide Loss Survivors", url: "https://allianceofhope.org" },
   { name: "Grief Share — Grief Recovery Support", url: "https://www.griefshare.org" },
@@ -1370,12 +1401,12 @@ const MENTAL_HEALTH_STUDENT_MORE = [
   { name: "Family Lives — Parenting & Mental Health", url: "https://www.familylives.org.uk" },
   { name: "Parents.com — Child Mental Health", url: "https://www.parents.com/health/mental-health" },
   { name: "Zero to Three — Early Childhood Mental Health", url: "https://www.zerotothree.org" },
-  { name: "Postpartum Support International", url: "https://www.postpartum.net" },
   { name: "Mental Health Foundation — UK", url: "https://www.mentalhealth.org.uk" },
   { name: "Mind.org — UK Mental Health Charity", url: "https://www.mind.org.uk" },
   { name: "WHO — Mental Health", url: "https://www.who.int/health-topics/mental-health" },
   { name: "PAHO — Mental Health in the Americas", url: "https://www.paho.org/en/topics/mental-health" },
   { name: "International Association for Suicide Prevention", url: "https://www.iasp.info" },
+  { name: "National Council for Mental Wellbeing", url: "https://www.thenationalcouncil.org" },
   { name: "Finding Hope in College — Flourishing in FA", url: "https://studentaid.gov/help-center/answers/topic/general-info" },
   { name: "NAMI — Mental Health & Financial Stress", url: "https://www.nami.org/Blogs/NAMI-Blog/November-2019/How-Financial-Stress-Can-Impact-Mental-Health" },
   { name: "College and Career Readiness & Mental Health", url: "https://www.cdc.gov/healthyyouth/mental-health/index.htm" },
@@ -1383,20 +1414,23 @@ const MENTAL_HEALTH_STUDENT_MORE = [
 ];
 
 // ── Religion, Faith & Philosophy ──
-const RELIGION_FAITH_PHILOSOPHY = [
+const RELIGION_FAITH_PHILOSOPHY: MaybeSubcat[] = [
+  { subcat: "Interfaith & Campus Ministry" },
   { name: "Patheos — World Religions & Philosophy", url: "https://www.patheos.com" },
   { name: "Beliefnet — Spirituality & Faith", url: "https://www.beliefnet.com" },
-  { name: "Philosophy Bro — Accessible Philosophy", url: "https://www.philosophybro.com" },
-  { name: "Stanford Encyclopedia of Philosophy", url: "https://plato.stanford.edu" },
-  { name: "Internet Encyclopedia of Philosophy", url: "https://iep.utm.edu" },
-  { name: "Daily Stoic — Stoic Philosophy", url: "https://dailystoic.com" },
   { name: "Awakin.org — Inner-Life Weekly Readings", url: "https://www.awakin.org" },
   { name: "Coursera — Religion & Philosophy Courses", url: "https://www.coursera.org/browse/arts-and-humanities/philosophy" },
   { name: "Khan Academy — World History of Religion", url: "https://www.khanacademy.org/humanities/world-history/world-history-beginnings/birth-of-religion/a/the-first-religions" },
+  { subcat: "Philosophy & Ethics" },
+  { name: "Stanford Encyclopedia of Philosophy", url: "https://plato.stanford.edu" },
+  { name: "Internet Encyclopedia of Philosophy", url: "https://iep.utm.edu" },
+  { name: "Philosophy Bro — Accessible Philosophy", url: "https://www.philosophybro.com" },
+  { name: "Daily Stoic — Stoic Philosophy", url: "https://dailystoic.com" },
+  { subcat: "Wellbeing & Meaning" },
   { name: "TED Talks — Philosophy & Religion", url: "https://www.ted.com/topics/philosophy" },
 ];
-const RELIGION_FAITH_PHILOSOPHY_MORE = [
-  // Christianity
+const RELIGION_FAITH_PHILOSOPHY_MORE: MaybeSubcat[] = [
+  { subcat: "Christian Campus" },
   { name: "BibleGateway — Bible Study Online", url: "https://www.biblegateway.com" },
   { name: "Christianity Today — Faith & Culture", url: "https://www.christianitytoday.com" },
   { name: "United States Conference of Catholic Bishops", url: "https://www.usccb.org" },
@@ -1407,110 +1441,65 @@ const RELIGION_FAITH_PHILOSOPHY_MORE = [
   { name: "The Episcopal Church", url: "https://www.episcopalchurch.org" },
   { name: "Southern Baptist Convention Resources", url: "https://www.sbc.net" },
   { name: "Christianity.com — Bible & Devotionals", url: "https://www.christianity.com" },
-  // Islam
+  { subcat: "Diverse Faith Traditions" },
   { name: "IslamicFinder — Prayer Times & Quran", url: "https://www.islamicfinder.org" },
   { name: "Quran.com — Read & Listen to Quran", url: "https://quran.com" },
   { name: "Islamic Society of North America (ISNA)", url: "https://www.isna.net" },
   { name: "Yaqeen Institute — Islamic Research", url: "https://yaqeeninstitute.org" },
   { name: "SeekersGuidance — Islamic Learning", url: "https://seekersguidance.org" },
-  // Judaism
   { name: "My Jewish Learning — Torah & Traditions", url: "https://www.myjewishlearning.com" },
   { name: "Chabad.org — Jewish Resources", url: "https://www.chabad.org" },
   { name: "Union for Reform Judaism", url: "https://urj.org" },
   { name: "United Synagogue of Conservative Judaism", url: "https://www.uscj.org" },
   { name: "Jewish Virtual Library", url: "https://www.jewishvirtuallibrary.org" },
-  // Hinduism
   { name: "Hinduism Today — Cultural Magazine", url: "https://www.hinduismtoday.com" },
   { name: "Hindu American Foundation", url: "https://www.hinduamerican.org" },
   { name: "Vedanta Society — Vedanta Philosophy", url: "https://www.vedanta.org" },
   { name: "Bhagavad Gita Online", url: "https://www.holy-bhagavad-gita.org" },
-  // Buddhism
   { name: "Lion's Roar — Buddhist Wisdom", url: "https://www.lionsroar.com" },
   { name: "Dharma.org — Insight Meditation", url: "https://www.dharma.org" },
   { name: "BuddhaNet — Buddhist Education", url: "https://www.buddhanet.net" },
   { name: "Zen Mountain Monastery", url: "https://zmm.org" },
   { name: "Plum Village — Thich Nhat Hanh", url: "https://plumvillage.org" },
-  // Sikhism
   { name: "Sikh Net — Sikh Resource Center", url: "https://www.sikhnet.com" },
   { name: "Sri Granth — Guru Granth Sahib", url: "https://www.srigranth.org" },
   { name: "Sikh Coalition", url: "https://www.sikhcoalition.org" },
-  // Indigenous / Earth-based
   { name: "Native American Church Resources", url: "https://www.nativeamericanchurchofna.org" },
   { name: "Longhouse Media — Indigenous Spirituality", url: "https://www.longhousemedia.org" },
-  // Bahai
   { name: "Bahai.org — Bahai Faith", url: "https://www.bahai.org" },
-  // Interfaith & Spiritual but not Religious
   { name: "Interfaith Youth Core (IFYC)", url: "https://ifyc.org" },
   { name: "Parliament of World Religions", url: "https://parliamentofreligions.org" },
   { name: "Fetzer Institute — Love & Forgiveness", url: "https://fetzer.org" },
   { name: "Spirituality & Practice — Multifaith", url: "https://www.spiritualityandpractice.com" },
-  { name: "Secular Student Alliance", url: "https://www.secularstudents.org" },
   { name: "Unitarian Universalist Association", url: "https://www.uua.org" },
+  { subcat: "Secular & Philosophy" },
+  { name: "Secular Student Alliance", url: "https://www.secularstudents.org" },
   { name: "Center for Contemplative Mind in Society", url: "https://www.contemplativemind.org" },
-  // Philosophy — Classical & Modern
   { name: "Philosophy Now — Philosophy Magazine", url: "https://philosophynow.org" },
   { name: "Philosophy Pages — Western Philosophy", url: "https://www.philosophypages.com" },
   { name: "The School of Life — Life Philosophy", url: "https://www.theschooloflife.com" },
   { name: "Big Think — Philosophy & Ideas", url: "https://bigthink.com/series/the-big-think-interview" },
   { name: "Closer to Truth — Cosmos & Philosophy", url: "https://www.closertotruth.com" },
   { name: "Philosophy Talk — Radio Show & Podcast", url: "https://www.philosophytalk.org" },
-  // Stoicism & Positive Philosophy
-  { name: "The Stoic Fellowship", url: "https://stoicfellowship.com" },
-  { name: "Modern Stoicism — Stoic Week", url: "https://modernstoicism.com" },
-  { name: "Stoicism Today", url: "https://stoicismtoday.com" },
-  { name: "Stoic Meditations — Ryan Holiday", url: "https://ryanholiday.net/stoicism" },
-  { name: "Marcus Aurelius — Meditations (Free)", url: "https://classics.mit.edu/Antoninus/meditations.html" },
-  { name: "Epictetus Discourses (Online Text)", url: "https://www.gutenberg.org/ebooks/4135" },
-  { name: "Seneca's Letters (Online Text)", url: "https://www.gutenberg.org/ebooks/900" },
-  { name: "Positive Psychology — VIA Strengths", url: "https://www.viacharacter.org" },
-  { name: "Greater Good Science Center — UC Berkeley", url: "https://greatergood.berkeley.edu" },
-  { name: "Happiness Lab — Yale Course", url: "https://www.happinesslab.fm" },
-  { name: "Mindfulness-Based Cognitive Therapy", url: "https://www.mbct.com" },
-  // Existentialism & Ethics
   { name: "Existentialism — SparkNotes Philosophy", url: "https://www.sparknotes.com/philosophy" },
   { name: "Ethics Unwrapped — UT Austin", url: "https://ethicsunwrapped.utexas.edu" },
   { name: "Practical Ethics — Oxford University", url: "https://www.practicalethics.ox.ac.uk" },
   { name: "Markkula Center for Applied Ethics", url: "https://www.scu.edu/ethics" },
   { name: "Philosophy Foundation — UK Outreach", url: "https://www.philosophy-foundation.org" },
-  // Eastern Philosophy
   { name: "Tao Te Ching — Laozi (Free Text)", url: "https://www.gutenberg.org/ebooks/216" },
   { name: "Confucius Institute Online", url: "https://www.chinese-ki.com" },
   { name: "Alan Watts Lectures — Eastern Philosophy", url: "https://www.alanwatts.org" },
   { name: "Zen Buddhism Resources — Shambhala", url: "https://www.shambhala.org" },
-  // Growth & Purpose
-  { name: "Purpose in Life — Stanford Center on Longevity", url: "https://longevity.stanford.edu" },
-  { name: "The Purpose Institute", url: "https://www.thepurposeinstitute.com" },
-  { name: "Viktor Frankl Institute — Logotherapy", url: "https://www.viktorfrankl.org" },
-  { name: "Simon Sinek — Find Your Why", url: "https://simonsinek.com" },
-  { name: "Character Strengths — VIA Survey", url: "https://www.viacharacter.org/surveys/takesurvey" },
-  { name: "Flourishing — Harvard Divinity School", url: "https://hwpi.harvard.edu/humanflourishingprogram" },
-  { name: "Positive Intelligence — Shirzad Chamine", url: "https://www.positiveintelligence.com" },
-  // Mindfulness & Contemplative Practice
-  { name: "Center for Mindfulness — UMass Medical", url: "https://www.umassmed.edu/cfm" },
-  { name: "Mindful.org — Mindfulness Resources", url: "https://www.mindful.org" },
-  { name: "Insight Meditation Society", url: "https://www.dharma.org" },
-  { name: "Contemplative Studies — Brown University", url: "https://www.brown.edu/academics/contemplative-studies" },
-  { name: "Tara Brach — Meditation & Teachings", url: "https://www.tarabrach.com" },
-  { name: "Jack Kornfield — Mindfulness & Buddhism", url: "https://jackkornfield.com" },
-  { name: "Pema Chodron — Buddhist Teachings", url: "https://pemachodronfoundation.org" },
-  // Prayer & Devotion
-  { name: "Daily Prayer — Pray.com", url: "https://pray.com" },
-  { name: "Hallow — Catholic Prayer App", url: "https://hallow.com" },
-  { name: "YouVersion Bible App", url: "https://www.bible.com" },
-  { name: "Jewish Prayer Resources — Siddur", url: "https://www.jewishvirtuallibrary.org/jewish-prayer" },
-  { name: "Islamicity — Quran & Hadith", url: "https://www.islamicity.org" },
-  // Open Courseware
+  { subcat: "Research & Academic" },
   { name: "MIT OpenCourseWare — Philosophy", url: "https://ocw.mit.edu/search/?d=Philosophy" },
   { name: "Yale Open Courses — Philosophy & Death", url: "https://oyc.yale.edu/death/phil-176" },
   { name: "Coursera — Buddhism & Modern Psychology", url: "https://www.coursera.org/learn/science-of-meditation" },
   { name: "edX — World Religions & Spirituality", url: "https://www.edx.org/search?q=religion" },
   { name: "FutureLearn — Philosophy Courses", url: "https://www.futurelearn.com/subjects/philosophy-and-religion-courses" },
   { name: "Udemy — Philosophy for Beginners", url: "https://www.udemy.com/topic/philosophy" },
-  // Books & Reading
   { name: "Goodreads — Philosophy & Religion Reading Lists", url: "https://www.goodreads.com/shelf/show/philosophy" },
   { name: "Project Gutenberg — Free Philosophy Texts", url: "https://www.gutenberg.org/ebooks/search/?query=philosophy&submit_search=Search+Catalog" },
   { name: "Open Library — Free Religion Books", url: "https://openlibrary.org/subjects/religion" },
-  // Campus & Interfaith
   { name: "IFYC Campus Programs — Interfaith", url: "https://ifyc.org/campuses" },
   { name: "Catholic Campus Ministry Association", url: "https://www.ccmanet.org" },
   { name: "Hillel International — Jewish Campus Life", url: "https://www.hillel.org" },
@@ -1524,18 +1513,27 @@ const RELIGION_FAITH_PHILOSOPHY_MORE = [
   { name: "Greek Orthodox Archdiocese — Campus Ministry", url: "https://www.goarch.org" },
   { name: "Buddhist Chaplains — Soka University", url: "https://www.soka.edu/student-life/spiritual-life" },
   { name: "Secular Humanist Society", url: "https://humanists.international/community/organizations" },
-  // Growth mindset & Resilience
-  { name: "Carol Dweck — Growth Mindset", url: "https://www.mindsetonline.com" },
-  { name: "Angela Duckworth — Grit & Resilience", url: "https://angeladuckworth.com" },
-  { name: "Martin Seligman — Positive Psychology", url: "https://www.authentichappiness.sas.upenn.edu" },
-  { name: "Self-Compassion — Kristin Neff", url: "https://self-compassion.org" },
-  { name: "Brené Brown — Vulnerability & Courage", url: "https://brenebrown.com" },
-  { name: "Oprah's SuperSoul — Spiritual Growth", url: "https://www.oprah.com/app/super-soul.html" },
-  { name: "Goop — Wellness & Spiritual Exploration", url: "https://goop.com" },
-  { name: "Sounds True — Spiritual Audio Resources", url: "https://www.soundstrue.com" },
-  { name: "Tricycle — Buddhist Teachings", url: "https://tricycle.org" },
-  { name: "Parabola — Myth & Meaning", url: "https://parabola.org" },
-  // Podcasts & Audio
+  { subcat: "Mindfulness & Practice" },
+  { name: "The Stoic Fellowship", url: "https://stoicfellowship.com" },
+  { name: "Modern Stoicism — Stoic Week", url: "https://modernstoicism.com" },
+  { name: "Stoicism Today", url: "https://stoicismtoday.com" },
+  { name: "Stoic Meditations — Ryan Holiday", url: "https://ryanholiday.net/stoicism" },
+  { name: "Marcus Aurelius — Meditations (Free)", url: "https://classics.mit.edu/Antoninus/meditations.html" },
+  { name: "Epictetus Discourses (Online Text)", url: "https://www.gutenberg.org/ebooks/4135" },
+  { name: "Seneca's Letters (Online Text)", url: "https://www.gutenberg.org/ebooks/900" },
+  { name: "Center for Mindfulness — UMass Medical", url: "https://www.umassmed.edu/cfm" },
+  { name: "Mindful.org — Mindfulness Resources", url: "https://www.mindful.org" },
+  { name: "Insight Meditation Society", url: "https://www.dharma.org" },
+  { name: "Contemplative Studies — Brown University", url: "https://www.brown.edu/academics/contemplative-studies" },
+  { name: "Tara Brach — Meditation & Teachings", url: "https://www.tarabrach.com" },
+  { name: "Jack Kornfield — Mindfulness & Buddhism", url: "https://jackkornfield.com" },
+  { name: "Pema Chodron — Buddhist Teachings", url: "https://pemachodronfoundation.org" },
+  { name: "Mindfulness-Based Cognitive Therapy", url: "https://www.mbct.com" },
+  { name: "Daily Prayer — Pray.com", url: "https://pray.com" },
+  { name: "Hallow — Catholic Prayer App", url: "https://hallow.com" },
+  { name: "YouVersion Bible App", url: "https://www.bible.com" },
+  { name: "Jewish Prayer Resources — Siddur", url: "https://www.jewishvirtuallibrary.org/jewish-prayer" },
+  { name: "Islamicity — Quran & Hadith", url: "https://www.islamicity.org" },
   { name: "On Being — Krista Tippett Podcast", url: "https://onbeing.org" },
   { name: "Secular Buddhism Podcast", url: "https://secularbuddhism.com" },
   { name: "Pray.com — Christian Podcasts", url: "https://pray.com/podcasts" },
@@ -1546,23 +1544,46 @@ const RELIGION_FAITH_PHILOSOPHY_MORE = [
   { name: "The Rubin Report — Ideas & Culture", url: "https://rubinreport.com" },
   { name: "The Liturgists — Progressive Faith", url: "https://theliturgists.com" },
   { name: "The RobCast — Rob Bell Spirituality", url: "https://robbell.com/portfolio/robcast" },
+  { subcat: "Character & Growth" },
+  { name: "Positive Psychology — VIA Strengths", url: "https://www.viacharacter.org" },
+  { name: "Greater Good Science Center — UC Berkeley", url: "https://greatergood.berkeley.edu" },
+  { name: "Happiness Lab — Yale Course", url: "https://www.happinesslab.fm" },
+  { name: "Purpose in Life — Stanford Center on Longevity", url: "https://longevity.stanford.edu" },
+  { name: "The Purpose Institute", url: "https://www.thepurposeinstitute.com" },
+  { name: "Viktor Frankl Institute — Logotherapy", url: "https://www.viktorfrankl.org" },
+  { name: "Simon Sinek — Find Your Why", url: "https://simonsinek.com" },
+  { name: "Character Strengths — VIA Survey", url: "https://www.viacharacter.org/surveys/takesurvey" },
+  { name: "Flourishing — Harvard Divinity School", url: "https://hwpi.harvard.edu/humanflourishingprogram" },
+  { name: "Positive Intelligence — Shirzad Chamine", url: "https://www.positiveintelligence.com" },
+  { name: "Carol Dweck — Growth Mindset", url: "https://www.mindsetonline.com" },
+  { name: "Angela Duckworth — Grit & Resilience", url: "https://angeladuckworth.com" },
+  { name: "Martin Seligman — Positive Psychology", url: "https://www.authentichappiness.sas.upenn.edu" },
+  { name: "Self-Compassion — Kristin Neff", url: "https://self-compassion.org" },
+  { name: "Brené Brown — Vulnerability & Courage", url: "https://brenebrown.com" },
+  { name: "Oprah's SuperSoul — Spiritual Growth", url: "https://www.oprah.com/app/super-soul.html" },
+  { name: "Goop — Wellness & Spiritual Exploration", url: "https://goop.com" },
+  { name: "Sounds True — Spiritual Audio Resources", url: "https://www.soundstrue.com" },
+  { name: "Tricycle — Buddhist Teachings", url: "https://tricycle.org" },
+  { name: "Parabola — Myth & Meaning", url: "https://parabola.org" },
 ];
 
 // ── Consumer Rights & Whistleblower Protection ──
-const CONSUMER_RIGHTS = [
+const CONSUMER_RIGHTS: MaybeSubcat[] = [
+  { subcat: "Federal Agencies" },
   { name: "CFPB — Consumer Financial Protection Bureau", url: "https://www.consumerfinance.gov" },
   { name: "FTC — Federal Trade Commission Consumer Info", url: "https://consumer.ftc.gov" },
-  { name: "CFPB Student Loan Complaint Portal", url: "https://www.consumerfinance.gov/complaint" },
-  { name: "ED Feedback System — Ombudsman", url: "https://studentaid.gov/feedback-center" },
-  { name: "FSA Ombudsman (Student Loan Disputes)", url: "https://studentaid.gov/feedback-center" },
+  { name: "ED OIG Hotline — Report Fraud/Waste/Abuse", url: "https://www2.ed.gov/about/offices/list/oig/hotline.html" },
   { name: "FTC Identity Theft Resources", url: "https://www.identitytheft.gov" },
   { name: "BBB — Better Business Bureau", url: "https://www.bbb.org" },
   { name: "USA.gov — File a Consumer Complaint", url: "https://www.usa.gov/consumer-complaints" },
   { name: "State Attorney General — Consumer Protection", url: "https://www.naag.org/find-my-ag" },
-  { name: "ED OIG Hotline — Report Fraud/Waste/Abuse", url: "https://www2.ed.gov/about/offices/list/oig/hotline.html" },
+  { subcat: "Financial Aid Disputes" },
+  { name: "CFPB Student Loan Complaint Portal", url: "https://www.consumerfinance.gov/complaint" },
+  { name: "ED Feedback System — Ombudsman", url: "https://studentaid.gov/feedback-center" },
+  { name: "FSA Ombudsman (Student Loan Disputes)", url: "https://studentaid.gov/feedback-center" },
 ];
-const CONSUMER_RIGHTS_MORE = [
-  // Consumer financial protection
+const CONSUMER_RIGHTS_MORE: MaybeSubcat[] = [
+  { subcat: "Consumer Financial Protection" },
   { name: "CFPB — Know Before You Owe (Student Loans)", url: "https://www.consumerfinance.gov/paying-for-college" },
   { name: "CFPB — Paying for College Tool", url: "https://www.consumerfinance.gov/paying-for-college" },
   { name: "CFPB — Private Student Loan Complaints", url: "https://www.consumerfinance.gov/complaint" },
@@ -1573,7 +1594,7 @@ const CONSUMER_RIGHTS_MORE = [
   { name: "FDIC — Deposit Insurance & Consumer Info", url: "https://www.fdic.gov/consumers" },
   { name: "SEC — Investor Protection Resources", url: "https://investor.gov" },
   { name: "FINRA — Investor Complaint Center", url: "https://www.finra.org/investors/have-problem/file-complaint" },
-  // Whistleblower protection — Federal
+  { subcat: "Whistleblower Support" },
   { name: "Whistleblower Protection Program — OSHA", url: "https://www.whistleblowers.gov" },
   { name: "SEC Whistleblower Program", url: "https://www.sec.gov/whistleblower" },
   { name: "CFTC Whistleblower Program", url: "https://www.cftc.gov/whistleblower" },
@@ -1584,7 +1605,7 @@ const CONSUMER_RIGHTS_MORE = [
   { name: "ED OIG — Report Financial Aid Fraud", url: "https://www2.ed.gov/about/offices/list/oig/hotline.html" },
   { name: "FTC Reporting — Education Scams", url: "https://reportfraud.ftc.gov" },
   { name: "HHS Office of Inspector General Hotline", url: "https://oig.hhs.gov/fraud/report-fraud" },
-  // Whistleblower — State & legal
+  { subcat: "Legal Resources" },
   { name: "NELA — National Employment Law Association", url: "https://www.nela.org" },
   { name: "PEER — Government Accountability", url: "https://peer.org" },
   { name: "Government Accountability Project", url: "https://whistleblower.org" },
@@ -1606,7 +1627,7 @@ const CONSUMER_RIGHTS_MORE = [
   { name: "Net Price Calculator Accuracy — College Scorecard", url: "https://collegescorecard.ed.gov" },
   { name: "Gainful Employment Disclosure Tool", url: "https://studentaid.gov/gainful-employment" },
   { name: "TICAS — The Institute for College Access & Success", url: "https://ticas.org" },
-  // Privacy & data rights
+  { subcat: "Digital Rights" },
   { name: "FERPA — Student Privacy Rights", url: "https://studentprivacy.ed.gov" },
   { name: "FOIA — Freedom of Information Act Requests", url: "https://www.foia.gov" },
   { name: "PrivacyRights.org — Consumer Data Rights", url: "https://privacyrights.org" },
@@ -1615,7 +1636,6 @@ const CONSUMER_RIGHTS_MORE = [
   { name: "Electronic Privacy Information Center (EPIC)", url: "https://epic.org" },
   { name: "Privacy International", url: "https://privacyinternational.org" },
   { name: "Data Privacy Day Resources", url: "https://staysafeonline.org/programs/data-privacy-week" },
-  // Discrimination & civil rights
   { name: "ED Office for Civil Rights (OCR)", url: "https://www2.ed.gov/about/offices/list/ocr/complaintintro.html" },
   { name: "OCR — File a Discrimination Complaint", url: "https://www2.ed.gov/about/offices/list/ocr/complaintintro.html" },
   { name: "EEOC — File an Employment Complaint", url: "https://www.eeoc.gov/filing-charge-discrimination" },
@@ -1656,16 +1676,16 @@ const CONSUMER_RIGHTS_MORE = [
   { name: "Volunteer Lawyers Project", url: "https://vlpnet.org" },
 ];
 
-const FINANCIAL_LITERACY = [
-  // Budgeting & money basics
+const FINANCIAL_LITERACY: MaybeSubcat[] = [
+  { subcat: "Budgeting & Money Basics" },
   { name: "CFPB — Your Money, Your Goals", url: "https://www.consumerfinance.gov/consumer-tools/money-as-you-grow" },
   { name: "NerdWallet Student Budgeting", url: "https://www.nerdwallet.com/article/finance/budgeting-for-college-students" },
   { name: "Mint Budgeting App", url: "https://mint.intuit.com" },
   { name: "YNAB (You Need A Budget)", url: "https://www.ynab.com" },
   { name: "Copilot Money", url: "https://copilot.money" },
 ];
-const FINANCIAL_LITERACY_MORE = [
-  // Budgeting & tools (continued)
+const FINANCIAL_LITERACY_MORE: MaybeSubcat[] = [
+  { subcat: "Budgeting Tools" },
   { name: "Rocket Money", url: "https://www.rocketmoney.com" },
   { name: "PocketGuard", url: "https://pocketguard.com" },
   { name: "Goodbudget (Envelope Method)", url: "https://goodbudget.com" },
@@ -1681,7 +1701,7 @@ const FINANCIAL_LITERACY_MORE = [
   { name: "Current (Student-Friendly Bank)", url: "https://current.com" },
   { name: "Step (Student Debit/Banking)", url: "https://step.com" },
   { name: "Greenlight (Teen/Student Money)", url: "https://greenlightcard.com" },
-  // Financial literacy education
+  { subcat: "Financial Literacy Education" },
   { name: "Khan Academy — Personal Finance", url: "https://www.khanacademy.org/college-careers-more/personal-finance" },
   { name: "Next Gen Personal Finance (NGPF)", url: "https://www.ngpf.org" },
   { name: "Investopedia Financial Literacy", url: "https://www.investopedia.com/financial-literacy-4689762" },
@@ -1697,7 +1717,7 @@ const FINANCIAL_LITERACY_MORE = [
   { name: "NCUA Financial Literacy Resources", url: "https://www.mycreditunion.gov/financial-literacy" },
   { name: "America Saves", url: "https://americasaves.org" },
   { name: "The Balance — Student Money", url: "https://www.thebalancemoney.com/student-finances-4161884" },
-  // Student credit cards
+  { subcat: "Student Credit Cards" },
   { name: "Discover it® Student Card", url: "https://www.discover.com/credit-cards/student" },
   { name: "Capital One Quicksilver Student", url: "https://www.capitalone.com/credit-cards/students" },
   { name: "Chase Freedom Student Card", url: "https://creditcards.chase.com/freedom-credit-cards/student" },
@@ -1713,7 +1733,7 @@ const FINANCIAL_LITERACY_MORE = [
   { name: "WalletHub Student Credit Cards", url: "https://wallethub.com/best-credit-cards/students" },
   { name: "US News — Student Credit Cards", url: "https://creditcards.usnews.com/student" },
   { name: "Experian Student Credit Guide", url: "https://www.experian.com/blogs/ask-experian/credit-card-advice/student-credit-cards" },
-  // Credit scores & building credit
+  { subcat: "Credit Scores & Building Credit" },
   { name: "Credit Karma (Free Credit Score)", url: "https://www.creditkarma.com" },
   { name: "Credit Sesame", url: "https://www.creditsesame.com" },
   { name: "AnnualCreditReport.com (Free Reports)", url: "https://www.annualcreditreport.com" },
@@ -1724,7 +1744,7 @@ const FINANCIAL_LITERACY_MORE = [
   { name: "Self — Credit Builder Loans", url: "https://www.self.inc" },
   { name: "Experian Boost (Add Bills to Score)", url: "https://www.experian.com/consumer-products/score-boost.html" },
   { name: "Kikoff Credit Builder", url: "https://www.kikoff.com" },
-  // Student loan repayment tools
+  { subcat: "Student Loan Repayment" },
   { name: "Federal Student Aid Loan Simulator", url: "https://studentaid.gov/loan-simulator" },
   { name: "NSLDS — Student Aid Data", url: "https://nslds.ed.gov" },
   { name: "studentaid.gov — Loan Summary", url: "https://studentaid.gov/aid-summary/loans" },
@@ -1740,7 +1760,7 @@ const FINANCIAL_LITERACY_MORE = [
   { name: "Laurel Road Student Refinancing", url: "https://www.laurelroad.com/refinance-student-loans" },
   { name: "CommonBond (Now Firstmark)", url: "https://www.firstmarkservices.com" },
   { name: "Summer — Loan Repayment Advisor", url: "https://www.meetsummer.org" },
-  // Student debt resources & counseling
+  { subcat: "Student Debt Counseling" },
   { name: "NFCC — Student Debt Counseling", url: "https://www.nfcc.org/resources/student-loan-debt" },
   { name: "Savi — Student Loan Optimization", url: "https://www.saviforstudents.com" },
   { name: "IonTuition — Loan Management", url: "https://www.iontuition.com" },
@@ -1751,7 +1771,7 @@ const FINANCIAL_LITERACY_MORE = [
   { name: "National Student Legal Defense (NSLDN)", url: "https://studentdefense.org" },
   { name: "Student Borrower Protection Center", url: "https://protectborrowers.org" },
   { name: "CFPB — Student Loans", url: "https://www.consumerfinance.gov/consumer-tools/student-loans" },
-  // Investing & wealth building basics
+  { subcat: "Investing & Wealth Building" },
   { name: "Acorns (Micro-Investing)", url: "https://www.acorns.com" },
   { name: "Stash (Beginner Investing)", url: "https://www.stash.com" },
   { name: "Robinhood (Commission-Free Trading)", url: "https://robinhood.com" },
@@ -1767,7 +1787,7 @@ const FINANCIAL_LITERACY_MORE = [
   { name: "IRS — Roth IRA for Students", url: "https://www.irs.gov/retirement-plans/roth-iras" },
   { name: "SIPC — Investor Protection", url: "https://www.sipc.org" },
   { name: "SEC — Investor.gov Beginner Tools", url: "https://www.investor.gov/introduction-investing" },
-  // Side income & gig economy for students
+  { subcat: "Side Income & Gig Economy" },
   { name: "Upwork (Freelancing)", url: "https://www.upwork.com" },
   { name: "Fiverr (Gig Services)", url: "https://www.fiverr.com" },
   { name: "Taskrabbit (Local Tasks)", url: "https://www.taskrabbit.com" },
@@ -1778,7 +1798,7 @@ const FINANCIAL_LITERACY_MORE = [
   { name: "Wyzant (Private Tutoring)", url: "https://www.wyzant.com/become_a_tutor" },
   { name: "Rev (Transcription & Captions)", url: "https://www.rev.com/freelancers" },
   { name: "Amazon MTurk (Micro Tasks)", url: "https://www.mturk.com" },
-  // Student mental health & money psychology
+  { subcat: "Money & Mental Health" },
   { name: "NAMI — Money & Mental Health", url: "https://www.nami.org/Blogs/NAMI-Blog/March-2019/How-Mental-Health-Affects-Financial-Health" },
   { name: "Money & Mental Health Policy Institute", url: "https://www.moneyandmentalhealth.org" },
   { name: "CFPB — Financial Well-Being Scale", url: "https://www.consumerfinance.gov/consumer-tools/financial-well-being" },
@@ -1789,7 +1809,7 @@ const FINANCIAL_LITERACY_MORE = [
   { name: "Thriveworks (Online Therapy)", url: "https://thriveworks.com" },
   { name: "BetterHelp (Online Counseling)", url: "https://www.betterhelp.com" },
   { name: "SAMHSA Helpline (Free)", url: "https://www.samhsa.gov/find-help/national-helpline" },
-  // Student housing, food & basic needs
+  { subcat: "Basic Needs & Housing" },
   { name: "HUD — Student Housing Resources", url: "https://www.hud.gov/topics/housing_assistance" },
   { name: "USDA — SNAP Eligibility for Students", url: "https://www.fns.usda.gov/snap/eligibility" },
   { name: "College & University Food Bank Alliance", url: "https://cufba.org" },
@@ -1800,7 +1820,7 @@ const FINANCIAL_LITERACY_MORE = [
   { name: "National Homelessness Hotline", url: "https://www.nationalhomeless.org/factsheets/students.html" },
   { name: "WIC Program (Women, Infants, Children)", url: "https://www.fns.usda.gov/wic" },
   { name: "Medicaid Student Coverage Info", url: "https://www.medicaid.gov/medicaid/eligibility/index.html" },
-  // Tax resources for students
+  { subcat: "Tax Resources for Students" },
   { name: "IRS — Tax Benefits for Education", url: "https://www.irs.gov/newsroom/tax-benefits-for-education-information-center" },
   { name: "IRS Free File (Free Tax Filing)", url: "https://www.irs.gov/filing/free-file-do-your-federal-taxes-for-free" },
   { name: "VITA — Free Tax Prep for Low Income", url: "https://www.irs.gov/individuals/free-tax-return-preparation-for-qualifying-taxpayers" },
@@ -1811,7 +1831,7 @@ const FINANCIAL_LITERACY_MORE = [
   { name: "IRS AOTC — American Opportunity Credit", url: "https://www.irs.gov/credits-deductions/individuals/education-credits-aotc-llc" },
   { name: "IRS Publication 970 — Tax Benefits for Education", url: "https://www.irs.gov/forms-pubs/about-publication-970" },
   { name: "FreeTaxUSA (Low-Cost Filing)", url: "https://www.freetaxusa.com" },
-  // Career, jobs & financial planning after graduation
+  { subcat: "Career & Salary Planning" },
   { name: "LinkedIn Jobs & Career Planning", url: "https://www.linkedin.com/jobs" },
   { name: "Handshake (College Career Platform)", url: "https://joinhandshake.com" },
   { name: "Indeed (Job Search)", url: "https://www.indeed.com" },
@@ -1822,7 +1842,7 @@ const FINANCIAL_LITERACY_MORE = [
   { name: "College Scorecard (ROI by School)", url: "https://collegescorecard.ed.gov" },
   { name: "Georgetown CEW — College ROI Study", url: "https://cew.georgetown.edu/cew-reports/college-roi" },
   { name: "NACE — Career Outlook & Salary Data", url: "https://www.naceweb.org/job-market/compensation/salary-surveys" },
-  // Graduate school financial planning
+  { subcat: "Graduate School Finance" },
   { name: "GRE Fee Waiver Program", url: "https://www.ets.org/gre/fee-reduction.html" },
   { name: "FAFSA for Graduate School", url: "https://studentaid.gov/understand-aid/types/loans/grad-plus" },
   { name: "Grad PLUS Loan Info", url: "https://studentaid.gov/understand-aid/types/loans/plus/grad" },
@@ -1833,7 +1853,7 @@ const FINANCIAL_LITERACY_MORE = [
   { name: "Graduate Student Financial Aid Guide (NASFAA)", url: "https://www.nasfaa.org/Graduate_Students" },
   { name: "Cost of Grad School Calculator (FinAid)", url: "https://finaid.org/calculators/costprojector.phtml" },
   { name: "AAUW Fellowships & Grants", url: "https://www.aauw.org/resources/programs/fellowships-grants" },
-  // Frugal living, discounts & student perks
+  { subcat: "Student Discounts & Perks" },
   { name: "UNiDAYS — Student Discounts", url: "https://www.myunidays.com" },
   { name: "Student Beans — Student Discounts", url: "https://www.studentbeans.com/us" },
   { name: "ID.me Student Verification & Deals", url: "https://www.id.me/benefits" },
@@ -1844,7 +1864,7 @@ const FINANCIAL_LITERACY_MORE = [
   { name: "Microsoft Azure for Students (Free)", url: "https://azure.microsoft.com/en-us/free/students" },
   { name: "Adobe Creative Cloud — Student Plan", url: "https://www.adobe.com/creativecloud/buy/students.html" },
   { name: "Student Advantage Discount Network", url: "https://studentadvantage.com" },
-  // Consumer protection & financial rights
+  { subcat: "Consumer Protection & Rights" },
   { name: "CFPB — Know Before You Owe (Student Loans)", url: "https://www.consumerfinance.gov/paying-for-college" },
   { name: "FTC — Avoiding Financial Aid Scams", url: "https://consumer.ftc.gov/articles/scholarship-scams" },
   { name: "CFPB — Submit a Complaint", url: "https://www.consumerfinance.gov/complaint" },
@@ -1931,11 +1951,11 @@ const ROLE_TIPS = [
 ];
 
 const ROLE_OPTIONS = [
-  { label: "Student",       color: "text-sky-400",    ring: "ring-sky-500/40",    bg: "bg-sky-500/15"    },
-  { label: "Parent",        color: "text-blue-400",   ring: "ring-blue-500/40",   bg: "bg-blue-500/15"   },
-  { label: "Administrator", color: "text-emerald-400",ring: "ring-emerald-500/40",bg: "bg-emerald-500/15"},
-  { label: "Leader",        color: "text-violet-400", ring: "ring-violet-500/40", bg: "bg-violet-500/15" },
-  { label: "Auditor",       color: "text-rose-400",   ring: "ring-rose-500/40",   bg: "bg-rose-500/15"   },
+  { label: "Student",       icon: GraduationCap,  color: "text-sky-400",    ring: "ring-sky-500/40",    bg: "bg-sky-500/15"    },
+  { label: "Parent",        icon: Users,          color: "text-blue-400",   ring: "ring-blue-500/40",   bg: "bg-blue-500/15"   },
+  { label: "Administrator", icon: ClipboardList,  color: "text-emerald-400",ring: "ring-emerald-500/40",bg: "bg-emerald-500/15"},
+  { label: "Leader",        icon: Landmark,       color: "text-violet-400", ring: "ring-violet-500/40", bg: "bg-violet-500/15" },
+  { label: "Auditor",       icon: ShieldCheck,    color: "text-rose-400",   ring: "ring-rose-500/40",   bg: "bg-rose-500/15"   },
 ];
 
 
@@ -2978,14 +2998,19 @@ export default function AidAgentPage() {
                   {isOpen && (
                     <div className="px-1.5 pb-2">
                       <div className="space-y-0.5">
-                        {list.map(({ name, url }) => (
-                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                            title={name}
-                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-amber-500/20 ring-1 ring-transparent hover:ring-amber-500/20 transition-all duration-150 group">
-                            <span>{name}</span>
-                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-amber-400 shrink-0" />
-                          </a>
-                        ))}
+                        {list.map((item, idx) => {
+                          if (isSubcat(item)) {
+                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                          }
+                          return (
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                              title={item.name}
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-amber-500/20 ring-1 ring-transparent hover:ring-amber-500/20 transition-all duration-150 group">
+                              <span>{item.name}</span>
+                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-amber-400 shrink-0" />
+                            </a>
+                          );
+                        })}
                       </div>
                       <button onClick={() => toggleSection("resume")}
                         className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-amber-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
@@ -3013,14 +3038,19 @@ export default function AidAgentPage() {
                   {isOpen && (
                     <div className="px-1.5 pb-2">
                       <div className="space-y-0.5">
-                        {list.map(({ name, url }) => (
-                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                            title={name}
-                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-violet-500/20 ring-1 ring-transparent hover:ring-violet-500/20 transition-all duration-150 group">
-                            <span>{name}</span>
-                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-violet-400 shrink-0" />
-                          </a>
-                        ))}
+                        {list.map((item, idx) => {
+                          if (isSubcat(item)) {
+                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                          }
+                          return (
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                              title={item.name}
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-violet-500/20 ring-1 ring-transparent hover:ring-violet-500/20 transition-all duration-150 group">
+                              <span>{item.name}</span>
+                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-violet-400 shrink-0" />
+                            </a>
+                          );
+                        })}
                       </div>
                       <button onClick={() => toggleSection("ai-literacy")}
                         className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-violet-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
@@ -3048,14 +3078,19 @@ export default function AidAgentPage() {
                   {isOpen && (
                     <div className="px-1.5 pb-2">
                       <div className="space-y-0.5">
-                        {list.map(({ name, url }) => (
-                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                            title={name}
-                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-sky-500/20 ring-1 ring-transparent hover:ring-sky-500/20 transition-all duration-150 group">
-                            <span>{name}</span>
-                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-sky-400 shrink-0" />
-                          </a>
-                        ))}
+                        {list.map((item, idx) => {
+                          if (isSubcat(item)) {
+                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                          }
+                          return (
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                              title={item.name}
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-sky-500/20 ring-1 ring-transparent hover:ring-sky-500/20 transition-all duration-150 group">
+                              <span>{item.name}</span>
+                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-sky-400 shrink-0" />
+                            </a>
+                          );
+                        })}
                       </div>
                       <button onClick={() => toggleSection("finlit")}
                         className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-sky-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
@@ -3084,22 +3119,32 @@ export default function AidAgentPage() {
                   {isOpen && (
                     <div className="px-1.5 pb-2">
                       <div className="space-y-0.5">
-                        {RELIGION_FAITH_PHILOSOPHY.map(({ name, url }) => (
-                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                            title={name}
-                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-fuchsia-500/20 ring-1 ring-transparent hover:ring-fuchsia-500/20 transition-all duration-150 group">
-                            <span>{name}</span>
-                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-fuchsia-400 shrink-0" />
-                          </a>
-                        ))}
-                        {isMoreOpen && RELIGION_FAITH_PHILOSOPHY_MORE.map(({ name, url }) => (
-                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                            title={name}
-                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-fuchsia-500/20 ring-1 ring-transparent hover:ring-fuchsia-500/20 transition-all duration-150 group">
-                            <span>{name}</span>
-                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-fuchsia-400 shrink-0" />
-                          </a>
-                        ))}
+                        {RELIGION_FAITH_PHILOSOPHY.map((item, idx) => {
+                          if (isSubcat(item)) {
+                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                          }
+                          return (
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                              title={item.name}
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-fuchsia-500/20 ring-1 ring-transparent hover:ring-fuchsia-500/20 transition-all duration-150 group">
+                              <span>{item.name}</span>
+                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-fuchsia-400 shrink-0" />
+                            </a>
+                          );
+                        })}
+                        {isMoreOpen && RELIGION_FAITH_PHILOSOPHY_MORE.map((item, idx) => {
+                          if (isSubcat(item)) {
+                            return <div key={`sc-more-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                          }
+                          return (
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                              title={item.name}
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-fuchsia-500/20 ring-1 ring-transparent hover:ring-fuchsia-500/20 transition-all duration-150 group">
+                              <span>{item.name}</span>
+                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-fuchsia-400 shrink-0" />
+                            </a>
+                          );
+                        })}
                       </div>
                       <button onClick={() => toggleSection(moreKey)}
                         className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-indigo-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
@@ -3128,22 +3173,32 @@ export default function AidAgentPage() {
                   {isOpen && (
                     <div className="px-1.5 pb-2">
                       <div className="space-y-0.5">
-                        {CONSUMER_RIGHTS.map(({ name, url }) => (
-                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                            title={name}
-                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-orange-500/20 ring-1 ring-transparent hover:ring-orange-500/20 transition-all duration-150 group">
-                            <span>{name}</span>
-                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-orange-400 shrink-0" />
-                          </a>
-                        ))}
-                        {isMoreOpen && CONSUMER_RIGHTS_MORE.map(({ name, url }) => (
-                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                            title={name}
-                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-orange-500/20 ring-1 ring-transparent hover:ring-orange-500/20 transition-all duration-150 group">
-                            <span>{name}</span>
-                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-orange-400 shrink-0" />
-                          </a>
-                        ))}
+                        {CONSUMER_RIGHTS.map((item, idx) => {
+                          if (isSubcat(item)) {
+                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                          }
+                          return (
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                              title={item.name}
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-orange-500/20 ring-1 ring-transparent hover:ring-orange-500/20 transition-all duration-150 group">
+                              <span>{item.name}</span>
+                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-orange-400 shrink-0" />
+                            </a>
+                          );
+                        })}
+                        {isMoreOpen && CONSUMER_RIGHTS_MORE.map((item, idx) => {
+                          if (isSubcat(item)) {
+                            return <div key={`sc-more-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                          }
+                          return (
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                              title={item.name}
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-orange-500/20 ring-1 ring-transparent hover:ring-orange-500/20 transition-all duration-150 group">
+                              <span>{item.name}</span>
+                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-orange-400 shrink-0" />
+                            </a>
+                          );
+                        })}
                       </div>
                       <button onClick={() => toggleSection(moreKey)}
                         className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-indigo-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
@@ -3172,22 +3227,32 @@ export default function AidAgentPage() {
                   {isOpen && (
                     <div className="px-1.5 pb-2">
                       <div className="space-y-0.5">
-                        {MENTAL_HEALTH_STUDENT.map(({ name, url }) => (
-                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                            title={name}
-                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-emerald-500/20 ring-1 ring-transparent hover:ring-emerald-500/20 transition-all duration-150 group">
-                            <span>{name}</span>
-                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-emerald-400 shrink-0" />
-                          </a>
-                        ))}
-                        {isMoreOpen && MENTAL_HEALTH_STUDENT_MORE.map(({ name, url }) => (
-                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                            title={name}
-                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-emerald-500/20 ring-1 ring-transparent hover:ring-emerald-500/20 transition-all duration-150 group">
-                            <span>{name}</span>
-                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-emerald-400 shrink-0" />
-                          </a>
-                        ))}
+                        {MENTAL_HEALTH_STUDENT.map((item, idx) => {
+                          if (isSubcat(item)) {
+                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                          }
+                          return (
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                              title={item.name}
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-emerald-500/20 ring-1 ring-transparent hover:ring-emerald-500/20 transition-all duration-150 group">
+                              <span>{item.name}</span>
+                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-emerald-400 shrink-0" />
+                            </a>
+                          );
+                        })}
+                        {isMoreOpen && MENTAL_HEALTH_STUDENT_MORE.map((item, idx) => {
+                          if (isSubcat(item)) {
+                            return <div key={`sc-more-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                          }
+                          return (
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                              title={item.name}
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-emerald-500/20 ring-1 ring-transparent hover:ring-emerald-500/20 transition-all duration-150 group">
+                              <span>{item.name}</span>
+                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-emerald-400 shrink-0" />
+                            </a>
+                          );
+                        })}
                       </div>
                       <button onClick={() => toggleSection(moreKey)}
                         className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-indigo-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
@@ -3215,14 +3280,19 @@ export default function AidAgentPage() {
                   {isOpen && (
                     <div className="px-1.5 pb-2">
                       <div className="space-y-0.5">
-                        {list.map(({ name, url }) => (
-                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                            title={name}
-                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-violet-500/20 ring-1 ring-transparent hover:ring-violet-500/20 transition-all duration-150 group">
-                            <span>{name}</span>
-                            <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-violet-400 shrink-0" />
-                          </a>
-                        ))}
+                        {list.map((item, idx) => {
+                          if (isSubcat(item)) {
+                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                          }
+                          return (
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                              title={item.name}
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-violet-500/20 ring-1 ring-transparent hover:ring-violet-500/20 transition-all duration-150 group">
+                              <span>{item.name}</span>
+                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-violet-400 shrink-0" />
+                            </a>
+                          );
+                        })}
                       </div>
                       <button onClick={() => toggleSection("loans")}
                         className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-violet-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
@@ -3247,6 +3317,8 @@ export default function AidAgentPage() {
             </div>
             <div className="flex items-center gap-3 mt-2 flex-wrap">
               <Link href="/pricing" className="text-[11px] text-indigo-400/60 underline underline-offset-2 hover:text-indigo-300 transition-colors">Plans & Pricing</Link>
+              <Link href="/pricing#faq" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">FAQ</Link>
+              <Link href="/about#how-it-works" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">How it works</Link>
               <Link href="/account" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">Account</Link>
               <Link href="/support" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">Support Dev</Link>
               <Link href="/legal" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">Legal</Link>
@@ -3349,9 +3421,49 @@ export default function AidAgentPage() {
                 <p className="text-sm text-white/50 leading-relaxed max-w-lg text-center mb-2">
                   Your calm, expert companion for FAFSA, award letters &amp; financial aid.
                 </p>
-                <p className="text-xs text-teal-400/60 leading-relaxed max-w-md text-center mb-8">
+                <p className="text-xs text-teal-400/60 leading-relaxed max-w-md text-center mb-6">
                   Generate FA offer letters · Run R2T4 calculations · Prep FSA audits · Title IV · SAP · Scholarships &amp; more
                 </p>
+
+                {/* ── Trust strip ── */}
+                <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mb-7 px-2">
+                  {[
+                    { icon: Award,       text: "Built by a 15-yr FA Professional" },
+                    { icon: BookOpen,    text: "34 CFR Parts 600–690 Coverage"    },
+                    { icon: ShieldCheck, text: "Regulations Updated Weekly"       },
+                    { icon: Users,       text: "Students, Parents & FA Offices"   },
+                  ].map(({ icon: Icon, text }) => (
+                    <div key={text} className="flex items-center gap-1.5">
+                      <Icon className="h-3 w-3 text-teal-400/60 shrink-0" aria-hidden="true" />
+                      <span className="text-[11px] text-white/40">{text}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* ── How it works ── */}
+                <div className="w-full max-w-2xl mb-7">
+                  <div className="flex items-center gap-2 mb-3">
+                    <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/[0.08]" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/25 px-2">How it works</span>
+                    <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/[0.08]" />
+                  </div>
+                  <div className="grid grid-cols-3 gap-2.5">
+                    {([
+                      { n: "1", icon: Sparkles,    title: "Choose your role",    body: "Select Student, Parent, Admin, Leader, or Auditor — Genie tailors every answer to your context." },
+                      { n: "2", icon: Paperclip,   title: "Ask or upload",       body: "Type a question, upload a doc or award letter, or use voice. Attach ISIR data or policy text." },
+                      { n: "3", icon: CheckCircle, title: "Get expert guidance", body: "Plain-English answers with 34 CFR citations, calculations, and printable responses." },
+                    ] as const).map(({ n, icon: Icon, title, body }) => (
+                      <div key={n} className="relative flex flex-col gap-2 p-3.5 rounded-xl bg-white/[0.04] ring-1 ring-white/[0.07] backdrop-blur-sm">
+                        <div className="absolute -top-2.5 -left-1 w-5 h-5 rounded-full flex items-center justify-center bg-gradient-to-br from-teal-400 to-cyan-500 shadow-sm shadow-teal-500/40">
+                          <span className="text-[9px] font-black text-white leading-none">{n}</span>
+                        </div>
+                        <Icon className="h-4 w-4 text-teal-300/60 mt-0.5" aria-hidden="true" />
+                        <p className="text-xs font-semibold text-white/80 leading-tight">{title}</p>
+                        <p className="text-[10px] text-white/35 leading-snug">{body}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
                 {/* Quick actions — role tabs + 2×2 grid */}
                 <div className="w-full max-w-2xl">
@@ -3596,17 +3708,19 @@ export default function AidAgentPage() {
               {/* Role selector */}
               <div className="flex items-center gap-1.5 flex-wrap mb-2.5 px-1">
                 <span className="text-[10px] text-white/25 font-medium mr-0.5 shrink-0">I am a:</span>
-                {ROLE_OPTIONS.map(({ label, color, ring, bg }) => (
+                {ROLE_OPTIONS.map(({ label, icon: RoleIcon, color, ring, bg }) => (
                   <button
                     key={label}
                     type="button"
+                    aria-pressed={selectedRole === label}
                     onClick={() => setSelectedRole(selectedRole === label ? null : label)}
-                    className={`px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ring-1 ${
+                    className={`flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ring-1 ${
                       selectedRole === label
                         ? `${color} ${bg} ${ring}`
                         : "text-white/30 bg-transparent ring-white/[0.08] hover:text-white/60 hover:bg-white/[0.06]"
                     }`}
                   >
+                    <RoleIcon className="h-2.5 w-2.5 shrink-0" />
                     {label}
                   </button>
                 ))}
@@ -3880,6 +3994,17 @@ export default function AidAgentPage() {
               );
             })()}
 
+          </div>
+
+          {/* Right panel footer */}
+          <div className="px-3 pb-3 pt-2 border-t border-white/[0.06] mt-auto shrink-0">
+            <div className="flex items-center gap-3 flex-wrap justify-end">
+              <Link href="/pricing" className="text-[11px] text-indigo-400/60 underline underline-offset-2 hover:text-indigo-300 transition-colors">Plans & Pricing</Link>
+              <Link href="/pricing#faq" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">FAQ</Link>
+              <Link href="/about#how-it-works" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">How it works</Link>
+              <Link href="/account" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">Account</Link>
+              <Link href="/legal" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">Legal</Link>
+            </div>
           </div>
 
         </aside>
