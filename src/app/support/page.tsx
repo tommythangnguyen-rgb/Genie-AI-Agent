@@ -14,7 +14,6 @@ function GenieBottle({ className }: { className?: string }) {
 }
 
 const WALLETS = [
-  { label: "Bitcoin (BTC)", address: "[YOUR_BTC_WALLET_ADDRESS]" },
   { label: "Ethereum (ETH)", address: "0xae91ffb368eb76fcf9c8dbaf95dd71fed8360abb" },
   { label: "USDC", address: "0xae91ffb368eb76fcf9c8dbaf95dd71fed8360abb" },
 ];
