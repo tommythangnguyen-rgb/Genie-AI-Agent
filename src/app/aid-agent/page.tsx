@@ -2244,7 +2244,24 @@ export default function AidAgentPage() {
         body: JSON.stringify({ messages: apiMessages }),
       });
 
-      if (!res.ok) throw new Error("Request failed");
+      if (res.status === 429) {
+        const data = await res.json().catch(() => ({}));
+        const isGuest = !data.limit || data.limit <= 1;
+        setIsLoading(false);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: assistantId,
+            role: "assistant",
+            content: isGuest
+              ? "You've used your free preview question. **[Create a free account](/account)** to get 3 questions per day, or **[upgrade](/pricing)** for unlimited access."
+              : `You've reached your daily question limit (${data.limit ?? 3}/day). Your limit resets tomorrow. **[Upgrade your plan](/pricing)** for more questions.`,
+          },
+        ]);
+        return;
+      }
+
+      if (!res.ok) throw new Error(`API error ${res.status}`);
 
       const reader = res.body!.getReader();
       readerRef.current = reader;
@@ -2270,7 +2287,8 @@ export default function AidAgentPage() {
           )
         );
       }
-    } catch {
+    } catch (err) {
+      console.error("Aid agent error:", err);
       setIsLoading(false);
       setMessages((prev) => [
         ...prev,
