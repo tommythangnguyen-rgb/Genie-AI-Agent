@@ -2,7 +2,15 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Home, ChevronRight, Check, Star, Zap, Users, ChevronDown } from "lucide-react";
+import {
+  Home, ChevronRight, Check, X, Star, Zap, ChevronDown,
+  FileText, Calculator, Download, BookMarked, Users, Shield,
+  Sparkles, ArrowRight, BadgeCheck,
+} from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
+
+// ── Genie Bottle ──────────────────────────────────────────────────────────────
 
 function GenieBottle({ className }: { className?: string }) {
   return (
@@ -13,50 +21,186 @@ function GenieBottle({ className }: { className?: string }) {
   );
 }
 
-const FAQ_ITEMS = [
+// ── Data ──────────────────────────────────────────────────────────────────────
+
+const FEATURES = {
+  // Shared
+  role_selector:       "Role selector (Student, Parent, Admin, Leader, Auditor)",
+  basic_chat:          "Basic chat — FAFSA, SAI, school comparisons, tax credits",
+  award_summaries:     "Text-based award letter summaries",
+  // Pro+
+  unlimited_chat:      "Unlimited chat with priority model",
+  doc_upload:          "Document / photo / voice upload & AI analysis",
+  advanced_tools:      "R2T4 calculators, mid-semester scenarios, audit prep",
+  pdf_export:          "Full PDF exports & side-by-side comparisons",
+  chat_history:        "Chat history & save",
+  overage:             "Soft overage: $0.50 / extra advanced analysis",
+  // Team
+  unlimited_usage:     "Unlimited usage — all features, no caps",
+  team_sharing:        "Multi-user seats + team sharing",
+  custom_templates:    "Custom templates & branded exports",
+  admin_dashboard:     "Admin dashboard",
+} as const;
+
+type FeatureKey = keyof typeof FEATURES;
+
+interface Tier {
+  id: string;
+  name: string;
+  badge?: string;
+  badgeColor?: string;
+  monthlyPrice: number | null;
+  yearlyPrice: number | null;
+  yearlyMonthly?: number;
+  priceNote?: string;
+  description: string;
+  highlight: boolean;
+  ctaLabel: string;
+  ctaVariant: "primary" | "ghost" | "outline";
+  checkoutId?: string;  // maps to PLANS key
+  href?: string;
+  includes: FeatureKey[];
+  excludes?: FeatureKey[];
+  dailyLimit?: string;
+}
+
+const TIERS: Tier[] = [
   {
-    q: "Can I cancel at any time?",
-    a: "Yes. Cancel anytime from your account page with one click. Your access continues until the end of your current billing period — no penalties or fees.",
+    id: "free",
+    name: "Free",
+    monthlyPrice: 0,
+    yearlyPrice: 0,
+    description: "Start exploring financial aid guidance — no card needed.",
+    highlight: false,
+    ctaLabel: "Start Free",
+    ctaVariant: "outline",
+    href: "/aid-agent",
+    dailyLimit: "10 messages / day",
+    includes: ["role_selector", "basic_chat", "award_summaries"],
+    excludes: ["unlimited_chat", "doc_upload", "advanced_tools", "pdf_export", "chat_history", "overage", "unlimited_usage", "team_sharing", "custom_templates", "admin_dashboard"],
   },
   {
-    q: "What does 'up to 3 seats' mean?",
-    a: "All paid plans let you add up to 2 additional users under your account. Each seat gets the same daily question limit as the primary account holder. Seats are managed from your account page.",
+    id: "pro",
+    name: "Pro",
+    badge: "Most Popular",
+    badgeColor: "from-sky-500 to-indigo-500",
+    monthlyPrice: 5.99,
+    yearlyPrice: 59,
+    yearlyMonthly: 4.92,
+    description: "Your calm expert companion — unlimited questions, full document analysis.",
+    highlight: true,
+    ctaLabel: "Start 14-Day Free Trial",
+    ctaVariant: "primary",
+    checkoutId: "PRO_MONTHLY",
+    dailyLimit: "Unlimited",
+    includes: [
+      "role_selector", "basic_chat", "award_summaries",
+      "unlimited_chat", "doc_upload", "advanced_tools", "pdf_export", "chat_history", "overage",
+    ],
+    excludes: ["unlimited_usage", "team_sharing", "custom_templates", "admin_dashboard"],
   },
   {
-    q: "How accurate are the answers?",
-    a: "askGenie is built by a 15-year financial aid professional and references 34 CFR Parts 600–690, FSA Handbook, IFAP policy guidance, and current regulations. It's designed for professional-grade accuracy, though it's an AI tool — always verify critical compliance decisions with official sources.",
-  },
-  {
-    q: "Is my data private?",
-    a: "Yes. We do not sell or share your personal information. Each conversation is independent; no chat history is stored between sessions. See our Privacy Policy for full details.",
-  },
-  {
-    q: "How does the Yearly plan save me money?",
-    a: "The Yearly plan is $69.99/year — equivalent to about $5.83/month versus $16.99/month for Monthly Plus. That's roughly $134 in savings over 12 months for unlimited questions.",
-  },
-  {
-    q: "Do I need a credit card for the free plan?",
-    a: "No credit card required to use the Basic (free) plan. You only need to add a payment method when upgrading to a paid plan.",
+    id: "team",
+    name: "Team / Institutional",
+    badge: "Best Value",
+    badgeColor: "from-violet-500 to-indigo-500",
+    monthlyPrice: 24.99,
+    yearlyPrice: 199,
+    yearlyMonthly: 16.58,
+    priceNote: "per seat",
+    description: "For financial aid offices, institutions, and audit teams.",
+    highlight: false,
+    ctaLabel: "Contact for Team",
+    ctaVariant: "ghost",
+    href: "/about#contact",
+    dailyLimit: "Unlimited",
+    includes: [
+      "role_selector", "basic_chat", "award_summaries",
+      "unlimited_chat", "doc_upload", "advanced_tools", "pdf_export", "chat_history",
+      "unlimited_usage", "team_sharing", "custom_templates", "admin_dashboard",
+    ],
   },
 ];
 
+const WHY_PRO = [
+  {
+    icon: FileText,
+    title: "Decode your full award letter in seconds",
+    body: "Upload any financial aid offer and get a plain-English breakdown — EFC, net price, unmet need, and what to negotiate.",
+  },
+  {
+    icon: Calculator,
+    title: "Run R2T4 scenarios before you need them",
+    body: "Model mid-semester withdrawals, check institutional vs. federal refund requirements, and generate audit-ready calculations.",
+  },
+  {
+    icon: Shield,
+    title: "Audit prep that saves hours",
+    body: "Step-by-step Title IV compliance walkthroughs, 34 CFR cross-references, and SAP policy checks — on demand.",
+  },
+  {
+    icon: BookMarked,
+    title: "Your research, permanently saved",
+    body: "Never lose a conversation. Search your full history and pick up any thread — perfect for multi-step aid processes.",
+  },
+];
+
+const FAQ_ITEMS = [
+  {
+    q: "What happens after the 14-day free trial?",
+    a: "Your Pro access continues — you'll be charged $5.99/month (or $59/year if you chose annual). We'll email you a reminder 3 days before the trial ends. Cancel anytime from your account page before then and you'll never be charged.",
+  },
+  {
+    q: "Is a credit card required to start the trial?",
+    a: "No. You can start the 14-day Pro trial without entering any payment information. If you decide to continue after the trial, you'll add a card at that point.",
+  },
+  {
+    q: "Can I cancel anytime?",
+    a: "Yes. Cancel with one click from your account page. Your Pro access continues until the end of your current billing period — no penalties, no fees, no questions.",
+  },
+  {
+    q: "What is the $0.50 soft overage for?",
+    a: "Pro includes 10 advanced analyses per month (R2T4 calculations, document analysis, audit prep). Beyond that, each additional analysis is $0.50 — no surprise charges, and you'll see your usage in real time.",
+  },
+  {
+    q: "Is my data private and FERPA-compliant?",
+    a: "Yes. We do not sell or share your personal data. Conversations are not used to train AI models. We recommend never entering student SSNs or sensitive identifiers — use anonymized or hypothetical data when running scenarios.",
+  },
+  {
+    q: "How is Team pricing structured?",
+    a: "Team is $24.99/seat/month or $199/year flat for up to 10 seats. Each seat gets full Pro access plus shared templates, branded exports, and an admin dashboard. Contact us for 10+ seat pricing.",
+  },
+];
+
+// ── Component ─────────────────────────────────────────────────────────────────
+
 export default function PricingPage() {
+  const [annual, setAnnual] = useState(false);
   const [loading, setLoading] = useState<string | null>(null);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  async function subscribe(tier: string) {
-    setLoading(tier);
+  async function subscribe(tier: Tier) {
+    if (tier.href) {
+      window.location.href = tier.href;
+      return;
+    }
+    if (!tier.checkoutId) return;
+
+    const planId = tier.id === "pro"
+      ? (annual ? "PRO_YEARLY" : "PRO_MONTHLY")
+      : (annual ? "TEAM_YEARLY" : "TEAM_MONTHLY");
+
+    setLoading(tier.id);
     setCheckoutError(null);
     try {
       const res = await fetch("/api/stripe/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ tier }),
+        body: JSON.stringify({ tier: planId }),
       });
       if (res.status === 401) {
-        setCheckoutError("Please sign in to subscribe. Visit askGenie and create an account first.");
-        setLoading(null);
+        setCheckoutError("Please sign in first to start your trial. Visit askGenie and create a free account.");
         return;
       }
       const data = await res.json();
@@ -67,93 +211,31 @@ export default function PricingPage() {
       }
     } catch {
       setCheckoutError("Connection error. Please check your internet and try again.");
+    } finally {
+      setLoading(null);
     }
-    setLoading(null);
   }
 
-  const plans = [
-    {
-      id: "FREE",
-      name: "Basic",
-      price: "$0",
-      period: "forever",
-      description: "Get started for free",
-      questions: "3 questions / day",
-      badge: null,
-      features: [
-        "3 questions per day",
-        "FAFSA & Title IV guidance",
-        "R2T4 reference",
-        "No credit card required",
-      ],
-      cta: null,
-      highlight: false,
-    },
-    {
-      id: "MONTHLY",
-      name: "Monthly",
-      price: "$9.99",
-      period: "/ month",
-      description: "For regular users",
-      questions: "21 questions / day",
-      badge: null,
-      features: [
-        "21 questions per day",
-        "All FAFSA & Title IV topics",
-        "R2T4, SAP, verification",
-        "Up to 3 seats per account",
-        "Priority responses",
-      ],
-      cta: "Subscribe",
-      highlight: false,
-    },
-    {
-      id: "MONTHLY_PLUS",
-      name: "Monthly Plus",
-      price: "$16.99",
-      period: "/ month",
-      description: "For power users & teams",
-      questions: "Unlimited questions",
-      badge: "Most Popular",
-      features: [
-        "Unlimited questions per day",
-        "All FAFSA & Title IV topics",
-        "R2T4, SAP, verification",
-        "Up to 3 seats per account",
-        "Priority responses",
-        "Early access to new features",
-      ],
-      cta: "Subscribe",
-      highlight: true,
-    },
-    {
-      id: "YEARLY",
-      name: "Yearly",
-      price: "$69.99",
-      period: "/ year",
-      description: "Best value for committed users",
-      questions: "Unlimited questions",
-      badge: "Best Value",
-      features: [
-        "Unlimited questions per day",
-        "All FAFSA & Title IV topics",
-        "R2T4, SAP, verification",
-        "Up to 3 seats per account",
-        "Priority responses",
-        "Early access to new features",
-        "~$5.83 / month equivalent",
-      ],
-      cta: "Subscribe",
-      highlight: false,
-    },
-  ];
+  function getPrice(tier: Tier) {
+    if (tier.monthlyPrice === 0) return "$0";
+    if (annual && tier.yearlyMonthly !== undefined) {
+      return `$${tier.yearlyMonthly.toFixed(2)}`;
+    }
+    return `$${tier.monthlyPrice?.toFixed(2)}`;
+  }
+
+  function getSavings(tier: Tier) {
+    if (!tier.monthlyPrice || !tier.yearlyMonthly) return null;
+    const saved = Math.round(((tier.monthlyPrice - tier.yearlyMonthly) / tier.monthlyPrice) * 100);
+    return saved > 0 ? `Save ${saved}%` : null;
+  }
 
   return (
     <div
       className="min-h-screen text-white"
       style={{ background: "linear-gradient(135deg, #0a2e7a 0%, #0e4099 50%, #1252b8 100%)" }}
     >
-      {/* Header */}
+      {/* ── Header ── */}
       <header className="sticky top-0 z-10 border-b border-white/[0.10] bg-[#071035]/80 backdrop-blur-xl">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link
@@ -171,26 +253,47 @@ export default function PricingPage() {
             <ChevronRight className="h-3.5 w-3.5 text-white/30" />
             <span className="text-white/50 text-sm">Pricing</span>
           </div>
-          <div className="w-24" />
+          <div className="w-28" />
         </div>
       </header>
 
       <main className="max-w-5xl mx-auto px-6 pb-24">
-        {/* Hero */}
-        <section className="pt-16 pb-12 text-center">
+
+        {/* ── Hero ── */}
+        <section className="pt-16 pb-10 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-600/20 ring-1 ring-indigo-500/30 text-indigo-300 text-xs font-semibold mb-6 tracking-wide">
             <Zap className="h-3.5 w-3.5" />
             Simple, transparent pricing
           </div>
           <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-sky-300 via-indigo-200 to-violet-400 bg-clip-text text-transparent mb-4 leading-tight">
-            Choose Your Plan
+            Simple Pricing for Real<br className="hidden sm:block" /> Financial Aid Relief
           </h1>
-          <p className="text-lg text-white/75 max-w-xl mx-auto leading-relaxed">
-            Get expert financial aid guidance on your schedule. No contracts, cancel anytime.
+          <p className="text-base sm:text-lg text-white/70 max-w-2xl mx-auto leading-relaxed mb-10">
+            Your calm expert companion for FAFSA, award letters, and Title IV questions.
+            Start free. Upgrade when you need document analysis and R2T4 tools.
           </p>
+
+          {/* Billing toggle */}
+          <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/[0.07] ring-1 ring-white/[0.12]" role="group" aria-label="Billing frequency">
+            <span className={`text-sm font-semibold transition-colors ${!annual ? "text-white" : "text-white/40"}`}>
+              Monthly
+            </span>
+            <Switch
+              checked={annual}
+              onCheckedChange={setAnnual}
+              aria-label="Toggle annual billing"
+              className="data-[state=checked]:bg-indigo-500"
+            />
+            <span className={`text-sm font-semibold transition-colors ${annual ? "text-white" : "text-white/40"}`}>
+              Annual
+            </span>
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-500/20 ring-1 ring-emerald-400/30 text-emerald-300 text-[11px] font-bold">
+              Save up to 20%
+            </span>
+          </div>
         </section>
 
-        {/* Checkout error */}
+        {/* ── Checkout error ── */}
         {checkoutError && (
           <div className="max-w-lg mx-auto mb-6 flex items-start gap-3 px-5 py-4 rounded-xl bg-red-500/10 ring-1 ring-red-400/30">
             <span className="text-red-400 text-lg shrink-0">⚠</span>
@@ -198,92 +301,157 @@ export default function PricingPage() {
           </div>
         )}
 
-        {/* Multi-seat note */}
-        <div className="flex items-center justify-center gap-2 mb-10">
-          <Users className="h-4 w-4 text-indigo-300" />
-          <span className="text-sm text-indigo-200">
-            All paid plans include up to 3 seats per account
-          </span>
-        </div>
+        {/* ── Pricing cards ── */}
+        <div className="grid sm:grid-cols-3 gap-5 mb-14 items-start">
+          {TIERS.map((tier) => {
+            const savings = annual ? getSavings(tier) : null;
+            const isHighlight = tier.highlight;
+            return (
+              <div
+                key={tier.id}
+                className={`relative rounded-2xl flex flex-col ${
+                  isHighlight
+                    ? "bg-gradient-to-b from-indigo-600/40 to-violet-700/30 ring-2 ring-indigo-400/60 shadow-2xl shadow-indigo-900/40"
+                    : "bg-white/[0.05] ring-1 ring-white/[0.10]"
+                } px-6 py-7`}
+              >
+                {/* Badge */}
+                {tier.badge && (
+                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
+                    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r ${tier.badgeColor} text-white text-xs font-bold shadow-lg whitespace-nowrap`}>
+                      <Star className="h-3 w-3" />
+                      {tier.badge}
+                    </span>
+                  </div>
+                )}
 
-        {/* Plans grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-14">
-          {plans.map((plan) => (
-            <div
-              key={plan.id}
-              className={`relative rounded-2xl flex flex-col ${
-                plan.highlight
-                  ? "bg-gradient-to-b from-indigo-600/40 to-violet-700/30 ring-2 ring-indigo-400/60"
-                  : "bg-white/[0.05] ring-1 ring-white/[0.10]"
-              } px-6 py-6`}
-            >
-              {plan.badge && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                  <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-gradient-to-r from-sky-500 to-indigo-500 text-white text-xs font-bold shadow-lg">
-                    <Star className="h-3 w-3" />
-                    {plan.badge}
-                  </span>
+                {/* Name + description */}
+                <div className="mb-5 mt-2">
+                  <h2 className="text-base font-bold text-white mb-1">{tier.name}</h2>
+                  <p className="text-xs text-white/50 leading-relaxed">{tier.description}</p>
                 </div>
-              )}
 
-              <div className="mb-4 mt-2">
-                <h2 className="text-base font-bold text-white mb-1">{plan.name}</h2>
-                <p className="text-xs text-white/50">{plan.description}</p>
-              </div>
+                {/* Price */}
+                <div className="mb-1 flex items-end gap-1.5">
+                  <span className="text-4xl font-extrabold text-white leading-none">
+                    {getPrice(tier)}
+                  </span>
+                  <div className="mb-0.5">
+                    <p className="text-sm text-white/50">/month</p>
+                    {tier.priceNote && (
+                      <p className="text-[10px] text-white/35">{tier.priceNote}</p>
+                    )}
+                  </div>
+                </div>
 
-              <div className="mb-4">
-                <span className="text-3xl font-extrabold text-white">{plan.price}</span>
-                <span className="text-sm text-white/50 ml-1">{plan.period}</span>
-              </div>
+                {/* Annual note */}
+                <div className="mb-5 h-5">
+                  {annual && tier.yearlyPrice !== null && tier.yearlyPrice > 0 ? (
+                    <p className="text-[11px] text-white/40">
+                      Billed as ${tier.yearlyPrice}/year
+                      {savings && (
+                        <span className="ml-1.5 text-emerald-400 font-semibold">({savings})</span>
+                      )}
+                    </p>
+                  ) : tier.monthlyPrice === 0 ? (
+                    <p className="text-[11px] text-white/30">Forever free</p>
+                  ) : null}
+                </div>
 
-              <div className="mb-5 px-3 py-2 rounded-lg bg-white/[0.06] ring-1 ring-white/[0.08] text-center">
-                <span className="text-xs font-semibold text-indigo-300">{plan.questions}</span>
-              </div>
+                {/* Daily limit chip */}
+                {tier.dailyLimit && (
+                  <div className="mb-5 px-3 py-2 rounded-lg bg-white/[0.06] ring-1 ring-white/[0.08] text-center">
+                    <span className="text-xs font-semibold text-indigo-300">{tier.dailyLimit}</span>
+                  </div>
+                )}
 
-              <ul className="space-y-2 mb-6 flex-1">
-                {plan.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-2">
-                    <Check className="h-3.5 w-3.5 text-indigo-400 shrink-0 mt-0.5" />
-                    <span className="text-xs text-white/75">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
-              {plan.cta ? (
+                {/* CTA */}
                 <button
-                  onClick={() => subscribe(plan.id)}
-                  disabled={loading === plan.id}
-                  className={`w-full py-2.5 rounded-xl font-semibold text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 disabled:opacity-60 disabled:cursor-not-allowed ${
-                    plan.highlight
+                  onClick={() => subscribe(tier)}
+                  disabled={loading === tier.id}
+                  className={`w-full py-3 rounded-xl font-semibold text-sm mb-6 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${
+                    tier.ctaVariant === "primary"
                       ? "bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-600 text-white shadow-lg hover:opacity-90 active:scale-[0.98]"
-                      : "bg-white/[0.10] text-white ring-1 ring-white/[0.15] hover:bg-white/[0.15] active:scale-[0.98]"
+                      : tier.ctaVariant === "outline"
+                      ? "bg-white/[0.08] text-white ring-1 ring-white/[0.18] hover:bg-white/[0.14] active:scale-[0.98]"
+                      : "bg-white/[0.05] text-indigo-300 ring-1 ring-indigo-400/30 hover:bg-indigo-500/15 active:scale-[0.98]"
                   }`}
                 >
-                  {loading === plan.id ? "Redirecting..." : plan.cta}
+                  {loading === tier.id ? "Redirecting…" : tier.ctaLabel}
+                  {loading !== tier.id && tier.ctaVariant === "primary" && <ArrowRight className="h-4 w-4" />}
                 </button>
-              ) : (
-                <Link
-                  href="/aid-agent"
-                  className="w-full py-2.5 rounded-xl font-semibold text-sm text-center bg-white/[0.07] text-white ring-1 ring-white/[0.12] hover:bg-white/[0.12] transition-all"
-                >
-                  Get Started Free
-                </Link>
-              )}
-            </div>
-          ))}
+
+                {/* Trial note for Pro */}
+                {tier.id === "pro" && (
+                  <p className="text-[10px] text-white/30 text-center -mt-4 mb-4">
+                    14-day free trial · No card required
+                  </p>
+                )}
+
+                {/* Feature list */}
+                <ul className="space-y-2.5 flex-1">
+                  {tier.includes.map((key) => (
+                    <li key={key} className="flex items-start gap-2">
+                      <Check className="h-3.5 w-3.5 text-indigo-400 shrink-0 mt-0.5" aria-hidden="true" />
+                      <span className="text-xs text-white/75">{FEATURES[key]}</span>
+                    </li>
+                  ))}
+                  {tier.excludes?.map((key) => (
+                    <li key={key} className="flex items-start gap-2 opacity-35">
+                      <X className="h-3.5 w-3.5 text-white/40 shrink-0 mt-0.5" aria-hidden="true" />
+                      <span className="text-xs text-white/50 line-through">{FEATURES[key]}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            );
+          })}
         </div>
 
-        {/* Annual savings callout */}
-        <div className="flex items-center justify-center gap-3 mb-12 px-5 py-4 rounded-2xl bg-emerald-500/10 ring-1 ring-emerald-400/20 max-w-lg mx-auto">
-          <Star className="h-4 w-4 text-emerald-400 shrink-0" />
-          <p className="text-sm text-emerald-300 leading-relaxed">
-            <span className="font-bold">Save ~$134/year</span> with the Yearly plan vs. Monthly Plus — unlimited questions for just $5.83/month.
-          </p>
-        </div>
+        {/* ── Why Pro pays for itself ── */}
+        <section className="mb-14" aria-labelledby="why-pro-heading">
+          <div className="flex items-center gap-2 mb-6">
+            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/[0.10]" />
+            <h2 id="why-pro-heading" className="text-xs font-bold uppercase tracking-widest text-white/30 px-3">
+              Why Pro pays for itself
+            </h2>
+            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/[0.10]" />
+          </div>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {WHY_PRO.map(({ icon: Icon, title, body }) => (
+              <div key={title} className="flex gap-4 p-5 rounded-2xl bg-white/[0.04] ring-1 ring-white/[0.07]">
+                <div className="p-2.5 rounded-xl bg-indigo-600/20 ring-1 ring-indigo-500/20 shrink-0 self-start">
+                  <Icon className="h-4 w-4 text-indigo-300" aria-hidden="true" />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-white mb-1 leading-snug">{title}</p>
+                  <p className="text-xs text-white/55 leading-relaxed">{body}</p>
+                </div>
+              </div>
+            ))}
+          </div>
 
-        {/* FAQ */}
+          {/* Trust strip */}
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 mt-8 px-2">
+            {[
+              { icon: BadgeCheck, text: "Built by a 15-yr FA Professional" },
+              { icon: Shield,     text: "No data sold — ever" },
+              { icon: Sparkles,   text: "34 CFR Parts 600–690 coverage" },
+              { icon: Users,      text: "Students, parents & FA offices" },
+            ].map(({ icon: Icon, text }) => (
+              <div key={text} className="flex items-center gap-1.5">
+                <Icon className="h-3.5 w-3.5 text-indigo-400/60 shrink-0" aria-hidden="true" />
+                <span className="text-xs text-white/40">{text}</span>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── FAQ ── */}
         <section className="mb-12" aria-labelledby="faq-heading">
-          <h2 id="faq-heading" className="text-xl font-bold text-white text-center mb-6">Frequently Asked Questions</h2>
+          <h2 id="faq-heading" className="text-xl font-bold text-white text-center mb-6">
+            Frequently Asked Questions
+          </h2>
           <div className="max-w-2xl mx-auto space-y-2">
             {FAQ_ITEMS.map((item, i) => (
               <div key={i} className="rounded-xl bg-white/[0.04] ring-1 ring-white/[0.08] overflow-hidden">
@@ -293,7 +461,10 @@ export default function PricingPage() {
                   className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500 hover:bg-white/[0.04] transition-colors"
                 >
                   <span className="text-sm font-semibold text-white/85">{item.q}</span>
-                  <ChevronDown className={`h-4 w-4 text-white/30 shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-180" : ""}`} />
+                  <ChevronDown
+                    className={`h-4 w-4 text-white/30 shrink-0 transition-transform duration-200 ${openFaq === i ? "rotate-180" : ""}`}
+                    aria-hidden="true"
+                  />
                 </button>
                 {openFaq === i && (
                   <div className="px-5 pb-4">
@@ -305,8 +476,8 @@ export default function PricingPage() {
           </div>
           <p className="text-xs text-white/30 text-center mt-6">
             More questions?{" "}
-            <Link href="/support" className="text-indigo-400 hover:text-indigo-300 underline underline-offset-2">
-              Contact support
+            <Link href="/about#contact" className="text-indigo-400 hover:text-indigo-300 underline underline-offset-2">
+              Contact us
             </Link>
             {" "}or{" "}
             <Link href="/about" className="text-indigo-400 hover:text-indigo-300 underline underline-offset-2">
@@ -316,7 +487,7 @@ export default function PricingPage() {
           </p>
         </section>
 
-        {/* Footer */}
+        {/* ── Footer ── */}
         <div className="pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-center sm:text-left">
             <p className="text-xs text-white/25">
@@ -327,10 +498,7 @@ export default function PricingPage() {
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <Link
-              href="/legal"
-              className="px-3 py-1.5 rounded-lg text-white/40 hover:text-white text-xs font-medium transition-colors"
-            >
+            <Link href="/legal" className="px-3 py-1.5 rounded-lg text-white/40 hover:text-white text-xs font-medium transition-colors">
               Legal
             </Link>
             <Link

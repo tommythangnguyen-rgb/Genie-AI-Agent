@@ -16,9 +16,9 @@ export async function POST(req: NextRequest) {
   }
 
   if (!plan.priceId) {
-    console.error(`Missing Stripe price ID for plan: ${tier}. Set STRIPE_${tier}_PRICE_ID in environment variables.`);
+    console.error(`Missing Stripe price ID for plan: ${tier}. Configure STRIPE_${tier}_PRICE_ID.`);
     return NextResponse.json(
-      { error: "This plan is not available for purchase. Please contact support." },
+      { error: "This plan is not yet available for purchase. Please contact support." },
       { status: 503 }
     );
   }
@@ -29,6 +29,7 @@ export async function POST(req: NextRequest) {
   });
   if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
 
+  // Create or reuse Stripe customer
   let customerId = user.stripeCustomerId;
   if (!customerId) {
     const customer = await stripe.customers.create({ email: user.email });
@@ -43,15 +44,30 @@ export async function POST(req: NextRequest) {
     process.env.NEXT_PUBLIC_APP_URL ||
     (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
 
+  const subscriptionData: Record<string, any> = {
+    metadata: { userId: session.userId, tier: plan.tier },
+  };
+
+  // Add 14-day free trial for Pro plans — no card required upfront
+  if (plan.trialDays > 0) {
+    subscriptionData.trial_period_days = plan.trialDays;
+    subscriptionData.trial_settings = {
+      end_behavior: { missing_payment_method: "cancel" },
+    };
+  }
+
   const checkoutSession = await stripe.checkout.sessions.create({
     customer: customerId,
     payment_method_types: ["card"],
     line_items: [{ price: plan.priceId, quantity: 1 }],
     mode: "subscription",
-    success_url: `${baseUrl}/account?success=true`,
+    // Allow trial without card if trial is offered
+    payment_method_collection: plan.trialDays > 0 ? "if_required" : "always",
+    success_url: `${baseUrl}/account?success=true&plan=${plan.tier.toLowerCase()}`,
     cancel_url: `${baseUrl}/pricing`,
-    metadata: { userId: session.userId, tier },
-    subscription_data: { metadata: { userId: session.userId, tier } },
+    metadata: { userId: session.userId, tier: plan.tier },
+    subscription_data: subscriptionData,
+    allow_promotion_codes: true,
   });
 
   return NextResponse.json({ url: checkoutSession.url });

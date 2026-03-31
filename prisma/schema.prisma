@@ -14,9 +14,11 @@ datasource db {
 
 enum SubscriptionTier {
   FREE
-  MONTHLY
-  MONTHLY_PLUS
-  YEARLY
+  MONTHLY       // legacy
+  MONTHLY_PLUS  // legacy
+  YEARLY        // legacy
+  PRO
+  TEAM
 }
 
 model User {
