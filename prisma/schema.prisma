@@ -77,6 +77,14 @@ model RegulationFetchLog {
   error       String?
 }
 
+// Audit log for scheduled resource freshness checks (every 3 days)
+model ResourceRefreshLog {
+  id          String   @id @default(cuid())
+  refreshedAt DateTime @default(now())
+  success     Boolean
+  note        String?
+}
+
 model GuestSession {
   id                   String    @id @default(cuid())
   sessionId            String    @unique

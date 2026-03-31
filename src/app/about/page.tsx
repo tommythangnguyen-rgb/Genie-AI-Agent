@@ -79,11 +79,12 @@ export default function AboutPage() {
             <span className="text-[11px] font-bold uppercase tracking-widest text-white/30 px-2">How it works</span>
             <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/[0.08]" />
           </div>
-          <div className="grid sm:grid-cols-3 gap-4">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {([
               { n: "1", icon: Sparkles,    title: "Choose your role",    body: "Select Student, Parent, Admin, Leader, or Auditor — Genie tailors every answer to your context and expertise level." },
               { n: "2", icon: Paperclip,   title: "Ask or upload",       body: "Type a question, upload an award letter or policy document, or pick a quick-start prompt. Attach ISIR data or 34 CFR text." },
               { n: "3", icon: CheckCircle, title: "Get expert guidance", body: "Plain-English answers with regulation citations, step-by-step calculations, and responses you can print or share." },
+              { n: "4", icon: BookOpen,    title: "Explore the Hub",     body: "Browse hundreds of curated resources in both side panels — scholarships, jobs, internships, mental health, consumer rights, and more. Updated every 3 days." },
             ] as const).map(({ n, icon: Icon, title, body }) => (
               <div key={n} className="relative flex flex-col gap-3 p-5 rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.08]">
                 <div className="absolute -top-3 -left-1 w-6 h-6 rounded-full flex items-center justify-center bg-gradient-to-br from-teal-400 to-cyan-500 shadow-md shadow-teal-500/30">
