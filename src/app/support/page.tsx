@@ -19,6 +19,8 @@ const WALLETS = [
   { label: "USDC", address: "0xae91ffb368eb76fcf9c8dbaf95dd71fed8360abb" },
 ];
 
+const AMOUNTS = [3, 5, 10, 25, 50];
+
 function CopyButton({ text }: { text: string }) {
   const [copied, setCopied] = useState(false);
 
@@ -40,6 +42,33 @@ function CopyButton({ text }: { text: string }) {
 }
 
 export default function SupportPage() {
+  const [selectedAmount, setSelectedAmount] = useState<number>(5);
+  const [donateLoading, setDonateLoading] = useState(false);
+  const [donateError, setDonateError] = useState<string | null>(null);
+
+  const donated = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("donated") === "true";
+
+  async function handleDonate() {
+    setDonateLoading(true);
+    setDonateError(null);
+    try {
+      const res = await fetch("/api/stripe/donate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: selectedAmount }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        setDonateError(data.error || "Unable to start checkout. Please try again.");
+      }
+    } catch {
+      setDonateError("Connection error. Please try again.");
+    }
+    setDonateLoading(false);
+  }
+
   return (
     <div
       className="min-h-screen text-white"
@@ -78,10 +107,17 @@ export default function SupportPage() {
             Keep askGenie Running
           </h1>
           <p className="text-base text-white/75 max-w-xl mx-auto leading-relaxed">
-            askGenie is built and maintained by one developer. Your support keeps it running and
-            improving — thank you for being part of this community.
+            askGenie is built and maintained by one developer. Your support covers API and hosting
+            costs — thank you for being part of this community.
           </p>
         </section>
+
+        {donated && (
+          <div className="mb-6 flex items-center gap-3 px-5 py-4 rounded-xl bg-emerald-500/15 ring-1 ring-emerald-400/30">
+            <Check className="h-5 w-5 text-emerald-400 shrink-0" />
+            <p className="text-sm font-semibold text-emerald-300">Thank you for your donation! It means a lot.</p>
+          </div>
+        )}
 
         <div className="space-y-5 mb-12">
           {/* Buy Me a Coffee */}
@@ -106,12 +142,55 @@ export default function SupportPage() {
             </a>
           </div>
 
+          {/* Card / PayPal via Stripe */}
+          <div className="rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.10] px-7 py-6">
+            <div className="flex items-center gap-3 mb-5">
+              <div className="p-2 rounded-xl bg-sky-600/20 ring-1 ring-sky-500/30">
+                <CreditCard className="h-5 w-5 text-sky-300" />
+              </div>
+              <div>
+                <h2 className="text-base font-bold text-white">Card / PayPal</h2>
+                <p className="text-xs text-white/50">One-time donation — choose your amount</p>
+              </div>
+            </div>
+
+            <p className="text-xs font-semibold text-white/50 mb-3">Select amount</p>
+            <div className="flex flex-wrap gap-2 mb-5">
+              {AMOUNTS.map((amt) => (
+                <button
+                  key={amt}
+                  onClick={() => setSelectedAmount(amt)}
+                  className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
+                    selectedAmount === amt
+                      ? "bg-indigo-600 text-white ring-2 ring-indigo-400"
+                      : "bg-white/[0.07] text-white/70 ring-1 ring-white/[0.12] hover:bg-white/[0.14]"
+                  }`}
+                >
+                  ${amt}
+                </button>
+              ))}
+            </div>
+
+            {donateError && (
+              <p className="text-xs text-red-400 mb-3">{donateError}</p>
+            )}
+
+            <button
+              onClick={handleDonate}
+              disabled={donateLoading}
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-600 text-white text-sm font-semibold shadow-lg hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-60"
+            >
+              <CreditCard className="h-4 w-4" />
+              {donateLoading ? "Redirecting..." : `Donate $${selectedAmount}`}
+            </button>
+          </div>
+
           {/* Crypto */}
           <div className="rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.10] px-7 py-6">
             <div className="flex items-center gap-3 mb-5">
               <div className="p-2 rounded-xl bg-indigo-600/30 ring-1 ring-indigo-500/30">
                 <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 text-indigo-300">
-                  <path d="M11.998 2C6.477 2 2 6.477 2 12s4.477 10 9.998 10C17.523 22 22 17.523 22 12S17.523 2 11.998 2zm1.014 14.999v1.016h-1v-1.002c-1.59-.054-2.716-.68-2.716-.68l.373-1.4s1.193.627 2.343.627c.79 0 1.342-.38 1.342-1.01 0-.572-.45-.934-1.7-1.325-1.51-.467-2.62-1.115-2.62-2.5 0-1.248.883-2.11 2.378-2.37V7.001h1v1.316c1.2.08 2.01.54 2.01.54l-.38 1.38s-.792-.47-1.87-.47c-.93 0-1.25.44-1.25.9 0 .53.5.85 1.85 1.3 1.66.52 2.47 1.23 2.47 2.6 0 1.28-.92 2.22-2.43 2.43z" />
+                  <path d="M11.998 2C6.477 2 6.477 6.477 2 12s4.477 10 9.998 10C17.523 22 22 17.523 22 12S17.523 2 11.998 2zm1.014 14.999v1.016h-1v-1.002c-1.59-.054-2.716-.68-2.716-.68l.373-1.4s1.193.627 2.343.627c.79 0 1.342-.38 1.342-1.01 0-.572-.45-.934-1.7-1.325-1.51-.467-2.62-1.115-2.62-2.5 0-1.248.883-2.11 2.378-2.37V7.001h1v1.316c1.2.08 2.01.54 2.01.54l-.38 1.38s-.792-.47-1.87-.47c-.93 0-1.25.44-1.25.9 0 .53.5.85 1.85 1.3 1.66.52 2.47 1.23 2.47 2.6 0 1.28-.92 2.22-2.43 2.43z" />
                 </svg>
               </div>
               <div>
@@ -134,28 +213,6 @@ export default function SupportPage() {
                 </div>
               ))}
             </div>
-          </div>
-
-          {/* Card / PayPal */}
-          <div className="rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.10] px-7 py-6">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 rounded-xl bg-sky-600/20 ring-1 ring-sky-500/30">
-                <CreditCard className="h-5 w-5 text-sky-300" />
-              </div>
-              <div>
-                <h2 className="text-base font-bold text-white">Card / PayPal</h2>
-                <p className="text-xs text-white/50">One-time donation via Stripe payment link</p>
-              </div>
-            </div>
-            <a
-              href="https://buy.stripe.com/28E3cx6WZgpqa3sfbe4wM00"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-600 text-white text-sm font-semibold shadow-lg hover:opacity-90 active:scale-[0.98] transition-all"
-            >
-              <CreditCard className="h-4 w-4" />
-              Donate with Card
-            </a>
           </div>
         </div>
 

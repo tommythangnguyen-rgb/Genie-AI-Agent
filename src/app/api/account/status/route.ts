@@ -45,30 +45,28 @@ export async function GET(req: NextRequest) {
   const cookieStore = await cookies();
   const sid = cookieStore.get("genie-session")?.value;
 
+  const GUEST_LIMIT = 1;
+
   if (!sid) {
     return NextResponse.json({
       authenticated: false,
-      tier: "FREE",
+      tier: "GUEST",
       dailyCount: 0,
-      dailyLimit: 3,
-      remaining: 3,
+      dailyLimit: GUEST_LIMIT,
+      remaining: GUEST_LIMIT,
       unlimited: false,
     });
   }
 
   const guestSession = await prisma.guestSession.findUnique({ where: { sessionId: sid } });
-  const today = new Date();
-  today.setUTCHours(0, 0, 0, 0);
-  const needsReset =
-    !guestSession?.dailyQuestionResetAt || guestSession.dailyQuestionResetAt < today;
-  const count = needsReset ? 0 : (guestSession?.dailyQuestionCount ?? 0);
+  const count = guestSession?.dailyQuestionCount ?? 0;
 
   return NextResponse.json({
     authenticated: false,
-    tier: "FREE",
+    tier: "GUEST",
     dailyCount: count,
-    dailyLimit: 3,
-    remaining: Math.max(0, 3 - count),
+    dailyLimit: GUEST_LIMIT,
+    remaining: Math.max(0, GUEST_LIMIT - count),
     unlimited: false,
   });
 }

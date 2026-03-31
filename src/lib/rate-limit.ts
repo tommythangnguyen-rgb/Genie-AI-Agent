@@ -41,10 +41,12 @@ export async function checkAndIncrementUserLimit(
   return { allowed: true, remaining: limit - currentCount - 1, limit };
 }
 
+// Guests (no account) get 1 question total — encourages sign-up
+const GUEST_LIMIT = 1;
+
 export async function checkAndIncrementGuestLimit(
   sessionId: string
 ): Promise<{ allowed: boolean; remaining: number; limit: number }> {
-  const limit = DAILY_LIMITS.FREE;
   const today = getTodayUTC();
 
   const session = await prisma.guestSession.upsert({
@@ -53,20 +55,17 @@ export async function checkAndIncrementGuestLimit(
     update: {},
   });
 
-  const needsReset = !session.dailyQuestionResetAt || session.dailyQuestionResetAt < today;
-  const currentCount = needsReset ? 0 : session.dailyQuestionCount;
+  // Total lifetime count — no daily reset for guests
+  const currentCount = session.dailyQuestionCount;
 
-  if (currentCount >= limit) {
-    return { allowed: false, remaining: 0, limit };
+  if (currentCount >= GUEST_LIMIT) {
+    return { allowed: false, remaining: 0, limit: GUEST_LIMIT };
   }
 
   await prisma.guestSession.update({
     where: { sessionId },
-    data: {
-      dailyQuestionCount: currentCount + 1,
-      dailyQuestionResetAt: needsReset ? today : undefined,
-    },
+    data: { dailyQuestionCount: currentCount + 1 },
   });
 
-  return { allowed: true, remaining: limit - currentCount - 1, limit };
+  return { allowed: true, remaining: GUEST_LIMIT - currentCount - 1, limit: GUEST_LIMIT };
 }
