@@ -12,11 +12,20 @@ export function useAuth() {
   const [isLoading, setIsLoading] = useState(false);
 
   const handlePostSignIn = async () => {
-    // Get any anonymous work
+    // On askGenie pages, just refresh to reflect authenticated state
+    const askGeniePages = ["/account", "/aid-agent", "/pricing", "/about", "/support", "/legal", "/institutions"];
+    const isAskGeniePage = typeof window !== "undefined" && askGeniePages.some(
+      (p) => window.location.pathname === p || window.location.pathname.startsWith(p + "/")
+    );
+    if (isAskGeniePage) {
+      router.refresh();
+      return;
+    }
+
+    // UIGen flow: get/create project and redirect
     const anonWork = getAnonWorkData();
 
     if (anonWork && anonWork.messages.length > 0) {
-      // Create a project with the anonymous work
       const project = await createProject({
         name: `Design from ${new Date().toLocaleTimeString()}`,
         messages: anonWork.messages,
@@ -28,7 +37,6 @@ export function useAuth() {
       return;
     }
 
-    // Otherwise, find the user's most recent project
     const projects = await getProjects();
 
     if (projects.length > 0) {
@@ -36,7 +44,6 @@ export function useAuth() {
       return;
     }
 
-    // If no projects exist, create a new one
     const newProject = await createProject({
       name: `New Design #${~~(Math.random() * 100000)}`,
       messages: [],

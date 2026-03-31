@@ -76,7 +76,7 @@ export default function AboutPage() {
         <section className="mb-12 rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.08] px-8 py-8">
           <h2 className="text-lg font-bold text-white mb-5">The Story Behind askGenie</h2>
           <p className="text-base text-white/90 leading-relaxed mb-4">
-            Over 15 years in the for-profit post-secondary education sector, I worked as a <strong className="text-white">Student Financial Aid Planner, Assistant Director, Director, Analyst, Temporary Intake Specialist, and Senior Analyst</strong>. I personally helped thousands of students navigate FAFSA applications, decode award letters, process R2T4 calculations, survive Title IV audits, and understand SAP policies and verification requirements.
+            Over 15 years in the for-profit post-secondary education sector working all typical positions in a FA office front and back end. I personally helped thousands of students navigate FAFSA applications, decode award letters, process R2T4 calculations, survive Title IV audits, and understand SAP policies and verification requirements.
           </p>
           <p className="text-base text-white/90 leading-relaxed mb-4">
             What I saw, year after year, was the same pattern: <strong className="text-white">students and families had urgent questions and nowhere to turn.</strong> Financial aid offices are understaffed. Appointments take days. Government handbooks are dense and written for compliance officers, not students. And the stakes — tuition, enrollment, federal aid eligibility — could not be higher.
