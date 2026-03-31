@@ -8,13 +8,8 @@ const nextConfig: NextConfig = {
   // Configure asset prefix for proxy deployment (only assetPrefix, no basePath)
   assetPrefix: isDev && process.env.PROXY_MODE === 'true' ? '/proxy/3000' : '',
 
-  // Ensure Prisma query engine binary is included in the Vercel bundle
+  // Ensure Prisma query engine binary is resolved correctly on Vercel
   serverExternalPackages: ["@prisma/client", "prisma"],
-  experimental: {
-    outputFileTracingIncludes: {
-      "/*": ["./src/generated/prisma/**/*"],
-    },
-  },
 };
 
 export default nextConfig;
