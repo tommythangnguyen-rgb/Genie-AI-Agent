@@ -18,7 +18,8 @@ export function useAuth() {
       (p) => window.location.pathname === p || window.location.pathname.startsWith(p + "/")
     );
     if (isAskGeniePage) {
-      router.refresh();
+      // Full navigation remounts the client component and re-triggers useEffect/fetchStatus
+      window.location.href = window.location.pathname;
       return;
     }
 
