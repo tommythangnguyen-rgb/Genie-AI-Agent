@@ -3,8 +3,21 @@
 import bcrypt from "bcrypt";
 import { prisma } from "@/lib/prisma";
 import { createSession, deleteSession, getSession } from "@/lib/auth";
+import { checkRateLimit } from "@/lib/rate-limiter";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX_EMAIL_LEN = 254;
+const MAX_PASSWORD_LEN = 128;
+
+// Pre-computed dummy hash used for constant-time comparison when user is not found,
+// preventing email enumeration via timing side-channel.
+let dummyHash: string | null = null;
+async function getDummyHash(): Promise<string> {
+  if (!dummyHash) dummyHash = await bcrypt.hash("__timing_dummy__", 10);
+  return dummyHash;
+}
 
 export interface AuthResult {
   success: boolean;
@@ -16,39 +29,46 @@ export async function signUp(
   password: string
 ): Promise<AuthResult> {
   try {
-    // Validate input
     if (!email || !password) {
       return { success: false, error: "Email and password are required" };
     }
 
-    if (password.length < 8) {
-      return {
-        success: false,
-        error: "Password must be at least 8 characters",
-      };
+    const normalizedEmail = email.trim().toLowerCase();
+
+    if (normalizedEmail.length > MAX_EMAIL_LEN || !EMAIL_REGEX.test(normalizedEmail)) {
+      return { success: false, error: "Invalid email address" };
     }
 
-    // Check if user already exists
+    if (password.length < 8) {
+      return { success: false, error: "Password must be at least 8 characters" };
+    }
+
+    if (password.length > MAX_PASSWORD_LEN) {
+      return { success: false, error: "Password is too long" };
+    }
+
+    // 5 sign-up attempts per email per hour
+    if (!checkRateLimit(`signup:${normalizedEmail}`, 5, 60 * 60 * 1000)) {
+      return { success: false, error: "Too many attempts. Please try again later." };
+    }
+
     const existingUser = await prisma.user.findUnique({
-      where: { email },
+      where: { email: normalizedEmail },
     });
 
     if (existingUser) {
       return { success: false, error: "Email already registered" };
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user
     const user = await prisma.user.create({
       data: {
-        email,
+        email: normalizedEmail,
         password: hashedPassword,
       },
     });
 
-    // Create session
     await createSession(user.id, user.email);
 
     revalidatePath("/");
@@ -64,28 +84,33 @@ export async function signIn(
   password: string
 ): Promise<AuthResult> {
   try {
-    // Validate input
     if (!email || !password) {
       return { success: false, error: "Email and password are required" };
     }
 
-    // Find user
+    const normalizedEmail = email.trim().toLowerCase();
+
+    if (normalizedEmail.length > MAX_EMAIL_LEN || password.length > MAX_PASSWORD_LEN) {
+      return { success: false, error: "Invalid credentials" };
+    }
+
+    // 10 sign-in attempts per email per 15 minutes
+    if (!checkRateLimit(`signin:${normalizedEmail}`, 10, 15 * 60 * 1000)) {
+      return { success: false, error: "Too many attempts. Please try again in 15 minutes." };
+    }
+
     const user = await prisma.user.findUnique({
-      where: { email },
+      where: { email: normalizedEmail },
     });
 
-    if (!user) {
+    // Always run bcrypt to prevent timing-based email enumeration
+    const hashToCompare = user?.password ?? (await getDummyHash());
+    const isValidPassword = await bcrypt.compare(password, hashToCompare);
+
+    if (!user || !isValidPassword) {
       return { success: false, error: "Invalid credentials" };
     }
 
-    // Verify password
-    const isValidPassword = await bcrypt.compare(password, user.password);
-
-    if (!isValidPassword) {
-      return { success: false, error: "Invalid credentials" };
-    }
-
-    // Create session
     await createSession(user.id, user.email);
 
     revalidatePath("/");

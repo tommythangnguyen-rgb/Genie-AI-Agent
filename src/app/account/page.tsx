@@ -15,6 +15,7 @@ import {
   ExternalLink,
   RefreshCw,
 } from "lucide-react";
+import { AuthDialog } from "@/components/auth/AuthDialog";
 
 function GenieBottle({ className }: { className?: string }) {
   return (
@@ -68,6 +69,7 @@ function AccountPageInner() {
   const [addLoading, setAddLoading] = useState(false);
   const [addError, setAddError] = useState<string | null>(null);
   const [removeLoading, setRemoveLoading] = useState<string | null>(null);
+  const [authDialog, setAuthDialog] = useState<{ open: boolean; mode: "signin" | "signup" }>({ open: false, mode: "signin" });
 
   useEffect(() => {
     fetchStatus();
@@ -180,19 +182,37 @@ function AccountPageInner() {
           </div>
         ) : !status?.authenticated ? (
           /* Not signed in */
-          <div className="rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.10] px-8 py-10 text-center">
-            <AlertCircle className="h-10 w-10 text-indigo-400 mx-auto mb-4" />
-            <h2 className="text-lg font-bold text-white mb-2">Sign in to view your account</h2>
-            <p className="text-sm text-white/60 mb-6">
-              You need to be signed in to manage your subscription.
-            </p>
-            <Link
-              href="/aid-agent"
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition-colors"
-            >
-              Sign In
-            </Link>
-          </div>
+          <>
+            <AuthDialog
+              open={authDialog.open}
+              onOpenChange={(open) => setAuthDialog((s) => ({ ...s, open }))}
+              defaultMode={authDialog.mode}
+            />
+            <div className="rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.10] px-8 py-10 text-center">
+              <AlertCircle className="h-10 w-10 text-indigo-400 mx-auto mb-4" />
+              <h2 className="text-lg font-bold text-white mb-2">Sign in to view your account</h2>
+              <p className="text-sm text-white/60 mb-6">
+                You need to be signed in to manage your subscription.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                <button
+                  onClick={() => setAuthDialog({ open: true, mode: "signin" })}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition-colors"
+                >
+                  Sign In
+                </button>
+                <button
+                  onClick={() => setAuthDialog({ open: true, mode: "signup" })}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/[0.08] ring-1 ring-white/[0.15] hover:bg-white/[0.14] text-white text-sm font-semibold transition-colors"
+                >
+                  Create Account
+                </button>
+              </div>
+              <p className="text-xs text-white/30 mt-4">
+                New to askGenie? Create a free account to get started.
+              </p>
+            </div>
+          </>
         ) : (
           <>
             {/* Subscription card */}

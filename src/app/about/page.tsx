@@ -17,9 +17,13 @@ export default function AboutPage() {
   const [formState, setFormState] = useState({ name: "", email: "", role: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Placeholder — wire up to your preferred form backend
+    await fetch("/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...formState, type: "contact" }),
+    });
     setSubmitted(true);
   };
 

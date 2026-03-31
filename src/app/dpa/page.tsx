@@ -81,7 +81,7 @@ const DPA_SECTIONS = [
   {
     n: "14",
     title: "Execution",
-    body: "This Agreement is a sample template provided for institutional review. Institutions should review this template with their legal counsel before executing any data processing agreement. To execute a signed DPA with askGenie Financial Aid Hub, contact: [your-email@domain.com]. This template does not constitute a legally binding agreement until signed by authorized representatives of both parties.",
+    body: "This Agreement is a sample template provided for institutional review. Institutions should review this template with their legal counsel before executing any data processing agreement. To execute a signed DPA with askGenie Financial Aid Hub, contact: elementone27@gmail.com. This template does not constitute a legally binding agreement until signed by authorized representatives of both parties.",
   },
 ];
 

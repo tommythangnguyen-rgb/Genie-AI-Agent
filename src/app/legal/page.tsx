@@ -72,7 +72,7 @@ const TERMS_SECTIONS = [
   {
     n: "12",
     title: "Contact",
-    body: "[your-email@domain.com]",
+    body: "elementone27@gmail.com",
   },
 ];
 
@@ -120,7 +120,7 @@ const PRIVACY_SECTIONS = [
   {
     n: "9",
     title: "Your Rights & CCPA — Do Not Sell My Personal Information",
-    body: "You may have the right to access, correct, or delete your personal data.\n\nCalifornia residents have additional rights under the California Consumer Privacy Act (CCPA):\n• Right to know what personal information is collected, used, shared, or sold\n• Right to delete personal information\n• Right to opt out of the sale of personal information\n• Right to non-discrimination for exercising CCPA rights\n\nWe do NOT sell your personal information to any third party.\n\nTo submit a CCPA request or opt out of any future data sharing, contact us at [your-email@domain.com] with the subject line \"CCPA Request.\" We will respond within 45 days.",
+    body: "You may have the right to access, correct, or delete your personal data.\n\nCalifornia residents have additional rights under the California Consumer Privacy Act (CCPA):\n• Right to know what personal information is collected, used, shared, or sold\n• Right to delete personal information\n• Right to opt out of the sale of personal information\n• Right to non-discrimination for exercising CCPA rights\n\nWe do NOT sell your personal information to any third party.\n\nTo submit a CCPA request or opt out of any future data sharing, contact us at elementone27@gmail.com with the subject line \"CCPA Request.\" We will respond within 45 days.",
   },
   {
     n: "10",
@@ -135,7 +135,7 @@ const PRIVACY_SECTIONS = [
   {
     n: "12",
     title: "Contact",
-    body: "askGenie Financial Aid Hub\nDeveloped by One27\nEmail: [your-email@domain.com]\nWebsite: https://uigen-dusky-eight.vercel.app\n\nUnofficial reference tool — not affiliated with the U.S. Department of Education.",
+    body: "askGenie Financial Aid Hub\nDeveloped by One27\nEmail: elementone27@gmail.com\nWebsite: https://uigen-dusky-eight.vercel.app\n\nUnofficial reference tool — not affiliated with the U.S. Department of Education.",
   },
 ];
 
