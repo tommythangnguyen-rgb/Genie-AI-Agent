@@ -202,26 +202,31 @@ export async function fetchAndStoreRegulationUpdates(): Promise<{
       .catch((e) => errors.push(`Congress: ${e?.message}`)),
   ]);
 
-  // Clear old data and insert new rows using raw SQL (compatible with existing Prisma client)
-  await prisma.$executeRaw`DELETE FROM RegulationUpdate`;
+  // Clear old data and insert new rows via Prisma ORM (works on any DB)
+  await prisma.regulationUpdate.deleteMany();
 
-  for (const u of allUpdates) {
-    const id = crypto.randomUUID();
-    const pubAt = u.publishedAt ? u.publishedAt.toISOString() : null;
-    await prisma.$executeRaw`
-      INSERT INTO RegulationUpdate (id, category, title, summary, sourceUrl, publishedAt, fetchedAt)
-      VALUES (${id}, ${u.category}, ${u.title}, ${u.summary}, ${u.sourceUrl ?? null}, ${pubAt}, datetime('now'))
-    `;
+  if (allUpdates.length > 0) {
+    await prisma.regulationUpdate.createMany({
+      data: allUpdates.map((u) => ({
+        category: u.category,
+        title: u.title,
+        summary: u.summary,
+        sourceUrl: u.sourceUrl ?? null,
+        publishedAt: u.publishedAt ?? null,
+      })),
+    });
   }
 
   // Log this fetch
-  const logId = crypto.randomUUID();
   const succeeded = errors.length < 4; // success if at least one source worked
   const errStr = errors.length > 0 ? errors.join("; ") : null;
-  await prisma.$executeRaw`
-    INSERT INTO RegulationFetchLog (id, fetchedAt, success, updateCount, error)
-    VALUES (${logId}, datetime('now'), ${succeeded ? 1 : 0}, ${allUpdates.length}, ${errStr})
-  `;
+  await prisma.regulationFetchLog.create({
+    data: {
+      success: succeeded,
+      updateCount: allUpdates.length,
+      error: errStr,
+    },
+  });
 
   // Bust in-memory cache
   updateCache = null;
@@ -241,23 +246,29 @@ export async function getLatestUpdatesContext(): Promise<string | null> {
   }
 
   let updates: StoredUpdate[];
-  let logs: FetchLog[];
+  let lastLog: FetchLog | null;
   try {
-    updates = await prisma.$queryRaw<StoredUpdate[]>`
-      SELECT id, category, title, summary, sourceUrl, publishedAt, fetchedAt
-      FROM RegulationUpdate
-      ORDER BY category ASC, fetchedAt DESC
-    `;
-    logs = await prisma.$queryRaw<FetchLog[]>`
-      SELECT fetchedAt, success, updateCount
-      FROM RegulationFetchLog
-      ORDER BY fetchedAt DESC
-      LIMIT 1
-    `;
+    const rows = await prisma.regulationUpdate.findMany({
+      orderBy: [{ category: "asc" }, { fetchedAt: "desc" }],
+    });
+    updates = rows.map((r) => ({
+      id: r.id,
+      category: r.category,
+      title: r.title,
+      summary: r.summary,
+      sourceUrl: r.sourceUrl,
+      publishedAt: r.publishedAt ? r.publishedAt.toISOString() : null,
+      fetchedAt: r.fetchedAt.toISOString(),
+    }));
+    const logRow = await prisma.regulationFetchLog.findFirst({
+      orderBy: { fetchedAt: "desc" },
+    });
+    lastLog = logRow
+      ? { fetchedAt: logRow.fetchedAt.toISOString(), success: logRow.success ? 1 : 0, updateCount: logRow.updateCount }
+      : null;
   } catch {
     return null;
   }
-  const lastLog = logs[0] ?? null;
 
   if (updates.length === 0) {
     updateCache = { content: "", cachedAt: Date.now() };
@@ -321,16 +332,15 @@ export async function getLastFetchInfo(): Promise<{
   updateCount: number;
   isStale: boolean;
 }> {
-  let logs: FetchLog[];
+  let log: FetchLog | null;
   try {
-    logs = await prisma.$queryRaw<FetchLog[]>`
-      SELECT fetchedAt, success, updateCount FROM RegulationFetchLog
-      ORDER BY fetchedAt DESC LIMIT 1
-    `;
+    const row = await prisma.regulationFetchLog.findFirst({
+      orderBy: { fetchedAt: "desc" },
+    });
+    log = row ? { fetchedAt: row.fetchedAt.toISOString(), success: row.success ? 1 : 0, updateCount: row.updateCount } : null;
   } catch {
     return { fetchedAt: null, updateCount: 0, isStale: true };
   }
-  const log = logs[0] ?? null;
   const fetchedAt = log ? new Date(log.fetchedAt) : null;
   const isStale = !fetchedAt || Date.now() - fetchedAt.getTime() > STALE_AFTER_MS;
   return { fetchedAt, updateCount: log?.updateCount ?? 0, isStale };

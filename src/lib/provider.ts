@@ -1,4 +1,4 @@
-import { anthropic } from "@ai-sdk/anthropic";
+import { createAnthropic } from "@ai-sdk/anthropic";
 import { bedrock } from "@ai-sdk/amazon-bedrock";
 import {
   LanguageModelV2,
@@ -477,7 +477,8 @@ export function getLanguageModel() {
 
   if (anthropicKey && anthropicKey.trim() !== "") {
     console.log("Using Anthropic provider");
-    return anthropic(ANTHROPIC_MODEL);
+    const provider = createAnthropic({ apiKey: anthropicKey.trim() });
+    return provider(ANTHROPIC_MODEL);
   }
 
   console.log("No API keys found, using mock provider");
