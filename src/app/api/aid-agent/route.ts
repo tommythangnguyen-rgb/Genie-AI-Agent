@@ -90,23 +90,27 @@ export async function POST(req: NextRequest) {
     temperature: 0.4,
   });
 
-  // Manually iterate the text stream so errors are surfaced to the client
-  // instead of silently closing an empty stream (AI SDK v5 toTextStreamResponse
-  // swallows errors, leaving the chat bubble blank).
+  // Use fullStream so API errors (bad key, quota, etc.) appear as error-type
+  // parts rather than silently closing textStream with zero chunks.
   const encoder = new TextEncoder();
   const body = new ReadableStream({
     async start(controller) {
       try {
-        for await (const chunk of result.textStream) {
-          controller.enqueue(encoder.encode(chunk));
+        for await (const part of result.fullStream) {
+          if (part.type === "text-delta") {
+            controller.enqueue(encoder.encode(part.text));
+          } else if (part.type === "error") {
+            const errMsg = (part.error as any)?.message ?? String(part.error);
+            console.error("Aid agent stream error:", errMsg);
+            controller.enqueue(
+              encoder.encode(`\n\nError: ${errMsg}`)
+            );
+          }
         }
       } catch (err: any) {
         const msg = err?.message ?? String(err);
-        console.error("Aid agent stream error:", msg);
-        // Send a visible error so the user knows something went wrong
-        controller.enqueue(
-          encoder.encode("\n\nSorry, I encountered an error generating a response. Please try again.")
-        );
+        console.error("Aid agent stream exception:", msg);
+        controller.enqueue(encoder.encode(`\n\nError: ${msg}`));
       } finally {
         controller.close();
       }
