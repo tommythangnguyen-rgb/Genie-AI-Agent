@@ -6,6 +6,7 @@ import { MarkdownRenderer } from "@/components/chat/MarkdownRenderer";
 import { UsageMeter, LimitToast } from "@/components/usage-meter";
 import { UpgradeModal, useUpgradeModal } from "@/components/upgrade-modal";
 import { canAccessFeature } from "@/lib/feature-gates";
+import { AuthDialog } from "@/components/auth/AuthDialog";
 import {
   Send,
   BookOpen,
@@ -46,6 +47,8 @@ import {
   ImageIcon,
   Mic,
   MicOff,
+  LogIn,
+  UserCircle,
 } from "lucide-react";
 
 // ─── Genie Bottle Logo ────────────────────────────────────────────────────────
@@ -2162,16 +2165,22 @@ export default function AidAgentPage() {
   const [dailyUsage, setDailyUsage] = useState<{ used: number; limit: number } | null>(null);
   const [showLimitToast, setShowLimitToast] = useState(false);
   const { upgradeState, openUpgrade, closeUpgrade } = useUpgradeModal();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [authDialogOpen, setAuthDialogOpen] = useState(false);
+  const [authDialogMode, setAuthDialogMode] = useState<"signin" | "signup">("signin");
 
   useEffect(() => {
     if (localStorage.getItem("genie-terms-accepted")) setShowDisclaimer(false);
     if (!localStorage.getItem("genie-cookie-accepted")) setShowCookieNotice(true);
-    // Fetch tier + usage for feature gating and usage meter
+    // Fetch tier + usage for feature gating, usage meter, and auth state
     fetch("/api/user/usage")
       .then((r) => r.json())
       .then((d) => {
         setUserTier(d.tier ?? "FREE");
         setDailyUsage({ used: d.used ?? 0, limit: d.limit ?? 10 });
+        setIsAuthenticated(d.authenticated === true);
+        setUserEmail(d.email ?? null);
       })
       .catch(() => {});
   }, []);
@@ -3414,15 +3423,29 @@ export default function AidAgentPage() {
               <p className="hidden sm:block text-[10px] text-teal-300/50 font-medium tracking-wide mt-0.5 whitespace-nowrap">Your calm, expert student aid companion</p>
             </div>
 
-            {/* Right — status + mobile right-panel toggle + actions */}
-            <div className="flex items-center gap-2 w-36 justify-end">
-              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-500/10 text-emerald-400 ring-1 ring-emerald-500/20">
-                <span className="relative flex h-1.5 w-1.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
-                </span>
-                <span className="hidden sm:inline">Online</span>
-              </span>
+            {/* Right — auth button + mobile right-panel toggle + actions */}
+            <div className="flex items-center gap-1.5 w-40 justify-end">
+              {/* Sign In / Account button — always visible */}
+              {isAuthenticated ? (
+                <Link
+                  href="/account"
+                  title={userEmail ?? "Your account"}
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-600/20 ring-1 ring-indigo-500/30 text-indigo-300 hover:bg-indigo-600/35 hover:text-white transition-colors text-xs font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+                >
+                  <UserCircle className="h-4 w-4 shrink-0" />
+                  <span className="hidden sm:inline max-w-[72px] truncate">
+                    {userEmail ? userEmail.split("@")[0] : "Account"}
+                  </span>
+                </Link>
+              ) : (
+                <button
+                  onClick={() => { setAuthDialogMode("signin"); setAuthDialogOpen(true); }}
+                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 shadow-sm"
+                >
+                  <LogIn className="h-3.5 w-3.5 shrink-0" />
+                  <span>Sign In</span>
+                </button>
+              )}
               <button
                 onClick={() => { setShowMobileRight(!showMobileRight); setShowMobileLeft(false); }}
                 title="Admins & Auditors panel"
@@ -4104,6 +4127,13 @@ export default function AidAgentPage() {
           onClose={closeUpgrade}
         />
       )}
+
+      {/* Auth dialog — sign in / sign up */}
+      <AuthDialog
+        open={authDialogOpen}
+        onOpenChange={setAuthDialogOpen}
+        defaultMode={authDialogMode}
+      />
     </>
   );
 }

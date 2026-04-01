@@ -3,8 +3,10 @@ import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
 
+// Strip any accidental trailing whitespace/newlines from the env var —
+// copy-paste into Vercel dashboard often includes a trailing \n.
 const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || "development-secret-key"
+  (process.env.JWT_SECRET || "development-secret-key").trim()
 );
 
 const COOKIE_NAME = "auth-token";

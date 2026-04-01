@@ -75,7 +75,17 @@ export async function signUp(
     return { success: true };
   } catch (error) {
     console.error("Sign up error:", error);
-    return { success: false, error: "An error occurred during sign up" };
+    const msg = error instanceof Error ? error.message : String(error);
+    // Surface DB/connection errors clearly so they're diagnosable
+    if (msg.includes("connect") || msg.includes("ECONNREFUSED") || msg.includes("timeout") || msg.includes("Can't reach")) {
+      return { success: false, error: "Database connection failed. Please try again in a moment." };
+    }
+    if (msg.includes("Unique constraint") || msg.includes("unique constraint") || msg.includes("P2002")) {
+      return { success: false, error: "Email already registered. Try signing in instead." };
+    }
+    // In development, return the raw error; in production return sanitized message
+    const detail = process.env.NODE_ENV === "development" ? ` (${msg})` : "";
+    return { success: false, error: `Sign up failed — please try again.${detail}` };
   }
 }
 
@@ -117,7 +127,12 @@ export async function signIn(
     return { success: true };
   } catch (error) {
     console.error("Sign in error:", error);
-    return { success: false, error: "An error occurred during sign in" };
+    const msg = error instanceof Error ? error.message : String(error);
+    if (msg.includes("connect") || msg.includes("ECONNREFUSED") || msg.includes("timeout") || msg.includes("Can't reach")) {
+      return { success: false, error: "Database connection failed. Please try again in a moment." };
+    }
+    const detail = process.env.NODE_ENV === "development" ? ` (${msg})` : "";
+    return { success: false, error: `Sign in failed — please try again.${detail}` };
   }
 }
 
