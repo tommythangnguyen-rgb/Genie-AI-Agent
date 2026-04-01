@@ -45,6 +45,8 @@ interface Member {
 
 const TIER_LABELS: Record<string, string> = {
   FREE: "Basic (Free)",
+  PRO: "Pro",
+  TEAM: "Team",
   MONTHLY: "Monthly",
   MONTHLY_PLUS: "Monthly Plus",
   YEARLY: "Yearly",
@@ -72,12 +74,10 @@ function AccountPageInner() {
   const [authDialog, setAuthDialog] = useState<{ open: boolean; mode: "signin" | "signup" }>({ open: false, mode: "signin" });
 
   useEffect(() => {
-    if (showSuccess) {
-      // Sync subscription from Stripe first (webhook may be delayed)
-      fetch("/api/stripe/sync", { method: "POST" }).finally(() => fetchStatus());
-    } else {
-      fetchStatus();
-    }
+    // Always sync from Stripe on load — ensures tier is current even if the
+    // webhook was delayed. The endpoint is a no-op for users without a Stripe
+    // customer so there's no wasted work.
+    fetch("/api/stripe/sync", { method: "POST" }).finally(() => fetchStatus());
   }, []);
 
   useEffect(() => {
