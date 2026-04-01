@@ -2005,13 +2005,13 @@ function EducationalBackground({ isDark = true }: { isDark?: boolean }) {
     // Bright mode — old teal/gold/cosmic theme
     return (
       <div className="fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
-        {/* Rich teal base */}
-        <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, #042f2e 0%, #0f4c48 35%, #0d4540 65%, #052e2b 100%)" }} />
+        {/* Deep ocean base */}
+        <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, #041e2c 0%, #073347 35%, #062e42 65%, #031825 100%)" }} />
 
-        {/* Teal + gold atmospheric orbs */}
+        {/* Cyan + gold atmospheric orbs */}
         <div
           className="genie-orb absolute -top-64 -left-64 w-[900px] h-[900px] rounded-full blur-[160px]"
-          style={{ background: "radial-gradient(circle, rgba(20,184,166,0.22) 0%, rgba(13,148,136,0.10) 50%, transparent 70%)", "--orb-dur": "16s" } as React.CSSProperties}
+          style={{ background: "radial-gradient(circle, rgba(6,182,212,0.20) 0%, rgba(14,165,233,0.08) 50%, transparent 70%)", "--orb-dur": "16s" } as React.CSSProperties}
         />
         <div
           className="genie-orb absolute bottom-0 right-0 w-[700px] h-[700px] rounded-full blur-[140px]"
@@ -2019,7 +2019,7 @@ function EducationalBackground({ isDark = true }: { isDark?: boolean }) {
         />
         <div
           className="genie-orb absolute top-1/3 right-1/4 w-[500px] h-[500px] rounded-full blur-[120px]"
-          style={{ background: "radial-gradient(circle, rgba(16,185,129,0.12) 0%, transparent 65%)", "--orb-dur": "24s" } as React.CSSProperties}
+          style={{ background: "radial-gradient(circle, rgba(6,182,212,0.10) 0%, transparent 65%)", "--orb-dur": "24s" } as React.CSSProperties}
         />
         <div
           className="genie-orb absolute top-1/2 left-1/3 w-[400px] h-[400px] rounded-full blur-[110px]"
@@ -2045,10 +2045,10 @@ function EducationalBackground({ isDark = true }: { isDark?: boolean }) {
               width: p.size, height: p.size,
               background: i % 2 === 0
                 ? "radial-gradient(circle, rgba(251,191,36,0.95) 0%, rgba(245,158,11,0.5) 100%)"
-                : "radial-gradient(circle, rgba(52,211,153,0.90) 0%, rgba(16,185,129,0.4) 100%)",
+                : "radial-gradient(circle, rgba(34,211,238,0.90) 0%, rgba(6,182,212,0.4) 100%)",
               boxShadow: i % 2 === 0
                 ? "0 0 7px 2px rgba(251,191,36,0.40)"
-                : "0 0 7px 2px rgba(52,211,153,0.35)",
+                : "0 0 7px 2px rgba(34,211,238,0.35)",
               "--p-dur": p.dur,
               animationDelay: p.delay,
             } as React.CSSProperties}
@@ -2059,7 +2059,7 @@ function EducationalBackground({ isDark = true }: { isDark?: boolean }) {
         <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
           <defs>
             <pattern id="edu-dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-              <circle cx="20" cy="20" r="0.7" fill="#14b8a6" fillOpacity="0.18" />
+              <circle cx="20" cy="20" r="0.7" fill="#22d3ee" fillOpacity="0.16" />
             </pattern>
           </defs>
           <rect width="1440" height="900" fill="url(#edu-dots)" />
@@ -2086,6 +2086,15 @@ function EducationalBackground({ isDark = true }: { isDark?: boolean }) {
       <div
         className="genie-orb absolute top-1/3 right-1/4 w-[500px] h-[500px] rounded-full blur-[120px]"
         style={{ background: "radial-gradient(circle, rgba(109,40,217,0.07) 0%, transparent 65%)", "--orb-dur": "24s" } as React.CSSProperties}
+      />
+      {/* Gold orbs */}
+      <div
+        className="genie-orb absolute bottom-1/4 left-1/4 w-[600px] h-[600px] rounded-full blur-[150px]"
+        style={{ background: "radial-gradient(circle, rgba(245,158,11,0.10) 0%, rgba(217,119,6,0.04) 55%, transparent 70%)", "--orb-dur": "22s" } as React.CSSProperties}
+      />
+      <div
+        className="genie-orb absolute top-0 right-0 w-[450px] h-[450px] rounded-full blur-[130px]"
+        style={{ background: "radial-gradient(circle, rgba(251,191,36,0.08) 0%, rgba(245,158,11,0.03) 55%, transparent 70%)", "--orb-dur": "18s" } as React.CSSProperties}
       />
 
       {/* Sparkle particles */}
@@ -3447,7 +3456,7 @@ export default function AidAgentPage() {
                 {/* Hero badge */}
                 <div className="relative mb-6">
                   <div className="p-5 rounded-2xl bg-indigo-600 shadow-xl shadow-indigo-900/50 ring-1 ring-indigo-500/40">
-                    <GenieBottle className="h-11 w-11 text-white" />
+                    <GenieBottle className="h-11 w-11 text-white genie-icon-shimmer" />
                   </div>
                   <div className="absolute -top-1 -right-1 p-1 rounded-full bg-emerald-500 shadow-md ring-2 ring-[#08142e]">
                     <CheckCircle className="h-3 w-3 text-white" />
@@ -3456,10 +3465,10 @@ export default function AidAgentPage() {
 
                 <h2 className="text-2xl font-bold tracking-tight text-white mb-2 text-center">
                   Student Aid Hub.{" "}
-                  <span className="bg-gradient-to-r from-indigo-300 to-slate-300 bg-clip-text text-transparent">AI-Powered Guidance.</span>
+                  <span className="genie-shimmer-text">AI-Powered Guidance.</span>
                 </h2>
                 <p className="text-sm text-white/55 leading-relaxed max-w-lg text-center mb-2">
-                  Your calm, expert companion for FAFSA, award letters, and financial aid.
+                  Your calm companion for everything student aid related.
                 </p>
                 <p className="text-xs text-white/30 leading-relaxed max-w-md text-center mb-6">
                   Financial aid offer letters · R2T4 calculations · FSA audits · Title IV · SAP · Scholarships
@@ -3619,7 +3628,7 @@ export default function AidAgentPage() {
                     {msg.role === "assistant" && (
                       <div className="shrink-0 mt-1">
                         <div className="p-1.5 rounded-xl bg-indigo-600 shadow-md shadow-indigo-900/40 ring-1 ring-indigo-500/30">
-                          <GenieBottle className="h-4 w-4 text-white" />
+                          <GenieBottle className="h-4 w-4 text-white genie-icon-shimmer" />
                         </div>
                       </div>
                     )}
@@ -3696,7 +3705,7 @@ export default function AidAgentPage() {
                 {isLoading && (
                   <div className="flex gap-3 justify-start genie-fade-in-up">
                     <div className="shrink-0 mt-1 p-1.5 rounded-xl bg-indigo-600 shadow-md ring-1 ring-indigo-500/30">
-                      <GenieBottle className="h-4 w-4 text-white" />
+                      <GenieBottle className="h-4 w-4 text-white genie-icon-shimmer" />
                     </div>
                     <div className="ring-1 ring-white/[0.10] px-5 py-4 rounded-2xl rounded-tl-sm bg-white/[0.05]">
                       <div className="flex items-center gap-1.5">
@@ -3719,7 +3728,7 @@ export default function AidAgentPage() {
             <div className="relative max-w-3xl mx-auto">
               {/* Prompt label row */}
               <div className="flex items-center gap-2 mb-2 px-1">
-                <GenieBottle className="h-3.5 w-3.5 text-indigo-400 shrink-0" />
+                <GenieBottle className="h-3.5 w-3.5 text-indigo-400 shrink-0 genie-icon-shimmer" />
                 <span className="text-sm font-semibold text-indigo-300/80 tracking-wide">
                   askGenie
                 </span>
