@@ -8,30 +8,31 @@ import { checkAndIncrementUserLimit, checkAndIncrementGuestLimit } from "@/lib/r
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
 
+/** Race a promise against a timeout; returns undefined if it loses. */
+function withTimeout<T>(p: Promise<T>, ms: number): Promise<T | undefined> {
+  return Promise.race([p, new Promise<undefined>((res) => setTimeout(() => res(undefined), ms))]);
+}
+
 export async function POST(req: NextRequest) {
-  // 1. Rate limiting
+  // 1. Rate limiting — all DB calls are raced against a 8 s timeout so a slow
+  //    Neon cold-start can't hang the entire route.
   const session = await verifySession(req);
-  let rateLimitResult;
+  let rateLimitResult: { allowed: boolean; remaining: number; limit: number } | undefined;
   let guestSessionId: string | null = null;
 
   if (session?.userId) {
-    const user = await prisma.user.findUnique({
-      where: { id: session.userId },
-      select: { subscriptionTier: true, accountOwnerId: true },
-    });
-    const tier = user?.subscriptionTier ?? "FREE";
-
-    // For sub-users, check the owner's subscription tier
-    let effectiveTier = tier;
-    if (user?.accountOwnerId) {
-      const owner = await prisma.user.findUnique({
-        where: { id: user.accountOwnerId },
-        select: { subscriptionTier: true },
-      });
-      effectiveTier = owner?.subscriptionTier ?? "FREE";
-    }
-
-    rateLimitResult = await checkAndIncrementUserLimit(session.userId, effectiveTier);
+    const user = await withTimeout(
+      prisma.user.findUnique({
+        where: { id: session.userId },
+        select: { subscriptionTier: true, accountOwnerId: true },
+      }),
+      8000
+    );
+    const tier = (user?.subscriptionTier ?? "FREE") as string;
+    rateLimitResult = await withTimeout(
+      checkAndIncrementUserLimit(session.userId, tier),
+      8000
+    );
   } else {
     // Guest — use cookie session ID
     const cookieStore = await cookies();
@@ -40,22 +41,17 @@ export async function POST(req: NextRequest) {
       sid = crypto.randomUUID();
       guestSessionId = sid;
     }
-    rateLimitResult = await checkAndIncrementGuestLimit(sid);
+    rateLimitResult = await withTimeout(checkAndIncrementGuestLimit(sid), 8000);
     guestSessionId = sid;
   }
 
-  if (!rateLimitResult.allowed) {
+  // If the DB timed out, fail open (allow the request through) rather than hang.
+  if (rateLimitResult && !rateLimitResult.allowed) {
     const tomorrow = new Date();
     tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
     tomorrow.setUTCHours(0, 0, 0, 0);
-
     return NextResponse.json(
-      {
-        error: "RATE_LIMIT_EXCEEDED",
-        remaining: 0,
-        limit: rateLimitResult.limit,
-        resetAt: tomorrow.toISOString(),
-      },
+      { error: "RATE_LIMIT_EXCEEDED", remaining: 0, limit: rateLimitResult.limit, resetAt: tomorrow.toISOString() },
       { status: 429 }
     );
   }
@@ -63,8 +59,8 @@ export async function POST(req: NextRequest) {
   // 2. Parse body
   const { messages }: { messages: any[] } = await req.json();
 
-  // 3. Get system context
-  const liveUpdates = await getLatestUpdatesContext();
+  // 3. Get system context — optional; skip if DB is slow
+  const liveUpdates = await withTimeout(getLatestUpdatesContext(), 5000);
   const systemContent = liveUpdates ? `${aidAgentPrompt}\n\n${liveUpdates}` : aidAgentPrompt;
 
   // Strip non-CoreMessage fields (id, senderRole, attachedFileName, etc.) before
