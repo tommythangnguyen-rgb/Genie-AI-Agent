@@ -138,10 +138,28 @@
   animation: genie-fade-in-up 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
+@keyframes genie-orb-drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(18px, -22px) scale(1.06); }
+  66%  { transform: translate(-12px, 14px) scale(0.96); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+@keyframes genie-sparkle {
+  0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+  50%       { opacity: 1; transform: scale(1) rotate(180deg); }
+}
+
+.genie-orb {
+  animation: genie-orb-drift var(--orb-dur, 14s) ease-in-out infinite;
+}
+
+.genie-particle {
+  animation: genie-sparkle var(--p-dur, 3s) ease-in-out infinite;
+}
+
 /* Kept as no-ops so existing class references don't break */
-.genie-particle  { display: none; }
 .genie-float     {}
-.genie-orb       {}
 .genie-badge-glow {}
 .genie-gold-glow {}
 

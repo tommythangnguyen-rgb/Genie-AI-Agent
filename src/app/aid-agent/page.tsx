@@ -1991,22 +1991,121 @@ const ROLE_OPTIONS = [
 
 // ─── Background ───────────────────────────────────────────────────────────────
 
-function EducationalBackground() {
+function EducationalBackground({ isDark = true }: { isDark?: boolean }) {
+  const darkParticles = [
+    { top: "15%", left: "22%", size: 4, dur: "3.2s", delay: "0s" },
+    { top: "68%", left: "8%",  size: 3, dur: "4.1s", delay: "0.7s" },
+    { top: "42%", left: "78%", size: 5, dur: "3.7s", delay: "1.4s" },
+    { top: "82%", left: "55%", size: 3, dur: "2.9s", delay: "0.3s" },
+    { top: "28%", left: "91%", size: 4, dur: "4.5s", delay: "1.9s" },
+    { top: "55%", left: "44%", size: 3, dur: "3.5s", delay: "0.9s" },
+  ];
+
+  if (!isDark) {
+    // Bright mode — old teal/gold/cosmic theme
+    return (
+      <div className="fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
+        {/* Rich teal base */}
+        <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, #042f2e 0%, #0f4c48 35%, #0d4540 65%, #052e2b 100%)" }} />
+
+        {/* Teal + gold atmospheric orbs */}
+        <div
+          className="genie-orb absolute -top-64 -left-64 w-[900px] h-[900px] rounded-full blur-[160px]"
+          style={{ background: "radial-gradient(circle, rgba(20,184,166,0.22) 0%, rgba(13,148,136,0.10) 50%, transparent 70%)", "--orb-dur": "16s" } as React.CSSProperties}
+        />
+        <div
+          className="genie-orb absolute bottom-0 right-0 w-[700px] h-[700px] rounded-full blur-[140px]"
+          style={{ background: "radial-gradient(circle, rgba(245,158,11,0.18) 0%, rgba(217,119,6,0.08) 50%, transparent 70%)", "--orb-dur": "20s" } as React.CSSProperties}
+        />
+        <div
+          className="genie-orb absolute top-1/3 right-1/4 w-[500px] h-[500px] rounded-full blur-[120px]"
+          style={{ background: "radial-gradient(circle, rgba(16,185,129,0.12) 0%, transparent 65%)", "--orb-dur": "24s" } as React.CSSProperties}
+        />
+        <div
+          className="genie-orb absolute top-1/2 left-1/3 w-[400px] h-[400px] rounded-full blur-[110px]"
+          style={{ background: "radial-gradient(circle, rgba(251,191,36,0.10) 0%, transparent 65%)", "--orb-dur": "18s" } as React.CSSProperties}
+        />
+
+        {/* Gold sparkle particles */}
+        {[
+          { top: "12%", left: "18%", size: 5, dur: "3.0s", delay: "0s" },
+          { top: "70%", left: "10%", size: 3, dur: "4.2s", delay: "0.6s" },
+          { top: "38%", left: "80%", size: 5, dur: "3.8s", delay: "1.3s" },
+          { top: "85%", left: "52%", size: 4, dur: "2.8s", delay: "0.2s" },
+          { top: "25%", left: "88%", size: 3, dur: "4.6s", delay: "1.8s" },
+          { top: "58%", left: "42%", size: 4, dur: "3.4s", delay: "0.8s" },
+          { top: "45%", left: "5%",  size: 3, dur: "3.9s", delay: "1.1s" },
+          { top: "6%",  left: "65%", size: 4, dur: "3.2s", delay: "0.4s" },
+        ].map((p, i) => (
+          <div
+            key={i}
+            className="genie-particle absolute rounded-full"
+            style={{
+              top: p.top, left: p.left,
+              width: p.size, height: p.size,
+              background: i % 2 === 0
+                ? "radial-gradient(circle, rgba(251,191,36,0.95) 0%, rgba(245,158,11,0.5) 100%)"
+                : "radial-gradient(circle, rgba(52,211,153,0.90) 0%, rgba(16,185,129,0.4) 100%)",
+              boxShadow: i % 2 === 0
+                ? "0 0 7px 2px rgba(251,191,36,0.40)"
+                : "0 0 7px 2px rgba(52,211,153,0.35)",
+              "--p-dur": p.dur,
+              animationDelay: p.delay,
+            } as React.CSSProperties}
+          />
+        ))}
+
+        {/* SVG: teal dot grid */}
+        <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+          <defs>
+            <pattern id="edu-dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+              <circle cx="20" cy="20" r="0.7" fill="#14b8a6" fillOpacity="0.18" />
+            </pattern>
+          </defs>
+          <rect width="1440" height="900" fill="url(#edu-dots)" />
+        </svg>
+      </div>
+    );
+  }
+
+  // Dark mode — indigo/slate theme
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
       {/* Deep navy base */}
       <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, #08142e 0%, #0c1d3d 35%, #0a1f3a 65%, #071530 100%)" }} />
-      {/* Subtle indigo depth — top-left and bottom-right */}
-      <div className="absolute -top-64 -left-64 w-[900px] h-[900px] rounded-full blur-[160px]" style={{ background: "radial-gradient(circle, rgba(79,70,229,0.10) 0%, transparent 70%)" }} />
-      <div className="absolute bottom-0 right-0 w-[700px] h-[700px] rounded-full blur-[140px]" style={{ background: "radial-gradient(circle, rgba(67,56,202,0.08) 0%, transparent 70%)" }} />
 
-      {/* SVG: subtle dot grid only */}
-      <svg
-        className="absolute inset-0 w-full h-full"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 1440 900"
-        preserveAspectRatio="xMidYMid slice"
-      >
+      {/* Animated atmospheric orbs */}
+      <div
+        className="genie-orb absolute -top-64 -left-64 w-[900px] h-[900px] rounded-full blur-[160px]"
+        style={{ background: "radial-gradient(circle, rgba(79,70,229,0.13) 0%, rgba(99,102,241,0.06) 50%, transparent 70%)", "--orb-dur": "16s" } as React.CSSProperties}
+      />
+      <div
+        className="genie-orb absolute bottom-0 right-0 w-[700px] h-[700px] rounded-full blur-[140px]"
+        style={{ background: "radial-gradient(circle, rgba(67,56,202,0.11) 0%, rgba(79,70,229,0.05) 50%, transparent 70%)", "--orb-dur": "20s" } as React.CSSProperties}
+      />
+      <div
+        className="genie-orb absolute top-1/3 right-1/4 w-[500px] h-[500px] rounded-full blur-[120px]"
+        style={{ background: "radial-gradient(circle, rgba(109,40,217,0.07) 0%, transparent 65%)", "--orb-dur": "24s" } as React.CSSProperties}
+      />
+
+      {/* Sparkle particles */}
+      {darkParticles.map((p, i) => (
+        <div
+          key={i}
+          className="genie-particle absolute rounded-full"
+          style={{
+            top: p.top, left: p.left,
+            width: p.size, height: p.size,
+            background: "radial-gradient(circle, rgba(165,180,252,0.9) 0%, rgba(129,140,248,0.4) 100%)",
+            boxShadow: "0 0 6px 2px rgba(165,180,252,0.35)",
+            "--p-dur": p.dur,
+            animationDelay: p.delay,
+          } as React.CSSProperties}
+        />
+      ))}
+
+      {/* SVG: subtle dot grid */}
+      <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
         <defs>
           <pattern id="edu-dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
             <circle cx="20" cy="20" r="0.7" fill="#a5b4fc" fillOpacity="0.12" />
@@ -2702,12 +2801,7 @@ export default function AidAgentPage() {
         </div>
       )}
 
-      <EducationalBackground />
-
-      {/* Bright theme overlay — slightly lighter cobalt blue, still dark enough for white text contrast */}
-      {!isDark && (
-        <div className="fixed inset-0 -z-9 pointer-events-none" style={{ background: "linear-gradient(135deg, #0f3ba0d0 0%, #1a52ccd0 50%, #1e60ddd0 100%)" }} />
-      )}
+      <EducationalBackground isDark={isDark} />
 
       {/* Mobile panel backdrop */}
       {(showMobileLeft || showMobileRight) && (
@@ -3588,7 +3682,7 @@ export default function AidAgentPage() {
                                 className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium text-white/30 hover:text-white/70 hover:bg-white/[0.07] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
                               >
                                 <Printer className="h-3 w-3" />
-                                Print
+                                Print/View
                               </button>
                             </div>
                           )}
