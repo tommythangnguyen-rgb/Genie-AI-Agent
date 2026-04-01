@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
       const userId = session.metadata?.userId;
       const tier = session.metadata?.tier?.toUpperCase();
       const subscriptionId = session.subscription;
-      if (!userId || !tier) break;
+      if (!userId || !tier || !subscriptionId) break;
 
       const subscription = await stripe.subscriptions.retrieve(subscriptionId);
       await prisma.user.update({
@@ -40,6 +40,25 @@ export async function POST(req: NextRequest) {
           subscriptionPeriodEnd: new Date((subscription as any).current_period_end * 1000),
         },
       });
+      break;
+    }
+
+    case "customer.subscription.created": {
+      const subscription = event.data.object;
+      const userId = subscription.metadata?.userId;
+      const tier = (subscription.metadata?.tier ?? "").toUpperCase();
+      if (!userId || !tier) break;
+      await prisma.user
+        .update({
+          where: { id: userId },
+          data: {
+            subscriptionTier: tier as any,
+            stripeSubscriptionId: subscription.id,
+            subscriptionStatus: subscription.status,
+            subscriptionPeriodEnd: new Date(subscription.current_period_end * 1000),
+          },
+        })
+        .catch(() => {});
       break;
     }
 

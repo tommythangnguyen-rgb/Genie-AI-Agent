@@ -72,7 +72,12 @@ function AccountPageInner() {
   const [authDialog, setAuthDialog] = useState<{ open: boolean; mode: "signin" | "signup" }>({ open: false, mode: "signin" });
 
   useEffect(() => {
-    fetchStatus();
+    if (showSuccess) {
+      // Sync subscription from Stripe first (webhook may be delayed)
+      fetch("/api/stripe/sync", { method: "POST" }).finally(() => fetchStatus());
+    } else {
+      fetchStatus();
+    }
   }, []);
 
   useEffect(() => {
