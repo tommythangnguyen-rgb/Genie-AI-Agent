@@ -67,6 +67,8 @@ function AccountPageInner() {
   const [members, setMembers] = useState<Member[]>([]);
   const [loadingStatus, setLoadingStatus] = useState(true);
   const [portalLoading, setPortalLoading] = useState(false);
+  const [syncLoading, setSyncLoading] = useState(false);
+  const [syncMessage, setSyncMessage] = useState<string | null>(null);
   const [addForm, setAddForm] = useState({ email: "", password: "" });
   const [addLoading, setAddLoading] = useState(false);
   const [addError, setAddError] = useState<string | null>(null);
@@ -74,11 +76,26 @@ function AccountPageInner() {
   const [authDialog, setAuthDialog] = useState<{ open: boolean; mode: "signin" | "signup" }>({ open: false, mode: "signin" });
 
   useEffect(() => {
-    // Always sync from Stripe on load — ensures tier is current even if the
-    // webhook was delayed. The endpoint is a no-op for users without a Stripe
-    // customer so there's no wasted work.
-    fetch("/api/stripe/sync", { method: "POST" }).finally(() => fetchStatus());
+    syncAndFetch();
   }, []);
+
+  async function syncAndFetch() {
+    setSyncLoading(true);
+    try {
+      const res = await fetch("/api/stripe/sync", { method: "POST" });
+      const data = await res.json();
+      if (data.synced) {
+        setSyncMessage(`Synced: ${data.tier} (${data.status})`);
+      } else if (data.reason !== "no_customer") {
+        setSyncMessage(`Sync issue: ${data.reason}${data.detail ? ` — ${data.detail}` : ""}`);
+      }
+    } catch {
+      setSyncMessage("Sync failed — network error");
+    } finally {
+      setSyncLoading(false);
+      await fetchStatus();
+    }
+  }
 
   useEffect(() => {
     if (status?.authenticated && status.tier !== "FREE") {
@@ -300,9 +317,21 @@ function AccountPageInner() {
                       Upgrade Plan
                     </Link>
                   )}
+                  <button
+                    onClick={syncAndFetch}
+                    disabled={syncLoading}
+                    className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-white/[0.06] ring-1 ring-white/[0.10] text-white/60 text-sm font-medium hover:bg-white/[0.10] hover:text-white active:scale-[0.98] transition-all disabled:opacity-40"
+                  >
+                    <RefreshCw className={`h-4 w-4 ${syncLoading ? "animate-spin" : ""}`} />
+                    {syncLoading ? "Syncing…" : "Sync with Stripe"}
+                  </button>
                 </div>
 
-                {status.tier === "FREE" && (
+                {syncMessage && (
+                  <p className="text-xs text-white/40 mt-3">{syncMessage}</p>
+                )}
+
+                {status.tier === "FREE" && !syncMessage && (
                   <p className="text-xs text-white/40 mt-4">
                     Upgrade to get more questions per day and multi-seat access for your team.
                   </p>
