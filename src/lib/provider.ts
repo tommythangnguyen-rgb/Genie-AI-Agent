@@ -476,8 +476,12 @@ export function getLanguageModel() {
   }
 
   if (anthropicKey && anthropicKey.trim() !== "") {
+    // Strip actual whitespace AND literal \n sequences that appear when the key
+    // is copy-pasted into Vercel dashboard and the trailing newline is encoded
+    // as the two-character sequence backslash + n instead of a real newline.
+    const cleanKey = anthropicKey.replace(/\\n/g, "").replace(/\\r/g, "").trim();
     console.log("Using Anthropic provider");
-    const provider = createAnthropic({ apiKey: anthropicKey.trim() });
+    const provider = createAnthropic({ apiKey: cleanKey });
     return provider(ANTHROPIC_MODEL);
   }
 
