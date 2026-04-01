@@ -38,7 +38,7 @@ import {
   DollarSign,
   CheckCircle,
   Hash,
-  Menu,
+
   X,
   Sun,
   Moon,
@@ -2237,6 +2237,7 @@ export default function AidAgentPage() {
   const [isRecording, setIsRecording] = useState(false);
   const [voiceTranscript, setVoiceTranscript] = useState("");
   const recognitionRef = useRef<any>(null);
+  const wasVoiceInputRef = useRef(false);
   const [userTier, setUserTier] = useState<string>("FREE");
   const [dailyUsage, setDailyUsage] = useState<{ used: number; limit: number } | null>(null);
   const [showLimitToast, setShowLimitToast] = useState(false);
@@ -2332,10 +2333,11 @@ export default function AidAgentPage() {
     recognition.onerror = () => { setIsRecording(false); setVoiceTranscript(""); };
     recognition.onend = () => {
       setIsRecording(false);
-      if (finalText.trim()) {
-        setAttachedFile({ name: "Voice recording", content: finalText.trim(), type: "audio" });
-      }
       setVoiceTranscript("");
+      if (finalText.trim()) {
+        wasVoiceInputRef.current = true;
+        sendMessage(finalText.trim());
+      }
     };
     recognitionRef.current = recognition;
     recognition.start();
@@ -2461,10 +2463,12 @@ export default function AidAgentPage() {
         { id: assistantId, role: "assistant", content: "" },
       ]);
 
+      let accumulatedContent = "";
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
         const chunk = decoder.decode(value, { stream: true });
+        accumulatedContent += chunk;
         setMessages((prev) =>
           prev.map((msg) =>
             msg.id === assistantId
@@ -2472,6 +2476,11 @@ export default function AidAgentPage() {
               : msg
           )
         );
+      }
+      // Auto-speak response when triggered by voice input
+      if (wasVoiceInputRef.current && accumulatedContent.trim()) {
+        wasVoiceInputRef.current = false;
+        speakMessage(assistantId, accumulatedContent);
       }
     } catch (err) {
       console.error("Aid agent error:", err);
@@ -3444,15 +3453,8 @@ export default function AidAgentPage() {
 
           {/* Header */}
           <header className="relative shrink-0 border-b border-teal-500/[0.15] backdrop-blur-xl px-5 py-3 flex items-center justify-between" style={{ background: "linear-gradient(90deg, rgba(7,30,61,0.92) 0%, rgba(10,37,64,0.95) 50%, rgba(7,30,61,0.92) 100%)" }}>
-            {/* Left — theme toggle + home + mobile left-panel toggle */}
+            {/* Left — home only */}
             <div className="flex items-center gap-1.5 w-40">
-              <button
-                onClick={() => setIsDark(!isDark)}
-                title={isDark ? "Switch to bright mode" : "Switch to dark mode"}
-                className="p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
-              >
-                {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-              </button>
               <button
                 onClick={goHome}
                 title="Home"
@@ -3461,13 +3463,6 @@ export default function AidAgentPage() {
                 <Home className="h-3.5 w-3.5" />
                 <span className="hidden sm:inline">Home</span>
               </button>
-              <button
-                onClick={() => { setShowMobileLeft(!showMobileLeft); setShowMobileRight(false); }}
-                title="Students & Parents panel"
-                className="lg:hidden p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
-              >
-                {showMobileLeft ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
-              </button>
             </div>
 
             {/* Center — title */}
@@ -3475,7 +3470,7 @@ export default function AidAgentPage() {
               <h1 className="text-4xl font-black tracking-tight leading-none whitespace-nowrap genie-shimmer-text">
                 askGenie
               </h1>
-              <p className="hidden sm:block text-[10px] text-teal-300/50 font-medium tracking-wide mt-0.5 whitespace-nowrap">Your calm, expert student aid companion</p>
+              <p className="hidden sm:block text-[10px] text-teal-300/50 font-medium tracking-wide mt-0.5 whitespace-nowrap">Calm guidance for student aid and college financing</p>
             </div>
 
             {/* Right — auth button + mobile right-panel toggle + actions */}
@@ -3526,6 +3521,20 @@ export default function AidAgentPage() {
                   <SquarePen className="h-4 w-4" />
                 </button>
               )}
+              <button
+                onClick={() => { setShowMobileLeft(!showMobileLeft); setShowMobileRight(false); }}
+                title="Student Aid HUB — Students & Parents panel"
+                className="lg:hidden p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+              >
+                {showMobileLeft ? <X className="h-4 w-4" /> : <GraduationCap className="h-4 w-4" />}
+              </button>
+              <button
+                onClick={() => setIsDark(!isDark)}
+                title={isDark ? "Switch to bright mode" : "Switch to dark mode"}
+                className="p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+              >
+                {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              </button>
             </div>
           </header>
 
