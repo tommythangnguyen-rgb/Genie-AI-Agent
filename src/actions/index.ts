@@ -77,13 +77,9 @@ export async function signUp(
     console.error("Sign up error:", error);
     const msg = error instanceof Error ? error.message : String(error);
     // Surface DB/connection errors clearly so they're diagnosable
-    if (msg.includes("connect") || msg.includes("ECONNREFUSED") || msg.includes("timeout") || msg.includes("Can't reach")) {
-      return { success: false, error: "Database connection failed. Please try again in a moment." };
-    }
     if (msg.includes("Unique constraint") || msg.includes("unique constraint") || msg.includes("P2002")) {
       return { success: false, error: "Email already registered. Try signing in instead." };
     }
-    // Always surface the raw error so it's diagnosable — scrub it once the root cause is found
     return { success: false, error: `Sign up failed: ${msg}` };
   }
 }
@@ -127,9 +123,6 @@ export async function signIn(
   } catch (error) {
     console.error("Sign in error:", error);
     const msg = error instanceof Error ? error.message : String(error);
-    if (msg.includes("connect") || msg.includes("ECONNREFUSED") || msg.includes("timeout") || msg.includes("Can't reach")) {
-      return { success: false, error: "Database connection failed. Please try again in a moment." };
-    }
     return { success: false, error: `Sign in failed: ${msg}` };
   }
 }
