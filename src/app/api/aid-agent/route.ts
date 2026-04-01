@@ -75,6 +75,16 @@ export async function POST(req: NextRequest) {
 
   const model = getLanguageModel();
 
+  // Build response headers up front
+  const responseHeaders: Record<string, string> = {
+    "Content-Type": "text/plain; charset=utf-8",
+    "Cache-Control": "no-store",
+  };
+  if (guestSessionId) {
+    responseHeaders["Set-Cookie"] =
+      `genie-session=${guestSessionId}; Path=/; HttpOnly; SameSite=Lax; Max-Age=31536000`;
+  }
+
   // No user input is logged or persisted — messages are processed in-memory only.
   const result = streamText({
     model,
@@ -82,26 +92,32 @@ export async function POST(req: NextRequest) {
     messages: coreMessages,
     maxOutputTokens: 3000,
     temperature: 0.4,
-    onError: (err: any) => {
-      // Log full error in Vercel function logs for diagnosis
-      const errMsg = err?.error?.message ?? err?.message ?? String(err);
-      const errName = err?.error?.name ?? err?.name ?? "UnknownError";
-      console.error("Aid agent stream error:", errName, errMsg);
+  });
+
+  // Manually iterate the text stream so errors are surfaced to the client
+  // instead of silently closing an empty stream (AI SDK v5 toTextStreamResponse
+  // swallows errors, leaving the chat bubble blank).
+  const encoder = new TextEncoder();
+  const body = new ReadableStream({
+    async start(controller) {
+      try {
+        for await (const chunk of result.textStream) {
+          controller.enqueue(encoder.encode(chunk));
+        }
+      } catch (err: any) {
+        const msg = err?.message ?? String(err);
+        console.error("Aid agent stream error:", msg);
+        // Send a visible error so the user knows something went wrong
+        controller.enqueue(
+          encoder.encode("\n\nSorry, I encountered an error generating a response. Please try again.")
+        );
+      } finally {
+        controller.close();
+      }
     },
   });
 
-  const response = result.toTextStreamResponse();
-  response.headers.set("Cache-Control", "no-store");
-
-  // Set guest session cookie if new
-  if (guestSessionId) {
-    response.headers.append(
-      "Set-Cookie",
-      `genie-session=${guestSessionId}; Path=/; HttpOnly; SameSite=Lax; Max-Age=31536000`
-    );
-  }
-
-  return response;
+  return new Response(body, { headers: responseHeaders });
 }
 
 export const maxDuration = 120;

@@ -29,46 +29,52 @@ export async function POST(req: NextRequest) {
   });
   if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
 
-  // Create or reuse Stripe customer
-  let customerId = user.stripeCustomerId;
-  if (!customerId) {
-    const customer = await stripe.customers.create({ email: user.email });
-    customerId = customer.id;
-    await prisma.user.update({
-      where: { id: session.userId },
-      data: { stripeCustomerId: customerId },
-    });
-  }
+  try {
+    // Create or reuse Stripe customer
+    let customerId = user.stripeCustomerId;
+    if (!customerId) {
+      const customer = await stripe.customers.create({ email: user.email });
+      customerId = customer.id;
+      await prisma.user.update({
+        where: { id: session.userId },
+        data: { stripeCustomerId: customerId },
+      });
+    }
 
-  const baseUrl =
-    process.env.NEXT_PUBLIC_APP_URL ||
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
+    const baseUrl =
+      process.env.NEXT_PUBLIC_APP_URL ||
+      (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
 
-  const subscriptionData: Record<string, any> = {
-    metadata: { userId: session.userId, tier: plan.tier },
-  };
-
-  // Add 14-day free trial for Pro plans — no card required upfront
-  if (plan.trialDays > 0) {
-    subscriptionData.trial_period_days = plan.trialDays;
-    subscriptionData.trial_settings = {
-      end_behavior: { missing_payment_method: "cancel" },
+    const subscriptionData: Record<string, any> = {
+      metadata: { userId: session.userId, tier: plan.tier },
     };
+
+    // Add 14-day free trial for Pro plans — no card required upfront
+    if (plan.trialDays > 0) {
+      subscriptionData.trial_period_days = plan.trialDays;
+      subscriptionData.trial_settings = {
+        end_behavior: { missing_payment_method: "cancel" },
+      };
+    }
+
+    const checkoutSession = await stripe.checkout.sessions.create({
+      customer: customerId,
+      payment_method_types: ["card"],
+      line_items: [{ price: plan.priceId, quantity: 1 }],
+      mode: "subscription",
+      // Allow trial without card if trial is offered
+      payment_method_collection: plan.trialDays > 0 ? "if_required" : "always",
+      success_url: `${baseUrl}/account?success=true&plan=${plan.tier.toLowerCase()}`,
+      cancel_url: `${baseUrl}/pricing`,
+      metadata: { userId: session.userId, tier: plan.tier },
+      subscription_data: subscriptionData,
+      allow_promotion_codes: true,
+    });
+
+    return NextResponse.json({ url: checkoutSession.url });
+  } catch (err: any) {
+    const msg = err?.message ?? String(err);
+    console.error("Stripe checkout error:", msg);
+    return NextResponse.json({ error: `Checkout failed: ${msg}` }, { status: 500 });
   }
-
-  const checkoutSession = await stripe.checkout.sessions.create({
-    customer: customerId,
-    payment_method_types: ["card"],
-    line_items: [{ price: plan.priceId, quantity: 1 }],
-    mode: "subscription",
-    // Allow trial without card if trial is offered
-    payment_method_collection: plan.trialDays > 0 ? "if_required" : "always",
-    success_url: `${baseUrl}/account?success=true&plan=${plan.tier.toLowerCase()}`,
-    cancel_url: `${baseUrl}/pricing`,
-    metadata: { userId: session.userId, tier: plan.tier },
-    subscription_data: subscriptionData,
-    allow_promotion_codes: true,
-  });
-
-  return NextResponse.json({ url: checkoutSession.url });
 }
