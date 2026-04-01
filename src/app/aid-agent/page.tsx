@@ -3422,13 +3422,22 @@ export default function AidAgentPage() {
                   </span>
                 </Link>
               ) : (
-                <button
-                  onClick={() => { setAuthDialogMode("signin"); setAuthDialogOpen(true); }}
-                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 shadow-sm"
-                >
-                  <LogIn className="h-3.5 w-3.5 shrink-0" />
-                  <span>Sign In</span>
-                </button>
+                <>
+                  <button
+                    onClick={() => { setAuthDialogMode("signin"); setAuthDialogOpen(true); }}
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 shadow-sm"
+                  >
+                    <LogIn className="h-3.5 w-3.5 shrink-0" />
+                    <span>Sign In</span>
+                  </button>
+                  <Link
+                    href="/account"
+                    className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white/[0.06] ring-1 ring-white/[0.12] text-white/60 hover:text-white hover:bg-white/[0.10] transition-colors text-xs font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+                  >
+                    <UserCircle className="h-3.5 w-3.5 shrink-0" />
+                    <span>Account</span>
+                  </Link>
+                </>
               )}
               <button
                 onClick={() => { setShowMobileRight(!showMobileRight); setShowMobileLeft(false); }}
@@ -3486,7 +3495,7 @@ export default function AidAgentPage() {
                   {[
                     { icon: Award,       text: "Built by a 15-yr FA Professional" },
                     { icon: BookOpen,    text: "34 CFR Parts 600–690 Coverage"    },
-                    { icon: ShieldCheck, text: "Regulations Updated Weekly"       },
+                    { icon: ShieldCheck, text: "Regulations & Resources Updated Weekly" },
                     { icon: Users,       text: "Students, Parents & FA Offices"   },
                   ].map(({ icon: Icon, text }) => (
                     <div key={text} className="flex items-center gap-1.5">
@@ -3916,8 +3925,6 @@ export default function AidAgentPage() {
                   <Link href="/pricing#faq" className="underline underline-offset-2 hover:text-white/40 transition-colors">FAQ</Link>
                   {" · "}
                   <Link href="/about#how-it-works" className="underline underline-offset-2 hover:text-white/40 transition-colors">How it works</Link>
-                  {" · "}
-                  <Link href="/account" className="underline underline-offset-2 hover:text-white/40 transition-colors">Account</Link>
                   {" · "}
                   <Link href="/support" className="underline underline-offset-2 hover:text-white/40 transition-colors">Support Dev</Link>
                   {" · "}
