@@ -67,27 +67,26 @@ export async function POST(req: NextRequest) {
   const liveUpdates = await getLatestUpdatesContext();
   const systemContent = liveUpdates ? `${aidAgentPrompt}\n\n${liveUpdates}` : aidAgentPrompt;
 
-  const allMessages = [
-    {
-      role: "system",
-      content: systemContent,
-      providerOptions: { anthropic: { cacheControl: { type: "ephemeral" } } },
-    },
-    ...messages,
-  ];
+  // Strip non-CoreMessage fields (id, senderRole, attachedFileName, etc.) before
+  // passing to AI SDK — extra fields cause validation failures in AI SDK v5.
+  const coreMessages = messages
+    .filter((m: any) => m.role === "user" || m.role === "assistant")
+    .map((m: any) => ({ role: m.role as "user" | "assistant", content: m.content }));
 
   const model = getLanguageModel();
 
   // No user input is logged or persisted — messages are processed in-memory only.
   const result = streamText({
     model,
-    messages: allMessages,
+    system: systemContent,
+    messages: coreMessages,
     maxOutputTokens: 3000,
     temperature: 0.4,
     onError: (err: any) => {
-      // Log only the error code/type — never the message content — to avoid
-      // capturing user input in Vercel function logs.
-      console.error("Aid agent stream error:", err?.error?.name ?? "UnknownError");
+      // Log full error in Vercel function logs for diagnosis
+      const errMsg = err?.error?.message ?? err?.message ?? String(err);
+      const errName = err?.error?.name ?? err?.name ?? "UnknownError";
+      console.error("Aid agent stream error:", errName, errMsg);
     },
   });
 

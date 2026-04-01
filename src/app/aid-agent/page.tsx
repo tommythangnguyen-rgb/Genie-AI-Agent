@@ -3365,22 +3365,6 @@ export default function AidAgentPage() {
                 General guidance only. Verify with the FSA Handbook and consult legal counsel for institution-specific decisions.
               </p>
             </div>
-            {/* Usage meter — only shown to free/limited users */}
-            {dailyUsage && dailyUsage.limit < 999999 && (
-              <UsageMeter
-                initialUsage={{ used: dailyUsage.used, limit: dailyUsage.limit, tier: userTier }}
-                onLimitReached={() => setShowLimitToast(true)}
-                className="mt-2 mb-1"
-              />
-            )}
-            <div className="flex items-center gap-3 mt-2 flex-wrap">
-              <Link href="/pricing" className="text-[11px] text-indigo-400/60 underline underline-offset-2 hover:text-indigo-300 transition-colors">Plans & Pricing</Link>
-              <Link href="/pricing#faq" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">FAQ</Link>
-              <Link href="/about#how-it-works" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">How it works</Link>
-              <Link href="/account" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">Account</Link>
-              <Link href="/support" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">Support Dev</Link>
-              <Link href="/legal" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">Legal</Link>
-            </div>
           </div>
         </aside>
 
@@ -3417,7 +3401,7 @@ export default function AidAgentPage() {
 
             {/* Center — title */}
             <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center select-none">
-              <h1 className="text-3xl font-black tracking-tight leading-none whitespace-nowrap genie-shimmer-text drop-shadow-lg">
+              <h1 className="text-4xl font-black tracking-tight leading-none whitespace-nowrap genie-shimmer-text drop-shadow-lg">
                 askGenie
               </h1>
               <p className="hidden sm:block text-[10px] text-teal-300/50 font-medium tracking-wide mt-0.5 whitespace-nowrap">Your calm, expert student aid companion</p>
@@ -3906,8 +3890,17 @@ export default function AidAgentPage() {
                 </form>
               </div>
 
+              {/* Daily messages counter — shown to free/limited users */}
+              {dailyUsage && dailyUsage.limit < 999999 && (
+                <UsageMeter
+                  initialUsage={{ used: dailyUsage.used, limit: dailyUsage.limit, tier: userTier }}
+                  onLimitReached={() => setShowLimitToast(true)}
+                  className="mt-2"
+                />
+              )}
+
               {/* Footer hints */}
-              <div className="mt-2.5 flex flex-col items-center gap-0.5">
+              <div className="mt-2 flex flex-col items-center gap-0.5">
                 <p className="text-[10px] text-white/20 text-center tracking-wide">
                   Enter to send · Shift+Enter new line · 📎 Docs · 📷 Photo · 🎙 Voice · Always verify with the FSA Handbook
                 </p>
@@ -3917,7 +3910,19 @@ export default function AidAgentPage() {
                 <p className="text-[10px] text-center text-white/30 italic mt-0.5">
                   Built by a 15-year Student Financial Aid professional. Designed for the people who do this work every day.
                 </p>
-                <p className="text-[10px] text-center text-white/20">
+                <p className="text-[10px] text-center text-white/20 leading-relaxed">
+                  <Link href="/pricing" className="underline underline-offset-2 hover:text-indigo-300 transition-colors">Plans &amp; Pricing</Link>
+                  {" · "}
+                  <Link href="/pricing#faq" className="underline underline-offset-2 hover:text-white/40 transition-colors">FAQ</Link>
+                  {" · "}
+                  <Link href="/about#how-it-works" className="underline underline-offset-2 hover:text-white/40 transition-colors">How it works</Link>
+                  {" · "}
+                  <Link href="/account" className="underline underline-offset-2 hover:text-white/40 transition-colors">Account</Link>
+                  {" · "}
+                  <Link href="/support" className="underline underline-offset-2 hover:text-white/40 transition-colors">Support Dev</Link>
+                  {" · "}
+                  <Link href="/legal" className="underline underline-offset-2 hover:text-white/40 transition-colors">Legal</Link>
+                  {" · "}
                   <Link href="/legal" className="underline underline-offset-2 hover:text-white/40 transition-colors">Terms &amp; Privacy</Link>
                   {" · "}
                   <Link href="/dpa" className="underline underline-offset-2 hover:text-white/40 transition-colors">School DPA</Link>
@@ -4071,16 +4076,6 @@ export default function AidAgentPage() {
 
           </div>
 
-          {/* Right panel footer */}
-          <div className="px-3 pb-3 pt-2 border-t border-white/[0.06] mt-auto shrink-0">
-            <div className="flex items-center gap-3 flex-wrap justify-end">
-              <Link href="/pricing" className="text-[11px] text-indigo-400/60 underline underline-offset-2 hover:text-indigo-300 transition-colors">Plans & Pricing</Link>
-              <Link href="/pricing#faq" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">FAQ</Link>
-              <Link href="/about#how-it-works" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">How it works</Link>
-              <Link href="/account" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">Account</Link>
-              <Link href="/legal" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">Legal</Link>
-            </div>
-          </div>
 
         </aside>
 

@@ -83,9 +83,8 @@ export async function signUp(
     if (msg.includes("Unique constraint") || msg.includes("unique constraint") || msg.includes("P2002")) {
       return { success: false, error: "Email already registered. Try signing in instead." };
     }
-    // In development, return the raw error; in production return sanitized message
-    const detail = process.env.NODE_ENV === "development" ? ` (${msg})` : "";
-    return { success: false, error: `Sign up failed — please try again.${detail}` };
+    // Always surface the raw error so it's diagnosable — scrub it once the root cause is found
+    return { success: false, error: `Sign up failed: ${msg}` };
   }
 }
 
@@ -131,8 +130,7 @@ export async function signIn(
     if (msg.includes("connect") || msg.includes("ECONNREFUSED") || msg.includes("timeout") || msg.includes("Can't reach")) {
       return { success: false, error: "Database connection failed. Please try again in a moment." };
     }
-    const detail = process.env.NODE_ENV === "development" ? ` (${msg})` : "";
-    return { success: false, error: `Sign in failed — please try again.${detail}` };
+    return { success: false, error: `Sign in failed: ${msg}` };
   }
 }
 
