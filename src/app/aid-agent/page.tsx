@@ -3810,8 +3810,8 @@ export default function AidAgentPage() {
             <div className="relative max-w-3xl mx-auto">
               {/* Prompt label row */}
               <div className="flex items-center gap-2 mb-2 px-1">
-                <GenieBottle className="h-3.5 w-3.5 text-indigo-400 shrink-0 genie-icon-shimmer" />
-                <span className="text-sm font-semibold text-indigo-300/80 tracking-wide">
+                <GenieBottle className="h-4 w-4 text-amber-400 shrink-0 genie-icon-shimmer" />
+                <span className="text-sm font-semibold tracking-wide genie-shimmer-text">
                   askGenie
                 </span>
                 <div className="h-px flex-1 bg-white/[0.06]" />
