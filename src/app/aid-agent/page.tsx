@@ -1995,43 +1995,12 @@ function EducationalBackground() {
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
       {/* Deep navy base */}
-      <div className="absolute inset-0 bg-[#071e3d]" />
-      <div className="absolute inset-0" style={{ background: "linear-gradient(145deg, #071e3d 0%, #0a2540 30%, #0d3b52 60%, #082f3e 100%)" }} />
+      <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, #08142e 0%, #0c1d3d 35%, #0a1f3a 65%, #071530 100%)" }} />
+      {/* Subtle indigo depth — top-left and bottom-right */}
+      <div className="absolute -top-64 -left-64 w-[900px] h-[900px] rounded-full blur-[160px]" style={{ background: "radial-gradient(circle, rgba(79,70,229,0.10) 0%, transparent 70%)" }} />
+      <div className="absolute bottom-0 right-0 w-[700px] h-[700px] rounded-full blur-[140px]" style={{ background: "radial-gradient(circle, rgba(67,56,202,0.08) 0%, transparent 70%)" }} />
 
-      {/* Atmospheric orbs — teal + gold glow */}
-      <div className="genie-orb absolute -top-48 -left-48 w-[700px] h-[700px] rounded-full blur-[140px]" style={{ background: "radial-gradient(circle, rgba(0,191,165,0.20) 0%, transparent 70%)", "--dur": "22s", "--delay": "0s" } as React.CSSProperties} />
-      <div className="genie-orb absolute top-1/3 -right-64 w-[600px] h-[600px] rounded-full blur-[120px]" style={{ background: "radial-gradient(circle, rgba(6,182,212,0.16) 0%, transparent 70%)", "--dur": "18s", "--delay": "3s" } as React.CSSProperties} />
-      <div className="genie-orb absolute -bottom-32 left-1/4 w-[500px] h-[500px] rounded-full blur-[110px]" style={{ background: "radial-gradient(circle, rgba(251,191,36,0.12) 0%, transparent 70%)", "--dur": "25s", "--delay": "6s" } as React.CSSProperties} />
-      <div className="genie-orb absolute top-2/3 left-2/3 w-[350px] h-[350px] rounded-full blur-[90px]" style={{ background: "radial-gradient(circle, rgba(0,191,165,0.13) 0%, transparent 70%)", "--dur": "20s", "--delay": "9s" } as React.CSSProperties} />
-      <div className="genie-orb absolute top-1/4 left-1/2 w-[400px] h-[400px] rounded-full blur-[100px]" style={{ background: "radial-gradient(circle, rgba(251,191,36,0.09) 0%, transparent 70%)", "--dur": "28s", "--delay": "4s" } as React.CSSProperties} />
-
-      {/* Floating gold sparkle particles */}
-      {[
-        { top:"8%",  left:"12%", size:5,  dur:"4.2s", delay:"0s"   },
-        { top:"15%", left:"78%", size:4,  dur:"3.5s", delay:"0.8s" },
-        { top:"42%", left:"6%",  size:3,  dur:"5.1s", delay:"1.4s" },
-        { top:"55%", left:"88%", size:6,  dur:"3.8s", delay:"0.3s" },
-        { top:"72%", left:"22%", size:4,  dur:"4.6s", delay:"2.1s" },
-        { top:"80%", left:"65%", size:3,  dur:"3.2s", delay:"1.0s" },
-        { top:"28%", left:"45%", size:5,  dur:"4.9s", delay:"1.7s" },
-        { top:"90%", left:"40%", size:4,  dur:"3.6s", delay:"0.5s" },
-        { top:"62%", left:"55%", size:3,  dur:"5.4s", delay:"2.5s" },
-        { top:"35%", left:"92%", size:5,  dur:"4.1s", delay:"1.2s" },
-      ].map((p, i) => (
-        <div
-          key={i}
-          className="genie-particle"
-          style={{
-            top: p.top, left: p.left,
-            width: p.size, height: p.size,
-            background: i % 3 === 0 ? "#fbbf24" : i % 3 === 1 ? "#5eead4" : "#a5f3fc",
-            boxShadow: i % 3 === 0 ? "0 0 6px 2px rgba(251,191,36,0.7)" : "0 0 6px 2px rgba(0,191,165,0.7)",
-            "--dur": p.dur, "--delay": p.delay,
-          } as React.CSSProperties}
-        />
-      ))}
-
-      {/* SVG: dot grid + educational symbols in teal/gold tones */}
+      {/* SVG: subtle dot grid only */}
       <svg
         className="absolute inset-0 w-full h-full"
         xmlns="http://www.w3.org/2000/svg"
@@ -2039,94 +2008,11 @@ function EducationalBackground() {
         preserveAspectRatio="xMidYMid slice"
       >
         <defs>
-          <pattern id="edu-dots" x="0" y="0" width="48" height="48" patternUnits="userSpaceOnUse">
-            <circle cx="24" cy="24" r="0.9" fill="#5eead4" fillOpacity="0.20" />
-          </pattern>
-          <pattern id="edu-grid" x="0" y="0" width="120" height="120" patternUnits="userSpaceOnUse">
-            <path d="M120 0 L0 0 0 120" fill="none" stroke="#2dd4bf" strokeWidth="0.4" strokeOpacity="0.10" />
+          <pattern id="edu-dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+            <circle cx="20" cy="20" r="0.7" fill="#a5b4fc" fillOpacity="0.12" />
           </pattern>
         </defs>
-
-        <rect width="1440" height="900" fill="url(#edu-grid)" />
         <rect width="1440" height="900" fill="url(#edu-dots)" />
-
-        {/* Academic symbols — teal palette */}
-        <text x="62" y="155" fontSize="96" fill="#5eead4" fillOpacity="0.07" fontFamily="Georgia, 'Times New Roman', serif" fontWeight="400">∑</text>
-        <text x="1280" y="110" fontSize="72" fill="#5eead4" fillOpacity="0.06" fontFamily="Georgia, 'Times New Roman', serif">π</text>
-        <text x="620" y="78" fontSize="60" fill="#a5f3fc" fillOpacity="0.07" fontFamily="Georgia, 'Times New Roman', serif">∫</text>
-        <text x="1380" y="300" fontSize="80" fill="#5eead4" fillOpacity="0.06" fontFamily="Georgia, 'Times New Roman', serif">√</text>
-        <text x="75" y="500" fontSize="68" fill="#a5f3fc" fillOpacity="0.06" fontFamily="Georgia, 'Times New Roman', serif">φ</text>
-        <text x="850" y="520" fontSize="74" fill="#5eead4" fillOpacity="0.07" fontFamily="Georgia, 'Times New Roman', serif">Δ</text>
-        <text x="380" y="798" fontSize="66" fill="#a5f3fc" fillOpacity="0.06" fontFamily="Georgia, 'Times New Roman', serif">∞</text>
-        <text x="240" y="330" fontSize="50" fill="#5eead4" fillOpacity="0.06" fontFamily="Georgia, 'Times New Roman', serif">α</text>
-
-        {/* Financial aid labels — gold tint */}
-        <text x="1330" y="168" fontSize="58" fill="#fbbf24" fillOpacity="0.08" fontFamily="Georgia, serif" fontStyle="italic">$</text>
-        <text x="290" y="198" fontSize="34" fill="#fbbf24" fillOpacity="0.08" fontFamily="'Courier New', monospace" letterSpacing="3">34 CFR</text>
-        <text x="960" y="862" fontSize="30" fill="#fcd34d" fillOpacity="0.07" fontFamily="'Courier New', monospace" letterSpacing="4">FAFSA</text>
-        <text x="100" y="695" fontSize="28" fill="#fbbf24" fillOpacity="0.07" fontFamily="'Courier New', monospace" letterSpacing="3">Title IV</text>
-        <text x="1200" y="660" fontSize="26" fill="#fcd34d" fillOpacity="0.07" fontFamily="'Courier New', monospace" letterSpacing="2">HEA</text>
-
-        {/* Geometric rings — teal */}
-        <circle cx="145" cy="248" r="92" fill="none" stroke="#2dd4bf" strokeOpacity="0.16" strokeWidth="0.8" />
-        <circle cx="1310" cy="580" r="135" fill="none" stroke="#5eead4" strokeOpacity="0.12" strokeWidth="0.8" />
-        <circle cx="720" cy="830" r="68" fill="none" stroke="#2dd4bf" strokeOpacity="0.14" strokeWidth="0.8" />
-        <circle cx="1050" cy="200" r="55" fill="none" stroke="#a5f3fc" strokeOpacity="0.12" strokeWidth="0.8" />
-        <circle cx="420" cy="620" r="44" fill="none" stroke="#5eead4" strokeOpacity="0.11" strokeWidth="0.6" />
-
-        {/* Gold accent rings */}
-        <circle cx="900" cy="140" r="38" fill="none" stroke="#fbbf24" strokeOpacity="0.10" strokeWidth="0.7" />
-        <circle cx="350" cy="750" r="28" fill="none" stroke="#fcd34d" strokeOpacity="0.09" strokeWidth="0.6" />
-
-        {/* Hexagons */}
-        <polygon points="215,52 255,75 255,121 215,144 175,121 175,75" fill="none" stroke="#2dd4bf" strokeOpacity="0.14" strokeWidth="0.8" />
-        <polygon points="1350,640 1378,656 1378,688 1350,704 1322,688 1322,656" fill="none" stroke="#5eead4" strokeOpacity="0.11" strokeWidth="0.7" />
-
-        {/* Diagonal lines */}
-        <line x1="0" y1="0" x2="432" y2="900" stroke="#2dd4bf" strokeOpacity="0.06" strokeWidth="0.8" />
-        <line x1="1440" y1="0" x2="1008" y2="900" stroke="#2dd4bf" strokeOpacity="0.05" strokeWidth="0.8" />
-
-        {/* Constellation dots — teal + gold mix */}
-        <circle cx="504" cy="148" r="2.2" fill="#5eead4" fillOpacity="0.60" />
-        <circle cx="936" cy="198" r="2.5" fill="#fbbf24" fillOpacity="0.55" />
-        <circle cx="288" cy="442" r="2.0" fill="#5eead4" fillOpacity="0.50" />
-        <circle cx="1152" cy="336" r="2.5" fill="#2dd4bf" fillOpacity="0.45" />
-        <circle cx="720" cy="468" r="1.8" fill="#fcd34d" fillOpacity="0.50" />
-        <circle cx="216" cy="756" r="2.2" fill="#5eead4" fillOpacity="0.50" />
-        <circle cx="1224" cy="756" r="2.8" fill="#fbbf24" fillOpacity="0.40" />
-        <circle cx="576" cy="828" r="1.6" fill="#a5f3fc" fillOpacity="0.40" />
-        <circle cx="864" cy="108" r="2.4" fill="#fbbf24" fillOpacity="0.35" />
-        <circle cx="1368" cy="432" r="1.8" fill="#5eead4" fillOpacity="0.35" />
-
-        {/* Constellation lines */}
-        <line x1="504" y1="148" x2="936" y2="198" stroke="#5eead4" strokeOpacity="0.12" strokeWidth="0.6" />
-        <line x1="936" y1="198" x2="1152" y2="336" stroke="#2dd4bf" strokeOpacity="0.10" strokeWidth="0.6" />
-        <line x1="288" y1="442" x2="720" y2="468" stroke="#fbbf24" strokeOpacity="0.09" strokeWidth="0.6" />
-
-        {/* Graduation cap silhouette — top right */}
-        <g transform="translate(1100, 60)" fill="#5eead4" fillOpacity="0.07">
-          <polygon points="60,0 120,30 60,60 0,30" />
-          <rect x="100" y="30" width="5" height="30" />
-          <ellipse cx="60" cy="60" rx="40" ry="15" />
-          <circle cx="105" cy="60" r="6" />
-        </g>
-
-        {/* Genie lamp silhouette — bottom left, now with warm gold */}
-        <g transform="translate(68, 600)" fill="#fbbf24" fillOpacity="0.06">
-          <path d="M102 32C108 22 109 12 103 4C97 12 95 24 102 32Z" />
-          <path d="M60 60C66 47 76 36 88 28L97 36C87 45 79 56 76 66Z" />
-          <ellipse cx="42" cy="56" rx="22" ry="7" />
-          <ellipse cx="42" cy="50" rx="13" ry="5" />
-          <path d="M10 66C2 63 -4 71 -3 80C-2 89 6 93 11 89C4 86 2 77 6 72C9 68 10 66 10 66Z" />
-          <ellipse cx="46" cy="88" rx="46" ry="26" />
-          <path d="M6 92C4 85 6 75 16 67C26 59 36 56 46 56C60 56 74 62 80 70C86 78 85 87 77 94C67 103 52 108 38 108C23 107 9 102 6 92Z" />
-        </g>
-
-        {/* Open book silhouette */}
-        <g transform="translate(1300, 700)" fill="none" stroke="#5eead4" strokeOpacity="0.09" strokeWidth="1.2">
-          <path d="M40,0 Q20,-10 0,0 L0,65 Q20,55 40,65 Q60,55 80,65 L80,0 Q60,-10 40,0 Z" />
-          <line x1="40" y1="0" x2="40" y2="65" />
-        </g>
       </svg>
     </div>
   );
@@ -2807,7 +2693,7 @@ export default function AidAgentPage() {
             <div className="px-7 pb-6">
               <button
                 onClick={handleAccept}
-                className="w-full py-3 rounded-xl bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-600 text-white font-semibold text-sm shadow-lg shadow-indigo-900/40 hover:opacity-90 active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-400"
+                className="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm shadow-md shadow-indigo-900/40 active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-400"
               >
                 I Accept — Continue to Genie
               </button>
@@ -3401,7 +3287,7 @@ export default function AidAgentPage() {
 
             {/* Center — title */}
             <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center select-none">
-              <h1 className="text-4xl font-black tracking-tight leading-none whitespace-nowrap genie-shimmer-text drop-shadow-lg">
+              <h1 className="text-4xl font-black tracking-tight leading-none whitespace-nowrap genie-shimmer-text">
                 askGenie
               </h1>
               <p className="hidden sm:block text-[10px] text-teal-300/50 font-medium tracking-wide mt-0.5 whitespace-nowrap">Your calm, expert student aid companion</p>
@@ -3466,28 +3352,23 @@ export default function AidAgentPage() {
               <div className="flex flex-col items-center px-6 py-12 genie-fade-in-up">
                 {/* Hero badge */}
                 <div className="relative mb-6">
-                  {/* Orbiting sparkles */}
-                  {[0,1,2,3].map(i => (
-                    <div key={i} className="absolute inset-0 flex items-center justify-center pointer-events-none" style={{ transform: `rotate(${i * 90}deg)` }}>
-                      <div className="genie-particle" style={{ top: "-4px", left: "50%", transform: "translateX(-50%)", width: 5, height: 5, background: i % 2 === 0 ? "#fbbf24" : "#5eead4", "--dur": `${2.5 + i * 0.4}s`, "--delay": `${i * 0.6}s` } as React.CSSProperties} />
-                    </div>
-                  ))}
-                  <div className="genie-badge-glow p-5 rounded-3xl ring-2 ring-teal-400/30" style={{ background: "linear-gradient(135deg, #0d9488 0%, #0891b2 50%, #6366f1 100%)" }}>
-                    <GenieBottle className="h-11 w-11 text-white drop-shadow-lg" />
+                  <div className="p-5 rounded-2xl bg-indigo-600 shadow-xl shadow-indigo-900/50 ring-1 ring-indigo-500/40">
+                    <GenieBottle className="h-11 w-11 text-white" />
                   </div>
-                  <div className="absolute -top-1.5 -right-1.5 genie-gold-glow p-1.5 rounded-full bg-gradient-to-br from-amber-400 to-yellow-500 shadow-lg">
-                    <Sparkles className="h-3.5 w-3.5 text-white" />
+                  <div className="absolute -top-1 -right-1 p-1 rounded-full bg-emerald-500 shadow-md ring-2 ring-[#08142e]">
+                    <CheckCircle className="h-3 w-3 text-white" />
                   </div>
                 </div>
 
-                <h2 className="text-2xl font-extrabold tracking-tight text-white mb-2 text-center drop-shadow-sm">
-                  Student Aid HUB. <span className="bg-gradient-to-r from-teal-300 to-cyan-300 bg-clip-text text-transparent">AI Simplified.</span>
+                <h2 className="text-2xl font-bold tracking-tight text-white mb-2 text-center">
+                  Student Aid Hub.{" "}
+                  <span className="bg-gradient-to-r from-indigo-300 to-slate-300 bg-clip-text text-transparent">AI-Powered Guidance.</span>
                 </h2>
-                <p className="text-sm text-white/50 leading-relaxed max-w-lg text-center mb-2">
-                  Your calm, expert companion for FAFSA, award letters &amp; financial aid.
+                <p className="text-sm text-white/55 leading-relaxed max-w-lg text-center mb-2">
+                  Your calm, expert companion for FAFSA, award letters, and financial aid.
                 </p>
-                <p className="text-xs text-teal-400/60 leading-relaxed max-w-md text-center mb-6">
-                  Generate FA offer letters · Run R2T4 calculations · Prep FSA audits · Title IV · SAP · Scholarships &amp; more
+                <p className="text-xs text-white/30 leading-relaxed max-w-md text-center mb-6">
+                  Financial aid offer letters · R2T4 calculations · FSA audits · Title IV · SAP · Scholarships
                 </p>
 
                 {/* ── Trust strip ── */}
@@ -3499,8 +3380,8 @@ export default function AidAgentPage() {
                     { icon: Users,       text: "Students, Parents & FA Offices"   },
                   ].map(({ icon: Icon, text }) => (
                     <div key={text} className="flex items-center gap-1.5">
-                      <Icon className="h-3 w-3 text-teal-400/60 shrink-0" aria-hidden="true" />
-                      <span className="text-[11px] text-white/40">{text}</span>
+                      <Icon className="h-3 w-3 text-indigo-400/70 shrink-0" aria-hidden="true" />
+                      <span className="text-[11px] text-white/45 font-medium">{text}</span>
                     </div>
                   ))}
                 </div>
@@ -3519,13 +3400,13 @@ export default function AidAgentPage() {
                       { n: "3", icon: CheckCircle, title: "Get expert guidance", body: "Plain-English answers with 34 CFR citations, calculations, and printable responses." },
                       { n: "4", icon: Library,     title: "Explore the Hub",     body: "Browse hundreds of curated resources in both side panels — scholarships, jobs, internships, mental health, consumer rights, and more." },
                     ] as const).map(({ n, icon: Icon, title, body }) => (
-                      <div key={n} className="relative flex flex-col gap-2 p-3.5 rounded-xl bg-white/[0.04] ring-1 ring-white/[0.07] backdrop-blur-sm">
-                        <div className="absolute -top-2.5 -left-1 w-5 h-5 rounded-full flex items-center justify-center bg-gradient-to-br from-teal-400 to-cyan-500 shadow-sm shadow-teal-500/40">
-                          <span className="text-[9px] font-black text-white leading-none">{n}</span>
+                      <div key={n} className="relative flex flex-col gap-2 p-3.5 rounded-xl bg-white/[0.04] ring-1 ring-white/[0.08]">
+                        <div className="absolute -top-2.5 -left-1 w-5 h-5 rounded-full flex items-center justify-center bg-indigo-600 shadow-sm">
+                          <span className="text-[9px] font-bold text-white leading-none">{n}</span>
                         </div>
-                        <Icon className="h-4 w-4 text-teal-300/60 mt-0.5" aria-hidden="true" />
+                        <Icon className="h-4 w-4 text-indigo-400/60 mt-0.5" aria-hidden="true" />
                         <p className="text-xs font-semibold text-white/80 leading-tight">{title}</p>
-                        <p className="text-[10px] text-white/35 leading-snug">{body}</p>
+                        <p className="text-[10px] text-white/40 leading-snug">{body}</p>
                       </div>
                     ))}
                   </div>
@@ -3539,10 +3420,10 @@ export default function AidAgentPage() {
                       <button
                         key={role}
                         onClick={() => setActiveActionRole(role)}
-                        className={`px-3 py-1 rounded-full text-xs font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+                        className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
                           activeActionRole === role
-                            ? `${color} bg-white/[0.12] ring-1 ring-white/20 shadow-sm`
-                            : "text-white/40 hover:text-white/65 hover:bg-white/[0.06]"
+                            ? "text-white bg-indigo-600/70 ring-1 ring-indigo-500/50 shadow-sm"
+                            : "text-white/40 hover:text-white/70 hover:bg-white/[0.06]"
                         }`}
                       >
                         {role}
@@ -3557,10 +3438,10 @@ export default function AidAgentPage() {
                         <button
                           key={`${role}-${label}`}
                           onClick={() => sendMessage(q)}
-                          className="flex flex-col gap-2 p-3 rounded-xl bg-white/[0.05] hover:bg-teal-500/[0.10] ring-1 ring-white/[0.09] hover:ring-teal-400/40 text-left transition-all duration-200 group backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 hover:shadow-lg hover:shadow-teal-500/10"
+                          className="flex flex-col gap-2 p-3 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] ring-1 ring-white/[0.08] hover:ring-indigo-500/30 text-left transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
                         >
-                          <div className={`p-1.5 rounded-lg bg-white/[0.07] group-hover:bg-white/[0.12] transition-colors w-fit`}>
-                            <Icon className={`h-3.5 w-3.5 text-white/40 group-hover:${color} transition-colors`} />
+                          <div className="p-1.5 rounded-lg bg-white/[0.06] group-hover:bg-indigo-500/20 transition-colors w-fit">
+                            <Icon className="h-3.5 w-3.5 text-white/40 group-hover:text-indigo-300 transition-colors" />
                           </div>
                           <div className="min-w-0">
                             <p className="text-xs font-semibold text-white/80 group-hover:text-white transition-colors leading-tight">
@@ -3593,8 +3474,8 @@ export default function AidAgentPage() {
                         onClick={() => setActiveRole(role)}
                         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
                           activeRole === role
-                            ? "bg-indigo-600 text-white shadow-lg shadow-indigo-500/30 ring-1 ring-indigo-400/30"
-                            : "bg-white/[0.06] text-white/45 hover:text-white/80 hover:bg-white/[0.10] ring-1 ring-white/[0.07]"
+                            ? "bg-indigo-600 text-white ring-1 ring-indigo-500/40 shadow-md shadow-indigo-900/40"
+                            : "bg-white/[0.05] text-white/45 hover:text-white/75 hover:bg-white/[0.09] ring-1 ring-white/[0.07]"
                         }`}
                       >
                         <Icon className="h-3 w-3" />
@@ -3643,7 +3524,7 @@ export default function AidAgentPage() {
                   >
                     {msg.role === "assistant" && (
                       <div className="shrink-0 mt-1">
-                        <div className="genie-gold-glow p-1.5 rounded-xl ring-1 ring-teal-400/30" style={{ background: "linear-gradient(135deg, #0d9488 0%, #0891b2 60%, #6366f1 100%)" }}>
+                        <div className="p-1.5 rounded-xl bg-indigo-600 shadow-md shadow-indigo-900/40 ring-1 ring-indigo-500/30">
                           <GenieBottle className="h-4 w-4 text-white" />
                         </div>
                       </div>
@@ -3652,13 +3533,9 @@ export default function AidAgentPage() {
                     <div
                       className={`relative ${
                         msg.role === "user"
-                          ? "max-w-[72%] text-white px-4 py-3 rounded-2xl rounded-tr-sm shadow-xl text-sm leading-relaxed ring-1 ring-white/10"
-                          : "max-w-[82%] ring-1 ring-teal-500/[0.18] px-5 py-4 rounded-2xl rounded-tl-sm shadow-lg shadow-teal-900/20"
+                          ? "max-w-[72%] text-white px-4 py-3 rounded-2xl rounded-tr-sm text-sm leading-relaxed ring-1 ring-indigo-500/30 bg-indigo-600 shadow-lg shadow-indigo-900/30"
+                          : "max-w-[82%] ring-1 ring-white/[0.10] px-5 py-4 rounded-2xl rounded-tl-sm bg-white/[0.05]"
                       }`}
-                      style={msg.role === "user"
-                        ? { background: "linear-gradient(135deg, #0d9488 0%, #0891b2 40%, #6366f1 100%)", boxShadow: "0 8px 24px rgba(13,148,136,0.25)" }
-                        : { background: "linear-gradient(145deg, rgba(13,148,136,0.08) 0%, rgba(255,255,255,0.06) 100%)" }
-                      }
                     >
                       {msg.role === "user" ? (
                         <div>
@@ -3681,8 +3558,8 @@ export default function AidAgentPage() {
                       ) : (
                         <div className="relative">
                           <div className="flex items-center gap-1.5 mb-2" aria-label="AI-generated response">
-                            <Sparkles className="h-3 w-3 text-amber-400/80" aria-hidden="true" />
-                            <span className="text-[10px] font-semibold text-teal-300/60 uppercase tracking-widest">Powered by AI · Responses are AI-generated</span>
+                            <Sparkles className="h-3 w-3 text-indigo-400/60" aria-hidden="true" />
+                            <span className="text-[10px] font-medium text-white/30 tracking-wide">AI-generated · Always verify with official sources</span>
                           </div>
                           <MarkdownRenderer
                             content={msg.content}
@@ -3724,17 +3601,13 @@ export default function AidAgentPage() {
                 {/* Typing indicator */}
                 {isLoading && (
                   <div className="flex gap-3 justify-start genie-fade-in-up">
-                    <div className="shrink-0 mt-1 genie-gold-glow p-1.5 rounded-xl ring-1 ring-teal-400/30" style={{ background: "linear-gradient(135deg, #0d9488 0%, #0891b2 60%, #6366f1 100%)" }}>
+                    <div className="shrink-0 mt-1 p-1.5 rounded-xl bg-indigo-600 shadow-md ring-1 ring-indigo-500/30">
                       <GenieBottle className="h-4 w-4 text-white" />
                     </div>
-                    <div className="ring-1 ring-teal-500/[0.18] px-5 py-4 rounded-2xl rounded-tl-sm" style={{ background: "linear-gradient(145deg, rgba(13,148,136,0.08) 0%, rgba(255,255,255,0.06) 100%)" }}>
+                    <div className="ring-1 ring-white/[0.10] px-5 py-4 rounded-2xl rounded-tl-sm bg-white/[0.05]">
                       <div className="flex items-center gap-1.5">
                         {[0, 1, 2].map((i) => (
-                          <span
-                            key={i}
-                            className="genie-typing-dot"
-                            style={{ background: i === 1 ? "#fbbf24" : "#5eead4", animationDelay: `${i * 0.18}s` }}
-                          />
+                          <span key={i} className="genie-typing-dot" />
                         ))}
                       </div>
                     </div>
@@ -3747,18 +3620,16 @@ export default function AidAgentPage() {
           </div>
 
           {/* Input area */}
-          <div className="shrink-0 relative bg-white/[0.05] backdrop-blur-xl border-t border-white/[0.10] px-4 pt-4 pb-5">
-            {/* Ambient glow behind input */}
-            <div className="pointer-events-none absolute inset-x-0 -top-10 h-24 bg-gradient-to-t from-indigo-600/[0.10] via-sky-500/[0.06] to-transparent blur-xl" />
+          <div className="shrink-0 relative bg-white/[0.03] backdrop-blur-xl border-t border-white/[0.08] px-4 pt-4 pb-5">
 
             <div className="relative max-w-3xl mx-auto">
               {/* Prompt label row */}
               <div className="flex items-center gap-2 mb-2 px-1">
-                <Sparkles className="h-4 w-4 text-indigo-300 shrink-0" />
-                <span className="text-base font-black bg-gradient-to-r from-sky-300 via-indigo-200 to-violet-400 bg-clip-text text-transparent tracking-wide">
+                <GenieBottle className="h-3.5 w-3.5 text-indigo-400 shrink-0" />
+                <span className="text-sm font-semibold text-indigo-300/80 tracking-wide">
                   askGenie
                 </span>
-                <div className="h-px flex-1 bg-gradient-to-r from-indigo-500/20 to-transparent" />
+                <div className="h-px flex-1 bg-white/[0.06]" />
                 {messages.length > 0 && (
                   <button
                     onClick={goHome}
@@ -3827,11 +3698,11 @@ export default function AidAgentPage() {
                 </div>
               )}
 
-              {/* Gradient-border form wrapper */}
-              <div className="p-[1px] rounded-2xl bg-gradient-to-r from-sky-500/40 via-indigo-500/50 to-violet-500/40 focus-within:from-sky-400/70 focus-within:via-indigo-400/70 focus-within:to-violet-400/70 transition-all duration-300 shadow-lg shadow-indigo-900/30">
+              {/* Input form */}
+              <div className="rounded-2xl ring-1 ring-white/[0.12] focus-within:ring-indigo-500/50 transition-all duration-200 bg-white/[0.05]">
                 <form
                   onSubmit={handleSubmit}
-                  className="flex gap-2 items-end px-3 py-2.5 rounded-2xl bg-[#0a2a72]/90 backdrop-blur-sm"
+                  className="flex gap-2 items-end px-3 py-2.5"
                 >
                   {/* Upload + mic buttons */}
                   <div className="flex items-center gap-0.5 shrink-0 mb-0.5">
@@ -3890,7 +3761,7 @@ export default function AidAgentPage() {
                     <button
                       type="submit"
                       disabled={(!input.trim() && !attachedFile) || isLoading}
-                      className="shrink-0 mb-0.5 flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-600 hover:from-sky-400 hover:via-indigo-400 hover:to-violet-500 text-white text-xs font-semibold shadow-lg shadow-indigo-600/40 hover:shadow-indigo-500/60 active:scale-95 transition-all duration-150 disabled:opacity-35 disabled:cursor-not-allowed disabled:active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-400"
+                      className="shrink-0 mb-0.5 flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-md shadow-indigo-900/50 active:scale-95 transition-all duration-150 disabled:opacity-35 disabled:cursor-not-allowed disabled:active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-400"
                     >
                       <Send className="h-3.5 w-3.5" />
                       Send
@@ -3911,7 +3782,7 @@ export default function AidAgentPage() {
               {/* Footer hints */}
               <div className="mt-2 flex flex-col items-center gap-0.5">
                 <p className="text-[10px] text-white/20 text-center tracking-wide">
-                  Enter to send · Shift+Enter new line · 📎 Docs · 📷 Photo · 🎙 Voice · Always verify with the FSA Handbook
+                  Enter to send · Shift+Enter for new line · Attach docs, photos, or voice · Always verify with the FSA Handbook
                 </p>
                 <p className="text-[10px] text-center text-white/25">
                   Unofficial reference tool — not affiliated with the U.S. Department of Education
