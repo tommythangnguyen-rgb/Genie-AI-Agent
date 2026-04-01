@@ -8,9 +8,10 @@ import { Label } from "@/components/ui/label";
 
 interface SignInFormProps {
   onSuccess?: () => void;
+  onForgotPassword?: () => void;
 }
 
-export function SignInForm({ onSuccess }: SignInFormProps) {
+export function SignInForm({ onSuccess, onForgotPassword }: SignInFormProps) {
   const { signIn, isLoading } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,7 +24,6 @@ export function SignInForm({ onSuccess }: SignInFormProps) {
     const result = await signIn(email, password);
 
     if (result.success) {
-      // The redirect is handled by the hook
       onSuccess?.();
     } else {
       setError(result.error || "Failed to sign in");
@@ -46,7 +46,16 @@ export function SignInForm({ onSuccess }: SignInFormProps) {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="password">Password</Label>
+        <div className="flex items-center justify-between">
+          <Label htmlFor="password">Password</Label>
+          <button
+            type="button"
+            onClick={onForgotPassword}
+            className="text-xs text-indigo-600 hover:text-indigo-800 transition-colors"
+          >
+            Forgot password?
+          </button>
+        </div>
         <Input
           id="password"
           type="password"

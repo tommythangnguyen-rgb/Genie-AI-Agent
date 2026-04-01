@@ -41,6 +41,10 @@ model User {
   dailyQuestionCount   Int       @default(0)
   dailyQuestionResetAt DateTime?
 
+  // Password reset
+  passwordResetToken  String?   @unique
+  passwordResetExpiry DateTime?
+
   // Multi-seat accounts (max 3 users per paid account)
   accountOwnerId String?
   accountOwner   User?   @relation("AccountMembers", fields: [accountOwnerId], references: [id])
