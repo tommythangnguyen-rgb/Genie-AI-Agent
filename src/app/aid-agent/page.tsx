@@ -2002,16 +2002,16 @@ function EducationalBackground({ isDark = true }: { isDark?: boolean }) {
   ];
 
   if (!isDark) {
-    // Bright mode — old teal/gold/cosmic theme
+    // Bright mode — professional omni blue
     return (
       <div className="fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
-        {/* Deep ocean base */}
-        <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, #041e2c 0%, #073347 35%, #062e42 65%, #031825 100%)" }} />
+        {/* Pure royal blue base — no green/teal component */}
+        <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, #0d1f45 0%, #152d6b 35%, #122660 65%, #0a1840 100%)" }} />
 
-        {/* Cyan + gold atmospheric orbs */}
+        {/* Blue + gold atmospheric orbs */}
         <div
           className="genie-orb absolute -top-64 -left-64 w-[900px] h-[900px] rounded-full blur-[160px]"
-          style={{ background: "radial-gradient(circle, rgba(6,182,212,0.20) 0%, rgba(14,165,233,0.08) 50%, transparent 70%)", "--orb-dur": "16s" } as React.CSSProperties}
+          style={{ background: "radial-gradient(circle, rgba(59,130,246,0.22) 0%, rgba(37,99,235,0.09) 50%, transparent 70%)", "--orb-dur": "16s" } as React.CSSProperties}
         />
         <div
           className="genie-orb absolute bottom-0 right-0 w-[700px] h-[700px] rounded-full blur-[140px]"
@@ -2019,14 +2019,14 @@ function EducationalBackground({ isDark = true }: { isDark?: boolean }) {
         />
         <div
           className="genie-orb absolute top-1/3 right-1/4 w-[500px] h-[500px] rounded-full blur-[120px]"
-          style={{ background: "radial-gradient(circle, rgba(6,182,212,0.10) 0%, transparent 65%)", "--orb-dur": "24s" } as React.CSSProperties}
+          style={{ background: "radial-gradient(circle, rgba(96,165,250,0.12) 0%, transparent 65%)", "--orb-dur": "24s" } as React.CSSProperties}
         />
         <div
           className="genie-orb absolute top-1/2 left-1/3 w-[400px] h-[400px] rounded-full blur-[110px]"
           style={{ background: "radial-gradient(circle, rgba(251,191,36,0.10) 0%, transparent 65%)", "--orb-dur": "18s" } as React.CSSProperties}
         />
 
-        {/* Gold sparkle particles */}
+        {/* Gold + blue sparkle particles */}
         {[
           { top: "12%", left: "18%", size: 5, dur: "3.0s", delay: "0s" },
           { top: "70%", left: "10%", size: 3, dur: "4.2s", delay: "0.6s" },
@@ -2045,24 +2045,106 @@ function EducationalBackground({ isDark = true }: { isDark?: boolean }) {
               width: p.size, height: p.size,
               background: i % 2 === 0
                 ? "radial-gradient(circle, rgba(251,191,36,0.95) 0%, rgba(245,158,11,0.5) 100%)"
-                : "radial-gradient(circle, rgba(34,211,238,0.90) 0%, rgba(6,182,212,0.4) 100%)",
+                : "radial-gradient(circle, rgba(147,197,253,0.92) 0%, rgba(96,165,250,0.45) 100%)",
               boxShadow: i % 2 === 0
-                ? "0 0 7px 2px rgba(251,191,36,0.40)"
-                : "0 0 7px 2px rgba(34,211,238,0.35)",
+                ? "0 0 7px 2px rgba(251,191,36,0.42)"
+                : "0 0 7px 2px rgba(147,197,253,0.38)",
               "--p-dur": p.dur,
               animationDelay: p.delay,
             } as React.CSSProperties}
           />
         ))}
 
-        {/* SVG: teal dot grid */}
+        {/* SVG: educational background — dot grid + constellations + academic symbols */}
         <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
           <defs>
-            <pattern id="edu-dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-              <circle cx="20" cy="20" r="0.7" fill="#22d3ee" fillOpacity="0.16" />
+            <pattern id="edu-dots-b" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+              <circle cx="20" cy="20" r="0.7" fill="#93c5fd" fillOpacity="0.18" />
             </pattern>
           </defs>
-          <rect width="1440" height="900" fill="url(#edu-dots)" />
+          <rect width="1440" height="900" fill="url(#edu-dots-b)" />
+
+          {/* Constellation cluster — top left */}
+          <g stroke="#93c5fd" strokeOpacity="0.18" strokeWidth="0.8" fill="none">
+            <line x1="160" y1="80"  x2="230" y2="130" />
+            <line x1="230" y1="130" x2="310" y2="105" />
+            <line x1="310" y1="105" x2="370" y2="160" />
+            <line x1="370" y1="160" x2="420" y2="120" />
+            <line x1="230" y1="130" x2="280" y2="190" />
+          </g>
+          <g fill="#bfdbfe" fillOpacity="0.35">
+            <circle cx="160" cy="80"  r="1.8" /><circle cx="230" cy="130" r="2.4" />
+            <circle cx="310" cy="105" r="1.6" /><circle cx="370" cy="160" r="2.0" />
+            <circle cx="420" cy="120" r="1.4" /><circle cx="280" cy="190" r="1.6" />
+          </g>
+
+          {/* Constellation cluster — top right */}
+          <g stroke="#93c5fd" strokeOpacity="0.18" strokeWidth="0.8" fill="none">
+            <line x1="1060" y1="60"  x2="1140" y2="100" />
+            <line x1="1140" y1="100" x2="1210" y2="70"  />
+            <line x1="1210" y1="70"  x2="1280" y2="130" />
+            <line x1="1140" y1="100" x2="1170" y2="175" />
+            <line x1="1280" y1="130" x2="1320" y2="80"  />
+          </g>
+          <g fill="#bfdbfe" fillOpacity="0.35">
+            <circle cx="1060" cy="60"  r="1.6" /><circle cx="1140" cy="100" r="2.2" />
+            <circle cx="1210" cy="70"  r="1.8" /><circle cx="1280" cy="130" r="2.0" />
+            <circle cx="1170" cy="175" r="1.4" /><circle cx="1320" cy="80"  r="1.6" />
+          </g>
+
+          {/* Constellation cluster — bottom left */}
+          <g stroke="#93c5fd" strokeOpacity="0.18" strokeWidth="0.8" fill="none">
+            <line x1="100" y1="620" x2="175" y2="680" />
+            <line x1="175" y1="680" x2="250" y2="645" />
+            <line x1="250" y1="645" x2="310" y2="710" />
+            <line x1="175" y1="680" x2="160" y2="760" />
+          </g>
+          <g fill="#bfdbfe" fillOpacity="0.35">
+            <circle cx="100" cy="620" r="1.6" /><circle cx="175" cy="680" r="2.2" />
+            <circle cx="250" cy="645" r="1.8" /><circle cx="310" cy="710" r="1.4" />
+            <circle cx="160" cy="760" r="1.6" />
+          </g>
+
+          {/* Constellation cluster — bottom right */}
+          <g stroke="#93c5fd" strokeOpacity="0.18" strokeWidth="0.8" fill="none">
+            <line x1="1100" y1="700" x2="1180" y2="740" />
+            <line x1="1180" y1="740" x2="1260" y2="710" />
+            <line x1="1260" y1="710" x2="1330" y2="770" />
+            <line x1="1180" y1="740" x2="1200" y2="820" />
+          </g>
+          <g fill="#bfdbfe" fillOpacity="0.35">
+            <circle cx="1100" cy="700" r="1.6" /><circle cx="1180" cy="740" r="2.0" />
+            <circle cx="1260" cy="710" r="1.8" /><circle cx="1330" cy="770" r="1.4" />
+            <circle cx="1200" cy="820" r="1.6" />
+          </g>
+
+          {/* Scattered star points */}
+          <g fill="#bfdbfe" fillOpacity="0.28">
+            <circle cx="520"  cy="140" r="1.4" /><circle cx="680"  cy="55"  r="1.6" />
+            <circle cx="840"  cy="180" r="1.2" /><circle cx="960"  cy="90"  r="1.8" />
+            <circle cx="440"  cy="400" r="1.4" /><circle cx="750"  cy="520" r="1.6" />
+            <circle cx="1010" cy="430" r="1.2" /><circle cx="580"  cy="750" r="1.4" />
+            <circle cx="880"  cy="800" r="1.6" /><circle cx="640"  cy="310" r="1.2" />
+          </g>
+
+          {/* Graduation cap — faint watermark, center */}
+          <g transform="translate(680, 390)" stroke="#93c5fd" strokeOpacity="0.09" strokeWidth="1.2" fill="none">
+            {/* Board top */}
+            <polygon points="0,-28 40,-14 0,0 -40,-14" />
+            {/* Brim base */}
+            <ellipse cx="0" cy="-14" rx="40" ry="8" />
+            {/* Tassel stem */}
+            <line x1="40" y1="-14" x2="40" y2="12" />
+            <line x1="40" y1="12"  x2="36" y2="24" />
+            <line x1="40" y1="12"  x2="44" y2="24" />
+          </g>
+
+          {/* Open book — faint watermark, bottom center */}
+          <g transform="translate(700, 760)" stroke="#93c5fd" strokeOpacity="0.08" strokeWidth="1.2" fill="none">
+            <path d="M0,0 C-30,-8 -60,-8 -70,-4 L-70,30 C-60,26 -30,26 0,18" />
+            <path d="M0,0 C 30,-8  60,-8  70,-4 L 70,30 C 60,26  30,26  0,18" />
+            <line x1="0" y1="0" x2="0" y2="18" />
+          </g>
         </svg>
       </div>
     );
