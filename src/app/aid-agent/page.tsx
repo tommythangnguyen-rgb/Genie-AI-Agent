@@ -3,6 +3,9 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { MarkdownRenderer } from "@/components/chat/MarkdownRenderer";
+import { UsageMeter, LimitToast } from "@/components/usage-meter";
+import { UpgradeModal, useUpgradeModal } from "@/components/upgrade-modal";
+import { canAccessFeature } from "@/lib/feature-gates";
 import {
   Send,
   BookOpen,
@@ -2155,10 +2158,22 @@ export default function AidAgentPage() {
   const [isRecording, setIsRecording] = useState(false);
   const [voiceTranscript, setVoiceTranscript] = useState("");
   const recognitionRef = useRef<any>(null);
+  const [userTier, setUserTier] = useState<string>("FREE");
+  const [dailyUsage, setDailyUsage] = useState<{ used: number; limit: number } | null>(null);
+  const [showLimitToast, setShowLimitToast] = useState(false);
+  const { upgradeState, openUpgrade, closeUpgrade } = useUpgradeModal();
 
   useEffect(() => {
     if (localStorage.getItem("genie-terms-accepted")) setShowDisclaimer(false);
     if (!localStorage.getItem("genie-cookie-accepted")) setShowCookieNotice(true);
+    // Fetch tier + usage for feature gating and usage meter
+    fetch("/api/user/usage")
+      .then((r) => r.json())
+      .then((d) => {
+        setUserTier(d.tier ?? "FREE");
+        setDailyUsage({ used: d.used ?? 0, limit: d.limit ?? 10 });
+      })
+      .catch(() => {});
   }, []);
 
   const handleAccept = () => {
@@ -2338,10 +2353,12 @@ export default function AidAgentPage() {
             id: assistantId,
             role: "assistant",
             content: isGuest
-              ? "You've used your free preview question. **[Create a free account](/account)** to get 3 questions per day, or **[upgrade](/pricing)** for unlimited access."
-              : `You've reached your daily question limit (${data.limit ?? 3}/day). Your limit resets tomorrow. **[Upgrade your plan](/pricing)** for more questions.`,
+              ? "You've used your free preview question. **[Create a free account](/aid-agent)** to get 10 questions per day, or **[upgrade to Pro](/pricing)** for unlimited access."
+              : `You've reached your daily limit (${data.limit ?? 10} messages/day). Resets at midnight. **[Upgrade to Pro](/pricing)** for unlimited conversations.`,
           },
         ]);
+        setDailyUsage((prev) => prev ? { ...prev, used: prev.limit } : null);
+        setShowLimitToast(true);
         return;
       }
 
@@ -3339,6 +3356,14 @@ export default function AidAgentPage() {
                 General guidance only. Verify with the FSA Handbook and consult legal counsel for institution-specific decisions.
               </p>
             </div>
+            {/* Usage meter — only shown to free/limited users */}
+            {dailyUsage && dailyUsage.limit < 999999 && (
+              <UsageMeter
+                initialUsage={{ used: dailyUsage.used, limit: dailyUsage.limit, tier: userTier }}
+                onLimitReached={() => setShowLimitToast(true)}
+                className="mt-2 mb-1"
+              />
+            )}
             <div className="flex items-center gap-3 mt-2 flex-wrap">
               <Link href="/pricing" className="text-[11px] text-indigo-400/60 underline underline-offset-2 hover:text-indigo-300 transition-colors">Plans & Pricing</Link>
               <Link href="/pricing#faq" className="text-[11px] text-white/20 underline underline-offset-2 hover:text-white/40 transition-colors">FAQ</Link>
@@ -3794,23 +3819,25 @@ export default function AidAgentPage() {
                 >
                   {/* Upload + mic buttons */}
                   <div className="flex items-center gap-0.5 shrink-0 mb-0.5">
-                    <button type="button" title="Upload document (.pdf, .txt, .doc, .csv)"
-                      onClick={() => fileInputRef.current?.click()}
-                      className="p-1.5 rounded-lg text-white/35 hover:text-indigo-300 hover:bg-indigo-500/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
+                    <button type="button" title={canAccessFeature("document_upload", userTier) ? "Upload document (.pdf, .txt, .doc, .csv)" : "Pro — upload documents"}
+                      onClick={() => canAccessFeature("document_upload", userTier) ? fileInputRef.current?.click() : openUpgrade("document_upload")}
+                      className={`p-1.5 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${canAccessFeature("document_upload", userTier) ? "text-white/35 hover:text-indigo-300 hover:bg-indigo-500/20" : "text-white/20 hover:text-violet-400 hover:bg-violet-500/15"}`}>
                       <Paperclip className="h-4 w-4" />
                     </button>
-                    <button type="button" title="Take or upload a photo for context"
-                      onClick={() => cameraInputRef.current?.click()}
-                      className="p-1.5 rounded-lg text-white/35 hover:text-indigo-300 hover:bg-indigo-500/20 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
+                    <button type="button" title={canAccessFeature("document_upload", userTier) ? "Take or upload a photo for context" : "Pro — upload photos"}
+                      onClick={() => canAccessFeature("document_upload", userTier) ? cameraInputRef.current?.click() : openUpgrade("document_upload")}
+                      className={`p-1.5 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${canAccessFeature("document_upload", userTier) ? "text-white/35 hover:text-indigo-300 hover:bg-indigo-500/20" : "text-white/20 hover:text-violet-400 hover:bg-violet-500/15"}`}>
                       <Camera className="h-4 w-4" />
                     </button>
                     <button type="button"
-                      title={isRecording ? "Stop recording" : "Record voice message"}
-                      onClick={isRecording ? stopVoiceRecording : startVoiceRecording}
+                      title={!canAccessFeature("document_upload", userTier) ? "Pro — voice messages" : isRecording ? "Stop recording" : "Record voice message"}
+                      onClick={!canAccessFeature("document_upload", userTier) ? () => openUpgrade("document_upload") : isRecording ? stopVoiceRecording : startVoiceRecording}
                       className={`p-1.5 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
                         isRecording
                           ? "text-rose-400 bg-rose-500/20 animate-pulse"
-                          : "text-white/35 hover:text-indigo-300 hover:bg-indigo-500/20"
+                          : canAccessFeature("document_upload", userTier)
+                          ? "text-white/35 hover:text-indigo-300 hover:bg-indigo-500/20"
+                          : "text-white/20 hover:text-violet-400 hover:bg-violet-500/15"
                       }`}>
                       {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
                     </button>
@@ -4058,6 +4085,24 @@ export default function AidAgentPage() {
             </button>
           </div>
         </div>
+      )}
+
+      {/* Limit toast — fires when daily cap is hit */}
+      {showLimitToast && dailyUsage && (
+        <LimitToast
+          used={dailyUsage.used}
+          limit={dailyUsage.limit}
+          onUpgrade={() => { setShowLimitToast(false); openUpgrade("limit_reached"); }}
+          onDismiss={() => setShowLimitToast(false)}
+        />
+      )}
+
+      {/* Upgrade modal — triggered by Pro-gated features or limit */}
+      {upgradeState.open && (
+        <UpgradeModal
+          feature={upgradeState.feature}
+          onClose={closeUpgrade}
+        />
       )}
     </>
   );
