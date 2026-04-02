@@ -51,7 +51,6 @@ import {
   LogIn,
   UserCircle,
   RotateCcw,
-  Menu,
 } from "lucide-react";
 
 // ─── Genie Bottle Logo ────────────────────────────────────────────────────────
@@ -3554,14 +3553,14 @@ export default function AidAgentPage() {
 
           {/* Header */}
           <header className="relative shrink-0 border-b border-teal-500/[0.15] backdrop-blur-xl px-5 py-3 flex items-center justify-between" style={{ background: "linear-gradient(90deg, rgba(7,30,61,0.92) 0%, rgba(10,37,64,0.95) 50%, rgba(7,30,61,0.92) 100%)" }}>
-            {/* Left — theme toggle + home + mobile left-panel toggle */}
+            {/* Left — mobile left-panel toggle (graduation cap) + home + theme toggle */}
             <div className="flex items-center gap-1.5 w-40">
               <button
-                onClick={() => setIsDark(!isDark)}
-                title={isDark ? "Switch to bright mode" : "Switch to dark mode"}
-                className="p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+                onClick={() => { setShowMobileLeft(!showMobileLeft); setShowMobileRight(false); }}
+                title="Students & Parents panel"
+                className="lg:hidden p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
               >
-                {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                {showMobileLeft ? <X className="h-4 w-4" /> : <GraduationCap className="h-4 w-4" />}
               </button>
               <button
                 onClick={goHome}
@@ -3572,11 +3571,11 @@ export default function AidAgentPage() {
                 <span className="hidden sm:inline">Home</span>
               </button>
               <button
-                onClick={() => { setShowMobileLeft(!showMobileLeft); setShowMobileRight(false); }}
-                title="Students & Parents panel"
-                className="lg:hidden p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+                onClick={() => setIsDark(!isDark)}
+                title={isDark ? "Switch to bright mode" : "Switch to dark mode"}
+                className="p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
               >
-                {showMobileLeft ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+                {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
               </button>
             </div>
 
