@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { MarkdownRenderer } from "@/components/chat/MarkdownRenderer";
+import { AppInstallPrompt } from "@/components/AppInstallPrompt";
 import { UsageMeter, LimitToast } from "@/components/usage-meter";
 import { UpgradeModal, useUpgradeModal } from "@/components/upgrade-modal";
 import { canAccessFeature } from "@/lib/feature-gates";
@@ -4263,6 +4264,9 @@ export default function AidAgentPage() {
         onOpenChange={setAuthDialogOpen}
         defaultMode={authDialogMode}
       />
+
+      {/* PWA install prompt — shows once per day if not installed */}
+      <AppInstallPrompt />
     </>
   );
 }
