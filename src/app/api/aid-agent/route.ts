@@ -1,4 +1,5 @@
 import { streamText } from "ai";
+import { gateway } from "@ai-sdk/gateway";
 import { getLanguageModel } from "@/lib/provider";
 import { aidAgentPrompt } from "@/lib/prompts/aid-agent";
 import { getLatestUpdatesContext } from "@/lib/regulation-fetcher";
@@ -7,6 +8,11 @@ import { prisma } from "@/lib/prisma";
 import { checkAndIncrementUserLimit, checkAndIncrementGuestLimit } from "@/lib/rate-limit";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
+
+const perplexitySearchTool = gateway.tools.perplexitySearch({
+  maxResults: 6,
+  searchRecencyFilter: "month",
+});
 
 /** Race a promise against a timeout; returns undefined if it loses. */
 function withTimeout<T>(p: Promise<T>, ms: number): Promise<T | undefined> {
@@ -88,6 +94,11 @@ export async function POST(req: NextRequest) {
     messages: coreMessages,
     maxOutputTokens: 3000,
     temperature: 0.4,
+    tools: {
+      perplexity_search: perplexitySearchTool,
+    },
+    maxSteps: 5,
+    toolChoice: "auto",
   });
 
   // Use fullStream so API errors (bad key, quota, etc.) appear as error-type
