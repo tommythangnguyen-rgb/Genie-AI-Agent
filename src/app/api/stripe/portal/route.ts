@@ -18,6 +18,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "No subscription found" }, { status: 400 });
   }
 
+  // Verify the customer exists in the current Stripe mode
+  try {
+    await stripe.customers.retrieve(user.stripeCustomerId);
+  } catch (err: any) {
+    if (err?.code === "resource_missing") {
+      return NextResponse.json({ error: "No active subscription found. Please subscribe first." }, { status: 400 });
+    }
+    throw err;
+  }
+
   const baseUrl =
     process.env.NEXT_PUBLIC_APP_URL ||
     (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");

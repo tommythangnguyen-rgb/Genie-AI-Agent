@@ -30,8 +30,20 @@ export async function POST(req: NextRequest) {
   if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
 
   try {
-    // Create or reuse Stripe customer
+    // Create or reuse Stripe customer.
+    // If the stored ID belongs to the wrong mode (test vs live), create a fresh one.
     let customerId = user.stripeCustomerId;
+    if (customerId) {
+      try {
+        await stripe.customers.retrieve(customerId);
+      } catch (err: any) {
+        if (err?.code === "resource_missing") {
+          customerId = null; // stale test-mode ID — will create a new live-mode customer below
+        } else {
+          throw err;
+        }
+      }
+    }
     if (!customerId) {
       const customer = await stripe.customers.create({ email: user.email });
       customerId = customer.id;
