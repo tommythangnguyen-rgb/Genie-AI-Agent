@@ -3553,7 +3553,7 @@ export default function AidAgentPage() {
         <main className="flex flex-1 flex-col min-w-0 min-h-0" aria-label="askGenie AI Assistant">
 
           {/* Header */}
-          <header className="relative shrink-0 border-b border-teal-500/[0.15] backdrop-blur-xl px-5 py-3 flex items-center justify-between" style={{ background: "linear-gradient(90deg, rgba(7,30,61,0.92) 0%, rgba(10,37,64,0.95) 50%, rgba(7,30,61,0.92) 100%)" }}>
+          <header className="sticky top-0 z-30 shrink-0 border-b border-teal-500/[0.15] backdrop-blur-xl px-5 py-3 flex items-center justify-between" style={{ background: "linear-gradient(90deg, rgba(7,30,61,0.92) 0%, rgba(10,37,64,0.95) 50%, rgba(7,30,61,0.92) 100%)" }}>
             {/* Left — mobile left-panel toggle (graduation cap) + home + theme toggle */}
             <div className="flex items-center gap-1.5 w-40">
               <button
