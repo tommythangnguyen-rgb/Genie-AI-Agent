@@ -212,6 +212,8 @@ const QUICK_ACTIONS_BY_ROLE = [
       { icon: Users, label: "Independent Student Status", description: "Criteria under FAFSA Simplification", q: "What makes a student independent for FAFSA purposes, and what changed under FAFSA Simplification? Can I appeal my dependency status if my parents won't help pay?" },
       { icon: Award, label: "State Grant Programs", description: "By state of residence", q: "What state grant and scholarship programs are available for students in my state? I'm a resident of California — what state aid can I receive beyond federal Pell?" },
       { icon: DollarSign, label: "Loan Forgiveness Programs", description: "All forgiveness options for 2025", q: "Beyond PSLF, what other student loan forgiveness programs exist in 2025? Include teacher loan forgiveness, nurse corps, state programs, and income-driven forgiveness timelines." },
+      { icon: Users, label: "Volunteer Opportunities", description: "Search engines & service programs", q: "I want to find meaningful volunteer opportunities as a college student. What are the best volunteer search platforms and national service programs? Are there any that offer scholarships or education awards, like AmeriCorps? How does volunteer work affect financial aid or qualify me for PSLF?" },
+      { icon: Award, label: "AmeriCorps & Service Awards", description: "Education awards through service", q: "How does the AmeriCorps Segal Education Award work? What service programs qualify, how much is the award, and how is it treated on the FAFSA? Which AmeriCorps programs are best for college students — VISTA, NCCC, or State/National?" },
     ],
   },
   {
@@ -239,6 +241,7 @@ const QUICK_ACTIONS_BY_ROLE = [
       { icon: BookOpen, label: "Net Price Calculator", description: "What to expect before applying", q: "How accurate are college net price calculators, and what factors do they typically not account for? Help me interpret a specific school's net price calculator result." },
       { icon: Scale, label: "Medical Expenses Appeal", description: "Impact on family contribution", q: "We have high medical bills that aren't reflected in our FAFSA. Can these be used to adjust our SAI through a financial aid appeal, and how do we document this?" },
       { icon: TrendingUp, label: "Income-Driven PLUS Repayment", description: "ICR plan for PLUS borrowers", q: "What repayment options are available for Parent PLUS Loans? I've heard only Income-Contingent Repayment is available — explain how ICR works and the PLUS loan consolidation strategy." },
+      { icon: Users, label: "Volunteer Opportunities for Students", description: "Service programs & education awards", q: "What volunteer programs and national service opportunities should my child consider in college? Are there programs that offer scholarships or education awards, like AmeriCorps? How can community service strengthen college applications and career prospects?" },
     ],
   },
   {
@@ -1239,6 +1242,61 @@ const RESUME_ASSISTANCE_MORE: MaybeSubcat[] = [
   { name: "Glassdoor Resume Tips", url: "https://www.glassdoor.com/blog/guide/how-to-write-a-resume" },
   { name: "Vault Career Guides", url: "https://www.vault.com" },
   { name: "Career Karma (Bootcamp/Tech)", url: "https://careerkarma.com" },
+];
+
+const VOLUNTEER_SEARCH: MaybeSubcat[] = [
+  { subcat: "Top Platforms" },
+  { name: "VolunteerMatch — Find Local Volunteer Opps", url: "https://www.volunteermatch.org" },
+  { name: "Idealist — Nonprofits & Volunteer", url: "https://www.idealist.org" },
+  { name: "AmeriCorps — National Service Programs", url: "https://americorps.gov" },
+  { name: "All for Good — Volunteer Search", url: "https://allforgood.org" },
+  { name: "Points of Light — Volunteer Network", url: "https://www.pointsoflight.org/volunteer" },
+  { name: "JustServe — Faith-Inclusive Volunteer", url: "https://www.justserve.org" },
+  { name: "United Way Volunteer", url: "https://www.unitedway.org/get-involved/volunteer" },
+  { name: "DoSomething.org — Youth Causes", url: "https://www.dosomething.org" },
+  { name: "Catchafire — Skills-Based Volunteering", url: "https://www.catchafire.org" },
+  { name: "Serve.gov — National Service Directory", url: "https://serve.gov" },
+];
+const VOLUNTEER_SEARCH_MORE: MaybeSubcat[] = [
+  { subcat: "National Service & Education Awards" },
+  { name: "AmeriCorps VISTA — Anti-Poverty Service", url: "https://americorps.gov/serve/americorps/americorps-vista" },
+  { name: "AmeriCorps NCCC — Team Service", url: "https://americorps.gov/serve/americorps/americorps-nccc" },
+  { name: "Peace Corps — International Service", url: "https://www.peacecorps.gov" },
+  { name: "Senior Corps — Older Adult Service", url: "https://americorps.gov/serve/what-acf-does/senior-corps" },
+  { name: "City Year — Urban Education Service", url: "https://www.cityyear.org" },
+  { name: "Teach For America", url: "https://www.teachforamerica.org" },
+  { name: "AmeriCorps Segal Education Award", url: "https://americorps.gov/members-volunteers/segal-americorps-education-award" },
+  { subcat: "Skills-Based & Virtual" },
+  { name: "Catchafire — Pro Bono Skills Match", url: "https://www.catchafire.org" },
+  { name: "Taproot Foundation — Pro Bono Service", url: "https://www.taprootfoundation.org" },
+  { name: "Zooniverse — Online Research Volunteering", url: "https://www.zooniverse.org" },
+  { name: "Be My Eyes — Help Visually Impaired (App)", url: "https://www.bemyeyes.com" },
+  { name: "Crisis Text Line — Volunteer Crisis Counselor", url: "https://www.crisistextline.org/volunteer" },
+  { name: "United Nations Online Volunteers", url: "https://www.onlinevolunteering.org" },
+  { name: "Sparked — Micro-Volunteering Platform", url: "https://www.sparked.com" },
+  { subcat: "Community & Faith-Based" },
+  { name: "Habitat for Humanity — Build Homes", url: "https://www.habitat.org/volunteer" },
+  { name: "Red Cross Volunteer", url: "https://www.redcross.org/volunteer/become-a-volunteer.html" },
+  { name: "Feeding America — Food Banks", url: "https://www.feedingamerica.org/take-action/volunteer" },
+  { name: "Catholic Charities Volunteer", url: "https://www.catholiccharitiesusa.org/find-help" },
+  { name: "Jewish Federations — Volunteer", url: "https://jewishfederations.org" },
+  { name: "Islamic Relief USA — Volunteer", url: "https://irusa.org/volunteer" },
+  { name: "HandsOn Network — Local Volunteer Centers", url: "https://www.pointsoflight.org/handsonnetwork" },
+  { subcat: "Environmental & Science" },
+  { name: "Sierra Club Volunteer Opportunities", url: "https://www.sierraclub.org/volunteer" },
+  { name: "National Park Service Volunteers", url: "https://www.nps.gov/getinvolved/volunteer.htm" },
+  { name: "SciStarter — Citizen Science Projects", url: "https://scistarter.org" },
+  { name: "NOAA Volunteer Programs", url: "https://www.noaa.gov/volunteer" },
+  { subcat: "Student & Campus Specific" },
+  { name: "Campus Compact — College Civic Engagement", url: "https://compact.org" },
+  { name: "National Youth Leadership Council (NYLC)", url: "https://www.nylc.org" },
+  { name: "CIRCLE — Youth Civic Engagement Data", url: "https://circle.tufts.edu" },
+  { name: "Generate Change — Student Service", url: "https://www.generatechange.org" },
+  { name: "Key Club International — High School Service", url: "https://www.keyclub.org" },
+  { subcat: "Scholarships Through Service" },
+  { name: "AmeriCorps Education Award — FAFSA Treatment", url: "https://americorps.gov/members-volunteers/segal-americorps-education-award" },
+  { name: "AARP Create the Good — Community Service", url: "https://createthegood.aarp.org" },
+  { name: "FEMA Community Emergency Response Teams (CERT)", url: "https://community.fema.gov/PreparednessCommunity/s/cert" },
 ];
 
 const AI_LITERACY: MaybeSubcat[] = [
@@ -3106,6 +3164,46 @@ export default function AidAgentPage() {
                       </div>
                       <button onClick={() => toggleSection("internships")}
                         className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-teal-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
+                        <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
+                        {showMore ? "Show less" : `View more`}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+
+            {/* ── Volunteer & Community Service ── */}
+            {(() => {
+              const isOpen = expandedSections.has("sec-volunteer");
+              const showMore = expandedSections.has("volunteer");
+              const list = showMore ? [...VOLUNTEER_SEARCH, ...VOLUNTEER_SEARCH_MORE] : VOLUNTEER_SEARCH;
+              return (
+                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                  <button onClick={() => toggleSection("sec-volunteer")}
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Volunteer &amp; Community Service</span>
+                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                  </button>
+                  {isOpen && (
+                    <div className="px-1.5 pb-2">
+                      <div className="space-y-0.5">
+                        {list.map((item, idx) => {
+                          if (isSubcat(item)) {
+                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                          }
+                          return (
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                              title={item.name}
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-violet-500/20 ring-1 ring-transparent hover:ring-violet-500/20 transition-all duration-150 group">
+                              <span>{item.name}</span>
+                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-violet-400 shrink-0" />
+                            </a>
+                          );
+                        })}
+                      </div>
+                      <button onClick={() => toggleSection("volunteer")}
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-violet-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
                         <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
                         {showMore ? "Show less" : `View more`}
                       </button>
