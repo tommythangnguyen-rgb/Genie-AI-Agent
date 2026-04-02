@@ -121,19 +121,11 @@ export function BackgroundMusic() {
     });
   }, []);
 
-  // Restore volume on mount; auto-start on first user interaction
+  // Restore volume on mount
   useEffect(() => {
     const savedVol = parseFloat(localStorage.getItem(VOL_KEY) ?? "0.15");
     setVolume(isNaN(savedVol) ? 0.15 : Math.min(1, Math.max(0, savedVol)));
     setVisible(true);
-
-    const tryAutoStart = () => setIsPlaying(p => p ? p : true);
-    window.addEventListener("pointerdown", tryAutoStart, { once: true });
-    window.addEventListener("keydown", tryAutoStart, { once: true });
-    return () => {
-      window.removeEventListener("pointerdown", tryAutoStart);
-      window.removeEventListener("keydown", tryAutoStart);
-    };
   }, []);
 
   // Sync volume/mute to audio element
