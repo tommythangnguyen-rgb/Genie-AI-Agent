@@ -3,6 +3,13 @@ import type { NextRequest } from "next/server";
 import { verifySession } from "@/lib/auth";
 
 export async function middleware(request: NextRequest) {
+  // Redirect genie127.com root (and www) to /aid-agent
+  const hostname = request.headers.get("host") ?? "";
+  const isGeniedomain = hostname === "genie127.com" || hostname === "www.genie127.com";
+  if (isGeniedomain && request.nextUrl.pathname === "/") {
+    return NextResponse.redirect(new URL("/aid-agent", request.url));
+  }
+
   const session = await verifySession(request);
 
   // Protected routes that require authentication
