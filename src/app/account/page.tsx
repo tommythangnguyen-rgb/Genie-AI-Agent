@@ -441,7 +441,7 @@ function AccountPageInner() {
         <div className="pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-center sm:text-left">
             <p className="text-xs text-white/25">
-              © 2026 askGenie Financial Aid Hub | Developed by One27 | All Rights Reserved
+              © 2026 askGenie Student Aid Hub | Developed by One27 | All Rights Reserved
             </p>
           </div>
           <div className="flex items-center gap-2">

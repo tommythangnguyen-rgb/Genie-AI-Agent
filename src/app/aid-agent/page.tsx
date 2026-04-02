@@ -2841,7 +2841,7 @@ export default function AidAgentPage() {
         <div class="letterhead-icon">🎓</div>
         <div>
           <div class="letterhead-title">askGenie</div>
-          <div class="letterhead-sub">Financial Aid Hub &nbsp;·&nbsp; AI-Powered Guidance</div>
+          <div class="letterhead-sub">Student Aid Hub &nbsp;·&nbsp; AI-Powered Guidance</div>
         </div>
       </div>
       <div class="letterhead-date">
@@ -2911,7 +2911,7 @@ export default function AidAgentPage() {
                 <GenieBottle className="h-5 w-5 text-white" />
               </div>
               <div>
-                <h2 id="disclaimer-title" className="text-base font-bold text-white leading-tight">askGenie — Financial Aid Hub</h2>
+                <h2 id="disclaimer-title" className="text-base font-bold text-white leading-tight">askGenie — Student Aid Hub</h2>
                 <p className="text-xs text-white/75 mt-0.5">Developed by a 15-year Financial Aid Professional</p>
               </div>
             </div>
@@ -4172,7 +4172,7 @@ export default function AidAgentPage() {
                   <Link href="/legal#ccpa" className="underline underline-offset-2 hover:text-white/40 transition-colors">Do Not Sell My Info</Link>
                 </p>
                 <p className="text-[10px] text-center text-white/15 mt-0.5">
-                  © 2026 askGenie Financial Aid Hub | Developed by One27 | All Rights Reserved
+                  © 2026 askGenie Student Aid Hub | Developed by One27 | All Rights Reserved
                 </p>
               </div>
             </div>

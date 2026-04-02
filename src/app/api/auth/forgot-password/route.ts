@@ -62,7 +62,7 @@ export async function POST(req: NextRequest) {
         </p>
         <p style="color:#6b7280;font-size:13px">This link expires in <strong>1 hour</strong>. If you didn't request a reset, ignore this email — your password won't change.</p>
         <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0">
-        <p style="color:#9ca3af;font-size:12px">askGenie Financial Aid Hub · elementone27@gmail.com</p>
+        <p style="color:#9ca3af;font-size:12px">askGenie Student Aid Hub · elementone27@gmail.com</p>
       </div>
     `,
   }).catch((err) => {

@@ -16,7 +16,7 @@ const DPA_SECTIONS = [
   {
     n: "1",
     title: "Parties",
-    body: "This Data Processing Agreement (\"Agreement\") is entered into between the educational institution identified in the applicable Order Form or service enrollment (\"Institution\" or \"School\") and askGenie Financial Aid Hub, developed by One27 (\"Service Provider\"). This Agreement governs the processing of personal data in connection with the Institution's use of the Genie AI financial aid assistant service (\"Service\").",
+    body: "This Data Processing Agreement (\"Agreement\") is entered into between the educational institution identified in the applicable Order Form or service enrollment (\"Institution\" or \"School\") and askGenie Student Aid Hub, developed by One27 (\"Service Provider\"). This Agreement governs the processing of personal data in connection with the Institution's use of the Genie AI financial aid assistant service (\"Service\").",
   },
   {
     n: "2",
@@ -81,7 +81,7 @@ const DPA_SECTIONS = [
   {
     n: "14",
     title: "Execution",
-    body: "This Agreement is a sample template provided for institutional review. Institutions should review this template with their legal counsel before executing any data processing agreement. To execute a signed DPA with askGenie Financial Aid Hub, contact: elementone27@gmail.com. This template does not constitute a legally binding agreement until signed by authorized representatives of both parties.",
+    body: "This Agreement is a sample template provided for institutional review. Institutions should review this template with their legal counsel before executing any data processing agreement. To execute a signed DPA with askGenie Student Aid Hub, contact: elementone27@gmail.com. This template does not constitute a legally binding agreement until signed by authorized representatives of both parties.",
   },
 ];
 
@@ -161,7 +161,7 @@ export default function DpaPage() {
         {/* Footer */}
         <div className="mt-12 pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-center sm:text-left">
-            <p className="text-xs text-white/25">© 2026 askGenie Financial Aid Hub | Developed by One27 | All Rights Reserved</p>
+            <p className="text-xs text-white/25">© 2026 askGenie Student Aid Hub | Developed by One27 | All Rights Reserved</p>
             <p className="text-xs text-white/20 mt-0.5">Unofficial reference tool — not affiliated with the U.S. Department of Education</p>
           </div>
           <div className="flex items-center gap-2">

@@ -47,7 +47,7 @@ const TERMS_SECTIONS = [
   {
     n: "7",
     title: "Intellectual Property",
-    body: "All content, design, code, branding, and materials on this platform are the exclusive intellectual property of askGenie Financial Aid Hub, developed by One27. Unauthorized reproduction, distribution, or commercial use without express written permission is strictly prohibited under U.S. copyright law (17 U.S.C. § 101 et seq.).\n\nAI-generated responses do not constitute original works owned by the user. The platform, its design, prompts, and systems remain the exclusive property of One27.\n\naskGenie Financial Aid Hub is an independent product. Use of federal regulatory references including 34 CFR, HEA, and the FSA Handbook is for informational purposes only and does not imply endorsement by the U.S. Department of Education or any federal agency.",
+    body: "All content, design, code, branding, and materials on this platform are the exclusive intellectual property of askGenie Student Aid Hub, developed by One27. Unauthorized reproduction, distribution, or commercial use without express written permission is strictly prohibited under U.S. copyright law (17 U.S.C. § 101 et seq.).\n\nAI-generated responses do not constitute original works owned by the user. The platform, its design, prompts, and systems remain the exclusive property of One27.\n\naskGenie Student Aid Hub is an independent product. Use of federal regulatory references including 34 CFR, HEA, and the FSA Handbook is for informational purposes only and does not imply endorsement by the U.S. Department of Education or any federal agency.",
   },
   {
     n: "8",
@@ -135,7 +135,7 @@ const PRIVACY_SECTIONS = [
   {
     n: "12",
     title: "Contact",
-    body: "askGenie Financial Aid Hub\nDeveloped by One27\nEmail: elementone27@gmail.com\nWebsite: https://genie127.com\n\nUnofficial reference tool — not affiliated with the U.S. Department of Education.",
+    body: "askGenie Student Aid Hub\nDeveloped by One27\nEmail: elementone27@gmail.com\nWebsite: https://genie127.com\n\nUnofficial reference tool — not affiliated with the U.S. Department of Education.",
   },
 ];
 
@@ -230,7 +230,7 @@ export default function LegalPage() {
         {/* Footer */}
         <div className="mt-12 pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-center sm:text-left">
-            <p className="text-xs text-white/25">© 2026 askGenie Financial Aid Hub | Developed by One27 | All Rights Reserved</p>
+            <p className="text-xs text-white/25">© 2026 askGenie Student Aid Hub | Developed by One27 | All Rights Reserved</p>
             <p className="text-xs text-white/20 mt-0.5">Unofficial reference tool — not affiliated with the U.S. Department of Education</p>
           </div>
           <Link
