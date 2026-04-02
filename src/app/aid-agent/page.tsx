@@ -4160,8 +4160,6 @@ export default function AidAgentPage() {
                   {" · "}
                   <Link href="/pricing#faq" className="underline underline-offset-2 hover:text-white/40 transition-colors">FAQ</Link>
                   {" · "}
-                  <Link href="/about#how-it-works" className="underline underline-offset-2 hover:text-white/40 transition-colors">How it works</Link>
-                  {" · "}
                   <Link href="/support" className="underline underline-offset-2 hover:text-white/40 transition-colors">Support Dev</Link>
                   {" · "}
                   <Link href="/legal" className="underline underline-offset-2 hover:text-white/40 transition-colors">Legal</Link>

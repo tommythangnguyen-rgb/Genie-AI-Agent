@@ -90,12 +90,26 @@ export function BackgroundMusic() {
   const [volume, setVolume] = useState(0.15);
   const [visible, setVisible] = useState(false);
 
-  // Restore prefs on mount
+  // Restore prefs on mount; auto-start on first user interaction
   useEffect(() => {
     const savedVol = parseFloat(localStorage.getItem(VOL_KEY) ?? "0.15");
     setVolume(isNaN(savedVol) ? 0.15 : Math.min(1, Math.max(0, savedVol)));
-    // Don't auto-restore playing state — browser blocks autoplay without gesture
     setVisible(true);
+
+    const tryAutoStart = () => {
+      setIsPlaying(p => {
+        if (!p) return true;
+        return p;
+      });
+      window.removeEventListener("pointerdown", tryAutoStart);
+      window.removeEventListener("keydown", tryAutoStart);
+    };
+    window.addEventListener("pointerdown", tryAutoStart, { once: true });
+    window.addEventListener("keydown", tryAutoStart, { once: true });
+    return () => {
+      window.removeEventListener("pointerdown", tryAutoStart);
+      window.removeEventListener("keydown", tryAutoStart);
+    };
   }, []);
 
   // Sync volume/mute to audio element
