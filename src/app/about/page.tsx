@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Home, ChevronRight, Users, Target, Lightbulb, BookOpen, Mail, Building2, GraduationCap, ShieldCheck, CheckCircle, Sparkles, Heart, Paperclip, RotateCcw } from "lucide-react";
+import { Home, ChevronRight, Users, Target, Lightbulb, BookOpen, Mail, Building2, GraduationCap, ShieldCheck, CheckCircle, Sparkles, Heart } from "lucide-react";
 
 function GenieBottle({ className }: { className?: string }) {
   return (
@@ -70,99 +70,6 @@ export default function AboutPage() {
             <GenieBottle className="h-4 w-4" />
             Try askGenie — It&apos;s Free
           </Link>
-        </section>
-
-        {/* How it works */}
-        <section id="how-it-works" className="mb-12">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/[0.08]" />
-            <span className="text-[11px] font-bold uppercase tracking-widest text-white/30 px-2">How it works</span>
-            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/[0.08]" />
-          </div>
-          <p className="text-center text-xs text-white/35 mb-6 tracking-wide">Jump in from any step — the workflow adapts to you</p>
-
-          {/* Mobile: 2×2 grid */}
-          <div className="sm:hidden relative grid grid-cols-2 gap-3">
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-              <div className="flex flex-col items-center gap-1 rounded-full bg-[#071035] ring-1 ring-indigo-500/30 px-3 py-2">
-                <RotateCcw className="h-3.5 w-3.5 text-indigo-400" />
-                <span className="text-[8px] font-bold uppercase tracking-widest text-white/30 leading-none text-center">start<br/>anywhere</span>
-              </div>
-            </div>
-            {([
-              { icon: Sparkles,    title: "Choose your role",  body: "Student, Parent, Admin, Leader, or Auditor — answers adapt to your context." },
-              { icon: Paperclip,   title: "Ask or upload",     body: "Type a question, upload a document, or pick a quick-start prompt." },
-              { icon: BookOpen,    title: "Explore the Hub",   body: "Browse curated scholarships, jobs, consumer rights, and more." },
-              { icon: CheckCircle, title: "Get some guidance", body: "Plain-English answers with regulation citations and calculations." },
-            ] as const).map(({ icon: Icon, title, body }) => (
-              <div key={title} className="flex flex-col gap-2.5 p-4 rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.08]">
-                <Icon className="h-4 w-4 text-teal-300/70" aria-hidden="true" />
-                <p className="text-xs font-semibold text-white/90 leading-tight">{title}</p>
-                <p className="text-[11px] text-white/50 leading-relaxed">{body}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Desktop: circular workflow */}
-          <div className="hidden sm:block relative mx-auto" style={{ maxWidth: 600 }}>
-            <div className="relative w-full" style={{ paddingBottom: "92%" }}>
-              {/* Connecting arrows */}
-              <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 600 552" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <marker id="cw-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
-                    <path d="M 0.5,0.5 L 6.5,3.5 L 0.5,6.5 z" fill="rgba(99,102,241,0.55)" />
-                  </marker>
-                </defs>
-                {/* Top → Right */}
-                <path d="M 383,75 C 460,75 490,140 490,212" stroke="rgba(99,102,241,0.35)" strokeWidth="1.5" strokeDasharray="5 4" markerEnd="url(#cw-arrow)" />
-                {/* Right → Bottom */}
-                <path d="M 490,338 C 490,420 450,477 378,477" stroke="rgba(99,102,241,0.35)" strokeWidth="1.5" strokeDasharray="5 4" markerEnd="url(#cw-arrow)" />
-                {/* Bottom → Left */}
-                <path d="M 222,477 C 150,477 110,420 110,338" stroke="rgba(99,102,241,0.35)" strokeWidth="1.5" strokeDasharray="5 4" markerEnd="url(#cw-arrow)" />
-                {/* Left → Top */}
-                <path d="M 110,212 C 110,130 150,75 222,75" stroke="rgba(99,102,241,0.35)" strokeWidth="1.5" strokeDasharray="5 4" markerEnd="url(#cw-arrow)" />
-              </svg>
-
-              {/* Top: Choose your role */}
-              <div className="absolute flex flex-col gap-2.5 p-4 rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.08]"
-                   style={{ left: "35.8%", top: "0.9%", width: "28.3%" }}>
-                <Sparkles className="h-5 w-5 text-teal-300/70" aria-hidden="true" />
-                <p className="text-sm font-semibold text-white/90 leading-tight">Choose your role</p>
-                <p className="text-xs text-white/55 leading-relaxed">Student, Parent, Admin, Leader, or Auditor — answers adapt to your context.</p>
-              </div>
-
-              {/* Right: Ask or upload */}
-              <div className="absolute flex flex-col gap-2.5 p-4 rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.08]"
-                   style={{ left: "67.5%", top: "37.1%", width: "28.3%" }}>
-                <Paperclip className="h-5 w-5 text-teal-300/70" aria-hidden="true" />
-                <p className="text-sm font-semibold text-white/90 leading-tight">Ask or upload</p>
-                <p className="text-xs text-white/55 leading-relaxed">Type a question, upload a document, or pick a quick-start prompt.</p>
-              </div>
-
-              {/* Bottom: Get some guidance */}
-              <div className="absolute flex flex-col gap-2.5 p-4 rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.08]"
-                   style={{ left: "35.8%", top: "73.7%", width: "28.3%" }}>
-                <CheckCircle className="h-5 w-5 text-teal-300/70" aria-hidden="true" />
-                <p className="text-sm font-semibold text-white/90 leading-tight">Get some guidance</p>
-                <p className="text-xs text-white/55 leading-relaxed">Plain-English answers with regulation citations and step-by-step calculations.</p>
-              </div>
-
-              {/* Left: Explore the Hub */}
-              <div className="absolute flex flex-col gap-2.5 p-4 rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.08]"
-                   style={{ left: "4.2%", top: "37.1%", width: "28.3%" }}>
-                <BookOpen className="h-5 w-5 text-teal-300/70" aria-hidden="true" />
-                <p className="text-sm font-semibold text-white/90 leading-tight">Explore the Hub</p>
-                <p className="text-xs text-white/55 leading-relaxed">Browse curated scholarships, jobs, consumer rights, and more. Updated every 3 days.</p>
-              </div>
-
-              {/* Center badge */}
-              <div className="absolute flex flex-col items-center gap-1.5 rounded-2xl bg-white/[0.06] ring-1 ring-indigo-500/20 px-3 py-3 z-10"
-                   style={{ left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}>
-                <RotateCcw className="h-4 w-4 text-indigo-400" />
-                <p className="text-[9px] font-bold uppercase tracking-widest text-white/35 text-center leading-tight">start<br/>anywhere</p>
-              </div>
-            </div>
-          </div>
         </section>
 
         {/* Origin Story */}
