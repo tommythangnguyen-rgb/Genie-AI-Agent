@@ -4156,23 +4156,23 @@ export default function AidAgentPage() {
                   Built by a 15-year Student Financial Aid professional. Designed for the people who do this work every day.
                 </p>
                 <p className="text-[10px] text-center text-white/20 leading-relaxed">
-                  <Link href="/pricing" className="underline underline-offset-2 hover:text-indigo-300 transition-colors">Plans &amp; Pricing</Link>
+                  <Link href="/pricing" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-indigo-300 transition-colors">Plans &amp; Pricing</Link>
                   {" · "}
-                  <Link href="/pricing#faq" className="underline underline-offset-2 hover:text-white/40 transition-colors">FAQ</Link>
+                  <Link href="/pricing#faq" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white/40 transition-colors">FAQ</Link>
                   {" · "}
-                  <Link href="/support" className="underline underline-offset-2 hover:text-white/40 transition-colors">Support Dev</Link>
+                  <Link href="/support" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white/40 transition-colors">Support Dev</Link>
                   {" · "}
-                  <Link href="/legal" className="underline underline-offset-2 hover:text-white/40 transition-colors">Legal</Link>
+                  <Link href="/legal" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white/40 transition-colors">Legal</Link>
                   {" · "}
-                  <Link href="/legal" className="underline underline-offset-2 hover:text-white/40 transition-colors">Terms &amp; Privacy</Link>
+                  <Link href="/legal" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white/40 transition-colors">Terms &amp; Privacy</Link>
                   {" · "}
-                  <Link href="/dpa" className="underline underline-offset-2 hover:text-white/40 transition-colors">School DPA</Link>
+                  <Link href="/dpa" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white/40 transition-colors">School DPA</Link>
                   {" · "}
-                  <Link href="/about" className="underline underline-offset-2 hover:text-white/40 transition-colors">About</Link>
+                  <Link href="/about" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white/40 transition-colors">About</Link>
                   {" · "}
-                  <Link href="/institutions" className="underline underline-offset-2 hover:text-white/40 transition-colors">For Schools</Link>
+                  <Link href="/institutions" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white/40 transition-colors">For Schools</Link>
                   {" · "}
-                  <Link href="/legal#ccpa" className="underline underline-offset-2 hover:text-white/40 transition-colors">Do Not Sell My Info</Link>
+                  <Link href="/legal#ccpa" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white/40 transition-colors">Do Not Sell My Info</Link>
                 </p>
                 <div className="flex justify-center mt-2 mb-1">
                   <BackgroundMusic />
@@ -4334,9 +4334,9 @@ export default function AidAgentPage() {
               <p className="text-xs text-white/70 leading-relaxed">
                 Genie uses essential session cookies only. We do not sell or share your personal information.
                 See our{" "}
-                <Link href="/legal" className="underline underline-offset-2 text-indigo-400 hover:text-indigo-300 transition-colors">Privacy Policy</Link>
+                <Link href="/legal" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 text-indigo-400 hover:text-indigo-300 transition-colors">Privacy Policy</Link>
                 {" "}for details.{" "}
-                <Link href="/legal#ccpa" className="underline underline-offset-2 text-indigo-400/70 hover:text-indigo-300 transition-colors">Do Not Sell My Personal Information</Link>.
+                <Link href="/legal#ccpa" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 text-indigo-400/70 hover:text-indigo-300 transition-colors">Do Not Sell My Personal Information</Link>.
               </p>
             </div>
             <button
