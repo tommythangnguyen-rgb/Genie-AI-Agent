@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     description:
       "Instant AI guidance on FAFSA, Title IV, R2T4, FSA audits, and more. Built by a 15-year financial aid professional for students, parents & FA offices.",
     type: "website",
-    url: process.env.NEXT_PUBLIC_APP_URL ?? "https://uigen-dusky-eight.vercel.app",
+    url: process.env.NEXT_PUBLIC_APP_URL ?? "https://genie127.com",
     siteName: "askGenie",
   },
   twitter: {

@@ -135,7 +135,7 @@ const PRIVACY_SECTIONS = [
   {
     n: "12",
     title: "Contact",
-    body: "askGenie Financial Aid Hub\nDeveloped by One27\nEmail: elementone27@gmail.com\nWebsite: https://uigen-dusky-eight.vercel.app\n\nUnofficial reference tool — not affiliated with the U.S. Department of Education.",
+    body: "askGenie Financial Aid Hub\nDeveloped by One27\nEmail: elementone27@gmail.com\nWebsite: https://genie127.com\n\nUnofficial reference tool — not affiliated with the U.S. Department of Education.",
   },
 ];
 
