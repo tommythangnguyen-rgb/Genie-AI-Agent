@@ -4,7 +4,6 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { MarkdownRenderer } from "@/components/chat/MarkdownRenderer";
 import { AppInstallPrompt } from "@/components/AppInstallPrompt";
-import { BackgroundMusic } from "@/components/BackgroundMusic";
 import { UsageMeter, LimitToast } from "@/components/usage-meter";
 import { UpgradeModal, useUpgradeModal } from "@/components/upgrade-modal";
 import { canAccessFeature } from "@/lib/feature-gates";
@@ -4174,9 +4173,6 @@ export default function AidAgentPage() {
                   {" · "}
                   <Link href="/legal#ccpa" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white/40 transition-colors">Do Not Sell My Info</Link>
                 </p>
-                <div className="flex justify-center mt-2 mb-1">
-                  <BackgroundMusic />
-                </div>
                 <p className="text-[10px] text-center text-white/15 mt-0.5">
                   © 2026 askGenie Student Aid Hub | Developed by One27 | All Rights Reserved
                 </p>

@@ -2,8 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 
-const PREF_KEY = "genie-music-playing";
-const VOL_KEY  = "genie-music-volume";
+const VOL_KEY = "genie-music-volume";
 
 const PLAYLIST = [
   {
@@ -32,6 +31,15 @@ const PLAYLIST = [
     src: "https://upload.wikimedia.org/wikipedia/commons/8/8f/Fur_Elise.ogg",
   },
 ];
+
+function shuffleArray(arr: number[]): number[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
 // ── tiny icons ────────────────────────────────────────────────────────────────
 function PlayIcon() {
@@ -84,26 +92,42 @@ function VolumeIcon() {
 
 export function BackgroundMusic() {
   const audioRef = useRef<HTMLAudioElement>(null);
-  const [trackIdx, setTrackIdx] = useState(0);
+  // Shuffle queue: array of playlist indices in random order
+  const [queue, setQueue] = useState<number[]>(() => shuffleArray(PLAYLIST.map((_, i) => i)));
+  const [queuePos, setQueuePos] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [muted, setMuted] = useState(false);
   const [volume, setVolume] = useState(0.15);
   const [visible, setVisible] = useState(false);
 
-  // Restore prefs on mount; auto-start on first user interaction
+  const trackIdx = queue[queuePos];
+  const track = PLAYLIST[trackIdx];
+
+  // Advance to next shuffled track; reshuffle when queue exhausted
+  const advanceQueue = useCallback(() => {
+    setQueuePos(pos => {
+      const next = pos + 1;
+      if (next < PLAYLIST.length) return next;
+      // Reshuffle for the next round, avoiding repeating the last track
+      setQueue(prev => {
+        const reshuffled = shuffleArray(PLAYLIST.map((_, i) => i));
+        if (reshuffled[0] === prev[prev.length - 1]) {
+          // Swap first and last to avoid immediate repeat
+          [reshuffled[0], reshuffled[reshuffled.length - 1]] = [reshuffled[reshuffled.length - 1], reshuffled[0]];
+        }
+        return reshuffled;
+      });
+      return 0;
+    });
+  }, []);
+
+  // Restore volume on mount; auto-start on first user interaction
   useEffect(() => {
     const savedVol = parseFloat(localStorage.getItem(VOL_KEY) ?? "0.15");
     setVolume(isNaN(savedVol) ? 0.15 : Math.min(1, Math.max(0, savedVol)));
     setVisible(true);
 
-    const tryAutoStart = () => {
-      setIsPlaying(p => {
-        if (!p) return true;
-        return p;
-      });
-      window.removeEventListener("pointerdown", tryAutoStart);
-      window.removeEventListener("keydown", tryAutoStart);
-    };
+    const tryAutoStart = () => setIsPlaying(p => p ? p : true);
     window.addEventListener("pointerdown", tryAutoStart, { once: true });
     window.addEventListener("keydown", tryAutoStart, { once: true });
     return () => {
@@ -128,13 +152,7 @@ export function BackgroundMusic() {
     } else {
       el.pause();
     }
-    localStorage.setItem(PREF_KEY, isPlaying ? "1" : "0");
   }, [isPlaying]);
-
-  // Advance to next track when current ends
-  const handleEnded = useCallback(() => {
-    setTrackIdx(i => (i + 1) % PLAYLIST.length);
-  }, []);
 
   // Reload src when track changes; resume if playing
   useEffect(() => {
@@ -145,7 +163,7 @@ export function BackgroundMusic() {
   }, [trackIdx]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const togglePlay = () => setIsPlaying(p => !p);
-  const skipNext   = () => setTrackIdx(i => (i + 1) % PLAYLIST.length);
+  const skipNext   = () => advanceQueue();
   const toggleMute = () => setMuted(m => !m);
 
   const handleVolume = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -155,25 +173,25 @@ export function BackgroundMusic() {
     localStorage.setItem(VOL_KEY, String(v));
   };
 
-  const track = PLAYLIST[trackIdx];
-
   if (!visible) return null;
 
   return (
     <>
       <audio
         ref={audioRef}
-        onEnded={handleEnded}
+        onEnded={advanceQueue}
         preload="none"
         crossOrigin="anonymous"
       >
         <source src={track.src} type="audio/ogg" />
       </audio>
 
-      {/* Player pill */}
-      <div className="flex items-center gap-2 px-2.5 py-1.5 rounded-full bg-white/[0.05] ring-1 ring-white/[0.08] hover:bg-white/[0.08] transition-colors select-none">
+      {/* Fixed floating player pill — bottom center, above everything */}
+      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] flex items-center gap-2 px-2.5 py-1.5 rounded-full select-none"
+        style={{ background: "rgba(7,16,50,0.82)", backdropFilter: "blur(12px)", boxShadow: "0 2px 16px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.07)" }}
+      >
         {/* Music note */}
-        <span className={`text-white/30 transition-colors ${isPlaying ? "text-indigo-400/70 animate-pulse" : ""}`}>
+        <span className={`transition-colors ${isPlaying ? "text-indigo-400/70 animate-pulse" : "text-white/30"}`}>
           <MusicNoteIcon />
         </span>
 
@@ -195,7 +213,7 @@ export function BackgroundMusic() {
         {/* Skip */}
         <button
           onClick={skipNext}
-          title="Next track"
+          title="Next track (shuffle)"
           className="p-1 rounded-full text-white/30 hover:text-white hover:bg-white/[0.10] transition-colors focus-visible:outline-none"
         >
           <SkipIcon />
