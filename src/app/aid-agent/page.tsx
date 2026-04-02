@@ -3640,11 +3640,16 @@ export default function AidAgentPage() {
               /* ── Welcome state ── */
               <div className="flex flex-col items-center px-6 py-12 genie-fade-in-up">
                 {/* Hero badge */}
-                <div className="relative mb-6">
-                  <div className="p-5 rounded-2xl bg-indigo-600 shadow-xl shadow-indigo-900/50 ring-1 ring-indigo-500/40">
-                    <GenieBottle className="h-11 w-11 text-white genie-icon-shimmer" />
+                <div className="relative mb-8 flex items-center justify-center" style={{width: 88, height: 88}}>
+                  {/* Expanding halo rings */}
+                  <div className="genie-halo" />
+                  <div className="genie-halo-2" />
+                  {/* Bottle container */}
+                  <div className="relative p-5 rounded-2xl genie-bottle-container-alive ring-1 ring-indigo-400/40 z-10">
+                    <GenieBottle className="h-11 w-11 text-amber-100 genie-bottle-alive" />
                   </div>
-                  <div className="absolute -top-1 -right-1 p-1 rounded-full bg-emerald-500 shadow-md ring-2 ring-[#08142e]">
+                  {/* Online badge */}
+                  <div className="absolute -top-1 -right-1 p-1 rounded-full bg-emerald-500 shadow-md ring-2 ring-[#08142e] z-20">
                     <CheckCircle className="h-3 w-3 text-white" />
                   </div>
                 </div>

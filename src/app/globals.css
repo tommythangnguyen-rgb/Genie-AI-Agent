@@ -173,6 +173,83 @@
   50%       { filter: drop-shadow(0 0 8px rgba(251,191,36,0.85)) brightness(1.35); }
 }
 
+/* ── Welcome-state bottle: alive animations ── */
+@keyframes genie-bottle-float {
+  0%, 100% { transform: translateY(0px);  }
+  50%       { transform: translateY(-7px); }
+}
+
+@keyframes genie-bottle-radiance {
+  0%, 100% {
+    filter:
+      drop-shadow(0 0 4px  rgba(251,191,36,0.25))
+      drop-shadow(0 0 10px rgba(167,139,250,0.30))
+      brightness(1.05);
+  }
+  50% {
+    filter:
+      drop-shadow(0 0 14px rgba(251,191,36,0.95))
+      drop-shadow(0 0 28px rgba(167,139,250,0.70))
+      drop-shadow(0 0 40px rgba(99,102,241,0.40))
+      brightness(1.55);
+  }
+}
+
+@keyframes genie-bottle-container-pulse {
+  0%, 100% {
+    box-shadow:
+      0 0 0   4px rgba(99,102,241,0.18),
+      0 0 20px 8px rgba(99,102,241,0.14),
+      0 8px 32px 0   rgba(17,12,70,0.60);
+  }
+  50% {
+    box-shadow:
+      0 0 0   6px rgba(139,92,246,0.40),
+      0 0 32px 14px rgba(99,102,241,0.30),
+      0 0 60px 20px rgba(251,191,36,0.12),
+      0 8px 40px 0   rgba(17,12,70,0.70);
+  }
+}
+
+@keyframes genie-halo-expand {
+  0%   { transform: scale(1);    opacity: 0.55; }
+  100% { transform: scale(2.0);  opacity: 0;    }
+}
+
+@keyframes genie-halo-expand-2 {
+  0%   { transform: scale(1);    opacity: 0.35; }
+  100% { transform: scale(2.6);  opacity: 0;    }
+}
+
+.genie-bottle-alive {
+  animation:
+    genie-bottle-float    3.4s ease-in-out infinite,
+    genie-bottle-radiance 2.6s ease-in-out infinite;
+}
+
+.genie-bottle-container-alive {
+  animation: genie-bottle-container-pulse 2.6s ease-in-out infinite;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+}
+
+.genie-halo {
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  background: radial-gradient(circle, rgba(99,102,241,0.55) 0%, transparent 70%);
+  animation: genie-halo-expand 2.6s ease-out infinite;
+  pointer-events: none;
+}
+
+.genie-halo-2 {
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  background: radial-gradient(circle, rgba(167,139,250,0.40) 0%, transparent 65%);
+  animation: genie-halo-expand-2 2.6s ease-out infinite 1.3s;
+  pointer-events: none;
+}
+
 .genie-shimmer-text {
   background: linear-gradient(90deg, #a5b4fc 0%, #f0e68c 25%, #e0e7ff 50%, #fbbf24 75%, #a5b4fc 100%);
   background-size: 200% auto;
