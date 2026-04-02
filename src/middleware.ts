@@ -3,11 +3,11 @@ import type { NextRequest } from "next/server";
 import { verifySession } from "@/lib/auth";
 
 export async function middleware(request: NextRequest) {
-  // Redirect genie127.com root (and www) to /aid-agent
+  // Rewrite genie127.com root (and www) to /aid-agent — URL stays as genie127.com/
   const hostname = request.headers.get("host") ?? "";
   const isGeniedomain = hostname === "genie127.com" || hostname === "www.genie127.com";
   if (isGeniedomain && request.nextUrl.pathname === "/") {
-    return NextResponse.redirect(new URL("/aid-agent", request.url));
+    return NextResponse.rewrite(new URL("/aid-agent", request.url));
   }
 
   const session = await verifySession(request);
