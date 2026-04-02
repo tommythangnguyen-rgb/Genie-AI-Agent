@@ -251,7 +251,7 @@
 }
 
 .genie-shimmer-text {
-  background: linear-gradient(90deg, #94a3b8 0%, #e2e8f0 20%, #f8fafc 40%, #cbd5e1 60%, #f1f5f9 80%, #94a3b8 100%);
+  background: linear-gradient(90deg, #94a3b8 0%, #fbbf24 20%, #f8fafc 40%, #fde68a 60%, #e2e8f0 75%, #fbbf24 90%, #94a3b8 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
