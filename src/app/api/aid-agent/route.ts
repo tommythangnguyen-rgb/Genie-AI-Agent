@@ -1,4 +1,4 @@
-import { streamText } from "ai";
+import { streamText, stepCountIs } from "ai";
 import { gateway } from "@ai-sdk/gateway";
 import { getLanguageModel } from "@/lib/provider";
 import { aidAgentPrompt } from "@/lib/prompts/aid-agent";
@@ -97,7 +97,7 @@ export async function POST(req: NextRequest) {
     tools: {
       perplexity_search: perplexitySearchTool as any,
     },
-    maxSteps: 5,
+    stopWhen: stepCountIs(5),
     toolChoice: "auto",
   });
 
