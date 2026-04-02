@@ -95,7 +95,7 @@ export async function POST(req: NextRequest) {
     maxOutputTokens: 3000,
     temperature: 0.4,
     tools: {
-      perplexity_search: perplexitySearchTool,
+      perplexity_search: perplexitySearchTool as any,
     },
     maxSteps: 5,
     toolChoice: "auto",
