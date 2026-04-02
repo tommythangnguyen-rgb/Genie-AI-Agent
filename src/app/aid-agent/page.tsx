@@ -51,6 +51,7 @@ import {
   LogIn,
   UserCircle,
   RotateCcw,
+  Menu,
 } from "lucide-react";
 
 // ─── Genie Bottle Logo ────────────────────────────────────────────────────────
@@ -3553,8 +3554,15 @@ export default function AidAgentPage() {
 
           {/* Header */}
           <header className="relative shrink-0 border-b border-teal-500/[0.15] backdrop-blur-xl px-5 py-3 flex items-center justify-between" style={{ background: "linear-gradient(90deg, rgba(7,30,61,0.92) 0%, rgba(10,37,64,0.95) 50%, rgba(7,30,61,0.92) 100%)" }}>
-            {/* Left — home + left-panel toggle (mobile) */}
-            <div className="flex items-center gap-1 min-w-[5rem]">
+            {/* Left — theme toggle + home + mobile left-panel toggle */}
+            <div className="flex items-center gap-1.5 w-40">
+              <button
+                onClick={() => setIsDark(!isDark)}
+                title={isDark ? "Switch to bright mode" : "Switch to dark mode"}
+                className="p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+              >
+                {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+              </button>
               <button
                 onClick={goHome}
                 title="Home"
@@ -3563,13 +3571,12 @@ export default function AidAgentPage() {
                 <Home className="h-3.5 w-3.5" />
                 <span className="hidden sm:inline">Home</span>
               </button>
-              {/* Students & Parents panel toggle — mobile only, logically near left sidebar */}
               <button
                 onClick={() => { setShowMobileLeft(!showMobileLeft); setShowMobileRight(false); }}
-                title="Student Aid HUB — Students & Parents"
+                title="Students & Parents panel"
                 className="lg:hidden p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
               >
-                {showMobileLeft ? <X className="h-4 w-4" /> : <GraduationCap className="h-4 w-4" />}
+                {showMobileLeft ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
               </button>
             </div>
 
@@ -3578,22 +3585,11 @@ export default function AidAgentPage() {
               <h1 className="text-4xl font-black tracking-tight leading-none whitespace-nowrap genie-shimmer-text">
                 askGenie
               </h1>
-              <p className="hidden sm:block text-[10px] text-teal-300/50 font-medium tracking-wide mt-0.5 whitespace-nowrap">Calm guidance for student aid and college financing</p>
+              <p className="hidden sm:block text-[10px] text-teal-300/50 font-medium tracking-wide mt-0.5 whitespace-nowrap">Your calm, expert student aid companion</p>
             </div>
 
-            {/* Right — new chat · auth · right-panel toggle · theme */}
-            <div className="flex items-center gap-1 justify-end min-w-[5rem]">
-              {/* New chat — only when conversation is active */}
-              {messages.length > 0 && (
-                <button
-                  onClick={() => setMessages([])}
-                  title="New chat"
-                  className="p-1.5 rounded-lg text-white/35 hover:text-white hover:bg-white/[0.08] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
-                >
-                  <SquarePen className="h-4 w-4" />
-                </button>
-              )}
-              {/* Auth */}
+            {/* Right — auth button + mobile right-panel toggle + new chat */}
+            <div className="flex items-center gap-1.5 w-40 justify-end">
               {isAuthenticated ? (
                 <Link
                   href="/account"
@@ -3606,15 +3602,23 @@ export default function AidAgentPage() {
                   </span>
                 </Link>
               ) : (
-                <button
-                  onClick={() => { setAuthDialogMode("signin"); setAuthDialogOpen(true); }}
-                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 shadow-sm"
-                >
-                  <LogIn className="h-3.5 w-3.5 shrink-0" />
-                  <span className="hidden sm:inline">Sign In</span>
-                </button>
+                <>
+                  <button
+                    onClick={() => { setAuthDialogMode("signin"); setAuthDialogOpen(true); }}
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 shadow-sm"
+                  >
+                    <LogIn className="h-3.5 w-3.5 shrink-0" />
+                    <span>Sign In</span>
+                  </button>
+                  <Link
+                    href="/account"
+                    className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white/[0.06] ring-1 ring-white/[0.12] text-white/60 hover:text-white hover:bg-white/[0.10] transition-colors text-xs font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+                  >
+                    <UserCircle className="h-3.5 w-3.5 shrink-0" />
+                    <span>Account</span>
+                  </Link>
+                </>
               )}
-              {/* Admins & Auditors panel toggle — mobile only, logically near right sidebar */}
               <button
                 onClick={() => { setShowMobileRight(!showMobileRight); setShowMobileLeft(false); }}
                 title="Admins & Auditors panel"
@@ -3622,14 +3626,15 @@ export default function AidAgentPage() {
               >
                 {showMobileRight ? <X className="h-4 w-4" /> : <Zap className="h-4 w-4" />}
               </button>
-              {/* Theme toggle — far right */}
-              <button
-                onClick={() => setIsDark(!isDark)}
-                title={isDark ? "Switch to bright mode" : "Switch to dark mode"}
-                className="p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
-              >
-                {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-              </button>
+              {messages.length > 0 && (
+                <button
+                  onClick={() => setMessages([])}
+                  title="New chat"
+                  className="p-1.5 rounded-lg text-white/35 hover:text-white hover:bg-white/[0.08] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+                >
+                  <SquarePen className="h-4 w-4" />
+                </button>
+              )}
             </div>
           </header>
 
@@ -3985,8 +3990,8 @@ export default function AidAgentPage() {
             <div className="relative max-w-3xl mx-auto">
               {/* Prompt label row */}
               <div className="flex items-center gap-2 mb-2 px-1">
-                <GenieBottle className="h-4 w-4 text-amber-400 shrink-0 genie-icon-shimmer" />
-                <span className="text-sm font-semibold tracking-wide genie-shimmer-text">
+                <GenieBottle className="h-3.5 w-3.5 text-indigo-400 shrink-0 genie-icon-shimmer" />
+                <span className="text-sm font-semibold text-indigo-300/80 tracking-wide">
                   askGenie
                 </span>
                 <div className="h-px flex-1 bg-white/[0.06]" />
