@@ -90,6 +90,21 @@ export async function POST(req: NextRequest) {
     temperature: 0.4,
   });
 
+  // Translate raw API errors into user-friendly messages.
+  function friendlyError(raw: string): string {
+    const low = raw.toLowerCase();
+    if (low.includes("credit balance") || low.includes("billing") || low.includes("quota") || low.includes("insufficient") || low.includes("payment")) {
+      return "Genie is taking a short break — our team is on it! Please try again in a few minutes. If the issue persists, contact the askGenie developer at [x.com/one27__](https://x.com/one27__).";
+    }
+    if (low.includes("rate limit") || low.includes("too many requests") || low.includes("429")) {
+      return "Genie is a little busy right now — please wait a moment and try again. If this keeps happening, reach out to the developer at [x.com/one27__](https://x.com/one27__).";
+    }
+    if (low.includes("api key") || low.includes("authentication") || low.includes("unauthorized") || low.includes("403")) {
+      return "Genie is temporarily unavailable. Please contact the askGenie developer at [x.com/one27__](https://x.com/one27__) for assistance.";
+    }
+    return "Something went wrong on our end. Please try again in a moment. If the issue continues, contact the developer at [x.com/one27__](https://x.com/one27__).";
+  }
+
   // Use fullStream so API errors (bad key, quota, etc.) appear as error-type
   // parts rather than silently closing textStream with zero chunks.
   const encoder = new TextEncoder();
@@ -102,15 +117,13 @@ export async function POST(req: NextRequest) {
           } else if (part.type === "error") {
             const errMsg = (part.error as any)?.message ?? String(part.error);
             console.error("Aid agent stream error:", errMsg);
-            controller.enqueue(
-              encoder.encode(`\n\nError: ${errMsg}`)
-            );
+            controller.enqueue(encoder.encode(friendlyError(errMsg)));
           }
         }
       } catch (err: any) {
         const msg = err?.message ?? String(err);
         console.error("Aid agent stream exception:", msg);
-        controller.enqueue(encoder.encode(`\n\nError: ${msg}`));
+        controller.enqueue(encoder.encode(friendlyError(msg)));
       } finally {
         controller.close();
       }
