@@ -2268,6 +2268,38 @@ function EducationalBackground({ isDark = true }: { isDark?: boolean }) {
   );
 }
 
+// ─── X / Twitter profile embed ────────────────────────────────────────────────
+function XProfileEmbed() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const existing = document.getElementById("twitter-widget-js");
+    if (existing) {
+      (window as any)?.twttr?.widgets?.load(containerRef.current);
+      return;
+    }
+    const script = document.createElement("script");
+    script.id = "twitter-widget-js";
+    script.src = "https://platform.twitter.com/widgets.js";
+    script.async = true;
+    script.charset = "utf-8";
+    document.body.appendChild(script);
+  }, []);
+  return (
+    <div ref={containerRef} className="rounded-lg overflow-hidden">
+      <a
+        className="twitter-timeline"
+        data-theme="dark"
+        data-height="420"
+        data-chrome="noheader nofooter noborders transparent"
+        href="https://twitter.com/one27__"
+      >
+        Posts by @one27__
+      </a>
+    </div>
+  );
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function AidAgentPage() {
@@ -4308,6 +4340,38 @@ export default function AidAgentPage() {
                           {topic}
                         </button>
                       ))}
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+
+            {/* ── Videos & Social ── */}
+            {(() => {
+              const key = "sec-videos-social";
+              const isOpen = expandedSections.has(key);
+              return (
+                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                  <button onClick={() => toggleSection(key)}
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-right">Videos &amp; Social</span>
+                  </button>
+                  {isOpen && (
+                    <div className="px-2 pb-3 pt-1 space-y-3">
+                      {["P6FORpg0KVo", "ha1NneZGm7A", "rhgwIhB58PA"].map((id) => (
+                        <div key={id} className="rounded-lg overflow-hidden w-full" style={{ aspectRatio: "16/9" }}>
+                          <iframe
+                            src={`https://www.youtube.com/embed/${id}`}
+                            title="YouTube video"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                            loading="lazy"
+                            className="w-full h-full border-0"
+                          />
+                        </div>
+                      ))}
+                      <XProfileEmbed />
                     </div>
                   )}
                 </div>
