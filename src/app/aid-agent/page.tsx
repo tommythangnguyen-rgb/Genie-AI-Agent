@@ -4008,7 +4008,7 @@ export default function AidAgentPage() {
                       { icon: Sparkles,    step: "1", title: "Choose Your Role",    body: "Student, Parent, Admin, Leader, or Auditor",                          color: "text-violet-400", ring: "ring-violet-500/[0.18]", bg: "bg-violet-500/[0.07]" },
                       { icon: Send,        step: "2", title: "Ask Anything",         body: "Type a question, upload a document, or use voice input",               color: "text-cyan-400",   ring: "ring-cyan-500/[0.18]",   bg: "bg-cyan-500/[0.07]"   },
                       { icon: Library,     step: "3", title: "Explore the Hub",      body: "Browse the left & right panels — scholarships, regs, jobs & resources", color: "text-sky-400",    ring: "ring-sky-500/[0.18]",    bg: "bg-sky-500/[0.07]"    },
-                      { icon: CheckCircle, step: "4", title: "Get Expert Guidance",  body: "Plain-English answers with regulatory citations",                       color: "text-emerald-400",ring: "ring-emerald-500/[0.18]",bg: "bg-emerald-500/[0.07]"},
+                      { icon: CheckCircle, step: "4", title: "Get Clear Guidance",    body: "Plain-English answers with regulatory citations",                       color: "text-emerald-400",ring: "ring-emerald-500/[0.18]",bg: "bg-emerald-500/[0.07]"},
                     ] as const).map(({ icon: Icon, step, title, body, color, ring, bg }) => (
                       <div key={step} className={`flex flex-col gap-2.5 p-3.5 rounded-xl ${bg} ring-1 ${ring}`}>
                         <div className="flex items-center gap-2">
