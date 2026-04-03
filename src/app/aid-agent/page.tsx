@@ -4375,18 +4375,19 @@ export default function AidAgentPage() {
 
               {/* Role selector */}
               <div className="flex items-center gap-1.5 flex-wrap mb-2.5 px-1">
-                <span className="text-[10px] text-white/25 font-medium mr-0.5 shrink-0">I am a:</span>
+                <span className="text-[10px] text-cyan-400/55 font-semibold tracking-wide mr-0.5 shrink-0">I am a:</span>
                 {ROLE_OPTIONS.map(({ label, icon: RoleIcon, color, ring, bg }) => (
                   <button
                     key={label}
                     type="button"
                     aria-pressed={selectedRole === label}
                     onClick={() => setSelectedRole(selectedRole === label ? null : label)}
-                    className={`flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ring-1 ${
+                    className={`flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ring-1 ${
                       selectedRole === label
                         ? `${color} ${bg} ${ring}`
-                        : "text-white/30 bg-transparent ring-white/[0.08] hover:text-white/60 hover:bg-white/[0.06]"
+                        : "text-cyan-300/45 bg-transparent ring-cyan-500/[0.18] hover:text-cyan-200 hover:bg-cyan-500/[0.10] hover:ring-cyan-400/40"
                     }`}
+                    style={selectedRole === label ? {} : undefined}
                   >
                     <RoleIcon className="h-2.5 w-2.5 shrink-0" />
                     {label}
@@ -4396,7 +4397,7 @@ export default function AidAgentPage() {
                   <button
                     type="button"
                     onClick={() => setSelectedRole(null)}
-                    className="text-[10px] text-white/20 hover:text-white/50 transition-colors ml-0.5"
+                    className="text-[10px] text-cyan-400/35 hover:text-cyan-300/70 transition-colors ml-0.5"
                   >
                     ✕ clear
                   </button>
@@ -4430,7 +4431,10 @@ export default function AidAgentPage() {
               )}
 
               {/* Input form */}
-              <div className="rounded-2xl ring-1 ring-white/[0.12] focus-within:ring-indigo-500/50 transition-all duration-200 bg-white/[0.05]">
+              <div
+                className="rounded-2xl ring-1 ring-cyan-500/[0.22] focus-within:ring-cyan-400/55 transition-all duration-200"
+                style={{ background: "rgba(6,182,212,0.04)" }}
+              >
                 <form
                   onSubmit={handleSubmit}
                   className="flex gap-2 items-end px-3 py-2.5"
@@ -4439,23 +4443,23 @@ export default function AidAgentPage() {
                   <div className="flex items-center gap-0.5 shrink-0 mb-0.5">
                     <button type="button" title={canAccessFeature("document_upload", userTier) ? "Upload document (.pdf, .txt, .doc, .csv)" : "Pro — upload documents"}
                       onClick={() => canAccessFeature("document_upload", userTier) ? fileInputRef.current?.click() : openUpgrade("document_upload")}
-                      className={`p-1.5 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${canAccessFeature("document_upload", userTier) ? "text-white/35 hover:text-indigo-300 hover:bg-indigo-500/20" : "text-white/20 hover:text-violet-400 hover:bg-violet-500/15"}`}>
+                      className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-cyan-400/50 hover:text-cyan-300 hover:bg-cyan-500/[0.15]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
                       <Paperclip className="h-4 w-4" />
                     </button>
                     <button type="button" title={canAccessFeature("document_upload", userTier) ? "Take or upload a photo for context" : "Pro — upload photos"}
                       onClick={() => canAccessFeature("document_upload", userTier) ? cameraInputRef.current?.click() : openUpgrade("document_upload")}
-                      className={`p-1.5 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${canAccessFeature("document_upload", userTier) ? "text-white/35 hover:text-indigo-300 hover:bg-indigo-500/20" : "text-white/20 hover:text-violet-400 hover:bg-violet-500/15"}`}>
+                      className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-cyan-400/50 hover:text-cyan-300 hover:bg-cyan-500/[0.15]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
                       <Camera className="h-4 w-4" />
                     </button>
                     <button type="button"
                       title={!canAccessFeature("document_upload", userTier) ? "Pro — voice messages" : isRecording ? "Stop recording" : "Record voice message"}
                       onClick={!canAccessFeature("document_upload", userTier) ? () => openUpgrade("document_upload") : isRecording ? stopVoiceRecording : startVoiceRecording}
-                      className={`p-1.5 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+                      className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
                         isRecording
-                          ? "text-rose-400 bg-rose-500/20 animate-pulse"
+                          ? "text-rose-400 bg-rose-500/20 ring-1 ring-rose-500/40 animate-pulse"
                           : canAccessFeature("document_upload", userTier)
-                          ? "text-white/35 hover:text-indigo-300 hover:bg-indigo-500/20"
-                          : "text-white/20 hover:text-violet-400 hover:bg-violet-500/15"
+                          ? "text-cyan-400/50 hover:text-cyan-300 hover:bg-cyan-500/[0.15]"
+                          : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"
                       }`}>
                       {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
                     </button>
@@ -4474,7 +4478,7 @@ export default function AidAgentPage() {
                       aria-label="Ask Genie a financial aid question"
                       placeholder={isRecording ? "🎙 Listening… speak your question…" : "askGenie — or tell Genie what you're concerned about…"}
                       rows={1}
-                      className="w-full resize-none px-2 py-1.5 bg-transparent text-white text-sm placeholder:text-white/25 focus:outline-none leading-relaxed"
+                      className="w-full resize-none px-2 py-1.5 bg-transparent text-white text-sm placeholder:text-cyan-200/22 focus:outline-none leading-relaxed"
                       style={{ minHeight: "40px", maxHeight: "160px" }}
                     />
                   </div>
@@ -4483,7 +4487,11 @@ export default function AidAgentPage() {
                       type="button"
                       onClick={stopStreaming}
                       title="Stop generating"
-                      className="shrink-0 mb-0.5 flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white/70 text-xs font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30"
+                      className="shrink-0 mb-0.5 flex items-center gap-1.5 px-3 py-2 rounded-xl text-rose-300 text-xs font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
+                      style={{
+                        background: "rgba(244,63,94,0.14)",
+                        boxShadow: "0 0 0 1px rgba(244,63,94,0.30), 0 2px 10px rgba(244,63,94,0.20)",
+                      }}
                     >
                       <Square className="h-3.5 w-3.5 fill-current" />
                       Stop
@@ -4492,10 +4500,10 @@ export default function AidAgentPage() {
                     <button
                       type="submit"
                       disabled={(!input.trim() && !attachedFile) || isLoading}
-                      className="shrink-0 mb-0.5 flex items-center gap-1.5 px-4 py-2 rounded-xl text-white text-xs font-semibold active:scale-95 transition-all duration-150 disabled:opacity-35 disabled:cursor-not-allowed disabled:active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-400"
+                      className="shrink-0 mb-0.5 flex items-center gap-1.5 px-4 py-2 rounded-xl text-white text-xs font-bold tracking-wide active:scale-95 transition-all duration-150 disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-cyan-400"
                       style={{
-                        background: "linear-gradient(135deg, #4338ca 0%, #6d28d9 100%)",
-                        boxShadow: "0 2px 12px rgba(99,102,241,0.5), 0 0 0 1px rgba(139,92,246,0.3), inset 0 1px 0 rgba(255,255,255,0.12)",
+                        background: "linear-gradient(135deg, #0891b2 0%, #4f46e5 100%)",
+                        boxShadow: "0 0 0 1px rgba(6,182,212,0.45), 0 2px 14px rgba(6,182,212,0.38), 0 0 28px rgba(99,102,241,0.22), inset 0 1px 0 rgba(255,255,255,0.14)",
                       }}
                     >
                       <GenieBottle className="h-4 w-4 text-amber-200 genie-send-icon" />
@@ -4525,27 +4533,52 @@ export default function AidAgentPage() {
                 <p className="text-[10px] text-center text-white/30 italic mt-0.5">
                   Built by a 15-year Student Financial Aid professional. Designed for the people who do this work every day.
                 </p>
-                <p className="text-[10px] text-center text-white/20 leading-relaxed">
-                  <Link href="/pricing" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-indigo-300 transition-colors">Plans &amp; Pricing</Link>
-                  {" · "}
-                  <Link href="/pricing#faq" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white/40 transition-colors">FAQ</Link>
-                  {" · "}
-                  <Link href="/support" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white/40 transition-colors">Support Dev</Link>
-                  {" · "}
-                  <a href="https://x.com/one27__" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-sky-300 transition-colors">@one27__</a>
-                  {" · "}
-                  <Link href="/legal" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white/40 transition-colors">Legal</Link>
-                  {" · "}
-                  <Link href="/legal" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white/40 transition-colors">Terms &amp; Privacy</Link>
-                  {" · "}
-                  <Link href="/dpa" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white/40 transition-colors">School DPA</Link>
-                  {" · "}
-                  <Link href="/about" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white/40 transition-colors">About</Link>
-                  {" · "}
-                  <Link href="/institutions" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white/40 transition-colors">For Schools</Link>
-                  {" · "}
-                  <Link href="/legal#ccpa" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white/40 transition-colors">Do Not Sell My Info</Link>
-                </p>
+                <div className="flex flex-wrap justify-center items-center gap-x-0.5 gap-y-1 mt-1">
+                  <Link href="/pricing" target="_blank" rel="noopener noreferrer"
+                    className="px-2 py-0.5 rounded-full text-[10px] font-semibold text-cyan-400/75 hover:text-cyan-300 hover:bg-cyan-500/[0.12] ring-1 ring-cyan-500/[0.20] hover:ring-cyan-400/40 transition-all duration-150">
+                    Plans &amp; Pricing
+                  </Link>
+                  <span className="text-white/12 text-[10px] select-none">·</span>
+                  <Link href="/pricing#faq" target="_blank" rel="noopener noreferrer"
+                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-white/35 hover:text-cyan-200/80 hover:bg-white/[0.06] transition-all duration-150">
+                    FAQ
+                  </Link>
+                  <span className="text-white/12 text-[10px] select-none">·</span>
+                  <Link href="/support" target="_blank" rel="noopener noreferrer"
+                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-white/35 hover:text-indigo-300/90 hover:bg-indigo-500/[0.10] transition-all duration-150">
+                    Support Dev
+                  </Link>
+                  <span className="text-white/12 text-[10px] select-none">·</span>
+                  <a href="https://x.com/one27__" target="_blank" rel="noopener noreferrer"
+                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-sky-400/60 hover:text-sky-300 hover:bg-sky-500/[0.10] transition-all duration-150">
+                    @one27__
+                  </a>
+                  <span className="text-white/12 text-[10px] select-none">·</span>
+                  <Link href="/legal" target="_blank" rel="noopener noreferrer"
+                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-white/30 hover:text-white/60 hover:bg-white/[0.06] transition-all duration-150">
+                    Terms &amp; Privacy
+                  </Link>
+                  <span className="text-white/12 text-[10px] select-none">·</span>
+                  <Link href="/dpa" target="_blank" rel="noopener noreferrer"
+                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-white/30 hover:text-white/60 hover:bg-white/[0.06] transition-all duration-150">
+                    School DPA
+                  </Link>
+                  <span className="text-white/12 text-[10px] select-none">·</span>
+                  <Link href="/about" target="_blank" rel="noopener noreferrer"
+                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-white/30 hover:text-white/60 hover:bg-white/[0.06] transition-all duration-150">
+                    About
+                  </Link>
+                  <span className="text-white/12 text-[10px] select-none">·</span>
+                  <Link href="/institutions" target="_blank" rel="noopener noreferrer"
+                    className="px-2 py-0.5 rounded-full text-[10px] font-semibold text-indigo-400/65 hover:text-indigo-300 hover:bg-indigo-500/[0.10] ring-1 ring-indigo-500/[0.15] hover:ring-indigo-400/35 transition-all duration-150">
+                    For Schools
+                  </Link>
+                  <span className="text-white/12 text-[10px] select-none">·</span>
+                  <Link href="/legal#ccpa" target="_blank" rel="noopener noreferrer"
+                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-white/25 hover:text-white/50 hover:bg-white/[0.05] transition-all duration-150">
+                    Do Not Sell My Info
+                  </Link>
+                </div>
                 <p className="text-[10px] text-center text-white/15 mt-0.5">
                   © 2026 askGenie Student Aid Hub | Developed by One27 | All Rights Reserved
                 </p>
