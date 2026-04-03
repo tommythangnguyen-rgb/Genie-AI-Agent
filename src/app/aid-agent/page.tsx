@@ -3074,13 +3074,16 @@ export default function AidAgentPage() {
     return () => clearTimeout(t);
   }, [howItWorksActive]);
 
-  // Sync chatbox role pill → "I am a…" grid + Tips by Role tabs
-  useEffect(() => {
-    if (!selectedRole) return;
-    // ROLE_TIPS and ROLE_OPTIONS use singular; QUICK_ACTIONS_BY_ROLE uses plural
-    setActiveRole(selectedRole);
-    setActiveActionRole((selectedRole + "s") as "Students" | "Parents" | "Administrators" | "Leaders" | "Auditors");
-  }, [selectedRole]);
+  // Shared role sync helper — keeps chatbox pill, "I am a…" grid, and Tips by Role in sync
+  // chatboxLabel uses singular (Student/Parent/Administrator/Leader/Auditor)
+  // actionRole uses plural (Students/…); tipsRole uses singular (same as chatboxLabel)
+  const syncRoles = useCallback((chatboxLabel: string | null) => {
+    setSelectedRole(chatboxLabel);
+    if (chatboxLabel) {
+      setActiveRole(chatboxLabel);
+      setActiveActionRole((chatboxLabel + "s") as "Students" | "Parents" | "Administrators" | "Leaders" | "Auditors");
+    }
+  }, []);
 
   const triggerBurst = useCallback((e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
@@ -4717,7 +4720,7 @@ export default function AidAgentPage() {
                     ] as const).map(({ role, icon: RoleIcon }) => (
                       <button
                         key={role}
-                        onClick={() => setActiveActionRole(role)}
+                        onClick={() => syncRoles(role.replace(/s$/, "") as any)}
                         className={`flex flex-col items-center gap-2 px-2 py-4 rounded-xl text-xs font-semibold transition-all duration-200 ring-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 ${
                           activeActionRole === role
                             ? "bg-gradient-to-b from-cyan-500/20 to-sky-600/10 text-cyan-300 ring-cyan-500/35 shadow-lg shadow-cyan-900/20"
@@ -4766,7 +4769,7 @@ export default function AidAgentPage() {
                     {ROLE_TIPS.map(({ role, icon: Icon }) => (
                       <button
                         key={role}
-                        onClick={() => setActiveRole(role)}
+                        onClick={() => syncRoles(role)}
                         className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 ${
                           activeRole === role
                             ? "bg-cyan-600/80 text-white ring-1 ring-cyan-500/40 shadow-md shadow-cyan-900/30"
@@ -4951,7 +4954,7 @@ export default function AidAgentPage() {
                     key={label}
                     type="button"
                     aria-pressed={selectedRole === label}
-                    onClick={() => setSelectedRole(selectedRole === label ? null : label)}
+                    onClick={() => syncRoles(selectedRole === label ? null : label)}
                     className={`flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ring-1 ${
                       selectedRole === label
                         ? `${color} ${bg} ${ring}`
@@ -4966,7 +4969,7 @@ export default function AidAgentPage() {
                 {selectedRole && (
                   <button
                     type="button"
-                    onClick={() => setSelectedRole(null)}
+                    onClick={() => syncRoles(null)}
                     className="text-[10px] text-cyan-400/35 hover:text-cyan-300/70 transition-colors ml-0.5"
                   >
                     ✕ clear

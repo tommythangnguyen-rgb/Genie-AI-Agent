@@ -105,7 +105,7 @@ export default function AboutPage() {
               But the mission reaches further: <strong className="text-white">to inspire curiosity and lifelong learning.</strong> Education does not end at graduation. Understanding how systems work — your rights, your options, your obligations — is a skill that pays dividends for life. If you are here, that curiosity deserves to be met with clarity, not confusion.
             </p>
             <p className="text-white/90 leading-relaxed">
-              <strong className="text-white">askGenie is designed to cover API and hosting costs initially.</strong> If genuine demand grows, we will explore sustainable paths that keep the tool affordable and accessible for the students and families who need it most. The tool exists to serve users — not the other way around.
+              <strong className="text-white">askGenie is designed to cover API and hosting costs initially.</strong> If genuine demand grows, we will explore sustainable paths that keep the tool affordable and accessible for the students and families who need it most. The tool exists to serve users — not the other way around. If growth is successful, the developer hopes to create <strong className="text-cyan-300">scholarship opportunities for subscribed users</strong> — giving back directly to the students this platform is built to serve.
             </p>
             <div className="grid sm:grid-cols-2 gap-3 mt-2">
               {[
