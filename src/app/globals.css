@@ -272,3 +272,41 @@
 }
 .genie-typing-dot:nth-child(2) { animation-delay: 0.16s; }
 .genie-typing-dot:nth-child(3) { animation-delay: 0.32s; }
+
+/* ── Falling stars ── */
+@keyframes genie-star-fall {
+  0%   { transform: translateY(-20px) translateX(0px); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(110vh) translateX(-40px); opacity: 0; }
+}
+@keyframes genie-star-twinkle {
+  0%, 100% { opacity: 0.1; transform: scale(0.6); }
+  50%       { opacity: 1;   transform: scale(1); }
+}
+@keyframes genie-orb-pulse {
+  0%, 100% { transform: scale(1);    opacity: 0.12; }
+  50%       { transform: scale(1.25); opacity: 0.22; }
+}
+
+.genie-star {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: genie-star-fall var(--dur, 6s) linear infinite var(--delay, 0s);
+  pointer-events: none;
+}
+.genie-star-twinkle {
+  position: absolute;
+  border-radius: 50%;
+  background: white;
+  animation: genie-star-twinkle var(--dur, 3s) ease-in-out infinite var(--delay, 0s);
+  pointer-events: none;
+}
+.genie-orb-bg {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  animation: genie-orb-pulse var(--dur, 5s) ease-in-out infinite var(--delay, 0s);
+  pointer-events: none;
+}

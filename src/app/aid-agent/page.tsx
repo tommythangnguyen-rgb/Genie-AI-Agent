@@ -3732,7 +3732,64 @@ export default function AidAgentPage() {
             {messages.length === 0 ? (
 
               /* ── Welcome state ── */
-              <div className="flex flex-col items-center px-6 py-12 genie-fade-in-up">
+              <div className="relative flex flex-col items-center px-6 py-12 genie-fade-in-up overflow-hidden">
+
+                {/* ── Falling stars layer ── */}
+                <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+                  {/* Pulsing background orbs */}
+                  {[
+                    { w:320, h:320, top:"5%",  left:"10%",  color:"rgba(99,102,241,0.35)",  dur:"6s",  delay:"0s"   },
+                    { w:260, h:260, top:"40%", left:"65%",  color:"rgba(139,92,246,0.28)",  dur:"8s",  delay:"1.5s" },
+                    { w:200, h:200, top:"70%", left:"20%",  color:"rgba(251,191,36,0.18)",  dur:"7s",  delay:"3s"   },
+                    { w:180, h:180, top:"15%", left:"75%",  color:"rgba(56,189,248,0.15)",  dur:"9s",  delay:"0.8s" },
+                  ].map((o, i) => (
+                    <div key={i} className="genie-orb-bg" style={{
+                      width: o.w, height: o.h,
+                      top: o.top, left: o.left,
+                      background: o.color,
+                      ["--dur" as any]: o.dur,
+                      ["--delay" as any]: o.delay,
+                    }} />
+                  ))}
+                  {/* Falling stars */}
+                  {[
+                    { w:2,   h:2,   top:"0%",  left:"8%",  dur:"5.5s", delay:"0s"    },
+                    { w:1.5, h:1.5, top:"0%",  left:"22%", dur:"7s",   delay:"1.2s"  },
+                    { w:2.5, h:2.5, top:"0%",  left:"38%", dur:"6.2s", delay:"0.4s"  },
+                    { w:1,   h:1,   top:"0%",  left:"52%", dur:"8.5s", delay:"2.1s"  },
+                    { w:2,   h:2,   top:"0%",  left:"67%", dur:"5.8s", delay:"0.9s"  },
+                    { w:1.5, h:1.5, top:"0%",  left:"80%", dur:"7.3s", delay:"3.4s"  },
+                    { w:3,   h:3,   top:"0%",  left:"91%", dur:"6.8s", delay:"1.7s"  },
+                    { w:1,   h:1,   top:"0%",  left:"15%", dur:"9s",   delay:"4.5s"  },
+                    { w:2,   h:2,   top:"0%",  left:"44%", dur:"6s",   delay:"5s"    },
+                    { w:1.5, h:1.5, top:"0%",  left:"73%", dur:"7.8s", delay:"2.8s"  },
+                  ].map((s, i) => (
+                    <div key={i} className="genie-star" style={{
+                      width: s.w, height: s.h,
+                      top: s.top, left: s.left,
+                      ["--dur" as any]: s.dur,
+                      ["--delay" as any]: s.delay,
+                    }} />
+                  ))}
+                  {/* Static twinkling stars */}
+                  {[
+                    { w:2, h:2, top:"12%", left:"5%",  dur:"2.8s", delay:"0s"   },
+                    { w:3, h:3, top:"8%",  left:"30%", dur:"3.5s", delay:"1s"   },
+                    { w:2, h:2, top:"20%", left:"88%", dur:"2.2s", delay:"0.5s" },
+                    { w:3, h:3, top:"55%", left:"93%", dur:"4s",   delay:"2s"   },
+                    { w:2, h:2, top:"75%", left:"4%",  dur:"3s",   delay:"1.5s" },
+                    { w:2, h:2, top:"85%", left:"55%", dur:"2.5s", delay:"0.8s" },
+                    { w:3, h:3, top:"35%", left:"96%", dur:"3.8s", delay:"3s"   },
+                    { w:2, h:2, top:"62%", left:"48%", dur:"2.9s", delay:"0.3s" },
+                  ].map((s, i) => (
+                    <div key={`tw-${i}`} className="genie-star-twinkle" style={{
+                      width: s.w, height: s.h,
+                      top: s.top, left: s.left,
+                      ["--dur" as any]: s.dur,
+                      ["--delay" as any]: s.delay,
+                    }} />
+                  ))}
+                </div>
                 {/* Hero badge */}
                 <div className="relative mb-10 flex items-center justify-center" style={{width: 120, height: 120}}>
                   {/* Outermost ambient glow */}
