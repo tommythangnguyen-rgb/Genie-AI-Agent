@@ -52,6 +52,7 @@ import {
   LogIn,
   UserCircle,
   RotateCcw,
+  Music,
 } from "lucide-react";
 
 // ─── Genie Bottle Logo ────────────────────────────────────────────────────────
@@ -2448,6 +2449,7 @@ export default function AidAgentPage() {
   const [showDisclaimer, setShowDisclaimer] = useState(false);
   const [showMobileLeft, setShowMobileLeft] = useState(false);
   const [showMobileRight, setShowMobileRight] = useState(false);
+  const [howItWorksActive, setHowItWorksActive] = useState<"role" | "chatbox" | "panels" | "guidance" | null>(null);
   const [isDark, setIsDark] = useState(false);
   const [showCookieNotice, setShowCookieNotice] = useState(false);
   const [attachedFile, setAttachedFile] = useState<AttachedFile | null>(null);
@@ -2606,6 +2608,13 @@ export default function AidAgentPage() {
     recognitionRef.current?.stop();
     recognitionRef.current = null;
   };
+
+  // Auto-dismiss How It Works highlight after 2.2 s
+  useEffect(() => {
+    if (!howItWorksActive) return;
+    const t = setTimeout(() => setHowItWorksActive(null), 2200);
+    return () => clearTimeout(t);
+  }, [howItWorksActive]);
 
   const triggerBurst = useCallback((e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
@@ -3203,7 +3212,7 @@ export default function AidAgentPage() {
       <div className="h-screen flex overflow-hidden" style={{ height: "100dvh" }} onClick={triggerBurst}>
 
         {/* ── Sidebar ── */}
-        <aside className={`${showMobileLeft ? "flex fixed inset-y-0 left-0 z-50" : "hidden"} lg:flex lg:static lg:z-auto flex-col w-72 shrink-0 border-r border-white/[0.10] bg-[#071035] lg:bg-white/[0.07] backdrop-blur-2xl`}>
+        <aside className={`${showMobileLeft ? "flex fixed inset-y-0 left-0 z-50" : "hidden"} lg:flex lg:static lg:z-auto flex-col w-72 shrink-0 border-r border-white/[0.10] bg-[#071035] lg:bg-white/[0.07] backdrop-blur-2xl transition-all duration-300 ${howItWorksActive === "panels" ? "hiw-active-panel" : ""}`}>
 
           {/* Brand — Students & Parents */}
           <div className="px-4 pt-4 pb-3 border-b border-white/[0.07]">
@@ -3940,7 +3949,7 @@ export default function AidAgentPage() {
           </header>
 
           {/* Messages / Welcome */}
-          <div ref={scrollContainerRef} className="flex-1 overflow-y-auto min-h-0 genie-scroll-main" role="log" aria-live="polite" aria-label="Conversation">
+          <div ref={scrollContainerRef} className={`flex-1 overflow-y-auto min-h-0 genie-scroll-main transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-active-panel" : ""}`} role="log" aria-live="polite" aria-label="Conversation">
             {messages.length === 0 ? (
 
               /* ── Welcome state ── */
@@ -4172,20 +4181,40 @@ export default function AidAgentPage() {
                   </div>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                     {([
-                      { icon: Sparkles,    step: "1", title: "Choose Your Role",    body: "Student, Parent, Admin, Leader, or Auditor",                          color: "text-violet-400", ring: "ring-violet-500/[0.18]", bg: "bg-violet-500/[0.07]" },
-                      { icon: Send,        step: "2", title: "Ask Anything",         body: "Type a question, upload a document, or use voice input",               color: "text-cyan-400",   ring: "ring-cyan-500/[0.18]",   bg: "bg-cyan-500/[0.07]"   },
-                      { icon: Library,     step: "3", title: "Explore the Hub",      body: "Browse the left & right panels — scholarships, regs, jobs & resources", color: "text-sky-400",    ring: "ring-sky-500/[0.18]",    bg: "bg-sky-500/[0.07]"    },
-                      { icon: CheckCircle, step: "4", title: "Get Clear Guidance",    body: "Plain-English answers with regulatory citations",                       color: "text-emerald-400",ring: "ring-emerald-500/[0.18]",bg: "bg-emerald-500/[0.07]"},
-                    ] as const).map(({ icon: Icon, step, title, body, color, ring, bg }) => (
-                      <div key={step} className={`flex flex-col gap-2.5 p-3.5 rounded-xl ${bg} ring-1 ${ring}`}>
+                      { icon: Sparkles,    step: "1", title: "Choose Your Role",    body: "Click to highlight role selector",                                      color: "text-violet-400", ring: "ring-violet-500/[0.18]", bg: "bg-violet-500/[0.07]", activeKey: "role"     as const },
+                      { icon: Send,        step: "2", title: "Ask Anything",         body: "Click to highlight the chat input",                                     color: "text-cyan-400",   ring: "ring-cyan-500/[0.18]",   bg: "bg-cyan-500/[0.07]",   activeKey: "chatbox"  as const },
+                      { icon: Library,     step: "3", title: "Explore the Hub",      body: "Click to highlight left & right panels",                                color: "text-sky-400",    ring: "ring-sky-500/[0.18]",    bg: "bg-sky-500/[0.07]",    activeKey: "panels"   as const },
+                      { icon: CheckCircle, step: "4", title: "Get Clear Guidance",    body: "Click to highlight the response area",                                  color: "text-emerald-400",ring: "ring-emerald-500/[0.18]",bg: "bg-emerald-500/[0.07]",activeKey: "guidance" as const },
+                    ] as const).map(({ icon: Icon, step, title, body, color, ring, bg, activeKey }) => (
+                      <button
+                        key={step}
+                        type="button"
+                        onClick={() => setHowItWorksActive(activeKey)}
+                        className={`flex flex-col gap-2.5 p-3.5 rounded-xl ${bg} ring-1 ${ring} text-left transition-all duration-150 hover:scale-[1.03] hover:brightness-110 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${howItWorksActive === activeKey ? "hiw-active-ring brightness-125" : ""}`}
+                      >
                         <div className="flex items-center gap-2">
                           <span className="text-[9px] font-black text-white/20 tabular-nums">{step}</span>
-                          <Icon className={`h-3.5 w-3.5 ${color}`} aria-hidden="true" />
+                          <Icon className={`h-3.5 w-3.5 ${color} ${howItWorksActive === activeKey ? "animate-pulse" : ""}`} aria-hidden="true" />
                         </div>
                         <p className="text-[11px] font-semibold text-white/78 leading-tight">{title}</p>
                         <p className="text-[10px] text-white/35 leading-snug">{body}</p>
-                      </div>
+                      </button>
                     ))}
+                  </div>
+                </div>
+
+                {/* ── Dashboard Perk — Background Music ── */}
+                <div className="w-full max-w-2xl mb-6">
+                  <div className="flex items-center gap-3 px-4 py-3 rounded-2xl ring-1 ring-cyan-500/[0.18] bg-gradient-to-r from-cyan-500/[0.05] to-indigo-500/[0.05]">
+                    <div className="shrink-0 p-2 rounded-xl bg-gradient-to-br from-cyan-500/20 to-indigo-600/20 ring-1 ring-cyan-500/25">
+                      <Music className="h-4 w-4 text-cyan-300" />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[11px] font-semibold text-cyan-300/80 leading-tight">🎵 Calm Focus Music — Dashboard Perk</p>
+                      <p className="text-[10px] text-white/38 leading-snug mt-0.5">
+                        A curated playlist of 25 public domain classical pieces plays softly in the background as you work. Use the player in the header to control playback, skip tracks, and adjust volume anytime.
+                      </p>
+                    </div>
                   </div>
                 </div>
 
@@ -4428,7 +4457,7 @@ export default function AidAgentPage() {
               </div>
 
               {/* Role selector */}
-              <div className="flex items-center gap-1.5 flex-wrap mb-2.5 px-1">
+              <div className={`flex items-center gap-1.5 flex-wrap mb-2.5 px-1 rounded-xl transition-all duration-300 ${howItWorksActive === "role" ? "hiw-active-shimmer py-1.5 -mx-1" : ""}`}>
                 <span className="text-[10px] text-cyan-400/55 font-semibold tracking-wide mr-0.5 shrink-0">I am a:</span>
                 {ROLE_OPTIONS.map(({ label, icon: RoleIcon, color, ring, bg }) => (
                   <button
@@ -4486,10 +4515,12 @@ export default function AidAgentPage() {
 
               {/* Input form */}
               <div
-                className="rounded-2xl ring-1 ring-cyan-500/[0.28] focus-within:ring-cyan-400/65 transition-all duration-200"
+                className={`rounded-2xl ring-1 ring-cyan-500/[0.28] focus-within:ring-cyan-400/65 transition-all duration-200 ${howItWorksActive === "chatbox" ? "hiw-active-ring" : ""}`}
                 style={{
                   background: "rgba(6,182,212,0.05)",
-                  boxShadow: "0 0 0 1px rgba(6,182,212,0.10), 0 4px 24px rgba(6,182,212,0.10), 0 1px 0 rgba(255,255,255,0.04) inset",
+                  boxShadow: howItWorksActive === "chatbox"
+                    ? "0 0 0 2px rgba(6,182,212,0.55), 0 0 40px rgba(6,182,212,0.30), 0 0 80px rgba(6,182,212,0.12), 0 1px 0 rgba(255,255,255,0.06) inset"
+                    : "0 0 0 1px rgba(6,182,212,0.10), 0 4px 24px rgba(6,182,212,0.10), 0 1px 0 rgba(255,255,255,0.04) inset",
                 }}
               >
                 <form
@@ -4646,7 +4677,7 @@ export default function AidAgentPage() {
         </main>
 
         {/* ── Right Panel — Coverage + Quick Actions ── */}
-        <aside className={`${showMobileRight ? "flex fixed inset-y-0 right-0 z-50" : "hidden"} xl:flex xl:static xl:z-auto flex-col w-72 shrink-0 border-l border-white/[0.10] bg-[#071035] xl:bg-white/[0.07] backdrop-blur-2xl`}>
+        <aside className={`${showMobileRight ? "flex fixed inset-y-0 right-0 z-50" : "hidden"} xl:flex xl:static xl:z-auto flex-col w-72 shrink-0 border-l border-white/[0.10] bg-[#071035] xl:bg-white/[0.07] backdrop-blur-2xl transition-all duration-300 ${howItWorksActive === "panels" ? "hiw-active-panel" : ""}`}>
 
           {/* Header — Administrators, Leaders & Auditors */}
           <div className="px-4 pt-4 pb-4 border-b border-white/[0.07]">

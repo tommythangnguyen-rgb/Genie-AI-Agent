@@ -481,3 +481,41 @@
   animation: streamChunkFade 0.28s ease forwards;
   display: inline;
 }
+
+/* ── How It Works — activated highlight animations ───────────────────── */
+@keyframes hiw-ring-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(6,182,212,0), 0 0 0 1px rgba(6,182,212,0.25); opacity: 1; }
+  40%  { box-shadow: 0 0 0 6px rgba(6,182,212,0.18), 0 0 32px rgba(6,182,212,0.30), 0 0 0 1px rgba(6,182,212,0.55); }
+  70%  { box-shadow: 0 0 0 10px rgba(6,182,212,0.06), 0 0 48px rgba(6,182,212,0.18), 0 0 0 1px rgba(6,182,212,0.40); }
+  100% { box-shadow: 0 0 0 0 rgba(6,182,212,0),   0 0 0 rgba(6,182,212,0),         0 0 0 1px rgba(6,182,212,0.25); opacity: 1; }
+}
+@keyframes hiw-shimmer-sweep {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes hiw-panel-glow {
+  0%   { box-shadow: inset 0 0 0px rgba(6,182,212,0),  0 0 0 1px rgba(6,182,212,0.10); }
+  35%  { box-shadow: inset 0 0 40px rgba(6,182,212,0.08), 0 0 0 2px rgba(6,182,212,0.45), 0 0 30px rgba(6,182,212,0.20); }
+  65%  { box-shadow: inset 0 0 24px rgba(6,182,212,0.05), 0 0 0 2px rgba(6,182,212,0.30), 0 0 20px rgba(6,182,212,0.12); }
+  100% { box-shadow: inset 0 0 0px rgba(6,182,212,0),  0 0 0 1px rgba(6,182,212,0.10); }
+}
+
+.hiw-active-ring {
+  animation: hiw-ring-pulse 1.8s ease-out forwards;
+  border-radius: inherit;
+}
+.hiw-active-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(6,182,212,0.18) 40%,
+    rgba(165,243,252,0.35) 50%,
+    rgba(6,182,212,0.18) 60%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: hiw-shimmer-sweep 1.0s ease-in-out forwards, hiw-ring-pulse 1.8s ease-out forwards;
+}
+.hiw-active-panel {
+  animation: hiw-panel-glow 2.0s ease-out forwards;
+}
