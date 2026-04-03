@@ -3902,44 +3902,58 @@ export default function AidAgentPage() {
                     }} />
                   ))}
                 </div>
-                {/* Hero badge */}
-                <div className="relative mb-10 flex items-center justify-center" style={{width: 120, height: 120}}>
-                  {/* Outermost ambient glow */}
+                {/* ── Hero: Glowing Orb centerpiece ── */}
+                <div className="relative mb-8 flex items-center justify-center" style={{width: 148, height: 148}}>
+                  {/* Ambient halo rings — teal/cyan */}
                   <div className="absolute inset-0 rounded-full" style={{
-                    background: "radial-gradient(circle, rgba(99,102,241,0.18) 0%, transparent 70%)",
-                    animation: "genie-halo-expand 3.2s ease-out infinite",
+                    background: "radial-gradient(circle, rgba(6,182,212,0.20) 0%, transparent 70%)",
+                    animation: "genie-halo-expand 3.5s ease-out infinite",
                   }} />
                   <div className="absolute inset-0 rounded-full" style={{
-                    background: "radial-gradient(circle, rgba(167,139,250,0.13) 0%, transparent 65%)",
-                    animation: "genie-halo-expand-2 3.2s ease-out infinite 1.6s",
+                    background: "radial-gradient(circle, rgba(14,165,233,0.14) 0%, transparent 65%)",
+                    animation: "genie-halo-expand-2 3.5s ease-out infinite 1.75s",
                   }} />
-                  {/* Soft outer ring */}
-                  <div className="absolute inset-3 rounded-3xl" style={{
-                    boxShadow: "0 0 0 1px rgba(139,92,246,0.25), 0 0 40px 10px rgba(99,102,241,0.15)",
-                    animation: "genie-bottle-container-pulse 3s ease-in-out infinite",
-                    borderRadius: "24px",
-                  }} />
-                  {/* Card */}
-                  <div className="relative z-10 flex items-center justify-center rounded-3xl ring-1 ring-white/[0.12]"
+                  {/* Orb sphere — realistic glass ball with specular highlights */}
+                  <div className="relative z-10 rounded-full"
                     style={{
-                      width: 88, height: 88,
-                      background: "linear-gradient(145deg, #3730a3 0%, #4f46e5 40%, #6d28d9 100%)",
-                      boxShadow: "0 8px 32px rgba(79,70,229,0.45), 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15)",
-                      borderRadius: "22px",
-                      animation: "genie-bottle-container-pulse 3s ease-in-out infinite",
+                      width: 100, height: 100,
+                      background: "radial-gradient(circle at 38% 30%, rgba(186,230,253,0.98) 0%, rgba(6,182,212,0.88) 26%, rgba(2,132,199,0.88) 56%, rgba(7,59,103,0.98) 100%)",
+                      boxShadow: "0 0 0 1.5px rgba(6,182,212,0.45), 0 0 32px 10px rgba(6,182,212,0.38), 0 0 80px 22px rgba(6,182,212,0.14), inset 0 1px 0 rgba(255,255,255,0.25), 0 10px 40px rgba(0,0,0,0.55)",
+                      animation: "genie-bottle-container-pulse 3.2s ease-in-out infinite",
+                      willChange: "box-shadow",
                     }}>
-                    {/* Inner shimmer layer */}
-                    <div className="absolute inset-0 rounded-3xl overflow-hidden" style={{borderRadius:"22px"}}>
-                      <div className="absolute inset-0" style={{
-                        background: "linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 50%, rgba(255,255,255,0.04) 100%)",
-                      }} />
-                    </div>
-                    <GenieBottle className="relative z-10 text-amber-100 genie-bottle-alive" style={{width:48, height:56}} />
+                    {/* Primary specular highlight — upper-left */}
+                    <div style={{
+                      position: "absolute", borderRadius: "50%",
+                      width: "40%", height: "38%",
+                      top: "11%", left: "16%",
+                      background: "rgba(255,255,255,0.92)",
+                      filter: "blur(8px)",
+                      pointerEvents: "none",
+                    }} />
+                    {/* Bright point — concentrated glint */}
+                    <div style={{
+                      position: "absolute", borderRadius: "50%",
+                      width: "14%", height: "14%",
+                      top: "9%", left: "14%",
+                      background: "rgba(255,255,255,1)",
+                      filter: "blur(2px)",
+                      pointerEvents: "none",
+                    }} />
+                    {/* Bottom rim — transmitted light glow */}
+                    <div style={{
+                      position: "absolute", borderRadius: "50%",
+                      width: "55%", height: "22%",
+                      bottom: "8%", left: "22%",
+                      background: "rgba(6,182,212,0.4)",
+                      filter: "blur(9px)",
+                      pointerEvents: "none",
+                    }} />
                   </div>
                   {/* Live status badge */}
                   <div className="absolute z-20 flex items-center gap-1 px-2 py-0.5 rounded-full"
                     style={{
-                      bottom: 8, right: 4,
+                      bottom: 10, right: 6,
                       background: "linear-gradient(90deg, #059669 0%, #10b981 100%)",
                       boxShadow: "0 2px 8px rgba(5,150,105,0.55), 0 0 0 2px rgba(8,20,46,0.9)",
                     }}>
@@ -3948,206 +3962,97 @@ export default function AidAgentPage() {
                   </div>
                 </div>
 
-                <h2 className="text-2xl font-bold tracking-tight text-white mb-2 text-center">
-                  Student Aid Hub.{" "}
-                  <span className="genie-shimmer-text">AI-Powered Guidance.</span>
+                {/* ── Headline: punchy and benefit-led ── */}
+                <h2 className="text-[1.65rem] font-bold tracking-tight text-white mb-3 text-center leading-tight">
+                  Your Financial Aid Questions,{" "}
+                  <span className="genie-shimmer-text">Answered in Seconds.</span>
                 </h2>
-                <p className="text-sm text-white/55 leading-relaxed max-w-lg text-center mb-2">
-                  Your calm companion for everything student aid related.
-                </p>
-                <p className="text-xs text-white/30 leading-relaxed max-w-md text-center mb-6">
-                  Financial aid offer letters · R2T4 calculations · FSA audits · Title IV · SAP · Scholarships
+                {/* Sub-headline: short, credibility-first */}
+                <p className="text-sm text-white/58 leading-relaxed max-w-[22rem] text-center mb-7">
+                  AI guidance built on 15 years of FA expertise — FAFSA, Title&nbsp;IV, R2T4, SAP, and 34&nbsp;CFR compliance in plain English.
                 </p>
 
-                {/* ── Trust strip ── */}
-                <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mb-7 px-2">
+                {/* ── Trust strip — pill badges for scanability ── */}
+                <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
                   {[
-                    { icon: Award,       text: "Built by a 15-yr FA Professional" },
-                    { icon: BookOpen,    text: "34 CFR Parts 600–690 Coverage"    },
-                    { icon: ShieldCheck, text: "Regulations & Resources Updated Weekly" },
-                    { icon: Users,       text: "Students, Parents & FA Offices"   },
+                    { icon: Award,       text: "15-yr FA Professional" },
+                    { icon: BookOpen,    text: "34 CFR Full Coverage"  },
+                    { icon: ShieldCheck, text: "Updated Weekly"        },
+                    { icon: Users,       text: "Students · Parents · FA Offices" },
                   ].map(({ icon: Icon, text }) => (
-                    <div key={text} className="flex items-center gap-1.5">
-                      <Icon className="h-3 w-3 text-indigo-400/70 shrink-0" aria-hidden="true" />
-                      <span className="text-[11px] text-white/45 font-medium">{text}</span>
-                    </div>
+                    <span key={text} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-cyan-500/[0.07] ring-1 ring-cyan-500/[0.18]">
+                      <Icon className="h-3 w-3 text-cyan-400/80 shrink-0" aria-hidden="true" />
+                      <span className="text-[11px] text-white/55 font-medium">{text}</span>
+                    </span>
                   ))}
                 </div>
 
-                {/* ── How it works ── */}
-                <div className="w-full max-w-2xl mb-7">
-                  <div className="flex items-center gap-2 mb-1">
-                    <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/[0.08]" />
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/25 px-2">How it works</span>
-                    <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/[0.08]" />
+                {/* ── How it works — clean 3-step ── */}
+                <div className="w-full max-w-xl mb-8">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/[0.07]" />
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/20 px-2">How it works</span>
+                    <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/[0.07]" />
                   </div>
-                  <p className="text-center text-[10px] text-white/30 mb-4 tracking-wide">Non-linear — jump in anywhere, circle back anytime</p>
-
-                  {/* Mobile: vertical flow with bidirectional arrows */}
-                  <div className="sm:hidden flex flex-col gap-0">
+                  <div className="grid grid-cols-3 gap-2.5">
                     {([
-                      { icon: Sparkles,    title: "Choose your role",  body: "Student, Parent, Admin, Leader, or Auditor.", color: "text-violet-400" },
-                      { icon: Paperclip,   title: "Ask or upload",     body: "Type a question, upload a doc, or use voice.",  color: "text-sky-400"    },
-                      { icon: Library,     title: "Explore the Hub",   body: "Browse scholarships, jobs, resources & more.", color: "text-teal-400"   },
-                      { icon: CheckCircle, title: "Get guidance",      body: "Plain-English answers with citations.",         color: "text-indigo-400" },
-                    ] as const).map(({ icon: Icon, title, body, color }, i, arr) => (
-                      <div key={title}>
-                        <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.04] ring-1 ring-white/[0.07]">
-                          <div className="p-1.5 rounded-lg bg-white/[0.06] shrink-0 mt-0.5">
-                            <Icon className={`h-3.5 w-3.5 ${color}`} aria-hidden="true" />
-                          </div>
-                          <div>
-                            <p className="text-[11px] font-semibold text-white/80 leading-tight">{title}</p>
-                            <p className="text-[10px] text-white/35 leading-snug mt-0.5">{body}</p>
-                          </div>
+                      { icon: Sparkles,    step: "1", title: "Choose Your Role",      body: "Student, Parent, Admin, Leader, or Auditor",     color: "text-violet-400", ring: "ring-violet-500/[0.18]", bg: "bg-violet-500/[0.07]" },
+                      { icon: Send,        step: "2", title: "Ask Anything",           body: "Type, upload a document, or use voice input",     color: "text-cyan-400",   ring: "ring-cyan-500/[0.18]",   bg: "bg-cyan-500/[0.07]"   },
+                      { icon: CheckCircle, step: "3", title: "Get Expert Guidance",    body: "Plain-English answers with regulatory citations",  color: "text-emerald-400",ring: "ring-emerald-500/[0.18]",bg: "bg-emerald-500/[0.07]"},
+                    ] as const).map(({ icon: Icon, step, title, body, color, ring, bg }) => (
+                      <div key={step} className={`flex flex-col gap-2.5 p-3.5 rounded-xl ${bg} ring-1 ${ring}`}>
+                        <div className="flex items-center gap-2">
+                          <span className="text-[9px] font-black text-white/20 tabular-nums">{step}</span>
+                          <Icon className={`h-3.5 w-3.5 ${color}`} aria-hidden="true" />
                         </div>
-                        {i < arr.length - 1 && (
-                          <div className="flex flex-col items-center py-0.5 gap-px">
-                            <span className="text-indigo-400/40 text-[10px] leading-none">▲</span>
-                            <div className="w-px h-3 bg-indigo-500/20" />
-                            <span className="text-indigo-400/40 text-[10px] leading-none">▼</span>
-                          </div>
-                        )}
+                        <p className="text-[11px] font-semibold text-white/78 leading-tight">{title}</p>
+                        <p className="text-[10px] text-white/35 leading-snug">{body}</p>
                       </div>
                     ))}
                   </div>
-
-                  {/* Desktop: hub-and-spoke with bidirectional arrows */}
-                  <div className="hidden sm:block relative mx-auto" style={{ maxWidth: 580 }}>
-                    <div className="relative w-full" style={{ paddingBottom: "86%" }}>
-                      <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 580 500" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <defs>
-                          {/* Arrow tip pointing forward */}
-                          <marker id="arr-fwd" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-                            <path d="M0.5 0.5 L5.5 3 L0.5 5.5z" fill="rgba(99,102,241,0.55)" />
-                          </marker>
-                          {/* Arrow tip pointing backward (for markerStart) */}
-                          <marker id="arr-rev" markerWidth="6" markerHeight="6" refX="1" refY="3" orient="auto-start-reverse">
-                            <path d="M0.5 0.5 L5.5 3 L0.5 5.5z" fill="rgba(99,102,241,0.55)" />
-                          </marker>
-                          {/* Diagonal cross arrow — dimmer */}
-                          <marker id="arr-cross-fwd" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
-                            <path d="M0.5 0.5 L5.5 3 L0.5 5.5z" fill="rgba(139,92,246,0.35)" />
-                          </marker>
-                          <marker id="arr-cross-rev" markerWidth="6" markerHeight="6" refX="1" refY="3" orient="auto-start-reverse">
-                            <path d="M0.5 0.5 L5.5 3 L0.5 5.5z" fill="rgba(139,92,246,0.35)" />
-                          </marker>
-                        </defs>
-
-                        {/* ── Outer ring arcs — bidirectional ── */}
-                        {/* Top ↔ Right */}
-                        <path d="M 356,68 C 430,68 458,128 458,200"
-                          stroke="rgba(99,102,241,0.28)" strokeWidth="1.5" strokeDasharray="5 4"
-                          markerEnd="url(#arr-fwd)" markerStart="url(#arr-rev)" />
-                        {/* Right ↔ Bottom */}
-                        <path d="M 458,318 C 458,392 422,444 356,444"
-                          stroke="rgba(99,102,241,0.28)" strokeWidth="1.5" strokeDasharray="5 4"
-                          markerEnd="url(#arr-fwd)" markerStart="url(#arr-rev)" />
-                        {/* Bottom ↔ Left */}
-                        <path d="M 224,444 C 152,444 122,392 122,318"
-                          stroke="rgba(99,102,241,0.28)" strokeWidth="1.5" strokeDasharray="5 4"
-                          markerEnd="url(#arr-fwd)" markerStart="url(#arr-rev)" />
-                        {/* Left ↔ Top */}
-                        <path d="M 122,200 C 122,128 150,68 224,68"
-                          stroke="rgba(99,102,241,0.28)" strokeWidth="1.5" strokeDasharray="5 4"
-                          markerEnd="url(#arr-fwd)" markerStart="url(#arr-rev)" />
-
-                        {/* ── Cross diagonals — bidirectional, subtler ── */}
-                        {/* Top ↔ Bottom */}
-                        <path d="M 290,112 L 290,400"
-                          stroke="rgba(139,92,246,0.18)" strokeWidth="1.2" strokeDasharray="3 6"
-                          markerEnd="url(#arr-cross-fwd)" markerStart="url(#arr-cross-rev)" />
-                        {/* Left ↔ Right */}
-                        <path d="M 172,256 L 408,256"
-                          stroke="rgba(139,92,246,0.18)" strokeWidth="1.2" strokeDasharray="3 6"
-                          markerEnd="url(#arr-cross-fwd)" markerStart="url(#arr-cross-rev)" />
-                      </svg>
-
-                      {/* Top: Choose your role */}
-                      <div className="absolute flex flex-col gap-2 p-3.5 rounded-xl bg-white/[0.04] ring-1 ring-violet-500/20"
-                           style={{ left: "35.3%", top: "0%", width: "29.3%" }}>
-                        <Sparkles className="h-4 w-4 text-violet-400/70" aria-hidden="true" />
-                        <p className="text-xs font-semibold text-white/80 leading-tight">Choose your role</p>
-                        <p className="text-[10px] text-white/38 leading-snug">Student, Parent, Admin, Leader, or Auditor.</p>
-                      </div>
-
-                      {/* Right: Ask or upload */}
-                      <div className="absolute flex flex-col gap-2 p-3.5 rounded-xl bg-white/[0.04] ring-1 ring-sky-500/20"
-                           style={{ left: "68.3%", top: "37%", width: "29.3%" }}>
-                        <Paperclip className="h-4 w-4 text-sky-400/70" aria-hidden="true" />
-                        <p className="text-xs font-semibold text-white/80 leading-tight">Ask or upload</p>
-                        <p className="text-[10px] text-white/38 leading-snug">Type, upload a doc, or pick a quick-start.</p>
-                      </div>
-
-                      {/* Bottom: Get guidance */}
-                      <div className="absolute flex flex-col gap-2 p-3.5 rounded-xl bg-white/[0.04] ring-1 ring-indigo-500/20"
-                           style={{ left: "35.3%", top: "74%", width: "29.3%" }}>
-                        <CheckCircle className="h-4 w-4 text-indigo-400/70" aria-hidden="true" />
-                        <p className="text-xs font-semibold text-white/80 leading-tight">Get guidance</p>
-                        <p className="text-[10px] text-white/38 leading-snug">Plain-English answers with citations.</p>
-                      </div>
-
-                      {/* Left: Explore the Hub */}
-                      <div className="absolute flex flex-col gap-2 p-3.5 rounded-xl bg-white/[0.04] ring-1 ring-teal-500/20"
-                           style={{ left: "2.4%", top: "37%", width: "29.3%" }}>
-                        <Library className="h-4 w-4 text-teal-400/70" aria-hidden="true" />
-                        <p className="text-xs font-semibold text-white/80 leading-tight">Explore the Hub</p>
-                        <p className="text-[10px] text-white/38 leading-snug">Scholarships, jobs, resources & more.</p>
-                      </div>
-
-                      {/* Center: non-linear indicator */}
-                      <div className="absolute z-10 flex flex-col items-center gap-1.5 rounded-2xl px-3 py-2.5"
-                           style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)",
-                             background: "rgba(15,23,60,0.92)", boxShadow: "0 0 0 1px rgba(99,102,241,0.25), 0 4px 16px rgba(0,0,0,0.4)" }}>
-                        {/* 4-way arrows SVG */}
-                        <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" stroke="rgba(139,92,246,0.8)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M12 5V19M5 12H19" />
-                          <path d="M9 8L12 5L15 8M9 16L12 19L15 16M8 9L5 12L8 15M16 9L19 12L16 15" />
-                        </svg>
-                        <p className="text-[7px] font-bold uppercase tracking-widest text-white/30 text-center leading-tight whitespace-nowrap">any direction</p>
-                      </div>
-                    </div>
-                  </div>
                 </div>
 
-                {/* Quick actions — role tabs + 2×2 grid */}
-                <div className="w-full max-w-2xl">
-                  {/* Role pill tabs */}
-                  <div className="flex gap-1.5 flex-wrap justify-center mb-3">
-                    {QUICK_ACTIONS_BY_ROLE.map(({ role, color }) => (
+                {/* ── Role selector — prominent card grid ── */}
+                <div className="w-full max-w-2xl mb-2">
+                  <p className="text-center text-[10px] font-bold uppercase tracking-[0.14em] text-white/22 mb-3">I am a…</p>
+                  <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 mb-5">
+                    {([
+                      { role: "Students",       icon: GraduationCap  },
+                      { role: "Parents",        icon: Users           },
+                      { role: "Administrators", icon: ClipboardList   },
+                      { role: "Leaders",        icon: TrendingUp      },
+                      { role: "Auditors",       icon: ShieldCheck     },
+                    ] as const).map(({ role, icon: RoleIcon }) => (
                       <button
                         key={role}
                         onClick={() => setActiveActionRole(role)}
-                        className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+                        className={`flex flex-col items-center gap-2 px-2 py-3.5 rounded-xl text-[11px] font-semibold transition-all duration-200 ring-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 ${
                           activeActionRole === role
-                            ? "text-white bg-indigo-600/70 ring-1 ring-indigo-500/50 shadow-sm"
-                            : "text-white/40 hover:text-white/70 hover:bg-white/[0.06]"
+                            ? "bg-gradient-to-b from-cyan-500/20 to-sky-600/10 text-cyan-300 ring-cyan-500/35 shadow-lg shadow-cyan-900/20"
+                            : "text-white/40 hover:text-white/72 hover:bg-white/[0.05] ring-white/[0.07]"
                         }`}
                       >
-                        {role}
+                        <RoleIcon className={`h-4 w-4 transition-colors ${activeActionRole === role ? "text-cyan-300" : "text-white/30"}`} />
+                        <span className="text-center leading-tight">{role}</span>
                       </button>
                     ))}
                   </div>
 
-                  {/* 2×2 card grid for selected role */}
-                  {QUICK_ACTIONS_BY_ROLE.filter((r) => r.role === activeActionRole).map(({ role, color, items }) => (
+                  {/* Quick-start cards — 2×2 grid for selected role */}
+                  {QUICK_ACTIONS_BY_ROLE.filter((r) => r.role === activeActionRole).map(({ role, items }) => (
                     <div key={role} className="grid grid-cols-2 gap-2">
                       {items.map(({ icon: Icon, label, description, q }) => (
                         <button
                           key={`${role}-${label}`}
                           onClick={() => sendMessage(q)}
-                          className="flex flex-col gap-2 p-3 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] ring-1 ring-white/[0.08] hover:ring-indigo-500/30 text-left transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+                          className="flex flex-col gap-2.5 p-3.5 rounded-xl bg-white/[0.04] hover:bg-cyan-500/[0.09] ring-1 ring-white/[0.07] hover:ring-cyan-500/25 text-left transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
                         >
-                          <div className="p-1.5 rounded-lg bg-white/[0.06] group-hover:bg-indigo-500/20 transition-colors w-fit">
-                            <Icon className="h-3.5 w-3.5 text-white/40 group-hover:text-indigo-300 transition-colors" />
+                          <div className="p-1.5 rounded-lg bg-white/[0.06] group-hover:bg-cyan-500/18 transition-colors w-fit">
+                            <Icon className="h-3.5 w-3.5 text-white/38 group-hover:text-cyan-300 transition-colors" />
                           </div>
                           <div className="min-w-0">
-                            <p className="text-xs font-semibold text-white/80 group-hover:text-white transition-colors leading-tight">
-                              {label}
-                            </p>
-                            <p className="text-[11px] text-white/35 mt-0.5 leading-tight line-clamp-2">
-                              {description}
-                            </p>
+                            <p className="text-xs font-semibold text-white/80 group-hover:text-white transition-colors leading-tight">{label}</p>
+                            <p className="text-[11px] text-white/34 mt-0.5 leading-tight line-clamp-2">{description}</p>
                           </div>
                         </button>
                       ))}
@@ -4170,9 +4075,9 @@ export default function AidAgentPage() {
                       <button
                         key={role}
                         onClick={() => setActiveRole(role)}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 ${
                           activeRole === role
-                            ? "bg-indigo-600 text-white ring-1 ring-indigo-500/40 shadow-md shadow-indigo-900/40"
+                            ? "bg-cyan-600/80 text-white ring-1 ring-cyan-500/40 shadow-md shadow-cyan-900/30"
                             : "bg-white/[0.05] text-white/45 hover:text-white/75 hover:bg-white/[0.09] ring-1 ring-white/[0.07]"
                         }`}
                       >
@@ -4201,7 +4106,7 @@ export default function AidAgentPage() {
                           >
                             <span className={`mt-2 h-1.5 w-1.5 rounded-full shrink-0 ring-1 ${accent}`} />
                             <p className="text-sm text-white/55 group-hover:text-white/85 leading-snug transition-colors duration-150 flex-1">{text}</p>
-                            <ChevronRight className="h-3.5 w-3.5 text-white/15 group-hover:text-indigo-400 shrink-0 mt-1 transition-colors duration-150" />
+                            <ChevronRight className="h-3.5 w-3.5 text-white/15 group-hover:text-cyan-400 shrink-0 mt-1 transition-colors duration-150" />
                           </button>
                         ))}
                       </div>
