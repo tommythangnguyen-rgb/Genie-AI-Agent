@@ -84,8 +84,11 @@ export default function AboutPage() {
           <p className="text-base text-white/90 leading-relaxed mb-4">
             askGenie was built to close that gap. <strong className="text-white">Not as a replacement for your financial aid office</strong>, but as a reliable companion that offers clarity at 2 a.m. before a deadline, helps decode award letters, and prepares you for any financial aid conversation.
           </p>
-          <p className="text-base text-white/90 leading-relaxed">
+          <p className="text-base text-white/90 leading-relaxed mb-4">
             Every feature comes from real experience in the financial aid office. The questions are real. The edge cases are real.
+          </p>
+          <p className="text-base text-white/90 leading-relaxed">
+            Along the way, that work deepened a belief in the power of philanthropy and what a truly <strong className="text-white">student-centric learning environment</strong> can do. When students are met with clarity instead of confusion — when they feel supported rather than lost in a system designed for administrators — they stay enrolled, they persist, and they succeed. That conviction is woven into every part of askGenie.
           </p>
         </section>
 
