@@ -221,7 +221,7 @@ export function BackgroundMusic({ inline = false }: { inline?: boolean }) {
 
   /* Inline mode — polished header-integrated strip */
   const inlineControls = (
-    <div className="flex items-center gap-2 select-none w-full min-w-0">
+    <div className="flex items-center gap-2 select-none min-w-0">
       {/* Animated note — cyan when playing */}
       <span className={`transition-colors shrink-0 ${isPlaying ? "text-cyan-400/80 animate-pulse" : "text-white/22"}`}>
         <MusicNoteIcon />

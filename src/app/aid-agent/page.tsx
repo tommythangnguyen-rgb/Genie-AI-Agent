@@ -3912,7 +3912,7 @@ export default function AidAgentPage() {
             </div>
 
             {/* ── Music player row — integrated, teal-accented ── */}
-            <div className="border-t border-white/[0.055] px-4 py-1.5">
+            <div className="border-t border-white/[0.055] px-4 py-1.5 flex justify-center sm:justify-start">
               <BackgroundMusic inline />
             </div>
           </header>
@@ -3992,57 +3992,92 @@ export default function AidAgentPage() {
                   ))}
                 </div>
                 {/* ── Hero: Glowing Orb centerpiece ── */}
-                <div className="relative mb-8 flex items-center justify-center" style={{width: 148, height: 148}}>
-                  {/* Ambient halo rings — teal/cyan */}
-                  <div className="absolute inset-0 rounded-full" style={{
-                    background: "radial-gradient(circle, rgba(6,182,212,0.20) 0%, transparent 70%)",
-                    animation: "genie-halo-expand 3.5s ease-out infinite",
+                <div
+                  className="relative mb-8 flex items-center justify-center"
+                  style={{ width: 164, height: 164, animation: "genie-orb-float 5.5s ease-in-out infinite" }}
+                >
+                  {/* Outer diffuse bloom */}
+                  <div className="absolute rounded-full pointer-events-none" style={{
+                    inset: -28,
+                    background: "radial-gradient(circle, rgba(6,182,212,0.14) 0%, rgba(99,102,241,0.08) 55%, transparent 70%)",
+                    filter: "blur(12px)",
+                    animation: "genie-orb-pulse 4.5s ease-in-out infinite",
                   }} />
-                  <div className="absolute inset-0 rounded-full" style={{
-                    background: "radial-gradient(circle, rgba(14,165,233,0.14) 0%, transparent 65%)",
-                    animation: "genie-halo-expand-2 3.5s ease-out infinite 1.75s",
+                  {/* Halo ring 1 — fast, cyan */}
+                  <div className="absolute inset-0 rounded-full pointer-events-none" style={{
+                    background: "radial-gradient(circle, rgba(6,182,212,0.30) 0%, transparent 70%)",
+                    animation: "genie-halo-expand 3s ease-out infinite",
                   }} />
-                  {/* Orb sphere — realistic glass ball with specular highlights */}
-                  <div className="relative z-10 rounded-full"
+                  {/* Halo ring 2 — indigo offset */}
+                  <div className="absolute inset-0 rounded-full pointer-events-none" style={{
+                    background: "radial-gradient(circle, rgba(99,102,241,0.22) 0%, transparent 65%)",
+                    animation: "genie-halo-expand-2 3s ease-out infinite 1.5s",
+                  }} />
+                  {/* Halo ring 3 — slow wide sky-blue */}
+                  <div className="absolute inset-0 rounded-full pointer-events-none" style={{
+                    background: "radial-gradient(circle, rgba(56,189,248,0.18) 0%, transparent 60%)",
+                    animation: "genie-halo-expand-3 4.2s ease-out infinite 2.8s",
+                  }} />
+
+                  {/* Orb sphere */}
+                  <div
+                    className="relative z-10 rounded-full overflow-hidden"
                     style={{
-                      width: 100, height: 100,
-                      background: "radial-gradient(circle at 38% 30%, rgba(186,230,253,0.98) 0%, rgba(6,182,212,0.88) 26%, rgba(2,132,199,0.88) 56%, rgba(7,59,103,0.98) 100%)",
-                      boxShadow: "0 0 0 1.5px rgba(6,182,212,0.45), 0 0 32px 10px rgba(6,182,212,0.38), 0 0 80px 22px rgba(6,182,212,0.14), inset 0 1px 0 rgba(255,255,255,0.25), 0 10px 40px rgba(0,0,0,0.55)",
-                      animation: "genie-bottle-container-pulse 3.2s ease-in-out infinite",
-                      willChange: "box-shadow",
-                    }}>
-                    {/* Primary specular highlight — upper-left */}
+                      width: 106, height: 106,
+                      background: "radial-gradient(circle at 36% 28%, rgba(210,245,255,0.98) 0%, rgba(6,182,212,0.90) 22%, rgba(2,132,199,0.88) 50%, rgba(7,59,103,0.97) 80%, rgba(3,25,62,1) 100%)",
+                      animation: "genie-orb-glow-pulse 4.2s ease-in-out infinite",
+                      willChange: "box-shadow, filter",
+                    }}
+                  >
+                    {/* Rotating aurora shimmer */}
                     <div style={{
-                      position: "absolute", borderRadius: "50%",
-                      width: "40%", height: "38%",
-                      top: "11%", left: "16%",
-                      background: "rgba(255,255,255,0.92)",
-                      filter: "blur(8px)",
+                      position: "absolute", inset: 0, borderRadius: "50%",
+                      background: "conic-gradient(from 0deg at 58% 38%, transparent 0deg, rgba(255,255,255,0.22) 38deg, transparent 85deg, rgba(56,189,248,0.26) 175deg, transparent 235deg, rgba(255,255,255,0.14) 295deg, transparent 360deg)",
+                      animation: "genie-orb-shimmer-spin 7s linear infinite",
                       pointerEvents: "none",
                     }} />
-                    {/* Bright point — concentrated glint */}
+                    {/* Primary specular — upper-left */}
                     <div style={{
                       position: "absolute", borderRadius: "50%",
-                      width: "14%", height: "14%",
-                      top: "9%", left: "14%",
+                      width: "42%", height: "38%",
+                      top: "10%", left: "14%",
+                      background: "rgba(255,255,255,0.94)",
+                      filter: "blur(7px)",
+                      pointerEvents: "none",
+                    }} />
+                    {/* Bright point glint */}
+                    <div style={{
+                      position: "absolute", borderRadius: "50%",
+                      width: "13%", height: "13%",
+                      top: "8%", left: "13%",
                       background: "rgba(255,255,255,1)",
-                      filter: "blur(2px)",
+                      filter: "blur(1.5px)",
                       pointerEvents: "none",
                     }} />
-                    {/* Bottom rim — transmitted light glow */}
+                    {/* Secondary glint — lower right */}
                     <div style={{
                       position: "absolute", borderRadius: "50%",
-                      width: "55%", height: "22%",
-                      bottom: "8%", left: "22%",
-                      background: "rgba(6,182,212,0.4)",
+                      width: "18%", height: "14%",
+                      bottom: "22%", right: "16%",
+                      background: "rgba(56,189,248,0.62)",
+                      filter: "blur(5px)",
+                      pointerEvents: "none",
+                    }} />
+                    {/* Bottom rim transmitted-light glow */}
+                    <div style={{
+                      position: "absolute", borderRadius: "50%",
+                      width: "58%", height: "24%",
+                      bottom: "7%", left: "20%",
+                      background: "rgba(6,182,212,0.50)",
                       filter: "blur(9px)",
                       pointerEvents: "none",
                     }} />
                   </div>
+
                   {/* Live status badge */}
                   <div className="absolute z-20 flex items-center gap-1 px-2 py-0.5 rounded-full"
                     style={{
-                      bottom: 10, right: 6,
+                      bottom: 12, right: 8,
                       background: "linear-gradient(90deg, #059669 0%, #10b981 100%)",
                       boxShadow: "0 2px 8px rgba(5,150,105,0.55), 0 0 0 2px rgba(8,20,46,0.9)",
                     }}>
