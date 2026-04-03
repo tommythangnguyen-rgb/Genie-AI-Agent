@@ -3070,7 +3070,7 @@ export default function AidAgentPage() {
   // Auto-dismiss How It Works highlight after 2.2 s
   useEffect(() => {
     if (!howItWorksActive) return;
-    const t = setTimeout(() => setHowItWorksActive(null), 2200);
+    const t = setTimeout(() => setHowItWorksActive(null), 2800);
     return () => clearTimeout(t);
   }, [howItWorksActive]);
 
@@ -3681,7 +3681,8 @@ export default function AidAgentPage() {
       <div className="h-screen flex overflow-hidden" style={{ height: "100dvh" }} onClick={triggerBurst}>
 
         {/* ── Sidebar ── */}
-        <aside className={`${showMobileLeft ? "flex fixed inset-y-0 left-0 z-50" : "hidden"} lg:flex lg:static lg:z-auto flex-col w-72 shrink-0 border-r border-white/[0.10] bg-[#071035] lg:bg-white/[0.07] backdrop-blur-2xl transition-all duration-300 ${howItWorksActive === "panels" ? "hiw-active-panel" : ""}`}>
+        <aside className={`${showMobileLeft ? "flex fixed inset-y-0 left-0 z-50" : "hidden"} lg:flex lg:static lg:z-auto flex-col w-72 shrink-0 border-r border-white/[0.10] bg-[#071035] lg:bg-white/[0.07] backdrop-blur-2xl transition-all duration-300 ${howItWorksActive === "panels" ? "hiw-panel-explore" : ""}`}>
+          {howItWorksActive === "panels" && <div className="hiw-scan-overlay" aria-hidden="true" />}
 
           {/* Brand — Students & Parents */}
           <div className="px-4 pt-4 pb-3 border-b border-white/[0.07]">
@@ -5146,7 +5147,8 @@ export default function AidAgentPage() {
         </main>
 
         {/* ── Right Panel — Coverage + Quick Actions ── */}
-        <aside className={`${showMobileRight ? "flex fixed inset-y-0 right-0 z-50" : "hidden"} xl:flex xl:static xl:z-auto flex-col w-72 shrink-0 border-l border-white/[0.10] bg-[#071035] xl:bg-white/[0.07] backdrop-blur-2xl transition-all duration-300 ${howItWorksActive === "panels" ? "hiw-active-panel" : ""}`}>
+        <aside className={`${showMobileRight ? "flex fixed inset-y-0 right-0 z-50" : "hidden"} xl:flex xl:static xl:z-auto flex-col w-72 shrink-0 border-l border-white/[0.10] bg-[#071035] xl:bg-white/[0.07] backdrop-blur-2xl transition-all duration-300 ${howItWorksActive === "panels" ? "hiw-panel-explore" : ""}`}>
+          {howItWorksActive === "panels" && <div className="hiw-scan-overlay" aria-hidden="true" />}
 
           {/* Header — Administrators, Leaders & Auditors */}
           <div className="px-4 pt-4 pb-4 border-b border-white/[0.07]">

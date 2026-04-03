@@ -520,6 +520,47 @@
   animation: hiw-panel-glow 2.0s ease-out forwards;
 }
 
+/* ── Explore the Hub — panel flash + outer neon glow ── */
+@keyframes hiw-panel-explore-flash {
+  0%   { outline: 2px solid rgba(6,182,212,0);    box-shadow: none; filter: brightness(1); }
+  10%  { outline: 2px solid rgba(6,182,212,0.95); box-shadow: 0 0 0 5px rgba(6,182,212,0.28), 0 0 70px rgba(6,182,212,0.65), inset 0 0 60px rgba(6,182,212,0.22); filter: brightness(1.40); }
+  28%  { outline: 2px solid rgba(6,182,212,0.65); box-shadow: 0 0 0 3px rgba(6,182,212,0.18), 0 0 45px rgba(6,182,212,0.42), inset 0 0 35px rgba(6,182,212,0.14); filter: brightness(1.22); }
+  48%  { outline: 2px solid rgba(6,182,212,0.82); box-shadow: 0 0 0 4px rgba(6,182,212,0.24), 0 0 60px rgba(6,182,212,0.55), inset 0 0 50px rgba(6,182,212,0.18); filter: brightness(1.32); }
+  68%  { outline: 2px solid rgba(6,182,212,0.45); box-shadow: 0 0 0 2px rgba(6,182,212,0.12), 0 0 30px rgba(6,182,212,0.28), inset 0 0 20px rgba(6,182,212,0.08); filter: brightness(1.12); }
+  100% { outline: 2px solid rgba(6,182,212,0);    box-shadow: none; filter: brightness(1); }
+}
+.hiw-panel-explore {
+  animation: hiw-panel-explore-flash 2.6s ease-out forwards;
+  outline-offset: -2px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Vertical scan beam — child element inside the panel */
+@keyframes hiw-scan-beam {
+  0%   { top: -32%; opacity: 0; }
+  6%   { opacity: 1; }
+  92%  { opacity: 0.85; }
+  100% { top: 112%; opacity: 0; }
+}
+.hiw-scan-overlay {
+  position: absolute;
+  inset-x: 0;
+  height: 32%;
+  pointer-events: none;
+  z-index: 20;
+  animation: hiw-scan-beam 1.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(6,182,212,0.12) 25%,
+    rgba(165,243,252,0.30) 46%,
+    rgba(6,182,212,0.20) 55%,
+    rgba(6,182,212,0.12) 70%,
+    transparent 100%
+  );
+}
+
 /* ── Constellation shimmer — fires when Get Clear Guidance is clicked ── */
 @keyframes constell-pulse {
   0%   { opacity: 0; }
