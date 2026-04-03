@@ -2338,7 +2338,7 @@ export default function AidAgentPage() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const readerRef = useRef<ReadableStreamDefaultReader<Uint8Array> | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [showDisclaimer, setShowDisclaimer] = useState(true);
+  const [showDisclaimer, setShowDisclaimer] = useState(false);
   const [showMobileLeft, setShowMobileLeft] = useState(false);
   const [showMobileRight, setShowMobileRight] = useState(false);
   const [isDark, setIsDark] = useState(false);
@@ -2360,7 +2360,7 @@ export default function AidAgentPage() {
   const [authDialogMode, setAuthDialogMode] = useState<"signin" | "signup">("signin");
 
   useEffect(() => {
-    if (localStorage.getItem("genie-terms-accepted")) setShowDisclaimer(false);
+    if (!localStorage.getItem("genie-terms-accepted")) setShowDisclaimer(true);
     if (!localStorage.getItem("genie-cookie-accepted")) setShowCookieNotice(true);
     // Fetch tier + usage for feature gating, usage meter, and auth state
     fetch("/api/user/usage")
@@ -2402,7 +2402,7 @@ export default function AidAgentPage() {
     if (isStreaming && !userScrolledUpRef.current) {
       bottomRef.current?.scrollIntoView({ behavior: "instant" });
     }
-  });
+  }, [isStreaming]);
 
   useEffect(() => {
     if (!input && textareaRef.current) {
@@ -4421,6 +4421,8 @@ export default function AidAgentPage() {
                   {" · "}
                   <Link href="/support" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white/40 transition-colors">Support Dev</Link>
                   {" · "}
+                  <a href="https://x.com/one27__" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-sky-300 transition-colors">@one27__</a>
+                  {" · "}
                   <Link href="/legal" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white/40 transition-colors">Legal</Link>
                   {" · "}
                   <Link href="/legal" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 hover:text-white/40 transition-colors">Terms &amp; Privacy</Link>
@@ -4623,7 +4625,7 @@ export default function AidAgentPage() {
 
       {/* Cookie / data notice — first visit */}
       {showCookieNotice && (
-        <div className="fixed bottom-0 inset-x-0 z-50 flex justify-center px-4 pb-4 pointer-events-none">
+        <div className="fixed top-0 inset-x-0 z-50 flex justify-center px-4 pt-4 pointer-events-none">
           <div className="pointer-events-auto max-w-xl w-full rounded-2xl bg-[#071035]/95 border border-white/[0.12] shadow-2xl shadow-black/40 backdrop-blur-xl px-5 py-4 flex items-start gap-3">
             <ShieldCheck className="h-4 w-4 text-indigo-400 shrink-0 mt-0.5" />
             <div className="flex-1 min-w-0">

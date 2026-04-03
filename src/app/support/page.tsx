@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Home, ChevronRight, Coffee, Copy, Check, CreditCard, Heart } from "lucide-react";
+import { Home, ChevronRight, Coffee, Copy, Check, CreditCard, Heart, ExternalLink } from "lucide-react";
 
 function GenieBottle({ className }: { className?: string }) {
   return (
@@ -141,6 +141,33 @@ export default function SupportPage() {
             </a>
           </div>
 
+          {/* X / Twitter */}
+          <div className="rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.10] px-7 py-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="p-2 rounded-xl bg-sky-500/15 ring-1 ring-sky-500/25">
+                <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5 text-sky-300">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+              </div>
+              <div>
+                <h2 className="text-base font-bold text-white">Follow on X</h2>
+                <p className="text-xs text-white/50">Stay updated on askGenie news and updates</p>
+              </div>
+            </div>
+            <a
+              href="https://x.com/one27__"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-black hover:bg-neutral-900 ring-1 ring-white/[0.15] text-white text-sm font-semibold shadow-lg active:scale-[0.98] transition-all"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+              @one27__
+              <ExternalLink className="h-3.5 w-3.5 opacity-50" />
+            </a>
+          </div>
+
           {/* Card / PayPal via Stripe */}
           <div className="rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.10] px-7 py-6">
             <div className="flex items-center gap-3 mb-5">
@@ -234,6 +261,17 @@ export default function SupportPage() {
             </p>
           </div>
           <div className="flex items-center gap-2">
+            <a
+              href="https://x.com/one27__"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white/40 hover:text-sky-300 text-xs font-medium transition-colors"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+              @one27__
+            </a>
             <Link
               href="/legal"
               className="px-3 py-1.5 rounded-lg text-white/40 hover:text-white text-xs font-medium transition-colors"

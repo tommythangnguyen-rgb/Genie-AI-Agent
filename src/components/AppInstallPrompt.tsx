@@ -111,7 +111,7 @@ export function AppInstallPrompt() {
   if (!show || installed) return null;
 
   return (
-    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] w-[calc(100%-2rem)] max-w-sm animate-in slide-in-from-bottom-4 fade-in duration-300">
+    <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[9999] w-[calc(100%-2rem)] max-w-sm animate-in slide-in-from-top-4 fade-in duration-300">
       <div className="rounded-2xl bg-[#071035] ring-1 ring-indigo-500/30 shadow-2xl shadow-black/60 overflow-hidden">
         {/* Top gradient bar */}
         <div className="h-0.5 w-full bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-600" />
