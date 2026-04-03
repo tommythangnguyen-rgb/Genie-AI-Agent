@@ -3592,7 +3592,6 @@ export default function AidAgentPage() {
                           />
                         </div>
                       ))}
-                      <XProfileEmbed />
                     </div>
                   )}
                 </div>
@@ -4403,7 +4402,6 @@ export default function AidAgentPage() {
                           />
                         </div>
                       ))}
-                      <XProfileEmbed />
                     </div>
                   )}
                 </div>
