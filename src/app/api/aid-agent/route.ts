@@ -1,4 +1,4 @@
-import { streamText } from "ai";
+import { streamText, stepCountIs } from "ai";
 import { getLanguageModel } from "@/lib/provider";
 import { aidAgentPrompt } from "@/lib/prompts/aid-agent";
 import { getLatestUpdatesContext } from "@/lib/regulation-fetcher";
@@ -90,7 +90,7 @@ export async function POST(req: NextRequest) {
     maxOutputTokens: 3000,
     temperature: 0.4,
     tools: { fetchResourcePage },
-    maxSteps: 4,
+    stopWhen: stepCountIs(4),
   });
 
   // Translate raw API errors into user-friendly messages.
