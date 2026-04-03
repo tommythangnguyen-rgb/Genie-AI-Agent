@@ -1,158 +1,314 @@
 "use client";
 
-import { useEffect, useState, Suspense } from "react";
+import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
-function ResourceRedirector() {
+// Tries to focus the askGenie opener tab then closes this tab.
+// If no opener (e.g. user navigated here directly), just closes.
+function closeAndReturn() {
+  if (typeof window === "undefined") return;
+  try {
+    if (window.opener && !window.opener.closed) {
+      window.opener.focus();
+    }
+  } catch {}
+  window.close();
+}
+
+function ResourceViewer() {
   const params = useSearchParams();
   const url = params.get("url") ?? "";
-  const [counting, setCounting] = useState(true);
 
-  useEffect(() => {
-    if (!url) return;
-    // Small delay so the "Back to askGenie" button is visible
-    const t = setTimeout(() => {
-      setCounting(false);
-      window.location.href = url;
-    }, 800);
-    return () => clearTimeout(t);
-  }, [url]);
-
-  const handleClose = () => {
-    if (typeof window !== "undefined") window.close();
-  };
+  // Try to pull a human-readable name from the URL hostname
+  let hostname = "";
+  try { hostname = new URL(url).hostname.replace(/^www\./, ""); } catch {}
 
   if (!url) {
     return (
-      <div className="min-h-screen flex items-center justify-center" style={{ background: "#060e30", color: "white" }}>
-        <div style={{ textAlign: "center" }}>
-          <p style={{ color: "rgba(255,255,255,0.5)", marginBottom: "1rem" }}>No resource URL provided.</p>
-          <button onClick={handleClose} style={{ padding: "8px 16px", background: "#0891b2", color: "white", borderRadius: "8px", border: "none", cursor: "pointer" }}>
-            ← Close Tab
-          </button>
+      <div style={styles.page}>
+        <Header url="" onClose={closeAndReturn} />
+        <div style={styles.body}>
+          <p style={{ color: "rgba(255,255,255,0.45)", fontSize: "14px", marginBottom: "16px" }}>
+            No resource URL was provided.
+          </p>
+          <Btn onClick={closeAndReturn}>← Close Tab</Btn>
         </div>
+        <Footer onClose={closeAndReturn} />
       </div>
     );
   }
 
   return (
-    <div style={{ minHeight: "100vh", background: "#060e30", fontFamily: "system-ui, sans-serif" }}>
-      {/* Sticky header */}
-      <div style={{
-        position: "sticky",
-        top: 0,
-        zIndex: 50,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "10px 20px",
-        background: "rgba(4,20,56,0.98)",
-        borderBottom: "1px solid rgba(6,182,212,0.18)",
-        backdropFilter: "blur(12px)",
-      }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <span style={{ fontSize: "16px", fontWeight: 800, color: "#22d3ee", letterSpacing: "-0.02em" }}>
-            askGenie
-          </span>
-          <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.35)", maxWidth: "260px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-            Opening: {url}
-          </span>
-        </div>
-        <button
-          onClick={handleClose}
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-            padding: "7px 14px",
-            background: "rgba(6,182,212,0.12)",
-            color: "#67e8f9",
-            border: "1px solid rgba(6,182,212,0.28)",
-            borderRadius: "8px",
-            cursor: "pointer",
-            fontSize: "12px",
-            fontWeight: 600,
-            transition: "all 0.15s",
-          }}
-          onMouseEnter={e => { (e.target as HTMLElement).style.background = "rgba(6,182,212,0.22)"; }}
-          onMouseLeave={e => { (e.target as HTMLElement).style.background = "rgba(6,182,212,0.12)"; }}
-        >
-          ← Back to askGenie
-        </button>
-      </div>
+    <div style={styles.page}>
+      <Header url={url} onClose={closeAndReturn} />
 
-      {/* Loading body */}
-      <div style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "calc(100vh - 52px)",
-        gap: "20px",
-        padding: "40px 20px",
-        textAlign: "center",
-      }}>
-        {counting ? (
-          <>
-            <div style={{
-              width: "40px",
-              height: "40px",
-              border: "3px solid rgba(6,182,212,0.15)",
-              borderTopColor: "#22d3ee",
-              borderRadius: "50%",
-              animation: "spin 0.8s linear infinite",
-            }} />
-            <p style={{ color: "rgba(255,255,255,0.55)", fontSize: "14px" }}>
-              Opening resource…
+      {/* Body */}
+      <div style={styles.body}>
+        {/* Resource card */}
+        <div style={styles.card}>
+          <div style={styles.cardIcon}>🔗</div>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <p style={{ fontSize: "15px", fontWeight: 700, color: "#e0f2fe", marginBottom: "4px", wordBreak: "break-word" }}>
+              {hostname}
             </p>
-            <p style={{ color: "rgba(255,255,255,0.3)", fontSize: "11px", maxWidth: "320px", wordBreak: "break-all" }}>
+            <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.35)", wordBreak: "break-all" }}>
               {url}
             </p>
-          </>
-        ) : (
-          <>
-            <p style={{ color: "rgba(255,255,255,0.55)", fontSize: "14px" }}>
-              Redirecting…
-            </p>
-            <a href={url} style={{ color: "#22d3ee", fontSize: "12px", textDecoration: "underline" }}>
-              Click here if not redirected automatically
-            </a>
-          </>
-        )}
-        <button
-          onClick={handleClose}
-          style={{
-            marginTop: "8px",
-            padding: "10px 24px",
-            background: "rgba(6,182,212,0.12)",
-            color: "#67e8f9",
-            border: "1px solid rgba(6,182,212,0.28)",
-            borderRadius: "10px",
-            cursor: "pointer",
-            fontSize: "13px",
-            fontWeight: 600,
-          }}
-        >
-          ← Close Tab & Return to askGenie
-        </button>
+          </div>
+        </div>
+
+        {/* Action buttons */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "12px", width: "100%", maxWidth: "340px" }}>
+          {/* Primary: open resource in new tab (preserves this tab for easy close) */}
+          <a
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={styles.primaryBtn}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(6,182,212,0.30)"; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(6,182,212,0.16)"; }}
+          >
+            Open Resource ↗
+          </a>
+
+          {/* Secondary: open in same tab (browser back returns here) */}
+          <a
+            href={url}
+            style={styles.secondaryBtn}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(255,255,255,0.07)"; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "transparent"; }}
+          >
+            Open in this tab
+          </a>
+
+          {/* Close */}
+          <button
+            onClick={closeAndReturn}
+            style={styles.closeBtn}
+            onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(6,182,212,0.18)"; }}
+            onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(6,182,212,0.08)"; }}
+          >
+            ← Close Tab &amp; Return to askGenie
+          </button>
+        </div>
+
+        <p style={{ fontSize: "11px", color: "rgba(255,255,255,0.22)", marginTop: "24px", textAlign: "center", maxWidth: "320px" }}>
+          Tip: "Open in this tab" then use your browser back button to return here and close the tab.
+        </p>
       </div>
 
-      <style>{`
-        @keyframes spin { to { transform: rotate(360deg); } }
-      `}</style>
+      <Footer onClose={closeAndReturn} />
     </div>
   );
 }
 
+// ── Shared sub-components ────────────────────────────────────────────────────
+
+function Header({ url, onClose }: { url: string; onClose: () => void }) {
+  return (
+    <div style={styles.header}>
+      <div style={{ display: "flex", alignItems: "center", gap: "10px", minWidth: 0 }}>
+        {/* askGenie logo mark */}
+        <span style={{ fontSize: "18px", fontWeight: 900, color: "#22d3ee", letterSpacing: "-0.03em", whiteSpace: "nowrap" }}>
+          askGenie
+        </span>
+        {url && (
+          <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.28)", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", maxWidth: "260px" }}>
+            Resource Viewer
+          </span>
+        )}
+      </div>
+      <button
+        onClick={onClose}
+        style={styles.headerBtn}
+        title="Close this tab and return to askGenie"
+        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(6,182,212,0.24)"; (e.currentTarget as HTMLElement).style.color = "#ffffff"; }}
+        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(6,182,212,0.10)"; (e.currentTarget as HTMLElement).style.color = "#67e8f9"; }}
+      >
+        ← Back to askGenie
+      </button>
+    </div>
+  );
+}
+
+function Footer({ onClose }: { onClose: () => void }) {
+  return (
+    <div style={styles.footer}>
+      <span style={{ fontSize: "11px", color: "rgba(255,255,255,0.22)" }}>
+        askGenie — Student Aid Hub
+      </span>
+      <button
+        onClick={onClose}
+        style={styles.footerBtn}
+        title="Close tab and return to askGenie"
+        onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = "rgba(6,182,212,0.22)"; (e.currentTarget as HTMLElement).style.color = "#ffffff"; }}
+        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = "rgba(6,182,212,0.10)"; (e.currentTarget as HTMLElement).style.color = "#67e8f9"; }}
+      >
+        🔮 Open askGenie
+      </button>
+    </div>
+  );
+}
+
+function Btn({ onClick, children }: { onClick: () => void; children: React.ReactNode }) {
+  return (
+    <button onClick={onClick} style={styles.closeBtn}>
+      {children}
+    </button>
+  );
+}
+
+// ── Styles ───────────────────────────────────────────────────────────────────
+
+const styles: Record<string, React.CSSProperties> = {
+  page: {
+    minHeight: "100vh",
+    display: "flex",
+    flexDirection: "column",
+    background: "linear-gradient(160deg, #060e30 0%, #07143d 50%, #060e30 100%)",
+    fontFamily: "system-ui, -apple-system, sans-serif",
+    color: "white",
+  },
+  header: {
+    position: "sticky",
+    top: 0,
+    zIndex: 50,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: "12px 24px",
+    background: "rgba(4,14,44,0.97)",
+    borderBottom: "1px solid rgba(6,182,212,0.16)",
+    backdropFilter: "blur(16px)",
+    WebkitBackdropFilter: "blur(16px)",
+    gap: "12px",
+  },
+  headerBtn: {
+    display: "flex",
+    alignItems: "center",
+    gap: "6px",
+    padding: "8px 16px",
+    background: "rgba(6,182,212,0.10)",
+    color: "#67e8f9",
+    border: "1px solid rgba(6,182,212,0.25)",
+    borderRadius: "9px",
+    cursor: "pointer",
+    fontSize: "13px",
+    fontWeight: 700,
+    whiteSpace: "nowrap",
+    transition: "background 0.15s, color 0.15s",
+  },
+  body: {
+    flex: 1,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "48px 24px",
+    gap: "20px",
+  },
+  card: {
+    display: "flex",
+    alignItems: "flex-start",
+    gap: "14px",
+    padding: "20px 24px",
+    background: "rgba(255,255,255,0.04)",
+    border: "1px solid rgba(6,182,212,0.16)",
+    borderRadius: "16px",
+    width: "100%",
+    maxWidth: "340px",
+    marginBottom: "8px",
+  },
+  cardIcon: {
+    fontSize: "24px",
+    lineHeight: 1,
+    flexShrink: 0,
+    marginTop: "2px",
+  },
+  primaryBtn: {
+    display: "block",
+    textAlign: "center",
+    textDecoration: "none",
+    padding: "13px 24px",
+    background: "rgba(6,182,212,0.16)",
+    color: "#67e8f9",
+    border: "1px solid rgba(6,182,212,0.32)",
+    borderRadius: "11px",
+    fontSize: "14px",
+    fontWeight: 700,
+    cursor: "pointer",
+    transition: "background 0.15s",
+  },
+  secondaryBtn: {
+    display: "block",
+    textAlign: "center",
+    textDecoration: "none",
+    padding: "11px 24px",
+    background: "transparent",
+    color: "rgba(255,255,255,0.45)",
+    border: "1px solid rgba(255,255,255,0.10)",
+    borderRadius: "11px",
+    fontSize: "13px",
+    fontWeight: 500,
+    cursor: "pointer",
+    transition: "background 0.15s",
+  },
+  closeBtn: {
+    display: "block",
+    textAlign: "center",
+    padding: "11px 24px",
+    background: "rgba(6,182,212,0.08)",
+    color: "#67e8f9",
+    border: "1px solid rgba(6,182,212,0.18)",
+    borderRadius: "11px",
+    fontSize: "13px",
+    fontWeight: 600,
+    cursor: "pointer",
+    transition: "background 0.15s",
+  },
+  footer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    padding: "14px 24px",
+    borderTop: "1px solid rgba(255,255,255,0.06)",
+    background: "rgba(4,10,32,0.60)",
+  },
+  footerBtn: {
+    display: "flex",
+    alignItems: "center",
+    gap: "6px",
+    padding: "8px 16px",
+    background: "rgba(6,182,212,0.10)",
+    color: "#67e8f9",
+    border: "1px solid rgba(6,182,212,0.22)",
+    borderRadius: "8px",
+    cursor: "pointer",
+    fontSize: "12px",
+    fontWeight: 700,
+    transition: "background 0.15s, color 0.15s",
+  },
+};
+
+// ── Page export ──────────────────────────────────────────────────────────────
+
 export default function OpenResourcePage() {
   return (
-    <Suspense fallback={
-      <div style={{ minHeight: "100vh", background: "#060e30", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{ width: "32px", height: "32px", border: "2px solid rgba(6,182,212,0.2)", borderTopColor: "#22d3ee", borderRadius: "50%", animation: "spin 0.8s linear infinite" }} />
-        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-      </div>
-    }>
-      <ResourceRedirector />
+    <Suspense
+      fallback={
+        <div style={{ ...styles.page, alignItems: "center", justifyContent: "center" }}>
+          <div style={{
+            width: "36px", height: "36px",
+            border: "3px solid rgba(6,182,212,0.15)",
+            borderTopColor: "#22d3ee",
+            borderRadius: "50%",
+            animation: "spin 0.8s linear infinite",
+          }} />
+          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+        </div>
+      }
+    >
+      <ResourceViewer />
     </Suspense>
   );
 }

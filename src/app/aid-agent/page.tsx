@@ -3037,6 +3037,14 @@ export default function AidAgentPage() {
     return () => clearTimeout(t);
   }, [howItWorksActive]);
 
+  // Sync chatbox role pill → "I am a…" grid + Tips by Role tabs
+  useEffect(() => {
+    if (!selectedRole) return;
+    // ROLE_TIPS and ROLE_OPTIONS use singular; QUICK_ACTIONS_BY_ROLE uses plural
+    setActiveRole(selectedRole);
+    setActiveActionRole((selectedRole + "s") as "Students" | "Parents" | "Administrators" | "Leaders" | "Auditors");
+  }, [selectedRole]);
+
   const triggerBurst = useCallback((e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
     if (!target.closest("button, a, [role='button']")) return;
