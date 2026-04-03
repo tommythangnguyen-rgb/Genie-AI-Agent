@@ -3996,18 +3996,19 @@ export default function AidAgentPage() {
                   ))}
                 </div>
 
-                {/* ── How it works — clean 3-step ── */}
-                <div className="w-full max-w-xl mb-8">
+                {/* ── How it works — 4-step ── */}
+                <div className="w-full max-w-2xl mb-8">
                   <div className="flex items-center gap-2 mb-4">
                     <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/[0.07]" />
                     <span className="text-[10px] font-bold uppercase tracking-widest text-white/20 px-2">How it works</span>
                     <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/[0.07]" />
                   </div>
-                  <div className="grid grid-cols-3 gap-2.5">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                     {([
-                      { icon: Sparkles,    step: "1", title: "Choose Your Role",      body: "Student, Parent, Admin, Leader, or Auditor",     color: "text-violet-400", ring: "ring-violet-500/[0.18]", bg: "bg-violet-500/[0.07]" },
-                      { icon: Send,        step: "2", title: "Ask Anything",           body: "Type, upload a document, or use voice input",     color: "text-cyan-400",   ring: "ring-cyan-500/[0.18]",   bg: "bg-cyan-500/[0.07]"   },
-                      { icon: CheckCircle, step: "3", title: "Get Expert Guidance",    body: "Plain-English answers with regulatory citations",  color: "text-emerald-400",ring: "ring-emerald-500/[0.18]",bg: "bg-emerald-500/[0.07]"},
+                      { icon: Sparkles,    step: "1", title: "Choose Your Role",    body: "Student, Parent, Admin, Leader, or Auditor",                          color: "text-violet-400", ring: "ring-violet-500/[0.18]", bg: "bg-violet-500/[0.07]" },
+                      { icon: Send,        step: "2", title: "Ask Anything",         body: "Type a question, upload a document, or use voice input",               color: "text-cyan-400",   ring: "ring-cyan-500/[0.18]",   bg: "bg-cyan-500/[0.07]"   },
+                      { icon: Library,     step: "3", title: "Explore the Hub",      body: "Browse the left & right panels — scholarships, regs, jobs & resources", color: "text-sky-400",    ring: "ring-sky-500/[0.18]",    bg: "bg-sky-500/[0.07]"    },
+                      { icon: CheckCircle, step: "4", title: "Get Expert Guidance",  body: "Plain-English answers with regulatory citations",                       color: "text-emerald-400",ring: "ring-emerald-500/[0.18]",bg: "bg-emerald-500/[0.07]"},
                     ] as const).map(({ icon: Icon, step, title, body, color, ring, bg }) => (
                       <div key={step} className={`flex flex-col gap-2.5 p-3.5 rounded-xl ${bg} ring-1 ${ring}`}>
                         <div className="flex items-center gap-2">
