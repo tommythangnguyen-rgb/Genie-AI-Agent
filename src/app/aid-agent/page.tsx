@@ -3737,96 +3737,105 @@ export default function AidAgentPage() {
         {/* ── Main ── */}
         <main className="flex flex-1 flex-col min-w-0 min-h-0" aria-label="askGenie AI Assistant">
 
-          {/* Header */}
-          <header className="sticky top-0 z-30 shrink-0 border-b border-teal-500/[0.15] backdrop-blur-xl px-5 py-3 flex items-center justify-between" style={{ background: "linear-gradient(90deg, rgba(7,30,61,0.92) 0%, rgba(10,37,64,0.95) 50%, rgba(7,30,61,0.92) 100%)" }}>
-            {/* Left — mobile left-panel toggle (graduation cap) + home + theme toggle */}
-            <div className="flex items-center gap-1.5 w-40">
-              <button
-                onClick={() => { setShowMobileLeft(!showMobileLeft); setShowMobileRight(false); }}
-                title="Students & Parents panel"
-                className="lg:hidden p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
-              >
-                {showMobileLeft ? <X className="h-4 w-4" /> : <GraduationCap className="h-4 w-4" />}
-              </button>
-              <button
-                onClick={goHome}
-                title="Home"
-                className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 text-xs font-medium"
-              >
-                <Home className="h-3.5 w-3.5" />
-                <span className="hidden sm:inline">Home</span>
-              </button>
-              <button
-                onClick={() => setIsDark(!isDark)}
-                title={isDark ? "Switch to bright mode" : "Switch to dark mode"}
-                className="p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
-              >
-                {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-              </button>
-            </div>
+          {/* ── Header — nav + integrated music player ── */}
+          <header
+            className="sticky top-0 z-30 shrink-0 border-b border-cyan-500/[0.13] backdrop-blur-xl"
+            style={{ background: "linear-gradient(135deg, rgba(6,14,48,0.97) 0%, rgba(4,20,56,0.98) 50%, rgba(6,14,48,0.97) 100%)" }}
+          >
+            {/* ── Top row: nav controls ── */}
+            <div className="relative px-4 py-2.5 flex items-center justify-between">
 
-            {/* Center — title */}
-            <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center select-none">
-              <h1 className="text-4xl font-black tracking-tight leading-none whitespace-nowrap genie-shimmer-text">
-                askGenie
-              </h1>
-              <p className="hidden sm:block text-[10px] text-teal-300/50 font-medium tracking-wide mt-0.5 whitespace-nowrap">Your calm, expert student aid companion</p>
-            </div>
-
-            {/* Right — auth button + mobile right-panel toggle + new chat */}
-            <div className="flex items-center gap-1.5 w-40 justify-end">
-              {isAuthenticated ? (
-                <Link
-                  href="/account"
-                  title={userEmail ?? "Your account"}
-                  className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-600/20 ring-1 ring-indigo-500/30 text-indigo-300 hover:bg-indigo-600/35 hover:text-white transition-colors text-xs font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+              {/* Left — mobile toggles + Home + theme */}
+              <div className="flex items-center gap-1 min-w-[8.5rem]">
+                <button
+                  onClick={() => { setShowMobileLeft(!showMobileLeft); setShowMobileRight(false); }}
+                  title="Students & Parents panel"
+                  className="lg:hidden p-1.5 rounded-lg text-white/38 hover:text-cyan-300 hover:bg-cyan-500/[0.10] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-500/60"
                 >
-                  <UserCircle className="h-4 w-4 shrink-0" />
-                  <span className="hidden sm:inline max-w-[72px] truncate">
-                    {userEmail ? userEmail.split("@")[0] : "Account"}
-                  </span>
-                </Link>
-              ) : (
-                <>
-                  <button
-                    onClick={() => { setAuthDialogMode("signin"); setAuthDialogOpen(true); }}
-                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 shadow-sm"
-                  >
-                    <LogIn className="h-3.5 w-3.5 shrink-0" />
-                    <span>Sign In</span>
-                  </button>
+                  {showMobileLeft ? <X className="h-4 w-4" /> : <GraduationCap className="h-4 w-4" />}
+                </button>
+                <button
+                  onClick={goHome}
+                  title="Home"
+                  className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-white/38 hover:text-cyan-300 hover:bg-cyan-500/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-500/60 text-xs font-medium"
+                >
+                  <Home className="h-3.5 w-3.5" />
+                  <span className="hidden sm:inline">Home</span>
+                </button>
+                <button
+                  onClick={() => setIsDark(!isDark)}
+                  title={isDark ? "Switch to bright mode" : "Switch to dark mode"}
+                  className="p-1.5 rounded-lg text-white/38 hover:text-cyan-300 hover:bg-cyan-500/[0.10] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-500/60"
+                >
+                  {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                </button>
+              </div>
+
+              {/* Center — title (absolute for pixel-perfect centering) */}
+              <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center select-none pointer-events-none">
+                <h1 className="text-4xl font-black tracking-tight leading-none whitespace-nowrap genie-shimmer-text">
+                  askGenie
+                </h1>
+                <p className="hidden sm:block text-[10px] text-cyan-300/45 font-medium tracking-wide mt-0.5 whitespace-nowrap">
+                  Your calm, expert student aid companion
+                </p>
+              </div>
+
+              {/* Right — auth + panel toggles + new chat */}
+              <div className="flex items-center gap-1 min-w-[8.5rem] justify-end">
+                {isAuthenticated ? (
                   <Link
                     href="/account"
-                    className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white/[0.06] ring-1 ring-white/[0.12] text-white/60 hover:text-white hover:bg-white/[0.10] transition-colors text-xs font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+                    title={userEmail ?? "Your account"}
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-cyan-500/[0.12] ring-1 ring-cyan-500/[0.28] text-cyan-300 hover:bg-cyan-500/[0.22] hover:text-white transition-colors text-xs font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
                   >
-                    <UserCircle className="h-3.5 w-3.5 shrink-0" />
-                    <span>Account</span>
+                    <UserCircle className="h-4 w-4 shrink-0" />
+                    <span className="hidden sm:inline max-w-[72px] truncate">
+                      {userEmail ? userEmail.split("@")[0] : "Account"}
+                    </span>
                   </Link>
-                </>
-              )}
-              <button
-                onClick={() => { setShowMobileRight(!showMobileRight); setShowMobileLeft(false); }}
-                title="Admins & Auditors panel"
-                className="xl:hidden p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
-              >
-                {showMobileRight ? <X className="h-4 w-4" /> : <Zap className="h-4 w-4" />}
-              </button>
-              {messages.length > 0 && (
+                ) : (
+                  <>
+                    <button
+                      onClick={() => { setAuthDialogMode("signin"); setAuthDialogOpen(true); }}
+                      className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 shadow-sm shadow-cyan-900/40"
+                    >
+                      <LogIn className="h-3.5 w-3.5 shrink-0" />
+                      <span>Sign In</span>
+                    </button>
+                    <Link
+                      href="/account"
+                      className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white/[0.05] ring-1 ring-white/[0.10] text-white/55 hover:text-white hover:bg-white/[0.09] transition-colors text-xs font-semibold focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-500/60"
+                    >
+                      <UserCircle className="h-3.5 w-3.5 shrink-0" />
+                      <span>Account</span>
+                    </Link>
+                  </>
+                )}
                 <button
-                  onClick={() => setMessages([])}
-                  title="New chat"
-                  className="p-1.5 rounded-lg text-white/35 hover:text-white hover:bg-white/[0.08] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+                  onClick={() => { setShowMobileRight(!showMobileRight); setShowMobileLeft(false); }}
+                  title="Admins & Auditors panel"
+                  className="xl:hidden p-1.5 rounded-lg text-white/38 hover:text-cyan-300 hover:bg-cyan-500/[0.10] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-500/60"
                 >
-                  <SquarePen className="h-4 w-4" />
+                  {showMobileRight ? <X className="h-4 w-4" /> : <Zap className="h-4 w-4" />}
                 </button>
-              )}
+                {messages.length > 0 && (
+                  <button
+                    onClick={() => setMessages([])}
+                    title="New chat"
+                    className="p-1.5 rounded-lg text-white/35 hover:text-cyan-300 hover:bg-cyan-500/[0.10] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-500/60"
+                  >
+                    <SquarePen className="h-4 w-4" />
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* ── Music player row — integrated, teal-accented ── */}
+            <div className="border-t border-white/[0.055] px-4 py-1.5">
+              <BackgroundMusic inline />
             </div>
           </header>
-
-          {/* Music player — inline below header, left-aligned */}
-          <div className="shrink-0 flex items-center border-b border-white/[0.06]" style={{ background: "rgba(7,16,50,0.55)" }}>
-            <BackgroundMusic inline />
-          </div>
 
           {/* Messages / Welcome */}
           <div ref={scrollContainerRef} className="flex-1 overflow-y-auto min-h-0 genie-scroll-main" role="log" aria-live="polite" aria-label="Conversation">

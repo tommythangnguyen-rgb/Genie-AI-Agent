@@ -219,6 +219,65 @@ export function BackgroundMusic({ inline = false }: { inline?: boolean }) {
     </>
   );
 
+  /* Inline mode — polished header-integrated strip */
+  const inlineControls = (
+    <div className="flex items-center gap-2 select-none w-full min-w-0">
+      {/* Animated note — cyan when playing */}
+      <span className={`transition-colors shrink-0 ${isPlaying ? "text-cyan-400/80 animate-pulse" : "text-white/22"}`}>
+        <MusicNoteIcon />
+      </span>
+
+      {/* Track info */}
+      <div className="flex flex-col leading-none min-w-0 w-[92px] shrink-0">
+        <span className="text-[10px] font-semibold text-white/62 truncate">{track.title}</span>
+        <span className="text-[9px] text-white/30 truncate">{track.composer}</span>
+      </div>
+
+      {/* Thin separator */}
+      <div className="w-px h-3.5 bg-white/[0.09] shrink-0" />
+
+      {/* Play / Pause */}
+      <button
+        onClick={togglePlay}
+        title={isPlaying ? "Pause" : "Play"}
+        className="p-1.5 rounded-lg text-white/45 hover:text-cyan-300 hover:bg-cyan-500/[0.12] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-500/60"
+      >
+        {isPlaying ? <PauseIcon /> : <PlayIcon />}
+      </button>
+
+      {/* Skip */}
+      <button
+        onClick={skipNext}
+        title="Next track"
+        className="p-1.5 rounded-lg text-white/28 hover:text-cyan-300 hover:bg-cyan-500/[0.12] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-500/60"
+      >
+        <SkipIcon />
+      </button>
+
+      {/* Thin separator */}
+      <div className="w-px h-3.5 bg-white/[0.09] shrink-0" />
+
+      {/* Mute toggle */}
+      <button
+        onClick={toggleMute}
+        title={muted ? "Unmute" : "Mute"}
+        className="p-1.5 rounded-lg text-white/28 hover:text-cyan-300 hover:bg-cyan-500/[0.12] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-500/60"
+      >
+        {muted ? <MuteIcon /> : <VolumeIcon />}
+      </button>
+
+      {/* Volume slider — cyan accent */}
+      <input
+        type="range"
+        min={0} max={1} step={0.01}
+        value={muted ? 0 : volume}
+        onChange={handleVolume}
+        className="w-14 h-1 accent-cyan-400 cursor-pointer opacity-70 hover:opacity-100 transition-opacity"
+        title="Volume"
+      />
+    </div>
+  );
+
   return (
     <>
       <audio ref={audioRef} onEnded={advanceQueue} preload="none" crossOrigin="anonymous">
@@ -226,10 +285,7 @@ export function BackgroundMusic({ inline = false }: { inline?: boolean }) {
       </audio>
 
       {inline ? (
-        /* Inline strip — sits below header, left-aligned */
-        <div className="flex items-center gap-2 px-2.5 py-1 select-none">
-          {controls}
-        </div>
+        inlineControls
       ) : (
         /* Fixed floating pill — bottom-right fallback for other pages */
         <div
