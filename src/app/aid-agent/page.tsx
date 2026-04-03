@@ -2393,6 +2393,8 @@ export default function AidAgentPage() {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const readerRef = useRef<ReadableStreamDefaultReader<Uint8Array> | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const voiceRef = useRef<SpeechSynthesisVoice | null>(null);
+  const ttsTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const [showDisclaimer, setShowDisclaimer] = useState(false);
   const [showMobileLeft, setShowMobileLeft] = useState(false);
   const [showMobileRight, setShowMobileRight] = useState(false);
@@ -2413,6 +2415,12 @@ export default function AidAgentPage() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const [authDialogMode, setAuthDialogMode] = useState<"signin" | "signup">("signin");
+
+  // Pre-load TTS voice so speakMessage can be called synchronously (required for
+  // Safari / mobile browsers that block speechSynthesis outside a user gesture).
+  useEffect(() => {
+    pickCalmFemaleVoice().then(v => { voiceRef.current = v; });
+  }, []);
 
   useEffect(() => {
     if (!localStorage.getItem("genie-terms-accepted")) setShowDisclaimer(true);
@@ -2716,6 +2724,7 @@ export default function AidAgentPage() {
   };
 
   const stopSpeaking = useCallback(() => {
+    if (ttsTimerRef.current) { clearInterval(ttsTimerRef.current); ttsTimerRef.current = null; }
     audioRef.current?.pause();
     if (audioRef.current) audioRef.current.src = "";
     audioRef.current = null;
@@ -2723,8 +2732,10 @@ export default function AidAgentPage() {
     setSpeakingMsgId(null);
   }, []);
 
-  const speakMessage = async (msgId: string, text: string) => {
-    // Toggle off
+  // Synchronous — must NOT be async. Safari/Chrome block speechSynthesis.speak()
+  // if it's called after an await (outside the original user-gesture tick).
+  // Voice is pre-loaded into voiceRef by the mount useEffect above.
+  const speakMessage = (msgId: string, text: string) => {
     if (speakingMsgId === msgId) { stopSpeaking(); return; }
     stopSpeaking();
     setSpeakingMsgId(msgId);
@@ -2743,15 +2754,29 @@ export default function AidAgentPage() {
       .replace(/\n/g, " ")
       .trim();
 
-    const voice = await pickCalmFemaleVoice();
+    if (!plain) { setSpeakingMsgId(null); return; }
+
     const utterance = new SpeechSynthesisUtterance(plain);
     utterance.lang = ttsLang;
-    utterance.rate = 0.88;   // calm, unhurried — motherly pace
-    utterance.pitch = 0.95;  // slightly warm/lower — mature, soothing
+    utterance.rate = 0.88;
+    utterance.pitch = 0.95;
     utterance.volume = 1.0;
-    if (voice) utterance.voice = voice;
-    utterance.onend = () => setSpeakingMsgId(null);
-    utterance.onerror = () => setSpeakingMsgId(null);
+    if (voiceRef.current) utterance.voice = voiceRef.current;
+
+    const cleanup = () => {
+      if (ttsTimerRef.current) { clearInterval(ttsTimerRef.current); ttsTimerRef.current = null; }
+      setSpeakingMsgId(null);
+    };
+    utterance.onend = cleanup;
+    utterance.onerror = cleanup;
+
+    // Chrome bug: speechSynthesis pauses itself after ~15 s on long responses.
+    // Calling resume() on an interval keeps it alive for the full response.
+    ttsTimerRef.current = setInterval(() => {
+      if (window.speechSynthesis.speaking) window.speechSynthesis.resume();
+      else { clearInterval(ttsTimerRef.current!); ttsTimerRef.current = null; }
+    }, 10000);
+
     window.speechSynthesis.speak(utterance);
   };
 
