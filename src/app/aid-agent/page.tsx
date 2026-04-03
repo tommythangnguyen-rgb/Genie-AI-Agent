@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { MarkdownRenderer } from "@/components/chat/MarkdownRenderer";
 import { AppInstallPrompt } from "@/components/AppInstallPrompt";
+import { BackgroundMusic } from "@/components/BackgroundMusic";
 import { UsageMeter, LimitToast } from "@/components/usage-meter";
 import { UpgradeModal, useUpgradeModal } from "@/components/upgrade-modal";
 import { canAccessFeature } from "@/lib/feature-gates";
@@ -3787,6 +3788,11 @@ export default function AidAgentPage() {
               )}
             </div>
           </header>
+
+          {/* Music player — inline below header, left-aligned */}
+          <div className="shrink-0 flex items-center border-b border-white/[0.06]" style={{ background: "rgba(7,16,50,0.55)" }}>
+            <BackgroundMusic inline />
+          </div>
 
           {/* Messages / Welcome */}
           <div ref={scrollContainerRef} className="flex-1 overflow-y-auto min-h-0 genie-scroll-main" role="log" aria-live="polite" aria-label="Conversation">

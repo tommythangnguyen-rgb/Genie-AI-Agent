@@ -90,7 +90,7 @@ function VolumeIcon() {
   );
 }
 
-export function BackgroundMusic() {
+export function BackgroundMusic({ inline = false }: { inline?: boolean }) {
   const audioRef = useRef<HTMLAudioElement>(null);
   // Shuffle queue: array of playlist indices in random order
   const [queue, setQueue] = useState<number[]>(() => shuffleArray(PLAYLIST.map((_, i) => i)));
@@ -167,69 +167,78 @@ export function BackgroundMusic() {
 
   if (!visible) return null;
 
+  const controls = (
+    <>
+      {/* Music note */}
+      <span className={`transition-colors shrink-0 ${isPlaying ? "text-indigo-400/70 animate-pulse" : "text-white/30"}`}>
+        <MusicNoteIcon />
+      </span>
+
+      {/* Track info */}
+      <div className="flex flex-col leading-none min-w-0 max-w-[88px]">
+        <span className="text-[10px] font-semibold text-white/60 truncate">{track.title}</span>
+        <span className="text-[9px] text-white/30 truncate">{track.composer}</span>
+      </div>
+
+      {/* Play / Pause */}
+      <button
+        onClick={togglePlay}
+        title={isPlaying ? "Pause" : "Play"}
+        className="p-1 rounded-full text-white/50 hover:text-white hover:bg-white/[0.10] transition-colors focus-visible:outline-none"
+      >
+        {isPlaying ? <PauseIcon /> : <PlayIcon />}
+      </button>
+
+      {/* Skip */}
+      <button
+        onClick={skipNext}
+        title="Next track (shuffle)"
+        className="p-1 rounded-full text-white/30 hover:text-white hover:bg-white/[0.10] transition-colors focus-visible:outline-none"
+      >
+        <SkipIcon />
+      </button>
+
+      {/* Mute + volume slider */}
+      <button
+        onClick={toggleMute}
+        title={muted ? "Unmute" : "Mute"}
+        className="p-1 rounded-full text-white/30 hover:text-white hover:bg-white/[0.10] transition-colors focus-visible:outline-none"
+      >
+        {muted ? <MuteIcon /> : <VolumeIcon />}
+      </button>
+      <input
+        type="range"
+        min={0}
+        max={1}
+        step={0.01}
+        value={muted ? 0 : volume}
+        onChange={handleVolume}
+        className="w-12 h-1 accent-indigo-400 cursor-pointer"
+        title="Volume"
+      />
+    </>
+  );
+
   return (
     <>
-      <audio
-        ref={audioRef}
-        onEnded={advanceQueue}
-        preload="none"
-        crossOrigin="anonymous"
-      >
+      <audio ref={audioRef} onEnded={advanceQueue} preload="none" crossOrigin="anonymous">
         <source src={track.src} type="audio/ogg" />
       </audio>
 
-      {/* Fixed floating player pill — bottom center, above everything */}
-      <div className="fixed bottom-4 right-4 z-[9999] flex items-center gap-2 px-2.5 py-1.5 rounded-full select-none"
-        style={{ background: "rgba(7,16,50,0.82)", backdropFilter: "blur(12px)", boxShadow: "0 2px 16px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.07)" }}
-      >
-        {/* Music note */}
-        <span className={`transition-colors ${isPlaying ? "text-indigo-400/70 animate-pulse" : "text-white/30"}`}>
-          <MusicNoteIcon />
-        </span>
-
-        {/* Track info */}
-        <div className="flex flex-col leading-none min-w-0 max-w-[90px]">
-          <span className="text-[10px] font-semibold text-white/60 truncate">{track.title}</span>
-          <span className="text-[9px] text-white/30 truncate">{track.composer}</span>
+      {inline ? (
+        /* Inline strip — sits below header, left-aligned */
+        <div className="flex items-center gap-2 px-2.5 py-1 select-none">
+          {controls}
         </div>
-
-        {/* Play / Pause */}
-        <button
-          onClick={togglePlay}
-          title={isPlaying ? "Pause" : "Play"}
-          className="p-1 rounded-full text-white/50 hover:text-white hover:bg-white/[0.10] transition-colors focus-visible:outline-none"
+      ) : (
+        /* Fixed floating pill — bottom-right fallback for other pages */
+        <div
+          className="fixed bottom-4 right-4 z-[9999] flex items-center gap-2 px-2.5 py-1.5 rounded-full select-none"
+          style={{ background: "rgba(7,16,50,0.82)", backdropFilter: "blur(12px)", boxShadow: "0 2px 16px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.07)" }}
         >
-          {isPlaying ? <PauseIcon /> : <PlayIcon />}
-        </button>
-
-        {/* Skip */}
-        <button
-          onClick={skipNext}
-          title="Next track (shuffle)"
-          className="p-1 rounded-full text-white/30 hover:text-white hover:bg-white/[0.10] transition-colors focus-visible:outline-none"
-        >
-          <SkipIcon />
-        </button>
-
-        {/* Mute + volume slider */}
-        <button
-          onClick={toggleMute}
-          title={muted ? "Unmute" : "Mute"}
-          className="p-1 rounded-full text-white/30 hover:text-white hover:bg-white/[0.10] transition-colors focus-visible:outline-none"
-        >
-          {muted ? <MuteIcon /> : <VolumeIcon />}
-        </button>
-        <input
-          type="range"
-          min={0}
-          max={1}
-          step={0.01}
-          value={muted ? 0 : volume}
-          onChange={handleVolume}
-          className="w-14 h-1 accent-indigo-400 cursor-pointer"
-          title="Volume"
-        />
-      </div>
+          {controls}
+        </div>
+      )}
     </>
   );
 }
