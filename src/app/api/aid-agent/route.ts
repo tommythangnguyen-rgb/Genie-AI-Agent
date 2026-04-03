@@ -102,7 +102,7 @@ export async function POST(req: NextRequest) {
     if (low.includes("rate limit") || low.includes("too many requests") || low.includes("429")) {
       return "Genie is a little busy right now — please wait a moment and try again. If this keeps happening, reach out to the developer at [x.com/one27__](https://x.com/one27__).";
     }
-    if (low.includes("api key") || low.includes("authentication") || low.includes("unauthorized") || low.includes("403")) {
+    if (low.includes("api key") || low.includes("x-api-key") || low.includes("authentication") || low.includes("authentication_error") || low.includes("unauthorized") || low.includes("401") || low.includes("403")) {
       return "Genie is temporarily unavailable. Please contact the askGenie developer at [x.com/one27__](https://x.com/one27__) for assistance.";
     }
     if (low.includes("model") || low.includes("not found") || low.includes("invalid request") || low.includes("400")) {
