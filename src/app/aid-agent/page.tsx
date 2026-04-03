@@ -3638,8 +3638,8 @@ export default function AidAgentPage() {
           {/* Brand — Students & Parents */}
           <div className="px-4 pt-4 pb-3 border-b border-white/[0.07]">
             <div className="flex items-center gap-2.5">
-              <div className="p-1.5 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 shadow-lg shadow-sky-500/25 shrink-0">
-                <GraduationCap className="h-4 w-4 text-white" />
+              <div className={`p-1.5 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 shadow-lg shadow-sky-500/25 shrink-0 transition-all duration-300 ${howItWorksActive === "panels" ? "shadow-[0_0_18px_rgba(6,182,212,0.70)] ring-2 ring-cyan-400/60" : ""}`}>
+                <GraduationCap className={`h-4 w-4 text-white ${howItWorksActive === "panels" ? "animate-pulse" : ""}`} />
               </div>
               <div>
                 <p className="text-[11px] font-bold text-white/40 uppercase tracking-widest leading-none mb-0.5">Student Aid HUB</p>
@@ -3699,7 +3699,7 @@ export default function AidAgentPage() {
                   {isOpen && studentGroup && (
                     <div className="px-1.5 pb-2 space-y-0.5">
                       {studentGroup.links.map(({ name, url }) => (
-                        <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        <a key={name} href={`/open-resource?url=${encodeURIComponent(url)}`} target="_blank" rel="noopener noreferrer"
                           title={name}
                           className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-cyan-200 hover:bg-cyan-500/[0.14] ring-1 ring-transparent hover:ring-cyan-500/[0.25] transition-all duration-150 group">
                           <span>{name}</span>
@@ -3751,7 +3751,7 @@ export default function AidAgentPage() {
                             return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
                               title={item.name}
                               className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-cyan-200 hover:bg-cyan-500/[0.14] ring-1 ring-transparent hover:ring-cyan-500/[0.25] transition-all duration-150 group">
                               <span>{item.name}</span>
@@ -3791,7 +3791,7 @@ export default function AidAgentPage() {
                             return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
                               title={item.name}
                               className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-emerald-500/20 ring-1 ring-transparent hover:ring-emerald-500/20 transition-all duration-150 group">
                               <span>{item.name}</span>
@@ -3831,7 +3831,7 @@ export default function AidAgentPage() {
                             return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
                               title={item.name}
                               className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-teal-500/20 ring-1 ring-transparent hover:ring-teal-500/20 transition-all duration-150 group">
                               <span>{item.name}</span>
@@ -3871,7 +3871,7 @@ export default function AidAgentPage() {
                             return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
                               title={item.name}
                               className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-violet-500/20 ring-1 ring-transparent hover:ring-violet-500/20 transition-all duration-150 group">
                               <span>{item.name}</span>
@@ -3911,7 +3911,7 @@ export default function AidAgentPage() {
                             return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
                               title={item.name}
                               className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-amber-500/20 ring-1 ring-transparent hover:ring-amber-500/20 transition-all duration-150 group">
                               <span>{item.name}</span>
@@ -3951,7 +3951,7 @@ export default function AidAgentPage() {
                             return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
                               title={item.name}
                               className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-violet-500/20 ring-1 ring-transparent hover:ring-violet-500/20 transition-all duration-150 group">
                               <span>{item.name}</span>
@@ -3991,7 +3991,7 @@ export default function AidAgentPage() {
                             return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
                               title={item.name}
                               className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-cyan-200 hover:bg-cyan-500/[0.14] ring-1 ring-transparent hover:ring-cyan-500/[0.25] transition-all duration-150 group">
                               <span>{item.name}</span>
@@ -4032,7 +4032,7 @@ export default function AidAgentPage() {
                             return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
                               title={item.name}
                               className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-fuchsia-500/20 ring-1 ring-transparent hover:ring-fuchsia-500/20 transition-all duration-150 group">
                               <span>{item.name}</span>
@@ -4045,7 +4045,7 @@ export default function AidAgentPage() {
                             return <div key={`sc-more-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
                               title={item.name}
                               className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-fuchsia-500/20 ring-1 ring-transparent hover:ring-fuchsia-500/20 transition-all duration-150 group">
                               <span>{item.name}</span>
@@ -4086,7 +4086,7 @@ export default function AidAgentPage() {
                             return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
                               title={item.name}
                               className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-orange-500/20 ring-1 ring-transparent hover:ring-orange-500/20 transition-all duration-150 group">
                               <span>{item.name}</span>
@@ -4099,7 +4099,7 @@ export default function AidAgentPage() {
                             return <div key={`sc-more-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
                               title={item.name}
                               className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-orange-500/20 ring-1 ring-transparent hover:ring-orange-500/20 transition-all duration-150 group">
                               <span>{item.name}</span>
@@ -4140,7 +4140,7 @@ export default function AidAgentPage() {
                             return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
                               title={item.name}
                               className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-emerald-500/20 ring-1 ring-transparent hover:ring-emerald-500/20 transition-all duration-150 group">
                               <span>{item.name}</span>
@@ -4153,7 +4153,7 @@ export default function AidAgentPage() {
                             return <div key={`sc-more-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
                               title={item.name}
                               className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-emerald-500/20 ring-1 ring-transparent hover:ring-emerald-500/20 transition-all duration-150 group">
                               <span>{item.name}</span>
@@ -4193,7 +4193,7 @@ export default function AidAgentPage() {
                             return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
                               title={item.name}
                               className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-violet-500/20 ring-1 ring-transparent hover:ring-violet-500/20 transition-all duration-150 group">
                               <span>{item.name}</span>
@@ -4267,7 +4267,7 @@ export default function AidAgentPage() {
         </aside>
 
         {/* ── Main ── */}
-        <main className="flex flex-1 flex-col min-w-0 min-h-0" aria-label="askGenie AI Assistant">
+        <main className={`flex flex-1 flex-col min-w-0 min-h-0 transition-all duration-300 ${howItWorksActive === "guidance" ? "ring-1 ring-inset ring-emerald-500/25 shadow-[inset_0_0_40px_rgba(16,185,129,0.07)]" : ""}`} aria-label="askGenie AI Assistant">
 
           {/* ── Header — nav + integrated music player ── */}
           <header
@@ -4282,9 +4282,9 @@ export default function AidAgentPage() {
                 <button
                   onClick={() => { setShowMobileLeft(!showMobileLeft); setShowMobileRight(false); }}
                   title="Students & Parents panel"
-                  className="lg:hidden p-1.5 rounded-lg text-cyan-300/48 hover:text-cyan-200 hover:bg-cyan-500/[0.14] hover:shadow-[0_0_10px_rgba(6,182,212,0.25)] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60"
+                  className={`lg:hidden p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60 ${howItWorksActive === "panels" ? "text-cyan-200 bg-cyan-500/[0.20] shadow-[0_0_14px_rgba(6,182,212,0.55)] ring-1 ring-cyan-400/50 hiw-active-ring" : "text-cyan-300/48 hover:text-cyan-200 hover:bg-cyan-500/[0.14] hover:shadow-[0_0_10px_rgba(6,182,212,0.25)]"}`}
                 >
-                  {showMobileLeft ? <X className="h-4 w-4" /> : <GraduationCap className="h-4 w-4" />}
+                  {showMobileLeft ? <X className="h-4 w-4" /> : <GraduationCap className={`h-4 w-4 ${howItWorksActive === "panels" ? "animate-pulse" : ""}`} />}
                 </button>
                 <button
                   onClick={goHome}
@@ -4347,9 +4347,9 @@ export default function AidAgentPage() {
                 <button
                   onClick={() => { setShowMobileRight(!showMobileRight); setShowMobileLeft(false); }}
                   title="Admins & Auditors panel"
-                  className="xl:hidden p-1.5 rounded-lg text-cyan-300/48 hover:text-cyan-200 hover:bg-cyan-500/[0.14] hover:shadow-[0_0_10px_rgba(6,182,212,0.25)] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60"
+                  className={`xl:hidden p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60 ${howItWorksActive === "panels" ? "text-cyan-200 bg-cyan-500/[0.20] shadow-[0_0_14px_rgba(6,182,212,0.55)] ring-1 ring-cyan-400/50 hiw-active-ring" : "text-cyan-300/48 hover:text-cyan-200 hover:bg-cyan-500/[0.14] hover:shadow-[0_0_10px_rgba(6,182,212,0.25)]"}`}
                 >
-                  {showMobileRight ? <X className="h-4 w-4" /> : <Zap className="h-4 w-4" />}
+                  {showMobileRight ? <X className="h-4 w-4" /> : <Zap className={`h-4 w-4 ${howItWorksActive === "panels" ? "animate-pulse" : ""}`} />}
                 </button>
                 {messages.length > 0 && (
                   <button
@@ -4569,38 +4569,38 @@ export default function AidAgentPage() {
                 </div>{/* end scroll-drift wrapper */}
 
                 {/* ── Headline: punchy and benefit-led ── */}
-                <h2 className="text-[1.65rem] font-bold tracking-tight text-white mb-3 text-center leading-tight">
+                <h2 className="text-[2.1rem] font-bold tracking-tight text-white mb-3 text-center leading-tight">
                   Your Financial Aid Questions,{" "}
                   <span className="genie-shimmer-text">Answered in Seconds.</span>
                 </h2>
                 {/* Sub-headline: short, credibility-first */}
-                <p className="text-sm text-white/58 leading-relaxed max-w-[22rem] text-center mb-7">
+                <p className="text-base text-white/58 leading-relaxed max-w-[28rem] text-center mb-8">
                   AI guidance built on 15 years of FA expertise — FAFSA, Title&nbsp;IV, R2T4, SAP, and 34&nbsp;CFR compliance in plain English.
                 </p>
 
                 {/* ── Trust strip — pill badges for scanability ── */}
-                <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
+                <div className="flex flex-wrap items-center justify-center gap-2.5 mb-9">
                   {[
                     { icon: Award,       text: "15-yr FA Professional" },
                     { icon: BookOpen,    text: "34 CFR Full Coverage"  },
                     { icon: ShieldCheck, text: "Updated Weekly"        },
                     { icon: Users,       text: "Students · Parents · FA Offices" },
                   ].map(({ icon: Icon, text }) => (
-                    <span key={text} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-cyan-500/[0.07] ring-1 ring-cyan-500/[0.18]">
-                      <Icon className="h-3 w-3 text-cyan-400/80 shrink-0" aria-hidden="true" />
-                      <span className="text-[11px] text-white/55 font-medium">{text}</span>
+                    <span key={text} className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-cyan-500/[0.07] ring-1 ring-cyan-500/[0.18]">
+                      <Icon className="h-3.5 w-3.5 text-cyan-400/80 shrink-0" aria-hidden="true" />
+                      <span className="text-xs text-white/55 font-medium">{text}</span>
                     </span>
                   ))}
                 </div>
 
                 {/* ── How it works — 4-step ── */}
-                <div className="w-full max-w-2xl mb-8">
-                  <div className="flex items-center gap-2 mb-4">
+                <div className="w-full max-w-2xl mb-9">
+                  <div className="flex items-center gap-2 mb-5">
                     <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/[0.07]" />
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/20 px-2">How it works</span>
+                    <span className="text-xs font-bold uppercase tracking-widest text-white/25 px-2">How it works</span>
                     <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/[0.07]" />
                   </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     {([
                       { icon: Sparkles,    step: "1", title: "Choose Your Role",    body: "Click to highlight role selector",                                      color: "text-violet-400", ring: "ring-violet-500/[0.18]", bg: "bg-violet-500/[0.07]", activeKey: "role"     as const },
                       { icon: Send,        step: "2", title: "Ask Anything",         body: "Click to highlight the chat input",                                     color: "text-cyan-400",   ring: "ring-cyan-500/[0.18]",   bg: "bg-cyan-500/[0.07]",   activeKey: "chatbox"  as const },
@@ -4611,14 +4611,14 @@ export default function AidAgentPage() {
                         key={step}
                         type="button"
                         onClick={() => setHowItWorksActive(activeKey)}
-                        className={`flex flex-col gap-2.5 p-3.5 rounded-xl ${bg} ring-1 ${ring} text-left transition-all duration-150 hover:scale-[1.03] hover:brightness-110 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${howItWorksActive === activeKey ? "hiw-active-ring brightness-125" : ""}`}
+                        className={`flex flex-col gap-3 p-4 rounded-xl ${bg} ring-1 ${ring} text-left transition-all duration-150 hover:scale-[1.03] hover:brightness-110 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${howItWorksActive === activeKey ? "hiw-active-ring brightness-125" : ""}`}
                       >
                         <div className="flex items-center gap-2">
-                          <span className="text-[9px] font-black text-white/20 tabular-nums">{step}</span>
-                          <Icon className={`h-3.5 w-3.5 ${color} ${howItWorksActive === activeKey ? "animate-pulse" : ""}`} aria-hidden="true" />
+                          <span className="text-[10px] font-black text-white/20 tabular-nums">{step}</span>
+                          <Icon className={`h-4 w-4 ${color} ${howItWorksActive === activeKey ? "animate-pulse" : ""}`} aria-hidden="true" />
                         </div>
-                        <p className="text-[11px] font-semibold text-white/78 leading-tight">{title}</p>
-                        <p className="text-[10px] text-white/35 leading-snug">{body}</p>
+                        <p className="text-xs font-semibold text-white/80 leading-tight">{title}</p>
+                        <p className="text-[11px] text-white/40 leading-snug">{body}</p>
                       </button>
                     ))}
                   </div>
@@ -4626,23 +4626,28 @@ export default function AidAgentPage() {
 
                 {/* ── Dashboard Perk — Background Music ── */}
                 <div className="w-full max-w-2xl mb-6">
-                  <div className="flex items-center gap-3 px-4 py-3 rounded-2xl ring-1 ring-cyan-500/[0.18] bg-gradient-to-r from-cyan-500/[0.05] to-indigo-500/[0.05]">
-                    <div className="shrink-0 p-2 rounded-xl bg-gradient-to-br from-cyan-500/20 to-indigo-600/20 ring-1 ring-cyan-500/25">
-                      <Music className="h-4 w-4 text-cyan-300" />
+                  <button
+                    type="button"
+                    onClick={() => window.dispatchEvent(new Event("genie-music-play"))}
+                    className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl ring-1 ring-cyan-500/[0.18] bg-gradient-to-r from-cyan-500/[0.05] to-indigo-500/[0.05] hover:ring-cyan-500/[0.38] hover:bg-gradient-to-r hover:from-cyan-500/[0.10] hover:to-indigo-500/[0.10] hover:shadow-[0_0_18px_rgba(6,182,212,0.18)] transition-all duration-200 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 group"
+                    title="Click to start calm focus music"
+                  >
+                    <div className="shrink-0 p-2 rounded-xl bg-gradient-to-br from-cyan-500/20 to-indigo-600/20 ring-1 ring-cyan-500/25 group-hover:ring-cyan-400/50 group-hover:shadow-[0_0_10px_rgba(6,182,212,0.30)] transition-all duration-200">
+                      <Music className="h-4 w-4 text-cyan-300 group-hover:text-cyan-200 transition-colors" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-[11px] font-semibold text-cyan-300/80 leading-tight">🎵 Calm Focus Music — Dashboard Perk</p>
+                      <p className="text-[11px] font-semibold text-cyan-300/80 leading-tight group-hover:text-cyan-200 transition-colors">🎵 Calm Focus Music — Click to Play</p>
                       <p className="text-[10px] text-white/38 leading-snug mt-0.5">
-                        A curated playlist of 25 public domain classical pieces plays softly in the background as you work. Use the player in the header to control playback, skip tracks, and adjust volume anytime.
+                        25 public domain classical pieces. Click here to start — or use the header player to skip tracks and adjust volume anytime.
                       </p>
                     </div>
-                  </div>
+                  </button>
                 </div>
 
                 {/* ── Role selector — prominent card grid ── */}
                 <div className="w-full max-w-2xl mb-2">
-                  <p className="text-center text-[10px] font-bold uppercase tracking-[0.14em] text-white/22 mb-3">I am a…</p>
-                  <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 mb-5">
+                  <p className="text-center text-xs font-bold uppercase tracking-[0.14em] text-white/28 mb-4">I am a…</p>
+                  <div className="grid grid-cols-3 sm:grid-cols-5 gap-2.5 mb-6">
                     {([
                       { role: "Students",       icon: GraduationCap  },
                       { role: "Parents",        icon: Users           },
@@ -4653,13 +4658,13 @@ export default function AidAgentPage() {
                       <button
                         key={role}
                         onClick={() => setActiveActionRole(role)}
-                        className={`flex flex-col items-center gap-2 px-2 py-3.5 rounded-xl text-[11px] font-semibold transition-all duration-200 ring-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 ${
+                        className={`flex flex-col items-center gap-2 px-2 py-4 rounded-xl text-xs font-semibold transition-all duration-200 ring-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 ${
                           activeActionRole === role
                             ? "bg-gradient-to-b from-cyan-500/20 to-sky-600/10 text-cyan-300 ring-cyan-500/35 shadow-lg shadow-cyan-900/20"
                             : "text-white/40 hover:text-white/72 hover:bg-white/[0.05] ring-white/[0.07]"
                         }`}
                       >
-                        <RoleIcon className={`h-4 w-4 transition-colors ${activeActionRole === role ? "text-cyan-300" : "text-white/30"}`} />
+                        <RoleIcon className={`h-5 w-5 transition-colors ${activeActionRole === role ? "text-cyan-300" : "text-white/30"}`} />
                         <span className="text-center leading-tight">{role}</span>
                       </button>
                     ))}
@@ -4667,19 +4672,19 @@ export default function AidAgentPage() {
 
                   {/* Quick-start cards — 2×2 grid for selected role */}
                   {QUICK_ACTIONS_BY_ROLE.filter((r) => r.role === activeActionRole).map(({ role, items }) => (
-                    <div key={role} className="grid grid-cols-2 gap-2">
+                    <div key={role} className="grid grid-cols-2 gap-3">
                       {items.map(({ icon: Icon, label, description, q }) => (
                         <button
                           key={`${role}-${label}`}
                           onClick={() => sendMessage(q)}
-                          className="flex flex-col gap-2.5 p-3.5 rounded-xl bg-white/[0.04] hover:bg-cyan-500/[0.09] ring-1 ring-white/[0.07] hover:ring-cyan-500/25 text-left transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
+                          className="flex flex-col gap-3 p-4 rounded-xl bg-white/[0.04] hover:bg-cyan-500/[0.09] ring-1 ring-white/[0.07] hover:ring-cyan-500/25 text-left transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
                         >
-                          <div className="p-1.5 rounded-lg bg-white/[0.06] group-hover:bg-cyan-500/18 transition-colors w-fit">
-                            <Icon className="h-3.5 w-3.5 text-white/38 group-hover:text-cyan-300 transition-colors" />
+                          <div className="p-2 rounded-lg bg-white/[0.06] group-hover:bg-cyan-500/18 transition-colors w-fit">
+                            <Icon className="h-4 w-4 text-white/38 group-hover:text-cyan-300 transition-colors" />
                           </div>
                           <div className="min-w-0">
-                            <p className="text-xs font-semibold text-white/80 group-hover:text-white transition-colors leading-tight">{label}</p>
-                            <p className="text-[11px] text-white/34 mt-0.5 leading-tight line-clamp-2">{description}</p>
+                            <p className="text-sm font-semibold text-white/80 group-hover:text-white transition-colors leading-tight">{label}</p>
+                            <p className="text-xs text-white/38 mt-1 leading-tight line-clamp-2">{description}</p>
                           </div>
                         </button>
                       ))}
@@ -4688,12 +4693,12 @@ export default function AidAgentPage() {
                 </div>
 
                 {/* ── Tips by Role ── */}
-                <div className="w-full max-w-2xl mt-8">
-                  <div className="flex items-center justify-center gap-2 mb-5">
+                <div className="w-full max-w-2xl mt-10">
+                  <div className="flex items-center justify-center gap-2 mb-6">
                     <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/10" />
-                    <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.06] ring-1 ring-white/10">
-                      <Lightbulb className="h-3.5 w-3.5 text-amber-400" />
-                      <span className="text-xs font-semibold text-white/50 tracking-wide">Tips by Role</span>
+                    <div className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/[0.06] ring-1 ring-white/10">
+                      <Lightbulb className="h-4 w-4 text-amber-400" />
+                      <span className="text-sm font-semibold text-white/55 tracking-wide">Tips by Role</span>
                     </div>
                     <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/10" />
                   </div>
@@ -4715,25 +4720,25 @@ export default function AidAgentPage() {
                   </div>
                   {ROLE_TIPS.filter((r) => r.role === activeRole).map(({ role, icon: Icon, gradient, accent, tips }) => (
                     <div key={role} className="rounded-2xl bg-white/[0.04] ring-1 ring-white/[0.08] backdrop-blur-sm overflow-hidden">
-                      <div className={`bg-gradient-to-r ${gradient} px-5 py-4 flex items-center gap-3`}>
-                        <div className="p-2 rounded-xl bg-white/20">
-                          <Icon className="h-5 w-5 text-white" />
+                      <div className={`bg-gradient-to-r ${gradient} px-5 py-5 flex items-center gap-3`}>
+                        <div className="p-2.5 rounded-xl bg-white/20">
+                          <Icon className="h-6 w-6 text-white" />
                         </div>
                         <div>
-                          <p className="text-sm font-semibold text-white leading-tight">As a {role}</p>
-                          <p className="text-xs text-white/65 leading-tight mt-0.5">Click any tip to prefill a question</p>
+                          <p className="text-base font-semibold text-white leading-tight">As a {role}</p>
+                          <p className="text-xs text-white/65 leading-tight mt-0.5">Click any tip to auto-send to askGenie</p>
                         </div>
                       </div>
                       <div className="divide-y divide-white/[0.06]">
                         {tips.map(({ text, prompt }, i) => (
                           <button
                             key={i}
-                            onClick={() => { setInput(prompt); textareaRef.current?.focus(); }}
-                            className="w-full flex items-start gap-3 px-5 py-3.5 text-left group hover:bg-cyan-500/[0.08] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400"
+                            onClick={() => sendMessage(prompt)}
+                            className="w-full flex items-start gap-3 px-5 py-4 text-left group hover:bg-cyan-500/[0.08] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400"
                           >
-                            <span className={`mt-2 h-1.5 w-1.5 rounded-full shrink-0 ring-1 ${accent}`} />
-                            <p className="text-sm text-white/55 group-hover:text-white/85 leading-snug transition-colors duration-150 flex-1">{text}</p>
-                            <ChevronRight className="h-3.5 w-3.5 text-white/15 group-hover:text-cyan-400 shrink-0 mt-1 transition-colors duration-150" />
+                            <span className={`mt-2 h-2 w-2 rounded-full shrink-0 ring-1 ${accent}`} />
+                            <p className="text-sm text-white/60 group-hover:text-white/88 leading-snug transition-colors duration-150 flex-1">{text}</p>
+                            <ChevronRight className="h-4 w-4 text-white/15 group-hover:text-cyan-400 shrink-0 mt-0.5 transition-colors duration-150" />
                           </button>
                         ))}
                       </div>
@@ -5109,8 +5114,8 @@ export default function AidAgentPage() {
                   Admins, Leaders &amp; Auditors
                 </p>
               </div>
-              <div className="p-1.5 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 shadow-lg shadow-violet-500/25 shrink-0">
-                <Zap className="h-4 w-4 text-white" />
+              <div className={`p-1.5 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 shadow-lg shadow-violet-500/25 shrink-0 transition-all duration-300 ${howItWorksActive === "panels" ? "shadow-[0_0_18px_rgba(6,182,212,0.70)] ring-2 ring-cyan-400/60" : ""}`}>
+                <Zap className={`h-4 w-4 text-white ${howItWorksActive === "panels" ? "animate-pulse" : ""}`} />
               </div>
             </div>
           </div>
@@ -5166,7 +5171,7 @@ export default function AidAgentPage() {
                   {isOpen && (
                     <div className="px-1.5 pb-2 space-y-0.5">
                       {links.map(({ name, url }) => (
-                        <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        <a key={name} href={`/open-resource?url=${encodeURIComponent(url)}`} target="_blank" rel="noopener noreferrer"
                           title={name}
                           className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-cyan-200 hover:bg-cyan-500/[0.14] ring-1 ring-transparent hover:ring-cyan-500/[0.25] transition-all duration-150 group">
                           <span>{name}</span>
@@ -5180,7 +5185,7 @@ export default function AidAgentPage() {
                               return <div key={`rsc-${idx}`} className="px-3 pt-2.5 pb-0.5 text-right"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
                             }
                             return (
-                              <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                              <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
                                 title={item.name}
                                 className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-cyan-200 hover:bg-cyan-500/[0.14] ring-1 ring-transparent hover:ring-cyan-500/[0.25] transition-all duration-150 group">
                                 <span>{item.name}</span>

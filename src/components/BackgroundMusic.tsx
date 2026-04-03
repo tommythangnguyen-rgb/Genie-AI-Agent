@@ -230,11 +230,15 @@ export function BackgroundMusic({ inline = false }: { inline?: boolean }) {
     });
   }, []);
 
-  // Restore volume on mount
+  // Restore volume on mount + listen for external play trigger
   useEffect(() => {
     const savedVol = parseFloat(localStorage.getItem(VOL_KEY) ?? "0.15");
     setVolume(isNaN(savedVol) ? 0.15 : Math.min(1, Math.max(0, savedVol)));
     setVisible(true);
+
+    const onExternalPlay = () => setIsPlaying(true);
+    window.addEventListener("genie-music-play", onExternalPlay);
+    return () => window.removeEventListener("genie-music-play", onExternalPlay);
   }, []);
 
   // Sync volume/mute to audio element
