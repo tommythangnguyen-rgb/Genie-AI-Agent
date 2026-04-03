@@ -4381,9 +4381,13 @@ export default function AidAgentPage() {
                     <button
                       type="submit"
                       disabled={(!input.trim() && !attachedFile) || isLoading}
-                      className="shrink-0 mb-0.5 flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold shadow-md shadow-indigo-900/50 active:scale-95 transition-all duration-150 disabled:opacity-35 disabled:cursor-not-allowed disabled:active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-400"
+                      className="shrink-0 mb-0.5 flex items-center gap-1.5 px-4 py-2 rounded-xl text-white text-xs font-semibold active:scale-95 transition-all duration-150 disabled:opacity-35 disabled:cursor-not-allowed disabled:active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-400"
+                      style={{
+                        background: "linear-gradient(135deg, #4338ca 0%, #6d28d9 100%)",
+                        boxShadow: "0 2px 12px rgba(99,102,241,0.5), 0 0 0 1px rgba(139,92,246,0.3), inset 0 1px 0 rgba(255,255,255,0.12)",
+                      }}
                     >
-                      <Send className="h-3.5 w-3.5" />
+                      <GenieBottle className="h-4 w-4 text-amber-200 genie-send-icon" />
                       Send
                     </button>
                   )}
