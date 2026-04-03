@@ -2318,6 +2318,53 @@ function XProfileEmbed() {
   );
 }
 
+// ─── Voice picker — prefers warm, natural female voices ──────────────────────
+
+const PREFERRED_VOICES = [
+  // Microsoft Neural Online (Edge/Windows) — closest to natural human speech
+  "Microsoft Aria Online (Natural) - English (United States)",
+  "Microsoft Jenny Online (Natural) - English (United States)",
+  "Microsoft Michelle Online (Natural) - English (United States)",
+  "Microsoft Monica Online (Natural) - English (United States)",
+  "Microsoft Sonia Online (Natural) - English (United Kingdom)",
+  "Microsoft Libby Online (Natural) - English (United Kingdom)",
+  // Google Neural (Chrome)
+  "Google US English",
+  // macOS / iOS
+  "Samantha",
+  "Karen",
+  "Victoria",
+  "Moira",
+];
+
+async function pickCalmFemaleVoice(): Promise<SpeechSynthesisVoice | null> {
+  if (typeof window === "undefined" || !window.speechSynthesis) return null;
+  let voices = window.speechSynthesis.getVoices();
+  if (voices.length === 0) {
+    await new Promise<void>((resolve) => {
+      const handler = () => resolve();
+      window.speechSynthesis.addEventListener("voiceschanged", handler, { once: true });
+      setTimeout(resolve, 1200);
+    });
+    voices = window.speechSynthesis.getVoices();
+  }
+  // 1. Exact preferred name match
+  for (const name of PREFERRED_VOICES) {
+    const v = voices.find((v) => v.name === name);
+    if (v) return v;
+  }
+  // 2. Any Microsoft Natural online English voice
+  const msNatural = voices.find(
+    (v) => v.name.includes("Microsoft") && v.name.includes("Natural") && v.lang.startsWith("en")
+  );
+  if (msNatural) return msNatural;
+  // 3. Any Google English voice
+  const googleEn = voices.find((v) => v.name.includes("Google") && v.lang.startsWith("en"));
+  if (googleEn) return googleEn;
+  // 4. Any en-US voice
+  return voices.find((v) => v.lang === "en-US") ?? voices.find((v) => v.lang.startsWith("en")) ?? null;
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function AidAgentPage() {
@@ -2666,39 +2713,30 @@ export default function AidAgentPage() {
     stopSpeaking();
     setSpeakingMsgId(msgId);
 
-    try {
-      const res = await fetch("/api/tts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, lang: ttsLang }),
-      });
+    if (typeof window === "undefined" || !window.speechSynthesis) { setSpeakingMsgId(null); return; }
 
-      if (!res.ok) throw new Error(`TTS ${res.status}`);
+    // Strip markdown to clean plain text
+    const plain = text
+      .replace(/```[\s\S]*?```/g, "code block omitted")
+      .replace(/`[^`]*`/g, "")
+      .replace(/#{1,6}\s/g, "")
+      .replace(/\*\*(.+?)\*\*/g, "$1")
+      .replace(/[*_~>|]/g, "")
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+      .replace(/\n{2,}/g, ". ")
+      .replace(/\n/g, " ")
+      .trim();
 
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-      const audio = new Audio(url);
-      audioRef.current = audio;
-
-      audio.onended = () => { URL.revokeObjectURL(url); setSpeakingMsgId(null); };
-      audio.onerror = () => { URL.revokeObjectURL(url); setSpeakingMsgId(null); };
-      await audio.play();
-    } catch {
-      // Fallback — Web Speech API
-      if (typeof window === "undefined" || !window.speechSynthesis) { setSpeakingMsgId(null); return; }
-      const plain = text
-        .replace(/```[\s\S]*?```/g, "code block omitted")
-        .replace(/`[^`]*`/g, "").replace(/#{1,6}\s/g, "")
-        .replace(/[*_~>|]/g, "").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-        .replace(/\n{2,}/g, ". ").replace(/\n/g, " ").trim();
-      const utterance = new SpeechSynthesisUtterance(plain);
-      utterance.lang = ttsLang;
-      utterance.rate = 0.92;
-      utterance.pitch = 1.0;
-      utterance.onend = () => setSpeakingMsgId(null);
-      utterance.onerror = () => setSpeakingMsgId(null);
-      window.speechSynthesis.speak(utterance);
-    }
+    const voice = await pickCalmFemaleVoice();
+    const utterance = new SpeechSynthesisUtterance(plain);
+    utterance.lang = ttsLang;
+    utterance.rate = 0.88;   // calm, unhurried — motherly pace
+    utterance.pitch = 0.95;  // slightly warm/lower — mature, soothing
+    utterance.volume = 1.0;
+    if (voice) utterance.voice = voice;
+    utterance.onend = () => setSpeakingMsgId(null);
+    utterance.onerror = () => setSpeakingMsgId(null);
+    window.speechSynthesis.speak(utterance);
   };
 
   const printMessage = (content: string) => {
