@@ -2135,96 +2135,508 @@ function EducationalBackground({ isDark = true }: { isDark?: boolean }) {
           />
         ))}
 
-        {/* SVG: educational background — dot grid + constellations + academic symbols */}
+        {/* SVG: Educational constellation map — 12 themed constellations */}
         <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
           <defs>
+            {/* Dot grid */}
             <pattern id="edu-dots-b" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-              <circle cx="20" cy="20" r="0.7" fill="#93c5fd" fillOpacity="0.18" />
+              <circle cx="20" cy="20" r="0.65" fill="#93c5fd" fillOpacity="0.14" />
             </pattern>
+            {/* Star glow filter */}
+            <filter id="sg" x="-120%" y="-120%" width="340%" height="340%">
+              <feGaussianBlur stdDeviation="2.8" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="sg-sm" x="-80%" y="-80%" width="260%" height="260%">
+              <feGaussianBlur stdDeviation="1.6" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            {/* Nebula glows */}
+            <radialGradient id="nb1" cx="50%" cy="50%" r="50%"><stop offset="0%" stopColor="#93c5fd" stopOpacity="0.07"/><stop offset="100%" stopColor="#93c5fd" stopOpacity="0"/></radialGradient>
+            <radialGradient id="nb2" cx="50%" cy="50%" r="50%"><stop offset="0%" stopColor="#c4b5fd" stopOpacity="0.06"/><stop offset="100%" stopColor="#c4b5fd" stopOpacity="0"/></radialGradient>
+            <radialGradient id="nb3" cx="50%" cy="50%" r="50%"><stop offset="0%" stopColor="#bae6fd" stopOpacity="0.08"/><stop offset="100%" stopColor="#bae6fd" stopOpacity="0"/></radialGradient>
           </defs>
+
+          {/* Dot grid base */}
           <rect width="1440" height="900" fill="url(#edu-dots-b)" />
 
-          {/* Constellation cluster — top left */}
-          <g stroke="#93c5fd" strokeOpacity="0.18" strokeWidth="0.8" fill="none">
-            <line x1="160" y1="80"  x2="230" y2="130" />
-            <line x1="230" y1="130" x2="310" y2="105" />
-            <line x1="310" y1="105" x2="370" y2="160" />
-            <line x1="370" y1="160" x2="420" y2="120" />
-            <line x1="230" y1="130" x2="280" y2="190" />
-          </g>
-          <g fill="#bfdbfe" fillOpacity="0.35">
-            <circle cx="160" cy="80"  r="1.8" /><circle cx="230" cy="130" r="2.4" />
-            <circle cx="310" cy="105" r="1.6" /><circle cx="370" cy="160" r="2.0" />
-            <circle cx="420" cy="120" r="1.4" /><circle cx="280" cy="190" r="1.6" />
-          </g>
+          {/* ── Nebula glows behind clusters ── */}
+          <ellipse cx="240" cy="96"  rx="180" ry="100" fill="url(#nb1)" />
+          <ellipse cx="720" cy="95"  rx="130" ry="90"  fill="url(#nb3)" />
+          <ellipse cx="1215" cy="110" rx="170" ry="90"  fill="url(#nb1)" />
+          <ellipse cx="190" cy="420" rx="160" ry="90"  fill="url(#nb2)" />
+          <ellipse cx="960" cy="320" rx="130" ry="110" fill="url(#nb1)" />
+          <ellipse cx="720" cy="630" rx="200" ry="90"  fill="url(#nb3)" />
+          <ellipse cx="160" cy="760" rx="150" ry="110" fill="url(#nb2)" />
+          <ellipse cx="1195" cy="420" rx="160" ry="110" fill="url(#nb1)" />
+          <ellipse cx="1310" cy="775" rx="100" ry="120" fill="url(#nb2)" />
+          <ellipse cx="880" cy="740" rx="180" ry="90"  fill="url(#nb1)" />
+          <ellipse cx="520" cy="780" rx="160" ry="90"  fill="url(#nb3)" />
+          <ellipse cx="600" cy="430" rx="200" ry="70"  fill="url(#nb1)" />
 
-          {/* Constellation cluster — top right */}
-          <g stroke="#93c5fd" strokeOpacity="0.18" strokeWidth="0.8" fill="none">
-            <line x1="1060" y1="60"  x2="1140" y2="100" />
-            <line x1="1140" y1="100" x2="1210" y2="70"  />
-            <line x1="1210" y1="70"  x2="1280" y2="130" />
-            <line x1="1140" y1="100" x2="1170" y2="175" />
-            <line x1="1280" y1="130" x2="1320" y2="80"  />
+          {/* ══════════════════════════════════════════════════════════════ */}
+          {/* 1. THE MORTARBOARD — graduation cap (top-left) */}
+          {/* ══════════════════════════════════════════════════════════════ */}
+          <g stroke="#93c5fd" strokeOpacity="0.40" strokeWidth="0.75" fill="none">
+            <line x1="90"  y1="68"  x2="180" y2="52"  />
+            <line x1="180" y1="52"  x2="240" y2="44"  />
+            <line x1="240" y1="44"  x2="310" y2="52"  />
+            <line x1="310" y1="52"  x2="400" y2="68"  />
+            <line x1="90"  y1="68"  x2="240" y2="90"  />
+            <line x1="400" y1="68"  x2="240" y2="90"  />
+            <line x1="240" y1="90"  x2="210" y2="118" />
+            <line x1="240" y1="90"  x2="270" y2="118" />
+            <line x1="210" y1="118" x2="240" y2="138" />
+            <line x1="270" y1="118" x2="240" y2="138" />
+            <line x1="310" y1="52"  x2="380" y2="88"  />
+            <line x1="380" y1="88"  x2="395" y2="118" />
+            <line x1="395" y1="118" x2="405" y2="148" />
           </g>
-          <g fill="#bfdbfe" fillOpacity="0.35">
-            <circle cx="1060" cy="60"  r="1.6" /><circle cx="1140" cy="100" r="2.2" />
-            <circle cx="1210" cy="70"  r="1.8" /><circle cx="1280" cy="130" r="2.0" />
-            <circle cx="1170" cy="175" r="1.4" /><circle cx="1320" cy="80"  r="1.6" />
+          <g fill="#bfdbfe" fillOpacity="0.45">
+            <circle cx="90"  cy="68"  r="1.8"/><circle cx="180" cy="52"  r="2.0"/>
+            <circle cx="310" cy="52"  r="1.8"/><circle cx="400" cy="68"  r="1.6"/>
+            <circle cx="210" cy="118" r="1.6"/><circle cx="270" cy="118" r="1.6"/>
+            <circle cx="240" cy="138" r="1.8"/><circle cx="380" cy="88"  r="1.4"/>
+            <circle cx="395" cy="118" r="1.4"/><circle cx="405" cy="148" r="1.6"/>
           </g>
+          {/* Anchor: board-peak */}
+          <circle cx="240" cy="44" r="3.2" fill="#e0f2fe" fillOpacity="0.80" filter="url(#sg)">
+            <animate attributeName="fillOpacity" values="0.80;0.45;0.80" dur="4.2s" repeatCount="indefinite"/>
+          </circle>
+          {/* anchor: crown top */}
+          <circle cx="240" cy="90" r="2.8" fill="#bfdbfe" fillOpacity="0.70" filter="url(#sg-sm)">
+            <animate attributeName="r" values="2.8;2.2;2.8" dur="3.8s" repeatCount="indefinite"/>
+          </circle>
+          <text x="92" y="162" fill="#93c5fd" fillOpacity="0.30" fontSize="7.5" fontFamily="monospace" letterSpacing="2">THE MORTARBOARD</text>
 
-          {/* Constellation cluster — bottom left */}
-          <g stroke="#93c5fd" strokeOpacity="0.18" strokeWidth="0.8" fill="none">
-            <line x1="100" y1="620" x2="175" y2="680" />
-            <line x1="175" y1="680" x2="250" y2="645" />
-            <line x1="250" y1="645" x2="310" y2="710" />
-            <line x1="175" y1="680" x2="160" y2="760" />
+          {/* ══════════════════════════════════════════════════════════════ */}
+          {/* 2. THE COMPASS — cardinal guidance (top-right) */}
+          {/* ══════════════════════════════════════════════════════════════ */}
+          <g stroke="#93c5fd" strokeOpacity="0.40" strokeWidth="0.75" fill="none">
+            <line x1="1215" y1="45"  x2="1215" y2="88"  />
+            <line x1="1215" y1="88"  x2="1215" y2="112" />
+            <line x1="1215" y1="112" x2="1215" y2="136" />
+            <line x1="1215" y1="136" x2="1215" y2="178" />
+            <line x1="1100" y1="112" x2="1160" y2="112" />
+            <line x1="1160" y1="112" x2="1215" y2="112" />
+            <line x1="1215" y1="112" x2="1270" y2="112" />
+            <line x1="1270" y1="112" x2="1330" y2="112" />
+            <line x1="1215" y1="45"  x2="1110" y2="58"  />
+            <line x1="1215" y1="45"  x2="1320" y2="58"  />
+            <line x1="1215" y1="178" x2="1110" y2="166" />
+            <line x1="1215" y1="178" x2="1320" y2="166" />
           </g>
-          <g fill="#bfdbfe" fillOpacity="0.35">
-            <circle cx="100" cy="620" r="1.6" /><circle cx="175" cy="680" r="2.2" />
-            <circle cx="250" cy="645" r="1.8" /><circle cx="310" cy="710" r="1.4" />
-            <circle cx="160" cy="760" r="1.6" />
+          <g fill="#bfdbfe" fillOpacity="0.45">
+            <circle cx="1215" cy="45"  r="2.2"/><circle cx="1215" cy="178" r="1.8"/>
+            <circle cx="1100" cy="112" r="1.8"/><circle cx="1330" cy="112" r="1.8"/>
+            <circle cx="1110" cy="58"  r="1.4"/><circle cx="1320" cy="58"  r="1.4"/>
+            <circle cx="1110" cy="166" r="1.4"/><circle cx="1320" cy="166" r="1.4"/>
+            <circle cx="1160" cy="112" r="1.6"/><circle cx="1270" cy="112" r="1.6"/>
+            <circle cx="1215" cy="88"  r="1.6"/><circle cx="1215" cy="136" r="1.6"/>
           </g>
+          <circle cx="1215" cy="112" r="3.5" fill="#e0f2fe" fillOpacity="0.85" filter="url(#sg)">
+            <animate attributeName="fillOpacity" values="0.85;0.48;0.85" dur="5.1s" repeatCount="indefinite"/>
+          </circle>
+          <text x="1110" y="194" fill="#93c5fd" fillOpacity="0.30" fontSize="7.5" fontFamily="monospace" letterSpacing="2">THE COMPASS</text>
 
-          {/* Constellation cluster — bottom right */}
-          <g stroke="#93c5fd" strokeOpacity="0.18" strokeWidth="0.8" fill="none">
-            <line x1="1100" y1="700" x2="1180" y2="740" />
-            <line x1="1180" y1="740" x2="1260" y2="710" />
-            <line x1="1260" y1="710" x2="1330" y2="770" />
-            <line x1="1180" y1="740" x2="1200" y2="820" />
+          {/* ══════════════════════════════════════════════════════════════ */}
+          {/* 3. THE NORTH STAR — Polaris asterism (top-center) */}
+          {/* ══════════════════════════════════════════════════════════════ */}
+          <g stroke="#93c5fd" strokeOpacity="0.45" strokeWidth="0.75" fill="none">
+            <line x1="720" y1="38"  x2="720" y2="80"  />
+            <line x1="700" y1="72"  x2="720" y2="80"  />
+            <line x1="740" y1="72"  x2="720" y2="80"  />
+            <line x1="720" y1="80"  x2="690" y2="104" />
+            <line x1="720" y1="80"  x2="750" y2="104" />
+            <line x1="720" y1="80"  x2="720" y2="108" />
+            <line x1="690" y1="104" x2="720" y2="108" />
+            <line x1="750" y1="104" x2="720" y2="108" />
+            <line x1="720" y1="108" x2="672" y2="130" />
+            <line x1="720" y1="108" x2="720" y2="138" />
+            <line x1="720" y1="108" x2="770" y2="128" />
+            <line x1="672" y1="130" x2="720" y2="138" />
+            <line x1="720" y1="138" x2="720" y2="158" />
           </g>
-          <g fill="#bfdbfe" fillOpacity="0.35">
-            <circle cx="1100" cy="700" r="1.6" /><circle cx="1180" cy="740" r="2.0" />
-            <circle cx="1260" cy="710" r="1.8" /><circle cx="1330" cy="770" r="1.4" />
-            <circle cx="1200" cy="820" r="1.6" />
+          <g fill="#bfdbfe" fillOpacity="0.42">
+            <circle cx="700" cy="72"  r="1.8"/><circle cx="740" cy="72"  r="1.8"/>
+            <circle cx="720" cy="80"  r="2.2"/><circle cx="690" cy="104" r="1.6"/>
+            <circle cx="750" cy="104" r="1.6"/><circle cx="720" cy="108" r="2.0"/>
+            <circle cx="672" cy="130" r="1.4"/><circle cx="770" cy="128" r="1.4"/>
+            <circle cx="720" cy="138" r="1.6"/><circle cx="720" cy="158" r="1.4"/>
           </g>
+          {/* Polaris — brightest star */}
+          <circle cx="720" cy="38" r="4.2" fill="white" fillOpacity="0.90" filter="url(#sg)">
+            <animate attributeName="r" values="4.2;3.0;4.2" dur="3.5s" repeatCount="indefinite"/>
+            <animate attributeName="fillOpacity" values="0.90;0.55;0.90" dur="3.5s" repeatCount="indefinite"/>
+          </circle>
+          <text x="662" y="172" fill="#93c5fd" fillOpacity="0.32" fontSize="7.5" fontFamily="monospace" letterSpacing="2">THE NORTH STAR</text>
 
-          {/* Scattered star points */}
-          <g fill="#bfdbfe" fillOpacity="0.28">
-            <circle cx="520"  cy="140" r="1.4" /><circle cx="680"  cy="55"  r="1.6" />
-            <circle cx="840"  cy="180" r="1.2" /><circle cx="960"  cy="90"  r="1.8" />
-            <circle cx="440"  cy="400" r="1.4" /><circle cx="750"  cy="520" r="1.6" />
-            <circle cx="1010" cy="430" r="1.2" /><circle cx="580"  cy="750" r="1.4" />
-            <circle cx="880"  cy="800" r="1.6" /><circle cx="640"  cy="310" r="1.2" />
+          {/* ══════════════════════════════════════════════════════════════ */}
+          {/* 4. THE OPEN BOOK — knowledge (mid-left) */}
+          {/* ══════════════════════════════════════════════════════════════ */}
+          <g stroke="#93c5fd" strokeOpacity="0.38" strokeWidth="0.75" fill="none">
+            <line x1="68"  y1="358" x2="160" y2="345" />
+            <line x1="160" y1="345" x2="190" y2="342" />
+            <line x1="190" y1="342" x2="220" y2="345" />
+            <line x1="220" y1="345" x2="320" y2="358" />
+            <line x1="68"  y1="358" x2="68"  y2="468" />
+            <line x1="320" y1="358" x2="320" y2="468" />
+            <line x1="68"  y1="468" x2="160" y2="478" />
+            <line x1="160" y1="478" x2="190" y2="480" />
+            <line x1="190" y1="480" x2="220" y2="478" />
+            <line x1="220" y1="478" x2="320" y2="468" />
+            <line x1="190" y1="342" x2="190" y2="480" />
+            <line x1="160" y1="345" x2="160" y2="478" />
+            <line x1="220" y1="345" x2="220" y2="478" />
+            <line x1="68"  y1="400" x2="160" y2="400" />
+            <line x1="220" y1="400" x2="320" y2="400" />
           </g>
+          <g fill="#bfdbfe" fillOpacity="0.44">
+            <circle cx="68"  cy="358" r="1.8"/><circle cx="160" cy="345" r="1.8"/>
+            <circle cx="220" cy="345" r="1.8"/><circle cx="320" cy="358" r="1.8"/>
+            <circle cx="68"  cy="468" r="1.8"/><circle cx="160" cy="478" r="1.8"/>
+            <circle cx="220" cy="478" r="1.8"/><circle cx="320" cy="468" r="1.8"/>
+            <circle cx="68"  cy="400" r="1.4"/><circle cx="320" cy="400" r="1.4"/>
+            <circle cx="160" cy="400" r="1.4"/><circle cx="220" cy="400" r="1.4"/>
+          </g>
+          <circle cx="190" cy="342" r="3.4" fill="#e0f2fe" fillOpacity="0.82" filter="url(#sg)">
+            <animate attributeName="fillOpacity" values="0.82;0.46;0.82" dur="4.6s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="190" cy="480" r="2.4" fill="#bfdbfe" fillOpacity="0.60" filter="url(#sg-sm)"/>
+          <text x="70" y="496" fill="#93c5fd" fillOpacity="0.30" fontSize="7.5" fontFamily="monospace" letterSpacing="2">THE OPEN BOOK</text>
 
-          {/* Graduation cap — faint watermark, center */}
-          <g transform="translate(680, 390)" stroke="#93c5fd" strokeOpacity="0.09" strokeWidth="1.2" fill="none">
-            {/* Board top */}
-            <polygon points="0,-28 40,-14 0,0 -40,-14" />
-            {/* Brim base */}
-            <ellipse cx="0" cy="-14" rx="40" ry="8" />
-            {/* Tassel stem */}
-            <line x1="40" y1="-14" x2="40" y2="12" />
-            <line x1="40" y1="12"  x2="36" y2="24" />
-            <line x1="40" y1="12"  x2="44" y2="24" />
+          {/* ══════════════════════════════════════════════════════════════ */}
+          {/* 5. THE QUILL — writing / documentation (center-right) */}
+          {/* ══════════════════════════════════════════════════════════════ */}
+          <g stroke="#93c5fd" strokeOpacity="0.38" strokeWidth="0.75" fill="none">
+            <line x1="1042" y1="238" x2="990"  y2="272" />
+            <line x1="1015" y1="258" x2="990"  y2="272" />
+            <line x1="1000" y1="248" x2="990"  y2="272" />
+            <line x1="990"  y1="272" x2="1010" y2="280" />
+            <line x1="990"  y1="272" x2="972"  y2="295" />
+            <line x1="990"  y1="272" x2="960"  y2="310" />
+            <line x1="960"  y1="310" x2="980"  y2="322" />
+            <line x1="960"  y1="310" x2="942"  y2="334" />
+            <line x1="960"  y1="310" x2="930"  y2="350" />
+            <line x1="930"  y1="350" x2="905"  y2="378" />
+            <line x1="905"  y1="378" x2="886"  y2="408" />
           </g>
+          <g fill="#bfdbfe" fillOpacity="0.44">
+            <circle cx="1015" cy="258" r="1.6"/><circle cx="1000" cy="248" r="1.6"/>
+            <circle cx="990"  cy="272" r="2.2"/><circle cx="1010" cy="280" r="1.4"/>
+            <circle cx="972"  cy="295" r="1.6"/><circle cx="960"  cy="310" r="2.0"/>
+            <circle cx="980"  cy="322" r="1.4"/><circle cx="942"  cy="334" r="1.6"/>
+            <circle cx="930"  cy="350" r="1.8"/><circle cx="905"  cy="378" r="1.6"/>
+          </g>
+          <circle cx="1042" cy="238" r="3.6" fill="#e0f2fe" fillOpacity="0.82" filter="url(#sg)">
+            <animate attributeName="r" values="3.6;2.6;3.6" dur="5.0s" repeatCount="indefinite"/>
+            <animate attributeName="fillOpacity" values="0.82;0.44;0.82" dur="5.0s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="886" cy="408" r="2.8" fill="#bfdbfe" fillOpacity="0.65" filter="url(#sg-sm)">
+            <animate attributeName="fillOpacity" values="0.65;0.30;0.65" dur="3.8s" repeatCount="indefinite"/>
+          </circle>
+          <text x="885" y="424" fill="#93c5fd" fillOpacity="0.30" fontSize="7.5" fontFamily="monospace" letterSpacing="2">THE QUILL</text>
 
-          {/* Open book — faint watermark, bottom center */}
-          <g transform="translate(700, 760)" stroke="#93c5fd" strokeOpacity="0.08" strokeWidth="1.2" fill="none">
-            <path d="M0,0 C-30,-8 -60,-8 -70,-4 L-70,30 C-60,26 -30,26 0,18" />
-            <path d="M0,0 C 30,-8  60,-8  70,-4 L 70,30 C 60,26  30,26  0,18" />
-            <line x1="0" y1="0" x2="0" y2="18" />
+          {/* ══════════════════════════════════════════════════════════════ */}
+          {/* 6. THE BALANCE SCALE — fairness of aid (center) */}
+          {/* ══════════════════════════════════════════════════════════════ */}
+          <g stroke="#93c5fd" strokeOpacity="0.40" strokeWidth="0.75" fill="none">
+            <line x1="612" y1="572" x2="720" y2="558" />
+            <line x1="720" y1="558" x2="828" y2="572" />
+            <line x1="720" y1="558" x2="720" y2="600" />
+            <line x1="720" y1="600" x2="720" y2="640" />
+            <line x1="720" y1="640" x2="720" y2="680" />
+            <line x1="612" y1="572" x2="598" y2="614" />
+            <line x1="598" y1="614" x2="588" y2="648" />
+            <line x1="588" y1="648" x2="575" y2="682" />
+            <line x1="575" y1="682" x2="600" y2="688" />
+            <line x1="600" y1="688" x2="622" y2="682" />
+            <line x1="828" y1="572" x2="840" y2="614" />
+            <line x1="840" y1="614" x2="852" y2="648" />
+            <line x1="852" y1="648" x2="838" y2="682" />
+            <line x1="838" y1="682" x2="860" y2="688" />
+            <line x1="860" y1="688" x2="880" y2="682" />
+            <line x1="655" y1="680" x2="785" y2="680" />
           </g>
+          <g fill="#bfdbfe" fillOpacity="0.44">
+            <circle cx="612" cy="572" r="1.8"/><circle cx="828" cy="572" r="1.8"/>
+            <circle cx="720" cy="600" r="1.4"/><circle cx="720" cy="640" r="1.4"/>
+            <circle cx="720" cy="680" r="1.6"/><circle cx="598" cy="614" r="1.4"/>
+            <circle cx="588" cy="648" r="1.4"/><circle cx="575" cy="682" r="1.8"/>
+            <circle cx="600" cy="688" r="2.0"/><circle cx="622" cy="682" r="1.8"/>
+            <circle cx="840" cy="614" r="1.4"/><circle cx="852" cy="648" r="1.4"/>
+            <circle cx="838" cy="682" r="1.8"/><circle cx="860" cy="688" r="2.0"/>
+            <circle cx="880" cy="682" r="1.8"/>
+          </g>
+          <circle cx="720" cy="558" r="3.8" fill="#e0f2fe" fillOpacity="0.88" filter="url(#sg)">
+            <animate attributeName="fillOpacity" values="0.88;0.50;0.88" dur="4.4s" repeatCount="indefinite"/>
+          </circle>
+          <text x="626" y="700" fill="#93c5fd" fillOpacity="0.30" fontSize="7.5" fontFamily="monospace" letterSpacing="2">THE BALANCE SCALE</text>
+
+          {/* ══════════════════════════════════════════════════════════════ */}
+          {/* 7. THE KEY — opportunity (lower-left) */}
+          {/* ══════════════════════════════════════════════════════════════ */}
+          <g stroke="#93c5fd" strokeOpacity="0.38" strokeWidth="0.75" fill="none">
+            <line x1="88"  y1="668" x2="72"  y2="700" />
+            <line x1="72"  y1="700" x2="78"  y2="732" />
+            <line x1="78"  y1="732" x2="108" y2="748" />
+            <line x1="108" y1="748" x2="138" y2="736" />
+            <line x1="138" y1="736" x2="148" y2="704" />
+            <line x1="148" y1="704" x2="130" y2="676" />
+            <line x1="130" y1="676" x2="88"  y2="668" />
+            <line x1="108" y1="748" x2="168" y2="748" />
+            <line x1="168" y1="748" x2="210" y2="790" />
+            <line x1="210" y1="790" x2="248" y2="830" />
+            <line x1="248" y1="830" x2="240" y2="810" />
+            <line x1="240" y1="810" x2="228" y2="818" />
+            <line x1="248" y1="830" x2="252" y2="848" />
+            <line x1="252" y1="848" x2="240" y2="856" />
+          </g>
+          <g fill="#bfdbfe" fillOpacity="0.44">
+            <circle cx="88"  cy="668" r="1.6"/><circle cx="72"  cy="700" r="1.6"/>
+            <circle cx="78"  cy="732" r="1.6"/><circle cx="138" cy="736" r="1.6"/>
+            <circle cx="148" cy="704" r="1.6"/><circle cx="130" cy="676" r="1.6"/>
+            <circle cx="168" cy="748" r="1.4"/><circle cx="210" cy="790" r="1.8"/>
+            <circle cx="240" cy="810" r="1.4"/><circle cx="228" cy="818" r="1.4"/>
+            <circle cx="252" cy="848" r="1.6"/><circle cx="240" cy="856" r="1.6"/>
+          </g>
+          <circle cx="108" cy="748" r="3.6" fill="#e0f2fe" fillOpacity="0.84" filter="url(#sg)">
+            <animate attributeName="r" values="3.6;2.6;3.6" dur="4.8s" repeatCount="indefinite"/>
+            <animate attributeName="fillOpacity" values="0.84;0.46;0.84" dur="4.8s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="248" cy="830" r="2.6" fill="#bfdbfe" fillOpacity="0.60" filter="url(#sg-sm)"/>
+          <text x="70" y="872" fill="#93c5fd" fillOpacity="0.30" fontSize="7.5" fontFamily="monospace" letterSpacing="2">THE KEY</text>
+
+          {/* ══════════════════════════════════════════════════════════════ */}
+          {/* 8. THE OWL — wisdom (right-center) */}
+          {/* ══════════════════════════════════════════════════════════════ */}
+          <g stroke="#93c5fd" strokeOpacity="0.40" strokeWidth="0.75" fill="none">
+            <line x1="1190" y1="338" x2="1200" y2="356" />
+            <line x1="1248" y1="332" x2="1240" y2="356" />
+            <line x1="1178" y1="368" x2="1200" y2="356" />
+            <line x1="1200" y1="356" x2="1215" y2="372" />
+            <line x1="1215" y1="372" x2="1200" y2="386" />
+            <line x1="1200" y1="386" x2="1178" y2="368" />
+            <line x1="1240" y1="356" x2="1258" y2="372" />
+            <line x1="1258" y1="372" x2="1240" y2="386" />
+            <line x1="1240" y1="386" x2="1228" y2="372" />
+            <line x1="1228" y1="372" x2="1240" y2="356" />
+            <line x1="1215" y1="372" x2="1220" y2="398" />
+            <line x1="1228" y1="372" x2="1220" y2="398" />
+            <line x1="1148" y1="404" x2="1178" y2="368" />
+            <line x1="1310" y1="404" x2="1258" y2="372" />
+            <line x1="1200" y1="386" x2="1195" y2="460" />
+            <line x1="1240" y1="386" x2="1260" y2="460" />
+            <line x1="1195" y1="460" x2="1260" y2="460" />
+            <line x1="1195" y1="460" x2="1205" y2="498" />
+            <line x1="1260" y1="460" x2="1250" y2="498" />
+          </g>
+          <g fill="#bfdbfe" fillOpacity="0.44">
+            <circle cx="1190" cy="338" r="1.8"/><circle cx="1248" cy="332" r="1.8"/>
+            <circle cx="1178" cy="368" r="1.6"/><circle cx="1200" cy="356" r="2.0"/>
+            <circle cx="1215" cy="372" r="1.8"/><circle cx="1200" cy="386" r="1.8"/>
+            <circle cx="1240" cy="356" r="2.0"/><circle cx="1258" cy="372" r="1.8"/>
+            <circle cx="1240" cy="386" r="1.8"/><circle cx="1228" cy="372" r="1.8"/>
+            <circle cx="1220" cy="398" r="1.6"/><circle cx="1148" cy="404" r="1.4"/>
+            <circle cx="1310" cy="404" r="1.4"/><circle cx="1195" cy="460" r="1.6"/>
+            <circle cx="1260" cy="460" r="1.6"/><circle cx="1205" cy="498" r="1.8"/>
+            <circle cx="1250" cy="498" r="1.8"/>
+          </g>
+          {/* Twin glowing eyes */}
+          <circle cx="1205" cy="368" r="3.0" fill="white" fillOpacity="0.78" filter="url(#sg)">
+            <animate attributeName="fillOpacity" values="0.78;0.40;0.78" dur="3.2s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="1244" cy="368" r="3.0" fill="white" fillOpacity="0.78" filter="url(#sg)">
+            <animate attributeName="fillOpacity" values="0.78;0.40;0.78" dur="3.2s" begin="0.4s" repeatCount="indefinite"/>
+          </circle>
+          <text x="1148" y="514" fill="#93c5fd" fillOpacity="0.30" fontSize="7.5" fontFamily="monospace" letterSpacing="2">THE OWL</text>
+
+          {/* ══════════════════════════════════════════════════════════════ */}
+          {/* 9. THE COLUMN — Title IV institution (bottom-right) */}
+          {/* ══════════════════════════════════════════════════════════════ */}
+          <g stroke="#93c5fd" strokeOpacity="0.38" strokeWidth="0.75" fill="none">
+            <line x1="1258" y1="688" x2="1362" y2="688" />
+            <line x1="1258" y1="688" x2="1258" y2="710" />
+            <line x1="1362" y1="688" x2="1362" y2="710" />
+            <line x1="1258" y1="710" x2="1362" y2="710" />
+            <line x1="1258" y1="710" x2="1282" y2="748" />
+            <line x1="1362" y1="710" x2="1338" y2="748" />
+            <line x1="1282" y1="748" x2="1338" y2="748" />
+            <line x1="1282" y1="748" x2="1282" y2="800" />
+            <line x1="1338" y1="748" x2="1338" y2="800" />
+            <line x1="1282" y1="800" x2="1338" y2="800" />
+            <line x1="1282" y1="800" x2="1282" y2="840" />
+            <line x1="1338" y1="800" x2="1338" y2="840" />
+            <line x1="1282" y1="840" x2="1338" y2="840" />
+            <line x1="1258" y1="862" x2="1282" y2="840" />
+            <line x1="1362" y1="862" x2="1338" y2="840" />
+            <line x1="1258" y1="862" x2="1362" y2="862" />
+          </g>
+          <g fill="#bfdbfe" fillOpacity="0.44">
+            <circle cx="1258" cy="688" r="1.6"/><circle cx="1362" cy="688" r="1.6"/>
+            <circle cx="1258" cy="710" r="1.6"/><circle cx="1362" cy="710" r="1.6"/>
+            <circle cx="1282" cy="748" r="1.6"/><circle cx="1338" cy="748" r="1.6"/>
+            <circle cx="1282" cy="800" r="1.6"/><circle cx="1338" cy="800" r="1.6"/>
+            <circle cx="1282" cy="840" r="1.6"/><circle cx="1338" cy="840" r="1.6"/>
+            <circle cx="1258" cy="862" r="1.6"/><circle cx="1362" cy="862" r="1.6"/>
+          </g>
+          <circle cx="1300" cy="700" r="3.2" fill="#e0f2fe" fillOpacity="0.80" filter="url(#sg)">
+            <animate attributeName="fillOpacity" values="0.80;0.44;0.80" dur="5.5s" repeatCount="indefinite"/>
+          </circle>
+          <text x="1258" y="878" fill="#93c5fd" fillOpacity="0.30" fontSize="7.5" fontFamily="monospace" letterSpacing="2">THE COLUMN</text>
+
+          {/* ══════════════════════════════════════════════════════════════ */}
+          {/* 10. THE DIPLOMA SCROLL — certificate (lower-center-right) */}
+          {/* ══════════════════════════════════════════════════════════════ */}
+          <g stroke="#93c5fd" strokeOpacity="0.38" strokeWidth="0.75" fill="none">
+            <line x1="778" y1="710" x2="766" y2="740" />
+            <line x1="766" y1="740" x2="778" y2="770" />
+            <line x1="778" y1="710" x2="810" y2="696" />
+            <line x1="778" y1="770" x2="810" y2="784" />
+            <line x1="810" y1="696" x2="880" y2="690" />
+            <line x1="810" y1="784" x2="880" y2="790" />
+            <line x1="810" y1="696" x2="810" y2="784" />
+            <line x1="880" y1="690" x2="950" y2="696" />
+            <line x1="880" y1="790" x2="950" y2="784" />
+            <line x1="950" y1="696" x2="950" y2="784" />
+            <line x1="950" y1="696" x2="982" y2="710" />
+            <line x1="950" y1="784" x2="982" y2="770" />
+            <line x1="982" y1="710" x2="994" y2="740" />
+            <line x1="994" y1="740" x2="982" y2="770" />
+            <line x1="858" y1="730" x2="880" y2="738" />
+            <line x1="880" y1="738" x2="902" y2="730" />
+            <line x1="858" y1="730" x2="902" y2="730" />
+          </g>
+          <g fill="#bfdbfe" fillOpacity="0.44">
+            <circle cx="778" cy="710" r="1.6"/><circle cx="778" cy="770" r="1.6"/>
+            <circle cx="810" cy="696" r="1.8"/><circle cx="810" cy="784" r="1.8"/>
+            <circle cx="880" cy="690" r="1.8"/><circle cx="880" cy="790" r="1.8"/>
+            <circle cx="950" cy="696" r="1.8"/><circle cx="950" cy="784" r="1.8"/>
+            <circle cx="982" cy="710" r="1.6"/><circle cx="982" cy="770" r="1.6"/>
+            <circle cx="858" cy="730" r="1.6"/><circle cx="902" cy="730" r="1.6"/>
+          </g>
+          <circle cx="766" cy="740" r="3.0" fill="#e0f2fe" fillOpacity="0.80" filter="url(#sg)">
+            <animate attributeName="fillOpacity" values="0.80;0.44;0.80" dur="4.2s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="880" cy="738" r="3.2" fill="white" fillOpacity="0.85" filter="url(#sg)">
+            <animate attributeName="r" values="3.2;2.2;3.2" dur="3.6s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="994" cy="740" r="3.0" fill="#e0f2fe" fillOpacity="0.80" filter="url(#sg-sm)"/>
+          <text x="770" y="806" fill="#93c5fd" fillOpacity="0.30" fontSize="7.5" fontFamily="monospace" letterSpacing="2">THE DIPLOMA SCROLL</text>
+
+          {/* ══════════════════════════════════════════════════════════════ */}
+          {/* 11. THE LAUREL WREATH — achievement (lower-center-left) */}
+          {/* ══════════════════════════════════════════════════════════════ */}
+          <g stroke="#93c5fd" strokeOpacity="0.38" strokeWidth="0.75" fill="none">
+            <line x1="500" y1="698" x2="432" y2="722" />
+            <line x1="432" y1="722" x2="408" y2="754" />
+            <line x1="408" y1="754" x2="396" y2="792" />
+            <line x1="396" y1="792" x2="408" y2="830" />
+            <line x1="408" y1="830" x2="432" y2="852" />
+            <line x1="432" y1="852" x2="500" y2="864" />
+            <line x1="540" y1="698" x2="608" y2="722" />
+            <line x1="608" y1="722" x2="630" y2="754" />
+            <line x1="630" y1="754" x2="644" y2="792" />
+            <line x1="644" y1="792" x2="630" y2="830" />
+            <line x1="630" y1="830" x2="608" y2="852" />
+            <line x1="608" y1="852" x2="540" y2="864" />
+            <line x1="500" y1="864" x2="520" y2="858" />
+            <line x1="520" y1="858" x2="540" y2="864" />
+            <line x1="500" y1="698" x2="540" y2="698" />
+          </g>
+          <g fill="#bfdbfe" fillOpacity="0.44">
+            <circle cx="500" cy="698" r="1.8"/><circle cx="540" cy="698" r="1.8"/>
+            <circle cx="432" cy="722" r="1.6"/><circle cx="608" cy="722" r="1.6"/>
+            <circle cx="408" cy="754" r="1.6"/><circle cx="630" cy="754" r="1.6"/>
+            <circle cx="408" cy="830" r="1.6"/><circle cx="630" cy="830" r="1.6"/>
+            <circle cx="432" cy="852" r="1.6"/><circle cx="608" cy="852" r="1.6"/>
+            <circle cx="500" cy="864" r="1.8"/><circle cx="540" cy="864" r="1.8"/>
+            <circle cx="520" cy="858" r="1.6"/>
+          </g>
+          <circle cx="396" cy="792" r="3.4" fill="#e0f2fe" fillOpacity="0.82" filter="url(#sg)">
+            <animate attributeName="fillOpacity" values="0.82;0.46;0.82" dur="4.0s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="644" cy="792" r="3.4" fill="#e0f2fe" fillOpacity="0.82" filter="url(#sg)">
+            <animate attributeName="fillOpacity" values="0.82;0.46;0.82" dur="4.0s" begin="0.6s" repeatCount="indefinite"/>
+          </circle>
+          <text x="395" y="878" fill="#93c5fd" fillOpacity="0.30" fontSize="7.5" fontFamily="monospace" letterSpacing="2">THE LAUREL WREATH</text>
+
+          {/* ══════════════════════════════════════════════════════════════ */}
+          {/* 12. THE BRIDGE — journey to success (mid-field) */}
+          {/* ══════════════════════════════════════════════════════════════ */}
+          <g stroke="#93c5fd" strokeOpacity="0.36" strokeWidth="0.75" fill="none">
+            <line x1="428" y1="378" x2="428" y2="420" />
+            <line x1="428" y1="420" x2="428" y2="462" />
+            <line x1="772" y1="378" x2="772" y2="420" />
+            <line x1="772" y1="420" x2="772" y2="462" />
+            <line x1="428" y1="378" x2="504" y2="398" />
+            <line x1="504" y1="398" x2="600" y2="480" />
+            <line x1="600" y1="480" x2="696" y2="398" />
+            <line x1="696" y1="398" x2="772" y2="378" />
+            <line x1="428" y1="462" x2="504" y2="462" />
+            <line x1="504" y1="462" x2="600" y2="462" />
+            <line x1="600" y1="462" x2="696" y2="462" />
+            <line x1="696" y1="462" x2="772" y2="462" />
+            <line x1="504" y1="398" x2="504" y2="462" />
+            <line x1="600" y1="480" x2="600" y2="462" />
+            <line x1="696" y1="398" x2="696" y2="462" />
+            <line x1="428" y1="420" x2="504" y2="398" />
+            <line x1="772" y1="420" x2="696" y2="398" />
+          </g>
+          <g fill="#bfdbfe" fillOpacity="0.44">
+            <circle cx="428" cy="378" r="2.0"/><circle cx="772" cy="378" r="2.0"/>
+            <circle cx="428" cy="420" r="1.6"/><circle cx="772" cy="420" r="1.6"/>
+            <circle cx="428" cy="462" r="1.6"/><circle cx="772" cy="462" r="1.6"/>
+            <circle cx="504" cy="398" r="1.8"/><circle cx="696" cy="398" r="1.8"/>
+            <circle cx="504" cy="462" r="1.6"/><circle cx="696" cy="462" r="1.6"/>
+            <circle cx="600" cy="462" r="1.6"/>
+          </g>
+          <circle cx="600" cy="480" r="3.6" fill="#e0f2fe" fillOpacity="0.85" filter="url(#sg)">
+            <animate attributeName="r" values="3.6;2.5;3.6" dur="4.5s" repeatCount="indefinite"/>
+            <animate attributeName="fillOpacity" values="0.85;0.48;0.85" dur="4.5s" repeatCount="indefinite"/>
+          </circle>
+          <text x="430" y="478" fill="#93c5fd" fillOpacity="0.28" fontSize="7.5" fontFamily="monospace" letterSpacing="2">THE BRIDGE</text>
+
+          {/* ── Rich scattered field stars ── */}
+          <g fill="#bfdbfe" fillOpacity="0.22">
+            <circle cx="480"  cy="52"  r="1.2"/><circle cx="560"  cy="78"  r="0.9"/>
+            <circle cx="630"  cy="38"  r="1.0"/><circle cx="810"  cy="60"  r="1.3"/>
+            <circle cx="870"  cy="42"  r="0.9"/><circle cx="940"  cy="72"  r="1.1"/>
+            <circle cx="1000" cy="48"  r="0.9"/><circle cx="340"  cy="130" r="1.0"/>
+            <circle cx="460"  cy="168" r="0.9"/><circle cx="540"  cy="200" r="1.2"/>
+            <circle cx="840"  cy="130" r="1.1"/><circle cx="910"  cy="170" r="0.9"/>
+            <circle cx="1080" cy="200" r="1.0"/><circle cx="370"  cy="260" r="1.1"/>
+            <circle cx="700"  cy="220" r="1.0"/><circle cx="760"  cy="260" r="0.9"/>
+            <circle cx="820"  cy="240" r="1.2"/><circle cx="1130" cy="260" r="0.9"/>
+            <circle cx="360"  cy="380" r="1.0"/><circle cx="380"  cy="540" r="1.1"/>
+            <circle cx="660"  cy="540" r="0.9"/><circle cx="780"  cy="560" r="1.0"/>
+            <circle cx="1040" cy="480" r="1.1"/><circle cx="1070" cy="560" r="0.9"/>
+            <circle cx="1160" cy="600" r="1.0"/><circle cx="340"  cy="620" r="0.9"/>
+            <circle cx="540"  cy="640" r="1.1"/><circle cx="660"  cy="660" r="0.9"/>
+            <circle cx="960"  cy="640" r="1.2"/><circle cx="1040" cy="660" r="0.9"/>
+            <circle cx="1160" cy="640" r="1.0"/><circle cx="300"  cy="780" r="1.0"/>
+            <circle cx="360"  cy="830" r="0.9"/><circle cx="680"  cy="820" r="1.1"/>
+            <circle cx="1060" cy="820" r="0.9"/><circle cx="1120" cy="660" r="1.0"/>
+          </g>
+          {/* Brighter field accent stars with subtle twinkle */}
+          <circle cx="558"  cy="318" r="1.8" fill="#bfdbfe" fillOpacity="0.38" filter="url(#sg-sm)">
+            <animate attributeName="fillOpacity" values="0.38;0.16;0.38" dur="6.0s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="858"  cy="310" r="1.8" fill="#bfdbfe" fillOpacity="0.36" filter="url(#sg-sm)">
+            <animate attributeName="fillOpacity" values="0.36;0.14;0.36" dur="7.2s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="348"  cy="480" r="1.6" fill="#bfdbfe" fillOpacity="0.34" filter="url(#sg-sm)">
+            <animate attributeName="fillOpacity" values="0.34;0.12;0.34" dur="5.4s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="1100" cy="360" r="1.6" fill="#bfdbfe" fillOpacity="0.34" filter="url(#sg-sm)">
+            <animate attributeName="fillOpacity" values="0.34;0.14;0.34" dur="8.0s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="1060" cy="620" r="1.8" fill="#c4b5fd" fillOpacity="0.32" filter="url(#sg-sm)">
+            <animate attributeName="fillOpacity" values="0.32;0.12;0.32" dur="6.8s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="355"  cy="308" r="1.6" fill="#bfdbfe" fillOpacity="0.30" filter="url(#sg-sm)">
+            <animate attributeName="fillOpacity" values="0.30;0.10;0.30" dur="9.0s" repeatCount="indefinite"/>
+          </circle>
         </svg>
       </div>
     );
@@ -2511,8 +2923,17 @@ export default function AidAgentPage() {
       });
     };
     el.addEventListener("scroll", onScroll, { passive: true });
+
+    // Controlled scroll: 2 lines (64 px) per wheel notch
+    const onWheel = (e: WheelEvent) => {
+      e.preventDefault();
+      el.scrollBy({ top: e.deltaY > 0 ? 64 : -64, behavior: "smooth" });
+    };
+    el.addEventListener("wheel", onWheel, { passive: false });
+
     return () => {
       el.removeEventListener("scroll", onScroll);
+      el.removeEventListener("wheel", onWheel);
       if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);
