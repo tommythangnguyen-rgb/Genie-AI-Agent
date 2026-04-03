@@ -3214,7 +3214,7 @@ export default function AidAgentPage() {
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection("sec-volunteer")}
                     className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Volunteer &amp; Community Service</span>
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-left">Volunteer &amp; Community Service</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
                   {isOpen && (
@@ -3567,20 +3567,24 @@ export default function AidAgentPage() {
               );
             })()}
 
-            {/* ── Videos & Social ── */}
+            {/* ── Videos ── */}
             {(() => {
               const key = "sec-left-videos";
+              const moreKey = "sec-left-videos-more";
               const isOpen = expandedSections.has(key);
+              const showMore = expandedSections.has(moreKey);
+              const allIds = ["rhgwIhB58PA", "C5OJJD3Eytk", "kKvK2foOTJM"];
+              const visibleIds = showMore ? allIds : allIds.slice(0, 1);
               return (
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection(key)}
                     className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Videos &amp; Social</span>
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Videos</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
                   {isOpen && (
                     <div className="px-2 pb-3 pt-1 space-y-3">
-                      {["rhgwIhB58PA", "C5OJJD3Eytk", "kKvK2foOTJM"].map((id) => (
+                      {visibleIds.map((id) => (
                         <div key={id} className="rounded-lg overflow-hidden w-full" style={{ aspectRatio: "16/9" }}>
                           <iframe
                             src={`https://www.youtube.com/embed/${id}`}
@@ -3592,6 +3596,11 @@ export default function AidAgentPage() {
                           />
                         </div>
                       ))}
+                      <button onClick={() => toggleSection(moreKey)}
+                        className="w-full flex items-center justify-center gap-1.5 py-1 rounded-lg text-[11px] font-medium text-sky-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
+                        <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
+                        {showMore ? "Show fewer" : `View ${allIds.length - 1} more`}
+                      </button>
                     </div>
                   )}
                 </div>
@@ -4377,20 +4386,24 @@ export default function AidAgentPage() {
               );
             })()}
 
-            {/* ── Videos & Social ── */}
+            {/* ── Videos ── */}
             {(() => {
               const key = "sec-videos-social";
+              const moreKey = "sec-videos-social-more";
               const isOpen = expandedSections.has(key);
+              const showMore = expandedSections.has(moreKey);
+              const allIds = ["P6FORpg0KVo", "HAnw168huqA", "rhgwIhB58PA"];
+              const visibleIds = showMore ? allIds : allIds.slice(0, 1);
               return (
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection(key)}
                     className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-right">Videos &amp; Social</span>
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-right">Videos</span>
                   </button>
                   {isOpen && (
                     <div className="px-2 pb-3 pt-1 space-y-3">
-                      {["P6FORpg0KVo", "HAnw168huqA", "rhgwIhB58PA"].map((id) => (
+                      {visibleIds.map((id) => (
                         <div key={id} className="rounded-lg overflow-hidden w-full" style={{ aspectRatio: "16/9" }}>
                           <iframe
                             src={`https://www.youtube.com/embed/${id}`}
@@ -4402,6 +4415,11 @@ export default function AidAgentPage() {
                           />
                         </div>
                       ))}
+                      <button onClick={() => toggleSection(moreKey)}
+                        className="w-full flex items-center justify-center gap-1.5 py-1 rounded-lg text-[11px] font-medium text-indigo-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
+                        <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
+                        {showMore ? "Show fewer" : `View ${allIds.length - 1} more`}
+                      </button>
                     </div>
                   )}
                 </div>
