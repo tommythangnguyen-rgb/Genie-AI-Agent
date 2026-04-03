@@ -3775,15 +3775,22 @@ export default function AidAgentPage() {
                     }} />
                   ))}
 
-                  {/* Shooting stars — diagonal streaks with glowing heads */}
+                  {/* Shooting stars — calm, multi-directional, infrequent */}
                   {[
-                    { len:120, thick:2,   top:"8%",  left:"85%", dur:"2.0s", delay:"0s",    tx:"-480px", ty:"320px", angle:"-38deg" },
-                    { len:90,  thick:1.5, top:"5%",  left:"60%", dur:"2.4s", delay:"2.8s",  tx:"-420px", ty:"280px", angle:"-32deg" },
-                    { len:150, thick:2.5, top:"3%",  left:"92%", dur:"1.8s", delay:"5.5s",  tx:"-560px", ty:"370px", angle:"-40deg" },
-                    { len:100, thick:2,   top:"15%", left:"75%", dur:"2.2s", delay:"8.0s",  tx:"-440px", ty:"290px", angle:"-35deg" },
-                    { len:80,  thick:1.5, top:"2%",  left:"45%", dur:"2.6s", delay:"11.0s", tx:"-380px", ty:"250px", angle:"-30deg" },
-                    { len:130, thick:2,   top:"10%", left:"98%", dur:"2.0s", delay:"14.5s", tx:"-500px", ty:"340px", angle:"-42deg" },
-                    { len:110, thick:2,   top:"6%",  left:"70%", dur:"2.3s", delay:"18.0s", tx:"-460px", ty:"310px", angle:"-36deg" },
+                    // top-right → bottom-left (classic)
+                    { len:110, thick:1.5, top:"6%",  left:"88%", dur:"3.8s", delay:"4s",   tx:"-480px", ty:"310px", angle:"-36deg" },
+                    // top-left → bottom-right
+                    { len:80,  thick:1,   top:"10%", left:"2%",  dur:"4.2s", delay:"19s",  tx:"420px",  ty:"260px", angle:"28deg"  },
+                    // steep / near-vertical
+                    { len:60,  thick:1,   top:"2%",  left:"55%", dur:"4.8s", delay:"34s",  tx:"-140px", ty:"500px", angle:"-72deg" },
+                    // shallow / near-horizontal from right
+                    { len:140, thick:2,   top:"30%", left:"96%", dur:"3.4s", delay:"51s",  tx:"-620px", ty:"120px", angle:"-12deg" },
+                    // mid-screen top → bottom-left
+                    { len:95,  thick:1.5, top:"5%",  left:"65%", dur:"4.0s", delay:"67s",  tx:"-380px", ty:"340px", angle:"-42deg" },
+                    // far right, shallow upward angle
+                    { len:75,  thick:1,   top:"55%", left:"98%", dur:"5.0s", delay:"83s",  tx:"-550px", ty:"-80px", angle:"8deg"   },
+                    // bottom-left corner, rising
+                    { len:90,  thick:1.5, top:"80%", left:"5%",  dur:"4.4s", delay:"98s",  tx:"360px",  ty:"-420px",angle:"-52deg" },
                   ].map((s, i) => (
                     <div key={i} className="genie-shooting-star" style={{
                       width: s.len,
