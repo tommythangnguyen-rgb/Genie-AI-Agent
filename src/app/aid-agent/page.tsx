@@ -3869,86 +3869,130 @@ export default function AidAgentPage() {
                     <span className="text-[10px] font-bold uppercase tracking-widest text-white/25 px-2">How it works</span>
                     <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/[0.08]" />
                   </div>
-                  <p className="text-center text-[10px] text-white/30 mb-4 tracking-wide">Jump in from any step — the workflow adapts to you</p>
+                  <p className="text-center text-[10px] text-white/30 mb-4 tracking-wide">Non-linear — jump in anywhere, circle back anytime</p>
 
-                  {/* Mobile: 2×2 grid */}
-                  <div className="sm:hidden relative grid grid-cols-2 gap-2.5">
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-                      <div className="flex flex-col items-center gap-0.5 rounded-full bg-[#071035] ring-1 ring-indigo-500/30 px-2.5 py-1.5">
-                        <RotateCcw className="h-3 w-3 text-indigo-400" />
-                        <span className="text-[7px] font-bold uppercase tracking-widest text-white/25 leading-none text-center">start<br/>anywhere</span>
-                      </div>
-                    </div>
+                  {/* Mobile: vertical flow with bidirectional arrows */}
+                  <div className="sm:hidden flex flex-col gap-0">
                     {([
-                      { icon: Sparkles,    title: "Choose your role",  body: "Student, Parent, Admin, Leader, or Auditor." },
-                      { icon: Paperclip,   title: "Ask or upload",     body: "Type, upload a doc, or use voice." },
-                      { icon: Library,     title: "Explore the Hub",   body: "Browse scholarships, jobs, and more." },
-                      { icon: CheckCircle, title: "Get some guidance", body: "Plain-English answers with citations." },
-                    ] as const).map(({ icon: Icon, title, body }) => (
-                      <div key={title} className="flex flex-col gap-2 p-3.5 rounded-xl bg-white/[0.04] ring-1 ring-white/[0.08]">
-                        <Icon className="h-3.5 w-3.5 text-teal-300/60" aria-hidden="true" />
-                        <p className="text-[10px] font-semibold text-white/80 leading-tight">{title}</p>
-                        <p className="text-[9px] text-white/35 leading-snug">{body}</p>
+                      { icon: Sparkles,    title: "Choose your role",  body: "Student, Parent, Admin, Leader, or Auditor.", color: "text-violet-400" },
+                      { icon: Paperclip,   title: "Ask or upload",     body: "Type a question, upload a doc, or use voice.",  color: "text-sky-400"    },
+                      { icon: Library,     title: "Explore the Hub",   body: "Browse scholarships, jobs, resources & more.", color: "text-teal-400"   },
+                      { icon: CheckCircle, title: "Get guidance",      body: "Plain-English answers with citations.",         color: "text-indigo-400" },
+                    ] as const).map(({ icon: Icon, title, body, color }, i, arr) => (
+                      <div key={title}>
+                        <div className="flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.04] ring-1 ring-white/[0.07]">
+                          <div className="p-1.5 rounded-lg bg-white/[0.06] shrink-0 mt-0.5">
+                            <Icon className={`h-3.5 w-3.5 ${color}`} aria-hidden="true" />
+                          </div>
+                          <div>
+                            <p className="text-[11px] font-semibold text-white/80 leading-tight">{title}</p>
+                            <p className="text-[10px] text-white/35 leading-snug mt-0.5">{body}</p>
+                          </div>
+                        </div>
+                        {i < arr.length - 1 && (
+                          <div className="flex flex-col items-center py-0.5 gap-px">
+                            <span className="text-indigo-400/40 text-[10px] leading-none">▲</span>
+                            <div className="w-px h-3 bg-indigo-500/20" />
+                            <span className="text-indigo-400/40 text-[10px] leading-none">▼</span>
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>
 
-                  {/* Desktop: circular workflow */}
-                  <div className="hidden sm:block relative mx-auto" style={{ maxWidth: 560 }}>
-                    <div className="relative w-full" style={{ paddingBottom: "92%" }}>
-                      <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 560 515" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  {/* Desktop: hub-and-spoke with bidirectional arrows */}
+                  <div className="hidden sm:block relative mx-auto" style={{ maxWidth: 580 }}>
+                    <div className="relative w-full" style={{ paddingBottom: "86%" }}>
+                      <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 580 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <defs>
-                          <marker id="cw-arrow-hp" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
-                            <path d="M 0.5,0.5 L 6.5,3.5 L 0.5,6.5 z" fill="rgba(99,102,241,0.5)" />
+                          {/* Arrow tip pointing forward */}
+                          <marker id="arr-fwd" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                            <path d="M0.5 0.5 L5.5 3 L0.5 5.5z" fill="rgba(99,102,241,0.55)" />
+                          </marker>
+                          {/* Arrow tip pointing backward (for markerStart) */}
+                          <marker id="arr-rev" markerWidth="6" markerHeight="6" refX="1" refY="3" orient="auto-start-reverse">
+                            <path d="M0.5 0.5 L5.5 3 L0.5 5.5z" fill="rgba(99,102,241,0.55)" />
+                          </marker>
+                          {/* Diagonal cross arrow — dimmer */}
+                          <marker id="arr-cross-fwd" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+                            <path d="M0.5 0.5 L5.5 3 L0.5 5.5z" fill="rgba(139,92,246,0.35)" />
+                          </marker>
+                          <marker id="arr-cross-rev" markerWidth="6" markerHeight="6" refX="1" refY="3" orient="auto-start-reverse">
+                            <path d="M0.5 0.5 L5.5 3 L0.5 5.5z" fill="rgba(139,92,246,0.35)" />
                           </marker>
                         </defs>
-                        {/* Top → Right */}
-                        <path d="M 356,70 C 428,70 455,130 455,197" stroke="rgba(99,102,241,0.3)" strokeWidth="1.5" strokeDasharray="5 4" markerEnd="url(#cw-arrow-hp)" />
-                        {/* Right → Bottom */}
-                        <path d="M 455,317 C 455,390 420,445 356,445" stroke="rgba(99,102,241,0.3)" strokeWidth="1.5" strokeDasharray="5 4" markerEnd="url(#cw-arrow-hp)" />
-                        {/* Bottom → Left */}
-                        <path d="M 204,445 C 140,445 105,390 105,317" stroke="rgba(99,102,241,0.3)" strokeWidth="1.5" strokeDasharray="5 4" markerEnd="url(#cw-arrow-hp)" />
-                        {/* Left → Top */}
-                        <path d="M 105,197 C 105,125 132,70 204,70" stroke="rgba(99,102,241,0.3)" strokeWidth="1.5" strokeDasharray="5 4" markerEnd="url(#cw-arrow-hp)" />
+
+                        {/* ── Outer ring arcs — bidirectional ── */}
+                        {/* Top ↔ Right */}
+                        <path d="M 356,68 C 430,68 458,128 458,200"
+                          stroke="rgba(99,102,241,0.28)" strokeWidth="1.5" strokeDasharray="5 4"
+                          markerEnd="url(#arr-fwd)" markerStart="url(#arr-rev)" />
+                        {/* Right ↔ Bottom */}
+                        <path d="M 458,318 C 458,392 422,444 356,444"
+                          stroke="rgba(99,102,241,0.28)" strokeWidth="1.5" strokeDasharray="5 4"
+                          markerEnd="url(#arr-fwd)" markerStart="url(#arr-rev)" />
+                        {/* Bottom ↔ Left */}
+                        <path d="M 224,444 C 152,444 122,392 122,318"
+                          stroke="rgba(99,102,241,0.28)" strokeWidth="1.5" strokeDasharray="5 4"
+                          markerEnd="url(#arr-fwd)" markerStart="url(#arr-rev)" />
+                        {/* Left ↔ Top */}
+                        <path d="M 122,200 C 122,128 150,68 224,68"
+                          stroke="rgba(99,102,241,0.28)" strokeWidth="1.5" strokeDasharray="5 4"
+                          markerEnd="url(#arr-fwd)" markerStart="url(#arr-rev)" />
+
+                        {/* ── Cross diagonals — bidirectional, subtler ── */}
+                        {/* Top ↔ Bottom */}
+                        <path d="M 290,112 L 290,400"
+                          stroke="rgba(139,92,246,0.18)" strokeWidth="1.2" strokeDasharray="3 6"
+                          markerEnd="url(#arr-cross-fwd)" markerStart="url(#arr-cross-rev)" />
+                        {/* Left ↔ Right */}
+                        <path d="M 172,256 L 408,256"
+                          stroke="rgba(139,92,246,0.18)" strokeWidth="1.2" strokeDasharray="3 6"
+                          markerEnd="url(#arr-cross-fwd)" markerStart="url(#arr-cross-rev)" />
                       </svg>
 
                       {/* Top: Choose your role */}
-                      <div className="absolute flex flex-col gap-2 p-3.5 rounded-xl bg-white/[0.04] ring-1 ring-white/[0.08]"
-                           style={{ left: "35.7%", top: "0.9%", width: "28.6%" }}>
-                        <Sparkles className="h-4 w-4 text-teal-300/60" aria-hidden="true" />
+                      <div className="absolute flex flex-col gap-2 p-3.5 rounded-xl bg-white/[0.04] ring-1 ring-violet-500/20"
+                           style={{ left: "35.3%", top: "0%", width: "29.3%" }}>
+                        <Sparkles className="h-4 w-4 text-violet-400/70" aria-hidden="true" />
                         <p className="text-xs font-semibold text-white/80 leading-tight">Choose your role</p>
-                        <p className="text-[10px] text-white/40 leading-snug">Student, Parent, Admin, Leader, or Auditor.</p>
+                        <p className="text-[10px] text-white/38 leading-snug">Student, Parent, Admin, Leader, or Auditor.</p>
                       </div>
 
                       {/* Right: Ask or upload */}
-                      <div className="absolute flex flex-col gap-2 p-3.5 rounded-xl bg-white/[0.04] ring-1 ring-white/[0.08]"
-                           style={{ left: "67.9%", top: "37.5%", width: "28.6%" }}>
-                        <Paperclip className="h-4 w-4 text-teal-300/60" aria-hidden="true" />
+                      <div className="absolute flex flex-col gap-2 p-3.5 rounded-xl bg-white/[0.04] ring-1 ring-sky-500/20"
+                           style={{ left: "68.3%", top: "37%", width: "29.3%" }}>
+                        <Paperclip className="h-4 w-4 text-sky-400/70" aria-hidden="true" />
                         <p className="text-xs font-semibold text-white/80 leading-tight">Ask or upload</p>
-                        <p className="text-[10px] text-white/40 leading-snug">Type, upload a doc, or pick a quick-start prompt.</p>
+                        <p className="text-[10px] text-white/38 leading-snug">Type, upload a doc, or pick a quick-start.</p>
                       </div>
 
-                      {/* Bottom: Get some guidance */}
-                      <div className="absolute flex flex-col gap-2 p-3.5 rounded-xl bg-white/[0.04] ring-1 ring-white/[0.08]"
-                           style={{ left: "35.7%", top: "73.6%", width: "28.6%" }}>
-                        <CheckCircle className="h-4 w-4 text-teal-300/60" aria-hidden="true" />
-                        <p className="text-xs font-semibold text-white/80 leading-tight">Get some guidance</p>
-                        <p className="text-[10px] text-white/40 leading-snug">Plain-English answers with citations and calculations.</p>
+                      {/* Bottom: Get guidance */}
+                      <div className="absolute flex flex-col gap-2 p-3.5 rounded-xl bg-white/[0.04] ring-1 ring-indigo-500/20"
+                           style={{ left: "35.3%", top: "74%", width: "29.3%" }}>
+                        <CheckCircle className="h-4 w-4 text-indigo-400/70" aria-hidden="true" />
+                        <p className="text-xs font-semibold text-white/80 leading-tight">Get guidance</p>
+                        <p className="text-[10px] text-white/38 leading-snug">Plain-English answers with citations.</p>
                       </div>
 
                       {/* Left: Explore the Hub */}
-                      <div className="absolute flex flex-col gap-2 p-3.5 rounded-xl bg-white/[0.04] ring-1 ring-white/[0.08]"
-                           style={{ left: "3.6%", top: "37.5%", width: "28.6%" }}>
-                        <Library className="h-4 w-4 text-teal-300/60" aria-hidden="true" />
+                      <div className="absolute flex flex-col gap-2 p-3.5 rounded-xl bg-white/[0.04] ring-1 ring-teal-500/20"
+                           style={{ left: "2.4%", top: "37%", width: "29.3%" }}>
+                        <Library className="h-4 w-4 text-teal-400/70" aria-hidden="true" />
                         <p className="text-xs font-semibold text-white/80 leading-tight">Explore the Hub</p>
-                        <p className="text-[10px] text-white/40 leading-snug">Browse scholarships, jobs, consumer rights, and more.</p>
+                        <p className="text-[10px] text-white/38 leading-snug">Scholarships, jobs, resources & more.</p>
                       </div>
 
-                      {/* Center badge */}
-                      <div className="absolute flex flex-col items-center gap-1 rounded-xl bg-white/[0.05] ring-1 ring-indigo-500/20 px-2.5 py-2.5 z-10"
-                           style={{ left: "50%", top: "50%", transform: "translate(-50%, -50%)" }}>
-                        <RotateCcw className="h-3.5 w-3.5 text-indigo-400" />
-                        <p className="text-[8px] font-bold uppercase tracking-widest text-white/30 text-center leading-tight">start<br/>anywhere</p>
+                      {/* Center: non-linear indicator */}
+                      <div className="absolute z-10 flex flex-col items-center gap-1.5 rounded-2xl px-3 py-2.5"
+                           style={{ left: "50%", top: "50%", transform: "translate(-50%,-50%)",
+                             background: "rgba(15,23,60,0.92)", boxShadow: "0 0 0 1px rgba(99,102,241,0.25), 0 4px 16px rgba(0,0,0,0.4)" }}>
+                        {/* 4-way arrows SVG */}
+                        <svg viewBox="0 0 24 24" fill="none" className="h-5 w-5" stroke="rgba(139,92,246,0.8)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M12 5V19M5 12H19" />
+                          <path d="M9 8L12 5L15 8M9 16L12 19L15 16M8 9L5 12L8 15M16 9L19 12L16 15" />
+                        </svg>
+                        <p className="text-[7px] font-bold uppercase tracking-widest text-white/30 text-center leading-tight whitespace-nowrap">any direction</p>
                       </div>
                     </div>
                   </div>
