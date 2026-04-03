@@ -4403,7 +4403,9 @@ export default function AidAgentPage() {
           </div>
 
           {/* Input area */}
-          <div className="shrink-0 relative bg-white/[0.03] backdrop-blur-xl border-t border-white/[0.08] px-4 pt-4 pb-5">
+          <div className="shrink-0 relative bg-white/[0.03] backdrop-blur-xl border-t border-cyan-500/[0.12] px-4 pt-4 pb-5">
+            {/* Ambient glow bloom behind chatbox */}
+            <div className="pointer-events-none absolute inset-x-0 -top-6 h-16 bg-gradient-to-t from-cyan-500/[0.06] to-transparent" />
 
             <div className="relative max-w-3xl mx-auto">
               {/* Prompt label row */}
@@ -4484,8 +4486,11 @@ export default function AidAgentPage() {
 
               {/* Input form */}
               <div
-                className="rounded-2xl ring-1 ring-cyan-500/[0.22] focus-within:ring-cyan-400/55 transition-all duration-200"
-                style={{ background: "rgba(6,182,212,0.04)" }}
+                className="rounded-2xl ring-1 ring-cyan-500/[0.28] focus-within:ring-cyan-400/65 transition-all duration-200"
+                style={{
+                  background: "rgba(6,182,212,0.05)",
+                  boxShadow: "0 0 0 1px rgba(6,182,212,0.10), 0 4px 24px rgba(6,182,212,0.10), 0 1px 0 rgba(255,255,255,0.04) inset",
+                }}
               >
                 <form
                   onSubmit={handleSubmit}
@@ -4495,12 +4500,12 @@ export default function AidAgentPage() {
                   <div className="flex items-center gap-0.5 shrink-0 mb-0.5">
                     <button type="button" title={canAccessFeature("document_upload", userTier) ? "Upload document (.pdf, .txt, .doc, .csv)" : "Pro — upload documents"}
                       onClick={() => canAccessFeature("document_upload", userTier) ? fileInputRef.current?.click() : openUpgrade("document_upload")}
-                      className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-cyan-400/50 hover:text-cyan-300 hover:bg-cyan-500/[0.15]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
+                      className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-cyan-400/55 hover:text-cyan-300 hover:bg-cyan-500/[0.18] hover:shadow-[0_0_8px_rgba(6,182,212,0.35)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
                       <Paperclip className="h-4 w-4" />
                     </button>
                     <button type="button" title={canAccessFeature("document_upload", userTier) ? "Take or upload a photo for context" : "Pro — upload photos"}
                       onClick={() => canAccessFeature("document_upload", userTier) ? cameraInputRef.current?.click() : openUpgrade("document_upload")}
-                      className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-cyan-400/50 hover:text-cyan-300 hover:bg-cyan-500/[0.15]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
+                      className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-cyan-400/55 hover:text-cyan-300 hover:bg-cyan-500/[0.18] hover:shadow-[0_0_8px_rgba(6,182,212,0.35)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
                       <Camera className="h-4 w-4" />
                     </button>
                     <button type="button"
@@ -4508,9 +4513,9 @@ export default function AidAgentPage() {
                       onClick={!canAccessFeature("document_upload", userTier) ? () => openUpgrade("document_upload") : isRecording ? stopVoiceRecording : startVoiceRecording}
                       className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
                         isRecording
-                          ? "text-rose-400 bg-rose-500/20 ring-1 ring-rose-500/40 animate-pulse"
+                          ? "text-rose-400 bg-rose-500/20 ring-1 ring-rose-500/40 animate-pulse shadow-[0_0_12px_rgba(244,63,94,0.45)]"
                           : canAccessFeature("document_upload", userTier)
-                          ? "text-cyan-400/50 hover:text-cyan-300 hover:bg-cyan-500/[0.15]"
+                          ? "text-cyan-400/55 hover:text-cyan-300 hover:bg-cyan-500/[0.18] hover:shadow-[0_0_8px_rgba(6,182,212,0.35)]"
                           : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"
                       }`}>
                       {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
@@ -4555,7 +4560,7 @@ export default function AidAgentPage() {
                       className="shrink-0 mb-0.5 flex items-center gap-1.5 px-4 py-2 rounded-xl text-white text-xs font-bold tracking-wide active:scale-95 transition-all duration-150 disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-cyan-400"
                       style={{
                         background: "linear-gradient(135deg, #0891b2 0%, #4f46e5 100%)",
-                        boxShadow: "0 0 0 1px rgba(6,182,212,0.45), 0 2px 14px rgba(6,182,212,0.38), 0 0 28px rgba(99,102,241,0.22), inset 0 1px 0 rgba(255,255,255,0.14)",
+                        boxShadow: "0 0 0 1px rgba(6,182,212,0.55), 0 2px 16px rgba(6,182,212,0.50), 0 0 36px rgba(99,102,241,0.30), 0 0 60px rgba(6,182,212,0.12), inset 0 1px 0 rgba(255,255,255,0.18)",
                       }}
                     >
                       <GenieBottle className="h-4 w-4 text-amber-200 genie-send-icon" />
