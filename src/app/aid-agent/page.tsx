@@ -3775,22 +3775,21 @@ export default function AidAgentPage() {
                     }} />
                   ))}
 
-                  {/* Shooting stars — calm, multi-directional, infrequent */}
+                  {/* Shooting stars — directional, infrequent (fires ~11% of cycle then hides)
+                       angle = atan2(ty,tx) so bright head always faces travel direction */}
                   {[
-                    // top-right → bottom-left (classic)
-                    { len:110, thick:1.5, top:"6%",  left:"88%", dur:"3.8s", delay:"4s",   tx:"-480px", ty:"310px", angle:"-36deg" },
-                    // top-left → bottom-right
-                    { len:80,  thick:1,   top:"10%", left:"2%",  dur:"4.2s", delay:"19s",  tx:"420px",  ty:"260px", angle:"28deg"  },
-                    // steep / near-vertical
-                    { len:60,  thick:1,   top:"2%",  left:"55%", dur:"4.8s", delay:"34s",  tx:"-140px", ty:"500px", angle:"-72deg" },
-                    // shallow / near-horizontal from right
-                    { len:140, thick:2,   top:"30%", left:"96%", dur:"3.4s", delay:"51s",  tx:"-620px", ty:"120px", angle:"-12deg" },
-                    // mid-screen top → bottom-left
-                    { len:95,  thick:1.5, top:"5%",  left:"65%", dur:"4.0s", delay:"67s",  tx:"-380px", ty:"340px", angle:"-42deg" },
-                    // far right, shallow upward angle
-                    { len:75,  thick:1,   top:"55%", left:"98%", dur:"5.0s", delay:"83s",  tx:"-550px", ty:"-80px", angle:"8deg"   },
-                    // bottom-left corner, rising
-                    { len:90,  thick:1.5, top:"80%", left:"5%",  dur:"4.4s", delay:"98s",  tx:"360px",  ty:"-420px",angle:"-52deg" },
+                    // Classic NE→SW: atan2(260,-400)=147°
+                    { len:105, thick:1.5, top:"7%",  left:"86%", dur:"30s", delay:"0s",  tx:"-400px", ty:"260px", angle:"147deg"  },
+                    // NW→SE (left→right): atan2(200,300)=34°
+                    { len:80,  thick:1,   top:"12%", left:"3%",  dur:"36s", delay:"9s",  tx:"300px",  ty:"200px", angle:"34deg"   },
+                    // Steep near-vertical: atan2(480,-80)=100°
+                    { len:60,  thick:1,   top:"3%",  left:"52%", dur:"40s", delay:"18s", tx:"-80px",  ty:"480px", angle:"100deg"  },
+                    // Near-horizontal left: atan2(80,-500)=171°
+                    { len:135, thick:2,   top:"28%", left:"97%", dur:"34s", delay:"5s",  tx:"-500px", ty:"80px",  angle:"171deg"  },
+                    // Rising upper-left: atan2(-300,-260)=-131°
+                    { len:75,  thick:1,   top:"75%", left:"70%", dur:"38s", delay:"24s", tx:"-260px", ty:"-300px",angle:"-131deg" },
+                    // Rising upper-right: atan2(-350,240)=-55°
+                    { len:90,  thick:1.5, top:"70%", left:"8%",  dur:"32s", delay:"14s", tx:"240px",  ty:"-350px",angle:"-55deg"  },
                   ].map((s, i) => (
                     <div key={i} className="genie-shooting-star" style={{
                       width: s.len,
