@@ -5,30 +5,139 @@ import { useEffect, useRef, useState, useCallback } from "react";
 const VOL_KEY = "genie-music-volume";
 
 const PLAYLIST = [
+  // Debussy
   {
     title: "Clair de Lune",
     composer: "Debussy",
     src: "https://upload.wikimedia.org/wikipedia/commons/b/be/Clair_de_lune_%28Claude_Debussy%29_Suite_bergamasque.ogg",
   },
   {
+    title: "Première Arabesque",
+    composer: "Debussy",
+    src: "https://upload.wikimedia.org/wikipedia/commons/0/0f/Claude_Debussy_-_Premi%C3%A8re_Arabesque_-_Patrizia_Prati.ogg",
+  },
+  {
+    title: "Deuxième Arabesque",
+    composer: "Debussy",
+    src: "https://upload.wikimedia.org/wikipedia/commons/8/89/Claude_Debussy_-_Deuxi%C3%A8me_Arabesque_-_Patrizia_Prati.ogg",
+  },
+  {
+    title: "La Cathédrale engloutie",
+    composer: "Debussy",
+    src: "https://upload.wikimedia.org/wikipedia/commons/7/78/La_Cath%C3%A9drale_engloutie_-_Claude_Debussy_-_performed_by_Ivan_Ilic.ogg",
+  },
+  // Chopin
+  {
     title: "Nocturne Op. 9 No. 2",
     composer: "Chopin",
     src: "https://upload.wikimedia.org/wikipedia/commons/0/04/Chopin_Nocturne_No._2_in_E_Flat_Major%2C_Op._9.ogg",
   },
   {
-    title: "Moonlight Sonata",
+    title: "Nocturne Op. 32 No. 1",
+    composer: "Chopin",
+    src: "https://upload.wikimedia.org/wikipedia/commons/a/a7/Chopin%2C_Nocturne_op_32_no_1.ogg",
+  },
+  {
+    title: "Fantaisie-Impromptu Op. 66",
+    composer: "Chopin",
+    src: "https://upload.wikimedia.org/wikipedia/commons/6/62/Frederic_Chopin_-_Fantasy_Impromptu_Opus_66.ogg",
+  },
+  {
+    title: "Grande Valse Brillante Op. 18",
+    composer: "Chopin",
+    src: "https://upload.wikimedia.org/wikipedia/commons/1/12/Chopin_Grande_Valse_brilliante_op18.ogg",
+  },
+  {
+    title: "Minute Waltz Op. 64 No. 1",
+    composer: "Chopin",
+    src: "https://upload.wikimedia.org/wikipedia/commons/c/c4/Muriel-Nguyen-Xuan-Chopin-valse-opus64-1.ogg",
+  },
+  // Beethoven
+  {
+    title: "Moonlight Sonata – I. Adagio",
     composer: "Beethoven",
     src: "https://upload.wikimedia.org/wikipedia/commons/d/d0/Moonlight_Sonata.ogg",
   },
   {
-    title: "Prelude in C Major",
-    composer: "J.S. Bach",
-    src: "https://upload.wikimedia.org/wikipedia/commons/6/62/Johann_Sebastian_Bach_-_The_Well-tempered_Clavier_-_Book_1_-_02Epre_cmaj.ogg",
+    title: "Moonlight Sonata – II. Allegretto",
+    composer: "Beethoven",
+    src: "https://upload.wikimedia.org/wikipedia/commons/4/47/Beethoven_Moonlight_2nd_movement.ogg",
   },
   {
     title: "Für Elise",
     composer: "Beethoven",
     src: "https://upload.wikimedia.org/wikipedia/commons/8/8f/Fur_Elise.ogg",
+  },
+  // Bach
+  {
+    title: "Prelude in C Major (WTC I)",
+    composer: "J.S. Bach",
+    src: "https://upload.wikimedia.org/wikipedia/commons/6/62/Johann_Sebastian_Bach_-_The_Well-tempered_Clavier_-_Book_1_-_02Epre_cmaj.ogg",
+  },
+  {
+    title: "Air on the G String",
+    composer: "J.S. Bach",
+    src: "https://upload.wikimedia.org/wikipedia/commons/1/1e/Air_%28Bach%29.ogg",
+  },
+  {
+    title: "Adagio in D Minor (arr. Marcello)",
+    composer: "J.S. Bach",
+    src: "https://upload.wikimedia.org/wikipedia/commons/b/b5/Bach-Marcello-Adagio_BWV974-Stephan.ogg",
+  },
+  // Satie
+  {
+    title: "Gymnopédie No. 1",
+    composer: "Satie",
+    src: "https://upload.wikimedia.org/wikipedia/commons/b/b7/Gymnopedie_No._1..ogg",
+  },
+  // Mozart
+  {
+    title: "Piano Sonata No. 14 in C Minor",
+    composer: "Mozart",
+    src: "https://upload.wikimedia.org/wikipedia/commons/8/86/Mozart_-_Piano_Sonata_No._14.ogg",
+  },
+  {
+    title: "Piano Sonata in A Minor K. 310",
+    composer: "Mozart",
+    src: "https://upload.wikimedia.org/wikipedia/commons/6/67/Mozart_Piano_Sonata_Amin1.ogg",
+  },
+  {
+    title: "Piano Concerto No. 27 – II. Larghetto",
+    composer: "Mozart",
+    src: "https://upload.wikimedia.org/wikipedia/commons/f/fd/Mozart%3B_Piano_Concerto_No._27%2C_2._Larghetto_in_E_Flat_Major.ogg",
+  },
+  // Schubert
+  {
+    title: "Impromptu in B-flat Major D. 935",
+    composer: "Schubert",
+    src: "https://upload.wikimedia.org/wikipedia/commons/9/90/Schubert-_Impromptu_B-flat.ogg",
+  },
+  {
+    title: "Piano Sonata – II. Andante",
+    composer: "Schubert",
+    src: "https://upload.wikimedia.org/wikipedia/commons/7/77/Schubert_-_Piano_Sonatas_-_2_Andante.ogg",
+  },
+  // Vivaldi
+  {
+    title: "The Four Seasons – Spring I",
+    composer: "Vivaldi",
+    src: "https://upload.wikimedia.org/wikipedia/commons/f/ff/Vivaldi_-_Four_Seasons_1_Spring_mvt_1_Allegro_-_John_Harrison_violin.oga",
+  },
+  {
+    title: "The Four Seasons – Spring II",
+    composer: "Vivaldi",
+    src: "https://upload.wikimedia.org/wikipedia/commons/9/9f/Vivaldi_-_Four_Seasons_1_Spring_mvt_2_Largo_-_John_Harrison_violin.oga",
+  },
+  {
+    title: "The Four Seasons – Winter II",
+    composer: "Vivaldi",
+    src: "https://upload.wikimedia.org/wikipedia/commons/b/b1/11_-_Vivaldi_Winter_mvt_2_Largo_-_John_Harrison_violin.ogg",
+  },
+  // Handel
+  {
+    title: "Water Music – Air",
+    composer: "Handel",
+    src: "https://upload.wikimedia.org/wikipedia/commons/0/03/5-George_Frideric_Handel_-_Water_Music_Suite_in_F_major_%28Air%29_HWV348.ogg",
   },
 ];
 
