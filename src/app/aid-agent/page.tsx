@@ -4267,7 +4267,11 @@ export default function AidAgentPage() {
         </aside>
 
         {/* ── Main ── */}
-        <main className={`flex flex-1 flex-col min-w-0 min-h-0 transition-all duration-300 ${howItWorksActive === "guidance" ? "ring-1 ring-inset ring-emerald-500/25 shadow-[inset_0_0_40px_rgba(16,185,129,0.07)]" : ""}`} aria-label="askGenie AI Assistant">
+        <main
+          className={`flex flex-1 flex-col min-w-0 min-h-0 transition-all duration-300 ${howItWorksActive === "guidance" ? "ring-1 ring-inset ring-emerald-500/25 shadow-[inset_0_0_40px_rgba(16,185,129,0.07)]" : ""}`}
+          style={{ background: "rgba(5,10,36,0.64)" }}
+          aria-label="askGenie AI Assistant"
+        >
 
           {/* ── Header — nav + integrated music player ── */}
           <header
@@ -4443,6 +4447,17 @@ export default function AidAgentPage() {
                     }} />
                   ))}
                 </div>
+
+                {/* ── Bottom constellation fade — blurs constellations near Tips by Role ── */}
+                <div
+                  className="pointer-events-none absolute inset-x-0 bottom-0 h-[560px]"
+                  style={{ background: "linear-gradient(to top, rgba(5,10,36,0.97) 0%, rgba(5,10,36,0.86) 16%, rgba(5,10,36,0.58) 36%, rgba(5,10,36,0.22) 58%, transparent 100%)", zIndex: 1 }}
+                  aria-hidden="true"
+                />
+
+                {/* ── All visible content — sits above fade overlay ── */}
+                <div className="relative w-full flex flex-col items-center" style={{ zIndex: 2 }}>
+
                 {/* ── Hero: Glowing Orb centerpiece ── */}
                 {/* Outer drift wrapper — follows scroll toward scrollbar */}
                 <div style={{
@@ -4746,6 +4761,7 @@ export default function AidAgentPage() {
                   ))}
                 </div>
 
+                </div>{/* end content z-[2] wrapper */}
               </div>
 
             ) : (
