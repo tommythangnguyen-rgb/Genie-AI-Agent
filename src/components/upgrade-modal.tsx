@@ -70,11 +70,13 @@ interface UpgradeModalProps {
 export function UpgradeModal({ feature, onClose, onUpgrade }: UpgradeModalProps) {
   const [loading, setLoading] = useState(false);
   const [ctaLabel] = useState(pickVariant);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const meta = FEATURE_META[feature];
   const Icon = meta.icon;
 
   async function handleUpgrade() {
     setLoading(true);
+    setErrorMsg(null);
     try {
       if (onUpgrade) {
         onUpgrade();
@@ -86,7 +88,16 @@ export function UpgradeModal({ feature, onClose, onUpgrade }: UpgradeModalProps)
         body: JSON.stringify({ tier: "PRO_MONTHLY" }),
       });
       const data = await res.json();
-      if (data.url) window.location.href = data.url;
+      if (data.url) {
+        window.location.href = data.url;
+      } else if (res.status === 401) {
+        setErrorMsg("Please sign in to upgrade to Pro.");
+      } else {
+        // Fallback: send to pricing page
+        window.location.href = "/pricing";
+      }
+    } catch {
+      window.location.href = "/pricing";
     } finally {
       setLoading(false);
     }
@@ -158,6 +169,11 @@ export function UpgradeModal({ feature, onClose, onUpgrade }: UpgradeModalProps)
           Pro starts at <strong className="text-white/60">$5.99/month</strong> — or $59/year (save 18%).
           14-day free trial, no card required.
         </p>
+
+        {/* Error */}
+        {errorMsg && (
+          <p className="text-xs text-rose-400 text-center mb-3">{errorMsg}</p>
+        )}
 
         {/* CTAs */}
         <button

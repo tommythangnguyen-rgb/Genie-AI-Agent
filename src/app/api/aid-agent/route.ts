@@ -118,11 +118,22 @@ export async function POST(req: NextRequest) {
   }
 
   // Extract a usable message string from whatever the SDK throws.
+  // AI SDK v5 wraps API errors in APICallError — real details are in responseBody/cause.
   function extractErrMsg(err: unknown): string {
     if (typeof err === "string") return err;
     if (err && typeof err === "object") {
       const e = err as any;
-      return e.message ?? e.text ?? e.error?.message ?? e.error?.type ?? JSON.stringify(e);
+      const parts: string[] = [];
+      if (e.message) parts.push(e.message);
+      if (e.responseBody) parts.push(e.responseBody);
+      if (e.cause?.message) parts.push(e.cause.message);
+      if (e.cause?.responseBody) parts.push(e.cause.responseBody);
+      if (e.error?.message) parts.push(e.error.message);
+      if (e.error?.type) parts.push(e.error.type);
+      if (parts.length > 0) return parts.join(" | ");
+      // Last resort — safely serialize (Error objects have non-enumerable props)
+      const safe = { name: e.name, message: e.message, status: e.status ?? e.statusCode, type: e.type };
+      return JSON.stringify(safe);
     }
     return String(err);
   }
@@ -138,13 +149,15 @@ export async function POST(req: NextRequest) {
             controller.enqueue(encoder.encode(part.text));
           } else if (part.type === "error") {
             const errMsg = extractErrMsg(part.error);
-            console.error("Aid agent stream error:", errMsg);
+            const status = (part.error as any)?.statusCode ?? (part.error as any)?.status ?? "";
+            console.error(`Aid agent stream error [${status}]:`, errMsg);
             controller.enqueue(encoder.encode(friendlyError(errMsg)));
           }
         }
       } catch (err: any) {
         const msg = extractErrMsg(err);
-        console.error("Aid agent stream exception:", msg);
+        const status = err?.statusCode ?? err?.status ?? "";
+        console.error(`Aid agent stream exception [${status}]:`, msg);
         controller.enqueue(encoder.encode(friendlyError(msg)));
       } finally {
         controller.close();
