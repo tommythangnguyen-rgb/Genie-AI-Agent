@@ -55,9 +55,9 @@ import {
 
 // ─── Genie Bottle Logo ────────────────────────────────────────────────────────
 
-function GenieBottle({ className }: { className?: string }) {
+function GenieBottle({ className, style }: { className?: string; style?: React.CSSProperties }) {
   return (
-    <svg viewBox="0 0 48 56" fill="none" className={className} aria-hidden="true">
+    <svg viewBox="0 0 48 56" fill="none" className={className} style={style} aria-hidden="true">
       {/* Smoke / magic wisps emerging from top */}
       <path d="M24 4 C22 1 26 -1 24 2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.35"/>
       <path d="M21 5 C18 2 20 7 19 4" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.22"/>
