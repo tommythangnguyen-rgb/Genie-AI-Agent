@@ -2313,7 +2313,7 @@ export default function AidAgentPage() {
   const ttsLang = "en-US";
   const [speakingMsgId, setSpeakingMsgId] = useState<string | null>(null);
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
-  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set());
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(["sec-left-videos", "sec-videos-social"]));
   const bottomRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const readerRef = useRef<ReadableStreamDefaultReader<Uint8Array> | null>(null);
