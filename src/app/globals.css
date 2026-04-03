@@ -411,6 +411,58 @@
   pointer-events: none;
 }
 
+/* ── Orb earth-axis rotation ──────────────────────────────────────────── */
+@keyframes orb-earth-bands {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* ── Click burst particles ────────────────────────────────────────────── */
+@keyframes orb-burst-ring {
+  0%   { transform: translate(-50%,-50%) scale(0); opacity: 0.85; }
+  100% { transform: translate(-50%,-50%) scale(4);   opacity: 0;    }
+}
+@keyframes orb-burst-ring-2 {
+  0%   { transform: translate(-50%,-50%) scale(0); opacity: 0.55; }
+  100% { transform: translate(-50%,-50%) scale(6);   opacity: 0;    }
+}
+@keyframes orb-burst-core {
+  0%   { transform: translate(-50%,-50%) scale(0); opacity: 1;   }
+  55%  { transform: translate(-50%,-50%) scale(1.6); opacity: 0.5; }
+  100% { transform: translate(-50%,-50%) scale(3);   opacity: 0;   }
+}
+
+.orb-burst-container {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+}
+.orb-burst-ring {
+  position: absolute;
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(6,182,212,0.75);
+  box-shadow: 0 0 6px rgba(6,182,212,0.5);
+  animation: orb-burst-ring 0.55s cubic-bezier(0.22,1,0.36,1) forwards;
+}
+.orb-burst-ring-2 {
+  position: absolute;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  border: 1px solid rgba(99,102,241,0.6);
+  animation: orb-burst-ring-2 0.65s cubic-bezier(0.22,1,0.36,1) forwards;
+  animation-delay: 0.05s;
+  opacity: 0;
+}
+.orb-burst-core {
+  position: absolute;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(6,182,212,0.7) 55%, transparent 100%);
+  box-shadow: 0 0 8px 2px rgba(6,182,212,0.6);
+  animation: orb-burst-core 0.45s ease-out forwards;
+}
+
 /* ── Streaming text fade-in ───────────────────────────────────────────── */
 @keyframes streamChunkFade {
   from {

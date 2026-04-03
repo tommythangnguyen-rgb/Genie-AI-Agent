@@ -1,9 +1,40 @@
-<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-<html><head>
-<title>301 Moved Permanently</title>
-</head><body>
-<h1>Moved Permanently</h1>
-<p>The document has moved <a href="https://websitelaunches.com/favicon/favicon.svg">here</a>.</p>
-<hr>
-<address>Apache/2.4.58 (Ubuntu) Server at www.websitelaunches.com Port 443</address>
-</body></html>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <radialGradient id="orb-core" cx="42%" cy="36%" r="60%">
+      <stop offset="0%" stop-color="#a5f3fc"/>
+      <stop offset="30%" stop-color="#38bdf8"/>
+      <stop offset="65%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#1e3a8a"/>
+    </radialGradient>
+    <radialGradient id="orb-glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#0ea5e9" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#1e40af" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb-shine" cx="38%" cy="30%" r="40%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow-filter" x="-25%" y="-25%" width="150%" height="150%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Outer glow bloom -->
+  <circle cx="32" cy="32" r="30" fill="url(#orb-glow)"/>
+
+  <!-- Main orb sphere -->
+  <circle cx="32" cy="32" r="24" fill="url(#orb-core)" filter="url(#glow-filter)"/>
+
+  <!-- Equator band (earth rotation) -->
+  <ellipse cx="32" cy="32" rx="24" ry="6" fill="none" stroke="#7dd3fc" stroke-width="0.8" stroke-opacity="0.35"/>
+
+  <!-- Tilt axis band -->
+  <ellipse cx="32" cy="32" rx="18" ry="23" fill="none" stroke="#bae6fd" stroke-width="0.6" stroke-opacity="0.25" transform="rotate(-23 32 32)"/>
+
+  <!-- Surface shimmer highlight -->
+  <circle cx="32" cy="32" r="24" fill="url(#orb-shine)"/>
+
+  <!-- Top-left specular glint -->
+  <ellipse cx="24" cy="22" rx="5" ry="3" fill="white" fill-opacity="0.28" transform="rotate(-20 24 22)"/>
+</svg>

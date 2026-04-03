@@ -2438,6 +2438,8 @@ export default function AidAgentPage() {
   const bottomRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const userScrolledUpRef = useRef(false);
+  const [orbDriftX, setOrbDriftX] = useState(0);
+  const [bursts, setBursts] = useState<{ id: number; x: number; y: number }[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const readerRef = useRef<ReadableStreamDefaultReader<Uint8Array> | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -2500,6 +2502,9 @@ export default function AidAgentPage() {
       rafId = requestAnimationFrame(() => {
         const distFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
         userScrolledUpRef.current = distFromBottom > 80;
+        // Orb drift: move toward scrollbar as user scrolls down welcome state
+        const progress = Math.min(el.scrollTop / 320, 1);
+        setOrbDriftX(progress * 72);
         rafId = 0;
       });
     };
@@ -2601,6 +2606,14 @@ export default function AidAgentPage() {
     recognitionRef.current?.stop();
     recognitionRef.current = null;
   };
+
+  const triggerBurst = useCallback((e: React.MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (!target.closest("button, a, [role='button']")) return;
+    const id = Date.now() + Math.random();
+    setBursts(prev => [...prev, { id, x: e.clientX, y: e.clientY }]);
+    setTimeout(() => setBursts(prev => prev.filter(b => b.id !== id)), 700);
+  }, []);
 
   const goHome = useCallback(() => {
     readerRef.current?.cancel();
@@ -3178,7 +3191,16 @@ export default function AidAgentPage() {
         />
       )}
 
-      <div className="h-screen flex overflow-hidden" style={{ height: "100dvh" }}>
+      {/* Click-burst particles — fixed overlay */}
+      {bursts.map(b => (
+        <div key={b.id} className="orb-burst-container" style={{ left: b.x, top: b.y }}>
+          <div className="orb-burst-ring" />
+          <div className="orb-burst-ring-2" />
+          <div className="orb-burst-core" />
+        </div>
+      ))}
+
+      <div className="h-screen flex overflow-hidden" style={{ height: "100dvh" }} onClick={triggerBurst}>
 
         {/* ── Sidebar ── */}
         <aside className={`${showMobileLeft ? "flex fixed inset-y-0 left-0 z-50" : "hidden"} lg:flex lg:static lg:z-auto flex-col w-72 shrink-0 border-r border-white/[0.10] bg-[#071035] lg:bg-white/[0.07] backdrop-blur-2xl`}>
@@ -3207,7 +3229,7 @@ export default function AidAgentPage() {
               return (
                 <div key={role} className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection(`lqa-open-${role}`)}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
                     <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">{role} Quick Actions</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
@@ -3216,15 +3238,15 @@ export default function AidAgentPage() {
                       {[...items, ...more].map(({ icon: Icon, label, description, q }) => (
                         <button key={`lqa-${role}-${label}`} onClick={() => sendMessage(q)} disabled={isBusy}
                           title={label}
-                          className="w-full flex items-start gap-2.5 px-2.5 py-2 rounded-lg text-left group transition-all duration-150 hover:bg-sky-500/20 ring-1 ring-transparent hover:ring-sky-500/20 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
-                          <div className="mt-0.5 p-1.5 rounded-lg bg-white/[0.08] group-hover:bg-sky-500/30 transition-colors shrink-0">
-                            <Icon className="h-3 w-3 text-white/60 group-hover:text-sky-300 transition-colors" />
+                          className="w-full flex items-start gap-2.5 px-2.5 py-2 rounded-lg text-left group transition-all duration-150 hover:bg-cyan-500/[0.14] ring-1 ring-transparent hover:ring-cyan-500/[0.25] disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400">
+                          <div className="mt-0.5 p-1.5 rounded-lg bg-white/[0.08] group-hover:bg-cyan-500/[0.20] transition-colors shrink-0">
+                            <Icon className="h-3 w-3 text-white/60 group-hover:text-cyan-300 transition-colors" />
                           </div>
                           <div className="min-w-0 flex-1">
                             <p className="text-xs font-semibold text-white/85 group-hover:text-white transition-colors leading-tight">{label}</p>
                             <p className="text-[10px] text-white/55 mt-0.5 leading-tight">{description}</p>
                           </div>
-                          <ChevronRight className="h-3 w-3 text-white/25 group-hover:text-sky-400 transition-colors shrink-0 mt-1" />
+                          <ChevronRight className="h-3 w-3 text-white/25 group-hover:text-cyan-400 transition-colors shrink-0 mt-1" />
                         </button>
                       ))}
                     </div>
@@ -3240,7 +3262,7 @@ export default function AidAgentPage() {
               return (
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection("sec-federal-students")}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
                     <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Federal Student Aid</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
@@ -3249,9 +3271,9 @@ export default function AidAgentPage() {
                       {studentGroup.links.map(({ name, url }) => (
                         <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                           title={name}
-                          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-sky-500/20 ring-1 ring-transparent hover:ring-sky-500/20 transition-all duration-150 group">
+                          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-cyan-200 hover:bg-cyan-500/[0.14] ring-1 ring-transparent hover:ring-cyan-500/[0.25] transition-all duration-150 group">
                           <span>{name}</span>
-                          <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-sky-400 shrink-0" />
+                          <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-cyan-400 shrink-0" />
                         </a>
                       ))}
                       {/* FAFSA video guides */}
@@ -3287,7 +3309,7 @@ export default function AidAgentPage() {
               return (
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection("sec-scholarships")}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
                     <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Scholarship Search Engines</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
@@ -3301,15 +3323,15 @@ export default function AidAgentPage() {
                           return (
                             <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
                               title={item.name}
-                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-sky-500/20 ring-1 ring-transparent hover:ring-sky-500/20 transition-all duration-150 group">
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-cyan-200 hover:bg-cyan-500/[0.14] ring-1 ring-transparent hover:ring-cyan-500/[0.25] transition-all duration-150 group">
                               <span>{item.name}</span>
-                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-sky-400 shrink-0" />
+                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-cyan-400 shrink-0" />
                             </a>
                           );
                         })}
                       </div>
                       <button onClick={() => toggleSection("scholarships")}
-                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-indigo-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-cyan-400/70 hover:text-cyan-300 hover:bg-cyan-500/[0.08] opacity-80 hover:opacity-100 transition-all duration-150">
                         <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
                         {showMore ? "Show less" : `View more`}
                       </button>
@@ -3327,7 +3349,7 @@ export default function AidAgentPage() {
               return (
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection("sec-jobs")}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
                     <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Student Job Search</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
@@ -3367,7 +3389,7 @@ export default function AidAgentPage() {
               return (
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection("sec-internships")}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
                     <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Internship / Externship Search</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
@@ -3407,7 +3429,7 @@ export default function AidAgentPage() {
               return (
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection("sec-volunteer")}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
                     <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-left">Volunteer &amp; Community Service</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
@@ -3447,7 +3469,7 @@ export default function AidAgentPage() {
               return (
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection("sec-resume")}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
                     <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Resume Assistance</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
@@ -3487,7 +3509,7 @@ export default function AidAgentPage() {
               return (
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection("sec-ai-literacy")}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
                     <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">AI Literacy</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
@@ -3527,7 +3549,7 @@ export default function AidAgentPage() {
               return (
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection("sec-finlit")}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
                     <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Financial Literacy</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
@@ -3541,9 +3563,9 @@ export default function AidAgentPage() {
                           return (
                             <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
                               title={item.name}
-                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-sky-500/20 ring-1 ring-transparent hover:ring-sky-500/20 transition-all duration-150 group">
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-cyan-200 hover:bg-cyan-500/[0.14] ring-1 ring-transparent hover:ring-cyan-500/[0.25] transition-all duration-150 group">
                               <span>{item.name}</span>
-                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-sky-400 shrink-0" />
+                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-cyan-400 shrink-0" />
                             </a>
                           );
                         })}
@@ -3568,7 +3590,7 @@ export default function AidAgentPage() {
               return (
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection(key)}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
                     <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Spiritual Care & Life</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
@@ -3603,7 +3625,7 @@ export default function AidAgentPage() {
                         })}
                       </div>
                       <button onClick={() => toggleSection(moreKey)}
-                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-indigo-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-cyan-400/70 hover:text-cyan-300 hover:bg-cyan-500/[0.08] opacity-80 hover:opacity-100 transition-all duration-150">
                         <ChevronRight className={`h-3 w-3 transition-transform ${isMoreOpen ? "rotate-90" : "-rotate-90"}`} />
                         {isMoreOpen ? "Show less" : `View ${RELIGION_FAITH_PHILOSOPHY_MORE.length} more`}
                       </button>
@@ -3622,7 +3644,7 @@ export default function AidAgentPage() {
               return (
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection(key)}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
                     <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-left">Student Rights & Consumer Protections</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
@@ -3657,7 +3679,7 @@ export default function AidAgentPage() {
                         })}
                       </div>
                       <button onClick={() => toggleSection(moreKey)}
-                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-indigo-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-cyan-400/70 hover:text-cyan-300 hover:bg-cyan-500/[0.08] opacity-80 hover:opacity-100 transition-all duration-150">
                         <ChevronRight className={`h-3 w-3 transition-transform ${isMoreOpen ? "rotate-90" : "-rotate-90"}`} />
                         {isMoreOpen ? "Show less" : `View ${CONSUMER_RIGHTS_MORE.length} more`}
                       </button>
@@ -3676,7 +3698,7 @@ export default function AidAgentPage() {
               return (
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection(key)}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
                     <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Student Wellness & Support</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
@@ -3711,7 +3733,7 @@ export default function AidAgentPage() {
                         })}
                       </div>
                       <button onClick={() => toggleSection(moreKey)}
-                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-indigo-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-cyan-400/70 hover:text-cyan-300 hover:bg-cyan-500/[0.08] opacity-80 hover:opacity-100 transition-all duration-150">
                         <ChevronRight className={`h-3 w-3 transition-transform ${isMoreOpen ? "rotate-90" : "-rotate-90"}`} />
                         {isMoreOpen ? "Show less" : `View ${MENTAL_HEALTH_STUDENT_MORE.length} more`}
                       </button>
@@ -3729,7 +3751,7 @@ export default function AidAgentPage() {
               return (
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection("sec-loans")}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
                     <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Private Student Loans</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
@@ -3772,7 +3794,7 @@ export default function AidAgentPage() {
               return (
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection(key)}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
                     <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Videos</span>
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                   </button>
@@ -3830,14 +3852,14 @@ export default function AidAgentPage() {
                 <button
                   onClick={() => { setShowMobileLeft(!showMobileLeft); setShowMobileRight(false); }}
                   title="Students & Parents panel"
-                  className="lg:hidden p-1.5 rounded-lg text-white/38 hover:text-cyan-300 hover:bg-cyan-500/[0.10] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-500/60"
+                  className="lg:hidden p-1.5 rounded-lg text-cyan-300/48 hover:text-cyan-200 hover:bg-cyan-500/[0.14] hover:shadow-[0_0_10px_rgba(6,182,212,0.25)] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60"
                 >
                   {showMobileLeft ? <X className="h-4 w-4" /> : <GraduationCap className="h-4 w-4" />}
                 </button>
                 <button
                   onClick={goHome}
                   title="Home"
-                  className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-white/38 hover:text-cyan-300 hover:bg-cyan-500/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-500/60 text-xs font-medium"
+                  className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-cyan-300/48 hover:text-cyan-200 hover:bg-cyan-500/[0.14] hover:shadow-[0_0_10px_rgba(6,182,212,0.25)] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60 text-xs font-medium"
                 >
                   <Home className="h-3.5 w-3.5" />
                   <span className="hidden sm:inline">Home</span>
@@ -3845,7 +3867,7 @@ export default function AidAgentPage() {
                 <button
                   onClick={() => setIsDark(!isDark)}
                   title={isDark ? "Switch to bright mode" : "Switch to dark mode"}
-                  className="p-1.5 rounded-lg text-white/38 hover:text-cyan-300 hover:bg-cyan-500/[0.10] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-500/60"
+                  className="p-1.5 rounded-lg text-cyan-300/48 hover:text-cyan-200 hover:bg-cyan-500/[0.14] hover:shadow-[0_0_10px_rgba(6,182,212,0.25)] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60"
                 >
                   {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
                 </button>
@@ -3885,7 +3907,7 @@ export default function AidAgentPage() {
                     </button>
                     <Link
                       href="/account"
-                      className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white/[0.05] ring-1 ring-white/[0.10] text-white/55 hover:text-white hover:bg-white/[0.09] transition-colors text-xs font-semibold focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-500/60"
+                      className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-cyan-500/[0.08] ring-1 ring-cyan-500/[0.22] text-cyan-300/55 hover:text-cyan-200 hover:bg-cyan-500/[0.14] hover:shadow-[0_0_10px_rgba(6,182,212,0.20)] transition-all duration-150 text-xs font-semibold focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60"
                     >
                       <UserCircle className="h-3.5 w-3.5 shrink-0" />
                       <span>Account</span>
@@ -3895,7 +3917,7 @@ export default function AidAgentPage() {
                 <button
                   onClick={() => { setShowMobileRight(!showMobileRight); setShowMobileLeft(false); }}
                   title="Admins & Auditors panel"
-                  className="xl:hidden p-1.5 rounded-lg text-white/38 hover:text-cyan-300 hover:bg-cyan-500/[0.10] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-500/60"
+                  className="xl:hidden p-1.5 rounded-lg text-cyan-300/48 hover:text-cyan-200 hover:bg-cyan-500/[0.14] hover:shadow-[0_0_10px_rgba(6,182,212,0.25)] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60"
                 >
                   {showMobileRight ? <X className="h-4 w-4" /> : <Zap className="h-4 w-4" />}
                 </button>
@@ -3903,7 +3925,7 @@ export default function AidAgentPage() {
                   <button
                     onClick={() => setMessages([])}
                     title="New chat"
-                    className="p-1.5 rounded-lg text-white/35 hover:text-cyan-300 hover:bg-cyan-500/[0.10] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-500/60"
+                    className="p-1.5 rounded-lg text-cyan-300/48 hover:text-cyan-200 hover:bg-cyan-500/[0.14] hover:shadow-[0_0_10px_rgba(6,182,212,0.25)] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60"
                   >
                     <SquarePen className="h-4 w-4" />
                   </button>
@@ -3992,8 +4014,14 @@ export default function AidAgentPage() {
                   ))}
                 </div>
                 {/* ── Hero: Glowing Orb centerpiece ── */}
+                {/* Outer drift wrapper — follows scroll toward scrollbar */}
+                <div style={{
+                  transform: `translateX(${orbDriftX}px)`,
+                  transition: "transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94)",
+                  marginBottom: "2rem",
+                }}>
                 <div
-                  className="relative mb-8 flex items-center justify-center"
+                  className="relative flex items-center justify-center"
                   style={{ width: 164, height: 164, animation: "genie-orb-float 5.5s ease-in-out infinite" }}
                 >
                   {/* Outer diffuse bloom */}
@@ -4029,6 +4057,29 @@ export default function AidAgentPage() {
                       willChange: "box-shadow, filter",
                     }}
                   >
+                    {/* Earth-axis rotation bands — longitude lines scrolling */}
+                    <div style={{
+                      position: "absolute", top: 0, left: 0,
+                      width: "200%", height: "100%",
+                      background: "repeating-linear-gradient(90deg," +
+                        "transparent 0%,transparent 7%," +
+                        "rgba(255,255,255,0.07) 7%,rgba(255,255,255,0.07) 8.5%," +
+                        "transparent 8.5%,transparent 20%," +
+                        "rgba(6,182,212,0.10) 20%,rgba(6,182,212,0.10) 23%," +
+                        "transparent 23%,transparent 36%," +
+                        "rgba(255,255,255,0.05) 36%,rgba(255,255,255,0.05) 37.5%," +
+                        "transparent 37.5%,transparent 50%," +
+                        "transparent 50%,transparent 57%," +
+                        "rgba(255,255,255,0.07) 57%,rgba(255,255,255,0.07) 58.5%," +
+                        "transparent 58.5%,transparent 70%," +
+                        "rgba(6,182,212,0.10) 70%,rgba(6,182,212,0.10) 73%," +
+                        "transparent 73%,transparent 86%," +
+                        "rgba(255,255,255,0.05) 86%,rgba(255,255,255,0.05) 87.5%," +
+                        "transparent 87.5%,transparent 100%)",
+                      animation: "orb-earth-bands 9s linear infinite",
+                      pointerEvents: "none",
+                      mixBlendMode: "overlay",
+                    }} />
                     {/* Rotating aurora shimmer */}
                     <div style={{
                       position: "absolute", inset: 0, borderRadius: "50%",
@@ -4085,6 +4136,7 @@ export default function AidAgentPage() {
                     <span className="text-[9px] font-bold text-white tracking-wide uppercase">Live</span>
                   </div>
                 </div>
+                </div>{/* end scroll-drift wrapper */}
 
                 {/* ── Headline: punchy and benefit-led ── */}
                 <h2 className="text-[1.65rem] font-bold tracking-tight text-white mb-3 text-center leading-tight">
@@ -4227,7 +4279,7 @@ export default function AidAgentPage() {
                           <button
                             key={i}
                             onClick={() => { setInput(prompt); textareaRef.current?.focus(); }}
-                            className="w-full flex items-start gap-3 px-5 py-3.5 text-left group hover:bg-white/[0.05] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500"
+                            className="w-full flex items-start gap-3 px-5 py-3.5 text-left group hover:bg-cyan-500/[0.08] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400"
                           >
                             <span className={`mt-2 h-1.5 w-1.5 rounded-full shrink-0 ring-1 ${accent}`} />
                             <p className="text-sm text-white/55 group-hover:text-white/85 leading-snug transition-colors duration-150 flex-1">{text}</p>
@@ -4304,10 +4356,10 @@ export default function AidAgentPage() {
                               <button
                                 onClick={() => speakMessage(msg.id, msg.content)}
                                 title={speakingMsgId === msg.id ? "Stop reading" : "Read aloud"}
-                                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 ${
+                                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
                                   speakingMsgId === msg.id
-                                    ? "bg-indigo-500/20 text-indigo-300 ring-1 ring-indigo-500/40"
-                                    : "text-white/30 hover:text-white/70 hover:bg-white/[0.07]"
+                                    ? "bg-cyan-500/[0.18] text-cyan-300 ring-1 ring-cyan-500/40"
+                                    : "text-white/30 hover:text-cyan-300 hover:bg-cyan-500/[0.08]"
                                 }`}
                               >
                                 {speakingMsgId === msg.id ? <VolumeX className="h-3 w-3" /> : <Volume2 className="h-3 w-3" />}
@@ -4316,7 +4368,7 @@ export default function AidAgentPage() {
                               <button
                                 onClick={() => printMessage(msg.content)}
                                 title="Print / Save as PDF"
-                                className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium text-white/30 hover:text-white/70 hover:bg-white/[0.07] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+                                className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium text-white/30 hover:text-cyan-300 hover:bg-cyan-500/[0.08] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
                               >
                                 <Printer className="h-3 w-3" />
                                 Print/View
@@ -4365,7 +4417,7 @@ export default function AidAgentPage() {
                   <button
                     onClick={goHome}
                     title="Back to Home"
-                    className="flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] font-medium text-white/30 hover:text-white/70 hover:bg-white/[0.07] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 shrink-0"
+                    className="flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] font-medium text-white/30 hover:text-cyan-300 hover:bg-cyan-500/[0.08] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 shrink-0"
                   >
                     <Home className="h-3 w-3" />
                     Home
@@ -4545,37 +4597,37 @@ export default function AidAgentPage() {
                   </Link>
                   <span className="text-white/12 text-[10px] select-none">·</span>
                   <Link href="/support" target="_blank" rel="noopener noreferrer"
-                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-white/35 hover:text-indigo-300/90 hover:bg-indigo-500/[0.10] transition-all duration-150">
+                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-white/35 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08] transition-all duration-150">
                     Support Dev
                   </Link>
                   <span className="text-white/12 text-[10px] select-none">·</span>
                   <a href="https://x.com/one27__" target="_blank" rel="noopener noreferrer"
-                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-sky-400/60 hover:text-sky-300 hover:bg-sky-500/[0.10] transition-all duration-150">
+                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-cyan-400/55 hover:text-cyan-300 hover:bg-cyan-500/[0.08] transition-all duration-150">
                     @one27__
                   </a>
                   <span className="text-white/12 text-[10px] select-none">·</span>
                   <Link href="/legal" target="_blank" rel="noopener noreferrer"
-                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-white/30 hover:text-white/60 hover:bg-white/[0.06] transition-all duration-150">
+                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08] transition-all duration-150">
                     Terms &amp; Privacy
                   </Link>
                   <span className="text-white/12 text-[10px] select-none">·</span>
                   <Link href="/dpa" target="_blank" rel="noopener noreferrer"
-                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-white/30 hover:text-white/60 hover:bg-white/[0.06] transition-all duration-150">
+                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08] transition-all duration-150">
                     School DPA
                   </Link>
                   <span className="text-white/12 text-[10px] select-none">·</span>
                   <Link href="/about" target="_blank" rel="noopener noreferrer"
-                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-white/30 hover:text-white/60 hover:bg-white/[0.06] transition-all duration-150">
+                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08] transition-all duration-150">
                     About
                   </Link>
                   <span className="text-white/12 text-[10px] select-none">·</span>
                   <Link href="/institutions" target="_blank" rel="noopener noreferrer"
-                    className="px-2 py-0.5 rounded-full text-[10px] font-semibold text-indigo-400/65 hover:text-indigo-300 hover:bg-indigo-500/[0.10] ring-1 ring-indigo-500/[0.15] hover:ring-indigo-400/35 transition-all duration-150">
+                    className="px-2 py-0.5 rounded-full text-[10px] font-semibold text-cyan-400/75 hover:text-cyan-300 hover:bg-cyan-500/[0.12] ring-1 ring-cyan-500/[0.20] hover:ring-cyan-400/40 transition-all duration-150">
                     For Schools
                   </Link>
                   <span className="text-white/12 text-[10px] select-none">·</span>
                   <Link href="/legal#ccpa" target="_blank" rel="noopener noreferrer"
-                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-white/25 hover:text-white/50 hover:bg-white/[0.05] transition-all duration-150">
+                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-white/25 hover:text-cyan-200/60 hover:bg-cyan-500/[0.06] transition-all duration-150">
                     Do Not Sell My Info
                   </Link>
                 </div>
@@ -4615,7 +4667,7 @@ export default function AidAgentPage() {
               return (
                 <div key={role} className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection(`rqa-open-${role}`)}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                     <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-right">{role} Quick Actions</span>
                   </button>
@@ -4624,10 +4676,10 @@ export default function AidAgentPage() {
                       {[...items, ...more].map(({ icon: Icon, label, description, q }) => (
                         <button key={`rqa-${role}-${label}`} onClick={() => sendMessage(q)} disabled={isBusy}
                           title={label}
-                          className="w-full flex items-start gap-2.5 px-2.5 py-2 rounded-lg text-right group transition-all duration-150 hover:bg-indigo-500/20 ring-1 ring-transparent hover:ring-indigo-500/20 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500">
-                          <ChevronRight className="h-3 w-3 text-white/25 group-hover:text-indigo-400 transition-colors shrink-0 mt-1" />
-                          <div className="mt-0.5 p-1.5 rounded-lg bg-white/[0.08] group-hover:bg-indigo-500/30 transition-colors shrink-0">
-                            <Icon className="h-3 w-3 text-white/60 group-hover:text-indigo-300 transition-colors" />
+                          className="w-full flex items-start gap-2.5 px-2.5 py-2 rounded-lg text-right group transition-all duration-150 hover:bg-cyan-500/[0.14] ring-1 ring-transparent hover:ring-cyan-500/[0.25] disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400">
+                          <ChevronRight className="h-3 w-3 text-white/25 group-hover:text-cyan-400 transition-colors shrink-0 mt-1" />
+                          <div className="mt-0.5 p-1.5 rounded-lg bg-white/[0.08] group-hover:bg-cyan-500/[0.20] transition-colors shrink-0">
+                            <Icon className="h-3 w-3 text-white/60 group-hover:text-cyan-300 transition-colors" />
                           </div>
                           <div className="min-w-0 flex-1 text-right">
                             <p className="text-xs font-semibold text-white/85 group-hover:text-white transition-colors leading-tight">{label}</p>
@@ -4650,7 +4702,7 @@ export default function AidAgentPage() {
               return (
                 <div key={group} className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection(key)}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                     <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-right">{group}</span>
                   </button>
@@ -4659,7 +4711,7 @@ export default function AidAgentPage() {
                       {links.map(({ name, url }) => (
                         <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                           title={name}
-                          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-indigo-500/20 ring-1 ring-transparent hover:ring-indigo-500/20 transition-all duration-150 group">
+                          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-cyan-200 hover:bg-cyan-500/[0.14] ring-1 ring-transparent hover:ring-cyan-500/[0.25] transition-all duration-150 group">
                           <span>{name}</span>
                           <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-indigo-400 shrink-0" />
                         </a>
@@ -4673,7 +4725,7 @@ export default function AidAgentPage() {
                             return (
                               <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
                                 title={item.name}
-                                className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-indigo-500/20 ring-1 ring-transparent hover:ring-indigo-500/20 transition-all duration-150 group">
+                                className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-cyan-200 hover:bg-cyan-500/[0.14] ring-1 ring-transparent hover:ring-cyan-500/[0.25] transition-all duration-150 group">
                                 <span>{item.name}</span>
                                 <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-indigo-400 shrink-0" />
                               </a>
@@ -4681,7 +4733,7 @@ export default function AidAgentPage() {
                           })}
                           <button
                             onClick={() => toggleSection(moreKey)}
-                            className="w-full text-left px-3 py-1.5 text-[10px] font-medium text-indigo-400/80 hover:text-indigo-300 transition-colors">
+                            className="w-full text-left px-3 py-1.5 text-[10px] font-medium text-cyan-400/70 hover:text-cyan-300 transition-colors">
                             {isMoreOpen ? "Show less" : `Show more`}
                           </button>
                         </>
@@ -4698,7 +4750,7 @@ export default function AidAgentPage() {
               return (
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection("rp-coverage")}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                     <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-right">Topics Covered</span>
                   </button>
@@ -4709,7 +4761,7 @@ export default function AidAgentPage() {
                           key={topic}
                           onClick={() => sendMessage(COVERAGE_TOPIC_PROMPTS[topic] ?? `Tell me about ${topic}.`)}
                           disabled={isBusy}
-                          className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-medium bg-white/[0.07] text-white/50 ring-1 ring-white/[0.09] hover:bg-indigo-500/20 hover:text-indigo-300 hover:ring-indigo-500/30 transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
+                          className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-medium bg-white/[0.07] text-white/50 ring-1 ring-white/[0.09] hover:bg-cyan-500/[0.14] hover:text-cyan-300 hover:ring-cyan-500/[0.30] transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed"
                         >
                           {topic}
                         </button>
@@ -4731,7 +4783,7 @@ export default function AidAgentPage() {
               return (
                 <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
                   <button onClick={() => toggleSection(key)}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.06] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500">
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
                     <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
                     <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-right">Videos</span>
                   </button>
@@ -4750,7 +4802,7 @@ export default function AidAgentPage() {
                         </div>
                       ))}
                       <button onClick={() => toggleSection(moreKey)}
-                        className="w-full flex items-center justify-center gap-1.5 py-1 rounded-lg text-[11px] font-medium text-indigo-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
+                        className="w-full flex items-center justify-center gap-1.5 py-1 rounded-lg text-[11px] font-medium text-cyan-400/70 hover:text-cyan-300 hover:bg-cyan-500/[0.08] opacity-80 hover:opacity-100 transition-all duration-150">
                         <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
                         {showMore ? "Show fewer" : `View ${allIds.length - 1} more`}
                       </button>
