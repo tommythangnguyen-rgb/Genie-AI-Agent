@@ -276,9 +276,9 @@
 /* ── Falling stars ── */
 @keyframes genie-star-fall {
   0%   { transform: translateY(-20px) translateX(0px); opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 0.6; }
-  100% { transform: translateY(110vh) translateX(-40px); opacity: 0; }
+  8%   { opacity: 0.9; }
+  90%  { opacity: 0.7; }
+  100% { transform: translateY(900px) translateX(-30px); opacity: 0; }
 }
 @keyframes genie-star-twinkle {
   0%, 100% { opacity: 0.1; transform: scale(0.6); }
@@ -293,6 +293,7 @@
   position: absolute;
   border-radius: 50%;
   background: white;
+  box-shadow: 0 0 4px 1px rgba(255,255,255,0.6);
   animation: genie-star-fall var(--dur, 6s) linear infinite var(--delay, 0s);
   pointer-events: none;
 }
@@ -300,6 +301,7 @@
   position: absolute;
   border-radius: 50%;
   background: white;
+  box-shadow: 0 0 5px 1px rgba(167,139,250,0.7);
   animation: genie-star-twinkle var(--dur, 3s) ease-in-out infinite var(--delay, 0s);
   pointer-events: none;
 }

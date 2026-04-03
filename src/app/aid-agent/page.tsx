@@ -2333,6 +2333,8 @@ export default function AidAgentPage() {
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(["sec-left-videos", "sec-videos-social"]));
   const bottomRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const userScrolledUpRef = useRef(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const readerRef = useRef<ReadableStreamDefaultReader<Uint8Array> | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -2377,9 +2379,30 @@ export default function AidAgentPage() {
     setShowDisclaimer(false);
   };
 
+  // Smart scroll: follow bottom only when user hasn't scrolled up
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    const onScroll = () => {
+      const distFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+      userScrolledUpRef.current = distFromBottom > 80;
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => el.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    if (!userScrolledUpRef.current) {
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }
   }, [messages]);
+
+  // Also scroll during streaming (new chunks arrive)
+  useEffect(() => {
+    if (isStreaming && !userScrolledUpRef.current) {
+      bottomRef.current?.scrollIntoView({ behavior: "instant" });
+    }
+  });
 
   useEffect(() => {
     if (!input && textareaRef.current) {
@@ -3728,7 +3751,7 @@ export default function AidAgentPage() {
           </header>
 
           {/* Messages / Welcome */}
-          <div className="flex-1 overflow-y-auto min-h-0 genie-scroll-main" role="log" aria-live="polite" aria-label="Conversation">
+          <div ref={scrollContainerRef} className="flex-1 overflow-y-auto min-h-0 genie-scroll-main" role="log" aria-live="polite" aria-label="Conversation">
             {messages.length === 0 ? (
 
               /* ── Welcome state ── */
