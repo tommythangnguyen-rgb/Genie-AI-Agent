@@ -19,9 +19,12 @@ function ResourceViewer() {
   const params = useSearchParams();
   const url = params.get("url") ?? "";
 
-  // Try to pull a human-readable name from the URL hostname
+  // Try to pull a human-readable label from the URL
   let hostname = "";
-  try { hostname = new URL(url).hostname.replace(/^www\./, ""); } catch {}
+  try {
+    const parsed = new URL(url, typeof window !== "undefined" ? window.location.href : "https://genie127.com");
+    hostname = parsed.hostname.replace(/^www\./, "") + (parsed.pathname !== "/" ? parsed.pathname : "");
+  } catch {}
 
   if (!url) {
     return (

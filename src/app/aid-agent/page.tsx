@@ -2071,7 +2071,7 @@ const ROLE_OPTIONS = [
 
 // ─── Background ───────────────────────────────────────────────────────────────
 
-function EducationalBackground({ isDark = true }: { isDark?: boolean }) {
+function EducationalBackground({ isDark = true, guidanceActive = false }: { isDark?: boolean; guidanceActive?: boolean }) {
   const darkParticles = [
     { top: "15%", left: "22%", size: 4, dur: "3.2s", delay: "0s" },
     { top: "68%", left: "8%",  size: 3, dur: "4.1s", delay: "0.7s" },
@@ -2136,7 +2136,13 @@ function EducationalBackground({ isDark = true }: { isDark?: boolean }) {
         ))}
 
         {/* SVG: Educational constellation map — 12 themed constellations */}
-        <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
+        <svg
+          key={guidanceActive ? "g-active" : "g-idle"}
+          className={`absolute inset-0 w-full h-full${guidanceActive ? " constell-guidance-active" : ""}`}
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 1440 900"
+          preserveAspectRatio="xMidYMid slice"
+        >
           <defs>
             {/* Dot grid */}
             <pattern id="edu-dots-b" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -2638,6 +2644,37 @@ function EducationalBackground({ isDark = true }: { isDark?: boolean }) {
             <animate attributeName="fillOpacity" values="0.30;0.10;0.30" dur="9.0s" repeatCount="indefinite"/>
           </circle>
         </svg>
+
+        {/* Guidance shimmer overlays — only when Get Clear Guidance is active */}
+        {guidanceActive && (
+          <>
+            {/* Radial conic sweep — rotates across the constellation field */}
+            <div
+              key="sweep"
+              className="constell-guidance-sweep pointer-events-none absolute inset-0"
+              style={{
+                background: "conic-gradient(from 0deg at 50% 40%, transparent 0deg, rgba(147,197,253,0.18) 30deg, rgba(165,243,252,0.30) 60deg, transparent 90deg, transparent 360deg)",
+                transformOrigin: "50% 40%",
+              }}
+            />
+            {/* Radial bloom — centre brightens */}
+            <div
+              key="bloom"
+              className="constell-guidance-overlay pointer-events-none absolute inset-0"
+              style={{
+                background: "radial-gradient(ellipse 70% 60% at 50% 38%, rgba(147,197,253,0.22) 0%, rgba(99,102,241,0.12) 45%, transparent 75%)",
+              }}
+            />
+            {/* Edge shimmer ring */}
+            <div
+              key="ring"
+              className="constell-guidance-overlay pointer-events-none absolute inset-0"
+              style={{
+                background: "radial-gradient(ellipse 95% 90% at 50% 50%, transparent 60%, rgba(6,182,212,0.14) 78%, rgba(6,182,212,0.08) 90%, transparent 100%)",
+              }}
+            />
+          </>
+        )}
       </div>
     );
   }
@@ -3619,7 +3656,7 @@ export default function AidAgentPage() {
         </div>
       )}
 
-      <EducationalBackground isDark={isDark} />
+      <EducationalBackground isDark={isDark} guidanceActive={howItWorksActive === "guidance"} />
 
       {/* Mobile panel backdrop */}
       {(showMobileLeft || showMobileRight) && (
@@ -5072,50 +5109,29 @@ export default function AidAgentPage() {
                   Built by a 15-year Student Financial Aid professional. Designed for the people who do this work every day.
                 </p>
                 <div className="flex flex-wrap justify-center items-center gap-x-0.5 gap-y-1 mt-1">
-                  <Link href="/pricing" target="_blank" rel="noopener noreferrer"
-                    className="px-2 py-0.5 rounded-full text-[10px] font-semibold text-cyan-400/75 hover:text-cyan-300 hover:bg-cyan-500/[0.12] ring-1 ring-cyan-500/[0.20] hover:ring-cyan-400/40 transition-all duration-150">
-                    Plans &amp; Pricing
-                  </Link>
-                  <span className="text-white/12 text-[10px] select-none">·</span>
-                  <Link href="/pricing#faq" target="_blank" rel="noopener noreferrer"
-                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-white/35 hover:text-cyan-200/80 hover:bg-white/[0.06] transition-all duration-150">
-                    FAQ
-                  </Link>
-                  <span className="text-white/12 text-[10px] select-none">·</span>
-                  <Link href="/support" target="_blank" rel="noopener noreferrer"
-                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-white/35 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08] transition-all duration-150">
-                    Support Dev
-                  </Link>
-                  <span className="text-white/12 text-[10px] select-none">·</span>
-                  <a href="https://x.com/one27__" target="_blank" rel="noopener noreferrer"
-                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-cyan-400/55 hover:text-cyan-300 hover:bg-cyan-500/[0.08] transition-all duration-150">
-                    @one27__
-                  </a>
-                  <span className="text-white/12 text-[10px] select-none">·</span>
-                  <Link href="/legal" target="_blank" rel="noopener noreferrer"
-                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08] transition-all duration-150">
-                    Terms &amp; Privacy
-                  </Link>
-                  <span className="text-white/12 text-[10px] select-none">·</span>
-                  <Link href="/dpa" target="_blank" rel="noopener noreferrer"
-                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08] transition-all duration-150">
-                    School DPA
-                  </Link>
-                  <span className="text-white/12 text-[10px] select-none">·</span>
-                  <Link href="/about" target="_blank" rel="noopener noreferrer"
-                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08] transition-all duration-150">
-                    About
-                  </Link>
-                  <span className="text-white/12 text-[10px] select-none">·</span>
-                  <Link href="/institutions" target="_blank" rel="noopener noreferrer"
-                    className="px-2 py-0.5 rounded-full text-[10px] font-semibold text-cyan-400/75 hover:text-cyan-300 hover:bg-cyan-500/[0.12] ring-1 ring-cyan-500/[0.20] hover:ring-cyan-400/40 transition-all duration-150">
-                    For Schools
-                  </Link>
-                  <span className="text-white/12 text-[10px] select-none">·</span>
-                  <Link href="/legal#ccpa" target="_blank" rel="noopener noreferrer"
-                    className="px-2 py-0.5 rounded-full text-[10px] font-medium text-white/25 hover:text-cyan-200/60 hover:bg-cyan-500/[0.06] transition-all duration-150">
-                    Do Not Sell My Info
-                  </Link>
+                  {[
+                    { label: "Plans & Pricing",  href: "/pricing",      cls: "font-semibold text-cyan-400/75 hover:text-cyan-300 hover:bg-cyan-500/[0.12] ring-1 ring-cyan-500/[0.20] hover:ring-cyan-400/40" },
+                    { label: "FAQ",              href: "/pricing#faq",  cls: "font-medium text-white/35 hover:text-cyan-200/80 hover:bg-white/[0.06]" },
+                    { label: "Support Dev",      href: "/support",      cls: "font-medium text-white/35 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
+                    { label: "@one27__",         href: "https://x.com/one27__", cls: "font-medium text-cyan-400/55 hover:text-cyan-300 hover:bg-cyan-500/[0.08]" },
+                    { label: "Terms & Privacy",  href: "/legal",        cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
+                    { label: "School DPA",       href: "/dpa",          cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
+                    { label: "About",            href: "/about",        cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
+                    { label: "For Schools",      href: "/institutions", cls: "font-semibold text-cyan-400/75 hover:text-cyan-300 hover:bg-cyan-500/[0.12] ring-1 ring-cyan-500/[0.20] hover:ring-cyan-400/40" },
+                    { label: "Do Not Sell My Info", href: "/legal#ccpa", cls: "font-medium text-white/25 hover:text-cyan-200/60 hover:bg-cyan-500/[0.06]" },
+                  ].map(({ label, href, cls }, i, arr) => (
+                    <span key={label} className="contents">
+                      <a
+                        href={`/open-resource?url=${encodeURIComponent(href)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={`px-2 py-0.5 rounded-full text-[10px] transition-all duration-150 ${cls}`}
+                      >
+                        {label}
+                      </a>
+                      {i < arr.length - 1 && <span className="text-white/12 text-[10px] select-none">·</span>}
+                    </span>
+                  ))}
                 </div>
                 <p className="text-[10px] text-center text-white/15 mt-0.5">
                   © 2026 askGenie Student Aid Hub | Developed by One27 | All Rights Reserved
