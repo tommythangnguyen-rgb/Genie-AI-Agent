@@ -3174,6 +3174,25 @@ export default function AidAgentPage() {
                           <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-sky-400 shrink-0" />
                         </a>
                       ))}
+                      {/* FAFSA video guides */}
+                      <div className="pt-2 space-y-2 px-1">
+                        <p className="text-[9px] font-bold uppercase tracking-widest text-white/30 px-2">FAFSA Video Guides</p>
+                        {[
+                          { id: "RtDYpEfAa5U", title: "How to Fill Out the FAFSA" },
+                          { id: "NmEP38x-1Z8", title: "FAFSA Tips & Common Mistakes" },
+                        ].map(({ id, title }) => (
+                          <div key={id} className="rounded-lg overflow-hidden ring-1 ring-white/[0.08]">
+                            <iframe
+                              src={`https://www.youtube.com/embed/${id}`}
+                              title={title}
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                              loading="lazy"
+                              className="w-full aspect-video"
+                            />
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
                 </div>
