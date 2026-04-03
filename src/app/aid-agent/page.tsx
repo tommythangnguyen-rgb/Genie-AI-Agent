@@ -4634,7 +4634,7 @@ export default function AidAgentPage() {
 
                 {/* ── Headline: punchy and benefit-led ── */}
                 <h2 className="text-[2.1rem] font-bold tracking-tight text-white mb-3 text-center leading-tight">
-                  Your Financial Aid Questions,{" "}
+                  Your Student Aid Questions,{" "}
                   <span className="genie-shimmer-text">Answered in Seconds.</span>
                 </h2>
                 {/* Sub-headline: short, credibility-first */}
