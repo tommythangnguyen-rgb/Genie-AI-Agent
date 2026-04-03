@@ -358,3 +358,22 @@
   animation: genie-orb-pulse var(--dur, 5s) ease-in-out infinite var(--delay, 0s);
   pointer-events: none;
 }
+
+/* ── Streaming text fade-in ───────────────────────────────────────────── */
+@keyframes streamChunkFade {
+  from {
+    opacity: 0;
+    filter: blur(4px);
+    transform: translateY(2px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+.stream-chunk {
+  animation: streamChunkFade 0.28s ease forwards;
+  display: inline;
+}

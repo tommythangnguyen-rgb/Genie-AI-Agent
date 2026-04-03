@@ -371,7 +371,7 @@ const FEDERAL_RESOURCES = [
   {
     group: "Administrators & Advisors",
     links: [
-      { name: "FSA Handbook (IFAP)", url: "https://ifap.ed.gov/fsahandbook" },
+      { name: "FSA Handbook (IFAP)", url: "https://fsapartners.ed.gov/knowledge-center/fsa-handbook" },
       { name: "IFAP – ED Policy Guidance", url: "https://ifap.ed.gov" },
       { name: "NSLDS Professional Access", url: "https://nslds.ed.gov" },
       { name: "COD – Common Origination & Disbursement", url: "https://cod.ed.gov" },
@@ -391,14 +391,14 @@ const FEDERAL_RESOURCES = [
       { subcat: "Systems & Software" },
       { name: "G5 – Grants Management System", url: "https://www.g5.gov" },
       { name: "SAIG Enrollment (TDClient)", url: "https://fsawebenroll.ed.gov" },
-      { name: "EDExpress – FA Software", url: "https://fsapartners.ed.gov/knowledge-center/fsa-software/edexpress" },
-      { name: "EdConnect – SAIG Transmission", url: "https://fsapartners.ed.gov/knowledge-center/fsa-software/edconnect" },
+      { name: "EDExpress – FA Software", url: "https://fsapartners.ed.gov/knowledge-center/topics/software-and-other-tools/edexpress" },
+      { name: "EdConnect – SAIG Transmission", url: "https://fsapartners.ed.gov/knowledge-center/topics/software-and-other-tools/edconnect" },
       { name: "FSA Training & Professional Development", url: "https://fsapartners.ed.gov/training-events" },
       { name: "FSA Data Center (FAFSA Data)", url: "https://studentaid.gov/data-center" },
       { subcat: "FAFSA & Verification" },
       { name: "CPS (Central Processing System) Info", url: "https://ifap.ed.gov" },
       { name: "SAR / ISIR Interpretation", url: "https://studentaid.gov/help-center/answers/topic/professionals" },
-      { name: "FAFSA Simplification Act Resources", url: "https://fsapartners.ed.gov/knowledge-center/fafsa-simplification" },
+      { name: "FAFSA Simplification Act Resources", url: "https://fsapartners.ed.gov/knowledge-center/topics/fafsa-simplification-information" },
       { name: "FAFSA Partner Toolkit", url: "https://studentaid.gov/help-center/answers/topic/outreach-and-resources" },
       { name: "Verification 2025-26 – IRS Tax Year 2023 Data", url: "https://ifap.ed.gov/ilibrary/document-type/verification-guide" },
       { name: "Verification 2026-27 – IRS Tax Year 2024 Data", url: "https://ifap.ed.gov/ilibrary/document-type/verification-guide" },
@@ -467,7 +467,7 @@ const FEDERAL_RESOURCES = [
       { name: "U.S. Dept. of Education", url: "https://www.ed.gov" },
       { name: "NASFAA – National Assoc. of Student Financial Aid", url: "https://www.nasfaa.org" },
       { name: "ED Office of Inspector General (OIG)", url: "https://www2.ed.gov/about/offices/list/oig/index.html" },
-      { name: "OIG Semiannual Report to Congress", url: "https://www2.ed.gov/about/offices/list/oig/semiann/index.html" },
+      { name: "OIG Semiannual Report to Congress", url: "https://oig.ed.gov/resources/congressional-reports" },
       { name: "34 CFR Part 668 – Student Assistance General", url: "https://www.ecfr.gov/current/title-34/part-668" },
       { name: "34 CFR Part 685 – Direct Loan Program", url: "https://www.ecfr.gov/current/title-34/part-685" },
       { name: "34 CFR Part 690 – Federal Pell Grant Program", url: "https://www.ecfr.gov/current/title-34/part-690" },
@@ -489,11 +489,11 @@ const FEDERAL_RESOURCES = [
       { name: "2026-27 Verification Requirements (34 CFR 668 Subpart E)", url: "https://www.ecfr.gov/current/title-34/part-668/subpart-E" },
       { subcat: "Audit Standards" },
       { name: "Single Audit Act (31 U.S.C. § 7501)", url: "https://www.govinfo.gov/content/pkg/USCODE-2011-title31/pdf/USCODE-2011-title31-subtitleV-chap75.pdf" },
-      { name: "AICPA – Audit Standards (SAS)", url: "https://www.aicpa.org/research/standards/auditattest/clarity.html" },
-      { name: "FSA Audit Guide – Title IV", url: "https://www2.ed.gov/about/offices/list/oig/aireports/auditguide.html" },
+      { name: "AICPA – Audit Standards (SAS)", url: "https://www.aicpa-cima.com/resources/landing/audit-attest-and-quality-management-standards" },
+      { name: "FSA Audit Guide – Title IV", url: "https://oig.ed.gov/non-federal-audits/title-iv-audits" },
       { name: "Program Review Protocols – FSA", url: "https://studentaid.gov/about/announcements/program-review" },
-      { name: "OIG Audit Reports – Higher Education", url: "https://www2.ed.gov/about/offices/list/oig/aireports/aireports.html" },
-      { name: "HEERF / CARES Act Audit Requirements", url: "https://www2.ed.gov/about/offices/list/oig/aireports/auditguide.html" },
+      { name: "OIG Audit Reports – Higher Education", url: "https://oig.ed.gov/audit-reports" },
+      { name: "HEERF / CARES Act Audit Requirements", url: "https://oig.ed.gov/non-federal-audits/title-iv-audits" },
       { subcat: "Institutional Compliance" },
       { name: "CDR Cohort Default Rate – National Data", url: "https://studentaid.gov/data-center/school/default" },
       { name: "90/10 Rule – HEA § 487(a)(24)", url: "https://ifap.ed.gov" },
@@ -523,7 +523,7 @@ const FEDERAL_RESOURCES = [
       { name: "NASFAA Standards of Excellence (SOE)", url: "https://www.nasfaa.org/SOE" },
       { name: "NASFAA Code of Ethics & Professional Standards", url: "https://www.nasfaa.org/professional_standards" },
       { name: "NASFAA AskRegs – Compliance Q&A", url: "https://askregs.nasfaa.org" },
-      { name: "FSA Modernization – FUTURE Act", url: "https://fsapartners.ed.gov/knowledge-center/fafsa-simplification" },
+      { name: "FSA Modernization – FUTURE Act", url: "https://fsapartners.ed.gov/knowledge-center/topics/fafsa-simplification-information" },
       { name: "Congressional Research Service – Higher Ed Reports", url: "https://crsreports.congress.gov" },
       { subcat: "Recovery, Controls & Governance" },
       { name: "Overpayment Recovery – NSLDS", url: "https://nslds.ed.gov" },
@@ -531,7 +531,7 @@ const FEDERAL_RESOURCES = [
       { name: "Internal Controls – 2 CFR 200.303", url: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-D/section-200.303" },
       { name: "Allowable Costs – 2 CFR 200.420-.476", url: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-E" },
       { name: "Questioned Costs & Findings – 2 CFR 200.516", url: "https://www.ecfr.gov/current/title-2/subtitle-A/chapter-II/part-200/subpart-F/section-200.516" },
-      { name: "Corrective Action Plans – OIG Guidance", url: "https://www2.ed.gov/about/offices/list/oig/aireports/aireports.html" },
+      { name: "Corrective Action Plans – OIG Guidance", url: "https://oig.ed.gov/audit-reports" },
       { name: "FSA Access – MyFSAID Account Management", url: "https://fsaid.ed.gov" },
       { name: "SAIG Mailbox Management & Security", url: "https://fsawebenroll.ed.gov" },
       { subcat: "IRS & Tax" },
@@ -587,9 +587,9 @@ const FEDERAL_RESOURCES = [
       { name: "One Mind at Work — Employer Pledge", url: "https://onemindatwork.org" },
       { name: "Mind Share Partners — Employer Resources", url: "https://www.mindsharepartners.org" },
       { name: "EAPA — Employee Assistance Professionals Assoc.", url: "https://www.eapassn.org" },
-      { name: "SHRM — Employee Mental Health & Wellness", url: "https://www.shrm.org/topics-tools/topics/employee-relations/mental-health" },
+      { name: "SHRM — Employee Mental Health & Wellness", url: "https://www.shrm.org/topics-tools/topics/mental-health" },
       { subcat: "Disability & Accommodations" },
-      { name: "ADA.gov — Reasonable Workplace Accommodations", url: "https://www.ada.gov/employment/employ.htm" },
+      { name: "ADA.gov — Reasonable Workplace Accommodations", url: "https://www.ada.gov/resources/employment-seeking-guide/" },
       { name: "Job Accommodation Network (JAN)", url: "https://askjan.org" },
       { name: "EEOC — ADA & Psychiatric Disabilities FAQs", url: "https://www.eeoc.gov/laws/guidance/questions-and-answers-clarifications-application-ada-psychiatric-disabilities" },
       { name: "ADA National Network — Workplace Accommodation", url: "https://adata.org" },
@@ -693,7 +693,7 @@ const FEDERAL_RESOURCES = [
       { name: "Mindful.org — Mindfulness in Education", url: "https://www.mindful.org/mindfulness-in-higher-education" },
       { name: "UMass MBSR — Mindfulness Research", url: "https://www.umassmed.edu/cfm" },
       { name: "Brown Contemplative Studies Program", url: "https://www.brown.edu/academics/contemplative-studies" },
-      { name: "Mindfulness in Higher Education Network", url: "https://mindfuleducation.net" },
+      { name: "Mindful Schools — Mindfulness in Education", url: "https://www.mindfulschools.org" },
       { name: "Association for Contemplative Mind in Higher Ed", url: "https://www.contemplativemind.org/programs/acmhe" },
       { name: "Institute for Mindful Leadership", url: "https://instituteformindfulleadership.org" },
       { subcat: "Character & Purpose" },
@@ -743,7 +743,7 @@ const FEDERAL_RESOURCES = [
       { name: "CFPB — Consumer Financial Protection Bureau", url: "https://www.consumerfinance.gov" },
       { name: "CFPB — File a Complaint", url: "https://www.consumerfinance.gov/complaint" },
       { name: "FTC — Consumer Reporting Portal", url: "https://reportfraud.ftc.gov" },
-      { name: "ED OIG — Report Fraud/Waste/Abuse", url: "https://www2.ed.gov/about/offices/list/oig/hotline.html" },
+      { name: "ED OIG — Report Fraud/Waste/Abuse", url: "https://oig.ed.gov/oig-hotline" },
       { name: "ED OCR — File Civil Rights Complaint", url: "https://www2.ed.gov/about/offices/list/ocr/complaintintro.html" },
       { name: "OSHA Whistleblower Protection Program", url: "https://www.whistleblowers.gov" },
       { name: "OSC — Office of Special Counsel", url: "https://osc.gov" },
@@ -2373,6 +2373,54 @@ async function pickCalmFemaleVoice(): Promise<SpeechSynthesisVoice | null> {
   return fallback;
 }
 
+// ─── Streaming text renderer ──────────────────────────────────────────────────
+
+function StreamingContent({
+  content,
+  msgId,
+  streamingMsgId,
+  isStreaming,
+  className,
+}: {
+  content: string;
+  msgId: string;
+  streamingMsgId: string | null;
+  isStreaming: boolean;
+  className: string;
+}) {
+  const [chunks, setChunks] = useState<{ id: number; text: string }[]>([]);
+  const prevLenRef = useRef(0);
+  const chunkIdRef = useRef(0);
+  const activelyStreaming = isStreaming && msgId === streamingMsgId;
+
+  useEffect(() => {
+    if (!activelyStreaming) return;
+    const newText = content.slice(prevLenRef.current);
+    if (!newText) return;
+    prevLenRef.current = content.length;
+    setChunks(prev => [...prev, { id: chunkIdRef.current++, text: newText }]);
+  }, [content, activelyStreaming]);
+
+  useEffect(() => {
+    if (!activelyStreaming) {
+      setChunks([]);
+      prevLenRef.current = 0;
+    }
+  }, [activelyStreaming]);
+
+  if (!activelyStreaming) {
+    return <MarkdownRenderer content={content} className={className} />;
+  }
+
+  return (
+    <div className={`text-sm leading-relaxed whitespace-pre-wrap text-white/85`}>
+      {chunks.map(chunk => (
+        <span key={chunk.id} className="stream-chunk">{chunk.text}</span>
+      ))}
+    </div>
+  );
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function AidAgentPage() {
@@ -2566,6 +2614,11 @@ export default function AidAgentPage() {
     setSpeakingMsgId(null);
     setMessages([]);
     setInput("");
+    // If this tab was opened from another window (e.g. dashboard), close it
+    // so the user returns to the original window automatically.
+    if (typeof window !== "undefined" && window.opener && !window.opener.closed) {
+      window.close();
+    }
   }, []);
 
   const stopStreaming = () => {
@@ -2742,7 +2795,7 @@ export default function AidAgentPage() {
 
     if (typeof window === "undefined" || !window.speechSynthesis) { setSpeakingMsgId(null); return; }
 
-    // Strip markdown to clean plain text
+    // Strip markdown and emojis to clean plain text
     const plain = text
       .replace(/```[\s\S]*?```/g, "code block omitted")
       .replace(/`[^`]*`/g, "")
@@ -2750,6 +2803,8 @@ export default function AidAgentPage() {
       .replace(/\*\*(.+?)\*\*/g, "$1")
       .replace(/[*_~>|]/g, "")
       .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+      .replace(/\p{Emoji_Presentation}/gu, "")
+      .replace(/\p{Extended_Pictographic}/gu, "")
       .replace(/\n{2,}/g, ". ")
       .replace(/\n/g, " ")
       .trim();
@@ -4199,8 +4254,11 @@ export default function AidAgentPage() {
                             <Sparkles className="h-3 w-3 text-indigo-400/60" aria-hidden="true" />
                             <span className="text-[10px] font-medium text-white/30 tracking-wide">AI-generated · Always verify with official sources</span>
                           </div>
-                          <MarkdownRenderer
+                          <StreamingContent
                             content={msg.content}
+                            msgId={msg.id}
+                            streamingMsgId={streamingMsgId}
+                            isStreaming={isStreaming}
                             className="prose-invert text-sm text-white/85 leading-relaxed"
                           />
                           {msg.id === streamingMsgId && isStreaming && (
