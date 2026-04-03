@@ -179,7 +179,7 @@ export function BackgroundMusic() {
       </audio>
 
       {/* Fixed floating player pill — bottom center, above everything */}
-      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[9999] flex items-center gap-2 px-2.5 py-1.5 rounded-full select-none"
+      <div className="fixed bottom-4 right-4 z-[9999] flex items-center gap-2 px-2.5 py-1.5 rounded-full select-none"
         style={{ background: "rgba(7,16,50,0.82)", backdropFilter: "blur(12px)", boxShadow: "0 2px 16px rgba(0,0,0,0.45), 0 0 0 1px rgba(255,255,255,0.07)" }}
       >
         {/* Music note */}
