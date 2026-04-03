@@ -57,9 +57,27 @@ import {
 
 function GenieBottle({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
-      <rect x="9.5" y="1" width="5" height="2.5" rx="1.25" />
-      <path d="M10.5 3.5L10.5 7.5C8.8 8.3 7 10.8 7 14.5C7 18.5 9.2 22 12 22C14.8 22 17 18.5 17 14.5C17 10.8 15.2 8.3 13.5 7.5L13.5 3.5Z" />
+    <svg viewBox="0 0 48 56" fill="none" className={className} aria-hidden="true">
+      {/* Smoke / magic wisps emerging from top */}
+      <path d="M24 4 C22 1 26 -1 24 2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.35"/>
+      <path d="M21 5 C18 2 20 7 19 4" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.22"/>
+      <path d="M27 5 C30 2 28 7 29 4" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.22"/>
+      {/* Neck collar ring */}
+      <rect x="17" y="8" width="14" height="3" rx="1.5" fill="currentColor" opacity="0.90"/>
+      {/* Neck */}
+      <rect x="19.5" y="11" width="9" height="5" rx="1" fill="currentColor" opacity="0.80"/>
+      {/* Shoulder taper */}
+      <path d="M19.5 16 C16 18 13 22 12 27 L12 42 C12 45.5 17.5 48.5 24 48.5 C30.5 48.5 36 45.5 36 42 L36 27 C35 22 32 18 28.5 16 Z" fill="currentColor" opacity="0.92"/>
+      {/* Belly highlight — left shimmer */}
+      <path d="M17 26 C15.5 29 15 33 15.5 37" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.18"/>
+      {/* Belly highlight — small gleam */}
+      <ellipse cx="19" cy="29" rx="2" ry="3.5" fill="white" opacity="0.12" transform="rotate(-15 19 29)"/>
+      {/* Base ring */}
+      <ellipse cx="24" cy="43.5" rx="9" ry="2.8" fill="currentColor" opacity="0.55"/>
+      {/* Gold band around belly */}
+      <path d="M13.5 32 C13.2 33.5 13 35 13 36.5 L35 36.5 C35 35 34.8 33.5 34.5 32 Z" fill="white" opacity="0.08"/>
+      {/* Stopper cap top */}
+      <ellipse cx="24" cy="8.5" rx="7.5" ry="2" fill="currentColor" opacity="0.6"/>
     </svg>
   );
 }
@@ -3716,17 +3734,48 @@ export default function AidAgentPage() {
               /* ── Welcome state ── */
               <div className="flex flex-col items-center px-6 py-12 genie-fade-in-up">
                 {/* Hero badge */}
-                <div className="relative mb-8 flex items-center justify-center" style={{width: 88, height: 88}}>
-                  {/* Expanding halo rings */}
-                  <div className="genie-halo" />
-                  <div className="genie-halo-2" />
-                  {/* Bottle container */}
-                  <div className="relative p-5 rounded-2xl genie-bottle-container-alive ring-1 ring-indigo-400/40 z-10">
-                    <GenieBottle className="h-11 w-11 text-amber-100 genie-bottle-alive" />
+                <div className="relative mb-10 flex items-center justify-center" style={{width: 120, height: 120}}>
+                  {/* Outermost ambient glow */}
+                  <div className="absolute inset-0 rounded-full" style={{
+                    background: "radial-gradient(circle, rgba(99,102,241,0.18) 0%, transparent 70%)",
+                    animation: "genie-halo-expand 3.2s ease-out infinite",
+                  }} />
+                  <div className="absolute inset-0 rounded-full" style={{
+                    background: "radial-gradient(circle, rgba(167,139,250,0.13) 0%, transparent 65%)",
+                    animation: "genie-halo-expand-2 3.2s ease-out infinite 1.6s",
+                  }} />
+                  {/* Soft outer ring */}
+                  <div className="absolute inset-3 rounded-3xl" style={{
+                    boxShadow: "0 0 0 1px rgba(139,92,246,0.25), 0 0 40px 10px rgba(99,102,241,0.15)",
+                    animation: "genie-bottle-container-pulse 3s ease-in-out infinite",
+                    borderRadius: "24px",
+                  }} />
+                  {/* Card */}
+                  <div className="relative z-10 flex items-center justify-center rounded-3xl ring-1 ring-white/[0.12]"
+                    style={{
+                      width: 88, height: 88,
+                      background: "linear-gradient(145deg, #3730a3 0%, #4f46e5 40%, #6d28d9 100%)",
+                      boxShadow: "0 8px 32px rgba(79,70,229,0.45), 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15)",
+                      borderRadius: "22px",
+                      animation: "genie-bottle-container-pulse 3s ease-in-out infinite",
+                    }}>
+                    {/* Inner shimmer layer */}
+                    <div className="absolute inset-0 rounded-3xl overflow-hidden" style={{borderRadius:"22px"}}>
+                      <div className="absolute inset-0" style={{
+                        background: "linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 50%, rgba(255,255,255,0.04) 100%)",
+                      }} />
+                    </div>
+                    <GenieBottle className="relative z-10 text-amber-100 genie-bottle-alive" style={{width:48, height:56}} />
                   </div>
-                  {/* Online badge */}
-                  <div className="absolute -top-1 -right-1 p-1 rounded-full bg-emerald-500 shadow-md ring-2 ring-[#08142e] z-20">
-                    <CheckCircle className="h-3 w-3 text-white" />
+                  {/* Live status badge */}
+                  <div className="absolute z-20 flex items-center gap-1 px-2 py-0.5 rounded-full"
+                    style={{
+                      bottom: 8, right: 4,
+                      background: "linear-gradient(90deg, #059669 0%, #10b981 100%)",
+                      boxShadow: "0 2px 8px rgba(5,150,105,0.55), 0 0 0 2px rgba(8,20,46,0.9)",
+                    }}>
+                    <span className="block w-1.5 h-1.5 rounded-full bg-white" style={{animation:"genie-typing-dot 1.4s ease-in-out infinite"}} />
+                    <span className="text-[9px] font-bold text-white tracking-wide uppercase">Live</span>
                   </div>
                 </div>
 
