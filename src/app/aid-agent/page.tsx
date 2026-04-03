@@ -2338,8 +2338,13 @@ const PREFERRED_VOICES = [
   "Moira",
 ];
 
+// Cache resolved voice — avoids re-scanning the voice list on every speak call.
+// `undefined` = not yet resolved; `null` = resolved but no match found.
+let _cachedVoice: SpeechSynthesisVoice | null | undefined = undefined;
+
 async function pickCalmFemaleVoice(): Promise<SpeechSynthesisVoice | null> {
-  if (typeof window === "undefined" || !window.speechSynthesis) return null;
+  if (_cachedVoice !== undefined) return _cachedVoice;
+  if (typeof window === "undefined" || !window.speechSynthesis) { _cachedVoice = null; return null; }
   let voices = window.speechSynthesis.getVoices();
   if (voices.length === 0) {
     await new Promise<void>((resolve) => {
@@ -2352,18 +2357,20 @@ async function pickCalmFemaleVoice(): Promise<SpeechSynthesisVoice | null> {
   // 1. Exact preferred name match
   for (const name of PREFERRED_VOICES) {
     const v = voices.find((v) => v.name === name);
-    if (v) return v;
+    if (v) { _cachedVoice = v; return v; }
   }
   // 2. Any Microsoft Natural online English voice
   const msNatural = voices.find(
     (v) => v.name.includes("Microsoft") && v.name.includes("Natural") && v.lang.startsWith("en")
   );
-  if (msNatural) return msNatural;
+  if (msNatural) { _cachedVoice = msNatural; return msNatural; }
   // 3. Any Google English voice
   const googleEn = voices.find((v) => v.name.includes("Google") && v.lang.startsWith("en"));
-  if (googleEn) return googleEn;
+  if (googleEn) { _cachedVoice = googleEn; return googleEn; }
   // 4. Any en-US voice
-  return voices.find((v) => v.lang === "en-US") ?? voices.find((v) => v.lang.startsWith("en")) ?? null;
+  const fallback = voices.find((v) => v.lang === "en-US") ?? voices.find((v) => v.lang.startsWith("en")) ?? null;
+  _cachedVoice = fallback;
+  return fallback;
 }
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
@@ -2431,12 +2438,20 @@ export default function AidAgentPage() {
   useEffect(() => {
     const el = scrollContainerRef.current;
     if (!el) return;
+    let rafId = 0;
     const onScroll = () => {
-      const distFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
-      userScrolledUpRef.current = distFromBottom > 80;
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        const distFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+        userScrolledUpRef.current = distFromBottom > 80;
+        rafId = 0;
+      });
     };
     el.addEventListener("scroll", onScroll, { passive: true });
-    return () => el.removeEventListener("scroll", onScroll);
+    return () => {
+      el.removeEventListener("scroll", onScroll);
+      if (rafId) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   useEffect(() => {

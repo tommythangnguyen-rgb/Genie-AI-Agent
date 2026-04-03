@@ -152,10 +152,12 @@
 
 .genie-orb {
   animation: genie-orb-drift var(--orb-dur, 14s) ease-in-out infinite;
+  will-change: transform;
 }
 
 .genie-particle {
   animation: genie-sparkle var(--p-dur, 3s) ease-in-out infinite;
+  will-change: transform, opacity;
 }
 
 /* Kept as no-ops so existing class references don't break */
@@ -225,6 +227,7 @@
   animation:
     genie-bottle-float    3.4s ease-in-out infinite,
     genie-bottle-radiance 2.6s ease-in-out infinite;
+  will-change: transform, filter;
 }
 
 .genie-bottle-container-alive {
@@ -291,6 +294,7 @@
 
 .genie-send-icon {
   animation: genie-send-pulse 2.2s ease-in-out infinite;
+  will-change: transform, filter;
 }
 
 /* ── Shooting stars ──
@@ -317,6 +321,7 @@
 
 /* Shooting star — tail fades left, bright head on right, points toward travel */
 .genie-shooting-star {
+  will-change: transform, opacity;
   position: absolute;
   height: var(--thickness, 1.5px);
   border-radius: 999px;

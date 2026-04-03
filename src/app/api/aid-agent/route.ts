@@ -96,13 +96,35 @@ export async function POST(req: NextRequest) {
     if (low.includes("credit balance") || low.includes("billing") || low.includes("quota") || low.includes("insufficient") || low.includes("payment")) {
       return "Genie is taking a short break — our team is on it! Please try again in a few minutes. If the issue persists, contact the askGenie developer at [x.com/one27__](https://x.com/one27__).";
     }
+    if (low.includes("overloaded") || low.includes("capacity") || low.includes("service unavailable") || low.includes("503")) {
+      return "Genie is a little overwhelmed right now — please wait a moment and try again. If this keeps happening, contact the developer at [x.com/one27__](https://x.com/one27__).";
+    }
     if (low.includes("rate limit") || low.includes("too many requests") || low.includes("429")) {
       return "Genie is a little busy right now — please wait a moment and try again. If this keeps happening, reach out to the developer at [x.com/one27__](https://x.com/one27__).";
     }
     if (low.includes("api key") || low.includes("authentication") || low.includes("unauthorized") || low.includes("403")) {
       return "Genie is temporarily unavailable. Please contact the askGenie developer at [x.com/one27__](https://x.com/one27__) for assistance.";
     }
+    if (low.includes("model") || low.includes("not found") || low.includes("invalid request") || low.includes("400")) {
+      return "Genie encountered a configuration issue. Please contact the askGenie developer at [x.com/one27__](https://x.com/one27__).";
+    }
+    if (low.includes("context") || low.includes("token") || low.includes("length")) {
+      return "Your conversation is getting long — try starting a new chat session for the best results.";
+    }
+    if (low.includes("timeout") || low.includes("timed out") || low.includes("network")) {
+      return "Genie took too long to respond — please try again. If the issue continues, contact the developer at [x.com/one27__](https://x.com/one27__).";
+    }
     return "Something went wrong on our end. Please try again in a moment. If the issue continues, contact the developer at [x.com/one27__](https://x.com/one27__).";
+  }
+
+  // Extract a usable message string from whatever the SDK throws.
+  function extractErrMsg(err: unknown): string {
+    if (typeof err === "string") return err;
+    if (err && typeof err === "object") {
+      const e = err as any;
+      return e.message ?? e.text ?? e.error?.message ?? e.error?.type ?? JSON.stringify(e);
+    }
+    return String(err);
   }
 
   // Use fullStream so API errors (bad key, quota, etc.) appear as error-type
@@ -115,13 +137,13 @@ export async function POST(req: NextRequest) {
           if (part.type === "text-delta") {
             controller.enqueue(encoder.encode(part.text));
           } else if (part.type === "error") {
-            const errMsg = (part.error as any)?.message ?? String(part.error);
+            const errMsg = extractErrMsg(part.error);
             console.error("Aid agent stream error:", errMsg);
             controller.enqueue(encoder.encode(friendlyError(errMsg)));
           }
         }
       } catch (err: any) {
-        const msg = err?.message ?? String(err);
+        const msg = extractErrMsg(err);
         console.error("Aid agent stream exception:", msg);
         controller.enqueue(encoder.encode(friendlyError(msg)));
       } finally {
