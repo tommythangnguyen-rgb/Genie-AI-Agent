@@ -3757,7 +3757,7 @@ export default function AidAgentPage() {
               /* ── Welcome state ── */
               <div className="relative flex flex-col items-center px-6 py-12 genie-fade-in-up overflow-hidden">
 
-                {/* ── Falling stars layer ── */}
+                {/* ── Shooting stars layer ── */}
                 <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
                   {/* Pulsing background orbs */}
                   {[
@@ -3774,36 +3774,41 @@ export default function AidAgentPage() {
                       ["--delay" as any]: o.delay,
                     }} />
                   ))}
-                  {/* Falling stars */}
+
+                  {/* Shooting stars — diagonal streaks with glowing heads */}
                   {[
-                    { w:2,   h:2,   top:"0%",  left:"8%",  dur:"5.5s", delay:"0s"    },
-                    { w:1.5, h:1.5, top:"0%",  left:"22%", dur:"7s",   delay:"1.2s"  },
-                    { w:2.5, h:2.5, top:"0%",  left:"38%", dur:"6.2s", delay:"0.4s"  },
-                    { w:1,   h:1,   top:"0%",  left:"52%", dur:"8.5s", delay:"2.1s"  },
-                    { w:2,   h:2,   top:"0%",  left:"67%", dur:"5.8s", delay:"0.9s"  },
-                    { w:1.5, h:1.5, top:"0%",  left:"80%", dur:"7.3s", delay:"3.4s"  },
-                    { w:3,   h:3,   top:"0%",  left:"91%", dur:"6.8s", delay:"1.7s"  },
-                    { w:1,   h:1,   top:"0%",  left:"15%", dur:"9s",   delay:"4.5s"  },
-                    { w:2,   h:2,   top:"0%",  left:"44%", dur:"6s",   delay:"5s"    },
-                    { w:1.5, h:1.5, top:"0%",  left:"73%", dur:"7.8s", delay:"2.8s"  },
+                    { len:120, thick:2,   top:"8%",  left:"85%", dur:"2.0s", delay:"0s",    tx:"-480px", ty:"320px", angle:"-38deg" },
+                    { len:90,  thick:1.5, top:"5%",  left:"60%", dur:"2.4s", delay:"2.8s",  tx:"-420px", ty:"280px", angle:"-32deg" },
+                    { len:150, thick:2.5, top:"3%",  left:"92%", dur:"1.8s", delay:"5.5s",  tx:"-560px", ty:"370px", angle:"-40deg" },
+                    { len:100, thick:2,   top:"15%", left:"75%", dur:"2.2s", delay:"8.0s",  tx:"-440px", ty:"290px", angle:"-35deg" },
+                    { len:80,  thick:1.5, top:"2%",  left:"45%", dur:"2.6s", delay:"11.0s", tx:"-380px", ty:"250px", angle:"-30deg" },
+                    { len:130, thick:2,   top:"10%", left:"98%", dur:"2.0s", delay:"14.5s", tx:"-500px", ty:"340px", angle:"-42deg" },
+                    { len:110, thick:2,   top:"6%",  left:"70%", dur:"2.3s", delay:"18.0s", tx:"-460px", ty:"310px", angle:"-36deg" },
                   ].map((s, i) => (
-                    <div key={i} className="genie-star" style={{
-                      width: s.w, height: s.h,
+                    <div key={i} className="genie-shooting-star" style={{
+                      width: s.len,
                       top: s.top, left: s.left,
+                      ["--thickness" as any]: `${s.thick}px`,
                       ["--dur" as any]: s.dur,
                       ["--delay" as any]: s.delay,
+                      ["--tx" as any]: s.tx,
+                      ["--ty" as any]: s.ty,
+                      ["--angle" as any]: s.angle,
                     }} />
                   ))}
-                  {/* Static twinkling stars */}
+
+                  {/* Static twinkling pinpoint stars */}
                   {[
-                    { w:2, h:2, top:"12%", left:"5%",  dur:"2.8s", delay:"0s"   },
-                    { w:3, h:3, top:"8%",  left:"30%", dur:"3.5s", delay:"1s"   },
-                    { w:2, h:2, top:"20%", left:"88%", dur:"2.2s", delay:"0.5s" },
-                    { w:3, h:3, top:"55%", left:"93%", dur:"4s",   delay:"2s"   },
-                    { w:2, h:2, top:"75%", left:"4%",  dur:"3s",   delay:"1.5s" },
-                    { w:2, h:2, top:"85%", left:"55%", dur:"2.5s", delay:"0.8s" },
-                    { w:3, h:3, top:"35%", left:"96%", dur:"3.8s", delay:"3s"   },
-                    { w:2, h:2, top:"62%", left:"48%", dur:"2.9s", delay:"0.3s" },
+                    { w:2.5, h:2.5, top:"10%", left:"5%",  dur:"2.8s", delay:"0s"   },
+                    { w:3,   h:3,   top:"6%",  left:"28%", dur:"3.5s", delay:"1s"   },
+                    { w:2,   h:2,   top:"18%", left:"88%", dur:"2.2s", delay:"0.5s" },
+                    { w:3,   h:3,   top:"52%", left:"94%", dur:"4s",   delay:"2s"   },
+                    { w:2.5, h:2.5, top:"72%", left:"3%",  dur:"3s",   delay:"1.5s" },
+                    { w:2,   h:2,   top:"82%", left:"52%", dur:"2.5s", delay:"0.8s" },
+                    { w:3,   h:3,   top:"33%", left:"97%", dur:"3.8s", delay:"3s"   },
+                    { w:2,   h:2,   top:"60%", left:"46%", dur:"2.9s", delay:"0.3s" },
+                    { w:2.5, h:2.5, top:"25%", left:"15%", dur:"4.2s", delay:"2.4s" },
+                    { w:2,   h:2,   top:"45%", left:"78%", dur:"3.1s", delay:"1.8s" },
                   ].map((s, i) => (
                     <div key={`tw-${i}`} className="genie-star-twinkle" style={{
                       width: s.w, height: s.h,
