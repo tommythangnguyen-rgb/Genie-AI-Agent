@@ -3264,12 +3264,10 @@ export default function AidAgentPage() {
 
   const resetLeftTimer = () => {
     if (leftPanelTimerRef.current) clearTimeout(leftPanelTimerRef.current);
-    leftPanelTimerRef.current = setTimeout(() => setShowMobileLeft(false), 3000);
   };
 
   const resetRightTimer = () => {
     if (rightPanelTimerRef.current) clearTimeout(rightPanelTimerRef.current);
-    rightPanelTimerRef.current = setTimeout(() => setShowMobileRight(false), 3000);
   };
 
   const triggerOrbGold = () => {
@@ -4104,7 +4102,7 @@ export default function AidAgentPage() {
       {(showMobileLeft || showMobileRight) && (
         <div
           className="fixed inset-0 z-[55] bg-black/70"
-          onClick={() => { setShowMobileLeft(false); setShowMobileRight(false); }}
+          onClick={() => {}}
         />
       )}
 
@@ -4152,7 +4150,7 @@ export default function AidAgentPage() {
                   {(() => {
                     const r = QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Students");
                     return r ? [...r.items, ...r.more].map(({ icon: Icon, label, description, q }) => (
-                      <button key={label} onClick={() => { sendMessage(q); setShowMobileLeft(false); }}
+                      <button key={label} onClick={() => sendMessage(q)}
                         className="w-full flex items-start gap-2 px-2.5 py-2.5 rounded-xl text-left group hover:bg-cyan-500/[0.10] ring-1 ring-transparent hover:ring-cyan-500/[0.18] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400">
                         <div className="mt-0.5 p-1.5 rounded-lg bg-[#1E2A4A] group-hover:bg-cyan-500/[0.20] transition-colors shrink-0">
                           <Icon className="h-3.5 w-3.5 text-[#94A3B8] group-hover:text-[#00E5C0] transition-colors" />
@@ -4176,7 +4174,7 @@ export default function AidAgentPage() {
                   {(() => {
                     const r = QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Parents");
                     return r ? [...r.items, ...r.more].map(({ icon: Icon, label, description, q }) => (
-                      <button key={label} onClick={() => { sendMessage(q); setShowMobileLeft(false); }}
+                      <button key={label} onClick={() => sendMessage(q)}
                         className="w-full flex items-start gap-2 px-2.5 py-2.5 rounded-xl text-left group hover:bg-blue-500/[0.10] ring-1 ring-transparent hover:ring-blue-500/[0.18] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
                         <div className="mt-0.5 p-1.5 rounded-lg bg-[#1E2A4A] group-hover:bg-blue-500/[0.20] transition-colors shrink-0">
                           <Icon className="h-3.5 w-3.5 text-[#94A3B8] group-hover:text-blue-300 transition-colors" />
@@ -5168,7 +5166,7 @@ export default function AidAgentPage() {
                   {(() => {
                     const r = QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Administrators");
                     return r ? [...r.items, ...r.more].map(({ icon: Icon, label, description, q }) => (
-                      <button key={label} onClick={() => { sendMessage(q); setShowMobileRight(false); }}
+                      <button key={label} onClick={() => sendMessage(q)}
                         className="w-full flex items-start gap-2 px-2.5 py-2.5 rounded-xl text-left group hover:bg-emerald-500/[0.10] ring-1 ring-transparent hover:ring-emerald-500/[0.18] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400">
                         <div className="mt-0.5 p-1.5 rounded-lg bg-[#1E2A4A] group-hover:bg-emerald-500/[0.20] transition-colors shrink-0">
                           <Icon className="h-3.5 w-3.5 text-[#94A3B8] group-hover:text-emerald-300 transition-colors" />
@@ -5192,7 +5190,7 @@ export default function AidAgentPage() {
                   {(() => {
                     const r = QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Leaders");
                     return r ? [...r.items, ...r.more].map(({ icon: Icon, label, description, q }) => (
-                      <button key={label} onClick={() => { sendMessage(q); setShowMobileRight(false); }}
+                      <button key={label} onClick={() => sendMessage(q)}
                         className="w-full flex items-start gap-2 px-2.5 py-2.5 rounded-xl text-left group hover:bg-violet-500/[0.10] ring-1 ring-transparent hover:ring-violet-500/[0.18] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400">
                         <div className="mt-0.5 p-1.5 rounded-lg bg-[#1E2A4A] group-hover:bg-violet-500/[0.20] transition-colors shrink-0">
                           <Icon className="h-3.5 w-3.5 text-[#94A3B8] group-hover:text-violet-300 transition-colors" />
@@ -5216,7 +5214,7 @@ export default function AidAgentPage() {
                   {(() => {
                     const r = QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Auditors");
                     return r ? [...r.items, ...r.more].map(({ icon: Icon, label, description, q }) => (
-                      <button key={label} onClick={() => { sendMessage(q); setShowMobileRight(false); }}
+                      <button key={label} onClick={() => sendMessage(q)}
                         className="w-full flex items-start gap-2 px-2.5 py-2.5 rounded-xl text-left group hover:bg-rose-500/[0.10] ring-1 ring-transparent hover:ring-rose-500/[0.18] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400">
                         <div className="mt-0.5 p-1.5 rounded-lg bg-[#1E2A4A] group-hover:bg-rose-500/[0.20] transition-colors shrink-0">
                           <Icon className="h-3.5 w-3.5 text-[#94A3B8] group-hover:text-rose-300 transition-colors" />
