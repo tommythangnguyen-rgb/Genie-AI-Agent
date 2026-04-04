@@ -18,6 +18,7 @@ import {
   Receipt,
   Sparkles,
   ChevronRight,
+  ChevronLeft,
   Landmark,
   ClipboardList,
   ShieldCheck,
@@ -227,7 +228,7 @@ const QUICK_ACTIONS_BY_ROLE = [
       { icon: Landmark, label: "GI Bill & Military Benefits", description: "Chapter 33, 30, and BAH", q: "Explain the GI Bill education benefits — what's covered under Chapter 33 (Post-9/11), how does the housing allowance work, and can I stack it with other financial aid?" },
       { icon: Scale, label: "Emergency Aid Funds", description: "HEERF, institutional, and state", q: "My car broke down and I can't pay rent this month. What emergency aid funds are available to me — institutional emergency grants, state programs, or federal options?" },
       { icon: BookOpen, label: "Study Abroad Financing", description: "Aid eligibility and budgeting", q: "I want to study abroad for a semester. Can I use my financial aid for that, and if so, how much? What additional scholarships or funding exist specifically for study abroad?" },
-      { icon: Receipt, label: "529 Plan & FAFSA", description: "Impact on financial aid formula", q: "How does a 529 college savings account affect my FAFSA? Does it reduce my financial aid, and whose 529 counts — mine, my parents', or a grandparent's?" },
+      { icon: Receipt, label: "529 Plan & FAFSA", description: "Impact on student aid formula", q: "How does a 529 college savings account affect my FAFSA? Does it reduce my financial aid, and whose 529 counts — mine, my parents', or a grandparent's?" },
       { icon: FileText, label: "Deferment vs. Forbearance", description: "Options during hardship", q: "What's the difference between deferment and forbearance? Which is better for my situation, does interest accrue during each, and how do I apply?" },
       { icon: Users, label: "Independent Student Status", description: "Criteria under FAFSA Simplification", q: "What makes a student independent for FAFSA purposes, and what changed under FAFSA Simplification? Can I appeal my dependency status if my parents won't help pay?" },
       { icon: Award, label: "State Grant Programs", description: "By state of residence", q: "What state grant and scholarship programs are available for students in my state? I'm a resident of California — what state aid can I receive beyond federal Pell?" },
@@ -1687,7 +1688,7 @@ const CONSUMER_RIGHTS: MaybeSubcat[] = [
   { name: "BBB — Better Business Bureau", url: "https://www.bbb.org" },
   { name: "USA.gov — File a Consumer Complaint", url: "https://www.usa.gov/consumer-complaints" },
   { name: "State Attorney General — Consumer Protection", url: "https://www.naag.org/find-my-ag" },
-  { subcat: "Financial Aid Disputes" },
+  { subcat: "Student Aid Disputes" },
   { name: "CFPB Student Loan Complaint Portal", url: "https://www.consumerfinance.gov/complaint" },
   { name: "ED Feedback System — Ombudsman", url: "https://studentaid.gov/feedback-center" },
   { name: "FSA Ombudsman (Student Loan Disputes)", url: "https://studentaid.gov/feedback-center" },
@@ -1987,6 +1988,293 @@ const FINANCIAL_LITERACY_MORE: MaybeSubcat[] = [
   { name: "Nolo — Student Legal Rights", url: "https://www.nolo.com/legal-encyclopedia/student-financial-aid" },
 ];
 
+// ─── US Military Resources ────────────────────────────────────────────────────
+
+const MILITARY_RESOURCES: MaybeSubcat[] = [
+  { subcat: "Official Portals & Gateways" },
+  { name: "Defense.gov — Official DoD Website", url: "https://www.defense.gov" },
+  { name: "Military.com — Benefits, Pay & News", url: "https://www.military.com" },
+  { name: "MilConnect — Benefits & Records Portal", url: "https://milconnect.dmdc.osd.mil" },
+  { name: "MyPay — DFAS Pay Management", url: "https://mypay.dfas.mil" },
+  { name: "USA.gov — Military & Veterans Hub", url: "https://www.usa.gov/military" },
+  { name: "Military HUB — Benefits Explorer", url: "https://www.military.com/benefits" },
+  { subcat: "Service Branch Websites" },
+  { name: "U.S. Army — Army.mil", url: "https://www.army.mil" },
+  { name: "U.S. Navy — Navy.mil", url: "https://www.navy.mil" },
+  { name: "U.S. Marine Corps — Marines.mil", url: "https://www.marines.mil" },
+  { name: "U.S. Air Force — AirForce.mil", url: "https://www.airforce.mil" },
+  { name: "U.S. Space Force — SpaceForce.mil", url: "https://www.spaceforce.mil" },
+  { name: "U.S. Coast Guard — GoCoastGuard.com", url: "https://www.gocoastguard.com" },
+  { name: "National Guard — NationalGuard.mil", url: "https://www.nationalguard.mil" },
+  { name: "Army Reserve — usar.army.mil", url: "https://www.usar.army.mil" },
+  { name: "Navy Reserve — navyreserve.navy.mil", url: "https://www.navyreserve.navy.mil" },
+  { name: "Air Force Reserve Command", url: "https://www.afrc.af.mil" },
+  { name: "Marine Forces Reserve", url: "https://www.marforres.marines.mil" },
+  { name: "Coast Guard Reserve", url: "https://www.reserve.uscg.mil" },
+  { subcat: "Pay, Finance & Retirement" },
+  { name: "DFAS — Defense Finance & Accounting Service", url: "https://www.dfas.mil" },
+  { name: "Military Pay Charts — DoD", url: "https://militarypay.defense.gov/Pay/Military-Pay-Charts/" },
+  { name: "BAH Calculator — Housing Allowance Rates", url: "https://www.defensetravel.dod.mil/site/bahCalc.cfm" },
+  { name: "Thrift Savings Plan (TSP)", url: "https://www.tsp.gov" },
+  { name: "Blended Retirement System (BRS)", url: "https://militarypay.defense.gov/BlendedRetirement/" },
+  { name: "SCRA — Servicemembers Civil Relief Act", url: "https://www.justice.gov/servicemembers/servicemembers-civil-relief-act-scra" },
+  { name: "SCRA Benefits Lookup — DMDC", url: "https://scra.dmdc.osd.mil" },
+  { name: "MyArmyBenefits — Benefits Calculator", url: "https://www.myarmybenefits.us.army.mil" },
+  { subcat: "Education & Training Benefits" },
+  { name: "GI Bill Benefits — VA Education", url: "https://www.va.gov/education/gi-bill-benefits" },
+  { name: "GoArmyEd — Army Tuition Assistance Portal", url: "https://www.goarmyed.com" },
+  { name: "Air Force Virtual Education Center (AFVEC)", url: "https://afvec.us.af.mil" },
+  { name: "Navy College Program — Tuition Assistance", url: "https://www.navycollege.navy.mil" },
+  { name: "MyCAA — Military Spouse Education Benefits", url: "https://mycaa.militaryonesource.mil" },
+  { name: "DANTES — Testing & Certifications", url: "https://www.dantes.mil" },
+  { name: "Joint Services Transcript (JST)", url: "https://jst.doded.mil" },
+  { name: "COOL — Army Credentialing Opportunities", url: "https://www.cool.osd.mil/army" },
+  { name: "COOL — Navy Credentialing Opportunities", url: "https://www.cool.osd.mil/navy" },
+  { name: "COOL — Air Force Credentialing Opportunities", url: "https://www.cool.osd.mil/airforce" },
+  { name: "SOC — Servicemembers Opportunity Colleges", url: "https://www.soc.aascu.org" },
+  { name: "Troops to Teachers Program", url: "https://www.troopstoteachers.net" },
+  { name: "TA Decide — Tuition Assistance Comparison", url: "https://www.ta-decide.org" },
+  { name: "CollegeRecon — Military-Friendly Colleges", url: "https://www.collegerecon.com" },
+  { subcat: "Health Care — TRICARE & MHS" },
+  { name: "TRICARE — Military Health Program", url: "https://www.tricare.mil" },
+  { name: "Military Health System (MHS)", url: "https://www.health.mil" },
+  { name: "Defense Health Agency (DHA)", url: "https://www.health.mil/About-MHS/Defense-Health-Agency" },
+  { name: "TRICARE Find a Doctor", url: "https://www.tricare.mil/FindDoctor" },
+  { name: "TRICARE Pharmacy Benefit", url: "https://www.tricare.mil/CoveredServices/Pharmacy" },
+  { name: "EFMP — Exceptional Family Member Program", url: "https://www.militaryonesource.mil/efmp" },
+  { name: "MHS GENESIS — Military Patient Portal", url: "https://mhsgenesis.health.mil" },
+  { subcat: "Mental Health & Crisis Resources" },
+  { name: "Veterans Crisis Line — Call 988, Press 1", url: "https://www.veteranscrisisline.net" },
+  { name: "Real Warriors — Combat Stress Resources", url: "https://www.realwarriors.net" },
+  { name: "Military OneSource — Confidential Counseling", url: "https://www.militaryonesource.mil/confidential-help" },
+  { name: "PsychArmor — Military Mental Health Training", url: "https://psycharmor.org" },
+  { name: "Give an Hour — Free Mental Health Care", url: "https://giveanhour.org" },
+  { name: "Mission 22 — Veteran Suicide Prevention", url: "https://mission22.com" },
+  { subcat: "Family & Community Support" },
+  { name: "Military OneSource — Family Support Hub", url: "https://www.militaryonesource.mil" },
+  { name: "Military Family Life Counseling (MFLC)", url: "https://www.militaryonesource.mil/confidential-help/non-medical-counseling/military-family-life-counseling" },
+  { name: "DoDEA — Dependent School System", url: "https://www.dodea.edu" },
+  { name: "School Liaison Program — DoD", url: "https://www.dodea.edu/Partnership/schoolLiaison.cfm" },
+  { name: "Child Care Aware — Military Families", url: "https://www.childcareaware.org/military" },
+  { name: "National Military Family Association", url: "https://www.militaryfamily.org" },
+  { name: "Blue Star Families", url: "https://bluestarfam.org" },
+  { name: "ACS — Army Community Service", url: "https://www.armymwr.com/programs-and-services/personal-assistance/army-community-service" },
+  { name: "Fleet & Family Support Centers — Navy", url: "https://www.cnic.navy.mil/ffr/family_readiness" },
+  { name: "Military Impacted Schools Association", url: "https://militaryimpactedschoolsassociation.org" },
+  { subcat: "Housing & Military Finance" },
+  { name: "BAH Rates — Defense Travel Management", url: "https://www.defensetravel.dod.mil/site/bah.cfm" },
+  { name: "VA Home Loan Guaranty — Active Duty", url: "https://www.va.gov/housing-assistance/home-loans" },
+  { name: "USAA — Military Financial Services", url: "https://www.usaa.com" },
+  { name: "Navy Federal Credit Union", url: "https://www.navyfederal.org" },
+  { name: "Pentagon Federal Credit Union (PenFed)", url: "https://www.penfed.org" },
+  { name: "Armed Forces Bank", url: "https://www.afbank.com" },
+  { subcat: "Transition & Employment" },
+  { name: "Transition Assistance Program (TAP)", url: "https://www.tapevents.mil" },
+  { name: "SkillBridge — DoD Industry Apprenticeships", url: "https://skillbridge.osd.mil" },
+  { name: "Hiring Our Heroes", url: "https://www.hiringourheroes.org" },
+  { name: "Hire Heroes USA", url: "https://www.hireheroesusa.org" },
+  { name: "USAJobs — Federal Government Careers", url: "https://www.usajobs.gov" },
+  { name: "RecruitMilitary — Veteran Job Fairs", url: "https://recruitmilitary.com" },
+  { name: "American Corporate Partners (ACP) Mentoring", url: "https://www.acp-usa.org" },
+  { name: "Helmets to Hardhats — Construction Careers", url: "https://helmetstohardhats.org" },
+  { name: "O*NET Military Occupational Crosswalk", url: "https://www.onetonline.org/crosswalk/MOC" },
+  { name: "SBA — Boots to Business Entrepreneurship", url: "https://sbavets.force.com/s" },
+  { subcat: "Legal Assistance" },
+  { name: "JAG Legal Assistance Office Locator", url: "https://legalassistance.law.af.mil" },
+  { name: "SCRA Benefits Certification — DMDC", url: "https://scra.dmdc.osd.mil" },
+  { name: "National Veterans Legal Services Program", url: "https://www.nvlsp.org" },
+  { name: "State Approving Agencies — GI Bill Oversight", url: "https://www.nasaa-vetseducation.com" },
+  { name: "Military Legal Resources — Military.com", url: "https://www.military.com/benefits/legal-matters" },
+  { subcat: "Survivor & Casualty Benefits" },
+  { name: "Survivor Benefit Plan (SBP) — DFAS", url: "https://www.dfas.mil/Retired-Military/manage/allotments/sbp" },
+  { name: "Tragedy Assistance Program (TAPS)", url: "https://www.taps.org" },
+  { name: "National Military Family Association — Survivors", url: "https://www.militaryfamily.org" },
+  { name: "Death Gratuity & Survivor Benefits Guide", url: "https://www.military.com/benefits/survivor-benefits" },
+  { subcat: "Military Organizations & Advocacy" },
+  { name: "MOAA — Military Officers Association of America", url: "https://www.moaa.org" },
+  { name: "NGAUS — National Guard Association", url: "https://www.ngaus.org" },
+  { name: "Reserve Officers Association (ROA)", url: "https://www.roa.org" },
+  { name: "Air Force Association (AFA)", url: "https://www.afa.org" },
+  { name: "Association of the U.S. Army (AUSA)", url: "https://www.ausa.org" },
+  { name: "Fleet Reserve Association (FRA)", url: "https://www.fra.org" },
+  { name: "American Legion — Active Duty Resources", url: "https://www.legion.org" },
+  { subcat: "Records & Identity" },
+  { name: "DEERS — Benefits Enrollment & ID Cards", url: "https://www.dmdc.osd.mil/appj/dwp/index.faces" },
+  { name: "milConnect — Official Records Portal", url: "https://milconnect.dmdc.osd.mil" },
+  { name: "National Personnel Records Center (NPRC)", url: "https://www.archives.gov/veterans" },
+  { name: "Request DD-214 — Archives.gov", url: "https://www.archives.gov/veterans/military-service-records" },
+];
+
+// ─── VA Resources ─────────────────────────────────────────────────────────────
+
+const VA_RESOURCES: MaybeSubcat[] = [
+  { subcat: "VA Main Portals & Tools" },
+  { name: "VA.gov — Main Veterans Portal", url: "https://www.va.gov" },
+  { name: "VA Benefits Overview", url: "https://www.va.gov/benefits" },
+  { name: "MyHealtheVet — VA Health Portal", url: "https://www.myhealth.va.gov" },
+  { name: "eBenefits — Benefits Management Portal", url: "https://www.ebenefits.va.gov" },
+  { name: "ID.me for VA Login & Verification", url: "https://www.id.me" },
+  { name: "VA.gov — Sign In & Manage Benefits", url: "https://www.va.gov/sign-in" },
+  { subcat: "Disability Compensation" },
+  { name: "VA Disability Compensation Overview", url: "https://www.va.gov/disability" },
+  { name: "How to File a VA Disability Claim", url: "https://www.va.gov/disability/how-to-file-claim" },
+  { name: "VA Disability Rating System", url: "https://www.va.gov/disability/about-disability-ratings" },
+  { name: "Combined Ratings Table", url: "https://www.va.gov/disability/about-disability-ratings/combined-ratings-table" },
+  { name: "PACT Act — Toxic Exposure Benefits", url: "https://www.va.gov/resources/the-pact-act-and-your-va-benefits" },
+  { name: "Burn Pit & Airborne Hazards Registry", url: "https://www.va.gov/disability/eligibility/hazardous-materials-exposure/airborne-hazards-open-air-burn-pits" },
+  { name: "Agent Orange Benefits — VA", url: "https://www.va.gov/disability/eligibility/hazardous-materials-exposure/agent-orange" },
+  { name: "Military Sexual Trauma (MST) — VA", url: "https://www.mentalhealth.va.gov/mstemplate.asp" },
+  { name: "Presumptive Service Connection — VA", url: "https://www.va.gov/disability/eligibility/hazardous-materials-exposure" },
+  { subcat: "VA Health Care" },
+  { name: "VA Health Care Eligibility", url: "https://www.va.gov/health-care/eligibility" },
+  { name: "Apply for VA Health Care", url: "https://www.va.gov/health-care/apply/application/introduction" },
+  { name: "VA Community Care — Outside VA Network", url: "https://www.va.gov/communitycare" },
+  { name: "CHAMPVA — Dependent Health Coverage", url: "https://www.va.gov/health-care/family-caregiver-benefits/champva" },
+  { name: "VA Pharmacy & Prescription Refills", url: "https://www.va.gov/health-care/refill-track-prescriptions" },
+  { name: "VA Telehealth Services", url: "https://telehealth.va.gov" },
+  { name: "VA Caregiver Support Program", url: "https://www.caregiver.va.gov" },
+  { name: "Program of Comprehensive Caregiver Assistance", url: "https://www.caregiver.va.gov/Care_Caregivers.asp" },
+  { name: "VA Prosthetics & Sensory Aids", url: "https://www.prosthetics.va.gov" },
+  { subcat: "Mental Health" },
+  { name: "Veterans Crisis Line — 988, Press 1", url: "https://www.veteranscrisisline.net" },
+  { name: "VA Mental Health Services Overview", url: "https://www.va.gov/health-care/health-needs-conditions/mental-health" },
+  { name: "PTSD National Center for Veterans", url: "https://www.ptsd.va.gov" },
+  { name: "VA Suicide Prevention Program", url: "https://www.mentalhealth.va.gov/suicide_prevention" },
+  { name: "Make the Connection — VA Mental Health", url: "https://maketheconnection.net" },
+  { name: "VA Substance Use Disorder Treatment", url: "https://www.va.gov/health-care/health-needs-conditions/mental-health/substance-use-problems" },
+  { name: "VA Whole Health Program", url: "https://www.va.gov/wholehealth" },
+  { name: "VA Adaptive Sports Program", url: "https://www.va.gov/adaptive-sports" },
+  { subcat: "Education & GI Bill" },
+  { name: "GI Bill Benefits — VA Education", url: "https://www.va.gov/education/gi-bill-benefits" },
+  { name: "Post-9/11 GI Bill (Chapter 33)", url: "https://www.va.gov/education/about-gi-bill-benefits/post-9-11" },
+  { name: "Montgomery GI Bill — Active Duty (Ch. 30)", url: "https://www.va.gov/education/about-gi-bill-benefits/montgomery-active-duty" },
+  { name: "GI Bill Comparison Tool", url: "https://www.va.gov/gi-bill-comparison-tool" },
+  { name: "Yellow Ribbon Program", url: "https://www.va.gov/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program" },
+  { name: "Transfer of Entitlement — Dependents GI Bill", url: "https://www.va.gov/education/transfer-post-9-11-gi-bill-to-dependents" },
+  { name: "Fry Scholarship — Gold Star Family Education", url: "https://www.va.gov/education/survivor-dependent-benefits/fry-scholarship" },
+  { name: "VA Education Work-Study Program", url: "https://www.va.gov/education/work-learn/workstudy" },
+  { name: "WEAMS — VA Approved School Search", url: "https://inquiry.vba.va.gov/weamspub/buildSearchInstitutionCriteria.do" },
+  { subcat: "Vocational Rehabilitation & Employment" },
+  { name: "VA Vocational Rehabilitation & Employment (VR&E)", url: "https://www.va.gov/careers-employment/vocational-rehabilitation" },
+  { name: "VA for Vets — Federal Employment", url: "https://vaforvets.va.gov" },
+  { name: "Hire Vets Medallion — DOL Program", url: "https://www.hirevets.gov" },
+  { name: "Veterans' Preference — Federal Jobs", url: "https://www.fedshirevets.gov" },
+  { name: "American Job Centers — Veteran Services", url: "https://www.careeronestop.org/Veterans/default.aspx" },
+  { name: "SkillBridge — Industry Training (DoD)", url: "https://skillbridge.osd.mil" },
+  { name: "O*NET Military Crosswalk", url: "https://www.onetonline.org/crosswalk/MOC" },
+  { subcat: "Housing & Home Loans" },
+  { name: "VA Home Loan Guaranty Program", url: "https://www.va.gov/housing-assistance/home-loans" },
+  { name: "VA Loan Certificate of Eligibility (COE)", url: "https://www.va.gov/housing-assistance/home-loans/how-to-apply" },
+  { name: "VA Home Loan Funding Fee Info", url: "https://www.va.gov/housing-assistance/home-loans/funding-fee-and-closing-costs" },
+  { name: "VA Specially Adapted Housing (SAH)", url: "https://www.va.gov/housing-assistance/adaptive-sports-and-special-home-adaptations" },
+  { name: "HUD-VASH — Homeless Veteran Housing", url: "https://www.va.gov/homeless/hud-vash.asp" },
+  { name: "VA Homeless Veterans Programs", url: "https://www.va.gov/homeless" },
+  { subcat: "Pension & Financial Assistance" },
+  { name: "VA Pension Benefits", url: "https://www.va.gov/pension" },
+  { name: "VA Aid & Attendance (A&A) Pension", url: "https://www.va.gov/pension/aid-attendance-housebound" },
+  { name: "VA Survivors Pension", url: "https://www.va.gov/pension/survivors-pension" },
+  { name: "VA Financial Hardship Assistance", url: "https://www.va.gov/health-care/pay-copay-debt/financial-hardship" },
+  { name: "National Veterans Foundation Helpline", url: "https://nvf.org" },
+  { subcat: "Survivor & Dependent Benefits" },
+  { name: "VA Dependency & Indemnity Compensation (DIC)", url: "https://www.va.gov/disability/dependency-indemnity-compensation" },
+  { name: "CHAMPVA — Spouse & Dependent Health", url: "https://www.va.gov/health-care/family-caregiver-benefits/champva" },
+  { name: "VA Burial Benefits & National Cemeteries", url: "https://www.va.gov/burials-memorials" },
+  { name: "National Cemetery Administration", url: "https://www.cem.va.gov" },
+  { name: "Pre-Need Burial Eligibility — VA", url: "https://www.va.gov/burials-memorials/pre-need-eligibility" },
+  { subcat: "Life Insurance" },
+  { name: "Servicemembers Group Life Insurance (SGLI)", url: "https://www.va.gov/life-insurance/options-eligibility/sgli" },
+  { name: "Veterans Group Life Insurance (VGLI)", url: "https://www.va.gov/life-insurance/options-eligibility/vgli" },
+  { name: "Family SGLI (FSGLI) Coverage", url: "https://www.va.gov/life-insurance/options-eligibility/fsgli" },
+  { name: "Traumatic Injury Protection (TSGLI)", url: "https://www.va.gov/life-insurance/options-eligibility/tsgli" },
+  { name: "VA Life Insurance Overview", url: "https://www.va.gov/life-insurance" },
+  { subcat: "Appeals & Decision Reviews" },
+  { name: "VA Appeals Process Overview", url: "https://www.va.gov/decision-reviews" },
+  { name: "Supplemental Claim", url: "https://www.va.gov/decision-reviews/supplemental-claim" },
+  { name: "Higher-Level Review", url: "https://www.va.gov/decision-reviews/higher-level-review" },
+  { name: "Board Appeal — Notice of Disagreement", url: "https://www.va.gov/decision-reviews/board-appeal" },
+  { name: "Board of Veterans Appeals (BVA)", url: "https://www.bva.va.gov" },
+  { name: "Veterans Benefits Administration (VBA)", url: "https://www.benefits.va.gov/benefits" },
+  { name: "Court of Appeals for Veterans Claims (CAVC)", url: "https://www.uscourts.cavc.gov" },
+  { subcat: "Veterans Service Organizations (VSOs)" },
+  { name: "DAV — Disabled American Veterans", url: "https://www.dav.org" },
+  { name: "American Legion", url: "https://www.legion.org" },
+  { name: "VFW — Veterans of Foreign Wars", url: "https://www.vfw.org" },
+  { name: "Paralyzed Veterans of America (PVA)", url: "https://pva.org" },
+  { name: "AMVETS", url: "https://amvets.org" },
+  { name: "Iraq and Afghanistan Veterans (IAVA)", url: "https://iava.org" },
+  { name: "Team Red White & Blue (RWB)", url: "https://www.teamrwb.org" },
+  { name: "Student Veterans of America (SVA)", url: "https://studentveterans.org" },
+  { name: "Military Order of the Purple Heart", url: "https://www.purpleheart.org" },
+  { subcat: "Special Veteran Programs" },
+  { name: "Women Veterans — VA Programs", url: "https://www.womenshealth.va.gov" },
+  { name: "VA Center for Minority Veterans", url: "https://www.va.gov/centerforminorityveterans" },
+  { name: "VA Rural Health Programs", url: "https://www.ruralhealth.va.gov" },
+  { name: "LGBTQ+ Veterans — VA Care", url: "https://www.va.gov/health-care/health-needs-conditions/lgbtq-veteran-care" },
+  { name: "VA Fiduciary Program", url: "https://www.va.gov/fiduciary" },
+  { name: "VA Research — National Veteran Studies", url: "https://www.research.va.gov" },
+];
+
+// ─── Volunteer & Community Service ────────────────────────────────────────────
+
+const VOLUNTEER_RESOURCES: MaybeSubcat[] = [
+  { subcat: "National Platforms" },
+  { name: "VolunteerMatch — Find Local Opportunities", url: "https://www.volunteermatch.org" },
+  { name: "Idealist — Volunteer & Nonprofit Jobs", url: "https://www.idealist.org" },
+  { name: "All for Good — Volunteer Search", url: "https://www.allforgood.org" },
+  { name: "JustServe — Community Service Platform", url: "https://www.justserve.org" },
+  { name: "Points of Light — Civic Engagement Hub", url: "https://www.pointsoflight.org" },
+  { name: "AmeriCorps — National Service Programs", url: "https://www.americorps.gov" },
+  { name: "AmeriCorps VISTA — Anti-Poverty Service", url: "https://americorps.gov/serve/americorps/americorps-vista" },
+  { name: "AmeriCorps NCCC — Team-Based Service", url: "https://americorps.gov/serve/americorps/americorps-nccc" },
+  { name: "SeniorCorps — Volunteer Programs 55+", url: "https://americorps.gov/serve/senior-corps" },
+  { name: "Peace Corps — International Service", url: "https://www.peacecorps.gov" },
+  { subcat: "Student & Campus Service" },
+  { name: "Campus Compact — Civic Engagement Network", url: "https://compact.org" },
+  { name: "Break Away — Alternative Spring Break", url: "https://www.alternativebreaks.org" },
+  { name: "Habitat for Humanity — Campus Chapters", url: "https://www.habitat.org/volunteer/near-you/campus-chapters-and-clubs" },
+  { name: "Do Something — Youth Activism & Service", url: "https://www.dosomething.org" },
+  { name: "Youth Service America — Service-Learning", url: "https://ysa.org" },
+  { name: "National Youth Leadership Council (NYLC)", url: "https://www.nylc.org" },
+  { name: "Key Club International (HS/College)", url: "https://www.keyclub.org" },
+  { name: "Circle K International — College Service", url: "https://www.circlek.org" },
+  { subcat: "Disaster Relief & Emergency" },
+  { name: "Red Cross — Disaster Relief Volunteering", url: "https://www.redcross.org/volunteer" },
+  { name: "FEMA Voluntary Agency Liaisons", url: "https://www.fema.gov/voluntary-agency-liaisons" },
+  { name: "National VOAD — Disaster Organizations", url: "https://www.nvoad.org" },
+  { name: "Team Rubicon — Veteran-Led Disaster Relief", url: "https://teamrubiconusa.org/volunteer" },
+  { name: "Direct Relief — Humanitarian Aid", url: "https://www.directrelief.org/volunteer" },
+  { subcat: "Food & Housing Security" },
+  { name: "Feeding America — Food Bank Network", url: "https://www.feedingamerica.org/take-action/volunteer" },
+  { name: "Food Bank Council — Find Local Food Banks", url: "https://www.feedingamerica.org/find-your-local-foodbank" },
+  { name: "Meals on Wheels — Senior Nutrition", url: "https://www.mealsonwheelsamerica.org/volunteer" },
+  { name: "Habitat for Humanity — Home Building", url: "https://www.habitat.org/volunteer" },
+  { name: "National Alliance to End Homelessness", url: "https://endhomelessness.org" },
+  { subcat: "Environment & Conservation" },
+  { name: "Sierra Club — Environmental Volunteering", url: "https://www.sierraclub.org/volunteer" },
+  { name: "National Park Service — Volunteers-in-Parks", url: "https://www.nps.gov/getinvolved/volunteer.htm" },
+  { name: "Conservation Volunteers International", url: "https://www.conservationvip.org" },
+  { name: "Ocean Conservancy — Beach Cleanups", url: "https://oceanconservancy.org/trash-free-seas/international-coastal-cleanup" },
+  { name: "Trees for the Future — Agroforestry", url: "https://trees.org/volunteer" },
+  { subcat: "Education & Mentoring" },
+  { name: "America Reads & Counts — Literacy Tutoring", url: "https://www2.ed.gov/inits/americareads" },
+  { name: "MENTOR — National Mentoring Partnership", url: "https://www.mentoring.org/get-involved/volunteer" },
+  { name: "Reading Partners — K–12 Literacy", url: "https://readingpartners.org/volunteer" },
+  { name: "826 National — Student Writing Support", url: "https://826national.org/volunteer" },
+  { name: "Literacy Volunteers of America", url: "https://literacyvolunteers.org" },
+  { subcat: "Health & Wellness" },
+  { name: "Remote Area Medical (RAM) — Free Clinics", url: "https://www.ramusa.org/volunteer" },
+  { name: "Special Olympics — Athlete Support", url: "https://www.specialolympics.org/get-involved/volunteer" },
+  { name: "Crisis Text Line — Counselor Training", url: "https://www.crisistextline.org/volunteer" },
+  { name: "American Cancer Society — Community", url: "https://www.cancer.org/about-us/local/volunteer.html" },
+  { name: "Alzheimer's Association — Support Volunteer", url: "https://www.alz.org/get-involved-now/volunteer" },
+  { subcat: "International & Global Service" },
+  { name: "United Nations Volunteers (UNV)", url: "https://www.unv.org" },
+  { name: "Engineers Without Borders USA", url: "https://www.ewb-usa.org/get-involved/volunteer" },
+  { name: "Doctors Without Borders — Field Support", url: "https://www.doctorswithoutborders.org/get-involved" },
+  { name: "Global Volunteers — Community Development", url: "https://globalvolunteers.org" },
+  { name: "Cross-Cultural Solutions — Cultural Immersion", url: "https://www.crossculturalsolutions.org" },
+];
+
 const ROLE_TIPS = [
   {
     role: "Student",
@@ -2001,6 +2289,10 @@ const ROLE_TIPS = [
       { text: "Understand how withdrawing mid-semester affects your aid and what you may owe back.", prompt: "If I withdraw from school this semester, how will it affect my financial aid and will I owe money back?" },
       { text: "Explore scholarship strategies, income-driven repayment plans, and loan forgiveness programs.", prompt: "What loan forgiveness programs am I eligible for as a student, and how do income-driven repayment plans work?" },
       { text: "Upload any documents and ask me to review, analyze, inform and/or clarify.", prompt: "I'm uploading a document — please review it, analyze the key financial aid information, and clarify anything that may be confusing or important for me to understand." },
+      { text: "Get a personalized educational and career plan built around your goals, major, and life situation.", prompt: "Help me build a personalized educational and career plan. Ask me about my current academic level, major or field of interest, career goals, timeline, financial situation, and anything else that matters. Then create a step-by-step plan covering course selection, certifications, internships, and career milestones." },
+      { text: "Build a professional resume tailored to your experience, education, and target jobs.", prompt: "Help me build a strong, professional resume. Ask me about my education, work experience, skills, extracurriculars, and the types of positions or scholarships I am targeting. Then help me structure it professionally, write compelling bullet points, and tailor it to stand out." },
+      { text: "Brainstorm ideas, outlines, and thesis angles for your next paper, essay, or report.", prompt: "Help me brainstorm for a paper, essay, or report. Ask me about the topic, assignment requirements, and any ideas I already have. Then help me develop a strong thesis, suggest angles I may not have considered, and build an outline I can work from." },
+      { text: "Create a personalized academic calendar to stay on top of deadlines, exams, and goals.", prompt: "Help me create an academic calendar. Ask me about my current courses, assignment deadlines, exam dates, work schedule, and personal commitments. Then build me a structured semester calendar with study blocks, key deadlines, and reminders that keep me on track." },
     ],
   },
   {
@@ -2014,6 +2306,10 @@ const ROLE_TIPS = [
       { text: "Understand how 529 plan balances are reported on the FAFSA and their impact on aid.", prompt: "How does a 529 college savings plan affect my child's financial aid eligibility on the FAFSA?" },
       { text: "Navigate the new divorced/separated parent rules introduced by FAFSA Simplification.", prompt: "How did FAFSA Simplification change the rules for divorced or separated parents, and which parent must file?" },
       { text: "Maximize the American Opportunity Tax Credit (AOTC) to reduce your tax bill.", prompt: "How does the American Opportunity Tax Credit work, who qualifies, and how do I claim it?" },
+      { text: "Share your child's grades, interests, and background so I can build a personalized career and educational plan just for them.", prompt: "I want you to help me build a personalized career and educational plan for my child. Please ask me everything you need — their grades, GPA, report card highlights, interests, hobbies, clubs, sports, subjects they enjoy or struggle with, learning style, personal strengths, any challenges, and any other background details. Then use everything I share to create an estimated career and educational plan tailored specifically to my child." },
+      { text: "Get a detailed educational roadmap for your child from high school through college graduation.", prompt: "Help me create a detailed educational plan for my child starting from high school through college graduation. Include recommended course paths by grade level, extracurricular activities that build college readiness, a FAFSA preparation timeline, college selection criteria, and a year-by-year action plan with milestones." },
+      { text: "Discover which careers may best fit your child based on their strengths, interests, and personality.", prompt: "Based on what I share about my child — grades, interests, strengths, personality, and background — help me identify careers that may be the best fit for them. Explain why each career aligns with their profile and what educational path leads there." },
+      { text: "Develop a step-by-step career plan for your child from today through their first professional role.", prompt: "Help me develop a full career plan for my child. Include short-term goals for high school, mid-term goals for college and internships, and long-term goals for their first job and career advancement. Factor in their interests, academic strengths, and the student aid resources available to help fund the path." },
     ],
   },
   {
@@ -2027,6 +2323,9 @@ const ROLE_TIPS = [
       { text: "Get a complete SAP policy checklist with required components and suggested appeal language.", prompt: "What are all the required components of a Satisfactory Academic Progress policy and what should an appeal process include?" },
       { text: "Prepare for FSA compliance audits and program reviews with common finding patterns.", prompt: "What are the most common FSA audit findings and how should I prepare my office for an ED program review?" },
       { text: "Stay current on regulatory changes — FAFSA Simplification, gainful employment, and legislative updates.", prompt: "Summarize the most important regulatory changes in Title IV financial aid for 2024-25 and 2025-26 that administrators need to know." },
+      { text: "Get clear answers to a specific student aid concern, case scenario, or compliance situation.", prompt: "I have a student aid concern or situation I need help with. Please ask me for all the details — the student's circumstances, type of aid involved, institutional policies, and any relevant background. Then help me determine the appropriate course of action, cite the relevant regulation, and explain my options." },
+      { text: "Build an Excel spreadsheet for student aid tracking, reporting, or analysis.", prompt: "Help me build an Excel-compatible spreadsheet for student aid administration. Ask me what I need it for — R2T4 tracking, SAP monitoring, award reconciliation, disbursement reporting, verification status, or another use case. Then generate a fully structured spreadsheet with column headers, sample formulas, and data rows I can paste directly into Excel." },
+      { text: "Draft a professional email for any student aid or office communication.", prompt: "Help me draft a professional email for my student aid office. Ask me: Who is the recipient — student, parent, Department of Education, accreditor, or colleague? What is the purpose — award notification, appeal decision, compliance notice, meeting request, or policy clarification? Any key details or tone preferences? Then draft a clear, professional email I can use or adapt." },
     ],
   },
   {
@@ -2043,6 +2342,11 @@ const ROLE_TIPS = [
       { text: "Ask me how your institution can be more student centric and better student experience.", prompt: "How can our institution become more student-centric and improve the overall student experience in financial aid services?" },
       { text: "Ask me to clarify an audit finding, or rule/regulation.", prompt: "Please clarify the following audit finding or regulatory requirement for me — explain it in plain language, identify the relevant 34 CFR citation, and describe the corrective steps an institution should take." },
       { text: "Ask me to help you build an AI Excel spreadsheet for financial aid reporting or analysis.", prompt: "Help me build an Excel spreadsheet for financial aid reporting. Generate a fully structured Excel-compatible spreadsheet with formulas, column headers, and sample data. I need it for [describe your use case — e.g., R2T4 tracking, SAP monitoring, award reconciliation, CDR analysis, etc.]." },
+      { text: "Build an Excel spreadsheet for student aid leadership reporting, budgeting, or program analysis.", prompt: "Help me build an Excel spreadsheet for student aid leadership. Ask me what type of report I need — executive dashboard, CDR trend analysis, Pell disbursement tracking, R2T4 returns, SAP evaluation rates, net tuition revenue, or something else. Then generate a complete Excel-compatible spreadsheet with formulas, headers, and sample data." },
+      { text: "Navigate a student aid concern or interpersonal situation in your FA office.", prompt: "I am dealing with a student aid concern or a situation involving my FA office team. Please ask me for the details — what happened, who is involved, what policies apply, and what outcome I am hoping for. Then help me determine the best course of action as a leader, including communication strategies and any regulatory considerations." },
+      { text: "Develop a work environment that drives motivation, efficiency, and productivity in your FA office.", prompt: "Help me develop a work environment in my student aid office that fosters motivation, efficiency, and productivity. Ask me about my current team size, culture challenges, workflow bottlenecks, and goals. Then provide a practical framework with leadership strategies, team-building approaches, and process improvements tailored to a student aid office." },
+      { text: "Draft a professional leadership email for staff, administration, or external stakeholders.", prompt: "Help me draft a professional leadership email. Ask me: Who is the audience — staff, executive team, Department of Education, accreditor, board member, or community partner? What is the message — policy update, performance feedback, compliance notice, strategic initiative, or meeting agenda? Any tone or detail considerations? Then draft a polished email I can send or adapt." },
+      { text: "Get clear guidance on an audit concern, finding, or compliance risk facing your institution.", prompt: "I have an audit concern or compliance risk I need guidance on. Please ask me for the details — the finding or potential issue, the program area involved such as R2T4, verification, SAP, 90/10, or gainful employment, any ED or OIG involvement, and the institutional context. Then help me understand the regulatory basis, the risk level, and the recommended corrective steps." },
     ],
   },
   {
@@ -2056,6 +2360,10 @@ const ROLE_TIPS = [
       { text: "Review common OIG audit findings and root cause patterns by program area.", prompt: "What are the most frequent OIG audit findings in financial aid and what root causes are typically identified?" },
       { text: "Look up the exact 34 CFR citations relevant to a specific compliance issue.", prompt: "What are the specific 34 CFR regulatory citations I should reference when auditing Return to Title IV compliance?" },
       { text: "Build a program review preparation checklist aligned to the ED program review guide.", prompt: "Create a comprehensive program review preparation checklist aligned to the Department of Education's program review procedures." },
+      { text: "Get a plain-English explanation of any federal student aid rule or regulation.", prompt: "Help me understand a specific federal student aid rule or regulation. Ask me which rule, section, or 34 CFR citation I need clarified. Then explain it in plain English — what it requires, who it applies to, what compliance looks like, and what common violations occur." },
+      { text: "Get step-by-step guidance on how to handle a specific audit situation or finding.", prompt: "I am working through an audit situation and need guidance. Ask me for the details — the program area, what was found, the population tested, the error rate, and what evidence exists. Then help me determine the appropriate audit approach, the applicable GAGAS standards, the relevant regulatory citations, and the recommended finding format or corrective action steps." },
+      { text: "Understand exactly why a situation violated a federal rule and build a clear, defensible explanation.", prompt: "Help me explain why a specific situation violated a federal rule or regulation. Ask me to describe the situation, what the institution did or failed to do, and the regulatory area involved. Then give me a clear, well-reasoned explanation — including the specific 34 CFR citation, the element of the rule that was violated, and language I can use in a formal finding or written report." },
+      { text: "Draft a professional audit email — to an institution, ED, or internal stakeholder.", prompt: "Help me draft a professional audit-related email. Ask me: Who is the recipient — auditee institution, Department of Education, OIG, internal team, or legal counsel? What is the purpose — exit conference notice, draft finding transmittal, document request, follow-up on corrective action, or management response feedback? Any specific tone or regulatory context? Then draft a clear, professional email appropriate for the audit setting." },
     ],
   },
 ];
@@ -2683,7 +2991,7 @@ function EducationalBackground({ isDark = true, guidanceActive = false }: { isDa
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
       {/* Deep navy base */}
-      <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, #08142e 0%, #0c1d3d 35%, #0a1f3a 65%, #071530 100%)" }} />
+      <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, #0A1428 0%, #0D1A30 35%, #0A1428 65%, #08152A 100%)" }} />
 
       {/* Animated atmospheric orbs */}
       <div
@@ -2889,6 +3197,7 @@ export default function AidAgentPage() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const userScrolledUpRef = useRef(false);
   const [orbDriftX, setOrbDriftX] = useState(0);
+  const [orbScrollY, setOrbScrollY] = useState(0);
   const [bursts, setBursts] = useState<{ id: number; x: number; y: number }[]>([]);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const readerRef = useRef<ReadableStreamDefaultReader<Uint8Array> | null>(null);
@@ -2898,7 +3207,17 @@ export default function AidAgentPage() {
   const [showDisclaimer, setShowDisclaimer] = useState(false);
   const [showMobileLeft, setShowMobileLeft] = useState(false);
   const [showMobileRight, setShowMobileRight] = useState(false);
+  const leftPanelTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const rightPanelTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [orbGlowing, setOrbGlowing] = useState(false);
+  const [mobileOrbExpanded, setMobileOrbExpanded] = useState(false);
+  const [mobileOrbRoaming, setMobileOrbRoaming] = useState(false);
+  const [orbCelebrating, setOrbCelebrating] = useState(false);
+  const orbGlowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const tipsRef = useRef<HTMLDivElement>(null);
+  const pcOrbRef = useRef<HTMLDivElement>(null);
   const [howItWorksActive, setHowItWorksActive] = useState<"role" | "chatbox" | "panels" | "guidance" | null>(null);
+  const [slideFlipped, setSlideFlipped] = useState(false);
   const [isDark, setIsDark] = useState(false);
   const [showCookieNotice, setShowCookieNotice] = useState(false);
   const [attachedFile, setAttachedFile] = useState<AttachedFile | null>(null);
@@ -2943,6 +3262,115 @@ export default function AidAgentPage() {
     setShowDisclaimer(false);
   };
 
+  const resetLeftTimer = () => {
+    if (leftPanelTimerRef.current) clearTimeout(leftPanelTimerRef.current);
+    leftPanelTimerRef.current = setTimeout(() => setShowMobileLeft(false), 3000);
+  };
+
+  const resetRightTimer = () => {
+    if (rightPanelTimerRef.current) clearTimeout(rightPanelTimerRef.current);
+    rightPanelTimerRef.current = setTimeout(() => setShowMobileRight(false), 3000);
+  };
+
+  const triggerOrbGold = () => {
+    setOrbGlowing(false);
+    requestAnimationFrame(() => setOrbGlowing(true));
+    if (orbGlowTimerRef.current) clearTimeout(orbGlowTimerRef.current);
+    orbGlowTimerRef.current = setTimeout(() => setOrbGlowing(false), 1900);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (leftPanelTimerRef.current) clearTimeout(leftPanelTimerRef.current);
+      if (rightPanelTimerRef.current) clearTimeout(rightPanelTimerRef.current);
+      if (orbGlowTimerRef.current) clearTimeout(orbGlowTimerRef.current);
+    };
+  }, []);
+
+  // Start mobile orb roaming on first user interaction
+  useEffect(() => {
+    const startRoam = () => {
+      setMobileOrbRoaming(true);
+      window.removeEventListener("touchstart", startRoam, { capture: true });
+      window.removeEventListener("click", startRoam, { capture: true });
+      window.removeEventListener("keydown", startRoam, { capture: true });
+      window.removeEventListener("scroll", startRoam, { capture: true });
+    };
+    window.addEventListener("touchstart", startRoam, { capture: true, passive: true });
+    window.addEventListener("click", startRoam, { capture: true });
+    window.addEventListener("keydown", startRoam, { capture: true });
+    window.addEventListener("scroll", startRoam, { capture: true, passive: true });
+    return () => {
+      window.removeEventListener("touchstart", startRoam, { capture: true });
+      window.removeEventListener("click", startRoam, { capture: true });
+      window.removeEventListener("keydown", startRoam, { capture: true });
+      window.removeEventListener("scroll", startRoam, { capture: true });
+    };
+  }, []);
+
+  // PC orb: celebration dance → lazy mouse-follow
+  useEffect(() => {
+    if (!mobileOrbRoaming) return;
+    const el = pcOrbRef.current;
+    if (!el) return;
+
+    // Capture current DOM position, switch from right→left coordinates
+    const rect = el.getBoundingClientRect();
+    const px = { v: rect.left };
+    const py = { v: rect.top };
+    // Target starts exactly at orb's position — no snap on first move
+    const tx = { v: rect.left };
+    const ty = { v: rect.top };
+
+    el.style.right = "auto";
+    el.style.transition = "none";
+    el.style.left = px.v + "px";
+    el.style.top  = py.v + "px";
+
+    // Fire celebration
+    setOrbCelebrating(true);
+    const DANCE_MS = 1750;
+    const celebTimer = setTimeout(() => setOrbCelebrating(false), DANCE_MS);
+
+    let rafId = 0;
+    let t = 0;
+    const start = performance.now();
+
+    const onMouse = (e: MouseEvent) => {
+      tx.v = e.clientX - 88;
+      ty.v = e.clientY - 88;
+    };
+    window.addEventListener("mousemove", onMouse);
+
+    const loop = () => {
+      const elapsed = performance.now() - start;
+      if (elapsed < DANCE_MS) {
+        // Hold position during dance; CSS class handles visuals
+        el.style.left = px.v + "px";
+        el.style.top  = py.v + "px";
+      } else {
+        t += 0.016;
+        // Ease in: ramp lerp up over 1s so launch feels intentional, not jarring
+        const easeIn = Math.min((elapsed - DANCE_MS) / 1000, 1);
+        const lerp = 0.034 * easeIn;
+        px.v += (tx.v - px.v) * lerp;
+        py.v += (ty.v - py.v) * lerp;
+        const sx = Math.sin(t * 0.62) * 11;
+        const sy = Math.cos(t * 0.44) * 8;
+        el.style.left = (px.v + sx) + "px";
+        el.style.top  = (py.v + sy) + "px";
+      }
+      rafId = requestAnimationFrame(loop);
+    };
+    rafId = requestAnimationFrame(loop);
+
+    return () => {
+      clearTimeout(celebTimer);
+      window.removeEventListener("mousemove", onMouse);
+      cancelAnimationFrame(rafId);
+    };
+  }, [mobileOrbRoaming]);
+
   // Smart scroll: follow bottom only when user hasn't scrolled up
   useEffect(() => {
     const el = scrollContainerRef.current;
@@ -2953,9 +3381,14 @@ export default function AidAgentPage() {
       rafId = requestAnimationFrame(() => {
         const distFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
         userScrolledUpRef.current = distFromBottom > 80;
-        // Orb drift: move toward scrollbar as user scrolls down welcome state
-        const progress = Math.min(el.scrollTop / 320, 1);
-        setOrbDriftX(progress * 72);
+        // Orb scroll-companion: Y-follow + X-sway as user scrolls welcome state
+        const scrollY = el.scrollTop;
+        const maxOrbY = Math.min(scrollY * 0.75, el.scrollHeight - el.clientHeight - 20);
+        setOrbScrollY(Math.max(0, maxOrbY));
+        // X: blend drift-toward-scrollbar with a sinusoidal sway
+        const driftProgress = Math.min(scrollY / 320, 1);
+        const swayX = Math.sin(scrollY / 180) * 16;
+        setOrbDriftX(driftProgress * 56 + swayX);
         rafId = 0;
       });
     };
@@ -3082,6 +3515,10 @@ export default function AidAgentPage() {
     if (chatboxLabel) {
       setActiveRole(chatboxLabel);
       setActiveActionRole((chatboxLabel + "s") as "Students" | "Parents" | "Administrators" | "Leaders" | "Auditors");
+      // Scroll welcome-state Tips by Role into view after a brief render tick
+      setTimeout(() => {
+        tipsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 80);
     }
   }, []);
 
@@ -3265,6 +3702,7 @@ export default function AidAgentPage() {
     const el = e.target;
     el.style.height = "auto";
     el.style.height = Math.min(el.scrollHeight, 160) + "px";
+    triggerOrbGold();
   };
 
   const stopSpeaking = useCallback(() => {
@@ -3650,7 +4088,8 @@ export default function AidAgentPage() {
             <div className="px-7 pb-6">
               <button
                 onClick={handleAccept}
-                className="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm shadow-md shadow-indigo-900/40 active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-400"
+                className="w-full py-3 rounded-xl text-white font-semibold text-sm active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#00D1C9]"
+                style={{ background: "linear-gradient(135deg, #00B8C8 0%, #00D1C9 50%, #007FA8 100%)", boxShadow: "0 2px 18px rgba(0,209,201,0.35), inset 0 1px 0 rgba(255,255,255,0.12)" }}
               >
                 I Accept — Continue to Genie
               </button>
@@ -3664,7 +4103,7 @@ export default function AidAgentPage() {
       {/* Mobile panel backdrop */}
       {(showMobileLeft || showMobileRight) && (
         <div
-          className="fixed inset-0 z-40 bg-black/60 lg:hidden"
+          className="fixed inset-0 z-[55] bg-black/60 lg:hidden"
           onClick={() => { setShowMobileLeft(false); setShowMobileRight(false); }}
         />
       )}
@@ -3681,18 +4120,18 @@ export default function AidAgentPage() {
       <div className="h-screen flex overflow-hidden" style={{ height: "100dvh" }} onClick={triggerBurst}>
 
         {/* ── Sidebar ── */}
-        <aside className={`${showMobileLeft ? "flex fixed inset-y-0 left-0 z-50" : "hidden"} lg:flex lg:static lg:z-auto flex-col w-72 shrink-0 border-r border-white/[0.10] bg-[#071035] lg:bg-white/[0.07] backdrop-blur-2xl transition-all duration-300 ${howItWorksActive === "panels" ? "hiw-panel-explore" : ""}`}>
+        <aside onMouseMove={resetLeftTimer} onTouchStart={resetLeftTimer} className={`${showMobileLeft ? "flex fixed left-0 bottom-0 z-[60] genie-panel-dropdown" : "hidden"} flex-col w-72 shrink-0 border-r border-[#1E2A4A] bg-[#0F1B33] backdrop-blur-2xl transition-all duration-300 ${howItWorksActive === "panels" ? "hiw-panel-explore" : ""}`} style={showMobileLeft ? { top: "5rem" } : undefined}>
           {howItWorksActive === "panels" && <div className="hiw-scan-overlay" aria-hidden="true" />}
 
           {/* Brand — Students & Parents */}
-          <div className="px-4 pt-4 pb-3 border-b border-white/[0.07]">
+          <div className="px-4 pt-4 pb-3 border-b border-[#1E2A4A]">
             <div className="flex items-center gap-2.5">
-              <div className={`p-1.5 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 shadow-lg shadow-sky-500/25 shrink-0 transition-all duration-300 ${howItWorksActive === "panels" ? "shadow-[0_0_18px_rgba(6,182,212,0.70)] ring-2 ring-cyan-400/60" : ""}`}>
+              <div className={`p-1.5 rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 shadow-lg shadow-cyan-500/30 shrink-0 transition-all duration-300 ${howItWorksActive === "panels" ? "shadow-[0_0_18px_rgba(6,182,212,0.70)] ring-2 ring-cyan-400/60" : ""}`}>
                 <GraduationCap className={`h-4 w-4 text-white ${howItWorksActive === "panels" ? "animate-pulse" : ""}`} />
               </div>
               <div>
-                <p className="text-[11px] font-bold text-white/40 uppercase tracking-widest leading-none mb-0.5">Student Aid HUB</p>
-                <p className="text-sm font-semibold bg-gradient-to-r from-sky-300 to-indigo-300 bg-clip-text text-transparent leading-tight">
+                <p className="text-[11px] font-bold text-cyan-500/65 uppercase tracking-widest leading-none mb-0.5">Student Aid HUB</p>
+                <p className="text-sm font-semibold bg-gradient-to-r from-cyan-300 to-teal-300 bg-clip-text text-transparent leading-tight">
                   Students &amp; Parents
                 </p>
               </div>
@@ -3706,26 +4145,26 @@ export default function AidAgentPage() {
             {QUICK_ACTIONS_BY_ROLE.filter(({ role }) => role === "Students" || role === "Parents").map(({ role, color, items, more }) => {
               const isOpen = expandedSections.has(`lqa-open-${role}`);
               return (
-                <div key={role} className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                <div key={role} className="rounded-xl overflow-hidden ring-1 ring-[#1E2A4A] bg-[#13213F]">
                   <button onClick={() => toggleSection(`lqa-open-${role}`)}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">{role} Quick Actions</span>
-                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-[#1A2749] hover:[box-shadow:inset_3px_0_0_#00D1C9] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#00D1C9]/60">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white">{role} Quick Actions</span>
+                    <ChevronRight className={`h-3.5 w-3.5 text-[#94A3B8]/50 transition-transform duration-200 ${isOpen ? "rotate-90 text-[#00D1C9]" : ""}`} />
                   </button>
                   {isOpen && (
                     <div className="space-y-0.5 px-1.5 pb-2">
                       {[...items, ...more].map(({ icon: Icon, label, description, q }) => (
                         <button key={`lqa-${role}-${label}`} onClick={() => sendMessage(q)} disabled={isBusy}
                           title={label}
-                          className="w-full flex items-start gap-2.5 px-2.5 py-2 rounded-lg text-left group transition-all duration-150 hover:bg-cyan-500/[0.14] ring-1 ring-transparent hover:ring-cyan-500/[0.25] disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400">
-                          <div className="mt-0.5 p-1.5 rounded-lg bg-white/[0.08] group-hover:bg-cyan-500/[0.20] transition-colors shrink-0">
-                            <Icon className="h-3 w-3 text-white/60 group-hover:text-cyan-300 transition-colors" />
+                          className="w-full flex items-start gap-2.5 px-2.5 py-2 rounded-lg text-left group transition-all duration-150 hover:bg-[#1A2749] ring-1 ring-transparent hover:ring-[#00D1C9]/20 disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D1C9]">
+                          <div className="mt-0.5 p-1.5 rounded-lg bg-[#1E2A4A] group-hover:bg-[#00D1C9]/15 transition-colors shrink-0">
+                            <Icon className="h-3 w-3 text-[#94A3B8] group-hover:text-[#00E5C0] transition-colors" />
                           </div>
                           <div className="min-w-0 flex-1">
-                            <p className="text-xs font-semibold text-white/85 group-hover:text-white transition-colors leading-tight">{label}</p>
-                            <p className="text-[10px] text-white/55 mt-0.5 leading-tight">{description}</p>
+                            <p className="text-xs font-semibold text-[#E2E8F0] group-hover:text-[#00E5C0] transition-colors leading-tight">{label}</p>
+                            <p className="text-[10px] text-[#94A3B8]/70 mt-0.5 leading-tight">{description}</p>
                           </div>
-                          <ChevronRight className="h-3 w-3 text-white/25 group-hover:text-cyan-400 transition-colors shrink-0 mt-1" />
+                          <ChevronRight className="h-3 w-3 text-[#94A3B8]/35 group-hover:text-[#00D1C9] transition-colors shrink-0 mt-1" />
                         </button>
                       ))}
                     </div>
@@ -3739,25 +4178,25 @@ export default function AidAgentPage() {
               const isOpen = expandedSections.has("sec-federal-students");
               const studentGroup = FEDERAL_RESOURCES.find(({ group }) => group === "Students & Parents");
               return (
-                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                <div className="rounded-xl overflow-hidden ring-1 ring-[#1E2A4A] bg-[#13213F]">
                   <button onClick={() => toggleSection("sec-federal-students")}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Federal Student Aid</span>
-                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-[#1A2749] hover:[box-shadow:inset_3px_0_0_#00D1C9] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#00D1C9]/60">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white">Federal Student Aid</span>
+                    <ChevronRight className={`h-3.5 w-3.5 text-[#94A3B8]/50 transition-transform duration-200 ${isOpen ? "rotate-90 text-[#00D1C9]" : ""}`} />
                   </button>
                   {isOpen && studentGroup && (
                     <div className="px-1.5 pb-2 space-y-0.5">
                       {studentGroup.links.map(({ name, url }) => (
-                        <a key={name} href={`/open-resource?url=${encodeURIComponent(url)}`} target="_blank" rel="noopener noreferrer"
+                        <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                           title={name}
-                          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-cyan-200 hover:bg-cyan-500/[0.14] ring-1 ring-transparent hover:ring-cyan-500/[0.25] transition-all duration-150 group">
+                          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-[#1A2749] ring-1 ring-transparent hover:ring-[#00D1C9]/20 transition-all duration-150 group">
                           <span>{name}</span>
-                          <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-cyan-400 shrink-0" />
+                          <ExternalLink className="h-3 w-3 text-[#94A3B8]/40 group-hover:text-[#00D1C9] shrink-0" />
                         </a>
                       ))}
                       {/* FAFSA video guides */}
                       <div className="pt-2 space-y-2 px-1">
-                        <p className="text-[9px] font-bold uppercase tracking-widest text-white/30 px-2">FAFSA Video Guides</p>
+                        <p className="text-[9px] font-bold uppercase tracking-widest text-[#94A3B8]/60 px-2">FAFSA Video Guides</p>
                         {[
                           { id: "RtDYpEfAa5U", title: "How to Fill Out the FAFSA" },
                           { id: "NmEP38x-1Z8", title: "FAFSA Tips & Common Mistakes" },
@@ -3786,31 +4225,31 @@ export default function AidAgentPage() {
               const showMore = expandedSections.has("scholarships");
               const list = showMore ? [...SCHOLARSHIP_ENGINES, ...SCHOLARSHIP_ENGINES_MORE] : SCHOLARSHIP_ENGINES;
               return (
-                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                <div className="rounded-xl overflow-hidden ring-1 ring-[#1E2A4A] bg-[#13213F]">
                   <button onClick={() => toggleSection("sec-scholarships")}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Scholarship Search Engines</span>
-                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-[#1A2749] hover:[box-shadow:inset_3px_0_0_#00D1C9] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#00D1C9]/60">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white">Scholarship Search Engines</span>
+                    <ChevronRight className={`h-3.5 w-3.5 text-[#94A3B8]/50 transition-transform duration-200 ${isOpen ? "rotate-90 text-[#00D1C9]" : ""}`} />
                   </button>
                   {isOpen && (
                     <div className="px-1.5 pb-2">
                       <div className="space-y-0.5">
                         {list.map((item, idx) => {
                           if (isSubcat(item)) {
-                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-[#94A3B8]/60">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
                               title={item.name}
-                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-cyan-200 hover:bg-cyan-500/[0.14] ring-1 ring-transparent hover:ring-cyan-500/[0.25] transition-all duration-150 group">
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-[#1A2749] ring-1 ring-transparent hover:ring-[#00D1C9]/20 transition-all duration-150 group">
                               <span>{item.name}</span>
-                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-cyan-400 shrink-0" />
+                              <ExternalLink className="h-3 w-3 text-[#94A3B8]/40 group-hover:text-[#00D1C9] shrink-0" />
                             </a>
                           );
                         })}
                       </div>
                       <button onClick={() => toggleSection("scholarships")}
-                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-cyan-400/70 hover:text-cyan-300 hover:bg-cyan-500/[0.08] opacity-80 hover:opacity-100 transition-all duration-150">
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-[#94A3B8] hover:text-[#00D1C9] hover:bg-[#1A2749] opacity-80 hover:opacity-100 transition-all duration-150">
                         <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
                         {showMore ? "Show less" : `View more`}
                       </button>
@@ -3826,31 +4265,31 @@ export default function AidAgentPage() {
               const showMore = expandedSections.has("jobs");
               const list = showMore ? [...STUDENT_JOB_SEARCH, ...STUDENT_JOB_SEARCH_MORE] : STUDENT_JOB_SEARCH;
               return (
-                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                <div className="rounded-xl overflow-hidden ring-1 ring-[#1E2A4A] bg-[#13213F]">
                   <button onClick={() => toggleSection("sec-jobs")}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Student Job Search</span>
-                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-[#1A2749] hover:[box-shadow:inset_3px_0_0_#00D1C9] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#00D1C9]/60">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white">Student Job Search</span>
+                    <ChevronRight className={`h-3.5 w-3.5 text-[#94A3B8]/50 transition-transform duration-200 ${isOpen ? "rotate-90 text-[#00D1C9]" : ""}`} />
                   </button>
                   {isOpen && (
                     <div className="px-1.5 pb-2">
                       <div className="space-y-0.5">
                         {list.map((item, idx) => {
                           if (isSubcat(item)) {
-                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-[#94A3B8]/60">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
                               title={item.name}
-                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-emerald-500/20 ring-1 ring-transparent hover:ring-emerald-500/20 transition-all duration-150 group">
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-[#1A2749] ring-1 ring-transparent hover:ring-[#00D1C9]/20 transition-all duration-150 group">
                               <span>{item.name}</span>
-                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-emerald-400 shrink-0" />
+                              <ExternalLink className="h-3 w-3 text-[#94A3B8]/40 group-hover:text-[#00D1C9] shrink-0" />
                             </a>
                           );
                         })}
                       </div>
                       <button onClick={() => toggleSection("jobs")}
-                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-emerald-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-[#94A3B8] hover:text-[#00D1C9] hover:bg-[#1A2749] opacity-80 hover:opacity-100 transition-all duration-150">
                         <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
                         {showMore ? "Show less" : `View more`}
                       </button>
@@ -3866,31 +4305,31 @@ export default function AidAgentPage() {
               const showMore = expandedSections.has("internships");
               const list = showMore ? [...INTERNSHIP_SEARCH, ...INTERNSHIP_SEARCH_MORE] : INTERNSHIP_SEARCH;
               return (
-                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                <div className="rounded-xl overflow-hidden ring-1 ring-[#1E2A4A] bg-[#13213F]">
                   <button onClick={() => toggleSection("sec-internships")}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Internship / Externship Search</span>
-                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-[#1A2749] hover:[box-shadow:inset_3px_0_0_#00D1C9] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#00D1C9]/60">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white">Internship / Externship Search</span>
+                    <ChevronRight className={`h-3.5 w-3.5 text-[#94A3B8]/50 transition-transform duration-200 ${isOpen ? "rotate-90 text-[#00D1C9]" : ""}`} />
                   </button>
                   {isOpen && (
                     <div className="px-1.5 pb-2">
                       <div className="space-y-0.5">
                         {list.map((item, idx) => {
                           if (isSubcat(item)) {
-                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-[#94A3B8]/60">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
                               title={item.name}
-                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-teal-500/20 ring-1 ring-transparent hover:ring-teal-500/20 transition-all duration-150 group">
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-[#1A2749] ring-1 ring-transparent hover:ring-[#00D1C9]/20 transition-all duration-150 group">
                               <span>{item.name}</span>
-                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-teal-400 shrink-0" />
+                              <ExternalLink className="h-3 w-3 text-[#94A3B8]/40 group-hover:text-[#00D1C9] shrink-0" />
                             </a>
                           );
                         })}
                       </div>
                       <button onClick={() => toggleSection("internships")}
-                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-teal-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-[#94A3B8] hover:text-[#00D1C9] hover:bg-[#1A2749] opacity-80 hover:opacity-100 transition-all duration-150">
                         <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
                         {showMore ? "Show less" : `View more`}
                       </button>
@@ -3906,31 +4345,31 @@ export default function AidAgentPage() {
               const showMore = expandedSections.has("volunteer");
               const list = showMore ? [...VOLUNTEER_SEARCH, ...VOLUNTEER_SEARCH_MORE] : VOLUNTEER_SEARCH;
               return (
-                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                <div className="rounded-xl overflow-hidden ring-1 ring-[#1E2A4A] bg-[#13213F]">
                   <button onClick={() => toggleSection("sec-volunteer")}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-left">Volunteer &amp; Community Service</span>
-                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-[#1A2749] hover:[box-shadow:inset_3px_0_0_#00D1C9] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#00D1C9]/60">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white text-left">Volunteer &amp; Community Service</span>
+                    <ChevronRight className={`h-3.5 w-3.5 text-[#94A3B8]/50 transition-transform duration-200 ${isOpen ? "rotate-90 text-[#00D1C9]" : ""}`} />
                   </button>
                   {isOpen && (
                     <div className="px-1.5 pb-2">
                       <div className="space-y-0.5">
                         {list.map((item, idx) => {
                           if (isSubcat(item)) {
-                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-[#94A3B8]/60">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
                               title={item.name}
-                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-violet-500/20 ring-1 ring-transparent hover:ring-violet-500/20 transition-all duration-150 group">
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-[#1A2749] ring-1 ring-transparent hover:ring-[#00D1C9]/20 transition-all duration-150 group">
                               <span>{item.name}</span>
-                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-violet-400 shrink-0" />
+                              <ExternalLink className="h-3 w-3 text-[#94A3B8]/40 group-hover:text-[#00D1C9] shrink-0" />
                             </a>
                           );
                         })}
                       </div>
                       <button onClick={() => toggleSection("volunteer")}
-                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-violet-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-[#94A3B8] hover:text-[#00D1C9] hover:bg-[#1A2749] opacity-80 hover:opacity-100 transition-all duration-150">
                         <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
                         {showMore ? "Show less" : `View more`}
                       </button>
@@ -3946,31 +4385,31 @@ export default function AidAgentPage() {
               const showMore = expandedSections.has("resume");
               const list = showMore ? [...RESUME_ASSISTANCE, ...RESUME_ASSISTANCE_MORE] : RESUME_ASSISTANCE;
               return (
-                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                <div className="rounded-xl overflow-hidden ring-1 ring-[#1E2A4A] bg-[#13213F]">
                   <button onClick={() => toggleSection("sec-resume")}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Resume Assistance</span>
-                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-[#1A2749] hover:[box-shadow:inset_3px_0_0_#00D1C9] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#00D1C9]/60">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white">Resume Assistance</span>
+                    <ChevronRight className={`h-3.5 w-3.5 text-[#94A3B8]/50 transition-transform duration-200 ${isOpen ? "rotate-90 text-[#00D1C9]" : ""}`} />
                   </button>
                   {isOpen && (
                     <div className="px-1.5 pb-2">
                       <div className="space-y-0.5">
                         {list.map((item, idx) => {
                           if (isSubcat(item)) {
-                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-[#94A3B8]/60">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
                               title={item.name}
-                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-amber-500/20 ring-1 ring-transparent hover:ring-amber-500/20 transition-all duration-150 group">
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-[#1A2749] ring-1 ring-transparent hover:ring-[#00D1C9]/20 transition-all duration-150 group">
                               <span>{item.name}</span>
-                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-amber-400 shrink-0" />
+                              <ExternalLink className="h-3 w-3 text-[#94A3B8]/40 group-hover:text-[#00D1C9] shrink-0" />
                             </a>
                           );
                         })}
                       </div>
                       <button onClick={() => toggleSection("resume")}
-                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-amber-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-[#94A3B8] hover:text-[#00D1C9] hover:bg-[#1A2749] opacity-80 hover:opacity-100 transition-all duration-150">
                         <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
                         {showMore ? "Show less" : `View ${RESUME_ASSISTANCE_MORE.length} more`}
                       </button>
@@ -3986,31 +4425,31 @@ export default function AidAgentPage() {
               const showMore = expandedSections.has("ai-literacy");
               const list = showMore ? [...AI_LITERACY, ...AI_LITERACY_MORE] : AI_LITERACY;
               return (
-                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                <div className="rounded-xl overflow-hidden ring-1 ring-[#1E2A4A] bg-[#13213F]">
                   <button onClick={() => toggleSection("sec-ai-literacy")}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">AI Literacy</span>
-                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-[#1A2749] hover:[box-shadow:inset_3px_0_0_#00D1C9] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#00D1C9]/60">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white">AI Literacy</span>
+                    <ChevronRight className={`h-3.5 w-3.5 text-[#94A3B8]/50 transition-transform duration-200 ${isOpen ? "rotate-90 text-[#00D1C9]" : ""}`} />
                   </button>
                   {isOpen && (
                     <div className="px-1.5 pb-2">
                       <div className="space-y-0.5">
                         {list.map((item, idx) => {
                           if (isSubcat(item)) {
-                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-[#94A3B8]/60">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
                               title={item.name}
-                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-violet-500/20 ring-1 ring-transparent hover:ring-violet-500/20 transition-all duration-150 group">
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-[#1A2749] ring-1 ring-transparent hover:ring-[#00D1C9]/20 transition-all duration-150 group">
                               <span>{item.name}</span>
-                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-violet-400 shrink-0" />
+                              <ExternalLink className="h-3 w-3 text-[#94A3B8]/40 group-hover:text-[#00D1C9] shrink-0" />
                             </a>
                           );
                         })}
                       </div>
                       <button onClick={() => toggleSection("ai-literacy")}
-                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-violet-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-[#94A3B8] hover:text-[#00D1C9] hover:bg-[#1A2749] opacity-80 hover:opacity-100 transition-all duration-150">
                         <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
                         {showMore ? "Show less" : `View ${AI_LITERACY_MORE.length} more`}
                       </button>
@@ -4026,25 +4465,25 @@ export default function AidAgentPage() {
               const showMore = expandedSections.has("finlit");
               const list = showMore ? [...FINANCIAL_LITERACY, ...FINANCIAL_LITERACY_MORE] : FINANCIAL_LITERACY;
               return (
-                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                <div className="rounded-xl overflow-hidden ring-1 ring-[#1E2A4A] bg-[#13213F]">
                   <button onClick={() => toggleSection("sec-finlit")}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Financial Literacy</span>
-                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-[#1A2749] hover:[box-shadow:inset_3px_0_0_#00D1C9] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#00D1C9]/60">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white">Financial Literacy</span>
+                    <ChevronRight className={`h-3.5 w-3.5 text-[#94A3B8]/50 transition-transform duration-200 ${isOpen ? "rotate-90 text-[#00D1C9]" : ""}`} />
                   </button>
                   {isOpen && (
                     <div className="px-1.5 pb-2">
                       <div className="space-y-0.5">
                         {list.map((item, idx) => {
                           if (isSubcat(item)) {
-                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-[#94A3B8]/60">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
                               title={item.name}
-                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-cyan-200 hover:bg-cyan-500/[0.14] ring-1 ring-transparent hover:ring-cyan-500/[0.25] transition-all duration-150 group">
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-[#1A2749] ring-1 ring-transparent hover:ring-[#00D1C9]/20 transition-all duration-150 group">
                               <span>{item.name}</span>
-                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-cyan-400 shrink-0" />
+                              <ExternalLink className="h-3 w-3 text-[#94A3B8]/40 group-hover:text-[#00D1C9] shrink-0" />
                             </a>
                           );
                         })}
@@ -4067,44 +4506,44 @@ export default function AidAgentPage() {
               const isOpen = expandedSections.has(key);
               const isMoreOpen = expandedSections.has(moreKey);
               return (
-                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                <div className="rounded-xl overflow-hidden ring-1 ring-[#1E2A4A] bg-[#13213F]">
                   <button onClick={() => toggleSection(key)}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Spiritual Care & Life</span>
-                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-[#1A2749] hover:[box-shadow:inset_3px_0_0_#00D1C9] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#00D1C9]/60">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white">Spiritual Care & Life</span>
+                    <ChevronRight className={`h-3.5 w-3.5 text-[#94A3B8]/50 transition-transform duration-200 ${isOpen ? "rotate-90 text-[#00D1C9]" : ""}`} />
                   </button>
                   {isOpen && (
                     <div className="px-1.5 pb-2">
                       <div className="space-y-0.5">
                         {RELIGION_FAITH_PHILOSOPHY.map((item, idx) => {
                           if (isSubcat(item)) {
-                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-[#94A3B8]/60">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
                               title={item.name}
-                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-fuchsia-500/20 ring-1 ring-transparent hover:ring-fuchsia-500/20 transition-all duration-150 group">
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-[#1A2749] ring-1 ring-transparent hover:ring-[#00D1C9]/20 transition-all duration-150 group">
                               <span>{item.name}</span>
-                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-fuchsia-400 shrink-0" />
+                              <ExternalLink className="h-3 w-3 text-[#94A3B8]/40 group-hover:text-[#00D1C9] shrink-0" />
                             </a>
                           );
                         })}
                         {isMoreOpen && RELIGION_FAITH_PHILOSOPHY_MORE.map((item, idx) => {
                           if (isSubcat(item)) {
-                            return <div key={`sc-more-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                            return <div key={`sc-more-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-[#94A3B8]/60">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
                               title={item.name}
-                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-fuchsia-500/20 ring-1 ring-transparent hover:ring-fuchsia-500/20 transition-all duration-150 group">
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-[#1A2749] ring-1 ring-transparent hover:ring-[#00D1C9]/20 transition-all duration-150 group">
                               <span>{item.name}</span>
-                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-fuchsia-400 shrink-0" />
+                              <ExternalLink className="h-3 w-3 text-[#94A3B8]/40 group-hover:text-[#00D1C9] shrink-0" />
                             </a>
                           );
                         })}
                       </div>
                       <button onClick={() => toggleSection(moreKey)}
-                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-cyan-400/70 hover:text-cyan-300 hover:bg-cyan-500/[0.08] opacity-80 hover:opacity-100 transition-all duration-150">
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-[#94A3B8] hover:text-[#00D1C9] hover:bg-[#1A2749] opacity-80 hover:opacity-100 transition-all duration-150">
                         <ChevronRight className={`h-3 w-3 transition-transform ${isMoreOpen ? "rotate-90" : "-rotate-90"}`} />
                         {isMoreOpen ? "Show less" : `View ${RELIGION_FAITH_PHILOSOPHY_MORE.length} more`}
                       </button>
@@ -4121,44 +4560,44 @@ export default function AidAgentPage() {
               const isOpen = expandedSections.has(key);
               const isMoreOpen = expandedSections.has(moreKey);
               return (
-                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                <div className="rounded-xl overflow-hidden ring-1 ring-[#1E2A4A] bg-[#13213F]">
                   <button onClick={() => toggleSection(key)}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-left">Student Rights & Consumer Protections</span>
-                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-[#1A2749] hover:[box-shadow:inset_3px_0_0_#00D1C9] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#00D1C9]/60">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white text-left">Student Rights & Consumer Protections</span>
+                    <ChevronRight className={`h-3.5 w-3.5 text-[#94A3B8]/50 transition-transform duration-200 ${isOpen ? "rotate-90 text-[#00D1C9]" : ""}`} />
                   </button>
                   {isOpen && (
                     <div className="px-1.5 pb-2">
                       <div className="space-y-0.5">
                         {CONSUMER_RIGHTS.map((item, idx) => {
                           if (isSubcat(item)) {
-                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-[#94A3B8]/60">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
                               title={item.name}
-                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-orange-500/20 ring-1 ring-transparent hover:ring-orange-500/20 transition-all duration-150 group">
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-[#1A2749] ring-1 ring-transparent hover:ring-[#00D1C9]/20 transition-all duration-150 group">
                               <span>{item.name}</span>
-                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-orange-400 shrink-0" />
+                              <ExternalLink className="h-3 w-3 text-[#94A3B8]/40 group-hover:text-[#00D1C9] shrink-0" />
                             </a>
                           );
                         })}
                         {isMoreOpen && CONSUMER_RIGHTS_MORE.map((item, idx) => {
                           if (isSubcat(item)) {
-                            return <div key={`sc-more-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                            return <div key={`sc-more-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-[#94A3B8]/60">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
                               title={item.name}
-                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-orange-500/20 ring-1 ring-transparent hover:ring-orange-500/20 transition-all duration-150 group">
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-[#1A2749] ring-1 ring-transparent hover:ring-[#00D1C9]/20 transition-all duration-150 group">
                               <span>{item.name}</span>
-                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-orange-400 shrink-0" />
+                              <ExternalLink className="h-3 w-3 text-[#94A3B8]/40 group-hover:text-[#00D1C9] shrink-0" />
                             </a>
                           );
                         })}
                       </div>
                       <button onClick={() => toggleSection(moreKey)}
-                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-cyan-400/70 hover:text-cyan-300 hover:bg-cyan-500/[0.08] opacity-80 hover:opacity-100 transition-all duration-150">
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-[#94A3B8] hover:text-[#00D1C9] hover:bg-[#1A2749] opacity-80 hover:opacity-100 transition-all duration-150">
                         <ChevronRight className={`h-3 w-3 transition-transform ${isMoreOpen ? "rotate-90" : "-rotate-90"}`} />
                         {isMoreOpen ? "Show less" : `View ${CONSUMER_RIGHTS_MORE.length} more`}
                       </button>
@@ -4175,44 +4614,44 @@ export default function AidAgentPage() {
               const isOpen = expandedSections.has(key);
               const isMoreOpen = expandedSections.has(moreKey);
               return (
-                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                <div className="rounded-xl overflow-hidden ring-1 ring-[#1E2A4A] bg-[#13213F]">
                   <button onClick={() => toggleSection(key)}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Student Wellness & Support</span>
-                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-[#1A2749] hover:[box-shadow:inset_3px_0_0_#00D1C9] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#00D1C9]/60">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white">Student Wellness & Support</span>
+                    <ChevronRight className={`h-3.5 w-3.5 text-[#94A3B8]/50 transition-transform duration-200 ${isOpen ? "rotate-90 text-[#00D1C9]" : ""}`} />
                   </button>
                   {isOpen && (
                     <div className="px-1.5 pb-2">
                       <div className="space-y-0.5">
                         {MENTAL_HEALTH_STUDENT.map((item, idx) => {
                           if (isSubcat(item)) {
-                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-[#94A3B8]/60">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
                               title={item.name}
-                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-emerald-500/20 ring-1 ring-transparent hover:ring-emerald-500/20 transition-all duration-150 group">
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-[#1A2749] ring-1 ring-transparent hover:ring-[#00D1C9]/20 transition-all duration-150 group">
                               <span>{item.name}</span>
-                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-emerald-400 shrink-0" />
+                              <ExternalLink className="h-3 w-3 text-[#94A3B8]/40 group-hover:text-[#00D1C9] shrink-0" />
                             </a>
                           );
                         })}
                         {isMoreOpen && MENTAL_HEALTH_STUDENT_MORE.map((item, idx) => {
                           if (isSubcat(item)) {
-                            return <div key={`sc-more-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                            return <div key={`sc-more-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-[#94A3B8]/60">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
                               title={item.name}
-                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-emerald-500/20 ring-1 ring-transparent hover:ring-emerald-500/20 transition-all duration-150 group">
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-[#1A2749] ring-1 ring-transparent hover:ring-[#00D1C9]/20 transition-all duration-150 group">
                               <span>{item.name}</span>
-                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-emerald-400 shrink-0" />
+                              <ExternalLink className="h-3 w-3 text-[#94A3B8]/40 group-hover:text-[#00D1C9] shrink-0" />
                             </a>
                           );
                         })}
                       </div>
                       <button onClick={() => toggleSection(moreKey)}
-                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-cyan-400/70 hover:text-cyan-300 hover:bg-cyan-500/[0.08] opacity-80 hover:opacity-100 transition-all duration-150">
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-[#94A3B8] hover:text-[#00D1C9] hover:bg-[#1A2749] opacity-80 hover:opacity-100 transition-all duration-150">
                         <ChevronRight className={`h-3 w-3 transition-transform ${isMoreOpen ? "rotate-90" : "-rotate-90"}`} />
                         {isMoreOpen ? "Show less" : `View ${MENTAL_HEALTH_STUDENT_MORE.length} more`}
                       </button>
@@ -4228,33 +4667,74 @@ export default function AidAgentPage() {
               const showMore = expandedSections.has("loans");
               const list = showMore ? [...PRIVATE_STUDENT_LOANS, ...PRIVATE_STUDENT_LOANS_MORE] : PRIVATE_STUDENT_LOANS;
               return (
-                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                <div className="rounded-xl overflow-hidden ring-1 ring-[#1E2A4A] bg-[#13213F]">
                   <button onClick={() => toggleSection("sec-loans")}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Private Student Loans</span>
-                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-[#1A2749] hover:[box-shadow:inset_3px_0_0_#00D1C9] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#00D1C9]/60">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white">Private Student Loans</span>
+                    <ChevronRight className={`h-3.5 w-3.5 text-[#94A3B8]/50 transition-transform duration-200 ${isOpen ? "rotate-90 text-[#00D1C9]" : ""}`} />
                   </button>
                   {isOpen && (
                     <div className="px-1.5 pb-2">
                       <div className="space-y-0.5">
                         {list.map((item, idx) => {
                           if (isSubcat(item)) {
-                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                            return <div key={`sc-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-[#94A3B8]/60">{item.subcat}</span></div>;
                           }
                           return (
-                            <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
                               title={item.name}
-                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-white hover:bg-violet-500/20 ring-1 ring-transparent hover:ring-violet-500/20 transition-all duration-150 group">
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-[#1A2749] ring-1 ring-transparent hover:ring-[#00D1C9]/20 transition-all duration-150 group">
                               <span>{item.name}</span>
-                              <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-violet-400 shrink-0" />
+                              <ExternalLink className="h-3 w-3 text-[#94A3B8]/40 group-hover:text-[#00D1C9] shrink-0" />
                             </a>
                           );
                         })}
                       </div>
                       <button onClick={() => toggleSection("loans")}
-                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-violet-400 hover:bg-white/[0.06] opacity-70 hover:opacity-100 transition-all duration-150">
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-[#94A3B8] hover:text-[#00D1C9] hover:bg-[#1A2749] opacity-80 hover:opacity-100 transition-all duration-150">
                         <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
                         {showMore ? "Show fewer" : `View ${PRIVATE_STUDENT_LOANS_MORE.length} more`}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+
+            {/* ── US Military Resources ── */}
+            {(() => {
+              const isOpen = expandedSections.has("sec-military");
+              const showMore = expandedSections.has("military-more");
+              const SPLIT = 30;
+              const list = showMore ? MILITARY_RESOURCES : MILITARY_RESOURCES.slice(0, SPLIT);
+              return (
+                <div className="rounded-xl overflow-hidden ring-1 ring-[#1E2A4A] bg-[#13213F]">
+                  <button onClick={() => toggleSection("sec-military")}
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-[#1A2749] hover:[box-shadow:inset_3px_0_0_#00D1C9] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#00D1C9]/60">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white">US Military Resources</span>
+                    <ChevronRight className={`h-3.5 w-3.5 text-[#94A3B8]/50 transition-transform duration-200 ${isOpen ? "rotate-90 text-[#00D1C9]" : ""}`} />
+                  </button>
+                  {isOpen && (
+                    <div className="px-1.5 pb-2">
+                      <div className="space-y-0.5">
+                        {list.map((item, idx) => {
+                          if (isSubcat(item)) {
+                            return <div key={`mil-${idx}`} className="px-3 pt-2.5 pb-0.5"><span className="text-[9px] font-bold uppercase tracking-widest text-[#94A3B8]/60">{item.subcat}</span></div>;
+                          }
+                          return (
+                            <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                              title={item.name}
+                              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-[#1A2749] ring-1 ring-transparent hover:ring-[#00D1C9]/20 transition-all duration-150 group">
+                              <span>{item.name}</span>
+                              <ExternalLink className="h-3 w-3 text-[#94A3B8]/40 group-hover:text-[#00D1C9] shrink-0" />
+                            </a>
+                          );
+                        })}
+                      </div>
+                      <button onClick={() => toggleSection("military-more")}
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-[#94A3B8] hover:text-[#00D1C9] hover:bg-[#1A2749] opacity-80 hover:opacity-100 transition-all duration-150">
+                        <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
+                        {showMore ? "Show fewer" : `View ${MILITARY_RESOURCES.length - SPLIT} more`}
                       </button>
                     </div>
                   )}
@@ -4271,11 +4751,11 @@ export default function AidAgentPage() {
               const allIds = ["rhgwIhB58PA", "C5OJJD3Eytk", "kKvK2foOTJM"];
               const visibleIds = showMore ? allIds : allIds.slice(0, 1);
               return (
-                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                <div className="rounded-xl overflow-hidden ring-1 ring-[#1E2A4A] bg-[#13213F]">
                   <button onClick={() => toggleSection(key)}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80">Videos</span>
-                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-[#1A2749] hover:[box-shadow:inset_3px_0_0_#00D1C9] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#00D1C9]/60">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white">Videos</span>
+                    <ChevronRight className={`h-3.5 w-3.5 text-[#94A3B8]/50 transition-transform duration-200 ${isOpen ? "rotate-90 text-[#00D1C9]" : ""}`} />
                   </button>
                   {isOpen && (
                     <div className="px-2 pb-3 pt-1 space-y-3">
@@ -4305,7 +4785,7 @@ export default function AidAgentPage() {
           </div>
 
           {/* Disclaimer footer */}
-          <div className="shrink-0 px-4 py-3 border-t border-white/[0.07]">
+          <div className="shrink-0 px-4 py-3 border-t border-[#1E2A4A]">
             <div className="flex items-start gap-2 rounded-xl bg-amber-500/[0.08] ring-1 ring-amber-500/20 px-3 py-2.5">
               <AlertTriangle className="h-3.5 w-3.5 text-amber-400 shrink-0 mt-0.5" />
               <p className="text-[11px] text-amber-300/70 leading-relaxed">
@@ -4318,27 +4798,32 @@ export default function AidAgentPage() {
         {/* ── Main ── */}
         <main
           className={`flex flex-1 flex-col min-w-0 min-h-0 transition-all duration-300 ${howItWorksActive === "guidance" ? "ring-1 ring-inset ring-emerald-500/25 shadow-[inset_0_0_40px_rgba(16,185,129,0.07)]" : ""}`}
-          style={{ background: "rgba(5,10,36,0.64)" }}
+          style={{ background: "rgba(10,20,40,0.82)" }}
           aria-label="askGenie AI Assistant"
         >
 
           {/* ── Header — nav + integrated music player ── */}
           <header
-            className="sticky top-0 z-30 shrink-0 border-b border-cyan-500/[0.13] backdrop-blur-xl"
-            style={{ background: "linear-gradient(135deg, rgba(6,14,48,0.97) 0%, rgba(4,20,56,0.98) 50%, rgba(6,14,48,0.97) 100%)" }}
+            className="sticky top-0 z-50 shrink-0 border-b border-[#1E2A4A] backdrop-blur-xl"
+            style={{ background: "linear-gradient(135deg, rgba(10,20,40,0.98) 0%, rgba(13,26,50,0.99) 50%, rgba(10,20,40,0.98) 100%)" }}
           >
             {/* ── Top row: nav controls ── */}
-            <div className="relative px-4 py-2.5 flex items-center justify-between">
+            <div className="relative px-4 py-2.5 flex items-center justify-between" style={{ minHeight: "5rem" }}>
 
               {/* Left — mobile toggles + Home + theme */}
               <div className="flex items-center gap-1 min-w-[8.5rem]">
-                <button
-                  onClick={() => { setShowMobileLeft(!showMobileLeft); setShowMobileRight(false); }}
-                  title="Students & Parents panel"
-                  className={`lg:hidden p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60 ${howItWorksActive === "panels" ? "text-cyan-200 bg-cyan-500/[0.20] shadow-[0_0_14px_rgba(6,182,212,0.55)] ring-1 ring-cyan-400/50 hiw-active-ring" : "text-cyan-300/48 hover:text-cyan-200 hover:bg-cyan-500/[0.14] hover:shadow-[0_0_10px_rgba(6,182,212,0.25)]"}`}
-                >
-                  {showMobileLeft ? <X className="h-4 w-4" /> : <GraduationCap className={`h-4 w-4 ${howItWorksActive === "panels" ? "animate-pulse" : ""}`} />}
-                </button>
+                <div className="flex flex-col items-start">
+                  <button
+                    onClick={() => { const next = !showMobileLeft; setShowMobileLeft(next); setShowMobileRight(false); if (next) { resetLeftTimer(); triggerOrbGold(); } }}
+                    title="Students & Parents panel"
+                    className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60 ${howItWorksActive === "panels" ? "text-cyan-200 bg-cyan-500/[0.20] shadow-[0_0_14px_rgba(6,182,212,0.55)] ring-1 ring-cyan-400/50 hiw-active-ring" : "text-cyan-300/48 hover:text-cyan-200 hover:bg-cyan-500/[0.14] hover:shadow-[0_0_10px_rgba(6,182,212,0.25)]"}`}
+                  >
+                    {showMobileLeft ? <X className="h-4 w-4" /> : <GraduationCap className={`h-4 w-4 ${howItWorksActive === "panels" ? "animate-pulse" : ""}`} />}
+                  </button>
+                  {showMobileLeft && (
+                    <span className="text-[9px] font-bold text-cyan-400/80 whitespace-nowrap pl-0.5" style={{ animation: "genie-panel-drop 0.22s ease-out" }}>Students &amp; Parents</span>
+                  )}
+                </div>
                 <button
                   onClick={goHome}
                   title="Home"
@@ -4356,14 +4841,17 @@ export default function AidAgentPage() {
                 </button>
               </div>
 
-              {/* Center — title (absolute for pixel-perfect centering) */}
-              <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center select-none pointer-events-none">
-                <h1 className="text-4xl font-black tracking-tight leading-none whitespace-nowrap genie-shimmer-text">
-                  askGenie
+              {/* Center — title + music player */}
+              <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center select-none">
+                <h1 className="text-4xl font-black tracking-tight leading-none whitespace-nowrap genie-shimmer-rainbow pointer-events-none">
+                  AskGenie
                 </h1>
-                <p className="hidden sm:block text-[10px] text-cyan-300/45 font-medium tracking-wide mt-0.5 whitespace-nowrap">
-                  Your calm, expert student aid companion
+                <p className="hidden sm:block text-[10px] text-cyan-300/45 font-medium tracking-wide mt-0.5 whitespace-nowrap pointer-events-none">
+                  Your calm, trusted student aid companion
                 </p>
+                <div className="mt-1 pointer-events-auto scale-[0.82] origin-top">
+                  <BackgroundMusic inline />
+                </div>
               </div>
 
               {/* Right — auth + panel toggles + new chat */}
@@ -4397,13 +4885,18 @@ export default function AidAgentPage() {
                     </Link>
                   </>
                 )}
-                <button
-                  onClick={() => { setShowMobileRight(!showMobileRight); setShowMobileLeft(false); }}
-                  title="Admins & Auditors panel"
-                  className={`xl:hidden p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60 ${howItWorksActive === "panels" ? "text-cyan-200 bg-cyan-500/[0.20] shadow-[0_0_14px_rgba(6,182,212,0.55)] ring-1 ring-cyan-400/50 hiw-active-ring" : "text-cyan-300/48 hover:text-cyan-200 hover:bg-cyan-500/[0.14] hover:shadow-[0_0_10px_rgba(6,182,212,0.25)]"}`}
-                >
-                  {showMobileRight ? <X className="h-4 w-4" /> : <Zap className={`h-4 w-4 ${howItWorksActive === "panels" ? "animate-pulse" : ""}`} />}
-                </button>
+                <div className="flex flex-col items-end">
+                  {showMobileRight && (
+                    <span className="text-[9px] font-bold text-cyan-400/80 whitespace-nowrap pr-0.5" style={{ animation: "genie-panel-drop 0.22s ease-out" }}>Admins &amp; Auditors</span>
+                  )}
+                  <button
+                    onClick={() => { const next = !showMobileRight; setShowMobileRight(next); setShowMobileLeft(false); if (next) { resetRightTimer(); triggerOrbGold(); } }}
+                    title="Admins & Auditors panel"
+                    className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60 ${howItWorksActive === "panels" ? "text-cyan-200 bg-cyan-500/[0.20] shadow-[0_0_14px_rgba(6,182,212,0.55)] ring-1 ring-cyan-400/50 hiw-active-ring" : "text-cyan-300/48 hover:text-cyan-200 hover:bg-cyan-500/[0.14] hover:shadow-[0_0_10px_rgba(6,182,212,0.25)]"}`}
+                  >
+                    {showMobileRight ? <X className="h-4 w-4" /> : <Zap className={`h-4 w-4 ${howItWorksActive === "panels" ? "animate-pulse" : ""}`} />}
+                  </button>
+                </div>
                 {messages.length > 0 && (
                   <button
                     onClick={() => setMessages([])}
@@ -4416,18 +4909,114 @@ export default function AidAgentPage() {
               </div>
             </div>
 
-            {/* ── Music player row — integrated, teal-accented ── */}
-            <div className="border-t border-white/[0.055] px-4 py-1.5 flex justify-center sm:justify-start">
-              <BackgroundMusic inline />
-            </div>
           </header>
 
+          {/* ── Fixed orb companion — right rail, welcome state only ── */}
+          {messages.length === 0 && (
+            <div
+              ref={pcOrbRef}
+              aria-hidden="true"
+              className="hidden lg:flex flex-col items-center pointer-events-none select-none"
+              style={{
+                position: "fixed",
+                right: mobileOrbRoaming ? undefined : "max(24px, calc(50vw - 510px))",
+                top: mobileOrbRoaming ? undefined : "96px",
+                zIndex: 12,
+                opacity: mobileOrbRoaming ? 0.42 : 0.82,
+                transition: mobileOrbRoaming ? undefined : "opacity 0.6s ease",
+              }}
+            >
+              <div
+                className="relative flex items-center justify-center"
+                style={{ width: "clamp(100px, 11vw, 140px)", height: "clamp(100px, 11vw, 140px)", animation: "genie-orb-float 5.5s ease-in-out infinite" }}
+              >
+                <div className="absolute rounded-full pointer-events-none" style={{
+                  inset: -30, background: "radial-gradient(circle, rgba(0,209,201,0.20) 0%, rgba(0,184,255,0.10) 55%, transparent 70%)",
+                  filter: "blur(14px)", animation: "genie-orb-pulse 4.5s ease-in-out infinite",
+                }} />
+                <div className="absolute inset-0 rounded-full pointer-events-none" style={{
+                  background: "radial-gradient(circle, rgba(0,209,201,0.26) 0%, transparent 70%)",
+                  animation: "genie-halo-expand 3s ease-out infinite",
+                }} />
+                <div className="absolute inset-0 rounded-full pointer-events-none" style={{
+                  background: "radial-gradient(circle, rgba(0,184,255,0.18) 0%, transparent 65%)",
+                  animation: "genie-halo-expand-2 3s ease-out infinite 1.5s",
+                }} />
+                <div className={`relative z-10 rounded-full overflow-hidden${orbGlowing ? " genie-orb-gold" : ""}${orbCelebrating ? " genie-orb-celebrate" : ""}`} style={{
+                  width: "clamp(66px, 8vw, 94px)", height: "clamp(66px, 8vw, 94px)",
+                  background: "radial-gradient(circle at 36% 28%, rgba(210,255,252,0.98) 0%, rgba(0,209,201,0.90) 22%, rgba(0,163,196,0.88) 50%, rgba(0,50,90,0.97) 80%, rgba(3,20,50,1) 100%)",
+                  animation: (orbGlowing || orbCelebrating) ? undefined : "genie-orb-glow-pulse 4.2s ease-in-out infinite",
+                  willChange: "box-shadow, filter, transform",
+                }}>
+                  <div style={{
+                    position: "absolute", top: 0, left: 0, width: "200%", height: "100%",
+                    background: "repeating-linear-gradient(90deg,transparent 0%,transparent 7%,rgba(255,255,255,0.07) 7%,rgba(255,255,255,0.07) 8.5%,transparent 8.5%,transparent 20%,rgba(0,209,201,0.10) 20%,rgba(0,209,201,0.10) 23%,transparent 23%,transparent 50%)",
+                    animation: "genie-orb-bands 18s linear infinite",
+                  }} />
+                  <div style={{
+                    position: "absolute", top: "8%", left: "18%", width: "32%", height: "28%",
+                    background: "radial-gradient(circle, rgba(255,255,255,0.70) 0%, rgba(255,255,255,0.20) 60%, transparent 100%)",
+                    borderRadius: "50%", filter: "blur(2px)",
+                  }} />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ── Mobile orb — starts top-center, roams freely after first interaction ── */}
+          <button
+            aria-label={mobileOrbExpanded ? "Shrink guide orb" : "Expand guide orb"}
+            onClick={() => { setMobileOrbExpanded(v => !v); triggerOrbGold(); }}
+            className={`lg:hidden pointer-events-auto select-none${mobileOrbRoaming ? " genie-mobile-orb-roaming" : ""}`}
+            style={{
+              position: "fixed",
+              ...(mobileOrbRoaming ? {} : { top: "18%", left: "50%", transform: "translateX(-50%)" }),
+              zIndex: 2,
+              background: "none",
+              border: "none",
+              padding: 0,
+              cursor: "pointer",
+              opacity: mobileOrbRoaming ? 0.38 : 0.72,
+              transition: "opacity 1.2s ease",
+            }}
+          >
+            <div
+              style={{
+                width: mobileOrbExpanded ? 56 : 28,
+                height: mobileOrbExpanded ? 56 : 28,
+                borderRadius: "50%",
+                background: "radial-gradient(circle at 36% 28%, rgba(210,255,252,0.98) 0%, rgba(0,209,201,0.90) 22%, rgba(0,163,196,0.88) 50%, rgba(0,50,90,0.97) 80%, rgba(3,20,50,1) 100%)",
+                boxShadow: orbGlowing
+                  ? "0 0 0 3px rgba(255,215,0,0.80), 0 0 18px 6px rgba(255,170,0,0.55)"
+                  : "0 0 0 1.5px rgba(0,209,201,0.55), 0 0 10px 3px rgba(0,209,201,0.28)",
+                transition: "width 0.3s ease, height 0.3s ease, box-shadow 0.4s ease",
+                animation: mobileOrbRoaming ? undefined : "genie-mobile-orb-float 4.5s ease-in-out infinite",
+                overflow: "hidden",
+                position: "relative",
+              }}
+            >
+              <div style={{
+                position: "absolute", top: 0, left: 0, width: "200%", height: "100%",
+                background: "repeating-linear-gradient(90deg,transparent 0%,transparent 7%,rgba(255,255,255,0.07) 7%,rgba(255,255,255,0.07) 8.5%,transparent 8.5%,transparent 50%)",
+                animation: "genie-orb-bands 18s linear infinite",
+              }} />
+              <div style={{
+                position: "absolute", top: "8%", left: "18%", width: "32%", height: "28%",
+                background: "radial-gradient(circle, rgba(255,255,255,0.70) 0%, rgba(255,255,255,0.20) 60%, transparent 100%)",
+                borderRadius: "50%", filter: "blur(1.5px)",
+              }} />
+            </div>
+            {mobileOrbExpanded && (
+              <p style={{ fontSize: 7, color: "rgba(0,209,201,0.65)", textAlign: "center", marginTop: 3, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase" }}>guide</p>
+            )}
+          </button>
+
           {/* Messages / Welcome */}
-          <div ref={scrollContainerRef} className={`flex-1 overflow-y-auto min-h-0 genie-scroll-main transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-active-panel" : ""}`} role="log" aria-live="polite" aria-label="Conversation">
+          <div ref={scrollContainerRef} className={`flex-1 overflow-y-auto min-h-0 genie-scroll-main transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-active-panel" : ""}`} role="log" aria-live="polite" aria-label="Conversation" style={{ position: "relative", zIndex: 3 }}>
             {messages.length === 0 ? (
 
               /* ── Welcome state ── */
-              <div className="relative flex flex-col items-center px-6 py-12 genie-fade-in-up overflow-hidden">
+              <div className="relative flex flex-col items-center px-4 py-8 sm:px-6 sm:py-12 genie-fade-in-up overflow-hidden">
 
                 {/* ── Shooting stars layer ── */}
                 <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
@@ -4500,317 +5089,239 @@ export default function AidAgentPage() {
                 {/* ── Bottom constellation fade — blurs constellations near Tips by Role ── */}
                 <div
                   className="pointer-events-none absolute inset-x-0 bottom-0 h-[560px]"
-                  style={{ background: "linear-gradient(to top, rgba(5,10,36,0.97) 0%, rgba(5,10,36,0.86) 16%, rgba(5,10,36,0.58) 36%, rgba(5,10,36,0.22) 58%, transparent 100%)", zIndex: 1 }}
+                  style={{ background: "linear-gradient(to top, rgba(10,20,40,0.97) 0%, rgba(10,20,40,0.86) 16%, rgba(10,20,40,0.58) 36%, rgba(10,20,40,0.22) 58%, transparent 100%)", zIndex: 1 }}
                   aria-hidden="true"
                 />
 
                 {/* ── All visible content — sits above fade overlay ── */}
                 <div className="relative w-full flex flex-col items-center" style={{ zIndex: 2 }}>
 
-                {/* ── Hero: Glowing Orb centerpiece ── */}
-                {/* Outer drift wrapper — follows scroll toward scrollbar */}
-                <div style={{
-                  transform: `translateX(${orbDriftX}px)`,
-                  transition: "transform 0.45s cubic-bezier(0.25,0.46,0.45,0.94)",
-                  marginBottom: "2rem",
-                }}>
-                <div
-                  className="relative flex items-center justify-center"
-                  style={{ width: 164, height: 164, animation: "genie-orb-float 5.5s ease-in-out infinite" }}
-                >
-                  {/* Outer diffuse bloom */}
-                  <div className="absolute rounded-full pointer-events-none" style={{
-                    inset: -28,
-                    background: "radial-gradient(circle, rgba(6,182,212,0.14) 0%, rgba(99,102,241,0.08) 55%, transparent 70%)",
-                    filter: "blur(12px)",
-                    animation: "genie-orb-pulse 4.5s ease-in-out infinite",
-                  }} />
-                  {/* Halo ring 1 — fast, cyan */}
-                  <div className="absolute inset-0 rounded-full pointer-events-none" style={{
-                    background: "radial-gradient(circle, rgba(6,182,212,0.30) 0%, transparent 70%)",
-                    animation: "genie-halo-expand 3s ease-out infinite",
-                  }} />
-                  {/* Halo ring 2 — indigo offset */}
-                  <div className="absolute inset-0 rounded-full pointer-events-none" style={{
-                    background: "radial-gradient(circle, rgba(99,102,241,0.22) 0%, transparent 65%)",
-                    animation: "genie-halo-expand-2 3s ease-out infinite 1.5s",
-                  }} />
-                  {/* Halo ring 3 — slow wide sky-blue */}
-                  <div className="absolute inset-0 rounded-full pointer-events-none" style={{
-                    background: "radial-gradient(circle, rgba(56,189,248,0.18) 0%, transparent 60%)",
-                    animation: "genie-halo-expand-3 4.2s ease-out infinite 2.8s",
-                  }} />
+                {/* ── Two-column console ── */}
+                <div className="w-full max-w-5xl flex flex-col md:flex-row gap-5 md:gap-6 items-start px-2 sm:px-4">
 
-                  {/* Orb sphere */}
-                  <div
-                    className="relative z-10 rounded-full overflow-hidden"
-                    style={{
-                      width: 106, height: 106,
-                      background: "radial-gradient(circle at 36% 28%, rgba(210,245,255,0.98) 0%, rgba(6,182,212,0.90) 22%, rgba(2,132,199,0.88) 50%, rgba(7,59,103,0.97) 80%, rgba(3,25,62,1) 100%)",
-                      animation: "genie-orb-glow-pulse 4.2s ease-in-out infinite",
-                      willChange: "box-shadow, filter",
-                    }}
-                  >
-                    {/* Earth-axis rotation bands — longitude lines scrolling */}
-                    <div style={{
-                      position: "absolute", top: 0, left: 0,
-                      width: "200%", height: "100%",
-                      background: "repeating-linear-gradient(90deg," +
-                        "transparent 0%,transparent 7%," +
-                        "rgba(255,255,255,0.07) 7%,rgba(255,255,255,0.07) 8.5%," +
-                        "transparent 8.5%,transparent 20%," +
-                        "rgba(6,182,212,0.10) 20%,rgba(6,182,212,0.10) 23%," +
-                        "transparent 23%,transparent 36%," +
-                        "rgba(255,255,255,0.05) 36%,rgba(255,255,255,0.05) 37.5%," +
-                        "transparent 37.5%,transparent 50%," +
-                        "transparent 50%,transparent 57%," +
-                        "rgba(255,255,255,0.07) 57%,rgba(255,255,255,0.07) 58.5%," +
-                        "transparent 58.5%,transparent 70%," +
-                        "rgba(6,182,212,0.10) 70%,rgba(6,182,212,0.10) 73%," +
-                        "transparent 73%,transparent 86%," +
-                        "rgba(255,255,255,0.05) 86%,rgba(255,255,255,0.05) 87.5%," +
-                        "transparent 87.5%,transparent 100%)",
-                      animation: "orb-earth-bands 9s linear infinite",
-                      pointerEvents: "none",
-                      mixBlendMode: "overlay",
-                    }} />
-                    {/* Rotating aurora shimmer */}
-                    <div style={{
-                      position: "absolute", inset: 0, borderRadius: "50%",
-                      background: "conic-gradient(from 0deg at 58% 38%, transparent 0deg, rgba(255,255,255,0.22) 38deg, transparent 85deg, rgba(56,189,248,0.26) 175deg, transparent 235deg, rgba(255,255,255,0.14) 295deg, transparent 360deg)",
-                      animation: "genie-orb-shimmer-spin 7s linear infinite",
-                      pointerEvents: "none",
-                    }} />
-                    {/* Primary specular — upper-left */}
-                    <div style={{
-                      position: "absolute", borderRadius: "50%",
-                      width: "42%", height: "38%",
-                      top: "10%", left: "14%",
-                      background: "rgba(255,255,255,0.94)",
-                      filter: "blur(7px)",
-                      pointerEvents: "none",
-                    }} />
-                    {/* Bright point glint */}
-                    <div style={{
-                      position: "absolute", borderRadius: "50%",
-                      width: "13%", height: "13%",
-                      top: "8%", left: "13%",
-                      background: "rgba(255,255,255,1)",
-                      filter: "blur(1.5px)",
-                      pointerEvents: "none",
-                    }} />
-                    {/* Secondary glint — lower right */}
-                    <div style={{
-                      position: "absolute", borderRadius: "50%",
-                      width: "18%", height: "14%",
-                      bottom: "22%", right: "16%",
-                      background: "rgba(56,189,248,0.62)",
-                      filter: "blur(5px)",
-                      pointerEvents: "none",
-                    }} />
-                    {/* Bottom rim transmitted-light glow */}
-                    <div style={{
-                      position: "absolute", borderRadius: "50%",
-                      width: "58%", height: "24%",
-                      bottom: "7%", left: "20%",
-                      background: "rgba(6,182,212,0.50)",
-                      filter: "blur(9px)",
-                      pointerEvents: "none",
-                    }} />
-                  </div>
+                  {/* ══ LEFT — Slide 1: Hero & How It Works ══ */}
+                  <div className="w-full md:w-[46%] flex flex-col">
 
-                  {/* Live status badge */}
-                  <div className="absolute z-20 flex items-center gap-1 px-2 py-0.5 rounded-full"
-                    style={{
-                      bottom: 12, right: 8,
-                      background: "linear-gradient(90deg, #059669 0%, #10b981 100%)",
-                      boxShadow: "0 2px 8px rgba(5,150,105,0.55), 0 0 0 2px rgba(8,20,46,0.9)",
-                    }}>
-                    <span className="block w-1.5 h-1.5 rounded-full bg-white" style={{animation:"genie-typing-dot 1.4s ease-in-out infinite"}} />
-                    <span className="text-[9px] font-bold text-white tracking-wide uppercase">Live</span>
-                  </div>
-                </div>
-                </div>{/* end scroll-drift wrapper */}
+                    {/* Headline */}
+                    <h2 className="text-2xl sm:text-[2rem] font-bold tracking-tight mb-3 text-center md:text-left leading-tight">
+                      <span style={{ color: "#FFFFFF", textShadow: "0 0 24px rgba(255,255,255,0.35), 0 0 8px rgba(255,255,255,0.20)" }}>Clear Guidance for FAFSA,</span>{" "}
+                      <span className="genie-shimmer-text">Aid Offers & Beyond.</span>
+                    </h2>
+                    <p className="text-sm text-[#94A3B8] leading-relaxed text-center md:text-left mb-5">
+                      Clear answers backed by 15 years of student aid experience — plain English, instant clarity.
+                    </p>
 
-                {/* ── Headline: punchy and benefit-led ── */}
-                <h2 className="text-[2.1rem] font-bold tracking-tight text-white mb-3 text-center leading-tight">
-                  Your Student Aid Questions,{" "}
-                  <span className="genie-shimmer-text">Answered in Seconds.</span>
-                </h2>
-                {/* Sub-headline: short, credibility-first */}
-                <p className="text-base text-white/58 leading-relaxed max-w-[28rem] text-center mb-8">
-                  AI guidance built on 15 years of FA expertise — FAFSA, Title&nbsp;IV, R2T4, SAP, and 34&nbsp;CFR compliance in plain English.
-                </p>
-
-                {/* ── Trust strip — pill badges for scanability ── */}
-                <div className="flex flex-wrap items-center justify-center gap-2.5 mb-9">
-                  {[
-                    { icon: Award,       text: "15-yr FA Professional" },
-                    { icon: BookOpen,    text: "34 CFR Full Coverage"  },
-                    { icon: ShieldCheck, text: "Updated Weekly"        },
-                    { icon: Users,       text: "Students · Parents · FA Offices" },
-                  ].map(({ icon: Icon, text }) => (
-                    <span key={text} className="flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-cyan-500/[0.07] ring-1 ring-cyan-500/[0.18]">
-                      <Icon className="h-3.5 w-3.5 text-cyan-400/80 shrink-0" aria-hidden="true" />
-                      <span className="text-xs text-white/55 font-medium">{text}</span>
-                    </span>
-                  ))}
-                </div>
-
-                {/* ── How it works — 4-step ── */}
-                <div className="w-full max-w-2xl mb-9">
-                  <div className="flex items-center gap-2 mb-5">
-                    <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/[0.07]" />
-                    <span className="text-xs font-bold uppercase tracking-widest text-white/25 px-2">How it works</span>
-                    <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/[0.07]" />
-                  </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                    {([
-                      { icon: Sparkles,    step: "1", title: "Choose Your Role",    body: "Click to highlight role selector",                                      color: "text-violet-400", ring: "ring-violet-500/[0.18]", bg: "bg-violet-500/[0.07]", activeKey: "role"     as const },
-                      { icon: Send,        step: "2", title: "Ask Anything",         body: "Click to highlight the chat input",                                     color: "text-cyan-400",   ring: "ring-cyan-500/[0.18]",   bg: "bg-cyan-500/[0.07]",   activeKey: "chatbox"  as const },
-                      { icon: Library,     step: "3", title: "Explore the Hub",      body: "Click to highlight left & right panels",                                color: "text-sky-400",    ring: "ring-sky-500/[0.18]",    bg: "bg-sky-500/[0.07]",    activeKey: "panels"   as const },
-                      { icon: CheckCircle, step: "4", title: "Get Clear Guidance",    body: "Click to highlight the response area",                                  color: "text-emerald-400",ring: "ring-emerald-500/[0.18]",bg: "bg-emerald-500/[0.07]",activeKey: "guidance" as const },
-                    ] as const).map(({ icon: Icon, step, title, body, color, ring, bg, activeKey }) => (
-                      <button
-                        key={step}
-                        type="button"
-                        onClick={() => setHowItWorksActive(activeKey)}
-                        className={`flex flex-col gap-3 p-4 rounded-xl ${bg} ring-1 ${ring} text-left transition-all duration-150 hover:scale-[1.03] hover:brightness-110 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${howItWorksActive === activeKey ? "hiw-active-ring brightness-125" : ""}`}
-                      >
-                        <div className="flex items-center gap-2">
-                          <span className="text-[10px] font-black text-white/20 tabular-nums">{step}</span>
-                          <Icon className={`h-4 w-4 ${color} ${howItWorksActive === activeKey ? "animate-pulse" : ""}`} aria-hidden="true" />
-                        </div>
-                        <p className="text-xs font-semibold text-white/80 leading-tight">{title}</p>
-                        <p className="text-[11px] text-white/40 leading-snug">{body}</p>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* ── Dashboard Perk — Background Music ── */}
-                <div className="w-full max-w-2xl mb-6">
-                  <button
-                    type="button"
-                    onClick={() => window.dispatchEvent(new Event("genie-music-play"))}
-                    className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl ring-1 ring-cyan-500/[0.18] bg-gradient-to-r from-cyan-500/[0.05] to-indigo-500/[0.05] hover:ring-cyan-500/[0.38] hover:bg-gradient-to-r hover:from-cyan-500/[0.10] hover:to-indigo-500/[0.10] hover:shadow-[0_0_18px_rgba(6,182,212,0.18)] transition-all duration-200 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 group"
-                    title="Click to start calm focus music"
-                  >
-                    <div className="shrink-0 p-2 rounded-xl bg-gradient-to-br from-cyan-500/20 to-indigo-600/20 ring-1 ring-cyan-500/25 group-hover:ring-cyan-400/50 group-hover:shadow-[0_0_10px_rgba(6,182,212,0.30)] transition-all duration-200">
-                      <Music className="h-4 w-4 text-cyan-300 group-hover:text-cyan-200 transition-colors" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-[11px] font-semibold text-cyan-300/80 leading-tight group-hover:text-cyan-200 transition-colors">🎵 Calm Focus Music — Click to Play</p>
-                      <p className="text-[10px] text-white/38 leading-snug mt-0.5">
-                        25 public domain classical pieces. Click here to start — or use the header player to skip tracks and adjust volume anytime.
-                      </p>
-                    </div>
-                  </button>
-                </div>
-
-                {/* ── Role selector — prominent card grid ── */}
-                <div className="w-full max-w-2xl mb-2">
-                  <p className="text-center text-xs font-bold uppercase tracking-[0.14em] text-white/28 mb-4">I am a…</p>
-                  <div className="grid grid-cols-3 sm:grid-cols-5 gap-2.5 mb-6">
-                    {([
-                      { role: "Students",       icon: GraduationCap  },
-                      { role: "Parents",        icon: Users           },
-                      { role: "Administrators", icon: ClipboardList   },
-                      { role: "Leaders",        icon: TrendingUp      },
-                      { role: "Auditors",       icon: ShieldCheck     },
-                    ] as const).map(({ role, icon: RoleIcon }) => (
-                      <button
-                        key={role}
-                        onClick={() => syncRoles(role.replace(/s$/, "") as any)}
-                        className={`flex flex-col items-center gap-2 px-2 py-4 rounded-xl text-xs font-semibold transition-all duration-200 ring-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 ${
-                          activeActionRole === role
-                            ? "bg-gradient-to-b from-cyan-500/20 to-sky-600/10 text-cyan-300 ring-cyan-500/35 shadow-lg shadow-cyan-900/20"
-                            : "text-white/40 hover:text-white/72 hover:bg-white/[0.05] ring-white/[0.07]"
-                        }`}
-                      >
-                        <RoleIcon className={`h-5 w-5 transition-colors ${activeActionRole === role ? "text-cyan-300" : "text-white/30"}`} />
-                        <span className="text-center leading-tight">{role}</span>
-                      </button>
-                    ))}
-                  </div>
-
-                  {/* Quick-start cards — 2×2 grid for selected role */}
-                  {QUICK_ACTIONS_BY_ROLE.filter((r) => r.role === activeActionRole).map(({ role, items }) => (
-                    <div key={role} className="grid grid-cols-2 gap-3">
-                      {items.map(({ icon: Icon, label, description, q }) => (
-                        <button
-                          key={`${role}-${label}`}
-                          onClick={() => sendMessage(q)}
-                          className="flex flex-col gap-3 p-4 rounded-xl bg-white/[0.04] hover:bg-cyan-500/[0.09] ring-1 ring-white/[0.07] hover:ring-cyan-500/25 text-left transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500"
-                        >
-                          <div className="p-2 rounded-lg bg-white/[0.06] group-hover:bg-cyan-500/18 transition-colors w-fit">
-                            <Icon className="h-4 w-4 text-white/38 group-hover:text-cyan-300 transition-colors" />
-                          </div>
-                          <div className="min-w-0">
-                            <p className="text-sm font-semibold text-white/80 group-hover:text-white transition-colors leading-tight">{label}</p>
-                            <p className="text-xs text-white/38 mt-1 leading-tight line-clamp-2">{description}</p>
-                          </div>
-                        </button>
+                    {/* Trust strip */}
+                    <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-5">
+                      {[
+                        { icon: Award,       text: "15-yr FA Professional" },
+                        { icon: BookOpen,    text: "34 CFR Full Coverage"  },
+                        { icon: ShieldCheck, text: "Updated Weekly"        },
+                        { icon: Users,       text: "Students · Parents · Offices" },
+                      ].map(({ icon: Icon, text }) => (
+                        <span key={text} className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-cyan-500/[0.08] ring-1 ring-cyan-500/[0.22] shadow-[0_0_8px_rgba(6,182,212,0.10)]">
+                          <Icon className="h-4 w-4 text-cyan-400 shrink-0" aria-hidden="true" />
+                          <span className="text-[10px] text-white/70 font-medium">{text}</span>
+                        </span>
                       ))}
                     </div>
-                  ))}
-                </div>
 
-                {/* ── Tips by Role ── */}
-                <div className="w-full max-w-2xl mt-10">
-                  <div className="flex items-center justify-center gap-2 mb-6">
-                    <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/10" />
-                    <div className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-white/[0.06] ring-1 ring-white/10">
-                      <Lightbulb className="h-4 w-4 text-amber-400" />
-                      <span className="text-sm font-semibold text-white/55 tracking-wide">Tips by Role</span>
-                    </div>
-                    <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/10" />
-                  </div>
-                  <div className="flex gap-1.5 justify-center flex-wrap mb-4">
-                    {ROLE_TIPS.map(({ role, icon: Icon }) => (
-                      <button
-                        key={role}
-                        onClick={() => syncRoles(role)}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 ${
-                          activeRole === role
-                            ? "bg-cyan-600/80 text-white ring-1 ring-cyan-500/40 shadow-md shadow-cyan-900/30"
-                            : "bg-white/[0.05] text-white/45 hover:text-white/75 hover:bg-white/[0.09] ring-1 ring-white/[0.07]"
-                        }`}
-                      >
-                        <Icon className="h-3 w-3" />
-                        {role}
-                      </button>
-                    ))}
-                  </div>
-                  {ROLE_TIPS.filter((r) => r.role === activeRole).map(({ role, icon: Icon, gradient, accent, tips }) => (
-                    <div key={role} className="rounded-2xl bg-white/[0.04] ring-1 ring-white/[0.08] backdrop-blur-sm overflow-hidden">
-                      <div className={`bg-gradient-to-r ${gradient} px-5 py-5 flex items-center gap-3`}>
-                        <div className="p-2.5 rounded-xl bg-white/20">
-                          <Icon className="h-6 w-6 text-white" />
-                        </div>
-                        <div>
-                          <p className="text-base font-semibold text-white leading-tight">As a {role}</p>
-                          <p className="text-xs text-white/65 leading-tight mt-0.5">Click any tip to auto-send to askGenie</p>
-                        </div>
+                    {/* How It Works */}
+                    <div className="w-full mb-5">
+                      <div className="flex items-center gap-2 mb-4">
+                        <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/[0.07]" />
+                        <span className="text-xs font-bold uppercase tracking-widest text-cyan-400/40 px-2">How it works</span>
+                        <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/[0.07]" />
                       </div>
-                      <div className="divide-y divide-white/[0.06]">
-                        {tips.map(({ text, prompt }, i) => (
+                      <div className="grid grid-cols-2 gap-2">
+                        {([
+                          { icon: Sparkles,    step: "1", title: "Choose Your Role",  body: "Click to highlight role selector",      color: "text-violet-400", ring: "ring-violet-500/[0.18]", bg: "bg-violet-500/[0.07]", activeKey: "role"     as const },
+                          { icon: Send,        step: "2", title: "Ask Anything",       body: "Click to highlight the chat input",     color: "text-cyan-400",   ring: "ring-cyan-500/[0.18]",   bg: "bg-cyan-500/[0.07]",   activeKey: "chatbox"  as const },
+                          { icon: Library,     step: "3", title: "Explore the Hub",    body: "Click to highlight left & right panels",color: "text-sky-400",    ring: "ring-sky-500/[0.18]",    bg: "bg-sky-500/[0.07]",    activeKey: "panels"   as const },
+                          { icon: CheckCircle, step: "4", title: "Get Clear Guidance", body: "Click to highlight the response area",  color: "text-emerald-400",ring: "ring-emerald-500/[0.18]",bg: "bg-emerald-500/[0.07]",activeKey: "guidance" as const },
+                        ] as const).map(({ icon: Icon, step, title, body, color, ring, bg, activeKey }) => (
                           <button
-                            key={i}
-                            onClick={() => sendMessage(prompt)}
-                            className="w-full flex items-start gap-3 px-5 py-4 text-left group hover:bg-cyan-500/[0.08] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400"
+                            key={step}
+                            type="button"
+                            onClick={() => { setHowItWorksActive(activeKey); triggerOrbGold(); if (activeKey === "panels") { setShowMobileLeft(true); setShowMobileRight(true); resetLeftTimer(); resetRightTimer(); } }}
+                            className={`flex flex-col gap-2 p-3 rounded-xl ${bg} ring-1 ${ring} text-left transition-all duration-150 hover:scale-[1.03] hover:brightness-110 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${howItWorksActive === activeKey ? "hiw-active-ring brightness-125" : ""}`}
                           >
-                            <span className={`mt-2 h-2 w-2 rounded-full shrink-0 ring-1 ${accent}`} />
-                            <p className="text-sm text-white/60 group-hover:text-white/88 leading-snug transition-colors duration-150 flex-1">{text}</p>
-                            <ChevronRight className="h-4 w-4 text-white/15 group-hover:text-cyan-400 shrink-0 mt-0.5 transition-colors duration-150" />
+                            <div className="flex items-start justify-between">
+                              <div className={`p-1.5 rounded-lg ${bg} ring-1 ${ring} shadow-sm`}>
+                                <Icon className={`h-4 w-4 ${color} ${howItWorksActive === activeKey ? "animate-pulse" : ""}`} aria-hidden="true" />
+                              </div>
+                              <span className="text-lg font-black text-white/10 tabular-nums leading-none">{step}</span>
+                            </div>
+                            <p className="text-[11px] font-semibold text-white/90 leading-tight">{title}</p>
+                            <p className="text-[10px] text-[#94A3B8] leading-snug">{body}</p>
                           </button>
                         ))}
                       </div>
                     </div>
-                  ))}
-                </div>
 
-                </div>{/* end content z-[2] wrapper */}
+                    {/* Music button */}
+                    <button
+                      type="button"
+                      onClick={() => window.dispatchEvent(new Event("genie-music-play"))}
+                      className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl ring-1 ring-cyan-500/[0.18] bg-gradient-to-r from-cyan-500/[0.05] to-indigo-500/[0.05] hover:ring-cyan-500/[0.38] hover:shadow-[0_0_18px_rgba(6,182,212,0.18)] transition-all duration-200 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 group"
+                      title="Click to start calm focus music"
+                    >
+                      <div className="shrink-0 p-2 rounded-xl bg-gradient-to-br from-cyan-500/20 to-indigo-600/20 ring-1 ring-cyan-500/25 group-hover:ring-cyan-400/50 group-hover:shadow-[0_0_10px_rgba(6,182,212,0.30)] transition-all duration-200">
+                        <Music className="h-4 w-4 text-cyan-300 group-hover:text-cyan-200 transition-colors" />
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <p className="text-[11px] font-semibold text-cyan-300/80 leading-tight group-hover:text-cyan-200 transition-colors">🎵 Calm Focus Music — Click to Play</p>
+                        <p className="text-[10px] text-[#94A3B8]/80 leading-snug mt-0.5">
+                          25 public domain classical pieces. Use the header player to skip tracks anytime.
+                        </p>
+                      </div>
+                    </button>
+
+                  </div>{/* end left column */}
+
+                  {/* ══ RIGHT — Slide 2 + 3: I am a… / Tips by Role ══ */}
+                  <div ref={tipsRef} className="w-full md:w-[54%] flex flex-col">
+
+                    {/* Slide navigation */}
+                    <div className="flex items-center justify-between mb-3 px-0.5">
+                      <button
+                        type="button"
+                        onClick={() => setSlideFlipped(false)}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${!slideFlipped ? "bg-cyan-600/80 text-white ring-1 ring-cyan-500/40 shadow-md shadow-cyan-900/30" : "bg-white/[0.05] text-cyan-200/50 hover:text-cyan-100 hover:bg-cyan-500/[0.08] ring-1 ring-white/[0.07]"}`}
+                      >
+                        <ChevronLeft className="h-3.5 w-3.5" />
+                        I am a…
+                      </button>
+                      <div className="flex items-center gap-1.5">
+                        <span className={`h-1.5 rounded-full transition-all duration-300 ${!slideFlipped ? "w-4 bg-cyan-400" : "w-1.5 bg-white/20"}`} />
+                        <span className={`h-1.5 rounded-full transition-all duration-300 ${slideFlipped ? "w-4 bg-cyan-400" : "w-1.5 bg-white/20"}`} />
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setSlideFlipped(true)}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${slideFlipped ? "bg-cyan-600/80 text-white ring-1 ring-cyan-500/40 shadow-md shadow-cyan-900/30" : "bg-white/[0.05] text-cyan-200/50 hover:text-cyan-100 hover:bg-cyan-500/[0.08] ring-1 ring-white/[0.07]"}`}
+                      >
+                        Tips by Role
+                        <ChevronRight className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+
+                    {/* Slide container */}
+                    <div className="overflow-hidden rounded-2xl ring-1 ring-white/[0.06]">
+                      <div className={`genie-console-slider${slideFlipped ? " genie-slide-flipped" : ""}`}>
+
+                        {/* Slide 2 — I am a… */}
+                        <div className="genie-console-slide px-4 pt-4 pb-4 bg-[#0A1428]/60">
+                          <p className="text-center text-xs font-bold uppercase tracking-[0.14em] text-[#94A3B8]/70 mb-3">I am a…</p>
+                          <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 mb-4">
+                            {([
+                              { role: "Students",       icon: GraduationCap  },
+                              { role: "Parents",        icon: Users           },
+                              { role: "Administrators", icon: ClipboardList   },
+                              { role: "Leaders",        icon: TrendingUp      },
+                              { role: "Auditors",       icon: ShieldCheck     },
+                            ] as const).map(({ role, icon: RoleIcon }) => (
+                              <button
+                                key={role}
+                                onClick={() => syncRoles(role.replace(/s$/, "") as any)}
+                                className={`flex flex-col items-center gap-1.5 px-1 py-3 rounded-xl text-[10px] font-semibold transition-all duration-200 ring-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 ${
+                                  activeActionRole === role
+                                    ? "bg-gradient-to-b from-[#00D1C9]/20 to-[#007FA8]/10 text-[#00E5C0] ring-[#00D1C9]/35 shadow-lg shadow-[#00D1C9]/10"
+                                    : "text-[#94A3B8] hover:text-cyan-100/90 hover:bg-[#162645] ring-[#1E2A4A]"
+                                }`}
+                              >
+                                <div className={`p-2 rounded-xl transition-all duration-200 ${activeActionRole === role ? "bg-[#00D1C9]/20 shadow-[0_0_16px_rgba(0,209,201,0.30)] ring-1 ring-[#00D1C9]/30" : "bg-[#13213F]"}`}>
+                                  <RoleIcon className={`h-5 w-5 transition-colors ${activeActionRole === role ? "text-[#00E5C0]" : "text-[#94A3B8]/60"}`} />
+                                </div>
+                                <span className="text-center leading-tight">{role}</span>
+                              </button>
+                            ))}
+                          </div>
+
+                          {/* Quick-start cards */}
+                          {QUICK_ACTIONS_BY_ROLE.filter((r) => r.role === activeActionRole).map(({ role, items }) => (
+                            <div key={role} className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                              {items.slice(0, 4).map(({ icon: Icon, label, description, q }) => (
+                                <button
+                                  key={`${role}-${label}`}
+                                  onClick={() => sendMessage(q)}
+                                  className="flex flex-col gap-2.5 p-3.5 rounded-xl bg-[#13213F] hover:bg-[#162645] ring-1 ring-[#1E2A4A] hover:ring-[#00D1C9]/30 text-left transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D1C9]"
+                                >
+                                  <div className="p-2.5 rounded-xl bg-white/[0.06] group-hover:bg-cyan-500/[0.15] ring-1 ring-white/[0.08] group-hover:ring-cyan-500/[0.30] group-hover:shadow-[0_0_14px_rgba(6,182,212,0.22)] transition-all duration-200 w-fit">
+                                    <Icon className="h-5 w-5 text-[#94A3B8] group-hover:text-[#00E5C0] transition-colors" />
+                                  </div>
+                                  <div className="min-w-0">
+                                    <p className="text-xs font-semibold text-white/80 group-hover:text-white transition-colors leading-tight">{label}</p>
+                                    <p className="text-[10px] text-cyan-300/45 mt-0.5 leading-tight line-clamp-2">{description}</p>
+                                  </div>
+                                </button>
+                              ))}
+                            </div>
+                          ))}
+                        </div>{/* end slide 2 */}
+
+                        {/* Slide 3 — Tips by Role */}
+                        <div className="genie-console-slide px-4 pt-4 pb-4 bg-[#0A1428]/60">
+                          <div className="flex items-center justify-center gap-2 mb-4">
+                            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/10" />
+                            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#13213F] ring-1 ring-[#1E2A4A]">
+                              <Lightbulb className="h-3.5 w-3.5 text-amber-400" />
+                              <span className="text-xs font-semibold text-cyan-300/65 tracking-wide">Tips by Role</span>
+                            </div>
+                            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/10" />
+                          </div>
+                          <div className="flex gap-1.5 justify-center flex-wrap mb-3">
+                            {ROLE_TIPS.map(({ role, icon: Icon }) => (
+                              <button
+                                key={role}
+                                onClick={() => syncRoles(role)}
+                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 ${
+                                  activeRole === role
+                                    ? "bg-cyan-600/80 text-white ring-1 ring-cyan-500/40 shadow-md shadow-cyan-900/30"
+                                    : "bg-white/[0.05] text-cyan-200/45 hover:text-cyan-100/80 hover:bg-cyan-500/[0.08] ring-1 ring-white/[0.07]"
+                                }`}
+                              >
+                                <Icon className="h-3 w-3" />
+                                {role}
+                              </button>
+                            ))}
+                          </div>
+                          {ROLE_TIPS.filter((r) => r.role === activeRole).map(({ role, icon: Icon, gradient, accent, tips }) => (
+                            <div key={role} className="rounded-2xl bg-[#13213F] ring-1 ring-[#1E2A4A] overflow-hidden">
+                              <div className={`bg-gradient-to-r ${gradient} px-4 py-4 flex items-center gap-3`}>
+                                <div className="p-2 rounded-xl bg-white/20">
+                                  <Icon className="h-5 w-5 text-white" />
+                                </div>
+                                <div>
+                                  <p className="text-sm font-semibold text-white leading-tight">As a {role}</p>
+                                  <p className="text-[10px] text-white/65 leading-tight mt-0.5">Click any tip to auto-send to AskGenie</p>
+                                </div>
+                              </div>
+                              <div className="divide-y divide-white/[0.06] max-h-[280px] overflow-y-auto">
+                                {tips.slice(0, 5).map(({ text, prompt }, i) => (
+                                  <button
+                                    key={i}
+                                    onClick={() => sendMessage(prompt)}
+                                    className="w-full flex items-start gap-3 px-4 py-3.5 text-left group hover:bg-cyan-500/[0.08] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400"
+                                  >
+                                    <span className={`mt-2 h-1.5 w-1.5 rounded-full shrink-0 ring-1 ${accent}`} />
+                                    <p className="text-xs text-[#94A3B8] group-hover:text-white/90 leading-snug transition-colors duration-150 flex-1">{text}</p>
+                                    <ChevronRight className="h-3.5 w-3.5 text-white/15 group-hover:text-cyan-400 shrink-0 mt-0.5 transition-colors duration-150" />
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          ))}
+                        </div>{/* end slide 3 */}
+
+                      </div>{/* end genie-console-slider */}
+                    </div>{/* end overflow container */}
+
+                  </div>{/* end right column */}
+
+                </div>{/* end two-column console */}
+
+                </div>{/* end z-[2] wrapper */}
               </div>
 
             ) : (
@@ -4923,7 +5434,7 @@ export default function AidAgentPage() {
           </div>
 
           {/* Input area */}
-          <div className="shrink-0 relative bg-white/[0.03] backdrop-blur-xl border-t border-cyan-500/[0.12] px-4 pt-4 pb-5">
+          <div className="shrink-0 relative bg-[#0A1428]/80 backdrop-blur-xl border-t border-[#1E2A4A] px-4 pt-4 pb-5" style={{ zIndex: 3 }}>
             {/* Ambient glow bloom behind chatbox */}
             <div className="pointer-events-none absolute inset-x-0 -top-6 h-16 bg-gradient-to-t from-cyan-500/[0.06] to-transparent" />
 
@@ -4932,7 +5443,7 @@ export default function AidAgentPage() {
               <div className="flex items-center gap-2 mb-2 px-1">
                 <GenieBottle className="h-3.5 w-3.5 text-amber-400 shrink-0 genie-icon-shimmer" />
                 <span className="text-sm font-semibold tracking-wide genie-shimmer-text">
-                  askGenie
+                  AskGenie
                 </span>
                 <div className="h-px flex-1 bg-white/[0.06]" />
                 {messages.length > 0 && (
@@ -4955,7 +5466,7 @@ export default function AidAgentPage() {
                     key={label}
                     type="button"
                     aria-pressed={selectedRole === label}
-                    onClick={() => syncRoles(selectedRole === label ? null : label)}
+                    onClick={() => { syncRoles(selectedRole === label ? null : label); if (selectedRole !== label) setSlideFlipped(false); }}
                     className={`flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ring-1 ${
                       selectedRole === label
                         ? `${color} ${bg} ${ring}`
@@ -5006,28 +5517,28 @@ export default function AidAgentPage() {
 
               {/* Input form */}
               <div
-                className={`rounded-2xl ring-1 ring-cyan-500/[0.28] focus-within:ring-cyan-400/65 transition-all duration-200 ${howItWorksActive === "chatbox" ? "hiw-active-ring" : ""}`}
+                className={`rounded-2xl ring-1 focus-within:ring-cyan-400/65 transition-all duration-200 ${howItWorksActive === "chatbox" ? "hiw-active-ring" : (!input && !attachedFile ? "genie-chatbox-invite ring-cyan-500/[0.28]" : "ring-cyan-400/55")}`}
                 style={{
                   background: "rgba(6,182,212,0.05)",
                   boxShadow: howItWorksActive === "chatbox"
                     ? "0 0 0 2px rgba(6,182,212,0.55), 0 0 40px rgba(6,182,212,0.30), 0 0 80px rgba(6,182,212,0.12), 0 1px 0 rgba(255,255,255,0.06) inset"
-                    : "0 0 0 1px rgba(6,182,212,0.10), 0 4px 24px rgba(6,182,212,0.10), 0 1px 0 rgba(255,255,255,0.04) inset",
+                    : undefined,
                 }}
               >
                 <form
                   onSubmit={handleSubmit}
                   className="flex gap-2 items-end px-3 py-2.5"
                 >
-                  {/* Upload + mic buttons */}
+                  {/* Upload + mic buttons — illuminate when idle to invite use */}
                   <div className="flex items-center gap-0.5 shrink-0 mb-0.5">
                     <button type="button" title={canAccessFeature("document_upload", userTier) ? "Upload document (.pdf, .txt, .doc, .csv)" : "Pro — upload documents"}
                       onClick={() => canAccessFeature("document_upload", userTier) ? fileInputRef.current?.click() : openUpgrade("document_upload")}
-                      className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-cyan-400/55 hover:text-cyan-300 hover:bg-cyan-500/[0.18] hover:shadow-[0_0_8px_rgba(6,182,212,0.35)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
+                      className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? (!input && !attachedFile ? "genie-tool-invite" : "text-cyan-400/55") + " hover:text-cyan-300 hover:bg-cyan-500/[0.18] hover:shadow-[0_0_8px_rgba(6,182,212,0.35)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
                       <Paperclip className="h-4 w-4" />
                     </button>
                     <button type="button" title={canAccessFeature("document_upload", userTier) ? "Take or upload a photo for context" : "Pro — upload photos"}
                       onClick={() => canAccessFeature("document_upload", userTier) ? cameraInputRef.current?.click() : openUpgrade("document_upload")}
-                      className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-cyan-400/55 hover:text-cyan-300 hover:bg-cyan-500/[0.18] hover:shadow-[0_0_8px_rgba(6,182,212,0.35)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
+                      className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? (!input && !attachedFile ? "genie-tool-invite" : "text-cyan-400/55") + " hover:text-cyan-300 hover:bg-cyan-500/[0.18] hover:shadow-[0_0_8px_rgba(6,182,212,0.35)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
                       <Camera className="h-4 w-4" />
                     </button>
                     <button type="button"
@@ -5037,7 +5548,7 @@ export default function AidAgentPage() {
                         isRecording
                           ? "text-rose-400 bg-rose-500/20 ring-1 ring-rose-500/40 animate-pulse shadow-[0_0_12px_rgba(244,63,94,0.45)]"
                           : canAccessFeature("document_upload", userTier)
-                          ? "text-cyan-400/55 hover:text-cyan-300 hover:bg-cyan-500/[0.18] hover:shadow-[0_0_8px_rgba(6,182,212,0.35)]"
+                          ? (!input && !attachedFile ? "genie-tool-invite" : "text-cyan-400/55") + " hover:text-cyan-300 hover:bg-cyan-500/[0.18] hover:shadow-[0_0_8px_rgba(6,182,212,0.35)]"
                           : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"
                       }`}>
                       {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
@@ -5055,7 +5566,7 @@ export default function AidAgentPage() {
                       onChange={handleInputChange}
                       onKeyDown={handleKeyDown}
                       aria-label="Ask Genie a financial aid question"
-                      placeholder={isRecording ? "🎙 Listening… speak your question…" : "askGenie — or tell Genie what you're concerned about…"}
+                      placeholder={isRecording ? "🎙 Listening… speak your question…" : "Ask about FAFSA, aid offers, R2T4, SAP, or any student aid question…"}
                       rows={1}
                       className="w-full resize-none px-2 py-1.5 bg-transparent text-white text-sm placeholder:text-cyan-200/22 focus:outline-none leading-relaxed"
                       style={{ minHeight: "40px", maxHeight: "160px" }}
@@ -5079,10 +5590,11 @@ export default function AidAgentPage() {
                     <button
                       type="submit"
                       disabled={(!input.trim() && !attachedFile) || isLoading}
+                      onClick={triggerOrbGold}
                       className="shrink-0 mb-0.5 flex items-center gap-1.5 px-4 py-2 rounded-xl text-white text-xs font-bold tracking-wide active:scale-95 transition-all duration-150 disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-cyan-400"
                       style={{
-                        background: "linear-gradient(135deg, #0891b2 0%, #4f46e5 100%)",
-                        boxShadow: "0 0 0 1px rgba(6,182,212,0.55), 0 2px 16px rgba(6,182,212,0.50), 0 0 36px rgba(99,102,241,0.30), 0 0 60px rgba(6,182,212,0.12), inset 0 1px 0 rgba(255,255,255,0.18)",
+                        background: "linear-gradient(135deg, #00B8C8 0%, #00D1C9 50%, #0099B8 100%)",
+                        boxShadow: "0 0 0 1px rgba(0,209,201,0.50), 0 2px 16px rgba(0,209,201,0.40), 0 0 32px rgba(0,229,192,0.20), inset 0 1px 0 rgba(255,255,255,0.15)",
                       }}
                     >
                       <GenieBottle className="h-4 w-4 text-amber-200 genie-send-icon" />
@@ -5103,13 +5615,13 @@ export default function AidAgentPage() {
 
               {/* Footer hints */}
               <div className="mt-2 flex flex-col items-center gap-0.5">
-                <p className="text-[10px] text-white/20 text-center tracking-wide">
+                <p className="text-[10px] text-cyan-400/30 text-center tracking-wide">
                   Enter to send · Shift+Enter for new line · Attach docs, photos, or voice · Always verify with the FSA Handbook
                 </p>
-                <p className="text-[10px] text-center text-white/25">
+                <p className="text-[10px] text-center text-cyan-300/30">
                   Unofficial reference tool — not affiliated with the U.S. Department of Education
                 </p>
-                <p className="text-[10px] text-center text-white/30 italic mt-0.5">
+                <p className="text-[10px] text-center text-cyan-200/28 italic mt-0.5">
                   Built by a 15-year Student Financial Aid professional. Designed for the people who do this work every day.
                 </p>
                 <div className="flex flex-wrap justify-center items-center gap-x-0.5 gap-y-1 mt-1">
@@ -5126,7 +5638,7 @@ export default function AidAgentPage() {
                   ].map(({ label, href, cls }, i, arr) => (
                     <span key={label} className="contents">
                       <a
-                        href={`/open-resource?url=${encodeURIComponent(href)}`}
+                        href={href}
                         target="_blank"
                         rel="noopener noreferrer"
                         className={`px-2 py-0.5 rounded-full text-[10px] transition-all duration-150 ${cls}`}
@@ -5137,8 +5649,8 @@ export default function AidAgentPage() {
                     </span>
                   ))}
                 </div>
-                <p className="text-[10px] text-center text-white/15 mt-0.5">
-                  © 2026 askGenie Student Aid Hub | Developed by One27 | All Rights Reserved
+                <p className="text-[10px] text-center text-cyan-500/25 mt-0.5">
+                  © 2026 AskGenie Student Aid Hub | Developed by One27 | All Rights Reserved
                 </p>
               </div>
             </div>
@@ -5147,19 +5659,19 @@ export default function AidAgentPage() {
         </main>
 
         {/* ── Right Panel — Coverage + Quick Actions ── */}
-        <aside className={`${showMobileRight ? "flex fixed inset-y-0 right-0 z-50" : "hidden"} xl:flex xl:static xl:z-auto flex-col w-72 shrink-0 border-l border-white/[0.10] bg-[#071035] xl:bg-white/[0.07] backdrop-blur-2xl transition-all duration-300 ${howItWorksActive === "panels" ? "hiw-panel-explore" : ""}`}>
+        <aside onMouseMove={resetRightTimer} onTouchStart={resetRightTimer} className={`${showMobileRight ? "flex fixed right-0 bottom-0 z-[60] genie-panel-dropdown" : "hidden"} flex-col w-72 shrink-0 border-l border-[#1E2A4A] bg-[#0F1B33] backdrop-blur-2xl transition-all duration-300 ${howItWorksActive === "panels" ? "hiw-panel-explore" : ""}`} style={showMobileRight ? { top: "5rem" } : undefined}>
           {howItWorksActive === "panels" && <div className="hiw-scan-overlay" aria-hidden="true" />}
 
           {/* Header — Administrators, Leaders & Auditors */}
-          <div className="px-4 pt-4 pb-4 border-b border-white/[0.07]">
+          <div className="px-4 pt-4 pb-4 border-b border-[#1E2A4A]">
             <div className="flex items-center justify-end gap-2.5">
               <div className="text-right">
-                <p className="text-[11px] font-bold text-white/40 uppercase tracking-widest leading-none mb-0.5">Student Aid HUB</p>
-                <p className="text-sm font-semibold bg-gradient-to-r from-violet-300 to-indigo-300 bg-clip-text text-transparent leading-tight">
+                <p className="text-[11px] font-bold text-cyan-500/65 uppercase tracking-widest leading-none mb-0.5">Student Aid HUB</p>
+                <p className="text-sm font-semibold bg-gradient-to-r from-cyan-300 to-teal-300 bg-clip-text text-transparent leading-tight">
                   Admins, Leaders &amp; Auditors
                 </p>
               </div>
-              <div className={`p-1.5 rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 shadow-lg shadow-violet-500/25 shrink-0 transition-all duration-300 ${howItWorksActive === "panels" ? "shadow-[0_0_18px_rgba(6,182,212,0.70)] ring-2 ring-cyan-400/60" : ""}`}>
+              <div className={`p-1.5 rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 shadow-lg shadow-cyan-500/30 shrink-0 transition-all duration-300 ${howItWorksActive === "panels" ? "shadow-[0_0_18px_rgba(6,182,212,0.70)] ring-2 ring-cyan-400/60" : ""}`}>
                 <Zap className={`h-4 w-4 text-white ${howItWorksActive === "panels" ? "animate-pulse" : ""}`} />
               </div>
             </div>
@@ -5172,11 +5684,11 @@ export default function AidAgentPage() {
             {QUICK_ACTIONS_BY_ROLE.filter(({ role }) => role === "Administrators" || role === "Leaders" || role === "Auditors").map(({ role, color, items, more }) => {
               const isOpen = expandedSections.has(`rqa-open-${role}`);
               return (
-                <div key={role} className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                <div key={role} className="rounded-xl overflow-hidden ring-1 ring-[#1E2A4A] bg-[#13213F]">
                   <button onClick={() => toggleSection(`rqa-open-${role}`)}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
-                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-right">{role} Quick Actions</span>
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-[#1A2749] hover:[box-shadow:inset_3px_0_0_#00D1C9] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#00D1C9]/60">
+                    <ChevronRight className={`h-3.5 w-3.5 text-[#94A3B8]/50 transition-transform duration-200 ${isOpen ? "rotate-90 text-[#00D1C9]" : ""}`} />
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white text-right">{role} Quick Actions</span>
                   </button>
                   {isOpen && (
                     <div className="space-y-0.5 px-1.5 pb-2">
@@ -5184,13 +5696,13 @@ export default function AidAgentPage() {
                         <button key={`rqa-${role}-${label}`} onClick={() => sendMessage(q)} disabled={isBusy}
                           title={label}
                           className="w-full flex items-start gap-2.5 px-2.5 py-2 rounded-lg text-right group transition-all duration-150 hover:bg-cyan-500/[0.14] ring-1 ring-transparent hover:ring-cyan-500/[0.25] disabled:opacity-40 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400">
-                          <ChevronRight className="h-3 w-3 text-white/25 group-hover:text-cyan-400 transition-colors shrink-0 mt-1" />
-                          <div className="mt-0.5 p-1.5 rounded-lg bg-white/[0.08] group-hover:bg-cyan-500/[0.20] transition-colors shrink-0">
-                            <Icon className="h-3 w-3 text-white/60 group-hover:text-cyan-300 transition-colors" />
+                          <ChevronRight className="h-3 w-3 text-[#94A3B8]/35 group-hover:text-[#00D1C9] transition-colors shrink-0 mt-1" />
+                          <div className="mt-0.5 p-1.5 rounded-lg bg-[#1E2A4A] group-hover:bg-[#00D1C9]/15 transition-colors shrink-0">
+                            <Icon className="h-3 w-3 text-[#94A3B8] group-hover:text-[#00E5C0] transition-colors" />
                           </div>
                           <div className="min-w-0 flex-1 text-right">
-                            <p className="text-xs font-semibold text-white/85 group-hover:text-white transition-colors leading-tight">{label}</p>
-                            <p className="text-[10px] text-white/55 mt-0.5 leading-tight">{description}</p>
+                            <p className="text-xs font-semibold text-[#E2E8F0] group-hover:text-[#00E5C0] transition-colors leading-tight">{label}</p>
+                            <p className="text-[10px] text-[#94A3B8]/70 mt-0.5 leading-tight">{description}</p>
                           </div>
                         </button>
                       ))}
@@ -5207,18 +5719,18 @@ export default function AidAgentPage() {
               const isOpen = expandedSections.has(key);
               const isMoreOpen = expandedSections.has(moreKey);
               return (
-                <div key={group} className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                <div key={group} className="rounded-xl overflow-hidden ring-1 ring-[#1E2A4A] bg-[#13213F]">
                   <button onClick={() => toggleSection(key)}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
-                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-right">{group}</span>
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-[#1A2749] hover:[box-shadow:inset_3px_0_0_#00D1C9] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#00D1C9]/60">
+                    <ChevronRight className={`h-3.5 w-3.5 text-[#94A3B8]/50 transition-transform duration-200 ${isOpen ? "rotate-90 text-[#00D1C9]" : ""}`} />
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white text-right">{group}</span>
                   </button>
                   {isOpen && (
                     <div className="px-1.5 pb-2 space-y-0.5">
                       {links.map(({ name, url }) => (
-                        <a key={name} href={`/open-resource?url=${encodeURIComponent(url)}`} target="_blank" rel="noopener noreferrer"
+                        <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                           title={name}
-                          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-cyan-200 hover:bg-cyan-500/[0.14] ring-1 ring-transparent hover:ring-cyan-500/[0.25] transition-all duration-150 group">
+                          className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-[#1A2749] ring-1 ring-transparent hover:ring-[#00D1C9]/20 transition-all duration-150 group">
                           <span>{name}</span>
                           <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-indigo-400 shrink-0" />
                         </a>
@@ -5227,12 +5739,12 @@ export default function AidAgentPage() {
                         <>
                           {isMoreOpen && (more as MaybeSubcat[]).map((item, idx) => {
                             if (isSubcat(item)) {
-                              return <div key={`rsc-${idx}`} className="px-3 pt-2.5 pb-0.5 text-right"><span className="text-[9px] font-bold uppercase tracking-widest text-white/30">{item.subcat}</span></div>;
+                              return <div key={`rsc-${idx}`} className="px-3 pt-2.5 pb-0.5 text-right"><span className="text-[9px] font-bold uppercase tracking-widest text-cyan-500/50">{item.subcat}</span></div>;
                             }
                             return (
-                              <a key={item.name} href={`/open-resource?url=${encodeURIComponent(item.url)}`} target="_blank" rel="noopener noreferrer"
+                              <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
                                 title={item.name}
-                                className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-white/75 hover:text-cyan-200 hover:bg-cyan-500/[0.14] ring-1 ring-transparent hover:ring-cyan-500/[0.25] transition-all duration-150 group">
+                                className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-[#1A2749] ring-1 ring-transparent hover:ring-[#00D1C9]/20 transition-all duration-150 group">
                                 <span>{item.name}</span>
                                 <ExternalLink className="h-3 w-3 text-white/30 group-hover:text-indigo-400 shrink-0" />
                               </a>
@@ -5251,15 +5763,95 @@ export default function AidAgentPage() {
               );
             })}
 
+            {/* ── VA Resources ── */}
+            {(() => {
+              const isOpen = expandedSections.has("sec-va-resources");
+              const showMore = expandedSections.has("va-resources-more");
+              const SPLIT = 30;
+              const list = showMore ? VA_RESOURCES : VA_RESOURCES.slice(0, SPLIT);
+              return (
+                <div className="rounded-xl overflow-hidden ring-1 ring-[#1E2A4A] bg-[#13213F]">
+                  <button onClick={() => toggleSection("sec-va-resources")}
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-[#1A2749] hover:[box-shadow:inset_3px_0_0_#00D1C9] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#00D1C9]/60">
+                    <ChevronRight className={`h-3.5 w-3.5 text-[#94A3B8]/50 transition-transform duration-200 ${isOpen ? "rotate-90 text-[#00D1C9]" : ""}`} />
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white text-right">VA Resources</span>
+                  </button>
+                  {isOpen && (
+                    <div className="px-1.5 pb-2 space-y-0.5">
+                      {list.map((item, idx) => {
+                        if (isSubcat(item)) {
+                          return <div key={`va-${idx}`} className="px-3 pt-2.5 pb-0.5 text-right"><span className="text-[9px] font-bold uppercase tracking-widest text-cyan-500/50">{item.subcat}</span></div>;
+                        }
+                        return (
+                          <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                            title={item.name}
+                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-[#1A2749] ring-1 ring-transparent hover:ring-[#00D1C9]/20 transition-all duration-150 group">
+                            <span>{item.name}</span>
+                            <ExternalLink className="h-3 w-3 text-[#94A3B8]/40 group-hover:text-[#00D1C9] shrink-0" />
+                          </a>
+                        );
+                      })}
+                      <button
+                        onClick={() => toggleSection("va-resources-more")}
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-[#94A3B8] hover:text-[#00D1C9] hover:bg-[#1A2749] opacity-80 hover:opacity-100 transition-all duration-150">
+                        <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
+                        {showMore ? "Show fewer" : `View ${VA_RESOURCES.length - SPLIT} more`}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+
+            {/* ── Volunteer & Community Service ── */}
+            {(() => {
+              const isOpen = expandedSections.has("sec-volunteer-right");
+              const showMore = expandedSections.has("volunteer-more-right");
+              const SPLIT = 25;
+              const list = showMore ? VOLUNTEER_RESOURCES : VOLUNTEER_RESOURCES.slice(0, SPLIT);
+              return (
+                <div className="rounded-xl overflow-hidden ring-1 ring-[#1E2A4A] bg-[#13213F]">
+                  <button onClick={() => toggleSection("sec-volunteer-right")}
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-[#1A2749] hover:[box-shadow:inset_3px_0_0_#00D1C9] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#00D1C9]/60">
+                    <ChevronRight className={`h-3.5 w-3.5 text-[#94A3B8]/50 transition-transform duration-200 ${isOpen ? "rotate-90 text-[#00D1C9]" : ""}`} />
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white text-right">Volunteer &amp; Community Service</span>
+                  </button>
+                  {isOpen && (
+                    <div className="px-1.5 pb-2 space-y-0.5">
+                      {list.map((item, idx) => {
+                        if (isSubcat(item)) {
+                          return <div key={`volr-${idx}`} className="px-3 pt-2.5 pb-0.5 text-right"><span className="text-[9px] font-bold uppercase tracking-widest text-[#94A3B8]/60">{item.subcat}</span></div>;
+                        }
+                        return (
+                          <a key={item.name} href={item.url} target="_blank" rel="noopener noreferrer"
+                            title={item.name}
+                            className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-[#1A2749] ring-1 ring-transparent hover:ring-[#00D1C9]/20 transition-all duration-150 group">
+                            <span>{item.name}</span>
+                            <ExternalLink className="h-3 w-3 text-[#94A3B8]/40 group-hover:text-[#00D1C9] shrink-0" />
+                          </a>
+                        );
+                      })}
+                      <button
+                        onClick={() => toggleSection("volunteer-more-right")}
+                        className="w-full flex items-center justify-center gap-1.5 mt-1 py-1 rounded-lg text-[11px] font-medium text-[#94A3B8] hover:text-[#00D1C9] hover:bg-[#1A2749] opacity-80 hover:opacity-100 transition-all duration-150">
+                        <ChevronRight className={`h-3 w-3 transition-transform ${showMore ? "rotate-90" : "-rotate-90"}`} />
+                        {showMore ? "Show fewer" : `View ${VOLUNTEER_RESOURCES.length - SPLIT} more`}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
+
             {/* ── Topics Covered (clickable chips) ── */}
             {(() => {
               const isOpen = expandedSections.has("rp-coverage");
               return (
-                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                <div className="rounded-xl overflow-hidden ring-1 ring-[#1E2A4A] bg-[#13213F]">
                   <button onClick={() => toggleSection("rp-coverage")}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
-                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-right">Topics Covered</span>
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-[#1A2749] hover:[box-shadow:inset_3px_0_0_#00D1C9] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#00D1C9]/60">
+                    <ChevronRight className={`h-3.5 w-3.5 text-[#94A3B8]/50 transition-transform duration-200 ${isOpen ? "rotate-90 text-[#00D1C9]" : ""}`} />
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white text-right">Topics Covered</span>
                   </button>
                   {isOpen && (
                     <div className="px-2 pb-2.5 pt-1 flex flex-wrap gap-1 justify-end">
@@ -5288,11 +5880,11 @@ export default function AidAgentPage() {
               const allIds = ["P6FORpg0KVo", "HAnw168huqA", "rhgwIhB58PA"];
               const visibleIds = showMore ? allIds : allIds.slice(0, 1);
               return (
-                <div className="rounded-xl overflow-hidden ring-1 ring-white/[0.07] bg-white/[0.03]">
+                <div className="rounded-xl overflow-hidden ring-1 ring-[#1E2A4A] bg-[#13213F]">
                   <button onClick={() => toggleSection(key)}
-                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-cyan-500/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400/60">
-                    <ChevronRight className={`h-3.5 w-3.5 text-white/30 transition-transform duration-200 ${isOpen ? "rotate-90" : ""}`} />
-                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white/80 text-right">Videos</span>
+                    className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-[#1A2749] hover:[box-shadow:inset_3px_0_0_#00D1C9] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#00D1C9]/60">
+                    <ChevronRight className={`h-3.5 w-3.5 text-[#94A3B8]/50 transition-transform duration-200 ${isOpen ? "rotate-90 text-[#00D1C9]" : ""}`} />
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-white text-right">Videos</span>
                   </button>
                   {isOpen && (
                     <div className="px-2 pb-3 pt-1 space-y-3">
