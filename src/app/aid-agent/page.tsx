@@ -2285,6 +2285,9 @@ const ROLE_TIPS = [
       { text: "Get a detailed educational roadmap for your child from high school through college graduation.", prompt: "Help me create a detailed educational plan for my child starting from high school through college graduation. Include recommended course paths by grade level, extracurricular activities that build college readiness, a FAFSA preparation timeline, college selection criteria, and a year-by-year action plan with milestones." },
       { text: "Discover which careers may best fit your child based on their strengths, interests, and personality.", prompt: "Based on what I share about my child — grades, interests, strengths, personality, and background — help me identify careers that may be the best fit for them. Explain why each career aligns with their profile and what educational path leads there." },
       { text: "Develop a step-by-step career plan for your child from today through their first professional role.", prompt: "Help me develop a full career plan for my child. Include short-term goals for high school, mid-term goals for college and internships, and long-term goals for their first job and career advancement. Factor in their interests, academic strengths, and the student aid resources available to help fund the path." },
+      { text: "Learn what to do if your child's financial aid offer is lower than expected — and how to appeal.", prompt: "My child received a financial aid offer that seems lower than expected. What are the steps to appeal the award, what documentation should we gather, and what language is most effective in a professional judgment appeal?" },
+      { text: "Understand the impact of untaxed income, assets, and trusts on your child's aid eligibility.", prompt: "How do untaxed income, retirement assets, business equity, and trust funds affect my child's financial aid eligibility on the FAFSA and CSS Profile?" },
+      { text: "Build a college cost comparison table for every school your child is considering.", prompt: "Help me compare the total cost of attendance across all schools my child is considering. Ask me for each school's tuition, room and board, fees, and financial aid awards, then build a clear comparison showing net price and estimated 4-year total for each." },
     ],
   },
   {
@@ -2301,6 +2304,9 @@ const ROLE_TIPS = [
       { text: "Get clear answers to a specific student aid concern, case scenario, or compliance situation.", prompt: "I have a student aid concern or situation I need help with. Please ask me for all the details — the student's circumstances, type of aid involved, institutional policies, and any relevant background. Then help me determine the appropriate course of action, cite the relevant regulation, and explain my options." },
       { text: "Build an Excel spreadsheet for student aid tracking, reporting, or analysis.", prompt: "Help me build an Excel-compatible spreadsheet for student aid administration. Ask me what I need it for — R2T4 tracking, SAP monitoring, award reconciliation, disbursement reporting, verification status, or another use case. Then generate a fully structured spreadsheet with column headers, sample formulas, and data rows I can paste directly into Excel." },
       { text: "Draft a professional email for any student aid or office communication.", prompt: "Help me draft a professional email for my student aid office. Ask me: Who is the recipient — student, parent, Department of Education, accreditor, or colleague? What is the purpose — award notification, appeal decision, compliance notice, meeting request, or policy clarification? Any key details or tone preferences? Then draft a clear, professional email I can use or adapt." },
+      { text: "Walk through the professional judgment process for dependency overrides and special circumstances.", prompt: "Walk me through the professional judgment process for dependency overrides and special circumstances — what documentation is required, what the regulatory basis is, and how to document the decision file correctly." },
+      { text: "Understand the aggregate and annual loan limits for every aid year and student classification.", prompt: "What are the current annual and aggregate Stafford loan limits for dependent and independent students at every classification level, and how do they change for graduate students and PLUS borrowers?" },
+      { text: "Review the verification process from trigger to resolution — required documents and tolerances.", prompt: "Walk me through the complete verification process — what triggers selection, what documents are required for each tracking group, what tolerances apply, and how corrections are submitted to FAFSA." },
     ],
   },
   {
@@ -4962,6 +4968,27 @@ export default function AidAgentPage() {
                       </div>
                     </div>
 
+                    {/* Coverage Topics */}
+                    <div className="w-full">
+                      <div className="flex items-center gap-2 mb-2.5">
+                        <div className="h-px flex-1 bg-gradient-to-r from-transparent to-cyan-500/[0.15]" />
+                        <span className="text-xs font-bold uppercase tracking-[0.16em] text-cyan-400/60 px-2">What Genie Covers</span>
+                        <div className="h-px flex-1 bg-gradient-to-l from-transparent to-cyan-500/[0.15]" />
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        {COVERAGE_TOPICS.map((topic) => (
+                          <button
+                            key={topic}
+                            type="button"
+                            onClick={() => sendMessage(COVERAGE_TOPIC_PROMPTS[topic] ?? `Tell me about ${topic}.`)}
+                            className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold text-[#94A3B8]/80 hover:text-[#00E5C0] ring-1 ring-cyan-500/[0.15] hover:ring-cyan-400/40 bg-[#0D1A32]/70 hover:bg-cyan-500/[0.08] transition-all duration-150 hover:scale-[1.04] active:scale-[0.97] backdrop-blur-sm shadow-sm shadow-black/20"
+                          >
+                            {topic}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
                   </div>{/* end left column */}
 
                   {/* ══ RIGHT — Slide 2 + 3: I am a… / Tips by Role ══ */}
@@ -5095,8 +5122,8 @@ export default function AidAgentPage() {
                                   <p className="text-sm text-white/65 leading-tight mt-0.5">Click any tip to auto-send to Genie</p>
                                 </div>
                               </div>
-                              <div className="divide-y divide-white/[0.05] max-h-[320px] overflow-y-auto">
-                                {[...tips].reverse().slice(0, 5).map(({ text, prompt }, i) => (
+                              <div className="divide-y divide-white/[0.05] max-h-[480px] overflow-y-auto">
+                                {[...tips].reverse().slice(0, 8).map(({ text, prompt }, i) => (
                                   <button
                                     key={i}
                                     onClick={() => sendMessage(prompt)}
