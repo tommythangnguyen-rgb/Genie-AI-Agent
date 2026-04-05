@@ -5849,15 +5849,16 @@ export default function AidAgentPage() {
       {/* ── Section List Overlay ── */}
       {overlaySection && (
         <div className="fixed inset-0 z-[80] flex items-center justify-center p-4" onClick={() => setOverlaySection(null)}>
-          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-black/85 backdrop-blur-md" />
           <div
-            className="relative z-[81] w-full max-w-2xl flex flex-col rounded-2xl border border-[#1E2A4A] shadow-2xl overflow-hidden"
-            style={{ maxHeight: "calc(100dvh - 64px)", background: "rgba(6,14,31,0.98)" }}
+            className="relative z-[81] w-full max-w-2xl flex flex-col rounded-2xl overflow-hidden"
+            style={{ maxHeight: "calc(100dvh - 64px)", background: "rgba(6,12,28,0.99)", border: "1px solid rgba(30,42,74,0.9)", boxShadow: "0 30px 70px rgba(0,0,0,0.75), 0 0 0 1px rgba(56,189,248,0.07), inset 0 1px 0 rgba(255,255,255,0.05)" }}
             onClick={e => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="shrink-0 flex items-center justify-between px-5 py-3.5 border-b border-[#1E2A4A] bg-[#0A1428]/80">
-              <h2 className="text-sm font-bold text-white">
+            <div className="shrink-0 flex items-center justify-between px-5 py-3.5 border-b border-[#1A2540]"
+              style={{ background: "linear-gradient(135deg, rgba(10,20,42,0.99) 0%, rgba(13,26,52,0.99) 100%)" }}>
+              <h2 className="text-sm font-bold text-white tracking-tight">
                 {({
                   "lc-s-qa": "Students Quick Actions",
                   "lc-p-qa": "Parents Quick Actions",
@@ -5890,72 +5891,79 @@ export default function AidAgentPage() {
             </div>
 
             {/* Body */}
-            <div className="flex-1 overflow-y-auto p-4">
+            <div className="flex-1 overflow-y-auto p-5">
 
-              {/* === Action sections === */}
+              {/* === Quick Action sections — Android icon grid === */}
               {["lc-s-qa", "lc-p-qa", "rc-adm-qa", "rc-lea-qa", "rc-aud-qa"].includes(overlaySection) && (() => {
-                const roleMap: Record<string, string> = { "lc-s-qa": "Students", "lc-p-qa": "Parents", "rc-adm-qa": "Administrators", "rc-lea-qa": "Leaders", "rc-aud-qa": "Auditors" };
-                const r = QUICK_ACTIONS_BY_ROLE.find(x => x.role === roleMap[overlaySection]);
+                const cfgMap: Record<string, { role: string; tileHover: string; ringFocus: string; bgHover: string; ringHover: string; iconHover: string; glow: string }> = {
+                  "lc-s-qa":   { role: "Students",       tileHover: "hover:bg-sky-500/[0.10]",     ringFocus: "focus-visible:ring-sky-400",     bgHover: "group-hover:bg-sky-500/20",     ringHover: "group-hover:ring-sky-500/40",     iconHover: "group-hover:text-sky-300",     glow: "group-hover:shadow-[0_0_18px_rgba(56,189,248,0.28)]"  },
+                  "lc-p-qa":   { role: "Parents",        tileHover: "hover:bg-blue-500/[0.10]",    ringFocus: "focus-visible:ring-blue-400",    bgHover: "group-hover:bg-blue-500/20",    ringHover: "group-hover:ring-blue-500/40",    iconHover: "group-hover:text-blue-300",    glow: "group-hover:shadow-[0_0_18px_rgba(96,165,250,0.28)]"  },
+                  "rc-adm-qa": { role: "Administrators", tileHover: "hover:bg-emerald-500/[0.10]", ringFocus: "focus-visible:ring-emerald-400", bgHover: "group-hover:bg-emerald-500/20", ringHover: "group-hover:ring-emerald-500/40", iconHover: "group-hover:text-emerald-300", glow: "group-hover:shadow-[0_0_18px_rgba(16,185,129,0.28)]"  },
+                  "rc-lea-qa": { role: "Leaders",        tileHover: "hover:bg-violet-500/[0.10]",  ringFocus: "focus-visible:ring-violet-400",  bgHover: "group-hover:bg-violet-500/20",  ringHover: "group-hover:ring-violet-500/40",  iconHover: "group-hover:text-violet-300",  glow: "group-hover:shadow-[0_0_18px_rgba(139,92,246,0.28)]"  },
+                  "rc-aud-qa": { role: "Auditors",       tileHover: "hover:bg-rose-500/[0.10]",    ringFocus: "focus-visible:ring-rose-400",    bgHover: "group-hover:bg-rose-500/20",    ringHover: "group-hover:ring-rose-500/40",    iconHover: "group-hover:text-rose-300",    glow: "group-hover:shadow-[0_0_18px_rgba(244,63,94,0.28)]"   },
+                };
+                const cfg = cfgMap[overlaySection];
+                const r = QUICK_ACTIONS_BY_ROLE.find(x => x.role === cfg.role);
                 const all = r ? [...r.items, ...r.more] : [];
                 return (
-                  <div className="space-y-1.5">
-                    {all.map(({ icon: Icon, label, description, q }) => (
+                  <div className="grid grid-cols-5 gap-2">
+                    {all.map(({ icon: Icon, label, q }) => (
                       <button key={label} onClick={() => { sendMessage(q); setOverlaySection(null); setShowMobileLeft(false); setShowMobileRight(false); }}
-                              className="w-full flex items-start gap-3 px-3 py-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-cyan-500/[0.10] ring-1 ring-[#1A2540] hover:ring-cyan-500/25 transition-all group text-left">
-                        <div className="p-1.5 rounded-md bg-[#1E2A4A] group-hover:bg-cyan-500/20 transition-colors shrink-0">
-                          <Icon className="h-3.5 w-3.5 text-[#94A3B8] group-hover:text-[#00E5C0] transition-colors"/>
+                        className={`flex flex-col items-center gap-1.5 p-2 rounded-2xl ${cfg.tileHover} transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 ${cfg.ringFocus} hover:scale-[1.06] active:scale-95`}>
+                        <div className={`w-14 h-14 rounded-[16px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-lg ${cfg.bgHover} ${cfg.ringHover} ${cfg.glow} transition-all`}>
+                          <Icon className={`h-6 w-6 text-[#7B91B0] ${cfg.iconHover} transition-colors`} />
                         </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-[11px] font-semibold text-[#E2E8F0] group-hover:text-[#00E5C0] leading-tight">{label}</p>
-                          <p className="text-[10px] text-[#94A3B8]/60 leading-tight mt-0.5">{description}</p>
-                        </div>
-                        <ChevronRight className="h-3.5 w-3.5 text-[#94A3B8]/30 group-hover:text-cyan-400 shrink-0 mt-0.5"/>
+                        <span className="text-[9px] font-semibold text-[#8A9ABB]/75 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{label}</span>
                       </button>
                     ))}
                   </div>
                 );
               })()}
 
-              {/* === Flat link sections === */}
+              {/* === Flat link sections — favicon icon grid === */}
               {["lc-fed-sp", "rc-fa-adm", "rc-lac", "rc-loan-portals", "rc-hw"].includes(overlaySection) && (() => {
                 const dataMap: Record<string, LinkItem[]> = {
-                  "lc-fed-sp": FEDERAL_RESOURCES.find(g => g.group === "Students & Parents")?.links ?? [],
-                  "rc-fa-adm": (() => { const g = FEDERAL_RESOURCES.find(x => x.group === "Administrators & Advisors"); return [...(g?.links ?? []), ...((g?.more ?? []) as MaybeSubcat[]).filter(i => !isSubcat(i))] as LinkItem[]; })(),
-                  "rc-lac": (() => { const g = FEDERAL_RESOURCES.find(x => x.group === "Leaders, Auditors & Compliance"); return [...(g?.links ?? []), ...((g?.more ?? []) as MaybeSubcat[]).filter(i => !isSubcat(i))] as LinkItem[]; })(),
+                  "lc-fed-sp":       FEDERAL_RESOURCES.find(g => g.group === "Students & Parents")?.links ?? [],
+                  "rc-fa-adm":       (() => { const g = FEDERAL_RESOURCES.find(x => x.group === "Administrators & Advisors"); return [...(g?.links ?? []), ...((g?.more ?? []) as MaybeSubcat[]).filter(i => !isSubcat(i))] as LinkItem[]; })(),
+                  "rc-lac":          (() => { const g = FEDERAL_RESOURCES.find(x => x.group === "Leaders, Auditors & Compliance"); return [...(g?.links ?? []), ...((g?.more ?? []) as MaybeSubcat[]).filter(i => !isSubcat(i))] as LinkItem[]; })(),
                   "rc-loan-portals": FEDERAL_RESOURCES.find(g => g.group === "Private Loan Administrator Portals")?.links ?? [],
-                  "rc-hw": (() => { const g = FEDERAL_RESOURCES.find(x => x.group === "Health Wellness Support"); return [...(g?.links ?? []), ...((g?.more ?? []) as MaybeSubcat[]).filter(i => !isSubcat(i))] as LinkItem[]; })(),
+                  "rc-hw":           (() => { const g = FEDERAL_RESOURCES.find(x => x.group === "Health Wellness Support"); return [...(g?.links ?? []), ...((g?.more ?? []) as MaybeSubcat[]).filter(i => !isSubcat(i))] as LinkItem[]; })(),
                 };
                 const links = dataMap[overlaySection] ?? [];
                 return (
-                  <div className="space-y-1.5">
-                    {links.map(({ name, url }) => (
-                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                         className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-cyan-500/20 transition-all duration-150 group">
-                        <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="14" height="14" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
-                        <span className="text-[11px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] flex-1 leading-tight transition-colors">{name}</span>
-                        <ChevronRight className="h-3.5 w-3.5 text-[#94A3B8]/30 group-hover:text-cyan-400 shrink-0"/>
-                      </a>
-                    ))}
+                  <div className="grid grid-cols-5 gap-2">
+                    {links.map(({ name, url }) => {
+                      const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                      return (
+                        <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                          className="flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                          <div className="w-14 h-14 rounded-[16px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-sky-500/30 transition-all">
+                            <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="32" height="32" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                          </div>
+                          <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                        </a>
+                      );
+                    })}
                   </div>
                 );
               })()}
 
-              {/* === Subcategorized link sections === */}
+              {/* === Subcategorized link sections — banner + favicon icon grid === */}
               {["lc-resume", "lc-schol", "lc-intern", "lc-jobs", "lc-finlit", "lc-loans", "lc-consumer", "lc-mental", "lc-ai", "lc-faith", "lc-vol", "rc-va", "lc-va"].includes(overlaySection) && (() => {
                 const rawMap: Record<string, MaybeSubcat[]> = {
                   "lc-resume": [...RESUME_ASSISTANCE, ...RESUME_ASSISTANCE_MORE],
-                  "lc-schol": ([{ subcat: "All" }, ...SCHOLARSHIP_ENGINES, ...SCHOLARSHIP_ENGINES_MORE] as MaybeSubcat[]),
+                  "lc-schol":  ([{ subcat: "All" }, ...SCHOLARSHIP_ENGINES, ...SCHOLARSHIP_ENGINES_MORE] as MaybeSubcat[]),
                   "lc-intern": ([{ subcat: "All" }, ...INTERNSHIP_SEARCH, ...INTERNSHIP_SEARCH_MORE] as MaybeSubcat[]),
-                  "lc-jobs": ([{ subcat: "All" }, ...STUDENT_JOB_SEARCH, ...STUDENT_JOB_SEARCH_MORE] as MaybeSubcat[]),
+                  "lc-jobs":   ([{ subcat: "All" }, ...STUDENT_JOB_SEARCH, ...STUDENT_JOB_SEARCH_MORE] as MaybeSubcat[]),
                   "lc-finlit": [...FINANCIAL_LITERACY, ...FINANCIAL_LITERACY_MORE],
-                  "lc-loans": [...PRIVATE_STUDENT_LOANS, ...PRIVATE_STUDENT_LOANS_MORE],
+                  "lc-loans":  [...PRIVATE_STUDENT_LOANS, ...PRIVATE_STUDENT_LOANS_MORE],
                   "lc-consumer": [...CONSUMER_RIGHTS, ...CONSUMER_RIGHTS_MORE],
                   "lc-mental": [...MENTAL_HEALTH_STUDENT, ...MENTAL_HEALTH_STUDENT_MORE],
-                  "lc-ai": [...AI_LITERACY, ...AI_LITERACY_MORE],
-                  "lc-faith": [...RELIGION_FAITH_PHILOSOPHY, ...RELIGION_FAITH_PHILOSOPHY_MORE],
-                  "lc-vol": VOLUNTEER_RESOURCES,
-                  "rc-va": VA_RESOURCES,
-                  "lc-va": VA_RESOURCES,
+                  "lc-ai":     [...AI_LITERACY, ...AI_LITERACY_MORE],
+                  "lc-faith":  [...RELIGION_FAITH_PHILOSOPHY, ...RELIGION_FAITH_PHILOSOPHY_MORE],
+                  "lc-vol":    VOLUNTEER_RESOURCES,
+                  "rc-va":     VA_RESOURCES,
+                  "lc-va":     VA_RESOURCES,
                 };
                 const raw = rawMap[overlaySection] ?? [];
                 const sections = parseSections(raw);
@@ -5963,16 +5971,28 @@ export default function AidAgentPage() {
                   <div className="space-y-5">
                     {sections.map(({ title, links }) => (
                       <div key={title}>
-                        <p className="text-[8px] font-bold uppercase tracking-widest text-[#94A3B8]/45 mb-2 px-1 pb-1 border-b border-[#1A2540]">{title}</p>
-                        <div className="space-y-1.5">
-                          {links.map(({ name, url }) => (
-                            <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                               className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-cyan-500/20 transition-all duration-150 group">
-                              <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="14" height="14" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
-                              <span className="text-[11px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] flex-1 leading-tight transition-colors">{name}</span>
-                              <ChevronRight className="h-3.5 w-3.5 text-[#94A3B8]/30 group-hover:text-cyan-400 shrink-0"/>
-                            </a>
-                          ))}
+                        {title !== "All" && (
+                          <div className="flex items-center gap-1.5 mb-3">
+                            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-sky-500/[0.15]" />
+                            <div className="px-2.5 py-1 rounded-full bg-[#0A1525] ring-1 ring-sky-500/[0.18]">
+                              <span className="text-[8px] font-bold uppercase tracking-[0.16em] text-white/45">{title}</span>
+                            </div>
+                            <div className="h-px w-4 bg-sky-500/[0.15]" />
+                          </div>
+                        )}
+                        <div className="grid grid-cols-5 gap-2">
+                          {links.map(({ name, url }) => {
+                            const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                            return (
+                              <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                                className="flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                                <div className="w-14 h-14 rounded-[16px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-sky-500/30 transition-all">
+                                  <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="32" height="32" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                                </div>
+                                <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                              </a>
+                            );
+                          })}
                         </div>
                       </div>
                     ))}
