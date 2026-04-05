@@ -60,6 +60,9 @@ import {
   MapPin,
   RefreshCcw,
   PiggyBank,
+  Clock,
+  Trash2,
+  ChevronUp,
 } from "lucide-react";
 
 // ─── Genie Bottle Logo ────────────────────────────────────────────────────────
@@ -123,6 +126,31 @@ interface AttachedFile {
   content: string;           // base64 for images, raw text for documents/audio transcripts
   type: "image" | "text" | "audio";
   mimeType?: string;
+}
+
+interface HistoryEntry {
+  id: string;
+  ts: number;       // Unix ms
+  prompt: string;
+  response: string;
+  role?: string;
+}
+
+const HISTORY_KEY = "genie-history";
+const HISTORY_MAX_DAYS = 30;
+
+function loadHistory(): HistoryEntry[] {
+  try {
+    const raw = localStorage.getItem(HISTORY_KEY);
+    if (!raw) return [];
+    const parsed: HistoryEntry[] = JSON.parse(raw);
+    const cutoff = Date.now() - HISTORY_MAX_DAYS * 24 * 60 * 60 * 1000;
+    return parsed.filter(e => e.ts > cutoff).slice(0, 500);
+  } catch { return []; }
+}
+
+function saveHistory(entries: HistoryEntry[]) {
+  try { localStorage.setItem(HISTORY_KEY, JSON.stringify(entries.slice(0, 500))); } catch {}
 }
 
 // ─── Link list helpers ────────────────────────────────────────────────────────
@@ -212,6 +240,12 @@ const QUICK_ACTIONS_BY_ROLE = [
       { icon: CheckCircle, label: "Fact Check", description: "Verify a regulation or procedure", q: "Help me fact-check something or verify my memory on a regulation, policy, or procedure. I'll share what I think I know and you can confirm or correct it." },
       { icon: Printer, label: "Create a Calendar", description: "Day, week, month, or year printout", q: "Create a calendar printout for my day, week, month, or year. I'll specify the dates, deadlines, and events to include." },
       { icon: Zap, label: "Student-Facing Session", description: "Interactive UI for appointments", q: "I'm preparing for a student-facing appointment. Help me set up interactive prompts or talking points so the student can engage with the information during our session." },
+      { icon: Scale, label: "Prof. Judgment", description: "Special circumstances documentation", q: "Guide me through using Professional Judgment (Special Circumstances) to adjust a student's financial aid — what circumstances qualify, what documentation is needed, and how to document the decision properly." },
+      { icon: CheckCircle, label: "Verification", description: "V1–V5 tracking & documentation", q: "Walk me through the verification process for Title IV aid — which verification groups require what documents, how to request items from students, and how to clear conflicting information." },
+      { icon: DollarSign, label: "Cost of Attendance", description: "Components & adjustment authority", q: "Help me build or review our institution's Cost of Attendance — what components must be included, what documentation supports adjustments, and how COA affects packaging decisions." },
+      { icon: Users, label: "Dependency Override", description: "Criteria & documentation guide", q: "Walk me through the dependency override process — what circumstances justify overriding a student's dependency status, what documentation is required, and how to document the professional judgment decision." },
+      { icon: BookOpen, label: "SAP Appeal", description: "Review process & templates", q: "Help me process a Satisfactory Academic Progress (SAP) appeal — what makes an appeal approvable, what documentation to require, and what an academic plan should include." },
+      { icon: Hash, label: "Federal Reporting", description: "COD, NSLDS & G5 reconciliation", q: "Help me with federal reporting — walk me through COD origination and disbursement reporting, NSLDS enrollment reporting, and G5 drawdown procedures for our institution." },
     ],
   },
   {
@@ -232,6 +266,13 @@ const QUICK_ACTIONS_BY_ROLE = [
       { icon: Lightbulb, label: "Career Path Ideas", description: "Suggestions based on your profile", q: "Based on my interests, strengths, and background, suggest some career paths that might be a good fit for me and explain the education requirements and earning potential for each." },
       { icon: DollarSign, label: "Budget My Finances", description: "Track income, aid & expenses", q: "Help me budget my finances as a student — I want to track income, expenses, financial aid, and savings to make sure I'm staying on track." },
       { icon: Sparkles, label: "Brainstorm with Me", description: "Essays, papers & projects", q: "Help me brainstorm ideas for my essay, research paper, or project — give me topic ideas, an outline, or a starting point based on what I'm working on." },
+      { icon: FileText, label: "FAFSA Help", description: "Step-by-step FAFSA walkthrough", q: "Walk me through completing the FAFSA step by step — explain each section, what documents I need, and common mistakes to avoid." },
+      { icon: Award, label: "Find Scholarships", description: "Personalized scholarship search tips", q: "Help me find scholarships I'm most likely to qualify for. What types of scholarships should I focus on, what platforms to use, and how do I write a strong application?" },
+      { icon: RefreshCcw, label: "Loan Forgiveness", description: "PSLF, IDR & forgiveness options", q: "Explain the federal student loan forgiveness programs available to me — PSLF, IDR forgiveness, teacher forgiveness, and others. What are the requirements and how do I qualify?" },
+      { icon: Briefcase, label: "Internship Search", description: "Find paid opportunities in your field", q: "Help me find and apply for internships in my field. What platforms should I use, how do I write a strong application, and what should I expect during the process?" },
+      { icon: Search, label: "Graduate School", description: "Funding & admissions strategy", q: "Help me plan for graduate school — what funding options are available, how financial aid works for graduate students, and what I should consider when choosing a program." },
+      { icon: Scale, label: "Academic Appeal", description: "SAP & financial aid reinstatement", q: "Help me understand how to appeal my financial aid suspension due to Satisfactory Academic Progress — what to include in my appeal letter and what documentation to provide." },
+      { icon: BookOpen, label: "Study Smarter", description: "Time management & study strategies", q: "Help me study smarter — give me evidence-based strategies for time management, retaining information, and performing better in my classes." },
     ],
   },
   {
@@ -252,6 +293,12 @@ const QUICK_ACTIONS_BY_ROLE = [
       { icon: Receipt, label: "Private Student Loans", description: "Key differences & risks to know", q: "Give me a short, straight-to-the-point breakdown of private student loans — how they differ from federal loans, what to compare when shopping, and the risks I should know." },
       { icon: ShieldCheck, label: "Credit History & Score", description: "FAQs for student loan applicants", q: "Explain credit history, credit scores, and adverse credit history — and answer common FAQs especially as they relate to student loans and the PLUS loan application." },
       { icon: Users, label: "Co-signers Explained", description: "Responsibilities & release options", q: "Give me a short, straight-to-the-point explanation of co-signers on student loans — when they're needed, what responsibilities they take on, and how a co-signer can be released." },
+      { icon: FileText, label: "FAFSA Tips", description: "Parent-specific FAFSA guidance", q: "Walk me through the parent sections of the FAFSA — what income and asset information we need to provide, common mistakes to avoid, and how our financial information affects aid eligibility." },
+      { icon: PiggyBank, label: "529 Benefits", description: "Tax advantages & withdrawal rules", q: "Explain the tax benefits of 529 college savings plans — how contributions work, investment options, tax-free withdrawals, and how having a 529 affects financial aid calculations." },
+      { icon: Scale, label: "Negotiate Aid", description: "Appeal & leverage competing offers", q: "Help me understand how to negotiate a better financial aid package for my child — what circumstances justify an appeal, how to write a compelling request, and what documentation to provide." },
+      { icon: MapPin, label: "State Aid Guide", description: "State grants & programs by state", q: "What state-based financial aid programs are available for my child's college? Walk me through how to research and apply for state grants and scholarships." },
+      { icon: Calculator, label: "Aid Calculator", description: "Estimate SAI & aid eligibility", q: "Help me estimate our Student Aid Index and understand roughly what financial aid my child might receive based on our income and assets." },
+      { icon: Award, label: "Scholarship Strategy", description: "Merit & need-based search plan", q: "Help me build a scholarship search strategy for my child — what types of scholarships to prioritize, which platforms to use, and how to improve their chances of winning." },
     ],
   },
   {
@@ -270,6 +317,11 @@ const QUICK_ACTIONS_BY_ROLE = [
       { icon: Camera, label: "Analyze Photo / Voice", description: "Interpret or transcribe shared media", q: "I have a photo or voice message I'd like analyzed — help me interpret, transcribe, or extract key information from the content I'll share." },
       { icon: Users, label: "Team Environment", description: "Office, remote & hybrid strategies", q: "Research effective strategies for building strong team environments — including approaches for office-based, fully remote, and hybrid teams. What works best in each setting?" },
       { icon: ClipboardList, label: "Create a PIP", description: "Performance Improvement Plan guide", q: "Help me create a Performance Improvement Plan (PIP) — walk me through what to include, how to set measurable goals, timelines, and how to document it appropriately." },
+      { icon: DollarSign, label: "Budget Planning", description: "FA office budget & resource allocation", q: "Help me plan the financial aid office budget — what expense categories to include, how to justify staffing needs, and how to present our budget request to senior leadership." },
+      { icon: TrendingUp, label: "Default Rates", description: "CDR analysis & reduction strategy", q: "Help me analyze our institution's Cohort Default Rate and develop strategies to reduce it — what outreach programs work best, what data to track, and what are the compliance thresholds?" },
+      { icon: BookOpen, label: "Staff Training", description: "Training plans & compliance updates", q: "Help me create a staff training plan for our financial aid team — what topics are most critical, how to stay current on regulatory changes, and how to document training for compliance." },
+      { icon: ClipboardList, label: "Compliance Report", description: "Internal audit & self-assessment", q: "Help me draft an internal compliance report for our financial aid office — what areas to assess, how to document findings, and what corrective actions to recommend." },
+      { icon: Users, label: "Enrollment Strategy", description: "Aid packaging & enrollment goals", q: "Help me develop an aid packaging strategy that supports our enrollment goals — how to balance merit and need-based aid, what benchmarking data to use, and how to measure packaging impact." },
     ],
   },
   {
@@ -321,6 +373,18 @@ const COVERAGE_TOPICS = [
   "Loan Repayment & Forgiveness",
   "529 Plans & Tax Strategy",
   "Gainful Employment Rule",
+  "Verification Requirements",
+  "Professional Judgment",
+  "Cost of Attendance",
+  "Dependency Status Rules",
+  "Work-Study Programs",
+  "TEACH Grant & Perkins",
+  "Veterans & GI Bill Aid",
+  "Cohort Default Rates",
+  "Loan Consolidation",
+  "Consortium Agreements",
+  "Study Abroad Aid Rules",
+  "Accreditation & Eligibility",
 ];
 
 const COVERAGE_TOPIC_PROMPTS: Record<string, string> = {
@@ -340,6 +404,18 @@ const COVERAGE_TOPIC_PROMPTS: Record<string, string> = {
   "Loan Repayment & Forgiveness": "What federal student loan repayment plans and forgiveness programs are currently available?",
   "529 Plans & Tax Strategy": "How do 529 plans work and what tax strategies should students and families consider?",
   "Gainful Employment Rule": "What is the Gainful Employment Rule and what are the current compliance requirements for institutions?",
+  "Verification Requirements": "Walk me through the Title IV verification requirements — which verification groups require what documents, how to handle conflicting information, and common compliance issues.",
+  "Professional Judgment": "Explain how Professional Judgment works under Title IV — what circumstances allow adjustments, what documentation is required, and how to properly document PJ decisions.",
+  "Cost of Attendance": "What components must be included in Cost of Attendance, what authority do institutions have to adjust COA, and how does COA affect student aid packaging?",
+  "Dependency Status Rules": "Explain the dependency status rules under Title IV — what makes a student independent, what circumstances allow a dependency override, and how this affects aid eligibility.",
+  "Work-Study Programs": "How does the Federal Work-Study program work — allocation, job eligibility, payroll requirements, and how work-study affects a student's overall aid package?",
+  "TEACH Grant & Perkins": "Explain the TEACH Grant program and the discontinued Perkins Loan program — eligibility, service obligations, and what happens when obligations aren't met.",
+  "Veterans & GI Bill Aid": "How do veterans' education benefits interact with Title IV financial aid — GI Bill, Yellow Ribbon, VA vocational rehab, and institutional responsibilities for veteran students?",
+  "Cohort Default Rates": "What is the Cohort Default Rate, how is it calculated, what are the consequences of high CDRs, and what strategies can institutions use to reduce their CDR?",
+  "Loan Consolidation": "Explain federal student loan consolidation — eligibility, how it affects interest rates and repayment, impact on forgiveness programs, and when consolidation is or isn't recommended.",
+  "Consortium Agreements": "What are consortium agreements in financial aid — when are they used, what must they include, how do they affect enrollment status and Title IV eligibility?",
+  "Study Abroad Aid Rules": "What Title IV rules apply to study abroad programs — what qualifies, how to package aid, what documentation is required, and what are the most common compliance issues?",
+  "Accreditation & Eligibility": "How does institutional accreditation relate to Title IV eligibility — what accrediting agencies are recognized, what triggers loss of eligibility, and what is the appeals process?",
 };
 
 const FEDERAL_RESOURCES = [
@@ -3227,6 +3303,9 @@ export default function AidAgentPage() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const [authDialogMode, setAuthDialogMode] = useState<"signin" | "signup">("signin");
+  const [history, setHistory] = useState<HistoryEntry[]>([]);
+  const [showHistory, setShowHistory] = useState(false);
+  const [expandedHistoryId, setExpandedHistoryId] = useState<string | null>(null);
 
   // Pre-load TTS voice so speakMessage can be called synchronously (required for
   // Safari / mobile browsers that block speechSynthesis outside a user gesture).
@@ -3235,6 +3314,7 @@ export default function AidAgentPage() {
   }, []);
 
   useEffect(() => {
+    setHistory(loadHistory());
     if (!localStorage.getItem("genie-terms-accepted")) setShowDisclaimer(true);
     if (!localStorage.getItem("genie-cookie-accepted")) setShowCookieNotice(true);
     // Fetch tier + usage for feature gating, usage meter, and auth state
@@ -3585,6 +3665,30 @@ export default function AidAgentPage() {
 
     const assistantId = (Date.now() + 1).toString();
 
+    // ── Cache check: if same question answered within last 24 h, serve locally ──
+    if (trimmed) {
+      const normalized = trimmed.toLowerCase().replace(/\s+/g, " ").trim();
+      const cached = history.find(h =>
+        h.prompt.toLowerCase().replace(/\s+/g, " ").trim() === normalized &&
+        Date.now() - h.ts < 24 * 60 * 60 * 1000
+      );
+      if (cached) {
+        const age = Math.round((Date.now() - cached.ts) / 60000);
+        const ageLabel = age < 60 ? `${age}m ago` : `${Math.round(age / 60)}h ago`;
+        setIsLoading(false);
+        setMessages(prev => [
+          ...prev,
+          {
+            id: assistantId,
+            role: "assistant",
+            content: `> 💾 *Cached answer from ${ageLabel} — no API call used. Open **History** to manage saved answers, or rephrase your question for a fresh response.*\n\n${cached.response}`,
+          },
+        ]);
+        setDailyUsage(prev => prev ? { ...prev } : null); // no increment
+        return;
+      }
+    }
+
     // Build API payload — inject role context, use apiContent for the API call
     const apiMessages = [...messages, userMsg].map((msg) => {
       const content = msg.apiContent ?? msg.content;
@@ -3656,6 +3760,15 @@ export default function AidAgentPage() {
       if (wasVoiceInputRef.current && accumulatedContent.trim()) {
         wasVoiceInputRef.current = false;
         speakMessage(assistantId, accumulatedContent);
+      }
+      // Save Q&A to 30-day history
+      if (trimmed && accumulatedContent && !accumulatedContent.startsWith("Sorry")) {
+        const entry: HistoryEntry = { id: assistantId, ts: Date.now(), prompt: trimmed, response: accumulatedContent, role: selectedRole ?? undefined };
+        setHistory(prev => {
+          const updated = [entry, ...prev.slice(0, 499)];
+          saveHistory(updated);
+          return updated;
+        });
       }
     } catch (err) {
       console.error("Aid agent error:", err);
@@ -4682,6 +4795,18 @@ export default function AidAgentPage() {
                   </>
                 )}
                 <button
+                  onClick={() => setShowHistory(h => !h)}
+                  title="View history"
+                  className="relative p-1.5 rounded-lg text-[#C9A227]/65 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.12] hover:shadow-[0_0_10px_rgba(212,175,55,0.25)] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60"
+                >
+                  <Clock className="h-5 w-5" />
+                  {history.length > 0 && (
+                    <span className="absolute -top-0.5 -right-0.5 min-w-[14px] h-3.5 px-0.5 rounded-full bg-sky-500 text-[8px] font-bold text-white flex items-center justify-center leading-none">
+                      {history.length > 99 ? "99+" : history.length}
+                    </span>
+                  )}
+                </button>
+                <button
                   onClick={() => { const next = !showMobileRight; setShowMobileRight(next); if (next) { resetRightTimer(); triggerOrbGold(); } }}
                   title="Admins & Auditors panel"
                   className="p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60 text-[#C9A227]/65 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.12] hover:shadow-[0_0_10px_rgba(212,175,55,0.25)]"
@@ -4927,7 +5052,7 @@ export default function AidAgentPage() {
                           className={`block transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-guidance-headline" : ""}`}
                           style={howItWorksActive === "guidance" ? {} : { color: "#FFFFFF", textShadow: "0 0 80px rgba(255,255,255,0.20), 0 2px 40px rgba(255,255,255,0.10)" }}
                         >
-                          Student Aid,
+                          Student <span style={{ color: "#DC2626" }}>Aid</span>,
                         </span>
                         <span
                           className={`block transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-guidance-headline" : ""}`}
@@ -5010,6 +5135,14 @@ export default function AidAgentPage() {
                         <div className="genie-console-slide px-5 pt-5 pb-5 bg-[#0A1428]/20">
                           {/* Header — matches Tips by Role style */}
                           <div className="flex items-center justify-center gap-2 mb-4">
+                            <button
+                              type="button"
+                              onClick={() => setSlideIndex(2)}
+                              title="What Genie Covers"
+                              className="shrink-0 p-1 rounded-lg text-[#C9A227]/35 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]"
+                            >
+                              <ChevronLeft className="h-4 w-4" />
+                            </button>
                             <div className="h-px flex-1 bg-gradient-to-r from-transparent to-violet-500/[0.20]" />
                             <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#0D1A32] ring-1 ring-[#D4AF37]/[0.28] shadow-sm shadow-black/30 transition-all duration-200 ${howItWorksActive === "role" ? "shadow-violet-500/20" : ""}`}>
                               <Users className={`h-3.5 w-3.5 transition-colors ${howItWorksActive === "role" ? "text-violet-400" : "text-amber-400/80"}`} />
@@ -5064,10 +5197,10 @@ export default function AidAgentPage() {
                             ))}
                           </div>
 
-                          {/* Quick Actions — Android-style icon grid */}
-                          {QUICK_ACTIONS_BY_ROLE.filter((r) => r.role === activeActionRole).map(({ role, items }) => (
-                            <div key={role} className="grid grid-cols-4 gap-1.5">
-                              {items.slice(0, 8).map(({ icon: Icon, label, q }) => (
+                          {/* Quick Actions — Android-style icon grid (all items) */}
+                          {QUICK_ACTIONS_BY_ROLE.filter((r) => r.role === activeActionRole).map(({ role, items, more }) => (
+                            <div key={role} className="grid grid-cols-4 gap-1.5 overflow-y-auto" style={{ maxHeight: "min(360px, 46dvh)" }}>
+                              {[...items, ...more].map(({ icon: Icon, label, q }) => (
                                 <button
                                   key={`${role}-${label}`}
                                   onClick={() => sendMessage(q)}
@@ -5180,6 +5313,14 @@ export default function AidAgentPage() {
                               <span className="text-xs font-bold tracking-[0.12em] uppercase" style={{ color: "#D4AF37" }}>What Genie Covers</span>
                             </div>
                             <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[#D4AF37]/[0.18]" />
+                            <button
+                              type="button"
+                              onClick={() => setSlideIndex(0)}
+                              title="I am a…"
+                              className="shrink-0 p-1 rounded-lg text-[#C9A227]/35 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]"
+                            >
+                              <ChevronRight className="h-4 w-4" />
+                            </button>
                           </div>
 
                           {/* Premium intro strip */}
@@ -5189,7 +5330,7 @@ export default function AidAgentPage() {
                               <BookOpen className="h-4 w-4 text-[#D4AF37]" />
                             </div>
                             <p className="text-xs text-[#94A3B8]/80 leading-snug">
-                              <span className="text-white/90 font-semibold">16 topic areas</span> · Federal regulations, state aid, audits, litigation &amp; more. Click any topic to ask Genie.
+                              <span className="text-white/90 font-semibold">28 topic areas</span> · Federal regulations, state aid, audits, litigation &amp; more. Click any topic to ask Genie.
                             </p>
                           </div>
 
@@ -5212,6 +5353,18 @@ export default function AidAgentPage() {
                               { topic: "Loan Repayment & Forgiveness",icon: RefreshCcw,   color: "text-emerald-300", ring: "ring-emerald-400/[0.22]",bg: "bg-emerald-500/[0.08]"},
                               { topic: "529 Plans & Tax Strategy",    icon: PiggyBank,    color: "text-amber-300",   ring: "ring-amber-400/[0.22]",  bg: "bg-amber-500/[0.08]"  },
                               { topic: "Gainful Employment Rule",     icon: Briefcase,    color: "text-rose-300",    ring: "ring-rose-400/[0.22]",   bg: "bg-rose-500/[0.08]"   },
+                              { topic: "Verification Requirements",   icon: CheckCircle,  color: "text-emerald-300", ring: "ring-emerald-400/[0.22]",bg: "bg-emerald-500/[0.08]"},
+                              { topic: "Professional Judgment",       icon: Scale,        color: "text-violet-300",  ring: "ring-violet-400/[0.22]", bg: "bg-violet-500/[0.08]" },
+                              { topic: "Cost of Attendance",          icon: DollarSign,   color: "text-green-300",   ring: "ring-green-400/[0.22]",  bg: "bg-green-500/[0.08]"  },
+                              { topic: "Dependency Status Rules",     icon: Users,        color: "text-blue-300",    ring: "ring-blue-400/[0.22]",   bg: "bg-blue-500/[0.08]"   },
+                              { topic: "Work-Study Programs",         icon: Briefcase,    color: "text-cyan-300",    ring: "ring-cyan-400/[0.22]",   bg: "bg-cyan-500/[0.08]"   },
+                              { topic: "TEACH Grant & Perkins",       icon: Award,        color: "text-amber-300",   ring: "ring-amber-400/[0.22]",  bg: "bg-amber-500/[0.08]"  },
+                              { topic: "Veterans & GI Bill Aid",      icon: ShieldCheck,  color: "text-orange-300",  ring: "ring-orange-400/[0.22]", bg: "bg-orange-500/[0.08]" },
+                              { topic: "Cohort Default Rates",        icon: TrendingUp,   color: "text-rose-300",    ring: "ring-rose-400/[0.22]",   bg: "bg-rose-500/[0.08]"   },
+                              { topic: "Loan Consolidation",          icon: RefreshCcw,   color: "text-sky-300",     ring: "ring-sky-400/[0.22]",    bg: "bg-sky-500/[0.08]"    },
+                              { topic: "Consortium Agreements",       icon: Landmark,     color: "text-teal-300",    ring: "ring-teal-400/[0.22]",   bg: "bg-teal-500/[0.08]"   },
+                              { topic: "Study Abroad Aid Rules",      icon: MapPin,       color: "text-indigo-300",  ring: "ring-indigo-400/[0.22]", bg: "bg-indigo-500/[0.08]" },
+                              { topic: "Accreditation & Eligibility", icon: BookOpen,     color: "text-violet-300",  ring: "ring-violet-400/[0.22]", bg: "bg-violet-500/[0.08]" },
                             ].map(({ topic, icon: TopicIcon, color, ring, bg }) => (
                               <button
                                 key={topic}
@@ -5845,6 +5998,121 @@ export default function AidAgentPage() {
         </aside>
 
       </div>
+
+      {/* ── History Panel ── */}
+      {showHistory && (
+        <div className="fixed inset-0 z-[80] flex items-center justify-center p-4" onClick={() => setShowHistory(false)}>
+          <div className="absolute inset-0 bg-black/85 backdrop-blur-md" />
+          <div
+            className="relative z-[81] w-full max-w-2xl flex flex-col rounded-2xl overflow-hidden"
+            style={{ maxHeight: "calc(100dvh - 64px)", background: "rgba(6,12,28,0.99)", border: "1px solid rgba(30,42,74,0.9)", boxShadow: "0 30px 70px rgba(0,0,0,0.75), inset 0 1px 0 rgba(255,255,255,0.05)" }}
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="shrink-0 flex items-center justify-between px-5 py-3.5 border-b border-[#1A2540]"
+              style={{ background: "linear-gradient(135deg, rgba(10,20,42,0.99) 0%, rgba(13,26,52,0.99) 100%)" }}>
+              <div className="flex items-center gap-2.5">
+                <Clock className="h-4 w-4 text-sky-400" />
+                <h2 className="text-sm font-bold text-white tracking-tight">Your History</h2>
+                <span className="text-[10px] font-semibold text-white/30 px-1.5 py-0.5 rounded-full bg-white/[0.06]">{history.length} saved · 30 days</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                {history.length > 0 && (
+                  <>
+                    <button
+                      onClick={() => {
+                        const win = window.open("", "_blank");
+                        if (!win) return;
+                        win.document.write(`<!DOCTYPE html><html><head><title>Genie History</title><style>body{font-family:system-ui,sans-serif;max-width:800px;margin:40px auto;color:#111;line-height:1.6} h1{font-size:1.5rem;margin-bottom:1rem;color:#1a1a2e} .entry{border:1px solid #ddd;border-radius:8px;margin-bottom:1.5rem;overflow:hidden} .entry-header{background:#f4f4f8;padding:12px 16px;font-size:.8rem;color:#555} .entry-role{display:inline-block;background:#e0e7ff;color:#3730a3;padding:2px 8px;border-radius:12px;font-size:.75rem;margin-left:8px} .entry-q{padding:12px 16px;font-weight:600;border-bottom:1px solid #eee} .entry-a{padding:12px 16px;white-space:pre-wrap;font-size:.9rem}</style></head><body><h1>Genie — Saved History</h1>${history.map(h => `<div class="entry"><div class="entry-header">${new Date(h.ts).toLocaleString()}${h.role ? `<span class="entry-role">${h.role}</span>` : ""}</div><div class="entry-q">${h.prompt.replace(/</g,"&lt;")}</div><div class="entry-a">${h.response.replace(/</g,"&lt;")}</div></div>`).join("")}</body></html>`);
+                        win.document.close();
+                        win.print();
+                      }}
+                      className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] font-semibold text-white/50 hover:text-white hover:bg-white/[0.08] transition-all"
+                    >
+                      <Printer className="h-3.5 w-3.5" /> Print
+                    </button>
+                    <button
+                      onClick={() => { if (confirm("Clear all history? This cannot be undone.")) { saveHistory([]); setHistory([]); } }}
+                      className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] font-semibold text-rose-400/60 hover:text-rose-300 hover:bg-rose-500/[0.10] transition-all"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" /> Clear
+                    </button>
+                  </>
+                )}
+                <button onClick={() => setShowHistory(false)} className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all">
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* API savings tip */}
+            {history.length > 0 && (
+              <div className="shrink-0 mx-4 mt-3 mb-1 px-3 py-2 rounded-xl bg-sky-500/[0.07] ring-1 ring-sky-500/[0.18] flex items-center gap-2">
+                <Sparkles className="h-3 w-3 text-sky-400 shrink-0" />
+                <p className="text-[10px] text-sky-300/75 leading-relaxed">Asking the same question again within 24 hours automatically serves your saved answer — no API call used.</p>
+              </div>
+            )}
+
+            {/* Body */}
+            <div className="flex-1 overflow-y-auto p-4">
+              {history.length === 0 ? (
+                <div className="flex flex-col items-center justify-center h-40 gap-3 text-center">
+                  <Clock className="h-8 w-8 text-white/10" />
+                  <p className="text-sm text-white/30">No history yet. Ask Genie a question and it will be saved here for 30 days.</p>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  {history.map(entry => {
+                    const isExpanded = expandedHistoryId === entry.id;
+                    const date = new Date(entry.ts);
+                    const dateLabel = date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+                    const timeLabel = date.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+                    return (
+                      <div key={entry.id} className="rounded-xl overflow-hidden ring-1 ring-[#1A2540] hover:ring-sky-500/25 transition-all">
+                        {/* Entry header */}
+                        <button
+                          className="w-full flex items-center gap-3 px-4 py-3 bg-[#0A1628]/80 hover:bg-[#0D1E38] transition-colors text-left group"
+                          onClick={() => setExpandedHistoryId(isExpanded ? null : entry.id)}
+                        >
+                          <div className="shrink-0 flex flex-col items-center w-10">
+                            <span className="text-[9px] font-bold text-white/30 uppercase tracking-wide">{dateLabel}</span>
+                            <span className="text-[9px] text-white/20">{timeLabel}</span>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-[11px] font-semibold text-white/80 group-hover:text-white truncate leading-tight">{entry.prompt}</p>
+                            {!isExpanded && <p className="text-[10px] text-[#94A3B8]/40 leading-tight mt-0.5 truncate">{entry.response.slice(0, 100)}</p>}
+                          </div>
+                          <div className="flex items-center gap-2 shrink-0">
+                            {entry.role && <span className="text-[8px] font-bold uppercase tracking-wide text-sky-400/50 px-1.5 py-0.5 rounded-full bg-sky-500/[0.08]">{entry.role}</span>}
+                            {isExpanded ? <ChevronUp className="h-3.5 w-3.5 text-white/25" /> : <ChevronDown className="h-3.5 w-3.5 text-white/25" />}
+                          </div>
+                        </button>
+                        {/* Expanded content */}
+                        {isExpanded && (
+                          <div className="px-4 py-3 border-t border-[#1A2540] bg-[#060C1C]/60">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-[9px] font-bold uppercase tracking-widest text-sky-400/40">Genie&apos;s Answer</p>
+                              <button
+                                onClick={() => { sendMessage(entry.prompt); setShowHistory(false); }}
+                                className="text-[9px] font-semibold text-sky-400/60 hover:text-sky-300 transition-colors px-2 py-0.5 rounded-md hover:bg-sky-500/[0.10]"
+                              >
+                                Re-ask ↺
+                              </button>
+                            </div>
+                            <div className="text-[11px] text-[#94A3B8]/80 leading-relaxed whitespace-pre-wrap max-h-60 overflow-y-auto">
+                              {entry.response}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── Section List Overlay ── */}
       {overlaySection && (
