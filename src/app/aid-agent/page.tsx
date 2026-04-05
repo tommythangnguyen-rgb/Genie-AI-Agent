@@ -4142,15 +4142,15 @@ export default function AidAgentPage() {
                 return (
                   <div>
                     <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                      <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><GraduationCap className="h-3 w-3 shrink-0"/>Students Quick Actions</p>
-                      <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                      <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><GraduationCap className="h-3 w-3 shrink-0"/>Students Quick Actions</p>
+                      <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[10px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                     </div>
                     {expanded && <div className="mt-2 grid grid-cols-3 gap-1.5">
                       {vis.map(({ icon: Icon, label, description, q }) => (
                         <button key={label} onClick={() => { sendMessage(q); setShowMobileLeft(false); }}
                                 className="flex flex-col gap-1 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-cyan-500/[0.12] ring-1 ring-[#1A2540] hover:ring-cyan-500/35 transition-all duration-150 group text-left shadow-sm shadow-black/30 hover:shadow-md hover:shadow-cyan-900/20 hover:scale-[1.03] active:scale-[0.97]" style={{ backdropFilter: "blur(8px)" }}>
-                          <div className="flex items-center gap-1.5 min-w-0"><div className="p-1 rounded-md bg-[#1E2A4A] group-hover:bg-cyan-500/20 transition-colors shrink-0"><Icon className="h-3 w-3 text-[#94A3B8] group-hover:text-[#00E5C0] transition-colors"/></div><span className="text-[10px] font-semibold text-[#E2E8F0] group-hover:text-[#00E5C0] truncate leading-tight">{label}</span></div>
-                          <p className="text-[9px] text-[#94A3B8]/50 leading-tight line-clamp-2">{description}</p>
+                          <div className="flex items-center gap-1.5 min-w-0"><div className="p-1 rounded-md bg-[#1E2A4A] group-hover:bg-cyan-500/20 transition-colors shrink-0"><Icon className="h-3 w-3 text-[#94A3B8] group-hover:text-[#00E5C0] transition-colors"/></div><span className="text-xs font-semibold text-[#E2E8F0] group-hover:text-[#00E5C0] truncate leading-tight">{label}</span></div>
+                          <p className="text-[11px] text-[#94A3B8]/50 leading-tight line-clamp-2">{description}</p>
                         </button>
                       ))}
                     </div>}
@@ -4169,15 +4169,15 @@ export default function AidAgentPage() {
                 return (
                   <div>
                     <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                      <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Users className="h-3 w-3 shrink-0"/>Parents Quick Actions</p>
-                      <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                      <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Users className="h-3 w-3 shrink-0"/>Parents Quick Actions</p>
+                      <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[10px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                     </div>
                     {expanded && <div className="mt-2 grid grid-cols-3 gap-1.5">
                       {vis.map(({ icon: Icon, label, description, q }) => (
                         <button key={label} onClick={() => { sendMessage(q); setShowMobileLeft(false); }}
                                 className="flex flex-col gap-1 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-blue-500/[0.12] ring-1 ring-[#1A2540] hover:ring-blue-500/35 transition-all duration-150 group text-left shadow-sm shadow-black/30 hover:shadow-md hover:shadow-blue-900/20 hover:scale-[1.03] active:scale-[0.97]" style={{ backdropFilter: "blur(8px)" }}>
                           <div className="flex items-center gap-1.5 min-w-0"><div className="p-1 rounded-md bg-[#1E2A4A] group-hover:bg-blue-500/20 transition-colors shrink-0"><Icon className="h-3 w-3 text-[#94A3B8] group-hover:text-blue-300 transition-colors"/></div><span className="text-[10px] font-semibold text-[#E2E8F0] group-hover:text-blue-300 truncate leading-tight">{label}</span></div>
-                          <p className="text-[9px] text-[#94A3B8]/50 leading-tight line-clamp-2">{description}</p>
+                          <p className="text-[11px] text-[#94A3B8]/50 leading-tight line-clamp-2">{description}</p>
                         </button>
                       ))}
                     </div>}
@@ -4198,15 +4198,15 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><BookOpen className="h-3 w-3 shrink-0"/>Federal Student Aid</p>
-                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                        <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><BookOpen className="h-3 w-3 shrink-0"/>Federal Student Aid</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[10px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
                         {vis.map(({ name, url }) => (
                           <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                              className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-sky-500/35 transition-all duration-150 group shadow-sm shadow-black/30 hover:shadow-md hover:shadow-sky-900/20 hover:scale-[1.03] active:scale-[0.97] min-w-0" style={{ backdropFilter: "blur(8px)" }}>
                             <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
-                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                            <span className="text-xs font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
                           </a>
                         ))}
                       </div>}
@@ -4224,15 +4224,15 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><FileText className="h-3 w-3 shrink-0"/>Resume Assistance</p>
-                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                        <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><FileText className="h-3 w-3 shrink-0"/>Resume Assistance</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[10px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
                         {vis.map(({ name, url }) => (
                           <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                              className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-cyan-500/25 transition-all duration-150 group shadow-sm shadow-black/30 min-w-0">
                             <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
-                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                            <span className="text-xs font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
                           </a>
                         ))}
                       </div>}
@@ -4250,15 +4250,15 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Award className="h-3 w-3 shrink-0"/>Scholarship Search Engines</p>
-                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                        <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Award className="h-3 w-3 shrink-0"/>Scholarship Search Engines</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[10px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
                         {vis.map(({ name, url }) => (
                           <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                              className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-emerald-500/25 transition-all duration-150 group shadow-sm shadow-black/30 min-w-0">
                             <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
-                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                            <span className="text-xs font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
                           </a>
                         ))}
                       </div>}
@@ -4276,15 +4276,15 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Briefcase className="h-3 w-3 shrink-0"/>Internship / Career Search</p>
-                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                        <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Briefcase className="h-3 w-3 shrink-0"/>Internship / Career Search</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[10px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
                         {vis.map(({ name, url }) => (
                           <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                              className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-emerald-500/25 transition-all duration-150 group shadow-sm shadow-black/30 min-w-0">
                             <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
-                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                            <span className="text-xs font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
                           </a>
                         ))}
                       </div>}
@@ -4302,15 +4302,15 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Briefcase className="h-3 w-3 shrink-0"/>Student Job Search</p>
-                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                        <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Briefcase className="h-3 w-3 shrink-0"/>Student Job Search</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[10px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
                         {vis.map(({ name, url }) => (
                           <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                              className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-violet-500/25 transition-all duration-150 group shadow-sm shadow-black/30 min-w-0">
                             <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
-                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                            <span className="text-xs font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
                           </a>
                         ))}
                       </div>}
@@ -4328,15 +4328,15 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><DollarSign className="h-3 w-3 shrink-0"/>Financial Literacy</p>
-                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                        <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><DollarSign className="h-3 w-3 shrink-0"/>Financial Literacy</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[10px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
                         {vis.map(({ name, url }) => (
                           <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                              className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-emerald-500/25 transition-all duration-150 group shadow-sm shadow-black/30 min-w-0">
                             <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
-                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                            <span className="text-xs font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
                           </a>
                         ))}
                       </div>}
@@ -4354,15 +4354,15 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Receipt className="h-3 w-3 shrink-0"/>Private Student Loans</p>
-                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                        <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Receipt className="h-3 w-3 shrink-0"/>Private Student Loans</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[10px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
                         {vis.map(({ name, url }) => (
                           <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                              className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-violet-500/25 transition-all duration-150 group shadow-sm shadow-black/30 min-w-0">
                             <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
-                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                            <span className="text-xs font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
                           </a>
                         ))}
                       </div>}
@@ -4380,15 +4380,15 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 shrink-0"/>Students&apos; Bills &amp; Consumer Rights</p>
-                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                        <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 shrink-0"/>Students&apos; Bills &amp; Consumer Rights</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[10px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
                         {vis.map(({ name, url }) => (
                           <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                              className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-sky-500/35 transition-all duration-150 group shadow-sm shadow-black/30 hover:shadow-md hover:shadow-sky-900/20 hover:scale-[1.03] active:scale-[0.97] min-w-0" style={{ backdropFilter: "blur(8px)" }}>
                             <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
-                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                            <span className="text-xs font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
                           </a>
                         ))}
                       </div>}
@@ -4406,15 +4406,15 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Hash className="h-3 w-3 shrink-0"/>Mental Health Resources</p>
-                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                        <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Hash className="h-3 w-3 shrink-0"/>Mental Health Resources</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[10px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
                         {vis.map(({ name, url }) => (
                           <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                              className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-pink-500/25 transition-all duration-150 group shadow-sm shadow-black/30 min-w-0">
                             <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
-                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                            <span className="text-xs font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
                           </a>
                         ))}
                       </div>}
@@ -4432,15 +4432,15 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Lightbulb className="h-3 w-3 shrink-0"/>AI Literacy</p>
-                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                        <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Lightbulb className="h-3 w-3 shrink-0"/>AI Literacy</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[10px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
                         {vis.map(({ name, url }) => (
                           <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                              className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-blue-500/25 transition-all duration-150 group shadow-sm shadow-black/30 min-w-0">
                             <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
-                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                            <span className="text-xs font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
                           </a>
                         ))}
                       </div>}
@@ -4458,15 +4458,15 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Sparkles className="h-3 w-3 shrink-0"/>Religion &amp; Faith</p>
-                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                        <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Sparkles className="h-3 w-3 shrink-0"/>Religion &amp; Faith</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[10px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
                         {vis.map(({ name, url }) => (
                           <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                              className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-indigo-500/25 transition-all duration-150 group shadow-sm shadow-black/30 min-w-0">
                             <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
-                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                            <span className="text-xs font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
                           </a>
                         ))}
                       </div>}
@@ -4484,15 +4484,15 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><CheckCircle className="h-3 w-3 shrink-0"/>Volunteer &amp; Community</p>
-                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                        <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><CheckCircle className="h-3 w-3 shrink-0"/>Volunteer &amp; Community</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[10px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
                         {vis.map(({ name, url }) => (
                           <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                              className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-teal-500/25 transition-all duration-150 group shadow-sm shadow-black/30 min-w-0">
                             <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
-                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                            <span className="text-xs font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
                           </a>
                         ))}
                       </div>}
@@ -4510,15 +4510,15 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 shrink-0"/>VA Resources</p>
-                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                        <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 shrink-0"/>VA Resources</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[10px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
                         {vis.map(({ name, url }) => (
                           <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                              className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-amber-500/35 transition-all duration-150 group shadow-sm shadow-black/30 hover:shadow-md hover:shadow-amber-900/20 hover:scale-[1.03] active:scale-[0.97] min-w-0" style={{ backdropFilter: "blur(8px)" }}>
                             <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
-                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                            <span className="text-xs font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
                           </a>
                         ))}
                       </div>}
@@ -4533,7 +4533,7 @@ export default function AidAgentPage() {
                   return (
                 <div className="mb-1">
                   <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                    <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Library className="h-3 w-3 shrink-0"/>Video Showcase</p>
+                    <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Library className="h-3 w-3 shrink-0"/>Video Showcase</p>
                     <ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} />
                   </div>
                   {expanded && <div className="mt-2 mb-2 grid grid-cols-2 gap-2">
@@ -4547,7 +4547,7 @@ export default function AidAgentPage() {
                           </div>
                         </div>
                         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-2 py-1.5">
-                          <p className="text-[9px] text-white/85 truncate leading-tight">{title}</p>
+                          <p className="text-[11px] text-white/85 truncate leading-tight">{title}</p>
                         </div>
                       </a>
                     ))}
@@ -5678,15 +5678,15 @@ export default function AidAgentPage() {
                 return (
                   <div>
                     <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                      <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><ClipboardList className="h-3 w-3 shrink-0"/>Administrators Quick Actions</p>
-                      <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                      <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><ClipboardList className="h-3 w-3 shrink-0"/>Administrators Quick Actions</p>
+                      <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[10px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                     </div>
                     {expanded && <div className="mt-2 grid grid-cols-3 gap-1.5">
                       {vis.map(({ icon: Icon, label, description, q }) => (
                         <button key={label} onClick={() => { sendMessage(q); setShowMobileRight(false); }}
                                 className="flex flex-col gap-1 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-emerald-500/[0.12] ring-1 ring-[#1A2540] hover:ring-emerald-500/35 transition-all duration-150 group text-left shadow-sm shadow-black/30 hover:shadow-md hover:shadow-emerald-900/20 hover:scale-[1.03] active:scale-[0.97]" style={{ backdropFilter: "blur(8px)" }}>
-                          <div className="flex items-center gap-1.5 min-w-0"><div className="p-1 rounded-md bg-[#1E2A4A] group-hover:bg-emerald-500/20 transition-colors shrink-0"><Icon className="h-3 w-3 text-[#94A3B8] group-hover:text-emerald-300 transition-colors"/></div><span className="text-[10px] font-semibold text-[#E2E8F0] group-hover:text-emerald-300 truncate leading-tight">{label}</span></div>
-                          <p className="text-[9px] text-[#94A3B8]/50 leading-tight line-clamp-2">{description}</p>
+                          <div className="flex items-center gap-1.5 min-w-0"><div className="p-1 rounded-md bg-[#1E2A4A] group-hover:bg-emerald-500/20 transition-colors shrink-0"><Icon className="h-3 w-3 text-[#94A3B8] group-hover:text-emerald-300 transition-colors"/></div><span className="text-xs font-semibold text-[#E2E8F0] group-hover:text-emerald-300 truncate leading-tight">{label}</span></div>
+                          <p className="text-[11px] text-[#94A3B8]/50 leading-tight line-clamp-2">{description}</p>
                         </button>
                       ))}
                     </div>}
@@ -5705,15 +5705,15 @@ export default function AidAgentPage() {
                 return (
                   <div>
                     <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                      <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><TrendingUp className="h-3 w-3 shrink-0"/>Leaders Quick Actions</p>
-                      <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                      <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><TrendingUp className="h-3 w-3 shrink-0"/>Leaders Quick Actions</p>
+                      <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[10px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                     </div>
                     {expanded && <div className="mt-2 grid grid-cols-3 gap-1.5">
                       {vis.map(({ icon: Icon, label, description, q }) => (
                         <button key={label} onClick={() => { sendMessage(q); setShowMobileRight(false); }}
                                 className="flex flex-col gap-1 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-violet-500/[0.12] ring-1 ring-[#1A2540] hover:ring-violet-500/35 transition-all duration-150 group text-left shadow-sm shadow-black/30 hover:shadow-md hover:shadow-violet-900/20 hover:scale-[1.03] active:scale-[0.97]" style={{ backdropFilter: "blur(8px)" }}>
-                          <div className="flex items-center gap-1.5 min-w-0"><div className="p-1 rounded-md bg-[#1E2A4A] group-hover:bg-violet-500/20 transition-colors shrink-0"><Icon className="h-3 w-3 text-[#94A3B8] group-hover:text-violet-300 transition-colors"/></div><span className="text-[10px] font-semibold text-[#E2E8F0] group-hover:text-violet-300 truncate leading-tight">{label}</span></div>
-                          <p className="text-[9px] text-[#94A3B8]/50 leading-tight line-clamp-2">{description}</p>
+                          <div className="flex items-center gap-1.5 min-w-0"><div className="p-1 rounded-md bg-[#1E2A4A] group-hover:bg-violet-500/20 transition-colors shrink-0"><Icon className="h-3 w-3 text-[#94A3B8] group-hover:text-violet-300 transition-colors"/></div><span className="text-xs font-semibold text-[#E2E8F0] group-hover:text-violet-300 truncate leading-tight">{label}</span></div>
+                          <p className="text-[11px] text-[#94A3B8]/50 leading-tight line-clamp-2">{description}</p>
                         </button>
                       ))}
                     </div>}
@@ -5732,15 +5732,15 @@ export default function AidAgentPage() {
                 return (
                   <div>
                     <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                      <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 shrink-0"/>Auditors Quick Actions</p>
-                      <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                      <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 shrink-0"/>Auditors Quick Actions</p>
+                      <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[10px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                     </div>
                     {expanded && <div className="mt-2 grid grid-cols-3 gap-1.5">
                       {vis.map(({ icon: Icon, label, description, q }) => (
                         <button key={label} onClick={() => { sendMessage(q); setShowMobileRight(false); }}
                                 className="flex flex-col gap-1 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-rose-500/[0.10] ring-1 ring-[#1A2540] hover:ring-rose-500/25 transition-all group text-left shadow-sm shadow-black/30">
-                          <div className="flex items-center gap-1.5 min-w-0"><div className="p-1 rounded-md bg-[#1E2A4A] group-hover:bg-rose-500/20 transition-colors shrink-0"><Icon className="h-3 w-3 text-[#94A3B8] group-hover:text-rose-300 transition-colors"/></div><span className="text-[10px] font-semibold text-[#E2E8F0] group-hover:text-rose-300 truncate leading-tight">{label}</span></div>
-                          <p className="text-[9px] text-[#94A3B8]/50 leading-tight line-clamp-2">{description}</p>
+                          <div className="flex items-center gap-1.5 min-w-0"><div className="p-1 rounded-md bg-[#1E2A4A] group-hover:bg-rose-500/20 transition-colors shrink-0"><Icon className="h-3 w-3 text-[#94A3B8] group-hover:text-rose-300 transition-colors"/></div><span className="text-xs font-semibold text-[#E2E8F0] group-hover:text-rose-300 truncate leading-tight">{label}</span></div>
+                          <p className="text-[11px] text-[#94A3B8]/50 leading-tight line-clamp-2">{description}</p>
                         </button>
                       ))}
                     </div>}
@@ -5762,15 +5762,15 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><BookOpen className="h-3 w-3 shrink-0"/>Administrators &amp; Advisors</p>
-                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                        <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><BookOpen className="h-3 w-3 shrink-0"/>Administrators &amp; Advisors</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[10px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
                         {vis.map(({ name, url }) => (
                           <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                              className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-sky-500/35 transition-all duration-150 group shadow-sm shadow-black/30 hover:shadow-md hover:shadow-sky-900/20 hover:scale-[1.03] active:scale-[0.97] min-w-0" style={{ backdropFilter: "blur(8px)" }}>
                             <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
-                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                            <span className="text-xs font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
                           </a>
                         ))}
                       </div>}
@@ -5789,15 +5789,15 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Scale className="h-3 w-3 shrink-0"/>Leaders, Auditors &amp; Compliance</p>
-                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                        <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Scale className="h-3 w-3 shrink-0"/>Leaders, Auditors &amp; Compliance</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[10px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
                         {vis.map(({ name, url }) => (
                           <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                              className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-sky-500/35 transition-all duration-150 group shadow-sm shadow-black/30 hover:shadow-md hover:shadow-sky-900/20 hover:scale-[1.03] active:scale-[0.97] min-w-0" style={{ backdropFilter: "blur(8px)" }}>
                             <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
-                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                            <span className="text-xs font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
                           </a>
                         ))}
                       </div>}
@@ -5815,15 +5815,15 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Landmark className="h-3 w-3 shrink-0"/>Private Loan Administrator Portals</p>
-                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                        <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Landmark className="h-3 w-3 shrink-0"/>Private Loan Administrator Portals</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[10px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
                         {vis.map(({ name, url }) => (
                           <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                              className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-sky-500/35 transition-all duration-150 group shadow-sm shadow-black/30 hover:shadow-md hover:shadow-sky-900/20 hover:scale-[1.03] active:scale-[0.97] min-w-0" style={{ backdropFilter: "blur(8px)" }}>
                             <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
-                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                            <span className="text-xs font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
                           </a>
                         ))}
                       </div>}
@@ -5842,15 +5842,15 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Hash className="h-3 w-3 shrink-0"/>Health Wellness Support</p>
-                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                        <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Hash className="h-3 w-3 shrink-0"/>Health Wellness Support</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[10px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
                         {vis.map(({ name, url }) => (
                           <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                              className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-sky-500/35 transition-all duration-150 group shadow-sm shadow-black/30 hover:shadow-md hover:shadow-sky-900/20 hover:scale-[1.03] active:scale-[0.97] min-w-0" style={{ backdropFilter: "blur(8px)" }}>
                             <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
-                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                            <span className="text-xs font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
                           </a>
                         ))}
                       </div>}
@@ -5868,15 +5868,15 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 shrink-0"/>VA Resources</p>
-                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                        <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 shrink-0"/>VA Resources</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[10px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
                         {vis.map(({ name, url }) => (
                           <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                              className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-amber-500/35 transition-all duration-150 group shadow-sm shadow-black/30 hover:shadow-md hover:shadow-amber-900/20 hover:scale-[1.03] active:scale-[0.97] min-w-0" style={{ backdropFilter: "blur(8px)" }}>
                             <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
-                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                            <span className="text-xs font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
                           </a>
                         ))}
                       </div>}
@@ -5891,7 +5891,7 @@ export default function AidAgentPage() {
                   return (
                 <div className="mb-1">
                   <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                    <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Library className="h-3 w-3 shrink-0"/>Video Showcase</p>
+                    <p className="text-xs font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Library className="h-3 w-3 shrink-0"/>Video Showcase</p>
                     <ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} />
                   </div>
                   {expanded && <div className="mt-2 mb-2 grid grid-cols-2 gap-2">
@@ -5905,7 +5905,7 @@ export default function AidAgentPage() {
                           </div>
                         </div>
                         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-2 py-1.5">
-                          <p className="text-[9px] text-white/85 truncate leading-tight">{title}</p>
+                          <p className="text-[11px] text-white/85 truncate leading-tight">{title}</p>
                         </div>
                       </a>
                     ))}
