@@ -692,6 +692,35 @@
   animation: genie-chatbox-invite 2.8s ease-in-out infinite;
 }
 
+/* ── Get Clear Guidance: gold headline shimmer ── */
+@keyframes hiw-guidance-headline {
+  0%   { background-position: 200% center; }
+  100% { background-position: 0% center; }
+}
+.hiw-guidance-headline {
+  background: linear-gradient(90deg,
+    #D4AF37 0%, #FFE066 18%, #FFF4A0 34%,
+    #D4AF37 50%, #FFE066 66%, #FFF4A0 82%,
+    #D4AF37 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: hiw-guidance-headline 2.4s linear infinite;
+}
+
+/* ── Get Clear Guidance: gold chatbox shimmer ── */
+@keyframes hiw-guidance-chatbox {
+  0%   { box-shadow: 0 0 0 2px rgba(212,175,55,0.70), 0 0 28px 8px rgba(212,175,55,0.30), inset 0 0 0 1px rgba(212,175,55,0.20); }
+  50%  { box-shadow: 0 0 0 3px rgba(255,224,102,0.90), 0 0 48px 16px rgba(212,175,55,0.45), inset 0 0 0 1px rgba(255,224,102,0.30); }
+  100% { box-shadow: 0 0 0 2px rgba(212,175,55,0.70), 0 0 28px 8px rgba(212,175,55,0.30), inset 0 0 0 1px rgba(212,175,55,0.20); }
+}
+.hiw-guidance-chatbox {
+  animation: hiw-guidance-chatbox 1.6s ease-in-out infinite;
+}
+
 /* ── Panel dropdown animation ── */
 @keyframes genie-panel-drop {
   from { opacity: 0; transform: translateY(-12px); }

@@ -4904,10 +4904,16 @@ export default function AidAgentPage() {
                         className="font-black tracking-[-0.03em] leading-[0.88] mb-2"
                         style={{ fontSize: "clamp(2.8rem, 7.5vw, 5.2rem)" }}
                       >
-                        <span className="block" style={{ color: "#FFFFFF", textShadow: "0 0 80px rgba(255,255,255,0.20), 0 2px 40px rgba(255,255,255,0.10)" }}>
+                        <span
+                          className={`block transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-guidance-headline" : ""}`}
+                          style={howItWorksActive === "guidance" ? {} : { color: "#FFFFFF", textShadow: "0 0 80px rgba(255,255,255,0.20), 0 2px 40px rgba(255,255,255,0.10)" }}
+                        >
                           Student Aid,
                         </span>
-                        <span className="block" style={{ color: "#FFFFFF", textShadow: "0 0 80px rgba(255,255,255,0.20), 0 2px 40px rgba(255,255,255,0.10)" }}>
+                        <span
+                          className={`block transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-guidance-headline" : ""}`}
+                          style={howItWorksActive === "guidance" ? {} : { color: "#FFFFFF", textShadow: "0 0 80px rgba(255,255,255,0.20), 0 2px 40px rgba(255,255,255,0.10)" }}
+                        >
                           Made Clear.
                         </span>
                       </h2>
@@ -5515,7 +5521,7 @@ export default function AidAgentPage() {
 
               {/* Input form */}
               <div
-                className={`rounded-2xl ring-1 focus-within:ring-[#D4AF37]/70 transition-all duration-200 ${howItWorksActive === "chatbox" ? "hiw-active-ring" : (!input && !attachedFile ? "genie-chatbox-invite ring-[#D4AF37]/[0.25]" : "ring-[#D4AF37]/55")}`}
+                className={`rounded-2xl ring-1 focus-within:ring-[#D4AF37]/70 transition-all duration-200 ${howItWorksActive === "guidance" ? "hiw-guidance-chatbox" : howItWorksActive === "chatbox" ? "hiw-active-ring" : (!input && !attachedFile ? "genie-chatbox-invite ring-[#D4AF37]/[0.25]" : "ring-[#D4AF37]/55")}`}
                 style={{
                   background: "rgba(212,175,55,0.035)",
                   boxShadow: howItWorksActive === "chatbox"
