@@ -197,10 +197,12 @@ const QUICK_ACTIONS_BY_ROLE = [
       { icon: Hash, label: "Excel Help", description: "Troubleshoot issues & build sheets", q: "I need help with an Excel issue in my financial aid office — help me troubleshoot a formula, build a spreadsheet, or organize data more effectively." },
       { icon: ClipboardList, label: "Generate R2T4", description: "Tentative calc from uploaded docs", q: "Help me generate a tentative Return to Title IV (R2T4) calculation. I'll provide the student's withdrawal details — walk me through the full calculation step by step." },
       { icon: FileText, label: "FA Offer Letter", description: "Estimated letter with FAFSA data", q: "Generate an estimated financial aid offer letter for a student at our school using FAFSA data and institutional aid. Tell me what information you need to produce it." },
+      { icon: Scale, label: "Clarify a Guideline", description: "Federal or institutional rule explained", q: "Help me clarify a federal or institutional financial aid guideline. I'll describe the rule or policy I'm unsure about, and you explain it in plain language with the relevant 34 CFR citation and what compliance looks like in practice." },
+      { icon: Users, label: "Resolve a Student Issue", description: "Navigate conflicts or concerns", q: "Help me resolve a student issue or conflict in my financial aid office. I'll describe the situation — the student's concern, any escalation, and what's been tried — and you help me determine the best course of action professionally and in compliance with regulations." },
       { icon: SquarePen, label: "Draft an Email", description: "Clear, professional FA communication", q: "Help me write a professional email for a financial aid matter — I'll describe the situation and you can draft something clear and appropriate." },
+      { icon: Sparkles, label: "Manage My Stress", description: "Wellness strategies for FA professionals", q: "Help me manage workplace stress as a financial aid administrator. Share practical, evidence-based strategies for handling high-volume seasons, difficult student interactions, and regulatory pressure while maintaining my mental health and preventing burnout." },
     ],
     more: [
-      { icon: Users, label: "Address a Concern", description: "Student or office issue guidance", q: "Help me address a student concern or internal office issue — I'll describe the situation and you can help me draft a response or recommend a course of action." },
       { icon: CheckCircle, label: "Fact Check", description: "Verify a regulation or procedure", q: "Help me fact-check something or verify my memory on a regulation, policy, or procedure. I'll share what I think I know and you can confirm or correct it." },
       { icon: Printer, label: "Create a Calendar", description: "Day, week, month, or year printout", q: "Create a calendar printout for my day, week, month, or year. I'll specify the dates, deadlines, and events to include." },
       { icon: Zap, label: "Student-Facing Session", description: "Interactive UI for appointments", q: "I'm preparing for a student-facing appointment. Help me set up interactive prompts or talking points so the student can engage with the information during our session." },
@@ -233,7 +235,10 @@ const QUICK_ACTIONS_BY_ROLE = [
       { icon: FileText, label: "Decode the Award Letter", description: "Understand your child's FA offer", q: "My child received their financial aid award letter — help me decode it. Explain what each award means, the real out-of-pocket cost, and what we should accept or decline." },
       { icon: BookOpen, label: "Educational Plan", description: "High school through college roadmap", q: "Help me develop an educational plan for my child who is in high school or college — including course planning, college applications, financial aid strategy, and career direction." },
       { icon: Calculator, label: "Estimate Tuition Costs", description: "Direct costs at schools they're considering", q: "Help me estimate the direct cost of tuition and fees at the institutions my child is considering attending, so we can compare options and plan our finances." },
+      { icon: DollarSign, label: "Budget for College", description: "Plan your child's full education costs", q: "Help me build a comprehensive budget for my child's college education — covering tuition, room and board, books, personal expenses, and how financial aid offsets each cost. I want a realistic year-by-year plan." },
+      { icon: Receipt, label: "Finance Child's Education", description: "Savings, loans & aid strategies", q: "Help me develop a strategy to finance my child's education — walk me through the best combination of savings, 529 plans, federal aid, scholarships, and loans to minimize our out-of-pocket cost." },
       { icon: Lightbulb, label: "Career Path Ideas", description: "Suggestions based on your child's profile", q: "Based on my child's interests, strengths, and academic profile, suggest some career paths that could be a good fit and what education or training each would require." },
+      { icon: Sparkles, label: "Support Your Child", description: "Guidance for parents through the process", q: "Help me understand how I can best support my child through the college application and financial aid process — what my role should be, what to watch out for, and how to keep them motivated and on track." },
     ],
     more: [
       { icon: Award, label: "Federal Aid Types", description: "Grants, loans & work-study explained", q: "Give me a quick, plain-language breakdown of the main types of federal student aid — grants, loans, and work-study — so I understand what my child has been offered." },
@@ -247,14 +252,16 @@ const QUICK_ACTIONS_BY_ROLE = [
     role: "Leaders",
     color: "text-violet-400",
     items: [
-      { icon: Hash, label: "Excel Project", description: "Build, analyze & automate sheets", q: "Help me with an Excel project — whether it's building a spreadsheet, creating formulas, designing a dashboard, or analyzing data for my team or institution." },
+      { icon: Hash, label: "Excel for Leaders", description: "Dashboards, reports & automation", q: "Help me leverage Excel for leadership reporting and day-to-day assignments in financial aid. I need help building dashboards, automating repetitive tasks, or creating reports I can present to stakeholders — tell me what you need and I'll describe my use case." },
       { icon: Scale, label: "Federal Rules Clarity", description: "Plain-language reg explanations", q: "Help me get clarity on a specific federal rule or regulation — explain it in plain language, give me the relevant citation, and describe what it means for our institution." },
       { icon: Landmark, label: "Institutional Policy", description: "Draft, review, or interpret policy", q: "I need guidance on institutional policy — help me understand, draft, or review a policy related to financial aid, compliance, or operations at our institution." },
+      { icon: Users, label: "Workplace Diversity", description: "Build an inclusive, equitable team", q: "Help me educate myself and my team on workplace diversity, equity, and inclusion — share best practices, frameworks, and actionable strategies for building a more inclusive financial aid office where everyone feels valued and represented." },
+      { icon: Sparkles, label: "Manage My Stress", description: "Executive wellness & resilience strategies", q: "Help me manage leadership stress and prevent burnout. I lead a financial aid team and face high-stakes decisions, regulatory pressure, and demanding stakeholders — share practical evidence-based strategies to stay resilient, focused, and effective without sacrificing my wellbeing." },
       { icon: FileText, label: "Analyze a Document", description: "Summarize, review & extract insights", q: "I have a document I'd like you to analyze — share it and I'll ask you to summarize it, identify key points, or answer specific questions about its content." },
+      { icon: Sparkles, label: "Foster Motivation", description: "Strategies for a productive team", q: "Research evidence-based ways to foster motivation and a productive work environment for my team — share practical strategies I can implement right away." },
     ],
     more: [
       { icon: Camera, label: "Analyze Photo / Voice", description: "Interpret or transcribe shared media", q: "I have a photo or voice message I'd like analyzed — help me interpret, transcribe, or extract key information from the content I'll share." },
-      { icon: Sparkles, label: "Foster Motivation", description: "Strategies for a productive team", q: "Research evidence-based ways to foster motivation and a productive work environment for my team — share practical strategies I can implement right away." },
       { icon: Users, label: "Team Environment", description: "Office, remote & hybrid strategies", q: "Research effective strategies for building strong team environments — including approaches for office-based, fully remote, and hybrid teams. What works best in each setting?" },
       { icon: ClipboardList, label: "Create a PIP", description: "Performance Improvement Plan guide", q: "Help me create a Performance Improvement Plan (PIP) — walk me through what to include, how to set measurable goals, timelines, and how to document it appropriately." },
     ],
@@ -4546,7 +4553,19 @@ export default function AidAgentPage() {
                 >
                   {showMobileLeft ? <X className="h-5 w-5" /> : <GraduationCap className="h-5 w-5" />}
                 </button>
-                <h1 className="text-2xl font-black tracking-tight leading-none whitespace-nowrap genie-shimmer-teal select-none pointer-events-none px-2 py-0.5 rounded-xl ring-1 ring-[#D4AF37]/35" style={{ boxShadow: "0 0 14px rgba(212,175,55,0.10), inset 0 0 8px rgba(212,175,55,0.04)" }}>
+                <h1
+                  className="text-2xl font-black tracking-tight leading-none whitespace-nowrap select-none pointer-events-none px-2 py-0.5 rounded-xl ring-1 ring-[#D4AF37]/35"
+                  style={{
+                    boxShadow: "0 0 14px rgba(212,175,55,0.10), inset 0 0 8px rgba(212,175,55,0.04)",
+                    background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)",
+                    backgroundSize: "200% auto",
+                    WebkitBackgroundClip: "text",
+                    backgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    color: "transparent",
+                    animation: "genie-teal-shimmer 3.5s linear infinite",
+                  }}
+                >
                   Genie
                 </h1>
               </div>
@@ -5214,6 +5233,7 @@ export default function AidAgentPage() {
                       <div className="flex flex-wrap justify-center items-center gap-x-0 gap-y-0.5">
                         {[
                           { label: "Plans & Pricing",     href: "/pricing",      cls: "font-semibold text-[#C9A227]/80 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.10] ring-1 ring-[#D4AF37]/[0.25] hover:ring-[#D4AF37]/45" },
+                          { label: "Get the App",         href: "/pricing#app",  cls: "font-semibold text-emerald-400/80 hover:text-emerald-300 hover:bg-emerald-500/[0.12] ring-1 ring-emerald-500/[0.28] hover:ring-emerald-400/50" },
                           { label: "FAQ",                 href: "/pricing#faq",  cls: "font-medium text-white/35 hover:text-cyan-200/80 hover:bg-white/[0.06]" },
                           { label: "Support Dev",         href: "/support",      cls: "font-medium text-white/35 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
                           { label: "@one27__",            href: "https://x.com/one27__", cls: "font-semibold text-[#C9A227]/80 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.08] ring-1 ring-[#D4AF37]/20 hover:ring-[#D4AF37]/40" },
