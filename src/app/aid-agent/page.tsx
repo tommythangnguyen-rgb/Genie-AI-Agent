@@ -4592,8 +4592,11 @@ export default function AidAgentPage() {
                 >
                   {showMobileLeft ? <X className="h-5 w-5" /> : <GraduationCap className="h-5 w-5" />}
                 </button>
-                <h1
-                  className="text-2xl font-black tracking-tight leading-none whitespace-nowrap select-none pointer-events-none px-2 py-0.5 rounded-xl ring-1 ring-[#D4AF37]/35"
+                <button
+                  type="button"
+                  onClick={goHome}
+                  title="Return to home"
+                  className="text-2xl font-black tracking-tight leading-none whitespace-nowrap px-2 py-0.5 rounded-xl ring-1 ring-[#D4AF37]/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/60 hover:ring-[#D4AF37]/60 transition-all duration-150"
                   style={{
                     boxShadow: "0 0 14px rgba(212,175,55,0.10), inset 0 0 8px rgba(212,175,55,0.04)",
                     background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)",
@@ -4606,7 +4609,7 @@ export default function AidAgentPage() {
                   }}
                 >
                   Genie
-                </h1>
+                </button>
               </div>
 
               {/* Spacer */}
@@ -5009,7 +5012,7 @@ export default function AidAgentPage() {
                       <div className={`genie-console-slider${slideFlipped ? " genie-slide-flipped" : ""}`}>
 
                         {/* Slide 2 — I am a… */}
-                        <div className="genie-console-slide px-5 pt-5 pb-5 bg-[#0A1428]/60">
+                        <div className="genie-console-slide px-5 pt-5 pb-5 bg-[#0A1428]/20">
                           {/* Header — matches Tips by Role style */}
                           <div className="flex items-center justify-center gap-2 mb-4">
                             <div className="h-px flex-1 bg-gradient-to-r from-transparent to-violet-500/[0.20]" />
@@ -5062,8 +5065,8 @@ export default function AidAgentPage() {
                                 <button
                                   key={`${role}-${label}`}
                                   onClick={() => sendMessage(q)}
-                                  className="flex items-center gap-3 p-3 rounded-xl bg-[#0D1A32]/90 hover:bg-[#142240] ring-1 ring-[#D4AF37]/[0.14] hover:ring-[#D4AF37]/45 text-left transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] shadow-sm shadow-black/30 hover:shadow-md hover:shadow-black/50 hover:scale-[1.015] active:scale-[0.99] backdrop-blur-sm"
-                                  style={{ background: "rgba(13,26,50,0.85)" }}
+                                  className="flex items-center gap-3 p-3 rounded-xl hover:bg-[#142240]/60 ring-1 ring-[#D4AF37]/[0.14] hover:ring-[#D4AF37]/45 text-left transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] shadow-sm shadow-black/20 hover:shadow-md hover:shadow-black/40 hover:scale-[1.015] active:scale-[0.99] backdrop-blur-sm"
+                                  style={{ background: "rgba(13,26,50,0.35)" }}
                                 >
                                   <div className="p-2.5 rounded-xl bg-white/[0.06] group-hover:bg-cyan-500/[0.18] ring-1 ring-white/[0.08] group-hover:ring-cyan-500/[0.35] group-hover:shadow-[0_0_12px_rgba(6,182,212,0.28)] transition-all duration-200 shrink-0">
                                     <Icon className="h-5 w-5 text-[#94A3B8] group-hover:text-[#00E5C0] transition-colors" />
@@ -5080,7 +5083,7 @@ export default function AidAgentPage() {
                         </div>{/* end slide 2 */}
 
                         {/* Slide 3 — Tips by Role */}
-                        <div className="genie-console-slide px-5 pt-5 pb-5 bg-[#0A1428]/60">
+                        <div className="genie-console-slide px-5 pt-5 pb-5 bg-[#0A1428]/20">
                           <div className="flex items-center justify-center gap-2 mb-4">
                             <button
                               type="button"
@@ -5122,7 +5125,7 @@ export default function AidAgentPage() {
                             })}
                           </div>
                           {ROLE_TIPS.filter((r) => r.role === activeRole).map(({ role, icon: Icon, gradient, accent, tips }) => (
-                            <div key={role} className="rounded-2xl bg-[#0D1A32] ring-1 ring-[#D4AF37]/[0.25] overflow-hidden shadow-lg shadow-black/40">
+                            <div key={role} className="rounded-2xl bg-[#0D1A32]/40 ring-1 ring-[#D4AF37]/[0.25] overflow-hidden shadow-lg shadow-black/30 backdrop-blur-sm">
                               <div className={`bg-gradient-to-r ${gradient} px-5 py-4 flex items-center gap-3`}>
                                 <div className="p-2.5 rounded-xl bg-white/20">
                                   <Icon className="h-6 w-6 text-white" />
