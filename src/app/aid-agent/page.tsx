@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { MarkdownRenderer } from "@/components/chat/MarkdownRenderer";
 import { AppInstallPrompt } from "@/components/AppInstallPrompt";
+import { AppInstallModal } from "@/components/AppInstallModal";
 import { BackgroundMusic } from "@/components/BackgroundMusic";
 import { UsageMeter, LimitToast } from "@/components/usage-meter";
 import { UpgradeModal, useUpgradeModal } from "@/components/upgrade-modal";
@@ -3202,6 +3203,7 @@ export default function AidAgentPage() {
   const [isDark, setIsDark] = useState(false);
   // Daily rotation offset — shifts which tips appear first, updates each day
   const tipsRotationOffset = useMemo(() => Math.floor(Date.now() / 86400000), []);
+  const [showAppModal, setShowAppModal] = useState(false);
   const [showCookieNotice, setShowCookieNotice] = useState(false);
   const [attachedFile, setAttachedFile] = useState<AttachedFile | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -5291,7 +5293,7 @@ export default function AidAgentPage() {
                       <div className="flex flex-wrap justify-center items-center gap-x-0 gap-y-0.5">
                         {[
                           { label: "Plans & Pricing",     href: "/pricing",      cls: "font-semibold text-[#C9A227]/80 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.10] ring-1 ring-[#D4AF37]/[0.25] hover:ring-[#D4AF37]/45" },
-                          { label: "Get the App",         href: "/pricing#app",  cls: "font-semibold text-emerald-400/80 hover:text-emerald-300 hover:bg-emerald-500/[0.12] ring-1 ring-emerald-500/[0.28] hover:ring-emerald-400/50" },
+                          { label: "Get the App",         href: "#install",      cls: "font-semibold text-emerald-400/80 hover:text-emerald-300 hover:bg-emerald-500/[0.12] ring-1 ring-emerald-500/[0.28] hover:ring-emerald-400/50" },
                           { label: "FAQ",                 href: "/pricing#faq",  cls: "font-medium text-white/35 hover:text-cyan-200/80 hover:bg-white/[0.06]" },
                           { label: "Support Dev",         href: "/support",      cls: "font-medium text-white/35 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
                           { label: "@one27__",            href: "https://x.com/one27__", cls: "font-semibold text-[#C9A227]/80 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.08] ring-1 ring-[#D4AF37]/20 hover:ring-[#D4AF37]/40" },
@@ -5302,7 +5304,10 @@ export default function AidAgentPage() {
                           { label: "Do Not Sell My Info", href: "/legal#ccpa",   cls: "font-medium text-white/25 hover:text-cyan-200/60 hover:bg-cyan-500/[0.06]" },
                         ].map(({ label, href, cls }, i, arr) => (
                           <span key={label} className="contents">
-                            <a href={href} {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})} className={`px-1.5 py-px rounded-full text-[9px] transition-all duration-150 ${cls}`}>{label}</a>
+                            {href === "#install"
+                              ? <button type="button" onClick={() => setShowAppModal(true)} className={`px-1.5 py-px rounded-full text-[9px] transition-all duration-150 ${cls}`}>{label}</button>
+                              : <a href={href} {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})} className={`px-1.5 py-px rounded-full text-[9px] transition-all duration-150 ${cls}`}>{label}</a>
+                            }
                             {i < arr.length - 1 && <span className="text-white/10 text-[9px] select-none px-0.5">·</span>}
                           </span>
                         ))}
@@ -5609,7 +5614,7 @@ export default function AidAgentPage() {
             <div className="flex flex-wrap justify-center items-center gap-x-0 gap-y-0.5 mb-0.5">
               {[
                 { label: "Plans & Pricing",     href: "/pricing",      cls: "font-semibold text-[#C9A227]/80 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.10] ring-1 ring-[#D4AF37]/[0.25] hover:ring-[#D4AF37]/45" },
-                { label: "Get the App",         href: "/pricing#app",  cls: "font-semibold text-emerald-400/80 hover:text-emerald-300 hover:bg-emerald-500/[0.12] ring-1 ring-emerald-500/[0.28] hover:ring-emerald-400/50" },
+                { label: "Get the App",         href: "#install",      cls: "font-semibold text-emerald-400/80 hover:text-emerald-300 hover:bg-emerald-500/[0.12] ring-1 ring-emerald-500/[0.28] hover:ring-emerald-400/50" },
                 { label: "FAQ",                 href: "/pricing#faq",  cls: "font-medium text-white/35 hover:text-cyan-200/80 hover:bg-white/[0.06]" },
                 { label: "Support Dev",         href: "/support",      cls: "font-medium text-white/35 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
                 { label: "@one27__",            href: "https://x.com/one27__", cls: "font-semibold text-[#C9A227]/80 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.08] ring-1 ring-[#D4AF37]/20 hover:ring-[#D4AF37]/40" },
@@ -5620,7 +5625,10 @@ export default function AidAgentPage() {
                 { label: "Do Not Sell My Info", href: "/legal#ccpa",   cls: "font-medium text-white/25 hover:text-cyan-200/60 hover:bg-cyan-500/[0.06]" },
               ].map(({ label, href, cls }, i, arr) => (
                 <span key={label} className="contents">
-                  <a href={href} target="_blank" rel="noopener noreferrer" className={`px-1.5 py-px rounded-full text-[9px] transition-all duration-150 ${cls}`}>{label}</a>
+                  {href === "#install"
+                    ? <button type="button" onClick={() => setShowAppModal(true)} className={`px-1.5 py-px rounded-full text-[9px] transition-all duration-150 ${cls}`}>{label}</button>
+                    : <a href={href} {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})} className={`px-1.5 py-px rounded-full text-[9px] transition-all duration-150 ${cls}`}>{label}</a>
+                  }
                   {i < arr.length - 1 && <span className="text-white/10 text-[9px] select-none px-0.5">·</span>}
                 </span>
               ))}
@@ -6111,6 +6119,8 @@ export default function AidAgentPage() {
 
       {/* PWA install prompt — shows once per day if not installed */}
       <AppInstallPrompt />
+      {/* App install modal — triggered by "Get the App" footer link */}
+      <AppInstallModal open={showAppModal} onClose={() => setShowAppModal(false)} />
     </>
   );
 }
