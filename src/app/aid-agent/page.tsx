@@ -4325,6 +4325,22 @@ export default function AidAgentPage() {
             </button>
           </div>
 
+          {/* ── Contextual photo strip ── */}
+          <div className="shrink-0 px-4 pt-2.5">
+            <div className="flex gap-1.5 h-[68px] rounded-xl overflow-hidden">
+              <div className="relative flex-1 overflow-hidden rounded-l-xl">
+                <img src="/images/student-laptop.jpg" alt="" className="w-full h-full object-cover object-[50%_25%]" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#04091A]/70 to-[#04091A]/45" />
+                <span className="absolute bottom-2 left-2 text-[8px] font-bold uppercase tracking-[0.14em] text-white/55">Students</span>
+              </div>
+              <div className="relative flex-1 overflow-hidden rounded-r-xl">
+                <img src="/images/hero-parent-student.jpg" alt="" className="w-full h-full object-cover object-[50%_22%]" />
+                <div className="absolute inset-0 bg-gradient-to-l from-[#04091A]/70 to-[#04091A]/45" />
+                <span className="absolute bottom-2 right-2 text-[8px] font-bold uppercase tracking-[0.14em] text-white/55">Parents</span>
+              </div>
+            </div>
+          </div>
+
           {/* Scrollable content */}
           <div className="flex-1 overflow-y-auto p-4">
             <div className="space-y-5">
@@ -5149,6 +5165,21 @@ export default function AidAgentPage() {
                       </p>
                     </div>
 
+                    {/* ── Human story photo strip ── */}
+                    <div className="flex gap-1.5 mb-3 rounded-xl overflow-hidden h-[72px]">
+                      {[
+                        { src: "/images/student-laptop.jpg",      pos: "object-[50%_22%]", label: "Students"    },
+                        { src: "/images/hero-advisor-meeting.jpg", pos: "object-[50%_28%]", label: "Families & Offices" },
+                        { src: "/images/admin-office.jpg",        pos: "object-[50%_18%]", label: "Professionals" },
+                      ].map(({ src, pos, label }) => (
+                        <div key={src} className="relative flex-1 overflow-hidden first:rounded-l-xl last:rounded-r-xl">
+                          <img src={src} alt={label} className={`w-full h-full object-cover ${pos}`} />
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#04091A]/90 via-[#04091A]/40 to-transparent" />
+                          <span className="absolute bottom-1.5 left-0 right-0 text-center text-[8px] font-bold uppercase tracking-[0.14em] text-white/55">{label}</span>
+                        </div>
+                      ))}
+                    </div>
+
                     {/* Trust strip */}
                     <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-3">
                       {[
@@ -5161,6 +5192,23 @@ export default function AidAgentPage() {
                           <span className="text-sm text-white/75 font-semibold">{text}</span>
                         </span>
                       ))}
+                    </div>
+
+                    {/* ── Social proof faces ── */}
+                    <div className="flex items-center gap-2.5 mb-3">
+                      <div className="flex -space-x-2.5">
+                        {[
+                          { src: "/images/student-contemplative.jpg", pos: "object-[50%_12%]" },
+                          { src: "/images/hero-parent-student.jpg",   pos: "object-[55%_20%]" },
+                          { src: "/images/parent-documents.jpg",      pos: "object-[60%_12%]" },
+                          { src: "/images/student-laptop.jpg",        pos: "object-[50%_18%]" },
+                        ].map(({ src, pos }, i) => (
+                          <div key={i} className="w-7 h-7 rounded-full ring-2 ring-[#0A1428] overflow-hidden shadow-md">
+                            <img src={src} alt="" className={`w-full h-full object-cover ${pos}`} />
+                          </div>
+                        ))}
+                      </div>
+                      <p className="text-[11px] text-white/40 font-semibold">Students, families &amp; aid offices</p>
                     </div>
 
                     {/* How It Works */}
@@ -5803,6 +5851,21 @@ export default function AidAgentPage() {
             <button onClick={() => setShowMobileRight(false)} className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all">
               <X className="h-4 w-4" />
             </button>
+          </div>
+
+          {/* ── Contextual photo strip ── */}
+          <div className="shrink-0 px-4 pt-2.5">
+            <div className="flex gap-1.5 h-[68px] rounded-xl overflow-hidden">
+              <div className="relative flex-[3] overflow-hidden rounded-l-xl">
+                <img src="/images/admin-office.jpg" alt="" className="w-full h-full object-cover object-[50%_20%]" />
+                <div className="absolute inset-0 bg-gradient-to-r from-[#04091A]/65 to-[#04091A]/40" />
+                <span className="absolute bottom-2 left-2 text-[8px] font-bold uppercase tracking-[0.14em] text-white/55">Professionals</span>
+              </div>
+              <div className="relative flex-[2] overflow-hidden rounded-r-xl">
+                <img src="/images/document-exchange.jpg" alt="" className="w-full h-full object-cover object-[50%_35%]" />
+                <div className="absolute inset-0 bg-gradient-to-l from-[#04091A]/65 to-[#04091A]/40" />
+              </div>
+            </div>
           </div>
 
           {/* Scrollable content */}
