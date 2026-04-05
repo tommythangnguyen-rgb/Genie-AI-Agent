@@ -15,11 +15,11 @@ export async function GET() {
   try {
     const provider = createAnthropic({ apiKey: cleanKey });
     const { text } = await generateText({
-      model: provider("claude-3-5-sonnet-20241022"),
+      model: provider("claude-sonnet-4-20250514"),
       prompt: "Reply with exactly: OK",
       maxOutputTokens: 5,
     });
-    return NextResponse.json({ status: "ok", keyPreview, model: "claude-3-5-sonnet-20241022", reply: text.trim() });
+    return NextResponse.json({ status: "ok", keyPreview, model: "claude-sonnet-4-20250514", reply: text.trim() });
   } catch (err: any) {
     const msg = err?.message ?? String(err);
     const body = err?.responseBody ?? err?.cause?.responseBody ?? "";
