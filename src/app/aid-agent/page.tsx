@@ -1581,6 +1581,46 @@ const MENTAL_HEALTH_STUDENT_MORE: MaybeSubcat[] = [
   { name: "SAMHSA — College Mental Health", url: "https://www.samhsa.gov/resource-search/ebp?f[0]=population_group%3A1552" },
 ];
 
+// ── Mental Health — Admin / Leader / Auditor (Professional Wellness) ──
+const MENTAL_HEALTH_ADMIN: LinkItem[] = [
+  { name: "SAMHSA Workplace Wellness",         url: "https://www.samhsa.gov/workplace" },
+  { name: "Mental Health First Aid",           url: "https://www.mentalhealthfirstaid.org" },
+  { name: "EAPA — Employee Assistance Pros",  url: "https://www.eapassn.org" },
+  { name: "CDC Workplace Health",              url: "https://www.cdc.gov/workplacehealthpromotion" },
+  { name: "National Wellness Institute",       url: "https://nationalwellness.org" },
+  { name: "APA — Psychologically Healthy Workplace", url: "https://www.apaexcellence.org" },
+  { name: "Headspace for Work",                url: "https://www.headspace.com/work" },
+  { name: "SHRM — Mental Health at Work",      url: "https://www.shrm.org/topics-tools/topics/mental-health-wellness" },
+  { name: "NIMH — Workplace Mental Health",    url: "https://www.nimh.nih.gov/health/topics/mental-health-in-the-workplace" },
+  { name: "Calm for Business",                 url: "https://www.calm.com/business" },
+  { name: "Mind Tools — Stress Management",    url: "https://www.mindtools.com/pages/article/newTCS_05.htm" },
+  { name: "American Institute of Stress",      url: "https://www.stress.org" },
+  { name: "AFSP Workplace Suicide Prevention", url: "https://afsp.org/workplace-suicide-prevention" },
+  { name: "QPR Institute — Suicide Training",  url: "https://qprinstitute.com" },
+  { name: "Zero Suicide Institute",            url: "https://zerosuicide.edc.org" },
+  { name: "Thrive Global — Burnout Resources", url: "https://thriveglobal.com" },
+];
+
+// ── Volunteer & Community Service — Admin / Leader / Auditor ──
+const VOLUNTEER_ADMIN: LinkItem[] = [
+  { name: "AmeriCorps — Institutional Partnerships", url: "https://americorps.gov/partner" },
+  { name: "Campus Compact — Civic Engagement",       url: "https://compact.org" },
+  { name: "Points of Light — Corporate Volunteering",url: "https://www.pointsoflight.org/programs/corporate-service-council" },
+  { name: "United Way Workplace Giving",             url: "https://www.unitedway.org/our-impact/featured-programs/workplace-campaign" },
+  { name: "Idealist — Nonprofit & Volunteer Opps",  url: "https://www.idealist.org" },
+  { name: "Independent Sector — Nonprofit Leaders",  url: "https://independentsector.org" },
+  { name: "NASPA — Community Engagement",            url: "https://www.naspa.org/topics/civic-engagement" },
+  { name: "VolunteerMatch — Nonprofit Partnerships", url: "https://www.volunteermatch.org/nonprofits" },
+  { name: "HandsOn Network — Corporate Volunteer",   url: "https://www.handsonnetwork.org" },
+  { name: "National Service-Learning Clearinghouse", url: "https://www.servicelearning.org" },
+  { name: "Corporation for Nat'l & Community Svc",   url: "https://americorps.gov/about/agency" },
+  { name: "Council on Foundations",                  url: "https://cof.org" },
+  { name: "SHRM Foundation — Workforce Programs",    url: "https://www.shrm.org/foundation" },
+  { name: "Habitat for Humanity — Campus Chapters",  url: "https://www.habitat.org/volunteer/near-you/campus-chapters-and-clubs" },
+  { name: "United Nations Volunteers — Online",      url: "https://www.onlinevolunteering.org" },
+  { name: "Catchafire — Skills-Based Volunteering",  url: "https://www.catchafire.org" },
+];
+
 // ── Religion, Faith & Philosophy ──
 const RELIGION_FAITH_PHILOSOPHY: MaybeSubcat[] = [
   { subcat: "Interfaith & Campus Ministry" },
@@ -3254,6 +3294,8 @@ const RESUME_LINKS_TOP8 = ([...RESUME_ASSISTANCE, ...RESUME_ASSISTANCE_MORE] as 
   .filter((i): i is LinkItem => !isSubcat(i)).slice(0, 8);
 const SCHOLARSHIP_LINKS_TOP8 = ([...SCHOLARSHIP_ENGINES, ...SCHOLARSHIP_ENGINES_MORE] as MaybeSubcat[])
   .filter((i): i is LinkItem => !isSubcat(i)).slice(0, 8);
+const MENTAL_HEALTH_ADMIN_TOP8  = MENTAL_HEALTH_ADMIN.slice(0, 8);
+const VOLUNTEER_ADMIN_TOP8      = VOLUNTEER_ADMIN.slice(0, 8);
 
 const ROLE_COLOR_MAP: Record<string, { active: string; inactive: string }> = {
   Student:       { active: "bg-indigo-600/70 text-white ring-indigo-400/50 shadow-indigo-900/30",      inactive: "text-indigo-300/55 hover:text-indigo-200 hover:bg-indigo-500/[0.10] ring-[#D4AF37]/[0.12]" },
@@ -5981,6 +6023,60 @@ export default function AidAgentPage() {
                 </div>
               </div>
 
+              {/* ── Mental Health (Professional Wellness) ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-teal-500/[0.14]" />
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-teal-500/[0.18]">
+                    <Sparkles className="h-2.5 w-2.5 text-teal-400/80" />
+                    <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Mental Health</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("rc-mh-admin")} className="text-[8px] font-semibold text-white/25 hover:text-teal-300 transition-colors px-1 py-0.5 rounded hover:bg-teal-500/[0.08]">all</button>
+                  <div className="h-px w-3 bg-teal-500/[0.14]" />
+                </div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {MENTAL_HEALTH_ADMIN_TOP8.map(({ name, url }) => {
+                    const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                    return (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-1 p-1.5 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                        <div className="w-11 h-11 rounded-[13px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-teal-500/30 transition-all">
+                          <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="28" height="28" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                        </div>
+                        <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* ── Volunteer & Community Service ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-lime-500/[0.14]" />
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-lime-500/[0.18]">
+                    <Users className="h-2.5 w-2.5 text-lime-400/80" />
+                    <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Volunteer</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("rc-vol-admin")} className="text-[8px] font-semibold text-white/25 hover:text-lime-300 transition-colors px-1 py-0.5 rounded hover:bg-lime-500/[0.08]">all</button>
+                  <div className="h-px w-3 bg-lime-500/[0.14]" />
+                </div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {VOLUNTEER_ADMIN_TOP8.map(({ name, url }) => {
+                    const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                    return (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-1 p-1.5 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                        <div className="w-11 h-11 rounded-[13px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-lime-500/30 transition-all">
+                          <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="28" height="28" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                        </div>
+                        <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
                 {/* ── Admin Video Showcase ── */}
                 {(() => {
                   const ck = "rc-admin-vid";
@@ -6182,6 +6278,8 @@ export default function AidAgentPage() {
                   "rc-hw": "Health Wellness Support",
                   "rc-va": "VA Resources",
                   "lc-va": "VA Resources",
+                  "rc-mh-admin": "Mental Health — Professional Wellness",
+                  "rc-vol-admin": "Volunteer & Community Service",
                 } as Record<string, string>)[overlaySection] ?? overlaySection}
               </h2>
               <button onClick={() => setOverlaySection(null)} className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all">
@@ -6220,13 +6318,15 @@ export default function AidAgentPage() {
               })()}
 
               {/* === Flat link sections — favicon icon grid === */}
-              {["lc-fed-sp", "rc-fa-adm", "rc-lac", "rc-loan-portals", "rc-hw"].includes(overlaySection) && (() => {
+              {["lc-fed-sp", "rc-fa-adm", "rc-lac", "rc-loan-portals", "rc-hw", "rc-mh-admin", "rc-vol-admin"].includes(overlaySection) && (() => {
                 const dataMap: Record<string, LinkItem[]> = {
                   "lc-fed-sp":       FEDERAL_RESOURCES.find(g => g.group === "Students & Parents")?.links ?? [],
                   "rc-fa-adm":       (() => { const g = FEDERAL_RESOURCES.find(x => x.group === "Administrators & Advisors"); return [...(g?.links ?? []), ...((g?.more ?? []) as MaybeSubcat[]).filter(i => !isSubcat(i))] as LinkItem[]; })(),
                   "rc-lac":          (() => { const g = FEDERAL_RESOURCES.find(x => x.group === "Leaders, Auditors & Compliance"); return [...(g?.links ?? []), ...((g?.more ?? []) as MaybeSubcat[]).filter(i => !isSubcat(i))] as LinkItem[]; })(),
                   "rc-loan-portals": FEDERAL_RESOURCES.find(g => g.group === "Private Loan Administrator Portals")?.links ?? [],
                   "rc-hw":           (() => { const g = FEDERAL_RESOURCES.find(x => x.group === "Health Wellness Support"); return [...(g?.links ?? []), ...((g?.more ?? []) as MaybeSubcat[]).filter(i => !isSubcat(i))] as LinkItem[]; })(),
+                  "rc-mh-admin":     MENTAL_HEALTH_ADMIN,
+                  "rc-vol-admin":    VOLUNTEER_ADMIN,
                 };
                 const links = dataMap[overlaySection] ?? [];
                 return (
