@@ -153,14 +153,16 @@ export async function POST(req: NextRequest) {
           } else if (part.type === "error") {
             const errMsg = extractErrMsg(part.error);
             const status = (part.error as any)?.statusCode ?? (part.error as any)?.status ?? "";
-            console.error(`Aid agent stream error [${status}]:`, errMsg);
+            const keyLen = process.env.ANTHROPIC_API_KEY?.trim().length ?? 0;
+            console.error(`[AidAgent] STREAM ERROR status=${status} key_len=${keyLen}:`, errMsg);
             controller.enqueue(encoder.encode(friendlyError(errMsg)));
           }
         }
       } catch (err: any) {
         const msg = extractErrMsg(err);
         const status = err?.statusCode ?? err?.status ?? "";
-        console.error(`Aid agent stream exception [${status}]:`, msg);
+        const keyLen = process.env.ANTHROPIC_API_KEY?.trim().length ?? 0;
+        console.error(`[AidAgent] STREAM EXCEPTION status=${status} key_len=${keyLen}:`, msg);
         controller.enqueue(encoder.encode(friendlyError(msg)));
       } finally {
         controller.close();
