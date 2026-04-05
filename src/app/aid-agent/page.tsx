@@ -4487,6 +4487,32 @@ export default function AidAgentPage() {
                   );
                 })()}
 
+                {/* VA Resources */}
+                {(() => {
+                  const ck = "lc-va";
+                  const expanded = expandedSections.has(ck);
+                  const all = VA_RESOURCES.filter((i): i is LinkItem => !isSubcat(i));
+                  const CPP = 3; const page = carouselIdx[ck] ?? 0; const tp = Math.ceil(all.length / CPP);
+                  const vis = all.slice(page * CPP, (page + 1) * CPP);
+                  return (
+                    <div className="mb-1">
+                      <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 shrink-0"/>VA Resources</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                      </div>
+                      {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
+                        {vis.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                             className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-amber-500/35 transition-all duration-150 group shadow-sm shadow-black/30 hover:shadow-md hover:shadow-amber-900/20 hover:scale-[1.03] active:scale-[0.97] min-w-0" style={{ backdropFilter: "blur(8px)" }}>
+                            <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                          </a>
+                        ))}
+                      </div>}
+                    </div>
+                  );
+                })()}
+
                 {/* FAFSA Videos */}
                 {(() => {
                   const ck = "lc-fafsa-vid";
@@ -5090,8 +5116,8 @@ export default function AidAgentPage() {
 
                 </div>{/* end two-column console */}
 
-                {/* ── Inline chatbox — welcome state, desktop only (mobile uses footer bar) ── */}
-                <div className="hidden sm:block w-full max-w-[1280px] mt-4 px-1 sm:px-2">
+                {/* ── Inline chatbox — mobile only (desktop uses persistent footer bar) ── */}
+                <div className="sm:hidden w-full max-w-[1280px] mt-4 px-1 sm:px-2">
                   <div className="rounded-2xl bg-[#0A1428]/80 backdrop-blur-xl ring-1 ring-[#1E2A4A] px-4 pt-4 pb-4 shadow-xl shadow-black/40">
                     {/* Prompt label row */}
                     <div className="flex items-center gap-2 mb-2 px-1">
@@ -5368,8 +5394,8 @@ export default function AidAgentPage() {
             )}
           </div>
 
-          {/* Input area — always visible on mobile; hidden on desktop in welcome state (inline chatbox handles it) */}
-          <div className={`shrink-0 relative bg-[#0A1428]/80 backdrop-blur-xl border-t border-[#1E2A4A] px-4 pt-4 pb-5 ${messages.length === 0 ? "sm:hidden" : ""}`} style={{ zIndex: 3 }}>
+          {/* Input area — always visible on all devices/sizes */}
+          <div className="shrink-0 relative bg-[#0A1428]/80 backdrop-blur-xl border-t border-[#1E2A4A] px-4 pt-3 pb-3" style={{ zIndex: 3 }}>
             {/* Ambient glow bloom behind chatbox */}
             <div className="pointer-events-none absolute inset-x-0 -top-6 h-16 bg-gradient-to-t from-cyan-500/[0.06] to-transparent" />
 
@@ -5540,34 +5566,36 @@ export default function AidAgentPage() {
               </div>
 
 
-              {/* Footer hints */}
-              <div className="mt-1 border-t border-white/[0.05] pt-1.5 flex flex-col items-center gap-0.5">
-                <p className="text-[9px] text-cyan-400/28 text-center leading-snug">
-                  Enter to send · Shift+Enter new line · Verify with FSA Handbook · Unofficial — not affiliated with U.S. Dept. of Education · Built by a 15-year FA professional
-                </p>
-                <div className="flex flex-wrap justify-center items-center gap-x-0 gap-y-0.5">
-                  {[
-                    { label: "Plans & Pricing",     href: "/pricing",      cls: "font-semibold text-[#C9A227]/80 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.10] ring-1 ring-[#D4AF37]/[0.25] hover:ring-[#D4AF37]/45" },
-                    { label: "FAQ",                 href: "/pricing#faq",  cls: "font-medium text-white/35 hover:text-cyan-200/80 hover:bg-white/[0.06]" },
-                    { label: "Support Dev",         href: "/support",      cls: "font-medium text-white/35 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
-                    { label: "@one27__",            href: "https://x.com/one27__", cls: "font-semibold text-[#C9A227]/80 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.08] ring-1 ring-[#D4AF37]/20 hover:ring-[#D4AF37]/40" },
-                    { label: "Terms & Privacy",     href: "/legal",        cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
-                    { label: "School DPA",          href: "/dpa",          cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
-                    { label: "About",               href: "/about",        cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
-                    { label: "For Schools",         href: "/institutions", cls: "font-semibold text-cyan-400/75 hover:text-cyan-300 hover:bg-cyan-500/[0.12] ring-1 ring-cyan-500/[0.20] hover:ring-cyan-400/40" },
-                    { label: "Do Not Sell My Info", href: "/legal#ccpa",   cls: "font-medium text-white/25 hover:text-cyan-200/60 hover:bg-cyan-500/[0.06]" },
-                  ].map(({ label, href, cls }, i, arr) => (
-                    <span key={label} className="contents">
-                      <a href={href} target="_blank" rel="noopener noreferrer" className={`px-1.5 py-px rounded-full text-[9px] transition-all duration-150 ${cls}`}>{label}</a>
-                      {i < arr.length - 1 && <span className="text-white/10 text-[9px] select-none px-0.5">·</span>}
-                    </span>
-                  ))}
-                </div>
-                <p className="text-[9px] text-center text-cyan-500/22">
-                  © 2026 Genie Student Aid Hub | Developed by One27 | All Rights Reserved
-                </p>
-              </div>
+              <p className="mt-1 text-[9px] text-cyan-400/25 text-center leading-snug">
+                Enter ↵ to send · Shift+Enter new line · Unofficial guidance — verify with FSA Handbook
+              </p>
             </div>
+          </div>
+
+          {/* ── Site Footer Bar ── */}
+          <div className="shrink-0 border-t border-[#0F1E3A] px-4 py-2" style={{ background: "rgba(4,10,26,0.97)", zIndex: 3 }}>
+            <div className="flex flex-wrap justify-center items-center gap-x-0 gap-y-0.5 mb-0.5">
+              {[
+                { label: "Plans & Pricing",     href: "/pricing",      cls: "font-semibold text-[#C9A227]/80 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.10] ring-1 ring-[#D4AF37]/[0.25] hover:ring-[#D4AF37]/45" },
+                { label: "Get the App",         href: "/pricing#app",  cls: "font-semibold text-emerald-400/80 hover:text-emerald-300 hover:bg-emerald-500/[0.12] ring-1 ring-emerald-500/[0.28] hover:ring-emerald-400/50" },
+                { label: "FAQ",                 href: "/pricing#faq",  cls: "font-medium text-white/35 hover:text-cyan-200/80 hover:bg-white/[0.06]" },
+                { label: "Support Dev",         href: "/support",      cls: "font-medium text-white/35 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
+                { label: "@one27__",            href: "https://x.com/one27__", cls: "font-semibold text-[#C9A227]/80 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.08] ring-1 ring-[#D4AF37]/20 hover:ring-[#D4AF37]/40" },
+                { label: "Terms & Privacy",     href: "/legal",        cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
+                { label: "School DPA",          href: "/dpa",          cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
+                { label: "About",               href: "/about",        cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
+                { label: "For Schools",         href: "/institutions", cls: "font-semibold text-cyan-400/75 hover:text-cyan-300 hover:bg-cyan-500/[0.12] ring-1 ring-cyan-500/[0.20] hover:ring-cyan-400/40" },
+                { label: "Do Not Sell My Info", href: "/legal#ccpa",   cls: "font-medium text-white/25 hover:text-cyan-200/60 hover:bg-cyan-500/[0.06]" },
+              ].map(({ label, href, cls }, i, arr) => (
+                <span key={label} className="contents">
+                  <a href={href} target="_blank" rel="noopener noreferrer" className={`px-1.5 py-px rounded-full text-[9px] transition-all duration-150 ${cls}`}>{label}</a>
+                  {i < arr.length - 1 && <span className="text-white/10 text-[9px] select-none px-0.5">·</span>}
+                </span>
+              ))}
+            </div>
+            <p className="text-[8px] text-center text-cyan-500/20">
+              © 2026 Genie Student Aid Hub | Developed by One27 | All Rights Reserved · Not affiliated with U.S. Dept. of Education
+            </p>
           </div>
 
         </main>
@@ -5896,6 +5924,7 @@ export default function AidAgentPage() {
                   "rc-loan-portals": "Private Loan Administrator Portals",
                   "rc-hw": "Health Wellness Support",
                   "rc-va": "VA Resources",
+                  "lc-va": "VA Resources",
                 } as Record<string, string>)[overlaySection] ?? overlaySection}
               </h2>
               <button onClick={() => setOverlaySection(null)} className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all">
@@ -5955,7 +5984,7 @@ export default function AidAgentPage() {
               })()}
 
               {/* === Subcategorized link sections === */}
-              {["lc-resume", "lc-schol", "lc-intern", "lc-jobs", "lc-finlit", "lc-loans", "lc-consumer", "lc-mental", "lc-ai", "lc-faith", "lc-vol", "rc-va"].includes(overlaySection) && (() => {
+              {["lc-resume", "lc-schol", "lc-intern", "lc-jobs", "lc-finlit", "lc-loans", "lc-consumer", "lc-mental", "lc-ai", "lc-faith", "lc-vol", "rc-va", "lc-va"].includes(overlaySection) && (() => {
                 const rawMap: Record<string, MaybeSubcat[]> = {
                   "lc-resume": [...RESUME_ASSISTANCE, ...RESUME_ASSISTANCE_MORE],
                   "lc-schol": ([{ subcat: "All" }, ...SCHOLARSHIP_ENGINES, ...SCHOLARSHIP_ENGINES_MORE] as MaybeSubcat[]),
@@ -5969,6 +5998,7 @@ export default function AidAgentPage() {
                   "lc-faith": [...RELIGION_FAITH_PHILOSOPHY, ...RELIGION_FAITH_PHILOSOPHY_MORE],
                   "lc-vol": VOLUNTEER_RESOURCES,
                   "rc-va": VA_RESOURCES,
+                  "lc-va": VA_RESOURCES,
                 };
                 const raw = rawMap[overlaySection] ?? [];
                 const sections = parseSections(raw);
