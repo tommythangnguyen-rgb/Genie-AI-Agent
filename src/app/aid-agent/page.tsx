@@ -3242,6 +3242,28 @@ function StreamingContent({
   );
 }
 
+// ─── Pre-computed constants (evaluated once at module load) ───────────────────
+
+const QA_STUDENTS_ITEMS  = QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Students")?.items ?? [];
+const QA_PARENTS_ITEMS   = QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Parents")?.items ?? [];
+const QA_ADMINS_ITEMS    = QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Administrators")?.items ?? [];
+const QA_LEADERS_ITEMS   = QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Leaders")?.items ?? [];
+const QA_AUDITORS_ITEMS  = QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Auditors")?.items ?? [];
+
+const RESUME_LINKS_TOP8 = ([...RESUME_ASSISTANCE, ...RESUME_ASSISTANCE_MORE] as MaybeSubcat[])
+  .filter((i): i is LinkItem => !isSubcat(i)).slice(0, 8);
+const SCHOLARSHIP_LINKS_TOP8 = ([...SCHOLARSHIP_ENGINES, ...SCHOLARSHIP_ENGINES_MORE] as MaybeSubcat[])
+  .filter((i): i is LinkItem => !isSubcat(i)).slice(0, 8);
+
+const ROLE_COLOR_MAP: Record<string, { active: string; inactive: string }> = {
+  Student:       { active: "bg-indigo-600/70 text-white ring-indigo-400/50 shadow-indigo-900/30",      inactive: "text-indigo-300/55 hover:text-indigo-200 hover:bg-indigo-500/[0.10] ring-[#D4AF37]/[0.12]" },
+  Parent:        { active: "bg-blue-600/70 text-white ring-blue-400/50 shadow-blue-900/30",           inactive: "text-blue-300/55 hover:text-blue-200 hover:bg-blue-500/[0.10] ring-[#D4AF37]/[0.12]" },
+  Administrator: { active: "bg-emerald-600/70 text-white ring-emerald-400/50 shadow-emerald-900/30",  inactive: "text-emerald-300/55 hover:text-emerald-200 hover:bg-emerald-500/[0.10] ring-[#D4AF37]/[0.12]" },
+  Leader:        { active: "bg-violet-600/70 text-white ring-violet-400/50 shadow-violet-900/30",     inactive: "text-violet-300/55 hover:text-violet-200 hover:bg-violet-500/[0.10] ring-[#D4AF37]/[0.12]" },
+  Auditor:       { active: "bg-rose-600/70 text-white ring-rose-400/50 shadow-rose-900/30",           inactive: "text-rose-300/55 hover:text-rose-200 hover:bg-rose-500/[0.10] ring-[#D4AF37]/[0.12]" },
+};
+const ROLE_COLOR_FALLBACK = { active: "bg-cyan-600/80 text-white ring-[#D4AF37]/45 shadow-black/30", inactive: "bg-white/[0.05] text-cyan-200/45 hover:text-cyan-100/80 hover:bg-cyan-500/[0.08] ring-[#D4AF37]/[0.15]" };
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function AidAgentPage() {
@@ -3284,6 +3306,22 @@ export default function AidAgentPage() {
   const [isDark, setIsDark] = useState(false);
   // Daily rotation offset — shifts which tips appear first, updates each day
   const tipsRotationOffset = useMemo(() => Math.floor(Date.now() / 86400000), []);
+
+  // Memoized state-dependent data slices
+  const activeActionItems = useMemo(
+    () => QUICK_ACTIONS_BY_ROLE.filter(r => r.role === activeActionRole),
+    [activeActionRole]
+  );
+  const activeTipData = useMemo(
+    () => ROLE_TIPS.find(r => r.role === activeRole) ?? null,
+    [activeRole]
+  );
+  const rotatedTips = useMemo(() => {
+    if (!activeTipData) return [];
+    const { tips } = activeTipData;
+    const offset = tipsRotationOffset % tips.length;
+    return [...tips.slice(offset), ...tips.slice(0, offset)];
+  }, [activeTipData, tipsRotationOffset]);
   const [showAppModal, setShowAppModal] = useState(false);
   const [showCookieNotice, setShowCookieNotice] = useState(false);
   const [attachedFile, setAttachedFile] = useState<AttachedFile | null>(null);
@@ -4261,7 +4299,7 @@ export default function AidAgentPage() {
                   <div className="h-px w-4 bg-sky-500/[0.18]" />
                 </div>
                 <div className="grid grid-cols-4 gap-2">
-                  {(QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Students")?.items ?? []).map(({ icon: Icon, label, q }) => (
+                  {QA_STUDENTS_ITEMS.map(({ icon: Icon, label, q }) => (
                     <button key={label} onClick={() => { sendMessage(q); setShowMobileLeft(false); }}
                       className="flex flex-col items-center gap-1.5 p-1.5 rounded-2xl hover:bg-sky-500/[0.10] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 hover:scale-[1.06] active:scale-95">
                       <div className="w-12 h-12 rounded-[14px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-lg group-hover:bg-sky-500/20 group-hover:ring-sky-500/40 group-hover:shadow-[0_0_16px_rgba(56,189,248,0.28)] transition-all">
@@ -4285,7 +4323,7 @@ export default function AidAgentPage() {
                   <div className="h-px w-4 bg-blue-500/[0.18]" />
                 </div>
                 <div className="grid grid-cols-4 gap-2">
-                  {(QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Parents")?.items ?? []).map(({ icon: Icon, label, q }) => (
+                  {QA_PARENTS_ITEMS.map(({ icon: Icon, label, q }) => (
                     <button key={label} onClick={() => { sendMessage(q); setShowMobileLeft(false); }}
                       className="flex flex-col items-center gap-1.5 p-1.5 rounded-2xl hover:bg-blue-500/[0.10] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 hover:scale-[1.06] active:scale-95">
                       <div className="w-12 h-12 rounded-[14px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-lg group-hover:bg-blue-500/20 group-hover:ring-blue-500/40 group-hover:shadow-[0_0_16px_rgba(96,165,250,0.28)] transition-all">
@@ -4343,7 +4381,7 @@ export default function AidAgentPage() {
                   <div className="h-px w-3 bg-sky-500/[0.14]" />
                 </div>
                 <div className="grid grid-cols-4 gap-1.5">
-                  {([...RESUME_ASSISTANCE, ...RESUME_ASSISTANCE_MORE].filter((i): i is LinkItem => !isSubcat(i))).slice(0, 8).map(({ name, url }) => {
+                  {RESUME_LINKS_TOP8.map(({ name, url }) => {
                     const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
                     return (
                       <a key={name} href={url} target="_blank" rel="noopener noreferrer"
@@ -4370,7 +4408,7 @@ export default function AidAgentPage() {
                   <div className="h-px w-3 bg-amber-500/[0.14]" />
                 </div>
                 <div className="grid grid-cols-4 gap-1.5">
-                  {([...SCHOLARSHIP_ENGINES, ...SCHOLARSHIP_ENGINES_MORE].filter((i): i is LinkItem => !isSubcat(i))).slice(0, 8).map(({ name, url }) => {
+                  {SCHOLARSHIP_LINKS_TOP8.map(({ name, url }) => {
                     const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
                     return (
                       <a key={name} href={url} target="_blank" rel="noopener noreferrer"
@@ -5186,11 +5224,11 @@ export default function AidAgentPage() {
                                 className={`w-full flex flex-col items-center gap-1.5 px-1 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 ring-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] hover:scale-[1.05] active:scale-95 ${
                                   activeActionRole === role
                                     ? `${activeBg} ${activeColor} ${activeRing} shadow-md ${activeGlow}`
-                                    : "text-[#94A3B8]/70 hover:text-white/90 hover:bg-white/[0.06] ring-white/[0.08] hover:ring-white/20"
+                                    : "text-red-400/80 hover:text-red-300 hover:bg-red-500/[0.06] ring-white/[0.08] hover:ring-[#D4AF37]/30"
                                 }`}
                               >
-                                <div className={`p-2 rounded-lg transition-all duration-200 ${activeActionRole === role ? `${activeBg} shadow-md ring-1 ${activeRing}` : "bg-white/[0.05]"}`}>
-                                  <RoleIcon className={`h-5 w-5 transition-colors ${activeActionRole === role ? iconActive : "text-[#94A3B8]/50"}`} />
+                                <div className={`p-2 rounded-lg transition-all duration-200 ${activeActionRole === role ? `${activeBg} shadow-md ring-1 ${activeRing}` : "bg-[#D4AF37]/[0.07] ring-1 ring-[#D4AF37]/[0.15]"}`}>
+                                  <RoleIcon className={`h-5 w-5 transition-colors ${activeActionRole === role ? iconActive : "text-[#D4AF37]/75"}`} />
                                 </div>
                                 <span className="text-center leading-tight text-[10px]">{label}</span>
                               </button>
@@ -5198,7 +5236,7 @@ export default function AidAgentPage() {
                           </div>
 
                           {/* Quick Actions — Android-style icon grid (all items) */}
-                          {QUICK_ACTIONS_BY_ROLE.filter((r) => r.role === activeActionRole).map(({ role, items, more }) => (
+                          {activeActionItems.map(({ role, items, more }) => (
                             <div key={role} className="grid grid-cols-4 gap-1.5 overflow-y-auto" style={{ maxHeight: "min(360px, 46dvh)" }}>
                               {[...items, ...more].map(({ icon: Icon, label, q }) => (
                                 <button
@@ -5206,10 +5244,10 @@ export default function AidAgentPage() {
                                   onClick={() => sendMessage(q)}
                                   className="flex flex-col items-center gap-1.5 p-1.5 rounded-2xl hover:bg-sky-500/[0.10] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 hover:scale-[1.06] active:scale-95"
                                 >
-                                  <div className="w-12 h-12 rounded-[14px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-lg group-hover:bg-sky-500/20 group-hover:ring-sky-500/40 group-hover:shadow-[0_0_16px_rgba(56,189,248,0.28)] transition-all">
-                                    <Icon className="h-5 w-5 text-[#7B91B0] group-hover:text-sky-300 transition-colors" />
+                                  <div className="w-12 h-12 rounded-[14px] bg-[#0D1A32] ring-1 ring-[#D4AF37]/[0.18] flex items-center justify-center shadow-lg group-hover:bg-sky-500/20 group-hover:ring-sky-500/40 group-hover:shadow-[0_0_16px_rgba(56,189,248,0.28)] transition-all">
+                                    <Icon className="h-5 w-5 text-[#D4AF37]/75 group-hover:text-sky-300 transition-colors" />
                                   </div>
-                                  <span className="text-[9px] font-semibold text-[#8A9ABB]/75 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{label}</span>
+                                  <span className="text-[9px] font-semibold text-red-400/70 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{label}</span>
                                 </button>
                               ))}
                             </div>
@@ -5244,14 +5282,7 @@ export default function AidAgentPage() {
                           </div>
                           <div className="flex gap-1.5 justify-center flex-wrap mb-3">
                             {ROLE_TIPS.map(({ role, icon: Icon, gradient }) => {
-                              const roleColorMap: Record<string, { active: string; inactive: string }> = {
-                                Student:       { active: "bg-indigo-600/70 text-white ring-indigo-400/50 shadow-indigo-900/30",      inactive: "text-indigo-300/55 hover:text-indigo-200 hover:bg-indigo-500/[0.10] ring-[#D4AF37]/[0.12]" },
-                                Parent:        { active: "bg-blue-600/70 text-white ring-blue-400/50 shadow-blue-900/30",           inactive: "text-blue-300/55 hover:text-blue-200 hover:bg-blue-500/[0.10] ring-[#D4AF37]/[0.12]" },
-                                Administrator: { active: "bg-emerald-600/70 text-white ring-emerald-400/50 shadow-emerald-900/30",  inactive: "text-emerald-300/55 hover:text-emerald-200 hover:bg-emerald-500/[0.10] ring-[#D4AF37]/[0.12]" },
-                                Leader:        { active: "bg-violet-600/70 text-white ring-violet-400/50 shadow-violet-900/30",     inactive: "text-violet-300/55 hover:text-violet-200 hover:bg-violet-500/[0.10] ring-[#D4AF37]/[0.12]" },
-                                Auditor:       { active: "bg-rose-600/70 text-white ring-rose-400/50 shadow-rose-900/30",           inactive: "text-rose-300/55 hover:text-rose-200 hover:bg-rose-500/[0.10] ring-[#D4AF37]/[0.12]" },
-                              };
-                              const colors = roleColorMap[role] ?? { active: "bg-cyan-600/80 text-white ring-[#D4AF37]/45 shadow-black/30", inactive: "bg-white/[0.05] text-cyan-200/45 hover:text-cyan-100/80 hover:bg-cyan-500/[0.08] ring-[#D4AF37]/[0.15]" };
+                              const colors = ROLE_COLOR_MAP[role] ?? ROLE_COLOR_FALLBACK;
                               return (
                               <button
                                 key={role}
@@ -5266,32 +5297,32 @@ export default function AidAgentPage() {
                               );
                             })}
                           </div>
-                          {ROLE_TIPS.filter((r) => r.role === activeRole).map(({ role, icon: Icon, gradient, accent, tips }) => (
-                            <div key={role} className="rounded-2xl bg-[#0D1A32]/40 ring-1 ring-[#D4AF37]/[0.25] overflow-hidden shadow-lg shadow-black/30 backdrop-blur-sm">
-                              <div className={`bg-gradient-to-r ${gradient} px-5 py-4 flex items-center gap-3`}>
+                          {activeTipData && (
+                            <div key={activeTipData.role} className="rounded-2xl bg-[#0D1A32]/40 ring-1 ring-[#D4AF37]/[0.25] overflow-hidden shadow-lg shadow-black/30 backdrop-blur-sm">
+                              <div className={`bg-gradient-to-r ${activeTipData.gradient} px-5 py-4 flex items-center gap-3`}>
                                 <div className="p-2.5 rounded-xl bg-white/20">
-                                  <Icon className="h-6 w-6 text-white" />
+                                  <activeTipData.icon className="h-6 w-6 text-white" />
                                 </div>
                                 <div>
-                                  <p className="text-lg font-semibold text-white leading-tight">As a {role}</p>
+                                  <p className="text-lg font-semibold text-white leading-tight">As a {activeTipData.role}</p>
                                   <p className="text-sm text-white/65 leading-tight mt-0.5">Click any tip to auto-send to Genie</p>
                                 </div>
                               </div>
                               <div className="divide-y divide-white/[0.05] overflow-y-auto" style={{ maxHeight: "min(520px, 55dvh)" }}>
-                                {((() => { const offset = tipsRotationOffset % tips.length; return [...tips.slice(offset), ...tips.slice(0, offset)]; })()).map(({ text, prompt }, i) => (
+                                {rotatedTips.map(({ text, prompt }, i) => (
                                   <button
                                     key={i}
                                     onClick={() => sendMessage(prompt)}
                                     className="w-full flex items-start gap-3 px-4 py-3.5 text-left group hover:bg-white/[0.06] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400 hover:translate-x-0.5"
                                   >
-                                    <span className={`mt-2 h-2 w-2 rounded-full shrink-0 ring-1 ${accent} group-hover:scale-125 transition-transform`} />
+                                    <span className={`mt-2 h-2 w-2 rounded-full shrink-0 ring-1 ${activeTipData.accent} group-hover:scale-125 transition-transform`} />
                                     <p className="text-sm text-[#94A3B8] group-hover:text-white/90 leading-snug transition-colors duration-150 flex-1">{text}</p>
                                     <ChevronRight className="h-4 w-4 text-white/15 group-hover:text-cyan-400 shrink-0 mt-0.5 transition-all duration-150 group-hover:translate-x-0.5" />
                                   </button>
                                 ))}
                               </div>
                             </div>
-                          ))}
+                          )}
                         </div>{/* end slide 3 */}
 
                         {/* Slide 4 — What Genie Covers */}
@@ -5748,7 +5779,7 @@ export default function AidAgentPage() {
                   <div className="h-px w-4 bg-emerald-500/[0.18]" />
                 </div>
                 <div className="grid grid-cols-4 gap-2">
-                  {(QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Administrators")?.items ?? []).map(({ icon: Icon, label, q }) => (
+                  {QA_ADMINS_ITEMS.map(({ icon: Icon, label, q }) => (
                     <button key={label} onClick={() => { sendMessage(q); setShowMobileRight(false); }}
                       className="flex flex-col items-center gap-1.5 p-1.5 rounded-2xl hover:bg-emerald-500/[0.10] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 hover:scale-[1.06] active:scale-95">
                       <div className="w-12 h-12 rounded-[14px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-lg group-hover:bg-emerald-500/20 group-hover:ring-emerald-500/40 group-hover:shadow-[0_0_16px_rgba(16,185,129,0.28)] transition-all">
@@ -5772,7 +5803,7 @@ export default function AidAgentPage() {
                   <div className="h-px w-4 bg-violet-500/[0.18]" />
                 </div>
                 <div className="grid grid-cols-4 gap-2">
-                  {(QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Leaders")?.items ?? []).map(({ icon: Icon, label, q }) => (
+                  {QA_LEADERS_ITEMS.map(({ icon: Icon, label, q }) => (
                     <button key={label} onClick={() => { sendMessage(q); setShowMobileRight(false); }}
                       className="flex flex-col items-center gap-1.5 p-1.5 rounded-2xl hover:bg-violet-500/[0.10] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 hover:scale-[1.06] active:scale-95">
                       <div className="w-12 h-12 rounded-[14px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-lg group-hover:bg-violet-500/20 group-hover:ring-violet-500/40 group-hover:shadow-[0_0_16px_rgba(139,92,246,0.28)] transition-all">
@@ -5796,7 +5827,7 @@ export default function AidAgentPage() {
                   <div className="h-px w-4 bg-rose-500/[0.18]" />
                 </div>
                 <div className="grid grid-cols-4 gap-2">
-                  {(QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Auditors")?.items ?? []).map(({ icon: Icon, label, q }) => (
+                  {QA_AUDITORS_ITEMS.map(({ icon: Icon, label, q }) => (
                     <button key={label} onClick={() => { sendMessage(q); setShowMobileRight(false); }}
                       className="flex flex-col items-center gap-1.5 p-1.5 rounded-2xl hover:bg-rose-500/[0.10] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 hover:scale-[1.06] active:scale-95">
                       <div className="w-12 h-12 rounded-[14px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-lg group-hover:bg-rose-500/20 group-hover:ring-rose-500/40 group-hover:shadow-[0_0_16px_rgba(244,63,94,0.28)] transition-all">
