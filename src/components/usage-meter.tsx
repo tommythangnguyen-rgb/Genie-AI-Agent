@@ -39,10 +39,12 @@ export function UsageMeter({ initialUsage, onLimitReached, className = "" }: Usa
   // Unlimited tiers — hide the meter entirely
   if (usage.limit >= 999999) return null;
 
+  // Hide when no messages used yet — no need to surface the counter upfront
   const pct = Math.min((usage.used / usage.limit) * 100, 100);
   const remaining = Math.max(usage.limit - usage.used, 0);
   const isNearLimit = pct >= 80;
   const isAtLimit = remaining === 0;
+  if (usage.used === 0 && !isAtLimit) return null;
 
   const barColor = isAtLimit
     ? "bg-red-500"
@@ -56,15 +58,19 @@ export function UsageMeter({ initialUsage, onLimitReached, className = "" }: Usa
     ? "text-amber-400"
     : "text-white/50";
 
+  const countLabel = isAtLimit
+    ? "None left"
+    : `${remaining} left`;
+
   return (
     <div className={`px-3 py-2.5 rounded-xl bg-white/[0.04] ring-1 ring-white/[0.07] ${className}`}>
       {/* Label row */}
       <div className="flex items-center justify-between mb-1.5">
         <span className="text-[10px] font-semibold text-white/40 uppercase tracking-widest">
-          Daily messages
+          Messages today
         </span>
         <span className={`text-[10px] font-bold tabular-nums ${textColor}`}>
-          {usage.used}/{usage.limit}
+          {countLabel}
         </span>
       </div>
 

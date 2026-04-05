@@ -306,7 +306,7 @@
 }
 
 .genie-shimmer-text {
-  background: linear-gradient(90deg, #94a3b8 0%, #fbbf24 20%, #f8fafc 40%, #fde68a 60%, #e2e8f0 75%, #fbbf24 90%, #94a3b8 100%);
+  background: linear-gradient(90deg, #FFD700 0%, #FFA500 18%, #FFEC8B 36%, #FFD700 50%, #FFC107 68%, #FFEC8B 82%, #FFD700 100%);
   background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -406,9 +406,10 @@
 .genie-orb-bg {
   position: absolute;
   border-radius: 50%;
-  filter: blur(60px);
+  filter: blur(90px);
   animation: genie-orb-pulse var(--dur, 5s) ease-in-out infinite var(--delay, 0s);
   pointer-events: none;
+  opacity: 0.85;
 }
 
 /* ── Orb earth-axis rotation ──────────────────────────────────────────── */
@@ -627,6 +628,23 @@
   animation: genie-rainbow-shimmer 3.5s linear infinite;
 }
 
+/* ── AskGenie teal shimmer (header banner) ── */
+@keyframes genie-teal-shimmer {
+  0%   { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+.genie-shimmer-teal {
+  background: linear-gradient(90deg,
+    #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%,
+    #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: genie-teal-shimmer 3.5s linear infinite;
+}
+
 /* ── Orb gold burst ── */
 @keyframes genie-orb-gold-burst {
   0%   { box-shadow: 0 0 0 2px rgba(255,215,0,0.0), 0 0 0 0 rgba(255,170,0,0.0); filter: brightness(1); }
@@ -665,10 +683,10 @@
     genie-orb-float          4.5s ease-in-out infinite !important;
 }
 
-/* ── Chatbox invite glow ── */
+/* ── Chatbox invite glow — gold ── */
 @keyframes genie-chatbox-invite {
-  0%, 100% { box-shadow: 0 0 0 1px rgba(0,209,201,0.28), 0 0 12px 2px rgba(0,209,201,0.12), inset 0 0 0 1px rgba(0,209,201,0.08); }
-  50%       { box-shadow: 0 0 0 2px rgba(0,209,201,0.65), 0 0 28px 8px rgba(0,209,201,0.28), inset 0 0 0 1px rgba(0,209,201,0.22); }
+  0%, 100% { box-shadow: 0 0 0 1px rgba(212,175,55,0.32), 0 0 14px 3px rgba(212,175,55,0.14), inset 0 0 0 1px rgba(212,175,55,0.10); }
+  50%       { box-shadow: 0 0 0 2px rgba(212,175,55,0.68), 0 0 32px 10px rgba(212,175,55,0.26), inset 0 0 0 1px rgba(212,175,55,0.22); }
 }
 .genie-chatbox-invite {
   animation: genie-chatbox-invite 2.8s ease-in-out infinite;

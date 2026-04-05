@@ -139,6 +139,69 @@ const PLAYLIST = [
     composer: "Handel",
     src: "https://upload.wikimedia.org/wikipedia/commons/0/03/5-George_Frideric_Handel_-_Water_Music_Suite_in_F_major_%28Air%29_HWV348.ogg",
   },
+  // Violin — Vivaldi (calm movements)
+  {
+    title: "The Four Seasons – Autumn II (Adagio)",
+    composer: "Vivaldi",
+    src: "https://upload.wikimedia.org/wikipedia/commons/3/3d/Vivaldi_-_Four_Seasons_3_Autumn_mvt_2_Adagio_molto_-_John_Harrison_violin.oga",
+  },
+  {
+    title: "The Four Seasons – Winter I (Largo)",
+    composer: "Vivaldi",
+    src: "https://upload.wikimedia.org/wikipedia/commons/4/42/Vivaldi_-_Four_Seasons_4_Winter_mvt_1_Allegro_non_molto_-_John_Harrison_violin.oga",
+  },
+  {
+    title: "The Four Seasons – Summer II (Adagio)",
+    composer: "Vivaldi",
+    src: "https://upload.wikimedia.org/wikipedia/commons/5/58/Vivaldi_-_Four_Seasons_2_Summer_mvt_2_Adagio_e_piano-_Presto_e_forte_-_John_Harrison_violin.oga",
+  },
+  // Cello — Bach Cello Suites
+  {
+    title: "Cello Suite No. 1 – Prélude",
+    composer: "J.S. Bach",
+    src: "https://upload.wikimedia.org/wikipedia/commons/2/22/Johann_Sebastian_Bach_-_Cello_suite_1_BWV_1007_1_prelude.ogg",
+  },
+  {
+    title: "Cello Suite No. 1 – Allemande",
+    composer: "J.S. Bach",
+    src: "https://upload.wikimedia.org/wikipedia/commons/f/f5/Johann_Sebastian_Bach_-_Cello_suite_1_BWV_1007_2_allemande.ogg",
+  },
+  {
+    title: "Cello Suite No. 1 – Sarabande",
+    composer: "J.S. Bach",
+    src: "https://upload.wikimedia.org/wikipedia/commons/c/c6/Johann_Sebastian_Bach_-_Cello_suite_1_BWV_1007_4_sarabande.ogg",
+  },
+  {
+    title: "Cello Suite No. 2 – Prélude",
+    composer: "J.S. Bach",
+    src: "https://upload.wikimedia.org/wikipedia/commons/a/ac/Johann_Sebastian_Bach_-_Cello_suite_2_BWV_1008_1_prelude.ogg",
+  },
+  // Opera — calm & soothing
+  {
+    title: "Ave Maria",
+    composer: "Schubert",
+    src: "https://upload.wikimedia.org/wikipedia/commons/a/ac/Schubert_-_Ave_Maria.ogg",
+  },
+  {
+    title: "Ombra mai fu (Serse)",
+    composer: "Handel",
+    src: "https://upload.wikimedia.org/wikipedia/commons/0/09/G.F.Handel-Serse-Ombra_mai_fu.ogg",
+  },
+  {
+    title: "Lacrimosa (Requiem K. 626)",
+    composer: "Mozart",
+    src: "https://upload.wikimedia.org/wikipedia/commons/a/a2/Mozart_-_Requiem_-_8._Lacrimosa.ogg",
+  },
+  {
+    title: "O Mio Babbino Caro (Gianni Schicchi)",
+    composer: "Puccini",
+    src: "https://upload.wikimedia.org/wikipedia/commons/f/f5/Puccini-o_mio_babbino_caro.ogg",
+  },
+  {
+    title: "Pie Jesu (Requiem)",
+    composer: "Fauré",
+    src: "https://upload.wikimedia.org/wikipedia/commons/e/e3/Faure-requiem-pie-jesu.ogg",
+  },
 ];
 
 function shuffleArray(arr: number[]): number[] {
