@@ -17,17 +17,17 @@ const TERMS_SECTIONS = [
   {
     n: "1",
     title: "Acceptance of Terms",
-    body: "By accessing or using askGenie, you agree to be bound by these Terms of Service. If you do not agree, do not use the Service.",
+    body: "By accessing or using Genie, you agree to be bound by these Terms of Service. If you do not agree, do not use the Service.",
   },
   {
     n: "2",
     title: "Description of Service",
-    body: "askGenie is an AI-powered informational tool helping students, parents, financial aid administrators, and institutions understand financial aid concepts including FAFSA, Title IV regulations, R2T4 calculations, and related topics.",
+    body: "Genie is an AI-powered informational tool helping students, parents, financial aid administrators, and institutions understand financial aid concepts including FAFSA, Title IV regulations, R2T4 calculations, and related topics.",
   },
   {
     n: "3",
     title: "Informational Purpose Only — Not Professional Advice",
-    body: "askGenie provides general educational content only. It does not constitute legal, financial, tax, or professional advice. Always verify information with your institution's financial aid office, a licensed attorney, and official sources including studentaid.gov and the FSA Handbook.",
+    body: "Genie provides general educational content only. It does not constitute legal, financial, tax, or professional advice. Always verify information with your institution's financial aid office, a licensed attorney, and official sources including studentaid.gov and the FSA Handbook.",
   },
   {
     n: "4",
@@ -47,12 +47,12 @@ const TERMS_SECTIONS = [
   {
     n: "7",
     title: "Intellectual Property",
-    body: "All content, design, code, branding, and materials on this platform are the exclusive intellectual property of askGenie Student Aid Hub, developed by One27. Unauthorized reproduction, distribution, or commercial use without express written permission is strictly prohibited under U.S. copyright law (17 U.S.C. § 101 et seq.).\n\nAI-generated responses do not constitute original works owned by the user. The platform, its design, prompts, and systems remain the exclusive property of One27.\n\naskGenie Student Aid Hub is an independent product. Use of federal regulatory references including 34 CFR, HEA, and the FSA Handbook is for informational purposes only and does not imply endorsement by the U.S. Department of Education or any federal agency.",
+    body: "All content, design, code, branding, and materials on this platform are the exclusive intellectual property of Genie Student Aid Hub, developed by One27. Unauthorized reproduction, distribution, or commercial use without express written permission is strictly prohibited under U.S. copyright law (17 U.S.C. § 101 et seq.).\n\nAI-generated responses do not constitute original works owned by the user. The platform, its design, prompts, and systems remain the exclusive property of One27.\n\nGenie Student Aid Hub is an independent product. Use of federal regulatory references including 34 CFR, HEA, and the FSA Handbook is for informational purposes only and does not imply endorsement by the U.S. Department of Education or any federal agency.",
   },
   {
     n: "8",
     title: "Limitation of Liability",
-    body: "To the maximum extent permitted by law, askGenie and its developers are not liable for any damages arising from use of or reliance on the Service.",
+    body: "To the maximum extent permitted by law, Genie and its developers are not liable for any damages arising from use of or reliance on the Service.",
   },
   {
     n: "9",
@@ -80,7 +80,7 @@ const PRIVACY_SECTIONS = [
   {
     n: "1",
     title: "Introduction",
-    body: "This Privacy Policy explains how askGenie collects, uses, and protects your information.",
+    body: "This Privacy Policy explains how Genie collects, uses, and protects your information.",
   },
   {
     n: "2",
@@ -100,12 +100,12 @@ const PRIVACY_SECTIONS = [
   {
     n: "5",
     title: "FERPA Notice",
-    body: "askGenie does not knowingly receive or store student education records as defined by FERPA. Institutions must not submit student PII through this Service without appropriate data processing agreements.",
+    body: "Genie does not knowingly receive or store student education records as defined by FERPA. Institutions must not submit student PII through this Service without appropriate data processing agreements.",
   },
   {
     n: "6",
     title: "Children's Privacy (COPPA)",
-    body: "askGenie is not directed at children under 13. We do not knowingly collect information from children under 13. Parents who believe their child submitted information should contact us immediately.",
+    body: "Genie is not directed at children under 13. We do not knowingly collect information from children under 13. Parents who believe their child submitted information should contact us immediately.",
   },
   {
     n: "7",
@@ -135,7 +135,7 @@ const PRIVACY_SECTIONS = [
   {
     n: "12",
     title: "Contact",
-    body: "askGenie Student Aid Hub\nDeveloped by One27\nEmail: elementone27@gmail.com\nWebsite: https://genie127.com\n\nUnofficial reference tool — not affiliated with the U.S. Department of Education.",
+    body: "Genie Student Aid Hub\nDeveloped by One27\nEmail: elementone27@gmail.com\nWebsite: https://genie127.com\n\nUnofficial reference tool — not affiliated with the U.S. Department of Education.",
   },
 ];
 
@@ -145,26 +145,35 @@ export default function LegalPage() {
   const effectiveDate = "March 29, 2026";
 
   return (
-    <div className="min-h-screen bg-[#0d3b8e] text-white" style={{ background: "linear-gradient(135deg, #0a2e7a 0%, #0e4099 50%, #1252b8 100%)" }}>
+    <div
+      className="min-h-screen text-white relative"
+      style={{ background: "linear-gradient(135deg, #06101F 0%, #0A1428 55%, #0D1A35 100%)" }}
+    >
+      {/* Genie Orbs */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }} aria-hidden="true">
+        <div className="genie-orb-bg" style={{ width: 600, height: 600, top: "-10%", left: "-8%", background: "rgba(0,229,192,0.07)" }} />
+        <div className="genie-orb-bg" style={{ width: 480, height: 480, top: "50%", left: "70%", background: "rgba(99,102,241,0.07)", ["--dur" as any]: "11s", ["--delay" as any]: "2s" }} />
+        <div className="genie-orb-bg" style={{ width: 350, height: 350, top: "75%", left: "10%", background: "rgba(20,184,166,0.05)", ["--dur" as any]: "14s", ["--delay" as any]: "5s" }} />
+      </div>
 
       {/* Header */}
-      <header className="sticky top-0 z-10 border-b border-white/[0.10] bg-[#071035]/80 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-cyan-500/20 bg-[#060E1F]/95 backdrop-blur-xl">
         <div className="max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link
             href="/aid-agent"
-            className="flex items-center gap-2 text-white/50 hover:text-white transition-colors text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 rounded-lg px-2 py-1"
+            className="flex items-center gap-2 text-[#94A3B8]/70 hover:text-[#00E5C0] transition-colors text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded-lg px-2 py-1 ring-1 ring-white/10 hover:bg-white/[0.05]"
           >
             <Home className="h-4 w-4" />
-            <span className="hidden sm:inline">Back to askGenie</span>
+            <span className="hidden sm:inline">Back to Genie</span>
           </Link>
 
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600">
+            <div className="p-1.5 rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/25">
               <GenieBottle className="h-4 w-4 text-white" />
             </div>
-            <span className="font-bold text-white tracking-tight">askGenie</span>
+            <span className="font-bold tracking-tight text-[#00E5C0]">Genie</span>
             <ChevronRight className="h-3.5 w-3.5 text-white/30" />
-            <span className="text-white/50 text-sm">Legal</span>
+            <span className="text-white/75 text-sm font-semibold">Legal</span>
           </div>
 
           <div className="w-24" />
@@ -172,13 +181,13 @@ export default function LegalPage() {
       </header>
 
       {/* Tab bar */}
-      <div className="max-w-4xl mx-auto px-6 pt-8 pb-4">
-        <div className="flex gap-2 p-1 rounded-xl bg-white/[0.06] ring-1 ring-white/[0.08] w-fit">
+      <div className="max-w-4xl mx-auto px-6 pt-8 pb-4 relative" style={{ zIndex: 1 }}>
+        <div className="flex gap-2 p-1 rounded-xl bg-white/[0.05] ring-1 ring-white/[0.08] w-fit">
           <button
             onClick={() => setTab("tos")}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
               tab === "tos"
-                ? "bg-indigo-600 text-white shadow-lg"
+                ? "bg-cyan-600 text-white shadow-lg shadow-cyan-900/40"
                 : "text-white/45 hover:text-white/75 hover:bg-white/[0.06]"
             }`}
           >
@@ -187,9 +196,9 @@ export default function LegalPage() {
           </button>
           <button
             onClick={() => setTab("privacy")}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
               tab === "privacy"
-                ? "bg-indigo-600 text-white shadow-lg"
+                ? "bg-cyan-600 text-white shadow-lg shadow-cyan-900/40"
                 : "text-white/45 hover:text-white/75 hover:bg-white/[0.06]"
             }`}
           >
@@ -200,9 +209,20 @@ export default function LegalPage() {
       </div>
 
       {/* Content */}
-      <main className="max-w-4xl mx-auto px-6 pb-20">
+      <main className="max-w-4xl mx-auto px-6 pb-20 relative" style={{ zIndex: 1 }}>
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-white mb-1">
+          <h1
+            className="text-4xl sm:text-5xl font-black tracking-tight leading-tight mb-1"
+            style={{
+              background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)",
+              backgroundSize: "200% auto",
+              WebkitBackgroundClip: "text",
+              backgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              color: "transparent",
+              animation: "genie-teal-shimmer 3.5s linear infinite",
+            }}
+          >
             {tab === "tos" ? "Terms of Service" : "Privacy Policy"}
           </h1>
           <p className="text-sm text-white/40">Effective Date: {effectiveDate}</p>
@@ -212,33 +232,53 @@ export default function LegalPage() {
           {sections.map(({ n, title, body }) => (
             <div
               key={n}
-              className="group rounded-xl bg-white/[0.04] ring-1 ring-white/[0.07] hover:bg-white/[0.07] transition-colors duration-150 overflow-hidden"
+              className="group rounded-xl transition-all duration-150 overflow-hidden"
+              style={{
+                background: "linear-gradient(135deg, rgba(13,26,50,0.92) 0%, rgba(10,20,42,0.88) 100%)",
+                border: "1px solid rgba(6,182,212,0.18)",
+                boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)",
+                backdropFilter: "blur(12px)",
+              }}
             >
               <div className="flex items-start gap-4 px-6 py-5">
-                <span className="shrink-0 mt-0.5 w-8 h-8 flex items-center justify-center rounded-lg bg-indigo-600/30 ring-1 ring-indigo-500/30 text-indigo-300 text-xs font-bold">
+                <span className="shrink-0 mt-0.5 w-8 h-8 flex items-center justify-center rounded-lg bg-cyan-500/[0.15] ring-1 ring-cyan-500/[0.28] text-cyan-300 text-xs font-bold">
                   {n}
                 </span>
                 <div className="flex-1 min-w-0">
                   <h2 className="text-sm font-semibold text-white mb-2 leading-snug">{title}</h2>
-                  <p className="text-sm text-white/85 leading-relaxed whitespace-pre-line">{body}</p>
+                  <p className="text-sm text-white/75 leading-relaxed whitespace-pre-line">{body}</p>
                 </div>
               </div>
             </div>
           ))}
         </div>
 
+        {/* Cross-page nav */}
+        <div className="mt-8 pt-6 border-t border-white/[0.06] flex flex-wrap justify-center gap-x-1 gap-y-1 mb-2">
+          {[
+            { label: "Pricing", href: "/pricing" },
+            { label: "About", href: "/about" },
+            { label: "For Schools", href: "/institutions" },
+            { label: "Support Dev", href: "/support" },
+            { label: "Legal", href: "/legal" },
+            { label: "School DPA", href: "/dpa" },
+          ].map(({ label, href }) => (
+            <Link key={label} href={href} className="px-3 py-1 rounded-full text-[11px] font-medium text-white/35 hover:text-cyan-300 hover:bg-cyan-500/[0.10] ring-1 ring-white/[0.08] hover:ring-cyan-500/25 transition-all">{label}</Link>
+          ))}
+        </div>
+
         {/* Footer */}
         <div className="mt-12 pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-center sm:text-left">
-            <p className="text-xs text-white/25">© 2026 askGenie Student Aid Hub | Developed by One27 | All Rights Reserved</p>
+            <p className="text-xs text-white/25">© 2026 Genie Student Aid Hub | Developed by One27 | All Rights Reserved</p>
             <p className="text-xs text-white/20 mt-0.5">Unofficial reference tool — not affiliated with the U.S. Department of Education</p>
           </div>
           <Link
             href="/aid-agent"
-            className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
           >
             <GenieBottle className="h-3.5 w-3.5" />
-            Back to askGenie
+            Back to Genie
           </Link>
         </div>
       </main>

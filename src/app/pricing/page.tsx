@@ -83,10 +83,10 @@ const TIERS: Tier[] = [
     id: "pro",
     name: "Pro",
     badge: "Most Popular",
-    badgeColor: "from-sky-500 to-indigo-500",
+    badgeColor: "from-cyan-500 to-teal-600",
     monthlyPrice: 5.99,
-    yearlyPrice: 59,
-    yearlyMonthly: 4.92,
+    yearlyPrice: process.env.NEXT_PUBLIC_PRO_ANNUAL_PRICE ? Number(process.env.NEXT_PUBLIC_PRO_ANNUAL_PRICE) : 59,
+    yearlyMonthly: process.env.NEXT_PUBLIC_PRO_ANNUAL_PRICE ? Math.round((Number(process.env.NEXT_PUBLIC_PRO_ANNUAL_PRICE) / 12) * 100) / 100 : 4.92,
     description: "Your calm expert companion — unlimited questions, full document analysis.",
     highlight: true,
     ctaLabel: "Start 14-Day Free Trial",
@@ -103,7 +103,7 @@ const TIERS: Tier[] = [
     id: "team",
     name: "Team / Institutional",
     badge: "Best Value",
-    badgeColor: "from-violet-500 to-indigo-500",
+    badgeColor: "from-teal-500 to-cyan-600",
     monthlyPrice: 24.99,
     yearlyPrice: 199,
     yearlyMonthly: 16.58,
@@ -148,7 +148,7 @@ const WHY_PRO = [
 const FAQ_ITEMS = [
   {
     q: "What happens after the 14-day free trial?",
-    a: "Your Pro access continues — you'll be charged $5.99/month (or $59/year if you chose annual). We'll email you a reminder 3 days before the trial ends. Cancel anytime from your account page before then and you'll never be charged.",
+    a: `Your Pro access continues — you'll be charged $5.99/month (or $${process.env.NEXT_PUBLIC_PRO_ANNUAL_PRICE ?? "59"}/year if you chose annual). We'll email you a reminder 3 days before the trial ends. Cancel anytime from your account page before then and you'll never be charged.`,
   },
   {
     q: "Is a credit card required to start the trial?",
@@ -200,7 +200,7 @@ export default function PricingPage() {
         body: JSON.stringify({ tier: planId }),
       });
       if (res.status === 401) {
-        setCheckoutError("Please sign in first to start your trial. Visit askGenie and create a free account.");
+        setCheckoutError("Please sign in first to start your trial. Visit Genie and create a free account.");
         return;
       }
       const data = await res.json();
@@ -232,43 +232,60 @@ export default function PricingPage() {
 
   return (
     <div
-      className="min-h-screen text-white"
-      style={{ background: "linear-gradient(135deg, #0a2e7a 0%, #0e4099 50%, #1252b8 100%)" }}
+      className="min-h-screen text-white relative"
+      style={{ background: "linear-gradient(135deg, #06101F 0%, #0A1428 55%, #0D1A35 100%)" }}
     >
+      {/* Genie Orbs */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }} aria-hidden="true">
+        <div className="genie-orb-bg" style={{ width: 700, height: 700, top: "-15%", left: "-10%", background: "rgba(99,102,241,0.10)" }} />
+        <div className="genie-orb-bg" style={{ width: 550, height: 550, top: "40%", left: "65%", background: "rgba(139,92,246,0.08)", ["--dur" as any]: "10s", ["--delay" as any]: "2s" }} />
+        <div className="genie-orb-bg" style={{ width: 400, height: 400, top: "80%", left: "5%", background: "rgba(0,209,201,0.06)", ["--dur" as any]: "13s", ["--delay" as any]: "4s" }} />
+      </div>
       {/* ── Header ── */}
-      <header className="sticky top-0 z-10 border-b border-white/[0.10] bg-[#071035]/80 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-cyan-500/20 bg-[#060E1F]/95 backdrop-blur-xl">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link
             href="/aid-agent"
-            className="flex items-center gap-2 text-white/50 hover:text-white transition-colors text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 rounded-lg px-2 py-1"
+            className="flex items-center gap-2 text-[#94A3B8]/70 hover:text-[#00E5C0] transition-colors text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded-lg px-2 py-1 ring-1 ring-white/10 hover:bg-white/[0.05]"
           >
             <Home className="h-4 w-4" />
-            <span className="hidden sm:inline">Back to askGenie</span>
+            <span className="hidden sm:inline">Back to Genie</span>
           </Link>
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600">
+            <div className="p-1.5 rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/25">
               <GenieBottle className="h-4 w-4 text-white" />
             </div>
-            <span className="font-bold text-white tracking-tight">askGenie</span>
+            <span className="font-bold tracking-tight text-[#00E5C0]">Genie</span>
             <ChevronRight className="h-3.5 w-3.5 text-white/30" />
-            <span className="text-white/50 text-sm">Pricing</span>
+            <span className="text-white/75 text-sm font-semibold">Pricing</span>
           </div>
           <div className="w-28" />
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-6 pb-24">
+      <main className="max-w-5xl mx-auto px-6 pb-24 relative" style={{ zIndex: 1 }}>
 
         {/* ── Hero ── */}
         <section className="pt-16 pb-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-600/20 ring-1 ring-indigo-500/30 text-indigo-300 text-xs font-semibold mb-6 tracking-wide">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-500/[0.12] ring-1 ring-cyan-400/40 text-cyan-300 text-xs font-semibold mb-6 tracking-widest uppercase shadow-sm shadow-cyan-500/20">
             <Zap className="h-3.5 w-3.5" />
             Simple, transparent pricing
           </div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-sky-300 via-indigo-200 to-violet-400 bg-clip-text text-transparent mb-4 leading-tight">
+          <h1
+            className="text-4xl sm:text-5xl font-black tracking-tight leading-tight mb-4"
+            style={{
+              background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)",
+              backgroundSize: "200% auto",
+              WebkitBackgroundClip: "text",
+              backgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              color: "transparent",
+              animation: "genie-teal-shimmer 3.5s linear infinite",
+            }}
+          >
             Simple Pricing for Real<br className="hidden sm:block" /> Financial Aid Relief
           </h1>
-          <p className="text-base sm:text-lg text-white/70 max-w-2xl mx-auto leading-relaxed mb-10">
+          <p className="text-base sm:text-lg text-[#94A3B8]/90 max-w-2xl mx-auto leading-relaxed mb-10">
             Your calm expert companion for FAFSA, award letters, and Title IV questions.
             Start free. Upgrade when you need document analysis and R2T4 tools.
           </p>
@@ -282,7 +299,7 @@ export default function PricingPage() {
               checked={annual}
               onCheckedChange={setAnnual}
               aria-label="Toggle annual billing"
-              className="data-[state=checked]:bg-indigo-500"
+              className="data-[state=checked]:bg-cyan-500"
             />
             <span className={`text-sm font-semibold transition-colors ${annual ? "text-white" : "text-white/40"}`}>
               Annual
@@ -309,11 +326,17 @@ export default function PricingPage() {
             return (
               <div
                 key={tier.id}
-                className={`relative rounded-2xl flex flex-col ${
+                className={`relative rounded-2xl flex flex-col px-6 py-7 ${
                   isHighlight
-                    ? "bg-gradient-to-b from-indigo-600/40 to-violet-700/30 ring-2 ring-indigo-400/60 shadow-2xl shadow-indigo-900/40"
-                    : "bg-white/[0.05] ring-1 ring-white/[0.10]"
-                } px-6 py-7`}
+                    ? "bg-gradient-to-b from-cyan-600/25 to-teal-800/20 ring-2 ring-cyan-400/50 shadow-2xl shadow-cyan-900/30"
+                    : ""
+                }`}
+                style={!isHighlight ? {
+                  background: "linear-gradient(135deg, rgba(13,26,50,0.92) 0%, rgba(10,20,42,0.88) 100%)",
+                  border: "1px solid rgba(6,182,212,0.18)",
+                  boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)",
+                  backdropFilter: "blur(12px)",
+                } : undefined}
               >
                 {/* Badge */}
                 {tier.badge && (
@@ -361,7 +384,7 @@ export default function PricingPage() {
                 {/* Daily limit chip */}
                 {tier.dailyLimit && (
                   <div className="mb-5 px-3 py-2 rounded-lg bg-white/[0.06] ring-1 ring-white/[0.08] text-center">
-                    <span className="text-xs font-semibold text-indigo-300">{tier.dailyLimit}</span>
+                    <span className="text-xs font-semibold text-cyan-300">{tier.dailyLimit}</span>
                   </div>
                 )}
 
@@ -369,12 +392,12 @@ export default function PricingPage() {
                 <button
                   onClick={() => subscribe(tier)}
                   disabled={loading === tier.id}
-                  className={`w-full py-3 rounded-xl font-semibold text-sm mb-6 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${
+                  className={`w-full py-3 rounded-xl font-semibold text-sm mb-6 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${
                     tier.ctaVariant === "primary"
-                      ? "bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-600 text-white shadow-lg hover:opacity-90 active:scale-[0.98]"
+                      ? "bg-gradient-to-r from-cyan-500 to-teal-600 text-white shadow-lg hover:opacity-90 active:scale-[0.98]"
                       : tier.ctaVariant === "outline"
                       ? "bg-white/[0.08] text-white ring-1 ring-white/[0.18] hover:bg-white/[0.14] active:scale-[0.98]"
-                      : "bg-white/[0.05] text-indigo-300 ring-1 ring-indigo-400/30 hover:bg-indigo-500/15 active:scale-[0.98]"
+                      : "bg-white/[0.05] text-cyan-300 ring-1 ring-cyan-400/30 hover:bg-cyan-500/15 active:scale-[0.98]"
                   }`}
                 >
                   {loading === tier.id ? "Redirecting…" : tier.ctaLabel}
@@ -392,7 +415,7 @@ export default function PricingPage() {
                 <ul className="space-y-2.5 flex-1">
                   {tier.includes.map((key) => (
                     <li key={key} className="flex items-start gap-2">
-                      <Check className="h-3.5 w-3.5 text-indigo-400 shrink-0 mt-0.5" aria-hidden="true" />
+                      <Check className="h-3.5 w-3.5 text-cyan-400 shrink-0 mt-0.5" aria-hidden="true" />
                       <span className="text-xs text-white/75">{FEATURES[key]}</span>
                     </li>
                   ))}
@@ -412,7 +435,8 @@ export default function PricingPage() {
         <section className="mb-14" aria-labelledby="why-pro-heading">
           <div className="flex items-center gap-2 mb-6">
             <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/[0.10]" />
-            <h2 id="why-pro-heading" className="text-xs font-bold uppercase tracking-widest text-white/30 px-3">
+            <h2 id="why-pro-heading" className="text-xs font-bold uppercase tracking-widest text-white/60 px-3 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0" />
               Why Pro pays for itself
             </h2>
             <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/[0.10]" />
@@ -420,8 +444,8 @@ export default function PricingPage() {
           <div className="grid sm:grid-cols-2 gap-4">
             {WHY_PRO.map(({ icon: Icon, title, body }) => (
               <div key={title} className="flex gap-4 p-5 rounded-2xl bg-white/[0.04] ring-1 ring-white/[0.07]">
-                <div className="p-2.5 rounded-xl bg-indigo-600/20 ring-1 ring-indigo-500/20 shrink-0 self-start">
-                  <Icon className="h-4 w-4 text-indigo-300" aria-hidden="true" />
+                <div className="p-2.5 rounded-xl bg-cyan-500/[0.15] ring-1 ring-cyan-500/[0.28] shrink-0 self-start">
+                  <Icon className="h-4 w-4 text-cyan-300" aria-hidden="true" />
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-white mb-1 leading-snug">{title}</p>
@@ -440,7 +464,7 @@ export default function PricingPage() {
               { icon: Users,      text: "Students, parents & FA offices" },
             ].map(({ icon: Icon, text }) => (
               <div key={text} className="flex items-center gap-1.5">
-                <Icon className="h-3.5 w-3.5 text-indigo-400/60 shrink-0" aria-hidden="true" />
+                <Icon className="h-3.5 w-3.5 text-cyan-400/60 shrink-0" aria-hidden="true" />
                 <span className="text-xs text-white/40">{text}</span>
               </div>
             ))}
@@ -458,7 +482,7 @@ export default function PricingPage() {
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   aria-expanded={openFaq === i}
-                  className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-indigo-500 hover:bg-white/[0.04] transition-colors"
+                  className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-500 hover:bg-white/[0.04] transition-colors"
                 >
                   <span className="text-sm font-semibold text-white/85">{item.q}</span>
                   <ChevronDown
@@ -476,22 +500,36 @@ export default function PricingPage() {
           </div>
           <p className="text-xs text-white/30 text-center mt-6">
             More questions?{" "}
-            <Link href="/about#contact" className="text-indigo-400 hover:text-indigo-300 underline underline-offset-2">
+            <Link href="/about#contact" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-2">
               Contact us
             </Link>
             {" "}or{" "}
-            <Link href="/about" className="text-indigo-400 hover:text-indigo-300 underline underline-offset-2">
-              learn about askGenie
+            <Link href="/about" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-2">
+              learn about Genie
             </Link>
             .
           </p>
         </section>
 
+        {/* ── Cross-page nav ── */}
+        <div className="mt-8 pt-6 border-t border-white/[0.06] flex flex-wrap justify-center gap-x-1 gap-y-1 mb-2">
+          {[
+            { label: "Pricing", href: "/pricing" },
+            { label: "About", href: "/about" },
+            { label: "For Schools", href: "/institutions" },
+            { label: "Support Dev", href: "/support" },
+            { label: "Legal", href: "/legal" },
+            { label: "School DPA", href: "/dpa" },
+          ].map(({ label, href }) => (
+            <Link key={label} href={href} className="px-3 py-1 rounded-full text-[11px] font-medium text-white/35 hover:text-cyan-300 hover:bg-cyan-500/[0.10] ring-1 ring-white/[0.08] hover:ring-cyan-500/25 transition-all">{label}</Link>
+          ))}
+        </div>
+
         {/* ── Footer ── */}
         <div className="pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-center sm:text-left">
             <p className="text-xs text-white/25">
-              © 2026 askGenie Student Aid Hub | Developed by One27 | All Rights Reserved
+              © 2026 Genie Student Aid Hub | Developed by One27 | All Rights Reserved
             </p>
             <p className="text-xs text-white/20 mt-0.5">
               Unofficial reference tool — not affiliated with the U.S. Department of Education
@@ -503,10 +541,10 @@ export default function PricingPage() {
             </Link>
             <Link
               href="/aid-agent"
-              className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold transition-colors"
             >
               <GenieBottle className="h-3.5 w-3.5" />
-              Open askGenie
+              Open Genie
             </Link>
           </div>
         </div>

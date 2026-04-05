@@ -17,7 +17,7 @@ const FEATURES = [
   {
     icon: Calculator,
     title: "R2T4 Worksheets",
-    desc: "Walk through Return to Title IV calculations step by step. askGenie generates pre-withdrawal worksheets with built-in compliance reminders.",
+    desc: "Walk through Return to Title IV calculations step by step. Genie generates pre-withdrawal worksheets with built-in compliance reminders.",
   },
   {
     icon: ClipboardList,
@@ -42,7 +42,7 @@ const FEATURES = [
   {
     icon: Zap,
     title: "Always Current",
-    desc: "askGenie pulls from live regulatory update feeds to surface the latest FSA guidance, Dear Colleague Letters, and policy changes.",
+    desc: "Genie pulls from live regulatory update feeds to surface the latest FSA guidance, Dear Colleague Letters, and policy changes.",
   },
 ];
 
@@ -61,51 +61,71 @@ export default function InstitutionsPage() {
   };
 
   return (
-    <div className="min-h-screen text-white" style={{ background: "linear-gradient(135deg, #0a2e7a 0%, #0e4099 50%, #1252b8 100%)" }}>
+    <div
+      className="min-h-screen text-white relative"
+      style={{ background: "linear-gradient(135deg, #06101F 0%, #0A1428 55%, #0D1A35 100%)" }}
+    >
+      {/* Genie Orbs */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }} aria-hidden="true">
+        <div className="genie-orb-bg" style={{ width: 700, height: 700, top: "-15%", left: "-10%", background: "rgba(0,229,192,0.08)" }} />
+        <div className="genie-orb-bg" style={{ width: 550, height: 550, top: "40%", left: "65%", background: "rgba(99,102,241,0.07)", ["--dur" as any]: "11s", ["--delay" as any]: "2s" }} />
+        <div className="genie-orb-bg" style={{ width: 400, height: 400, top: "80%", left: "5%", background: "rgba(20,184,166,0.05)", ["--dur" as any]: "14s", ["--delay" as any]: "5s" }} />
+      </div>
 
       {/* Header */}
-      <header className="sticky top-0 z-10 border-b border-white/[0.10] bg-[#071035]/80 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-cyan-500/20 bg-[#060E1F]/95 backdrop-blur-xl">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-          <Link href="/aid-agent" className="flex items-center gap-2 text-white/50 hover:text-white transition-colors text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 rounded-lg px-2 py-1">
+          <Link href="/aid-agent" className="flex items-center gap-2 text-[#94A3B8]/70 hover:text-[#00E5C0] transition-colors text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded-lg px-2 py-1 ring-1 ring-white/10 hover:bg-white/[0.05]">
             <Home className="h-4 w-4" />
-            <span className="hidden sm:inline">Back to askGenie</span>
+            <span className="hidden sm:inline">Back to Genie</span>
           </Link>
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600">
+            <div className="p-1.5 rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/25">
               <GenieBottle className="h-4 w-4 text-white" />
             </div>
-            <span className="font-bold text-white tracking-tight">askGenie</span>
+            <span className="font-bold tracking-tight text-[#00E5C0]">Genie</span>
             <ChevronRight className="h-3.5 w-3.5 text-white/30" />
-            <span className="text-white/50 text-sm">For Schools</span>
+            <span className="text-white/75 text-sm font-semibold">For Schools</span>
           </div>
           <div className="w-24" />
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto px-6 pb-24">
+      <main className="max-w-5xl mx-auto px-6 pb-24 relative" style={{ zIndex: 1 }}>
 
         {/* Hero */}
         <section className="pt-16 pb-14 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-600/20 ring-1 ring-indigo-500/30 text-indigo-300 text-xs font-semibold mb-6 tracking-wide">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-500/[0.12] ring-1 ring-cyan-400/40 text-cyan-300 text-xs font-semibold mb-6 tracking-widest uppercase shadow-sm shadow-cyan-500/20">
             <Building2 className="h-3.5 w-3.5" />
             For Financial Aid Offices &amp; Institutions
           </div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight bg-gradient-to-r from-sky-300 via-indigo-200 to-violet-400 bg-clip-text text-transparent mb-6 leading-tight">
+          <h1
+            className="text-4xl sm:text-5xl font-black tracking-tight leading-tight mb-6"
+            style={{
+              background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)",
+              backgroundSize: "200% auto",
+              WebkitBackgroundClip: "text",
+              backgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              color: "transparent",
+              animation: "genie-teal-shimmer 3.5s linear infinite",
+            }}
+          >
             Built by someone who sat<br className="hidden sm:block" /> where you sit.
           </h1>
-          <p className="text-lg text-white/85 max-w-2xl mx-auto leading-relaxed mb-8">
-            askGenie was created by a financial aid professional with 15 years of hands-on experience. Every feature was designed for the real work that happens inside a financial aid office — not just the theory.
+          <p className="text-lg text-[#94A3B8]/90 max-w-2xl mx-auto leading-relaxed mb-8">
+            Genie was created by a financial aid professional with 15 years of hands-on experience. Every feature was designed for the real work that happens inside a financial aid office — not just the theory.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               href="#request-demo"
-              className="px-6 py-3 rounded-xl bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-600 text-white font-semibold text-sm shadow-lg hover:opacity-90 transition-all"
+              className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-600 text-white font-semibold text-sm shadow-lg shadow-cyan-900/30 hover:opacity-90 transition-all"
             >
               Request a Demo
             </Link>
             <Link
               href="/dpa"
-              className="px-6 py-3 rounded-xl bg-white/[0.08] ring-1 ring-white/[0.15] text-white font-medium text-sm hover:bg-white/[0.12] transition-all"
+              className="px-6 py-3 rounded-xl bg-white/[0.07] ring-1 ring-white/[0.15] text-white font-medium text-sm hover:bg-white/[0.12] transition-all"
             >
               Review School DPA
             </Link>
@@ -113,8 +133,8 @@ export default function InstitutionsPage() {
         </section>
 
         {/* Why Genie for Institutions */}
-        <section className="mb-14 rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.08] px-8 py-8">
-          <h2 className="text-xl font-bold text-white mb-6">Why Financial Aid Offices Choose askGenie</h2>
+        <section className="mb-14 rounded-2xl px-8 py-8" style={{ background: "linear-gradient(135deg, rgba(13,26,50,0.92) 0%, rgba(10,20,42,0.88) 100%)", border: "1px solid rgba(6,182,212,0.18)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
+          <h2 className="text-xl font-bold text-white mb-6">Why Financial Aid Offices Choose Genie</h2>
           <div className="grid sm:grid-cols-2 gap-6">
             {[
               { stat: "15", label: "Years of FA office experience behind every feature" },
@@ -123,8 +143,8 @@ export default function InstitutionsPage() {
               { stat: "FERPA", label: "Compliant by design — no student PII required" },
             ].map(({ stat, label }) => (
               <div key={stat} className="flex items-center gap-4">
-                <div className="shrink-0 w-16 h-16 rounded-2xl bg-indigo-600/30 ring-1 ring-indigo-500/30 flex items-center justify-center">
-                  <span className="text-sm font-extrabold text-indigo-300">{stat}</span>
+                <div className="shrink-0 w-16 h-16 rounded-2xl bg-cyan-500/[0.15] ring-1 ring-cyan-500/[0.28] flex items-center justify-center">
+                  <span className="text-sm font-extrabold text-cyan-300">{stat}</span>
                 </div>
                 <p className="text-sm text-white/85 leading-snug">{label}</p>
               </div>
@@ -134,22 +154,22 @@ export default function InstitutionsPage() {
 
         {/* Features Grid */}
         <section className="mb-14">
-          <h2 className="text-xl font-bold text-white mb-6">What askGenie Does for Your Office</h2>
+          <h2 className="text-xl font-bold text-white mb-6">What Genie Does for Your Office</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {FEATURES.map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.08] px-6 py-5 hover:bg-white/[0.08] transition-colors">
-                <div className="p-2 rounded-xl bg-indigo-600/20 w-fit mb-3">
-                  <Icon className="h-4 w-4 text-indigo-300" />
+              <div key={title} className="rounded-2xl px-6 py-5 transition-all" style={{ background: "linear-gradient(135deg, rgba(13,26,50,0.92) 0%, rgba(10,20,42,0.88) 100%)", border: "1px solid rgba(6,182,212,0.18)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
+                <div className="p-2 rounded-xl bg-cyan-500/[0.15] ring-1 ring-cyan-500/[0.28] w-fit mb-3">
+                  <Icon className="h-4 w-4 text-cyan-300" />
                 </div>
                 <h3 className="text-sm font-semibold text-white mb-2">{title}</h3>
-                <p className="text-xs text-white/85 leading-relaxed">{desc}</p>
+                <p className="text-xs text-white/65 leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
         </section>
 
         {/* Compliance Section */}
-        <section className="mb-14 rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.08] px-8 py-7">
+        <section className="mb-14 rounded-2xl px-8 py-7" style={{ background: "linear-gradient(135deg, rgba(13,26,50,0.92) 0%, rgba(10,20,42,0.88) 100%)", border: "1px solid rgba(6,182,212,0.18)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
           <h2 className="text-xl font-bold text-white mb-4">Built for Compliance</h2>
           <div className="space-y-2.5">
             {[
@@ -161,8 +181,8 @@ export default function InstitutionsPage() {
               "Conversations not stored — no long-term retention of institution queries",
             ].map((item) => (
               <div key={item} className="flex items-start gap-2.5">
-                <CheckCircle className="h-4 w-4 text-indigo-400 shrink-0 mt-0.5" />
-                <span className="text-sm text-white/85">{item}</span>
+                <CheckCircle className="h-4 w-4 text-cyan-400 shrink-0 mt-0.5" />
+                <span className="text-sm text-white/80">{item}</span>
               </div>
             ))}
           </div>
@@ -171,17 +191,17 @@ export default function InstitutionsPage() {
         {/* Demo Request Form */}
         <section id="request-demo" className="mb-12">
           <div className="flex items-center gap-3 mb-5">
-            <div className="p-2 rounded-xl bg-indigo-600/30 ring-1 ring-indigo-500/30">
-              <Mail className="h-5 w-5 text-indigo-300" />
+            <div className="p-2 rounded-xl bg-cyan-500/[0.15] ring-1 ring-cyan-500/[0.28]">
+              <Mail className="h-5 w-5 text-cyan-300" />
             </div>
             <h2 className="text-xl font-bold text-white">Request a Demo</h2>
           </div>
-          <div className="rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.08] px-8 py-7">
+          <div className="rounded-2xl px-8 py-7" style={{ background: "linear-gradient(135deg, rgba(13,26,50,0.92) 0%, rgba(10,20,42,0.88) 100%)", border: "1px solid rgba(6,182,212,0.18)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
             {submitted ? (
               <div className="flex flex-col items-center gap-3 py-8 text-center">
-                <CheckCircle className="h-10 w-10 text-indigo-400" />
+                <CheckCircle className="h-10 w-10 text-cyan-400" />
                 <p className="text-base font-semibold text-white">Demo request received!</p>
-                <p className="text-sm text-white/85">We will reach out to your institution email within 2 business days.</p>
+                <p className="text-sm text-white/65">We will reach out to your institution email within 2 business days.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -194,7 +214,7 @@ export default function InstitutionsPage() {
                       value={formState.name}
                       onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                       placeholder="Director of Financial Aid"
-                      className="w-full bg-white/[0.06] ring-1 ring-white/[0.10] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                      className="w-full bg-white/[0.05] ring-1 ring-[#1E3A5F]/60 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
                     />
                   </div>
                   <div>
@@ -205,7 +225,7 @@ export default function InstitutionsPage() {
                       value={formState.email}
                       onChange={(e) => setFormState({ ...formState, email: e.target.value })}
                       placeholder="you@college.edu"
-                      className="w-full bg-white/[0.06] ring-1 ring-white/[0.10] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                      className="w-full bg-white/[0.05] ring-1 ring-[#1E3A5F]/60 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
                     />
                   </div>
                 </div>
@@ -217,7 +237,7 @@ export default function InstitutionsPage() {
                     value={formState.institution}
                     onChange={(e) => setFormState({ ...formState, institution: e.target.value })}
                     placeholder="Your College or University"
-                    className="w-full bg-white/[0.06] ring-1 ring-white/[0.10] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                    className="w-full bg-white/[0.05] ring-1 ring-[#1E3A5F]/60 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
                   />
                 </div>
                 <div>
@@ -227,12 +247,12 @@ export default function InstitutionsPage() {
                     value={formState.message}
                     onChange={(e) => setFormState({ ...formState, message: e.target.value })}
                     placeholder="Tell us about your team size, current challenges, or specific features you want to explore..."
-                    className="w-full bg-white/[0.06] ring-1 ring-white/[0.10] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all resize-none"
+                    className="w-full bg-white/[0.05] ring-1 ring-[#1E3A5F]/60 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all resize-none"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-600 text-white font-semibold text-sm shadow-lg hover:opacity-90 active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-600 text-white font-semibold text-sm shadow-lg shadow-cyan-900/30 hover:opacity-90 active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
                 >
                   Request Demo
                 </button>
@@ -241,19 +261,33 @@ export default function InstitutionsPage() {
           </div>
         </section>
 
+        {/* Cross-page nav */}
+        <div className="mt-8 pt-6 border-t border-white/[0.06] flex flex-wrap justify-center gap-x-1 gap-y-1 mb-2">
+          {[
+            { label: "Pricing", href: "/pricing" },
+            { label: "About", href: "/about" },
+            { label: "For Schools", href: "/institutions" },
+            { label: "Support Dev", href: "/support" },
+            { label: "Legal", href: "/legal" },
+            { label: "School DPA", href: "/dpa" },
+          ].map(({ label, href }) => (
+            <Link key={label} href={href} className="px-3 py-1 rounded-full text-[11px] font-medium text-white/35 hover:text-cyan-300 hover:bg-cyan-500/[0.10] ring-1 ring-white/[0.08] hover:ring-cyan-500/25 transition-all">{label}</Link>
+          ))}
+        </div>
+
         {/* Footer */}
         <div className="pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="text-center sm:text-left">
-            <p className="text-xs text-white/25">© 2026 askGenie Student Aid Hub | Developed by One27 | All Rights Reserved</p>
+            <p className="text-xs text-white/25">© 2026 Genie Student Aid Hub | Developed by One27 | All Rights Reserved</p>
             <p className="text-xs text-white/20 mt-0.5">Unofficial reference tool — not affiliated with the U.S. Department of Education</p>
           </div>
           <div className="flex items-center gap-2">
             <Link href="/about" className="px-3 py-1.5 rounded-lg text-white/40 hover:text-white text-xs font-medium transition-colors">About</Link>
             <Link href="/dpa" className="px-3 py-1.5 rounded-lg text-white/40 hover:text-white text-xs font-medium transition-colors">DPA</Link>
             <Link href="/legal" className="px-3 py-1.5 rounded-lg text-white/40 hover:text-white text-xs font-medium transition-colors">Legal</Link>
-            <Link href="/aid-agent" className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors">
+            <Link href="/aid-agent" className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold transition-colors">
               <GenieBottle className="h-3.5 w-3.5" />
-              Open askGenie
+              Open Genie
             </Link>
           </div>
         </div>
