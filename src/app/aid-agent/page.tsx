@@ -5224,7 +5224,7 @@ export default function AidAgentPage() {
                                 className={`w-full flex flex-col items-center gap-1.5 px-1 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 ring-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] hover:scale-[1.05] active:scale-95 ${
                                   activeActionRole === role
                                     ? `${activeBg} ${activeColor} ${activeRing} shadow-md ${activeGlow}`
-                                    : "text-red-400/80 hover:text-red-300 hover:bg-red-500/[0.06] ring-white/[0.08] hover:ring-[#D4AF37]/30"
+                                    : "text-[#94A3B8]/70 hover:text-white/90 hover:bg-white/[0.06] ring-white/[0.08] hover:ring-white/20"
                                 }`}
                               >
                                 <div className={`p-2 rounded-lg transition-all duration-200 ${activeActionRole === role ? `${activeBg} shadow-md ring-1 ${activeRing}` : "bg-[#D4AF37]/[0.07] ring-1 ring-[#D4AF37]/[0.15]"}`}>
@@ -5244,10 +5244,10 @@ export default function AidAgentPage() {
                                   onClick={() => sendMessage(q)}
                                   className="flex flex-col items-center gap-1.5 p-1.5 rounded-2xl hover:bg-sky-500/[0.10] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 hover:scale-[1.06] active:scale-95"
                                 >
-                                  <div className="w-12 h-12 rounded-[14px] bg-[#0D1A32] ring-1 ring-[#D4AF37]/[0.18] flex items-center justify-center shadow-lg group-hover:bg-sky-500/20 group-hover:ring-sky-500/40 group-hover:shadow-[0_0_16px_rgba(56,189,248,0.28)] transition-all">
-                                    <Icon className="h-5 w-5 text-[#D4AF37]/75 group-hover:text-sky-300 transition-colors" />
+                                  <div className="w-12 h-12 rounded-[14px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-lg group-hover:bg-sky-500/20 group-hover:ring-sky-500/40 group-hover:shadow-[0_0_16px_rgba(56,189,248,0.28)] transition-all">
+                                    <Icon className="h-5 w-5 text-[#7B91B0] group-hover:text-sky-300 transition-colors" />
                                   </div>
-                                  <span className="text-[9px] font-semibold text-red-400/70 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{label}</span>
+                                  <span className="text-[9px] font-semibold text-[#8A9ABB]/75 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{label}</span>
                                 </button>
                               ))}
                             </div>
