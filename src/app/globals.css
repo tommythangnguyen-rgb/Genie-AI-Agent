@@ -730,18 +730,15 @@
   animation: genie-panel-drop 0.22s ease-out;
 }
 
-/* ── Console slide transition ── */
+/* ── Console slide transition (3-slide deck) ── */
 .genie-console-slider {
   display: flex;
   transition: transform 0.52s cubic-bezier(0.34, 1.1, 0.64, 1);
-  width: 200%;
+  width: 300%;
   will-change: transform;
 }
-.genie-console-slider.genie-slide-flipped {
-  transform: translateX(-50%);
-}
 .genie-console-slide {
-  width: 50%;
+  width: 33.333%;
   flex-shrink: 0;
   min-width: 0;
 }

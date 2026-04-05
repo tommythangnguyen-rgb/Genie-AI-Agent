@@ -55,6 +55,11 @@ import {
   UserCircle,
   RotateCcw,
   ChevronDown,
+  Search,
+  Gavel,
+  MapPin,
+  RefreshCcw,
+  PiggyBank,
 } from "lucide-react";
 
 // ─── Genie Bottle Logo ────────────────────────────────────────────────────────
@@ -3199,7 +3204,7 @@ export default function AidAgentPage() {
   const tipsRef = useRef<HTMLDivElement>(null);
   const pcOrbRef = useRef<HTMLDivElement>(null);
   const [howItWorksActive, setHowItWorksActive] = useState<"role" | "chatbox" | "panels" | "guidance" | null>(null);
-  const [slideFlipped, setSlideFlipped] = useState(false);
+  const [slideIndex, setSlideIndex] = useState(0);
   const [isDark, setIsDark] = useState(false);
   // Daily rotation offset — shifts which tips appear first, updates each day
   const tipsRotationOffset = useMemo(() => Math.floor(Date.now() / 86400000), []);
@@ -4977,27 +4982,6 @@ export default function AidAgentPage() {
                       </div>
                     </div>
 
-                    {/* Coverage Topics */}
-                    <div className="w-full">
-                      <div className="flex items-center gap-2 mb-2.5">
-                        <div className="h-px flex-1 bg-gradient-to-r from-transparent to-cyan-500/[0.15]" />
-                        <span className="text-xs font-bold uppercase tracking-[0.16em] text-cyan-400/60 px-2">What Genie Covers</span>
-                        <div className="h-px flex-1 bg-gradient-to-l from-transparent to-cyan-500/[0.15]" />
-                      </div>
-                      <div className="flex flex-wrap gap-1.5">
-                        {COVERAGE_TOPICS.map((topic) => (
-                          <button
-                            key={topic}
-                            type="button"
-                            onClick={() => sendMessage(COVERAGE_TOPIC_PROMPTS[topic] ?? `Tell me about ${topic}.`)}
-                            className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold text-[#94A3B8]/80 hover:text-[#00E5C0] ring-1 ring-cyan-500/[0.15] hover:ring-cyan-400/40 bg-[#0D1A32]/70 hover:bg-cyan-500/[0.08] transition-all duration-150 hover:scale-[1.04] active:scale-[0.97] backdrop-blur-sm shadow-sm shadow-black/20"
-                          >
-                            {topic}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
                   </div>{/* end left column */}
 
                   {/* ══ RIGHT — Slide 2 + 3: I am a… / Tips by Role ══ */}
@@ -5005,7 +4989,7 @@ export default function AidAgentPage() {
 
                     {/* Slide container */}
                     <div className="overflow-hidden rounded-2xl ring-1 ring-[#D4AF37]/[0.22]">
-                      <div className={`genie-console-slider${slideFlipped ? " genie-slide-flipped" : ""}`}>
+                      <div className="genie-console-slider" style={{ transform: `translateX(${slideIndex * -33.333}%)` }}>
 
                         {/* Slide 2 — I am a… */}
                         <div className="genie-console-slide px-5 pt-5 pb-5 bg-[#0A1428]/20">
@@ -5017,15 +5001,26 @@ export default function AidAgentPage() {
                               <span className={`text-xs font-bold tracking-[0.12em] uppercase transition-colors ${howItWorksActive === "role" ? "text-violet-400 drop-shadow-[0_0_8px_rgba(139,92,246,0.7)]" : "text-white/80"}`}>I am a…</span>
                             </div>
                             <div className="h-px flex-1 bg-gradient-to-l from-transparent to-violet-500/[0.20]" />
-                            <button
-                              type="button"
-                              onClick={() => setSlideFlipped(true)}
-                              title="Tips by Role"
-                              className="shrink-0 flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-cyan-500/[0.10] ring-1 ring-cyan-500/[0.28] text-cyan-300/70 hover:bg-cyan-500/[0.20] hover:ring-cyan-400/55 hover:text-white transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 shadow-sm"
-                            >
-                              <span className="text-[10px] font-bold tracking-wide whitespace-nowrap">Tips</span>
-                              <ChevronRight className="h-3.5 w-3.5 shrink-0" />
-                            </button>
+                            <div className="flex items-center gap-1 shrink-0">
+                              <button
+                                type="button"
+                                onClick={() => setSlideIndex(1)}
+                                title="Tips by Role"
+                                className="flex items-center gap-1 px-2 py-1.5 rounded-xl bg-cyan-500/[0.10] ring-1 ring-cyan-500/[0.28] text-cyan-300/70 hover:bg-cyan-500/[0.20] hover:ring-cyan-400/55 hover:text-white transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 shadow-sm"
+                              >
+                                <span className="text-[10px] font-bold tracking-wide whitespace-nowrap">Tips</span>
+                                <ChevronRight className="h-3.5 w-3.5 shrink-0" />
+                              </button>
+                              <button
+                                type="button"
+                                onClick={() => setSlideIndex(2)}
+                                title="What Genie Covers"
+                                className="flex items-center gap-1 px-2 py-1.5 rounded-xl bg-[#D4AF37]/[0.08] ring-1 ring-[#D4AF37]/[0.25] text-[#C9A227]/60 hover:bg-[#D4AF37]/[0.16] hover:ring-[#D4AF37]/50 hover:text-[#D4AF37] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] shadow-sm"
+                              >
+                                <Sparkles className="h-3 w-3 shrink-0" />
+                                <ChevronRight className="h-3.5 w-3.5 shrink-0" />
+                              </button>
+                            </div>
                           </div>
 
                           {/* Role selector — centered grid with role colors */}
@@ -5083,7 +5078,7 @@ export default function AidAgentPage() {
                           <div className="flex items-center justify-center gap-2 mb-4">
                             <button
                               type="button"
-                              onClick={() => setSlideFlipped(false)}
+                              onClick={() => setSlideIndex(0)}
                               title="I am a…"
                               className="shrink-0 p-1 rounded-lg text-cyan-300/30 hover:text-cyan-300 hover:bg-cyan-500/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400"
                             >
@@ -5095,6 +5090,14 @@ export default function AidAgentPage() {
                               <span className="text-xs font-bold text-white/80 tracking-[0.12em] uppercase">Tips by Role</span>
                             </div>
                             <div className="h-px flex-1 bg-gradient-to-l from-transparent to-amber-500/[0.20]" />
+                            <button
+                              type="button"
+                              onClick={() => setSlideIndex(2)}
+                              title="What Genie Covers"
+                              className="shrink-0 p-1 rounded-lg text-[#C9A227]/35 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]"
+                            >
+                              <ChevronRight className="h-4 w-4" />
+                            </button>
                           </div>
                           <div className="flex gap-1.5 justify-center flex-wrap mb-3">
                             {ROLE_TIPS.map(({ role, icon: Icon, gradient }) => {
@@ -5148,181 +5151,80 @@ export default function AidAgentPage() {
                           ))}
                         </div>{/* end slide 3 */}
 
+                        {/* Slide 4 — What Genie Covers */}
+                        <div className="genie-console-slide px-5 pt-5 pb-5 bg-[#0A1428]/20">
+                          {/* Header */}
+                          <div className="flex items-center justify-center gap-2 mb-4">
+                            <button
+                              type="button"
+                              onClick={() => setSlideIndex(1)}
+                              title="Tips by Role"
+                              className="shrink-0 p-1 rounded-lg text-[#C9A227]/35 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]"
+                            >
+                              <ChevronLeft className="h-4 w-4" />
+                            </button>
+                            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[#D4AF37]/[0.18]" />
+                            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full ring-1 ring-[#D4AF37]/[0.35] shadow-sm shadow-black/30"
+                              style={{ background: "linear-gradient(135deg, rgba(13,20,40,0.95) 0%, rgba(30,20,5,0.90) 100%)" }}>
+                              <Sparkles className="h-3.5 w-3.5 text-[#D4AF37]" />
+                              <span className="text-xs font-bold tracking-[0.12em] uppercase" style={{ color: "#D4AF37" }}>What Genie Covers</span>
+                            </div>
+                            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[#D4AF37]/[0.18]" />
+                          </div>
+
+                          {/* Premium intro strip */}
+                          <div className="mb-3 px-4 py-3 rounded-xl ring-1 ring-[#D4AF37]/[0.18] flex items-center gap-3"
+                            style={{ background: "linear-gradient(135deg, rgba(212,175,55,0.07) 0%, rgba(212,175,55,0.03) 100%)" }}>
+                            <div className="p-2 rounded-xl shrink-0" style={{ background: "rgba(212,175,55,0.12)" }}>
+                              <BookOpen className="h-4 w-4 text-[#D4AF37]" />
+                            </div>
+                            <p className="text-xs text-[#94A3B8]/80 leading-snug">
+                              <span className="text-white/90 font-semibold">16 topic areas</span> · Federal regulations, state aid, audits, litigation &amp; more. Click any topic to ask Genie.
+                            </p>
+                          </div>
+
+                          {/* Topic grid */}
+                          <div className="grid grid-cols-2 gap-1.5 overflow-y-auto" style={{ maxHeight: "min(420px, 50dvh)" }}>
+                            {[
+                              { topic: "34 CFR Parts 600–690",     icon: Scale,        color: "text-sky-300",     ring: "ring-sky-400/[0.22]",    bg: "bg-sky-500/[0.08]"    },
+                              { topic: "HEA Title IV",              icon: Award,        color: "text-violet-300",  ring: "ring-violet-400/[0.22]", bg: "bg-violet-500/[0.08]" },
+                              { topic: "FA Offer Letters",          icon: FileText,     color: "text-emerald-300", ring: "ring-emerald-400/[0.22]",bg: "bg-emerald-500/[0.08]"},
+                              { topic: "R2T4 Calculator",           icon: Calculator,   color: "text-amber-300",   ring: "ring-amber-400/[0.22]",  bg: "bg-amber-500/[0.08]"  },
+                              { topic: "FSA Compliance Audits",     icon: ShieldCheck,  color: "text-rose-300",    ring: "ring-rose-400/[0.22]",   bg: "bg-rose-500/[0.08]"   },
+                              { topic: "ED Program Reviews",        icon: ClipboardList,color: "text-cyan-300",    ring: "ring-cyan-400/[0.22]",   bg: "bg-cyan-500/[0.08]"   },
+                              { topic: "OIG Audits & Investigations",icon: Search,      color: "text-orange-300",  ring: "ring-orange-400/[0.22]", bg: "bg-orange-500/[0.08]" },
+                              { topic: "FAFSA Simplification Act",  icon: Sparkles,     color: "text-indigo-300",  ring: "ring-indigo-400/[0.22]", bg: "bg-indigo-500/[0.08]" },
+                              { topic: "One Big Beautiful Bill",    icon: TrendingUp,   color: "text-violet-300",  ring: "ring-violet-400/[0.22]", bg: "bg-violet-500/[0.08]" },
+                              { topic: "SAVE Plan & Litigation",    icon: Gavel,        color: "text-red-300",     ring: "ring-red-400/[0.22]",    bg: "bg-red-500/[0.08]"    },
+                              { topic: "IRS Education Tax Credits", icon: DollarSign,   color: "text-green-300",   ring: "ring-green-400/[0.22]",  bg: "bg-green-500/[0.08]"  },
+                              { topic: "State Aid (50 states)",     icon: MapPin,       color: "text-teal-300",    ring: "ring-teal-400/[0.22]",   bg: "bg-teal-500/[0.08]"   },
+                              { topic: "SAP Policies",              icon: BookOpen,     color: "text-sky-300",     ring: "ring-sky-400/[0.22]",    bg: "bg-sky-500/[0.08]"    },
+                              { topic: "Loan Repayment & Forgiveness",icon: RefreshCcw, color: "text-emerald-300", ring: "ring-emerald-400/[0.22]",bg: "bg-emerald-500/[0.08]"},
+                              { topic: "529 Plans & Tax Strategy",  icon: PiggyBank,    color: "text-amber-300",   ring: "ring-amber-400/[0.22]",  bg: "bg-amber-500/[0.08]"  },
+                              { topic: "Gainful Employment Rule",   icon: Briefcase,    color: "text-rose-300",    ring: "ring-rose-400/[0.22]",   bg: "bg-rose-500/[0.08]"   },
+                            ].map(({ topic, icon: TopicIcon, color, ring, bg }) => (
+                              <button
+                                key={topic}
+                                type="button"
+                                onClick={() => sendMessage(COVERAGE_TOPIC_PROMPTS[topic] ?? `Tell me about ${topic}.`)}
+                                className={`flex items-center gap-2.5 p-3 rounded-xl ring-1 ${ring} text-left transition-all duration-150 group hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] backdrop-blur-sm`}
+                                style={{ background: "rgba(13,26,50,0.35)" }}
+                              >
+                                <div className={`p-1.5 rounded-lg shrink-0 ${bg} ring-1 ${ring} group-hover:shadow-md transition-all`}>
+                                  <TopicIcon className={`h-3.5 w-3.5 ${color}`} />
+                                </div>
+                                <span className="text-[11px] font-semibold text-white/75 group-hover:text-white leading-tight transition-colors">{topic}</span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>{/* end slide 4 */}
+
                       </div>{/* end genie-console-slider */}
                     </div>{/* end overflow container */}
 
                   </div>{/* end right column */}
 
                 </div>{/* end two-column console */}
-
-                {/* ── Inline chatbox — mobile only (desktop uses persistent footer bar) ── */}
-                <div className="sm:hidden w-full max-w-[1280px] mt-4 px-1 sm:px-2">
-                  <div className="rounded-2xl bg-[#0A1428]/80 backdrop-blur-xl ring-1 ring-[#1E2A4A] px-4 pt-4 pb-4 shadow-xl shadow-black/40">
-                    {/* Prompt label row */}
-                    <div className="flex items-center gap-2 mb-2 px-1">
-                      <GenieBottle className="h-3.5 w-3.5 text-amber-400 shrink-0 genie-icon-shimmer" />
-                      <span className="text-sm font-semibold tracking-wide">
-                        <span className="text-white">ask</span><span className="genie-shimmer-text">Genie</span>
-                      </span>
-                      <div className="h-px flex-1 bg-white/[0.06]" />
-                    </div>
-
-                    {/* Role selector */}
-                    <div className="flex items-center gap-1.5 flex-wrap mb-2.5 px-1">
-                      <span className="text-[10px] text-cyan-400/55 font-semibold tracking-wide mr-0.5 shrink-0">I am a:</span>
-                      {ROLE_OPTIONS.map(({ label, icon: RoleIcon, color, ring, bg }) => (
-                        <button
-                          key={label}
-                          type="button"
-                          aria-pressed={selectedRole === label}
-                          onClick={() => { syncRoles(selectedRole === label ? null : label); if (selectedRole !== label) setSlideFlipped(true); }}
-                          className={`flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ring-1 ${
-                            selectedRole === label
-                              ? `${color} ${bg} ${ring}`
-                              : "text-cyan-300/45 bg-transparent ring-cyan-500/[0.18] hover:text-cyan-200 hover:bg-cyan-500/[0.10] hover:ring-cyan-400/40"
-                          }`}
-                        >
-                          <RoleIcon className="h-2.5 w-2.5 shrink-0" />
-                          {label}
-                        </button>
-                      ))}
-                      {selectedRole && (
-                        <button
-                          type="button"
-                          onClick={() => syncRoles(null)}
-                          className="text-[10px] text-cyan-400/35 hover:text-cyan-300/70 transition-colors ml-0.5"
-                        >
-                          ✕ clear
-                        </button>
-                      )}
-                    </div>
-
-                    {/* Attached file preview */}
-                    {attachedFile && (
-                      <div className="flex items-center gap-2 px-3 py-2 mb-1.5 rounded-xl bg-cyan-500/[0.12] ring-1 ring-cyan-500/[0.28]">
-                        {attachedFile.type === "image" ? (
-                          <ImageIcon className="h-3.5 w-3.5 text-cyan-300 shrink-0" />
-                        ) : attachedFile.type === "audio" ? (
-                          <Mic className="h-3.5 w-3.5 text-rose-300 shrink-0" />
-                        ) : (
-                          <Paperclip className="h-3.5 w-3.5 text-cyan-300 shrink-0" />
-                        )}
-                        <span className="text-xs text-white/80 flex-1 truncate">{attachedFile.name}</span>
-                        <button type="button" onClick={() => setAttachedFile(null)} className="text-white/35 hover:text-white transition-colors">
-                          <X className="h-3.5 w-3.5" />
-                        </button>
-                      </div>
-                    )}
-
-                    {/* Input form */}
-                    <div
-                      className={`rounded-2xl ring-1 focus-within:ring-[#D4AF37]/70 transition-all duration-200 ${!input && !attachedFile ? "genie-chatbox-invite ring-[#D4AF37]/[0.25]" : "ring-[#D4AF37]/55"}`}
-                      style={{ background: "rgba(212,175,55,0.035)" }}
-                    >
-                      <form onSubmit={handleSubmit} className="flex gap-2 items-end px-3 py-2.5">
-                        <div className="flex items-center gap-0.5 shrink-0 mb-0.5">
-                          <button type="button" title={canAccessFeature("document_upload", userTier) ? "Upload document" : "Pro — upload documents"}
-                            onClick={() => canAccessFeature("document_upload", userTier) ? fileInputRef.current?.click() : openUpgrade("document_upload")}
-                            className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? (!input && !attachedFile ? "genie-tool-invite" : "text-cyan-400/55") + " hover:text-cyan-300 hover:bg-cyan-500/[0.18]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
-                            <Paperclip className="h-4 w-4" />
-                          </button>
-                          <button type="button" title={canAccessFeature("document_upload", userTier) ? "Take or upload a photo" : "Pro — upload photos"}
-                            onClick={() => canAccessFeature("document_upload", userTier) ? cameraInputRef.current?.click() : openUpgrade("document_upload")}
-                            className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? (!input && !attachedFile ? "genie-tool-invite" : "text-cyan-400/55") + " hover:text-cyan-300 hover:bg-cyan-500/[0.18]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
-                            <Camera className="h-4 w-4" />
-                          </button>
-                          <button type="button"
-                            title={!canAccessFeature("document_upload", userTier) ? "Pro — voice messages" : isRecording ? "Stop recording" : "Record voice message"}
-                            onClick={!canAccessFeature("document_upload", userTier) ? () => openUpgrade("document_upload") : isRecording ? stopVoiceRecording : startVoiceRecording}
-                            className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
-                              isRecording
-                                ? "text-rose-400 bg-rose-500/20 ring-1 ring-rose-500/40 animate-pulse"
-                                : canAccessFeature("document_upload", userTier)
-                                ? (!input && !attachedFile ? "genie-tool-invite" : "text-cyan-400/55") + " hover:text-cyan-300 hover:bg-cyan-500/[0.18]"
-                                : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"
-                            }`}>
-                            {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-                          </button>
-                        </div>
-                        <div className="flex-1 relative">
-                          {isRecording && voiceTranscript && (
-                            <p className="absolute top-0 left-2 right-2 text-xs text-rose-300/80 italic pointer-events-none truncate">
-                              🎙 {voiceTranscript}
-                            </p>
-                          )}
-                          <textarea
-                            value={input}
-                            onChange={handleInputChange}
-                            onKeyDown={handleKeyDown}
-                            aria-label="Ask Genie a financial aid question"
-                            placeholder={isRecording ? "🎙 Listening… speak your question…" : "Ask about FAFSA, aid offers, R2T4, SAP, or any student aid question…"}
-                            rows={1}
-                            className="w-full resize-none px-2 py-1.5 bg-transparent text-white text-sm placeholder:text-cyan-200/22 focus:outline-none leading-relaxed"
-                            style={{ minHeight: "40px", maxHeight: "160px" }}
-                          />
-                        </div>
-                        {isStreaming ? (
-                          <button
-                            type="button"
-                            onClick={stopStreaming}
-                            title="Stop generating"
-                            className="shrink-0 mb-0.5 flex items-center gap-1.5 px-3 py-2 rounded-xl text-rose-300 text-xs font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
-                            style={{ background: "rgba(244,63,94,0.14)", boxShadow: "0 0 0 1px rgba(244,63,94,0.30)" }}
-                          >
-                            <Square className="h-3.5 w-3.5 fill-current" />
-                            Stop
-                          </button>
-                        ) : (
-                          <button
-                            type="submit"
-                            disabled={(!input.trim() && !attachedFile) || isLoading}
-                            onClick={triggerOrbGold}
-                            className="shrink-0 mb-0.5 flex items-center gap-1.5 px-4 py-2 rounded-xl text-white text-xs font-bold tracking-wide active:scale-95 transition-all duration-150 disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-cyan-400"
-                            style={{
-                              background: "linear-gradient(135deg, #00B8C8 0%, #00D1C9 50%, #0099B8 100%)",
-                              boxShadow: "0 0 0 1px rgba(0,209,201,0.50), 0 2px 16px rgba(0,209,201,0.40), 0 0 32px rgba(0,229,192,0.20), inset 0 1px 0 rgba(255,255,255,0.15)",
-                            }}
-                          >
-                            <GenieBottle className="h-4 w-4 text-amber-200 genie-send-icon" />
-                            Send
-                          </button>
-                        )}
-                      </form>
-                    </div>
-
-                    {/* Footer hints */}
-                    <div className="mt-1 border-t border-white/[0.05] pt-1.5 flex flex-col items-center gap-0.5">
-                      <p className="text-[9px] text-cyan-400/28 text-center leading-snug">
-                        Enter to send · Shift+Enter new line · Verify with FSA Handbook · Unofficial — not affiliated with U.S. Dept. of Education · Built by a 15-year FA professional
-                      </p>
-                      <div className="flex flex-wrap justify-center items-center gap-x-0 gap-y-0.5">
-                        {[
-                          { label: "Plans & Pricing",     href: "/pricing",      cls: "font-semibold text-[#C9A227]/80 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.10] ring-1 ring-[#D4AF37]/[0.25] hover:ring-[#D4AF37]/45" },
-                          { label: "Get the App",         href: "#install",      cls: "font-semibold text-emerald-400/80 hover:text-emerald-300 hover:bg-emerald-500/[0.12] ring-1 ring-emerald-500/[0.28] hover:ring-emerald-400/50" },
-                          { label: "FAQ",                 href: "/pricing#faq",  cls: "font-medium text-white/35 hover:text-cyan-200/80 hover:bg-white/[0.06]" },
-                          { label: "Support Dev",         href: "/support",      cls: "font-medium text-white/35 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
-                          { label: "@one27__",            href: "https://x.com/one27__", cls: "font-semibold text-[#C9A227]/80 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.08] ring-1 ring-[#D4AF37]/20 hover:ring-[#D4AF37]/40" },
-                          { label: "Terms & Privacy",     href: "/legal",        cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
-                          { label: "School DPA",          href: "/dpa",          cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
-                          { label: "About",               href: "/about",        cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
-                          { label: "For Schools",         href: "/institutions", cls: "font-semibold text-cyan-400/75 hover:text-cyan-300 hover:bg-cyan-500/[0.12] ring-1 ring-cyan-500/[0.20] hover:ring-cyan-400/40" },
-                          { label: "Do Not Sell My Info", href: "/legal#ccpa",   cls: "font-medium text-white/25 hover:text-cyan-200/60 hover:bg-cyan-500/[0.06]" },
-                        ].map(({ label, href, cls }, i, arr) => (
-                          <span key={label} className="contents">
-                            {href === "#install"
-                              ? <button type="button" onClick={() => setShowAppModal(true)} className={`px-1.5 py-px rounded-full text-[9px] transition-all duration-150 ${cls}`}>{label}</button>
-                              : <a href={href} {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})} className={`px-1.5 py-px rounded-full text-[9px] transition-all duration-150 ${cls}`}>{label}</a>
-                            }
-                            {i < arr.length - 1 && <span className="text-white/10 text-[9px] select-none px-0.5">·</span>}
-                          </span>
-                        ))}
-                      </div>
-                      <p className="text-[9px] text-center text-cyan-500/22">
-                        © 2026 Genie Student Aid Hub | Developed by One27 | All Rights Reserved
-                      </p>
-                    </div>
-                  </div>
-                </div>
 
                 </div>{/* end z-[2] wrapper */}
               </div>
@@ -5469,7 +5371,7 @@ export default function AidAgentPage() {
                     key={label}
                     type="button"
                     aria-pressed={selectedRole === label}
-                    onClick={() => { syncRoles(selectedRole === label ? null : label); if (selectedRole !== label) setSlideFlipped(true); }}
+                    onClick={() => { syncRoles(selectedRole === label ? null : label); if (selectedRole !== label) setSlideIndex(1); }}
                     className={`flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ring-1 ${
                       selectedRole === label
                         ? `${color} ${bg} ${ring}`
