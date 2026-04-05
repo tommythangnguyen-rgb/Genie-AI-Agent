@@ -274,6 +274,9 @@ const QUICK_ACTIONS_BY_ROLE = [
       { icon: ClipboardList, label: "34 CFR Review", description: "Regulatory citations & findings", q: "What are the specific 34 CFR regulatory citations I should reference when auditing Return to Title IV compliance, and what GAGAS finding format should I use?" },
       { icon: BookOpen, label: "GAGAS Finding Template", description: "Criteria, condition, cause, effect", q: "Generate a GAGAS-format finding documentation template for an R2T4 compliance finding with criteria, condition, cause, effect, and recommendation." },
       { icon: Calculator, label: "R2T4 Testing Checklist", description: "Attribute-level audit steps", q: "Give me a complete testing attribute checklist for auditing R2T4 calculations including all key items to verify." },
+      { icon: FileText, label: "Single Audit Requirements", description: "Uniform Guidance & major programs", q: "Walk me through Single Audit Act requirements for higher education under OMB Uniform Guidance — how is the Type A/B threshold calculated, how are major programs determined, and what is required for Title IV?" },
+      { icon: ShieldCheck, label: "OIG Audit Alerts", description: "Fraud indicators and red flags", q: "What are the current OIG audit alerts and fraud risk indicators in financial aid? What red flags in student files should trigger additional testing procedures?" },
+      { icon: Hash, label: "90/10 Audit Steps", description: "Revenue percentage calculation test", q: "What are the specific audit steps for testing an institution's 90/10 calculation — what revenues to include or exclude, what documentation to verify, and what ED guidance applies?" },
     ],
     more: [
       { icon: FileText, label: "Single Audit Requirements", description: "Uniform Guidance & major programs", q: "Walk me through Single Audit Act requirements for higher education under OMB Uniform Guidance — how is the Type A/B threshold calculated, how are major programs determined, and what is required for Title IV?" },
@@ -4094,7 +4097,7 @@ export default function AidAgentPage() {
         {/* ── Left Dropdown — Students & Parents ── */}
         <aside
           className={`${showMobileLeft ? "flex" : "hidden"} fixed z-[60] flex-col rounded-2xl overflow-hidden border border-cyan-500/[0.15] shadow-2xl shadow-black/70 backdrop-blur-2xl`}
-          style={{ top: "84px", left: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(6,18,40,0.97) 0%, rgba(8,22,48,0.96) 50%, rgba(6,16,36,0.97) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.70), 0 0 0 1px rgba(6,182,212,0.12), inset 0 1px 0 rgba(255,255,255,0.04)" }}
+          style={{ top: "84px", left: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(6,18,40,0.62) 0%, rgba(8,22,48,0.58) 50%, rgba(6,16,36,0.62) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.70), 0 0 0 1px rgba(6,182,212,0.18), inset 0 1px 0 rgba(255,255,255,0.06)" }}
         >
           {howItWorksActive === "panels" && <div className="hiw-scan-overlay" aria-hidden="true" />}
 
@@ -4105,8 +4108,8 @@ export default function AidAgentPage() {
                 <GraduationCap className="h-4 w-4 text-white" />
               </div>
               <div>
-                <p className="text-[8px] font-bold text-cyan-500/65 uppercase tracking-widest">Student Aid Hub</p>
-                <p className="text-sm font-semibold bg-gradient-to-r from-cyan-300 to-teal-300 bg-clip-text text-transparent">Students &amp; Parents</p>
+                <p className="text-[8px] font-bold text-white/70 uppercase tracking-widest">Student Aid Hub</p>
+                <p className="text-sm font-black tracking-tight leading-none whitespace-nowrap select-none" style={{ background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-teal-shimmer 3.5s linear infinite" }}>Students &amp; Parents</p>
               </div>
             </div>
             <button onClick={() => setShowMobileLeft(false)} className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all">
@@ -4129,7 +4132,7 @@ export default function AidAgentPage() {
                 return (
                   <div>
                     <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                      <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><GraduationCap className="h-3 w-3 shrink-0"/>Students Quick Actions</p>
+                      <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><GraduationCap className="h-3 w-3 shrink-0"/>Students Quick Actions</p>
                       <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                     </div>
                     {expanded && <div className="mt-2 grid grid-cols-3 gap-1.5">
@@ -4156,7 +4159,7 @@ export default function AidAgentPage() {
                 return (
                   <div>
                     <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                      <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Users className="h-3 w-3 shrink-0"/>Parents Quick Actions</p>
+                      <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Users className="h-3 w-3 shrink-0"/>Parents Quick Actions</p>
                       <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                     </div>
                     {expanded && <div className="mt-2 grid grid-cols-3 gap-1.5">
@@ -4185,7 +4188,7 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><BookOpen className="h-3 w-3 shrink-0"/>Federal Student Aid</p>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><BookOpen className="h-3 w-3 shrink-0"/>Federal Student Aid</p>
                         <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
@@ -4211,7 +4214,7 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><FileText className="h-3 w-3 shrink-0"/>Resume Assistance</p>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><FileText className="h-3 w-3 shrink-0"/>Resume Assistance</p>
                         <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
@@ -4237,7 +4240,7 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Award className="h-3 w-3 shrink-0"/>Scholarship Search Engines</p>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Award className="h-3 w-3 shrink-0"/>Scholarship Search Engines</p>
                         <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
@@ -4263,7 +4266,7 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Briefcase className="h-3 w-3 shrink-0"/>Internship / Career Search</p>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Briefcase className="h-3 w-3 shrink-0"/>Internship / Career Search</p>
                         <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
@@ -4289,7 +4292,7 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Briefcase className="h-3 w-3 shrink-0"/>Student Job Search</p>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Briefcase className="h-3 w-3 shrink-0"/>Student Job Search</p>
                         <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
@@ -4315,7 +4318,7 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><DollarSign className="h-3 w-3 shrink-0"/>Financial Literacy</p>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><DollarSign className="h-3 w-3 shrink-0"/>Financial Literacy</p>
                         <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
@@ -4341,7 +4344,7 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Receipt className="h-3 w-3 shrink-0"/>Private Student Loans</p>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Receipt className="h-3 w-3 shrink-0"/>Private Student Loans</p>
                         <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
@@ -4367,7 +4370,7 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 shrink-0"/>Students&apos; Bills &amp; Consumer Rights</p>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 shrink-0"/>Students&apos; Bills &amp; Consumer Rights</p>
                         <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
@@ -4393,7 +4396,7 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Hash className="h-3 w-3 shrink-0"/>Mental Health Resources</p>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Hash className="h-3 w-3 shrink-0"/>Mental Health Resources</p>
                         <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
@@ -4419,7 +4422,7 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Lightbulb className="h-3 w-3 shrink-0"/>AI Literacy</p>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Lightbulb className="h-3 w-3 shrink-0"/>AI Literacy</p>
                         <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
@@ -4445,7 +4448,7 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Sparkles className="h-3 w-3 shrink-0"/>Religion &amp; Faith</p>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Sparkles className="h-3 w-3 shrink-0"/>Religion &amp; Faith</p>
                         <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
@@ -4471,7 +4474,7 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><CheckCircle className="h-3 w-3 shrink-0"/>Volunteer &amp; Community</p>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><CheckCircle className="h-3 w-3 shrink-0"/>Volunteer &amp; Community</p>
                         <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
@@ -4497,7 +4500,7 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 shrink-0"/>VA Resources</p>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 shrink-0"/>VA Resources</p>
                         <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
@@ -4520,7 +4523,7 @@ export default function AidAgentPage() {
                   return (
                 <div className="mb-1">
                   <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                    <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Library className="h-3 w-3 shrink-0"/>Video Showcase</p>
+                    <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Library className="h-3 w-3 shrink-0"/>Video Showcase</p>
                     <ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} />
                   </div>
                   {expanded && <div className="mt-2 mb-2 grid grid-cols-2 gap-2">
@@ -5603,7 +5606,7 @@ export default function AidAgentPage() {
         {/* ── Right Dropdown — Administrators, Leaders & Auditors ── */}
         <aside
           className={`${showMobileRight ? "flex" : "hidden"} fixed z-[60] flex-col rounded-2xl overflow-hidden border border-violet-500/[0.15] shadow-2xl shadow-black/70 backdrop-blur-2xl`}
-          style={{ top: "84px", right: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(8,14,38,0.97) 0%, rgba(10,16,44,0.96) 50%, rgba(7,12,36,0.97) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.70), 0 0 0 1px rgba(139,92,246,0.12), inset 0 1px 0 rgba(255,255,255,0.04)" }}
+          style={{ top: "84px", right: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(8,14,38,0.62) 0%, rgba(10,16,44,0.58) 50%, rgba(7,12,36,0.62) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.70), 0 0 0 1px rgba(139,92,246,0.20), inset 0 1px 0 rgba(255,255,255,0.06)" }}
         >
           {howItWorksActive === "panels" && <div className="hiw-scan-overlay" aria-hidden="true" />}
 
@@ -5614,8 +5617,8 @@ export default function AidAgentPage() {
                 <Zap className="h-4 w-4 text-white" />
               </div>
               <div>
-                <p className="text-[8px] font-bold text-cyan-500/65 uppercase tracking-widest">Student Aid Hub</p>
-                <p className="text-sm font-semibold bg-gradient-to-r from-cyan-300 to-teal-300 bg-clip-text text-transparent">Administrators, Leaders &amp; Auditors</p>
+                <p className="text-[8px] font-bold text-white/70 uppercase tracking-widest">Student Aid Hub</p>
+                <p className="text-sm font-black tracking-tight leading-none whitespace-nowrap select-none" style={{ background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-teal-shimmer 3.5s linear infinite" }}>Administrators, Leaders &amp; Auditors</p>
               </div>
             </div>
             <button onClick={() => setShowMobileRight(false)} className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all">
@@ -5638,7 +5641,7 @@ export default function AidAgentPage() {
                 return (
                   <div>
                     <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                      <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><ClipboardList className="h-3 w-3 shrink-0"/>Administrators Quick Actions</p>
+                      <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><ClipboardList className="h-3 w-3 shrink-0"/>Administrators Quick Actions</p>
                       <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                     </div>
                     {expanded && <div className="mt-2 grid grid-cols-3 gap-1.5">
@@ -5665,7 +5668,7 @@ export default function AidAgentPage() {
                 return (
                   <div>
                     <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                      <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><TrendingUp className="h-3 w-3 shrink-0"/>Leaders Quick Actions</p>
+                      <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><TrendingUp className="h-3 w-3 shrink-0"/>Leaders Quick Actions</p>
                       <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                     </div>
                     {expanded && <div className="mt-2 grid grid-cols-3 gap-1.5">
@@ -5692,7 +5695,7 @@ export default function AidAgentPage() {
                 return (
                   <div>
                     <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                      <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 shrink-0"/>Auditors Quick Actions</p>
+                      <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 shrink-0"/>Auditors Quick Actions</p>
                       <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                     </div>
                     {expanded && <div className="mt-2 grid grid-cols-3 gap-1.5">
@@ -5722,7 +5725,7 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><BookOpen className="h-3 w-3 shrink-0"/>Administrators &amp; Advisors</p>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><BookOpen className="h-3 w-3 shrink-0"/>Administrators &amp; Advisors</p>
                         <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
@@ -5749,7 +5752,7 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Scale className="h-3 w-3 shrink-0"/>Leaders, Auditors &amp; Compliance</p>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Scale className="h-3 w-3 shrink-0"/>Leaders, Auditors &amp; Compliance</p>
                         <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
@@ -5775,7 +5778,7 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Landmark className="h-3 w-3 shrink-0"/>Private Loan Administrator Portals</p>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Landmark className="h-3 w-3 shrink-0"/>Private Loan Administrator Portals</p>
                         <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
@@ -5802,7 +5805,7 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Hash className="h-3 w-3 shrink-0"/>Health Wellness Support</p>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Hash className="h-3 w-3 shrink-0"/>Health Wellness Support</p>
                         <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
@@ -5828,7 +5831,7 @@ export default function AidAgentPage() {
                   return (
                     <div className="mb-1">
                       <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 shrink-0"/>VA Resources</p>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 shrink-0"/>VA Resources</p>
                         <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                       </div>
                       {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
@@ -5851,7 +5854,7 @@ export default function AidAgentPage() {
                   return (
                 <div className="mb-1">
                   <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                    <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Library className="h-3 w-3 shrink-0"/>Video Showcase</p>
+                    <p className="text-[8.5px] font-bold uppercase tracking-widest text-white flex items-center gap-1.5"><Library className="h-3 w-3 shrink-0"/>Video Showcase</p>
                     <ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} />
                   </div>
                   {expanded && <div className="mt-2 mb-2 grid grid-cols-2 gap-2">
