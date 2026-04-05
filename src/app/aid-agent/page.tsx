@@ -4635,8 +4635,6 @@ export default function AidAgentPage() {
                 {isAuthenticated ? (
                   <Link
                     href="/account"
-                    target="_blank"
-                    rel="noopener noreferrer"
                     title={userEmail ?? "Your account"}
                     className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#D4AF37]/[0.12] ring-1 ring-[#D4AF37]/[0.35] text-[#D4AF37] hover:bg-[#D4AF37]/[0.22] hover:text-white transition-colors text-xs font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]"
                   >
@@ -4656,8 +4654,6 @@ export default function AidAgentPage() {
                     </button>
                     <Link
                       href="/account"
-                      target="_blank"
-                      rel="noopener noreferrer"
                       className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#D4AF37]/[0.08] ring-1 ring-[#D4AF37]/[0.22] text-[#C9A227]/70 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.14] hover:shadow-[0_0_10px_rgba(212,175,55,0.20)] transition-all duration-150 text-xs font-semibold focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60"
                     >
                       <UserCircle className="h-5 w-5 shrink-0" />

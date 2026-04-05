@@ -2,6 +2,7 @@
 
 import { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import {
   Home,
@@ -14,6 +15,7 @@ import {
   AlertCircle,
   ExternalLink,
   RefreshCw,
+  LogOut,
 } from "lucide-react";
 import { AuthDialog } from "@/components/auth/AuthDialog";
 
@@ -61,9 +63,11 @@ const STATUS_COLORS: Record<string, string> = {
 
 function AccountPageInner() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const showSuccess = searchParams.get("success") === "true";
 
   const [status, setStatus] = useState<AccountStatus | null>(null);
+  const [signOutLoading, setSignOutLoading] = useState(false);
   const [members, setMembers] = useState<Member[]>([]);
   const [loadingStatus, setLoadingStatus] = useState(true);
   const [portalLoading, setPortalLoading] = useState(false);
@@ -146,6 +150,12 @@ function AccountPageInner() {
     setAddLoading(false);
   }
 
+  async function handleSignOut() {
+    setSignOutLoading(true);
+    await fetch("/api/auth/signout", { method: "POST" });
+    router.push("/aid-agent");
+  }
+
   async function removeMember(memberId: string) {
     setRemoveLoading(memberId);
     await fetch("/api/account/members", {
@@ -180,7 +190,19 @@ function AccountPageInner() {
             <ChevronRight className="h-3.5 w-3.5 text-white/30" />
             <span className="text-white/50 text-sm">My Account</span>
           </div>
-          <div className="w-24" />
+          {status?.authenticated ? (
+            <button
+              onClick={handleSignOut}
+              disabled={signOutLoading}
+              title="Sign out"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-white/40 hover:text-red-400 hover:bg-red-400/[0.10] transition-colors text-xs font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400 disabled:opacity-50"
+            >
+              <LogOut className="h-4 w-4" />
+              <span className="hidden sm:inline">{signOutLoading ? "Signing out…" : "Sign Out"}</span>
+            </button>
+          ) : (
+            <div className="w-24" />
+          )}
         </div>
       </header>
 
@@ -336,6 +358,17 @@ function AccountPageInner() {
                     Upgrade to get more questions per day and multi-seat access for your team.
                   </p>
                 )}
+
+                <div className="mt-5 pt-5 border-t border-white/[0.08]">
+                  <button
+                    onClick={handleSignOut}
+                    disabled={signOutLoading}
+                    className="flex items-center gap-2 px-4 py-2 rounded-lg text-white/50 hover:text-red-400 hover:bg-red-400/[0.10] ring-1 ring-white/[0.08] hover:ring-red-400/30 text-sm font-medium transition-all disabled:opacity-50"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    {signOutLoading ? "Signing out…" : "Sign Out"}
+                  </button>
+                </div>
               </div>
             </section>
 
