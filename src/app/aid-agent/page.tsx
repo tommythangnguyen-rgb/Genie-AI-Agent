@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo } from "react";
 import Link from "next/link";
 import { MarkdownRenderer } from "@/components/chat/MarkdownRenderer";
 import { AppInstallPrompt } from "@/components/AppInstallPrompt";
@@ -3200,6 +3200,8 @@ export default function AidAgentPage() {
   const [howItWorksActive, setHowItWorksActive] = useState<"role" | "chatbox" | "panels" | "guidance" | null>(null);
   const [slideFlipped, setSlideFlipped] = useState(false);
   const [isDark, setIsDark] = useState(false);
+  // Daily rotation offset — shifts which tips appear first, updates each day
+  const tipsRotationOffset = useMemo(() => Math.floor(Date.now() / 86400000), []);
   const [showCookieNotice, setShowCookieNotice] = useState(false);
   const [attachedFile, setAttachedFile] = useState<AttachedFile | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -4058,7 +4060,7 @@ export default function AidAgentPage() {
 
               <p className="text-xs text-white/30 leading-relaxed">
                 By clicking "I Accept" you agree to our{" "}
-                <Link href="/legal" target="_blank" className="text-indigo-400 hover:text-indigo-300 underline underline-offset-2 transition-colors">
+                <Link href="/legal" className="text-indigo-400 hover:text-indigo-300 underline underline-offset-2 transition-colors">
                   Terms of Service &amp; Privacy Policy
                 </Link>
                 . Powered by Claude AI (Anthropic) in compliance with Anthropic's usage policies.
@@ -4888,7 +4890,7 @@ export default function AidAgentPage() {
                 <div className="relative w-full flex flex-col items-center" style={{ zIndex: 2 }}>
 
                 {/* ── Two-column console ── */}
-                <div className="w-full max-w-[1280px] flex flex-col md:flex-row gap-3 md:gap-5 items-start px-1 sm:px-2">
+                <div className="w-full max-w-[1280px] flex flex-col md:flex-row gap-3 md:gap-5 items-stretch px-1 sm:px-2">
 
                   {/* ══ LEFT — Slide 1: Hero & How It Works ══ */}
                   <div className="w-full md:w-[46%] flex flex-col">
@@ -4930,18 +4932,18 @@ export default function AidAgentPage() {
                     </div>
 
                     {/* How It Works */}
-                    <div className="w-full mb-3">
+                    <div className="w-full flex-1 flex flex-col mb-3">
                       <div className="flex items-center gap-2 mb-3">
                         <div className="h-px flex-1 bg-gradient-to-r from-transparent to-cyan-500/[0.15]" />
                         <span className="text-xs font-bold uppercase tracking-[0.16em] text-cyan-400/60 px-2">How it works</span>
                         <div className="h-px flex-1 bg-gradient-to-l from-transparent to-cyan-500/[0.15]" />
                       </div>
-                      <div className="grid grid-cols-2 gap-3">
+                      <div className="flex-1 grid grid-cols-2 gap-3 auto-rows-fr">
                         {([
-                          { icon: Sparkles,    step: "1", title: "Choose Your Role",  body: "Pick your role for tailored guidance",      color: "text-violet-400", ring: "ring-[#D4AF37]/[0.28]", bg: "bg-violet-500/[0.08]", glowColor: "rgba(139,92,246,0.35)", activeKey: "role"     as const },
-                          { icon: Send,        step: "2", title: "Ask Anything",       body: "Type or speak any student aid question",   color: "text-cyan-400",   ring: "ring-[#D4AF37]/[0.28]",  bg: "bg-cyan-500/[0.08]",   glowColor: "rgba(6,182,212,0.35)",  activeKey: "chatbox"  as const },
-                          { icon: Library,     step: "3", title: "Explore the Hub",    body: "500+ curated resources & tools",          color: "text-sky-400",    ring: "ring-[#D4AF37]/[0.28]",  bg: "bg-sky-500/[0.08]",    glowColor: "rgba(56,189,248,0.35)", activeKey: "panels"   as const },
-                          { icon: CheckCircle, step: "4", title: "Get Clear Guidance", body: "Plain English answers, always free",       color: "text-emerald-400",ring: "ring-[#D4AF37]/[0.28]", bg: "bg-emerald-500/[0.08]",glowColor: "rgba(16,185,129,0.35)", activeKey: "guidance" as const },
+                          { icon: Sparkles,    step: "1", title: "Choose Your Role",  body: "Select Student, Parent, Admin, Leader, or Auditor for role-specific prompts, resources, and tailored guidance.",      color: "text-violet-400", ring: "ring-[#D4AF37]/[0.28]", bg: "bg-violet-500/[0.08]", glowColor: "rgba(139,92,246,0.35)", activeKey: "role"     as const },
+                          { icon: Send,        step: "2", title: "Ask Anything",       body: "Type any student aid question in plain English. Upload documents, letters, or forms for instant AI analysis.",   color: "text-cyan-400",   ring: "ring-[#D4AF37]/[0.28]",  bg: "bg-cyan-500/[0.08]",   glowColor: "rgba(6,182,212,0.35)",  activeKey: "chatbox"  as const },
+                          { icon: Library,     step: "3", title: "Explore the Hub",    body: "Access 500+ curated resources — scholarships, VA benefits, loan tools, federal aid portals, and institutional guides.",          color: "text-sky-400",    ring: "ring-[#D4AF37]/[0.28]",  bg: "bg-sky-500/[0.08]",    glowColor: "rgba(56,189,248,0.35)", activeKey: "panels"   as const },
+                          { icon: CheckCircle, step: "4", title: "Get Clear Guidance", body: "Receive plain-English answers grounded in 34 CFR, FSA Handbook, and HEA Title IV. Free, always — no jargon.",       color: "text-emerald-400",ring: "ring-[#D4AF37]/[0.28]", bg: "bg-emerald-500/[0.08]",glowColor: "rgba(16,185,129,0.35)", activeKey: "guidance" as const },
                         ] as const).map(({ icon: Icon, step, title, body, color, ring, bg, glowColor, activeKey }) => (
                           <button
                             key={step}
@@ -5122,8 +5124,8 @@ export default function AidAgentPage() {
                                   <p className="text-sm text-white/65 leading-tight mt-0.5">Click any tip to auto-send to Genie</p>
                                 </div>
                               </div>
-                              <div className="divide-y divide-white/[0.05] max-h-[480px] overflow-y-auto">
-                                {[...tips].reverse().slice(0, 8).map(({ text, prompt }, i) => (
+                              <div className="divide-y divide-white/[0.05] overflow-y-auto" style={{ maxHeight: "min(520px, 55dvh)" }}>
+                                {((() => { const offset = tipsRotationOffset % tips.length; return [...tips.slice(offset), ...tips.slice(0, offset)]; })()).map(({ text, prompt }, i) => (
                                   <button
                                     key={i}
                                     onClick={() => sendMessage(prompt)}
@@ -5300,7 +5302,7 @@ export default function AidAgentPage() {
                           { label: "Do Not Sell My Info", href: "/legal#ccpa",   cls: "font-medium text-white/25 hover:text-cyan-200/60 hover:bg-cyan-500/[0.06]" },
                         ].map(({ label, href, cls }, i, arr) => (
                           <span key={label} className="contents">
-                            <a href={href} target="_blank" rel="noopener noreferrer" className={`px-1.5 py-px rounded-full text-[9px] transition-all duration-150 ${cls}`}>{label}</a>
+                            <a href={href} {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})} className={`px-1.5 py-px rounded-full text-[9px] transition-all duration-150 ${cls}`}>{label}</a>
                             {i < arr.length - 1 && <span className="text-white/10 text-[9px] select-none px-0.5">·</span>}
                           </span>
                         ))}
@@ -6067,9 +6069,9 @@ export default function AidAgentPage() {
               <p className="text-xs text-white/70 leading-relaxed">
                 Genie uses essential session cookies only. We do not sell or share your personal information.
                 See our{" "}
-                <Link href="/legal" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 text-indigo-400 hover:text-indigo-300 transition-colors">Privacy Policy</Link>
+                <Link href="/legal" className="underline underline-offset-2 text-indigo-400 hover:text-indigo-300 transition-colors">Privacy Policy</Link>
                 {" "}for details.{" "}
-                <Link href="/legal#ccpa" target="_blank" rel="noopener noreferrer" className="underline underline-offset-2 text-indigo-400/70 hover:text-indigo-300 transition-colors">Do Not Sell My Personal Information</Link>.
+                <Link href="/legal#ccpa" className="underline underline-offset-2 text-indigo-400/70 hover:text-indigo-300 transition-colors">Do Not Sell My Personal Information</Link>.
               </p>
             </div>
             <button
