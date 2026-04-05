@@ -5103,7 +5103,7 @@ export default function AidAgentPage() {
                         className="font-bold tracking-[-0.005em] leading-snug text-[#94A3B8]/70 text-center md:text-left"
                         style={{ fontSize: "clamp(0.9rem, 2vw, 1.1rem)" }}
                       >
-                        Plain English answers · any school or institution · always free
+                        Connecting families with financial aid offices — quickly and reliably.
                       </p>
                     </div>
 
