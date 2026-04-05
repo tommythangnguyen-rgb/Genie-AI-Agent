@@ -53,7 +53,7 @@ import {
   LogIn,
   UserCircle,
   RotateCcw,
-  Music,
+  ChevronDown,
 } from "lucide-react";
 
 // ─── Genie Bottle Logo ────────────────────────────────────────────────────────
@@ -125,6 +125,16 @@ type LinkItem = { name: string; url: string };
 type SubcatItem = { subcat: string };
 type MaybeSubcat = LinkItem | SubcatItem;
 function isSubcat(item: MaybeSubcat): item is SubcatItem { return "subcat" in item; }
+function parseSections(items: MaybeSubcat[]): { title: string; links: LinkItem[] }[] {
+  const out: { title: string; links: LinkItem[] }[] = [];
+  let cur: { title: string; links: LinkItem[] } | null = null;
+  for (const item of items) {
+    if (isSubcat(item)) { if (cur) out.push(cur); cur = { title: item.subcat, links: [] }; }
+    else if (cur) cur.links.push(item as LinkItem);
+  }
+  if (cur) out.push(cur);
+  return out;
+}
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 
@@ -180,118 +190,73 @@ const QUICK_QUESTIONS = [
 ];
 
 const QUICK_ACTIONS_BY_ROLE = [
-  // ── Administrators first — highest daily FA office usage ──
   {
     role: "Administrators",
     color: "text-emerald-400",
     items: [
-      { icon: BookOpen, label: "FA Offer Letter (School)", description: "Generate for any institution", q: "Generate a financial aid offer letter for a dependent freshman attending UCLA (in-state, California resident) with a family AGI of $55,000, living on-campus, for the 2025-26 award year." },
-      { icon: ClipboardList, label: "R2T4 Calculator", description: "Tentative pre-withdrawal calc", q: "Generate a tentative R2T4 calculation for a student considering withdrawal. The semester started August 26, ends December 13 (112 days). The student plans to withdraw October 10. Scheduled breaks: Labor Day (Sept 1-2, 2 days — not qualifying). Aid disbursed: Pell $3,698, Subsidized Loan $1,750, Unsubsidized Loan $1,000. Institutional charges: $9,500 tuition and fees." },
-      { icon: Calculator, label: "SAP Policy", description: "Required policy components", q: "What are the required components of a Satisfactory Academic Progress policy?" },
-      { icon: ShieldCheck, label: "FSA Audit Prep", description: "Common findings & readiness", q: "Walk me through the most common FSA audit findings and how to prepare our financial aid office for an ED program review." },
+      { icon: Hash, label: "Excel Help", description: "Troubleshoot issues & build sheets", q: "I need help with an Excel issue in my financial aid office — help me troubleshoot a formula, build a spreadsheet, or organize data more effectively." },
+      { icon: ClipboardList, label: "Generate R2T4", description: "Tentative calc from uploaded docs", q: "Help me generate a tentative Return to Title IV (R2T4) calculation. I'll provide the student's withdrawal details — walk me through the full calculation step by step." },
+      { icon: FileText, label: "FA Offer Letter", description: "Estimated letter with FAFSA data", q: "Generate an estimated financial aid offer letter for a student at our school using FAFSA data and institutional aid. Tell me what information you need to produce it." },
+      { icon: SquarePen, label: "Draft an Email", description: "Clear, professional FA communication", q: "Help me write a professional email for a financial aid matter — I'll describe the situation and you can draft something clear and appropriate." },
     ],
     more: [
-      { icon: FileText, label: "Professional Judgment", description: "Dependency & cost adjustments", q: "When can a financial aid administrator exercise professional judgment to adjust a student's cost of attendance or EFC/SAI? Walk me through the regulatory basis and documentation requirements." },
-      { icon: CheckCircle, label: "Dependency Override", description: "Criteria and documentation", q: "What are the acceptable circumstances for granting a dependency override, and what documentation is required under 34 CFR 668.2?" },
-      { icon: ClipboardList, label: "Verification Guide", description: "Process, tolerances & tracking", q: "Walk me through the complete verification process: which students must be selected, what documents to collect, verification tolerances, and how to document corrections." },
-      { icon: BookOpen, label: "Entrance Counseling", description: "Compliance requirements", q: "What are the regulatory requirements for student loan entrance counseling — who must complete it, what topics must be covered, and how must it be documented?" },
-      { icon: FileText, label: "Exit Counseling", description: "Requirements & timing", q: "What are the exit counseling requirements for student loan borrowers withdrawing or graduating, including timing and content requirements?" },
-      { icon: Hash, label: "Consortium Agreements", description: "Dual enrollment aid processing", q: "How do consortium agreements work for financial aid purposes? What must be included, how is enrollment determined, and who is responsible for R2T4?" },
-      { icon: Scale, label: "Study Abroad Aid", description: "Eligibility and COA adjustments", q: "How is financial aid processed for students studying abroad? What COA adjustments are allowable and what documentation is required?" },
-      { icon: Calculator, label: "Summer Aid Eligibility", description: "Rules after FAFSA Simplification", q: "What are the rules for awarding aid during summer terms, and how did FAFSA Simplification affect summer Pell Grant eligibility?" },
-      { icon: Landmark, label: "Campus-Based Aid", description: "FSEOG, FWS, and Perkins", q: "Walk me through the campus-based aid programs — FSEOG, Federal Work-Study, and Perkins Loan wind-down — including allocation, matching requirements, and reporting." },
-      { icon: Award, label: "TEACH Grant", description: "Requirements and conversion rules", q: "Explain the TEACH Grant program requirements, the service obligation, and under what circumstances it converts to an unsubsidized Direct Loan." },
-      { icon: DollarSign, label: "Direct Loan Limits", description: "Annual and aggregate amounts", q: "What are the current annual and aggregate Direct Loan limits for dependent undergraduates, independent undergraduates, and graduate students for 2024-25 and 2025-26?" },
-      { icon: FileText, label: "Cost of Attendance", description: "Allowable components by category", q: "What components may be included in a student's cost of attendance under 34 CFR 472, and what special allowances exist for transportation, personal computers, and childcare?" },
-      { icon: Scale, label: "Disbursement Rules", description: "Timing, holds, and late disbursements", q: "What are the disbursement timing requirements for Title IV funds, including the 30-day rule for first-year first-time borrowers and late disbursement rules?" },
-      { icon: Receipt, label: "Credit Balance Procedures", description: "Timing and student notification", q: "What are the requirements for paying credit balances to students, including timing, student authorization for institutional holding, and permissible institutional charges?" },
-      { icon: TrendingUp, label: "Conflicting Information", description: "Resolution and documentation", q: "How should a financial aid administrator handle conflicting information in a student's file, and what documentation is required under 34 CFR 668.16(f)?" },
+      { icon: Users, label: "Address a Concern", description: "Student or office issue guidance", q: "Help me address a student concern or internal office issue — I'll describe the situation and you can help me draft a response or recommend a course of action." },
+      { icon: CheckCircle, label: "Fact Check", description: "Verify a regulation or procedure", q: "Help me fact-check something or verify my memory on a regulation, policy, or procedure. I'll share what I think I know and you can confirm or correct it." },
+      { icon: Printer, label: "Create a Calendar", description: "Day, week, month, or year printout", q: "Create a calendar printout for my day, week, month, or year. I'll specify the dates, deadlines, and events to include." },
+      { icon: Zap, label: "Student-Facing Session", description: "Interactive UI for appointments", q: "I'm preparing for a student-facing appointment. Help me set up interactive prompts or talking points so the student can engage with the information during our session." },
     ],
   },
   {
     role: "Students",
     color: "text-sky-400",
     items: [
-      { icon: BookOpen, label: "FA Offer Letter", description: "Decode your award letter", q: "I received my financial aid offer letter — can you explain what each award means (grants, scholarships, loans, work-study) and help me understand my true cost after aid?" },
-      { icon: Scale, label: "FAFSA Simplification", description: "EFC → SAI and new rules", q: "What are the biggest changes under the FAFSA Simplification Act effective 2024-25, especially the switch from EFC to SAI and the new divorced parent rule?" },
-      { icon: Users, label: "School Comparison", description: "Ivy, public, CC, trade schools", q: "Compare financial aid, costs, and admission processes across Ivy League, public universities, community colleges, and trade schools for a first-generation student from a low-income family." },
-      { icon: Receipt, label: "Education Tax Credits", description: "AOTC, LLC, and interactions", q: "Explain the American Opportunity Tax Credit and Lifetime Learning Credit — who qualifies, how much can they receive, and how does it interact with scholarships?" },
+      { icon: FileText, label: "Decode My Award Letter", description: "Upload & understand your FA offer", q: "I received my financial aid award letter — can you decode it for me? Explain what each award means (grants, scholarships, loans, work-study), my true out-of-pocket cost, and what I should accept or decline." },
+      { icon: Users, label: "Compare Schools", description: "Side-by-side cost & aid breakdown", q: "Help me compare the schools I'm considering — break down tuition, fees, average financial aid, net price, and outcomes so I can make the best decision." },
+      { icon: Calculator, label: "Estimate My FA Offer", description: "Projected award for any school", q: "Can you estimate what my financial aid offer letter might look like for a school or program I'm considering? Tell me what info you need and give me a projected breakdown." },
+      { icon: ClipboardList, label: "Build a Calendar", description: "Day, week, month, or year planner", q: "Help me create a calendar for my day, week, month, or year — including financial aid deadlines, class schedules, and important milestones." },
+      { icon: DollarSign, label: "Build a Budget", description: "Track aid, income & expenses", q: "Help me build a practical student budget — I want to track my income, financial aid, and monthly expenses so I can stay financially on track through the school year." },
+      { icon: TrendingUp, label: "Manage My Debt", description: "Loan strategies & repayment plans", q: "Help me manage my student loan debt — explain my repayment options, income-driven plans, and forgiveness programs, then give me a strategy to pay it off wisely." },
+      { icon: Sparkles, label: "Beat School Stress", description: "Tips for handling academic pressure", q: "Help me deal with stress during the school year — share proven strategies for managing academic pressure, staying focused, and maintaining mental wellbeing as a student." },
     ],
     more: [
-      { icon: Award, label: "Scholarship Search", description: "By major, state, and background", q: "Help me find scholarships I qualify for. I'm a first-generation college student majoring in nursing, from Texas, with a 3.4 GPA and a family income of about $45,000. What scholarships should I apply for?" },
-      { icon: Briefcase, label: "Work-Study Jobs", description: "Eligibility and how to find them", q: "How does Federal Work-Study work? How do I qualify, how do I find work-study jobs on campus, and does the income affect my financial aid for next year?" },
-      { icon: FileText, label: "Loan Entrance Counseling", description: "What to know before borrowing", q: "I need to complete loan entrance counseling before my loans disburse. Walk me through what it covers and the most important things I should understand about my loan obligations." },
-      { icon: DollarSign, label: "Graduate PLUS vs. Private", description: "Compare rates and protections", q: "Should I take a Graduate PLUS loan or a private student loan? Compare interest rates, origination fees, repayment options, and deferment/forgiveness protections." },
-      { icon: CheckCircle, label: "Public Service Loan Forgiveness", description: "Eligibility and application steps", q: "Walk me through Public Service Loan Forgiveness — who qualifies, what employers count, how to submit PSLF employment certification, and the current application process." },
-      { icon: TrendingUp, label: "Income-Driven Repayment", description: "Compare IDR plans for 2024-25", q: "Compare all current income-driven repayment plans — SAVE, PAYE, IBR, ICR — including payment amounts, forgiveness timelines, and which plan is best for my situation." },
-      { icon: Calculator, label: "Transfer Student Aid", description: "SAP, aid limits, and timing", q: "I'm transferring to a new school. How does financial aid work for transfer students — does my SAP reset, what loan history carries over, and when will my aid disburse?" },
-      { icon: Landmark, label: "GI Bill & Military Benefits", description: "Chapter 33, 30, and BAH", q: "Explain the GI Bill education benefits — what's covered under Chapter 33 (Post-9/11), how does the housing allowance work, and can I stack it with other financial aid?" },
-      { icon: Scale, label: "Emergency Aid Funds", description: "HEERF, institutional, and state", q: "My car broke down and I can't pay rent this month. What emergency aid funds are available to me — institutional emergency grants, state programs, or federal options?" },
-      { icon: BookOpen, label: "Study Abroad Financing", description: "Aid eligibility and budgeting", q: "I want to study abroad for a semester. Can I use my financial aid for that, and if so, how much? What additional scholarships or funding exist specifically for study abroad?" },
-      { icon: Receipt, label: "529 Plan & FAFSA", description: "Impact on student aid formula", q: "How does a 529 college savings account affect my FAFSA? Does it reduce my financial aid, and whose 529 counts — mine, my parents', or a grandparent's?" },
-      { icon: FileText, label: "Deferment vs. Forbearance", description: "Options during hardship", q: "What's the difference between deferment and forbearance? Which is better for my situation, does interest accrue during each, and how do I apply?" },
-      { icon: Users, label: "Independent Student Status", description: "Criteria under FAFSA Simplification", q: "What makes a student independent for FAFSA purposes, and what changed under FAFSA Simplification? Can I appeal my dependency status if my parents won't help pay?" },
-      { icon: Award, label: "State Grant Programs", description: "By state of residence", q: "What state grant and scholarship programs are available for students in my state? I'm a resident of California — what state aid can I receive beyond federal Pell?" },
-      { icon: DollarSign, label: "Loan Forgiveness Programs", description: "All forgiveness options for 2025", q: "Beyond PSLF, what other student loan forgiveness programs exist in 2025? Include teacher loan forgiveness, nurse corps, state programs, and income-driven forgiveness timelines." },
-      { icon: Users, label: "Volunteer Opportunities", description: "Search engines & service programs", q: "I want to find meaningful volunteer opportunities as a college student. What are the best volunteer search platforms and national service programs? Are there any that offer scholarships or education awards, like AmeriCorps? How does volunteer work affect financial aid or qualify me for PSLF?" },
-      { icon: Award, label: "AmeriCorps & Service Awards", description: "Education awards through service", q: "How does the AmeriCorps Segal Education Award work? What service programs qualify, how much is the award, and how is it treated on the FAFSA? Which AmeriCorps programs are best for college students — VISTA, NCCC, or State/National?" },
+      { icon: BookOpen, label: "My Educational Plan", description: "High school through career roadmap", q: "Help me create an educational plan starting from where I am now through college and into my career — including courses, test prep, applications, and next steps." },
+      { icon: TrendingUp, label: "Career Path Plan", description: "Step-by-step path to your goal", q: "Help me build a step-by-step career path plan based on my interests and goals — what education, certifications, and experience I'll need to get there." },
+      { icon: Lightbulb, label: "Career Path Ideas", description: "Suggestions based on your profile", q: "Based on my interests, strengths, and background, suggest some career paths that might be a good fit for me and explain the education requirements and earning potential for each." },
+      { icon: DollarSign, label: "Budget My Finances", description: "Track income, aid & expenses", q: "Help me budget my finances as a student — I want to track income, expenses, financial aid, and savings to make sure I'm staying on track." },
+      { icon: Sparkles, label: "Brainstorm with Me", description: "Essays, papers & projects", q: "Help me brainstorm ideas for my essay, research paper, or project — give me topic ideas, an outline, or a starting point based on what I'm working on." },
     ],
   },
   {
     role: "Parents",
     color: "text-blue-400",
     items: [
-      { icon: BookOpen, label: "Read the Offer Letter", description: "Decode your child's award", q: "My child received a financial aid offer letter. Can you walk me through what each line item means and help me understand the real out-of-pocket cost we'd pay?" },
-      { icon: Users, label: "School Comparison", description: "Compare aid & net cost", q: "Compare financial aid, costs, and admission processes across Ivy League, public universities, community colleges, and trade schools for a first-generation student from a low-income family." },
-      { icon: Receipt, label: "Education Tax Credits", description: "AOTC, LLC, and 529 strategy", q: "Explain the American Opportunity Tax Credit and Lifetime Learning Credit — who qualifies, how much can they receive, and how does it interact with scholarships?" },
-      { icon: Scale, label: "FAFSA Simplification", description: "Divorced parent & asset rules", q: "How did FAFSA Simplification change the rules for divorced or separated parents, and how are parent assets and income treated in the new SAI formula?" },
+      { icon: FileText, label: "Decode the Award Letter", description: "Understand your child's FA offer", q: "My child received their financial aid award letter — help me decode it. Explain what each award means, the real out-of-pocket cost, and what we should accept or decline." },
+      { icon: BookOpen, label: "Educational Plan", description: "High school through college roadmap", q: "Help me develop an educational plan for my child who is in high school or college — including course planning, college applications, financial aid strategy, and career direction." },
+      { icon: Calculator, label: "Estimate Tuition Costs", description: "Direct costs at schools they're considering", q: "Help me estimate the direct cost of tuition and fees at the institutions my child is considering attending, so we can compare options and plan our finances." },
+      { icon: Lightbulb, label: "Career Path Ideas", description: "Suggestions based on your child's profile", q: "Based on my child's interests, strengths, and academic profile, suggest some career paths that could be a good fit and what education or training each would require." },
     ],
     more: [
-      { icon: DollarSign, label: "PLUS Loan Application", description: "Process, credit check & options", q: "Walk me through applying for a Parent PLUS Loan — what's the credit check process, what happens if I'm denied, what interest rate applies for 2024-25, and what repayment options do I have?" },
-      { icon: FileText, label: "CSS Profile Strategy", description: "Tips to maximize aid", q: "My child is applying to schools that require the CSS Profile. What strategies should I know about to maximize our aid eligibility, including what assets are treated differently than on FAFSA?" },
-      { icon: TrendingUp, label: "529 vs. Roth IRA", description: "Which is better for college savings?", q: "Compare a 529 college savings plan versus a Roth IRA for funding college — which has better tax advantages, flexibility, and FAFSA treatment?" },
-      { icon: Scale, label: "Special Circumstances", description: "Appeal when income drops", q: "Our family income dropped significantly this year due to a job loss. Can we appeal our child's financial aid award based on current-year income? Walk me through the professional judgment appeal process." },
-      { icon: Users, label: "Multiple Students in College", description: "Sibling impact on SAI", q: "We have two children in college at the same time. How does FAFSA Simplification change the sibling discount? How is each child's SAI calculated now compared to before?" },
-      { icon: Calculator, label: "Home Equity & FAFSA", description: "How it affects aid eligibility", q: "Does our home equity affect our child's financial aid? How is primary home equity treated on FAFSA vs. the CSS Profile, and are there strategies to reduce its impact?" },
-      { icon: Receipt, label: "Business Assets on FAFSA", description: "Small business & farm rules", q: "We own a small business. How are business assets and income reported on the FAFSA? Are there any exemptions for small businesses or family farms?" },
-      { icon: DollarSign, label: "PLUS vs. Private Loans", description: "Pros, cons, and rate comparison", q: "Should we take a Parent PLUS Loan or a private student loan to cover our gap? Compare current interest rates, fees, repayment flexibility, and forgiveness protections." },
-      { icon: CheckCircle, label: "AOTC Optimization", description: "Maximize $2,500 tax credit", q: "How can we maximize the American Opportunity Tax Credit? What expenses qualify, can we claim it if aid covers all tuition, and how do we coordinate with 529 distributions?" },
-      { icon: Landmark, label: "State Grants for Parents", description: "State programs beyond FAFSA", q: "Are there state education grants or subsidies that parents can receive directly, or programs that reduce our out-of-pocket costs for our child's education in our state?" },
-      { icon: FileText, label: "Divorce & Aid Strategy", description: "Which parent files, asset planning", q: "My ex-spouse and I are divorced. Under FAFSA Simplification, which parent's information is required, and how should we structure finances to maximize our child's aid eligibility?" },
-      { icon: Award, label: "Merit Aid Negotiation", description: "How to appeal for more money", q: "My child received merit scholarships from two schools but one offer is much better. Can we negotiate with the other school for more aid? What's the best approach and what to say?" },
-      { icon: BookOpen, label: "Net Price Calculator", description: "What to expect before applying", q: "How accurate are college net price calculators, and what factors do they typically not account for? Help me interpret a specific school's net price calculator result." },
-      { icon: Scale, label: "Medical Expenses Appeal", description: "Impact on family contribution", q: "We have high medical bills that aren't reflected in our FAFSA. Can these be used to adjust our SAI through a financial aid appeal, and how do we document this?" },
-      { icon: TrendingUp, label: "Income-Driven PLUS Repayment", description: "ICR plan for PLUS borrowers", q: "What repayment options are available for Parent PLUS Loans? I've heard only Income-Contingent Repayment is available — explain how ICR works and the PLUS loan consolidation strategy." },
-      { icon: Users, label: "Volunteer Opportunities for Students", description: "Service programs & education awards", q: "What volunteer programs and national service opportunities should my child consider in college? Are there programs that offer scholarships or education awards, like AmeriCorps? How can community service strengthen college applications and career prospects?" },
+      { icon: Award, label: "Federal Aid Types", description: "Grants, loans & work-study explained", q: "Give me a quick, plain-language breakdown of the main types of federal student aid — grants, loans, and work-study — so I understand what my child has been offered." },
+      { icon: Landmark, label: "Direct PLUS Loan", description: "Short, straight-to-the-point breakdown", q: "Give me a short, straight-to-the-point breakdown of the Federal Direct PLUS Loan — who qualifies, the interest rate, repayment options, and what to watch out for." },
+      { icon: Receipt, label: "Private Student Loans", description: "Key differences & risks to know", q: "Give me a short, straight-to-the-point breakdown of private student loans — how they differ from federal loans, what to compare when shopping, and the risks I should know." },
+      { icon: ShieldCheck, label: "Credit History & Score", description: "FAQs for student loan applicants", q: "Explain credit history, credit scores, and adverse credit history — and answer common FAQs especially as they relate to student loans and the PLUS loan application." },
+      { icon: Users, label: "Co-signers Explained", description: "Responsibilities & release options", q: "Give me a short, straight-to-the-point explanation of co-signers on student loans — when they're needed, what responsibilities they take on, and how a co-signer can be released." },
     ],
   },
   {
     role: "Leaders",
     color: "text-violet-400",
     items: [
-      { icon: Landmark, label: "Big Beautiful Bill", description: "2025 reconciliation & SAVE plan", q: "What student aid changes are proposed in the One Big Beautiful Bill reconciliation legislation, and what is the current status of the SAVE plan litigation?" },
-      { icon: ShieldCheck, label: "Compliance Risk", description: "Title IV exposure & CDR", q: "Give me a high-level compliance risk summary across Title IV program areas including cohort default rate exposure and gainful employment implications for institutional leadership." },
-      { icon: Receipt, label: "Gainful Employment", description: "Financial value transparency", q: "Explain the gainful employment and financial value transparency regulations and their implications for our institution's programs." },
-      { icon: Users, label: "Aid Packaging Strategy", description: "Benchmark vs. peer institutions", q: "How do aid packaging strategies at community colleges compare to 4-year public and private institutions, and how can we benchmark our approach?" },
+      { icon: Hash, label: "Excel Project", description: "Build, analyze & automate sheets", q: "Help me with an Excel project — whether it's building a spreadsheet, creating formulas, designing a dashboard, or analyzing data for my team or institution." },
+      { icon: Scale, label: "Federal Rules Clarity", description: "Plain-language reg explanations", q: "Help me get clarity on a specific federal rule or regulation — explain it in plain language, give me the relevant citation, and describe what it means for our institution." },
+      { icon: Landmark, label: "Institutional Policy", description: "Draft, review, or interpret policy", q: "I need guidance on institutional policy — help me understand, draft, or review a policy related to financial aid, compliance, or operations at our institution." },
+      { icon: FileText, label: "Analyze a Document", description: "Summarize, review & extract insights", q: "I have a document I'd like you to analyze — share it and I'll ask you to summarize it, identify key points, or answer specific questions about its content." },
     ],
     more: [
-      { icon: Calculator, label: "90/10 Rule Compliance", description: "Revenue percentage tracking", q: "Explain the 90/10 rule under HEA Section 487(a)(24) — how is the 90% threshold calculated, what counts as federal revenue vs. other revenue, and what are the consequences of violation?" },
-      { icon: TrendingUp, label: "Composite Financial Score", description: "Maintain acceptable threshold", q: "How is the ED composite financial score calculated for private institutions? What ratios are used, what is the acceptable range, and what happens if we fall below the threshold?" },
-      { icon: Landmark, label: "Title IV Participation", description: "PPA requirements and renewal", q: "Walk me through the Program Participation Agreement requirements — what institutions must certify, when renewal is required, and what triggers ED review or limitation." },
-      { icon: FileText, label: "Change of Ownership", description: "Reporting and provisionary certification", q: "We're in discussions with a private equity buyer. What are the Title IV change of ownership reporting requirements, the provisional certification process, and risk to Title IV eligibility?" },
-      { icon: Briefcase, label: "Financial Responsibility", description: "Standards and surety options", q: "What are ED's financial responsibility standards, what triggers an LOC requirement, and what surety options are available if we receive a letter requiring financial protection?" },
-      { icon: Scale, label: "CDR Reduction Strategy", description: "Default aversion programs", q: "Our cohort default rate is approaching the threshold. What interventions are most effective at reducing CDR, and what are the consequences at 30% or 40%?" },
-      { icon: Hash, label: "State Authorization", description: "Multi-state compliance for online programs", q: "What are our state authorization obligations for online programs delivered to students in other states? Walk me through SARA participation and what remains state-specific." },
-      { icon: TrendingUp, label: "Teach-Out Planning", description: "Regulatory requirements if closing", q: "We may need to close a program or campus. What are the teach-out agreement requirements, student notification obligations, and Title IV close-out procedures?" },
-      { icon: Landmark, label: "Accreditation & Title IV", description: "HEA linkage and risks", q: "How is accreditation linked to Title IV eligibility? What triggers ED scrutiny when an institution is on accreditor probation, and what are our obligations to notify ED?" },
-      { icon: BookOpen, label: "FAFSA Simplification Impact", description: "Enrollment & packaging strategy", q: "How has FAFSA Simplification affected our enrollment strategy, financial aid packaging, and messaging to prospective students and families for 2025-26?" },
-      { icon: DollarSign, label: "FWS Allocation Strategy", description: "Maximize work-study funding", q: "How should we optimize our Federal Work-Study allocation — which students qualify, how is the institution match calculated, and how do we maximize community service job requirements?" },
-      { icon: Briefcase, label: "ED Rulemaking Tracker", description: "Pending 2025 regulations", q: "What significant ED rulemaking is pending or recently finalized for 2025-26? Include any items under reconsideration by the current administration." },
-      { icon: CheckCircle, label: "IPEDS Compliance", description: "Reporting accuracy & penalties", q: "What are our IPEDS data submission obligations, what are the key data elements that receive ED scrutiny, and what are the penalties for inaccurate or late reporting?" },
-      { icon: Receipt, label: "Endowment Aid Reporting", description: "Institutional grant transparency", q: "What are our institutional grant and endowment disclosure obligations under HEA Section 136, and how should we communicate institutional aid on student award notifications?" },
-      { icon: Users, label: "Enrollment Management Linkage", description: "Aid strategy & net tuition revenue", q: "How should our financial aid strategy align with enrollment management goals to optimize net tuition revenue while maintaining access for low-income students?" },
-      { icon: FileText, label: "AI Excel Spreadsheet", description: "Build FA reporting or analysis sheet", q: "Help me build an Excel-compatible spreadsheet for financial aid leadership reporting. Generate a fully structured spreadsheet with column headers, sample formulas, and data rows for an executive dashboard tracking Pell disbursements, R2T4 returns, CDR trends, and SAP evaluation rates by term. Format it so it can be pasted directly into Excel." },
-      { icon: ClipboardList, label: "Clarify Audit Finding", description: "Plain-language regulatory explanation", q: "Please clarify this audit finding or regulatory requirement in plain language: identify the relevant 34 CFR citation, describe the likely root cause, and outline the corrective action steps an institution should take to resolve it." },
+      { icon: Camera, label: "Analyze Photo / Voice", description: "Interpret or transcribe shared media", q: "I have a photo or voice message I'd like analyzed — help me interpret, transcribe, or extract key information from the content I'll share." },
+      { icon: Sparkles, label: "Foster Motivation", description: "Strategies for a productive team", q: "Research evidence-based ways to foster motivation and a productive work environment for my team — share practical strategies I can implement right away." },
+      { icon: Users, label: "Team Environment", description: "Office, remote & hybrid strategies", q: "Research effective strategies for building strong team environments — including approaches for office-based, fully remote, and hybrid teams. What works best in each setting?" },
+      { icon: ClipboardList, label: "Create a PIP", description: "Performance Improvement Plan guide", q: "Help me create a Performance Improvement Plan (PIP) — walk me through what to include, how to set measurable goals, timelines, and how to document it appropriately." },
     ],
   },
   {
@@ -3230,6 +3195,8 @@ export default function AidAgentPage() {
   const [userTier, setUserTier] = useState<string>("FREE");
   const [dailyUsage, setDailyUsage] = useState<{ used: number; limit: number } | null>(null);
   const [showLimitToast, setShowLimitToast] = useState(false);
+  const [carouselIdx, setCarouselIdx] = useState<Record<string, number>>({});
+  const [overlaySection, setOverlaySection] = useState<string | null>(null);
   const { upgradeState, openUpgrade, closeUpgrade } = useUpgradeModal();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [userEmail, setUserEmail] = useState<string | null>(null);
@@ -4102,7 +4069,7 @@ export default function AidAgentPage() {
       {(showMobileLeft || showMobileRight) && (
         <div
           className="fixed inset-0 z-[55] bg-black/70"
-          onClick={() => {}}
+          onClick={() => { setShowMobileLeft(false); setShowMobileRight(false); }}
         />
       )}
 
@@ -4117,163 +4084,441 @@ export default function AidAgentPage() {
 
       <div className="h-screen flex overflow-hidden" style={{ height: "100dvh" }} onClick={triggerBurst}>
 
-        {/* ── Sidebar ── */}
-        <aside className={`${showMobileLeft ? "flex" : "hidden"} fixed inset-x-0 bottom-0 z-[60] flex-col bg-[#060E1F]/97 backdrop-blur-2xl border-t border-[#1E2A4A]${howItWorksActive === "panels" ? " hiw-panel-explore" : ""}`} style={{ top: "5rem" }}>
+        {/* ── Left Dropdown — Students & Parents ── */}
+        <aside
+          className={`${showMobileLeft ? "flex" : "hidden"} fixed z-[60] flex-col rounded-2xl overflow-hidden border border-cyan-500/[0.15] shadow-2xl shadow-black/70 backdrop-blur-2xl`}
+          style={{ top: "84px", left: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(6,18,40,0.97) 0%, rgba(8,22,48,0.96) 50%, rgba(6,16,36,0.97) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.70), 0 0 0 1px rgba(6,182,212,0.12), inset 0 1px 0 rgba(255,255,255,0.04)" }}
+        >
           {howItWorksActive === "panels" && <div className="hiw-scan-overlay" aria-hidden="true" />}
 
-          {/* Panel header */}
-          <div className="shrink-0 flex items-center justify-between px-6 py-4 border-b border-[#1E2A4A] bg-[#0A1428]/80">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 shadow-lg shadow-cyan-500/30">
-                <GraduationCap className="h-5 w-5 text-white" />
+          {/* Header */}
+          <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-[#1E2A4A] bg-[#0A1428]/80">
+            <div className="flex items-center gap-2.5">
+              <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/25">
+                <GraduationCap className="h-4 w-4 text-white" />
               </div>
               <div>
-                <p className="text-xs font-bold text-cyan-500/65 uppercase tracking-widest">Student Aid Hub</p>
-                <p className="text-base font-semibold bg-gradient-to-r from-cyan-300 to-teal-300 bg-clip-text text-transparent">Students &amp; Parents</p>
+                <p className="text-[8px] font-bold text-cyan-500/65 uppercase tracking-widest">Student Aid Hub</p>
+                <p className="text-sm font-semibold bg-gradient-to-r from-cyan-300 to-teal-300 bg-clip-text text-transparent">Students &amp; Parents</p>
               </div>
             </div>
-            <button onClick={() => setShowMobileLeft(false)} className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400">
-              <X className="h-5 w-5" />
+            <button onClick={() => setShowMobileLeft(false)} className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all">
+              <X className="h-4 w-4" />
             </button>
           </div>
 
-          {/* 5-column grid */}
-          <div className="flex-1 overflow-y-auto p-5">
-            <div className="grid grid-cols-5 gap-5">
+          {/* Scrollable content */}
+          <div className="flex-1 overflow-y-auto p-4">
+            <div className="space-y-5">
 
-              {/* Col 1: Student Quick Actions */}
-              <div className="flex flex-col min-w-0">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-cyan-400/80 mb-3 pb-2 border-b border-[#1E2A4A] flex items-center gap-1.5">
-                  <GraduationCap className="h-3.5 w-3.5 shrink-0" />Students
-                </h3>
-                <div className="space-y-1">
-                  {(() => {
-                    const r = QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Students");
-                    return r ? [...r.items, ...r.more].map(({ icon: Icon, label, description, q }) => (
-                      <button key={label} onClick={() => sendMessage(q)}
-                        className="w-full flex items-start gap-2 px-2.5 py-2.5 rounded-xl text-left group hover:bg-cyan-500/[0.10] ring-1 ring-transparent hover:ring-cyan-500/[0.18] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400">
-                        <div className="mt-0.5 p-1.5 rounded-lg bg-[#1E2A4A] group-hover:bg-cyan-500/[0.20] transition-colors shrink-0">
-                          <Icon className="h-3.5 w-3.5 text-[#94A3B8] group-hover:text-[#00E5C0] transition-colors" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-xs font-semibold text-[#E2E8F0] group-hover:text-[#00E5C0] leading-tight">{label}</p>
-                          <p className="text-[11px] text-[#94A3B8]/60 mt-0.5 leading-tight line-clamp-2">{description}</p>
-                        </div>
-                      </button>
-                    )) : null;
-                  })()}
-                </div>
-              </div>
-
-              {/* Col 2: Parent Quick Actions */}
-              <div className="flex flex-col min-w-0">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-blue-400/80 mb-3 pb-2 border-b border-[#1E2A4A] flex items-center gap-1.5">
-                  <Users className="h-3.5 w-3.5 shrink-0" />Parents
-                </h3>
-                <div className="space-y-1">
-                  {(() => {
-                    const r = QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Parents");
-                    return r ? [...r.items, ...r.more].map(({ icon: Icon, label, description, q }) => (
-                      <button key={label} onClick={() => sendMessage(q)}
-                        className="w-full flex items-start gap-2 px-2.5 py-2.5 rounded-xl text-left group hover:bg-blue-500/[0.10] ring-1 ring-transparent hover:ring-blue-500/[0.18] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400">
-                        <div className="mt-0.5 p-1.5 rounded-lg bg-[#1E2A4A] group-hover:bg-blue-500/[0.20] transition-colors shrink-0">
-                          <Icon className="h-3.5 w-3.5 text-[#94A3B8] group-hover:text-blue-300 transition-colors" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-xs font-semibold text-[#E2E8F0] group-hover:text-blue-300 leading-tight">{label}</p>
-                          <p className="text-[11px] text-[#94A3B8]/60 mt-0.5 leading-tight line-clamp-2">{description}</p>
-                        </div>
-                      </button>
-                    )) : null;
-                  })()}
-                </div>
-              </div>
-
-              {/* Col 3: Federal Student Aid */}
-              <div className="flex flex-col min-w-0">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-sky-400/80 mb-3 pb-2 border-b border-[#1E2A4A] flex items-center gap-1.5">
-                  <BookOpen className="h-3.5 w-3.5 shrink-0" />Federal Aid
-                </h3>
-                <div className="space-y-1 mb-5">
-                  {(FEDERAL_RESOURCES.find(g => g.group === "Students & Parents")?.links ?? []).map(({ name, url }) => (
-                    <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                      className="flex items-center justify-between px-2.5 py-2.5 rounded-xl text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-sky-500/[0.08] ring-1 ring-transparent hover:ring-sky-500/[0.18] transition-all duration-150 group">
-                      <span className="leading-tight">{name}</span>
-                      <ExternalLink className="h-3 w-3 text-[#94A3B8]/40 group-hover:text-sky-400 shrink-0 ml-2" />
-                    </a>
-                  ))}
-                </div>
-                <p className="text-xs font-bold uppercase tracking-widest text-sky-400/60 mb-3 pb-2 border-b border-[#1E2A4A]">FAFSA Video Guides</p>
-                <div className="space-y-2">
-                  {[
-                    { id: "RtDYpEfAa5U", title: "How to Fill Out the FAFSA" },
-                    { id: "NmEP38x-1Z8", title: "FAFSA Tips & Common Mistakes" },
-                  ].map(({ id, title }) => (
-                    <div key={id} className="rounded-lg overflow-hidden ring-1 ring-white/[0.08]">
-                      <iframe src={`https://www.youtube.com/embed/${id}`} title={title}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen loading="lazy" className="w-full aspect-video" />
+              {/* Students Quick Actions */}
+              {(() => {
+                const ck = "lc-s-qa";
+                const expanded = expandedSections.has(ck);
+                const r = QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Students");
+                const all = r ? [...r.items, ...r.more] : [];
+                const CPP = 3; const page = carouselIdx[ck] ?? 0; const tp = Math.ceil(all.length / CPP);
+                const vis = all.slice(page * CPP, (page + 1) * CPP);
+                return (
+                  <div>
+                    <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                      <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><GraduationCap className="h-3 w-3 shrink-0"/>Students Quick Actions</p>
+                      <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                     </div>
-                  ))}
-                </div>
-              </div>
+                    {expanded && <div className="mt-2 grid grid-cols-3 gap-1.5">
+                      {vis.map(({ icon: Icon, label, description, q }) => (
+                        <button key={label} onClick={() => { sendMessage(q); setShowMobileLeft(false); }}
+                                className="flex flex-col gap-1 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-cyan-500/[0.12] ring-1 ring-[#1A2540] hover:ring-cyan-500/35 transition-all duration-150 group text-left shadow-sm shadow-black/30 hover:shadow-md hover:shadow-cyan-900/20 hover:scale-[1.03] active:scale-[0.97]" style={{ backdropFilter: "blur(8px)" }}>
+                          <div className="flex items-center gap-1.5 min-w-0"><div className="p-1 rounded-md bg-[#1E2A4A] group-hover:bg-cyan-500/20 transition-colors shrink-0"><Icon className="h-3 w-3 text-[#94A3B8] group-hover:text-[#00E5C0] transition-colors"/></div><span className="text-[10px] font-semibold text-[#E2E8F0] group-hover:text-[#00E5C0] truncate leading-tight">{label}</span></div>
+                          <p className="text-[9px] text-[#94A3B8]/50 leading-tight line-clamp-2">{description}</p>
+                        </button>
+                      ))}
+                    </div>}
+                  </div>
+                );
+              })()}
 
-              {/* Col 4: Scholarships & Jobs */}
-              <div className="flex flex-col min-w-0">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-emerald-400/80 mb-3 pb-2 border-b border-[#1E2A4A] flex items-center gap-1.5">
-                  <Award className="h-3.5 w-3.5 shrink-0" />Scholarships
-                </h3>
-                <div className="space-y-1 mb-5">
-                  {[...SCHOLARSHIP_ENGINES, ...SCHOLARSHIP_ENGINES_MORE].filter(i => !isSubcat(i)).map((item) => {
-                    const l = item as { name: string; url: string };
-                    return (
-                      <a key={l.name} href={l.url} target="_blank" rel="noopener noreferrer"
-                        className="flex items-center justify-between px-2.5 py-2.5 rounded-xl text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-emerald-500/[0.08] ring-1 ring-transparent hover:ring-emerald-500/[0.18] transition-all duration-150 group">
-                        <span className="leading-tight">{l.name}</span>
-                        <ExternalLink className="h-3 w-3 text-[#94A3B8]/40 group-hover:text-emerald-400 shrink-0 ml-2" />
-                      </a>
-                    );
-                  })}
-                </div>
-                <p className="text-xs font-bold uppercase tracking-widest text-emerald-400/60 mb-3 pb-2 border-b border-[#1E2A4A] flex items-center gap-1.5"><Briefcase className="h-3.5 w-3.5 shrink-0" />Student Jobs</p>
-                <div className="space-y-1">
-                  {[...STUDENT_JOB_SEARCH, ...STUDENT_JOB_SEARCH_MORE].filter(i => !isSubcat(i)).map((item) => {
-                    const l = item as { name: string; url: string };
-                    return (
-                      <a key={l.name} href={l.url} target="_blank" rel="noopener noreferrer"
-                        className="flex items-center justify-between px-2.5 py-2.5 rounded-xl text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-emerald-500/[0.08] ring-1 ring-transparent hover:ring-emerald-500/[0.18] transition-all duration-150 group">
-                        <span className="leading-tight">{l.name}</span>
-                        <ExternalLink className="h-3 w-3 text-[#94A3B8]/40 group-hover:text-emerald-400 shrink-0 ml-2" />
-                      </a>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Col 5: More Video Guides */}
-              <div className="flex flex-col min-w-0">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-violet-400/80 mb-3 pb-2 border-b border-[#1E2A4A] flex items-center gap-1.5">
-                  <Library className="h-3.5 w-3.5 shrink-0" />More Guides
-                </h3>
-                <div className="space-y-2">
-                  {["rhgwIhB58PA", "C5OJJD3Eytk", "kKvK2foOTJM"].map((id) => (
-                    <div key={id} className="rounded-lg overflow-hidden ring-1 ring-white/[0.08]">
-                      <iframe src={`https://www.youtube.com/embed/${id}`} title="Video Guide"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen loading="lazy" className="w-full aspect-video" />
+              {/* Parents Quick Actions */}
+              {(() => {
+                const ck = "lc-p-qa";
+                const expanded = expandedSections.has(ck);
+                const r = QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Parents");
+                const all = r ? [...r.items, ...r.more] : [];
+                const CPP = 3; const page = carouselIdx[ck] ?? 0; const tp = Math.ceil(all.length / CPP);
+                const vis = all.slice(page * CPP, (page + 1) * CPP);
+                return (
+                  <div>
+                    <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                      <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Users className="h-3 w-3 shrink-0"/>Parents Quick Actions</p>
+                      <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                     </div>
-                  ))}
-                </div>
-              </div>
+                    {expanded && <div className="mt-2 grid grid-cols-3 gap-1.5">
+                      {vis.map(({ icon: Icon, label, description, q }) => (
+                        <button key={label} onClick={() => { sendMessage(q); setShowMobileLeft(false); }}
+                                className="flex flex-col gap-1 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-blue-500/[0.12] ring-1 ring-[#1A2540] hover:ring-blue-500/35 transition-all duration-150 group text-left shadow-sm shadow-black/30 hover:shadow-md hover:shadow-blue-900/20 hover:scale-[1.03] active:scale-[0.97]" style={{ backdropFilter: "blur(8px)" }}>
+                          <div className="flex items-center gap-1.5 min-w-0"><div className="p-1 rounded-md bg-[#1E2A4A] group-hover:bg-blue-500/20 transition-colors shrink-0"><Icon className="h-3 w-3 text-[#94A3B8] group-hover:text-blue-300 transition-colors"/></div><span className="text-[10px] font-semibold text-[#E2E8F0] group-hover:text-blue-300 truncate leading-tight">{label}</span></div>
+                          <p className="text-[9px] text-[#94A3B8]/50 leading-tight line-clamp-2">{description}</p>
+                        </button>
+                      ))}
+                    </div>}
+                  </div>
+                );
+              })()}
 
+              <div className="border-t border-[#1A2540] pt-1">
+                <p className="text-[7px] font-bold uppercase tracking-[0.2em] text-[#94A3B8]/30 mb-2">Resource Links</p>
+
+                {/* Federal Student Aid */}
+                {(() => {
+                  const ck = "lc-fed-sp";
+                  const expanded = expandedSections.has(ck);
+                  const all = FEDERAL_RESOURCES.find(g => g.group === "Students & Parents")?.links ?? [];
+                  const CPP = 3; const page = carouselIdx[ck] ?? 0; const tp = Math.ceil(all.length / CPP);
+                  const vis = all.slice(page * CPP, (page + 1) * CPP);
+                  return (
+                    <div className="mb-1">
+                      <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><BookOpen className="h-3 w-3 shrink-0"/>Federal Student Aid</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                      </div>
+                      {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
+                        {vis.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                             className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-sky-500/35 transition-all duration-150 group shadow-sm shadow-black/30 hover:shadow-md hover:shadow-sky-900/20 hover:scale-[1.03] active:scale-[0.97] min-w-0" style={{ backdropFilter: "blur(8px)" }}>
+                            <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                          </a>
+                        ))}
+                      </div>}
+                    </div>
+                  );
+                })()}
+
+                {/* Resume Assistance */}
+                {(() => {
+                  const ck = "lc-resume";
+                  const expanded = expandedSections.has(ck);
+                  const all = [...RESUME_ASSISTANCE, ...RESUME_ASSISTANCE_MORE].filter((i): i is LinkItem => !isSubcat(i));
+                  const CPP = 3; const page = carouselIdx[ck] ?? 0; const tp = Math.ceil(all.length / CPP);
+                  const vis = all.slice(page * CPP, (page + 1) * CPP);
+                  return (
+                    <div className="mb-1">
+                      <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><FileText className="h-3 w-3 shrink-0"/>Resume Assistance</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                      </div>
+                      {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
+                        {vis.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                             className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-cyan-500/25 transition-all duration-150 group shadow-sm shadow-black/30 min-w-0">
+                            <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                          </a>
+                        ))}
+                      </div>}
+                    </div>
+                  );
+                })()}
+
+                {/* Scholarship Search Engines */}
+                {(() => {
+                  const ck = "lc-schol";
+                  const expanded = expandedSections.has(ck);
+                  const all = [...SCHOLARSHIP_ENGINES, ...SCHOLARSHIP_ENGINES_MORE].filter((i): i is LinkItem => !isSubcat(i));
+                  const CPP = 3; const page = carouselIdx[ck] ?? 0; const tp = Math.ceil(all.length / CPP);
+                  const vis = all.slice(page * CPP, (page + 1) * CPP);
+                  return (
+                    <div className="mb-1">
+                      <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Award className="h-3 w-3 shrink-0"/>Scholarship Search Engines</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                      </div>
+                      {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
+                        {vis.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                             className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-emerald-500/25 transition-all duration-150 group shadow-sm shadow-black/30 min-w-0">
+                            <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                          </a>
+                        ))}
+                      </div>}
+                    </div>
+                  );
+                })()}
+
+                {/* Internship / Career Search */}
+                {(() => {
+                  const ck = "lc-intern";
+                  const expanded = expandedSections.has(ck);
+                  const all = [...INTERNSHIP_SEARCH, ...INTERNSHIP_SEARCH_MORE].filter((i): i is LinkItem => !isSubcat(i));
+                  const CPP = 3; const page = carouselIdx[ck] ?? 0; const tp = Math.ceil(all.length / CPP);
+                  const vis = all.slice(page * CPP, (page + 1) * CPP);
+                  return (
+                    <div className="mb-1">
+                      <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Briefcase className="h-3 w-3 shrink-0"/>Internship / Career Search</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                      </div>
+                      {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
+                        {vis.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                             className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-emerald-500/25 transition-all duration-150 group shadow-sm shadow-black/30 min-w-0">
+                            <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                          </a>
+                        ))}
+                      </div>}
+                    </div>
+                  );
+                })()}
+
+                {/* Student Job Search */}
+                {(() => {
+                  const ck = "lc-jobs";
+                  const expanded = expandedSections.has(ck);
+                  const all = [...STUDENT_JOB_SEARCH, ...STUDENT_JOB_SEARCH_MORE].filter((i): i is LinkItem => !isSubcat(i));
+                  const CPP = 3; const page = carouselIdx[ck] ?? 0; const tp = Math.ceil(all.length / CPP);
+                  const vis = all.slice(page * CPP, (page + 1) * CPP);
+                  return (
+                    <div className="mb-1">
+                      <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Briefcase className="h-3 w-3 shrink-0"/>Student Job Search</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                      </div>
+                      {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
+                        {vis.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                             className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-violet-500/25 transition-all duration-150 group shadow-sm shadow-black/30 min-w-0">
+                            <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                          </a>
+                        ))}
+                      </div>}
+                    </div>
+                  );
+                })()}
+
+                {/* Financial Literacy */}
+                {(() => {
+                  const ck = "lc-finlit";
+                  const expanded = expandedSections.has(ck);
+                  const all = [...FINANCIAL_LITERACY, ...FINANCIAL_LITERACY_MORE].filter((i): i is LinkItem => !isSubcat(i));
+                  const CPP = 3; const page = carouselIdx[ck] ?? 0; const tp = Math.ceil(all.length / CPP);
+                  const vis = all.slice(page * CPP, (page + 1) * CPP);
+                  return (
+                    <div className="mb-1">
+                      <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><DollarSign className="h-3 w-3 shrink-0"/>Financial Literacy</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                      </div>
+                      {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
+                        {vis.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                             className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-emerald-500/25 transition-all duration-150 group shadow-sm shadow-black/30 min-w-0">
+                            <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                          </a>
+                        ))}
+                      </div>}
+                    </div>
+                  );
+                })()}
+
+                {/* Private Student Loans */}
+                {(() => {
+                  const ck = "lc-loans";
+                  const expanded = expandedSections.has(ck);
+                  const all = [...PRIVATE_STUDENT_LOANS, ...PRIVATE_STUDENT_LOANS_MORE].filter((i): i is LinkItem => !isSubcat(i));
+                  const CPP = 3; const page = carouselIdx[ck] ?? 0; const tp = Math.ceil(all.length / CPP);
+                  const vis = all.slice(page * CPP, (page + 1) * CPP);
+                  return (
+                    <div className="mb-1">
+                      <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Receipt className="h-3 w-3 shrink-0"/>Private Student Loans</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                      </div>
+                      {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
+                        {vis.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                             className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-violet-500/25 transition-all duration-150 group shadow-sm shadow-black/30 min-w-0">
+                            <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                          </a>
+                        ))}
+                      </div>}
+                    </div>
+                  );
+                })()}
+
+                {/* Consumer Rights */}
+                {(() => {
+                  const ck = "lc-consumer";
+                  const expanded = expandedSections.has(ck);
+                  const all = [...CONSUMER_RIGHTS, ...CONSUMER_RIGHTS_MORE].filter((i): i is LinkItem => !isSubcat(i));
+                  const CPP = 3; const page = carouselIdx[ck] ?? 0; const tp = Math.ceil(all.length / CPP);
+                  const vis = all.slice(page * CPP, (page + 1) * CPP);
+                  return (
+                    <div className="mb-1">
+                      <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 shrink-0"/>Students&apos; Bills &amp; Consumer Rights</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                      </div>
+                      {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
+                        {vis.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                             className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-sky-500/35 transition-all duration-150 group shadow-sm shadow-black/30 hover:shadow-md hover:shadow-sky-900/20 hover:scale-[1.03] active:scale-[0.97] min-w-0" style={{ backdropFilter: "blur(8px)" }}>
+                            <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                          </a>
+                        ))}
+                      </div>}
+                    </div>
+                  );
+                })()}
+
+                {/* Mental Health Resources */}
+                {(() => {
+                  const ck = "lc-mental";
+                  const expanded = expandedSections.has(ck);
+                  const all = [...MENTAL_HEALTH_STUDENT, ...MENTAL_HEALTH_STUDENT_MORE].filter((i): i is LinkItem => !isSubcat(i));
+                  const CPP = 3; const page = carouselIdx[ck] ?? 0; const tp = Math.ceil(all.length / CPP);
+                  const vis = all.slice(page * CPP, (page + 1) * CPP);
+                  return (
+                    <div className="mb-1">
+                      <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Hash className="h-3 w-3 shrink-0"/>Mental Health Resources</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                      </div>
+                      {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
+                        {vis.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                             className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-pink-500/25 transition-all duration-150 group shadow-sm shadow-black/30 min-w-0">
+                            <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                          </a>
+                        ))}
+                      </div>}
+                    </div>
+                  );
+                })()}
+
+                {/* AI Literacy */}
+                {(() => {
+                  const ck = "lc-ai";
+                  const expanded = expandedSections.has(ck);
+                  const all = [...AI_LITERACY, ...AI_LITERACY_MORE].filter((i): i is LinkItem => !isSubcat(i));
+                  const CPP = 3; const page = carouselIdx[ck] ?? 0; const tp = Math.ceil(all.length / CPP);
+                  const vis = all.slice(page * CPP, (page + 1) * CPP);
+                  return (
+                    <div className="mb-1">
+                      <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Lightbulb className="h-3 w-3 shrink-0"/>AI Literacy</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                      </div>
+                      {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
+                        {vis.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                             className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-blue-500/25 transition-all duration-150 group shadow-sm shadow-black/30 min-w-0">
+                            <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                          </a>
+                        ))}
+                      </div>}
+                    </div>
+                  );
+                })()}
+
+                {/* Religion & Faith */}
+                {(() => {
+                  const ck = "lc-faith";
+                  const expanded = expandedSections.has(ck);
+                  const all = [...RELIGION_FAITH_PHILOSOPHY, ...RELIGION_FAITH_PHILOSOPHY_MORE].filter((i): i is LinkItem => !isSubcat(i));
+                  const CPP = 3; const page = carouselIdx[ck] ?? 0; const tp = Math.ceil(all.length / CPP);
+                  const vis = all.slice(page * CPP, (page + 1) * CPP);
+                  return (
+                    <div className="mb-1">
+                      <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Sparkles className="h-3 w-3 shrink-0"/>Religion &amp; Faith</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                      </div>
+                      {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
+                        {vis.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                             className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-indigo-500/25 transition-all duration-150 group shadow-sm shadow-black/30 min-w-0">
+                            <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                          </a>
+                        ))}
+                      </div>}
+                    </div>
+                  );
+                })()}
+
+                {/* Volunteer & Community Service */}
+                {(() => {
+                  const ck = "lc-vol";
+                  const expanded = expandedSections.has(ck);
+                  const all = VOLUNTEER_RESOURCES.filter((i): i is LinkItem => !isSubcat(i));
+                  const CPP = 3; const page = carouselIdx[ck] ?? 0; const tp = Math.ceil(all.length / CPP);
+                  const vis = all.slice(page * CPP, (page + 1) * CPP);
+                  return (
+                    <div className="mb-1">
+                      <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><CheckCircle className="h-3 w-3 shrink-0"/>Volunteer &amp; Community</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                      </div>
+                      {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
+                        {vis.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                             className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-teal-500/25 transition-all duration-150 group shadow-sm shadow-black/30 min-w-0">
+                            <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                          </a>
+                        ))}
+                      </div>}
+                    </div>
+                  );
+                })()}
+
+                {/* FAFSA Videos */}
+                {(() => {
+                  const ck = "lc-fafsa-vid";
+                  const expanded = expandedSections.has(ck);
+                  return (
+                <div className="mb-1">
+                  <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                    <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Library className="h-3 w-3 shrink-0"/>Video Showcase</p>
+                    <ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} />
+                  </div>
+                  {expanded && <div className="mt-2 mb-2 grid grid-cols-2 gap-2">
+                    {[{ id: "RtDYpEfAa5U", title: "How to Fill Out the FAFSA" }, { id: "NmEP38x-1Z8", title: "FAFSA Tips & Common Mistakes" }, { id: "rhgwIhB58PA", title: "Student Aid Overview" }, { id: "C5OJJD3Eytk", title: "Understanding Aid Offers" }].map(({ id, title }) => (
+                      <a key={id} href={`https://www.youtube.com/watch?v=${id}`} target="_blank" rel="noopener noreferrer"
+                         className="relative rounded-xl overflow-hidden ring-1 ring-white/[0.08] group hover:ring-sky-500/25 transition-all shadow-sm shadow-black/30">
+                        <img src={`https://img.youtube.com/vi/${id}/mqdefault.jpg`} alt={title} className="w-full aspect-video object-cover opacity-75 group-hover:opacity-100 transition-opacity"/>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="w-7 h-7 rounded-full bg-black/60 flex items-center justify-center group-hover:bg-red-600 transition-colors">
+                            <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5 text-white ml-0.5"><path d="M8 5v14l11-7z"/></svg>
+                          </div>
+                        </div>
+                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-2 py-1.5">
+                          <p className="text-[9px] text-white/85 truncate leading-tight">{title}</p>
+                        </div>
+                      </a>
+                    ))}
+                  </div>}
+                </div>
+                  );
+                })()}
+
+              </div>
             </div>
           </div>
 
-          {/* Disclaimer footer */}
-          <div className="shrink-0 px-6 py-3 border-t border-[#1E2A4A]">
-            <div className="flex items-start gap-2 rounded-xl bg-amber-500/[0.08] ring-1 ring-amber-500/20 px-4 py-2.5">
-              <AlertTriangle className="h-3.5 w-3.5 text-amber-400 shrink-0 mt-0.5" />
-              <p className="text-xs text-amber-300/70 leading-relaxed">General guidance only. Verify with the FSA Handbook and consult legal counsel for institution-specific decisions.</p>
+          {/* Footer */}
+          <div className="shrink-0 px-4 py-2.5 border-t border-[#1E2A4A]">
+            <div className="flex items-start gap-2 rounded-lg bg-amber-500/[0.08] ring-1 ring-amber-500/20 px-3 py-2">
+              <AlertTriangle className="h-3 w-3 text-amber-400 shrink-0 mt-0.5" />
+              <p className="text-[10px] text-amber-300/70 leading-relaxed">General guidance only. Verify with the FSA Handbook and consult legal counsel for institution-specific decisions.</p>
             </div>
           </div>
         </aside>
@@ -4282,71 +4527,60 @@ export default function AidAgentPage() {
         <main
           className={`flex flex-1 flex-col min-w-0 min-h-0 transition-all duration-300 ${howItWorksActive === "guidance" ? "ring-1 ring-inset ring-emerald-500/25 shadow-[inset_0_0_40px_rgba(16,185,129,0.07)]" : ""}`}
           style={{ background: "rgba(10,20,40,0.82)" }}
-          aria-label="askGenie AI Assistant"
+          aria-label="Genie AI Assistant"
         >
 
-          {/* ── Header — nav + integrated music player ── */}
+          {/* ── Header ── */}
           <header
             className="sticky top-0 z-50 shrink-0 border-b border-[#1E2A4A] backdrop-blur-xl"
             style={{ background: "linear-gradient(135deg, rgba(10,20,40,0.98) 0%, rgba(13,26,50,0.99) 50%, rgba(10,20,40,0.98) 100%)" }}
           >
-            {/* ── Top row: nav controls ── */}
-            <div className="relative px-4 py-2.5 flex items-center justify-between" style={{ minHeight: "5rem" }}>
+            <div className="relative px-3 py-1.5 flex items-center justify-between gap-2">
 
-              {/* Left — mobile toggles + Home + theme */}
-              <div className="flex items-center gap-1 min-w-[8.5rem]">
-                <div className="flex flex-col items-start">
-                  <button
-                    onClick={() => { const next = !showMobileLeft; setShowMobileLeft(next); setShowMobileRight(false); if (next) { resetLeftTimer(); triggerOrbGold(); } }}
-                    title="Students & Parents panel"
-                    className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60 ${howItWorksActive === "panels" ? "text-cyan-200 bg-cyan-500/[0.20] shadow-[0_0_14px_rgba(6,182,212,0.55)] ring-1 ring-cyan-400/50 hiw-active-ring" : "text-cyan-300/48 hover:text-cyan-200 hover:bg-cyan-500/[0.14] hover:shadow-[0_0_10px_rgba(6,182,212,0.25)]"}`}
-                  >
-                    {showMobileLeft ? <X className="h-4 w-4" /> : <GraduationCap className={`h-4 w-4 ${howItWorksActive === "panels" ? "animate-pulse" : ""}`} />}
-                  </button>
-                  {showMobileLeft && (
-                    <span className="text-[9px] font-bold text-cyan-400/80 whitespace-nowrap pl-0.5" style={{ animation: "genie-panel-drop 0.22s ease-out" }}>Students &amp; Parents</span>
-                  )}
-                </div>
+              {/* Left — left panel toggle + Genie branding (always visible) */}
+              <div className="flex items-center gap-2 min-w-0">
+                <button
+                  onClick={() => { const next = !showMobileLeft; setShowMobileLeft(next); if (next) { resetLeftTimer(); triggerOrbGold(); } }}
+                  title="Students & Parents panel"
+                  className="shrink-0 p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60 text-[#C9A227]/65 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.12] hover:shadow-[0_0_10px_rgba(212,175,55,0.25)]"
+                >
+                  {showMobileLeft ? <X className="h-5 w-5" /> : <GraduationCap className="h-5 w-5" />}
+                </button>
+                <h1 className="text-2xl font-black tracking-tight leading-none whitespace-nowrap genie-shimmer-teal select-none pointer-events-none px-2 py-0.5 rounded-xl ring-1 ring-[#D4AF37]/35" style={{ boxShadow: "0 0 14px rgba(212,175,55,0.10), inset 0 0 8px rgba(212,175,55,0.04)" }}>
+                  Genie
+                </h1>
+              </div>
+
+              {/* Spacer */}
+              <div className="flex-1" />
+
+              {/* Right — Home + theme + auth + right panel toggle + new chat */}
+              <div className="flex items-center gap-1">
                 <button
                   onClick={goHome}
                   title="Home"
-                  className="flex items-center gap-1.5 px-2 py-1.5 rounded-lg text-cyan-300/48 hover:text-cyan-200 hover:bg-cyan-500/[0.14] hover:shadow-[0_0_10px_rgba(6,182,212,0.25)] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60 text-xs font-medium"
+                  className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-[#C9A227]/65 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.12] hover:shadow-[0_0_10px_rgba(212,175,55,0.25)] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60 text-xs font-medium"
                 >
-                  <Home className="h-3.5 w-3.5" />
+                  <Home className="h-5 w-5" />
                   <span className="hidden sm:inline">Home</span>
                 </button>
                 <button
                   onClick={() => setIsDark(!isDark)}
                   title={isDark ? "Switch to bright mode" : "Switch to dark mode"}
-                  className="p-1.5 rounded-lg text-cyan-300/48 hover:text-cyan-200 hover:bg-cyan-500/[0.14] hover:shadow-[0_0_10px_rgba(6,182,212,0.25)] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60"
+                  className="p-1.5 rounded-lg text-[#C9A227]/65 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.12] hover:shadow-[0_0_10px_rgba(212,175,55,0.25)] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60"
                 >
-                  {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                  {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
                 </button>
-              </div>
-
-              {/* Center — title + music player */}
-              <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center select-none">
-                <h1 className="text-4xl font-black tracking-tight leading-none whitespace-nowrap genie-shimmer-rainbow pointer-events-none">
-                  AskGenie
-                </h1>
-                <p className="hidden sm:block text-[10px] text-cyan-300/45 font-medium tracking-wide mt-0.5 whitespace-nowrap pointer-events-none">
-                  Your calm, trusted student aid companion
-                </p>
-                <div className="mt-1 pointer-events-auto scale-[0.82] origin-top">
-                  <BackgroundMusic inline />
-                </div>
-              </div>
-
-              {/* Right — auth + panel toggles + new chat */}
-              <div className="flex items-center gap-1 min-w-[8.5rem] justify-end">
                 {isAuthenticated ? (
                   <Link
                     href="/account"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     title={userEmail ?? "Your account"}
-                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-cyan-500/[0.12] ring-1 ring-cyan-500/[0.28] text-cyan-300 hover:bg-cyan-500/[0.22] hover:text-white transition-colors text-xs font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#D4AF37]/[0.12] ring-1 ring-[#D4AF37]/[0.35] text-[#D4AF37] hover:bg-[#D4AF37]/[0.22] hover:text-white transition-colors text-xs font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]"
                   >
-                    <UserCircle className="h-4 w-4 shrink-0" />
-                    <span className="hidden sm:inline max-w-[72px] truncate">
+                    <UserCircle className="h-5 w-5 shrink-0" />
+                    <span className="hidden sm:inline max-w-[72px] truncate text-[#00E5C0]">
                       {userEmail ? userEmail.split("@")[0] : "Account"}
                     </span>
                   </Link>
@@ -4356,37 +4590,34 @@ export default function AidAgentPage() {
                       onClick={() => { setAuthDialogMode("signin"); setAuthDialogOpen(true); }}
                       className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 shadow-sm shadow-cyan-900/40"
                     >
-                      <LogIn className="h-3.5 w-3.5 shrink-0" />
+                      <LogIn className="h-5 w-5 shrink-0" />
                       <span>Sign In</span>
                     </button>
                     <Link
                       href="/account"
-                      className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-cyan-500/[0.08] ring-1 ring-cyan-500/[0.22] text-cyan-300/55 hover:text-cyan-200 hover:bg-cyan-500/[0.14] hover:shadow-[0_0_10px_rgba(6,182,212,0.20)] transition-all duration-150 text-xs font-semibold focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#D4AF37]/[0.08] ring-1 ring-[#D4AF37]/[0.22] text-[#C9A227]/70 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.14] hover:shadow-[0_0_10px_rgba(212,175,55,0.20)] transition-all duration-150 text-xs font-semibold focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60"
                     >
-                      <UserCircle className="h-3.5 w-3.5 shrink-0" />
+                      <UserCircle className="h-5 w-5 shrink-0" />
                       <span>Account</span>
                     </Link>
                   </>
                 )}
-                <div className="flex flex-col items-end">
-                  {showMobileRight && (
-                    <span className="text-[9px] font-bold text-cyan-400/80 whitespace-nowrap pr-0.5" style={{ animation: "genie-panel-drop 0.22s ease-out" }}>Admins &amp; Auditors</span>
-                  )}
-                  <button
-                    onClick={() => { const next = !showMobileRight; setShowMobileRight(next); setShowMobileLeft(false); if (next) { resetRightTimer(); triggerOrbGold(); } }}
-                    title="Admins & Auditors panel"
-                    className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60 ${howItWorksActive === "panels" ? "text-cyan-200 bg-cyan-500/[0.20] shadow-[0_0_14px_rgba(6,182,212,0.55)] ring-1 ring-cyan-400/50 hiw-active-ring" : "text-cyan-300/48 hover:text-cyan-200 hover:bg-cyan-500/[0.14] hover:shadow-[0_0_10px_rgba(6,182,212,0.25)]"}`}
-                  >
-                    {showMobileRight ? <X className="h-4 w-4" /> : <Zap className={`h-4 w-4 ${howItWorksActive === "panels" ? "animate-pulse" : ""}`} />}
-                  </button>
-                </div>
+                <button
+                  onClick={() => { const next = !showMobileRight; setShowMobileRight(next); if (next) { resetRightTimer(); triggerOrbGold(); } }}
+                  title="Admins & Auditors panel"
+                  className="p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60 text-[#C9A227]/65 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.12] hover:shadow-[0_0_10px_rgba(212,175,55,0.25)]"
+                >
+                  {showMobileRight ? <X className="h-5 w-5" /> : <Zap className="h-5 w-5" />}
+                </button>
                 {messages.length > 0 && (
                   <button
                     onClick={() => setMessages([])}
                     title="New chat"
-                    className="p-1.5 rounded-lg text-cyan-300/48 hover:text-cyan-200 hover:bg-cyan-500/[0.14] hover:shadow-[0_0_10px_rgba(6,182,212,0.25)] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400/60"
+                    className="p-1.5 rounded-lg text-[#C9A227]/65 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.12] hover:shadow-[0_0_10px_rgba(212,175,55,0.25)] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60"
                   >
-                    <SquarePen className="h-4 w-4" />
+                    <SquarePen className="h-5 w-5" />
                   </button>
                 )}
               </div>
@@ -4402,47 +4633,70 @@ export default function AidAgentPage() {
               className="hidden lg:flex flex-col items-center pointer-events-none select-none"
               style={{
                 position: "fixed",
-                right: mobileOrbRoaming ? undefined : "max(24px, calc(50vw - 510px))",
-                top: mobileOrbRoaming ? undefined : "96px",
+                right: mobileOrbRoaming ? undefined : "max(24px, calc(50vw - 520px))",
+                top: mobileOrbRoaming ? undefined : "88px",
                 zIndex: 1,
-                opacity: mobileOrbRoaming ? 0.42 : 0.82,
+                opacity: mobileOrbRoaming ? 0.42 : 0.90,
                 transition: mobileOrbRoaming ? undefined : "opacity 0.6s ease",
               }}
             >
               <div
                 className="relative flex items-center justify-center"
-                style={{ width: "clamp(100px, 11vw, 140px)", height: "clamp(100px, 11vw, 140px)", animation: "genie-orb-float 5.5s ease-in-out infinite" }}
+                style={{ width: "clamp(148px, 15vw, 195px)", height: "clamp(148px, 15vw, 195px)", animation: "genie-orb-float 5.5s ease-in-out infinite" }}
               >
+                {/* Wide outer ambient glow — very soft */}
                 <div className="absolute rounded-full pointer-events-none" style={{
-                  inset: -30, background: "radial-gradient(circle, rgba(0,209,201,0.20) 0%, rgba(0,184,255,0.10) 55%, transparent 70%)",
-                  filter: "blur(14px)", animation: "genie-orb-pulse 4.5s ease-in-out infinite",
+                  inset: -55, background: "radial-gradient(circle, rgba(0,209,201,0.14) 0%, rgba(0,184,255,0.06) 45%, transparent 68%)",
+                  filter: "blur(22px)", animation: "genie-orb-pulse 5s ease-in-out infinite",
                 }} />
+                {/* Subtle gold ambient halo */}
+                <div className="absolute rounded-full pointer-events-none" style={{
+                  inset: -40, background: "radial-gradient(circle, rgba(212,175,55,0.06) 0%, transparent 60%)",
+                  filter: "blur(18px)", animation: "genie-orb-pulse 7s ease-in-out infinite 2s",
+                }} />
+                {/* Primary expanding halo */}
                 <div className="absolute inset-0 rounded-full pointer-events-none" style={{
-                  background: "radial-gradient(circle, rgba(0,209,201,0.26) 0%, transparent 70%)",
-                  animation: "genie-halo-expand 3s ease-out infinite",
+                  background: "radial-gradient(circle, rgba(0,209,201,0.22) 0%, transparent 70%)",
+                  animation: "genie-halo-expand 3.5s ease-out infinite",
                 }} />
+                {/* Secondary halo */}
                 <div className="absolute inset-0 rounded-full pointer-events-none" style={{
-                  background: "radial-gradient(circle, rgba(0,184,255,0.18) 0%, transparent 65%)",
-                  animation: "genie-halo-expand-2 3s ease-out infinite 1.5s",
+                  background: "radial-gradient(circle, rgba(0,184,255,0.14) 0%, transparent 65%)",
+                  animation: "genie-halo-expand-2 3.5s ease-out infinite 1.75s",
                 }} />
+                {/* Tertiary halo */}
+                <div className="absolute inset-0 rounded-full pointer-events-none" style={{
+                  background: "radial-gradient(circle, rgba(99,102,241,0.10) 0%, transparent 60%)",
+                  animation: "genie-halo-expand-3 4s ease-out infinite 0.9s",
+                }} />
+                {/* Orb sphere */}
                 <div className={`relative z-10 rounded-full overflow-hidden${orbGlowing ? " genie-orb-gold" : ""}${orbCelebrating ? " genie-orb-celebrate" : ""}`} style={{
-                  width: "clamp(66px, 8vw, 94px)", height: "clamp(66px, 8vw, 94px)",
-                  background: "radial-gradient(circle at 36% 28%, rgba(210,255,252,0.98) 0%, rgba(0,209,201,0.90) 22%, rgba(0,163,196,0.88) 50%, rgba(0,50,90,0.97) 80%, rgba(3,20,50,1) 100%)",
+                  width: "clamp(98px, 11vw, 132px)", height: "clamp(98px, 11vw, 132px)",
+                  background: "radial-gradient(circle at 34% 26%, rgba(220,255,254,1) 0%, rgba(0,229,192,0.94) 18%, rgba(0,195,210,0.90) 42%, rgba(0,60,100,0.96) 75%, rgba(3,18,48,1) 100%)",
                   animation: (orbGlowing || orbCelebrating) ? undefined : "genie-orb-glow-pulse 4.2s ease-in-out infinite",
                   willChange: "box-shadow, filter, transform",
+                  boxShadow: "0 0 0 2px rgba(0,209,201,0.55), 0 0 28px 10px rgba(0,209,201,0.30), 0 0 60px 20px rgba(0,184,255,0.16), inset 0 1px 0 rgba(255,255,255,0.32), 0 16px 52px rgba(0,0,0,0.55)",
                 }}>
                   <div style={{
                     position: "absolute", top: 0, left: 0, width: "200%", height: "100%",
-                    background: "repeating-linear-gradient(90deg,transparent 0%,transparent 7%,rgba(255,255,255,0.07) 7%,rgba(255,255,255,0.07) 8.5%,transparent 8.5%,transparent 20%,rgba(0,209,201,0.10) 20%,rgba(0,209,201,0.10) 23%,transparent 23%,transparent 50%)",
+                    background: "repeating-linear-gradient(90deg,transparent 0%,transparent 7%,rgba(255,255,255,0.09) 7%,rgba(255,255,255,0.09) 8.5%,transparent 8.5%,transparent 20%,rgba(0,229,192,0.12) 20%,rgba(0,229,192,0.12) 23%,transparent 23%,transparent 50%)",
                     animation: "genie-orb-bands 18s linear infinite",
                   }} />
                   <div style={{
-                    position: "absolute", top: "8%", left: "18%", width: "32%", height: "28%",
-                    background: "radial-gradient(circle, rgba(255,255,255,0.70) 0%, rgba(255,255,255,0.20) 60%, transparent 100%)",
-                    borderRadius: "50%", filter: "blur(2px)",
+                    position: "absolute", top: "7%", left: "16%", width: "36%", height: "30%",
+                    background: "radial-gradient(circle, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.28) 60%, transparent 100%)",
+                    borderRadius: "50%", filter: "blur(2.5px)",
+                  }} />
+                  {/* Small secondary gleam */}
+                  <div style={{
+                    position: "absolute", top: "52%", right: "12%", width: "18%", height: "16%",
+                    background: "radial-gradient(circle, rgba(255,255,255,0.35) 0%, transparent 100%)",
+                    borderRadius: "50%", filter: "blur(1.5px)",
                   }} />
                 </div>
               </div>
+              {/* Mascot label */}
+              <p className="mt-1 text-[10px] font-bold tracking-[0.18em] uppercase pointer-events-none" style={{ color: "rgba(0,229,192,0.55)", textShadow: "0 0 8px rgba(0,209,201,0.40)" }}>✦ Genie</p>
             </div>
           )}
 
@@ -4499,16 +4753,16 @@ export default function AidAgentPage() {
             {messages.length === 0 ? (
 
               /* ── Welcome state ── */
-              <div className="relative flex flex-col items-center px-4 py-8 sm:px-6 sm:py-12 genie-fade-in-up overflow-hidden">
+              <div className="relative flex flex-col items-center px-1 py-4 sm:px-2 sm:py-6 genie-fade-in-up overflow-hidden">
 
                 {/* ── Shooting stars layer ── */}
                 <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
                   {/* Pulsing background orbs */}
                   {[
-                    { w:320, h:320, top:"5%",  left:"10%",  color:"rgba(99,102,241,0.35)",  dur:"6s",  delay:"0s"   },
-                    { w:260, h:260, top:"40%", left:"65%",  color:"rgba(139,92,246,0.28)",  dur:"8s",  delay:"1.5s" },
-                    { w:200, h:200, top:"70%", left:"20%",  color:"rgba(251,191,36,0.18)",  dur:"7s",  delay:"3s"   },
-                    { w:180, h:180, top:"15%", left:"75%",  color:"rgba(56,189,248,0.15)",  dur:"9s",  delay:"0.8s" },
+                    { w:380, h:380, top:"5%",  left:"10%",  color:"rgba(99,102,241,0.16)",  dur:"8s",  delay:"0s"   },
+                    { w:300, h:300, top:"40%", left:"65%",  color:"rgba(139,92,246,0.12)",  dur:"10s", delay:"1.5s" },
+                    { w:240, h:240, top:"70%", left:"20%",  color:"rgba(251,191,36,0.09)",  dur:"9s",  delay:"3s"   },
+                    { w:220, h:220, top:"15%", left:"75%",  color:"rgba(56,189,248,0.08)",  dur:"11s", delay:"0.8s" },
                   ].map((o, i) => (
                     <div key={i} className="genie-orb-bg" style={{
                       width: o.w, height: o.h,
@@ -4580,85 +4834,85 @@ export default function AidAgentPage() {
                 <div className="relative w-full flex flex-col items-center" style={{ zIndex: 2 }}>
 
                 {/* ── Two-column console ── */}
-                <div className="w-full max-w-5xl flex flex-col md:flex-row gap-5 md:gap-6 items-start px-2 sm:px-4">
+                <div className="w-full max-w-[1280px] flex flex-col md:flex-row gap-3 md:gap-5 items-start px-1 sm:px-2">
 
                   {/* ══ LEFT — Slide 1: Hero & How It Works ══ */}
                   <div className="w-full md:w-[46%] flex flex-col">
 
                     {/* Headline */}
-                    <h2 className="text-3xl sm:text-[2.5rem] font-bold tracking-tight mb-3 text-center md:text-left leading-tight">
-                      <span style={{ color: "#FFFFFF", textShadow: "0 0 24px rgba(255,255,255,0.35), 0 0 8px rgba(255,255,255,0.20)" }}>Clear Guidance for FAFSA,</span>{" "}
-                      <span className="genie-shimmer-text">Aid Offers & Beyond.</span>
-                    </h2>
-                    <p className="text-base text-[#94A3B8] leading-relaxed text-center md:text-left mb-5">
-                      Clear answers backed by 15 years of student aid experience — plain English, instant clarity.
-                    </p>
+                    {/* ── Hero Headline ── */}
+                    <div className="mb-3 text-center md:text-left">
+                      <h2
+                        className="font-black tracking-[-0.03em] leading-[0.88] mb-2"
+                        style={{ fontSize: "clamp(2.8rem, 7.5vw, 5.2rem)" }}
+                      >
+                        <span className="block" style={{ color: "#FFFFFF", textShadow: "0 0 80px rgba(255,255,255,0.20), 0 2px 40px rgba(255,255,255,0.10)" }}>
+                          Student Aid,
+                        </span>
+                        <span className="block" style={{ color: "#FFFFFF", textShadow: "0 0 80px rgba(255,255,255,0.20), 0 2px 40px rgba(255,255,255,0.10)" }}>
+                          Made Clear.
+                        </span>
+                      </h2>
+                      <p
+                        className="font-bold tracking-[-0.005em] leading-snug text-[#94A3B8]/70 text-center md:text-left"
+                        style={{ fontSize: "clamp(0.9rem, 2vw, 1.1rem)" }}
+                      >
+                        Plain English answers · any school or institution · always free
+                      </p>
+                    </div>
 
                     {/* Trust strip */}
-                    <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-5">
+                    <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-3">
                       {[
-                        { icon: Award,       text: "15-yr FA Professional" },
                         { icon: BookOpen,    text: "34 CFR Full Coverage"  },
                         { icon: ShieldCheck, text: "Updated Weekly"        },
                         { icon: Users,       text: "Students · Parents · Offices" },
                       ].map(({ icon: Icon, text }) => (
-                        <span key={text} className="flex items-center gap-1.5 px-3 py-2 rounded-full bg-cyan-500/[0.08] ring-1 ring-cyan-500/[0.22] shadow-[0_0_8px_rgba(6,182,212,0.10)]">
+                        <span key={text} className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#0D1A32] ring-1 ring-cyan-500/[0.25] shadow-md shadow-black/35 hover:ring-cyan-400/50 hover:shadow-lg hover:shadow-cyan-900/25 hover:scale-[1.03] transition-all duration-150 cursor-default" style={{ backdropFilter: "blur(8px)", background: "linear-gradient(145deg, rgba(13,26,50,0.95) 0%, rgba(10,20,40,0.90) 100%)" }}>
                           <Icon className="h-4 w-4 text-cyan-400 shrink-0" aria-hidden="true" />
-                          <span className="text-xs text-white/70 font-medium">{text}</span>
+                          <span className="text-sm text-white/75 font-semibold">{text}</span>
                         </span>
                       ))}
                     </div>
 
                     {/* How It Works */}
-                    <div className="w-full mb-5">
-                      <div className="flex items-center gap-2 mb-4">
-                        <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/[0.07]" />
-                        <span className="text-xs font-bold uppercase tracking-widest text-cyan-400/40 px-2">How it works</span>
-                        <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/[0.07]" />
+                    <div className="w-full mb-3">
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className="h-px flex-1 bg-gradient-to-r from-transparent to-cyan-500/[0.15]" />
+                        <span className="text-xs font-bold uppercase tracking-[0.16em] text-cyan-400/60 px-2">How it works</span>
+                        <div className="h-px flex-1 bg-gradient-to-l from-transparent to-cyan-500/[0.15]" />
                       </div>
-                      <div className="grid grid-cols-2 gap-2">
+                      <div className="grid grid-cols-2 gap-3">
                         {([
-                          { icon: Sparkles,    step: "1", title: "Choose Your Role",  body: "Click to highlight role selector",      color: "text-violet-400", ring: "ring-violet-500/[0.18]", bg: "bg-violet-500/[0.07]", activeKey: "role"     as const },
-                          { icon: Send,        step: "2", title: "Ask Anything",       body: "Click to highlight the chat input",     color: "text-cyan-400",   ring: "ring-cyan-500/[0.18]",   bg: "bg-cyan-500/[0.07]",   activeKey: "chatbox"  as const },
-                          { icon: Library,     step: "3", title: "Explore the Hub",    body: "Click to highlight left & right panels",color: "text-sky-400",    ring: "ring-sky-500/[0.18]",    bg: "bg-sky-500/[0.07]",    activeKey: "panels"   as const },
-                          { icon: CheckCircle, step: "4", title: "Get Clear Guidance", body: "Click to highlight the response area",  color: "text-emerald-400",ring: "ring-emerald-500/[0.18]",bg: "bg-emerald-500/[0.07]",activeKey: "guidance" as const },
-                        ] as const).map(({ icon: Icon, step, title, body, color, ring, bg, activeKey }) => (
+                          { icon: Sparkles,    step: "1", title: "Choose Your Role",  body: "Pick your role for tailored guidance",      color: "text-violet-400", ring: "ring-[#D4AF37]/[0.28]", bg: "bg-violet-500/[0.08]", glowColor: "rgba(139,92,246,0.35)", activeKey: "role"     as const },
+                          { icon: Send,        step: "2", title: "Ask Anything",       body: "Type or speak any student aid question",   color: "text-cyan-400",   ring: "ring-[#D4AF37]/[0.28]",  bg: "bg-cyan-500/[0.08]",   glowColor: "rgba(6,182,212,0.35)",  activeKey: "chatbox"  as const },
+                          { icon: Library,     step: "3", title: "Explore the Hub",    body: "500+ curated resources & tools",          color: "text-sky-400",    ring: "ring-[#D4AF37]/[0.28]",  bg: "bg-sky-500/[0.08]",    glowColor: "rgba(56,189,248,0.35)", activeKey: "panels"   as const },
+                          { icon: CheckCircle, step: "4", title: "Get Clear Guidance", body: "Plain English answers, always free",       color: "text-emerald-400",ring: "ring-[#D4AF37]/[0.28]", bg: "bg-emerald-500/[0.08]",glowColor: "rgba(16,185,129,0.35)", activeKey: "guidance" as const },
+                        ] as const).map(({ icon: Icon, step, title, body, color, ring, bg, glowColor, activeKey }) => (
                           <button
                             key={step}
                             type="button"
                             onClick={() => { setHowItWorksActive(activeKey); triggerOrbGold(); if (activeKey === "panels") { setShowMobileLeft(true); setShowMobileRight(true); resetLeftTimer(); resetRightTimer(); } }}
-                            className={`flex flex-col gap-2 p-3 rounded-xl ${bg} ring-1 ${ring} text-left transition-all duration-150 hover:scale-[1.03] hover:brightness-110 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${howItWorksActive === activeKey ? "hiw-active-ring brightness-125" : ""}`}
+                            className={`flex flex-col gap-2 p-4 rounded-2xl ${bg} ring-1 ${ring} text-left transition-all duration-200 hover:scale-[1.04] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 backdrop-blur-sm ${howItWorksActive === activeKey ? "hiw-active-ring brightness-125" : ""}`}
+                            style={{
+                              background: `linear-gradient(145deg, rgba(13,26,50,0.90) 0%, rgba(13,26,50,0.70) 100%)`,
+                              boxShadow: howItWorksActive === activeKey
+                                ? `0 0 0 1px rgba(212,175,55,0.45), 0 4px 20px ${glowColor}, 0 0 40px ${glowColor}, inset 0 1px 0 rgba(255,255,255,0.08)`
+                                : `0 2px 12px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.05)`,
+                            }}
                           >
-                            <div className="flex items-start justify-between">
-                              <div className={`p-1.5 rounded-lg ${bg} ring-1 ${ring} shadow-sm`}>
+                            <div className="flex items-center justify-between">
+                              <div className={`p-2 rounded-xl ${bg} ring-1 ${ring} shadow-sm`}>
                                 <Icon className={`h-4 w-4 ${color} ${howItWorksActive === activeKey ? "animate-pulse" : ""}`} aria-hidden="true" />
                               </div>
-                              <span className="text-lg font-black text-white/10 tabular-nums leading-none">{step}</span>
+                              <span className="text-xl font-black text-white/[0.07] tabular-nums leading-none">{step}</span>
                             </div>
-                            <p className="text-xs font-semibold text-white/90 leading-tight">{title}</p>
-                            <p className="text-xs text-[#94A3B8] leading-snug">{body}</p>
+                            <p className="text-sm font-bold text-white/90 leading-tight">{title}</p>
+                            <p className="text-xs text-[#94A3B8]/80 leading-snug">{body}</p>
                           </button>
                         ))}
                       </div>
                     </div>
-
-                    {/* Music button */}
-                    <button
-                      type="button"
-                      onClick={() => window.dispatchEvent(new Event("genie-music-play"))}
-                      className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl ring-1 ring-cyan-500/[0.18] bg-gradient-to-r from-cyan-500/[0.05] to-indigo-500/[0.05] hover:ring-cyan-500/[0.38] hover:shadow-[0_0_18px_rgba(6,182,212,0.18)] transition-all duration-200 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 group"
-                      title="Click to start calm focus music"
-                    >
-                      <div className="shrink-0 p-2 rounded-xl bg-gradient-to-br from-cyan-500/20 to-indigo-600/20 ring-1 ring-cyan-500/25 group-hover:ring-cyan-400/50 group-hover:shadow-[0_0_10px_rgba(6,182,212,0.30)] transition-all duration-200">
-                        <Music className="h-4 w-4 text-cyan-300 group-hover:text-cyan-200 transition-colors" />
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-sm font-semibold text-cyan-300/80 leading-tight group-hover:text-cyan-200 transition-colors">🎵 Calm Focus Music — Click to Play</p>
-                        <p className="text-xs text-[#94A3B8]/80 leading-snug mt-0.5">
-                          25 public domain classical pieces. Use the header player to skip tracks anytime.
-                        </p>
-                      </div>
-                    </button>
 
                   </div>{/* end left column */}
 
@@ -4666,53 +4920,74 @@ export default function AidAgentPage() {
                   <div ref={tipsRef} className={`w-full md:w-[54%] flex flex-col transition-all duration-300${howItWorksActive === "role" ? " ring-2 ring-violet-500/40 rounded-2xl p-1" : ""}`}>
 
                     {/* Slide container */}
-                    <div className="overflow-hidden rounded-2xl ring-1 ring-white/[0.06]">
+                    <div className="overflow-hidden rounded-2xl ring-1 ring-[#D4AF37]/[0.22]">
                       <div className={`genie-console-slider${slideFlipped ? " genie-slide-flipped" : ""}`}>
 
                         {/* Slide 2 — I am a… */}
-                        <div className="genie-console-slide px-4 pt-4 pb-4 bg-[#0A1428]/60">
-                          <p className={`text-center text-sm font-bold uppercase tracking-[0.14em] mb-3 transition-colors ${howItWorksActive === "role" ? "text-violet-400 drop-shadow-[0_0_8px_rgba(139,92,246,0.7)]" : "text-[#94A3B8]/70"}`}>I am a…</p>
-                          <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 mb-4">
+                        <div className="genie-console-slide px-5 pt-5 pb-5 bg-[#0A1428]/60">
+                          {/* Header — matches Tips by Role style */}
+                          <div className="flex items-center justify-center gap-2 mb-4">
+                            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-violet-500/[0.20]" />
+                            <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#0D1A32] ring-1 ring-[#D4AF37]/[0.28] shadow-sm shadow-black/30 transition-all duration-200 ${howItWorksActive === "role" ? "shadow-violet-500/20" : ""}`}>
+                              <Users className={`h-3.5 w-3.5 transition-colors ${howItWorksActive === "role" ? "text-violet-400" : "text-amber-400/80"}`} />
+                              <span className={`text-xs font-bold tracking-[0.12em] uppercase transition-colors ${howItWorksActive === "role" ? "text-violet-400 drop-shadow-[0_0_8px_rgba(139,92,246,0.7)]" : "text-white/80"}`}>I am a…</span>
+                            </div>
+                            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-violet-500/[0.20]" />
+                            <button
+                              type="button"
+                              onClick={() => setSlideFlipped(true)}
+                              title="Tips by Role"
+                              className="shrink-0 flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-cyan-500/[0.10] ring-1 ring-cyan-500/[0.28] text-cyan-300/70 hover:bg-cyan-500/[0.20] hover:ring-cyan-400/55 hover:text-white transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 shadow-sm"
+                            >
+                              <span className="text-[10px] font-bold tracking-wide whitespace-nowrap">Tips</span>
+                              <ChevronRight className="h-3.5 w-3.5 shrink-0" />
+                            </button>
+                          </div>
+
+                          {/* Role selector — centered grid with role colors */}
+                          <div className="grid grid-cols-5 gap-2 mb-4 justify-items-center">
                             {([
-                              { role: "Students",       icon: GraduationCap  },
-                              { role: "Parents",        icon: Users           },
-                              { role: "Administrators", icon: ClipboardList   },
-                              { role: "Leaders",        icon: TrendingUp      },
-                              { role: "Auditors",       icon: ShieldCheck     },
-                            ] as const).map(({ role, icon: RoleIcon }) => (
+                              { role: "Students",       label: "Student",       icon: GraduationCap,  activeColor: "text-sky-300",    activeBg: "bg-sky-500/20",     activeRing: "ring-sky-400/50",    activeGlow: "shadow-sky-500/20",    iconActive: "text-sky-300"    },
+                              { role: "Parents",        label: "Parent",        icon: Users,           activeColor: "text-blue-300",   activeBg: "bg-blue-500/20",    activeRing: "ring-blue-400/50",   activeGlow: "shadow-blue-500/20",   iconActive: "text-blue-300"   },
+                              { role: "Administrators", label: "Admin",         icon: ClipboardList,   activeColor: "text-emerald-300",activeBg: "bg-emerald-500/20", activeRing: "ring-emerald-400/50",activeGlow: "shadow-emerald-500/20",iconActive: "text-emerald-300"},
+                              { role: "Leaders",        label: "Leader",        icon: TrendingUp,      activeColor: "text-violet-300", activeBg: "bg-violet-500/20",  activeRing: "ring-violet-400/50", activeGlow: "shadow-violet-500/20", iconActive: "text-violet-300" },
+                              { role: "Auditors",       label: "Auditor",       icon: ShieldCheck,     activeColor: "text-rose-300",   activeBg: "bg-rose-500/20",    activeRing: "ring-rose-400/50",   activeGlow: "shadow-rose-500/20",   iconActive: "text-rose-300"   },
+                            ] as const).map(({ role, label, icon: RoleIcon, activeColor, activeBg, activeRing, activeGlow, iconActive }) => (
                               <button
                                 key={role}
                                 onClick={() => syncRoles(role.replace(/s$/, "") as any)}
-                                className={`flex flex-col items-center gap-1.5 px-1 py-3 rounded-xl text-xs font-semibold transition-all duration-200 ring-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 ${
+                                className={`w-full flex flex-col items-center gap-1.5 px-1 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 ring-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] hover:scale-[1.05] active:scale-95 ${
                                   activeActionRole === role
-                                    ? "bg-gradient-to-b from-[#00D1C9]/20 to-[#007FA8]/10 text-[#00E5C0] ring-[#00D1C9]/35 shadow-lg shadow-[#00D1C9]/10"
-                                    : "text-[#94A3B8] hover:text-cyan-100/90 hover:bg-[#162645] ring-[#1E2A4A]"
+                                    ? `${activeBg} ${activeColor} ${activeRing} shadow-md ${activeGlow}`
+                                    : "text-[#94A3B8]/70 hover:text-white/90 hover:bg-white/[0.06] ring-white/[0.08] hover:ring-white/20"
                                 }`}
                               >
-                                <div className={`p-2 rounded-xl transition-all duration-200 ${activeActionRole === role ? "bg-[#00D1C9]/20 shadow-[0_0_16px_rgba(0,209,201,0.30)] ring-1 ring-[#00D1C9]/30" : "bg-[#13213F]"}`}>
-                                  <RoleIcon className={`h-5 w-5 transition-colors ${activeActionRole === role ? "text-[#00E5C0]" : "text-[#94A3B8]/60"}`} />
+                                <div className={`p-2 rounded-lg transition-all duration-200 ${activeActionRole === role ? `${activeBg} shadow-md ring-1 ${activeRing}` : "bg-white/[0.05]"}`}>
+                                  <RoleIcon className={`h-5 w-5 transition-colors ${activeActionRole === role ? iconActive : "text-[#94A3B8]/50"}`} />
                                 </div>
-                                <span className="text-center leading-tight">{role}</span>
+                                <span className="text-center leading-tight text-[10px]">{label}</span>
                               </button>
                             ))}
                           </div>
 
-                          {/* Quick-start cards */}
+                          {/* Quick-start cards — compact horizontal layout */}
                           {QUICK_ACTIONS_BY_ROLE.filter((r) => r.role === activeActionRole).map(({ role, items }) => (
-                            <div key={role} className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                              {items.slice(0, 4).map(({ icon: Icon, label, description, q }) => (
+                            <div key={role} className="grid grid-cols-1 gap-1.5">
+                              {items.slice(0, 7).map(({ icon: Icon, label, description, q }) => (
                                 <button
                                   key={`${role}-${label}`}
                                   onClick={() => sendMessage(q)}
-                                  className="flex flex-col gap-2.5 p-3.5 rounded-xl bg-[#13213F] hover:bg-[#162645] ring-1 ring-[#1E2A4A] hover:ring-[#00D1C9]/30 text-left transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D1C9]"
+                                  className="flex items-center gap-3 p-3 rounded-xl bg-[#0D1A32]/90 hover:bg-[#142240] ring-1 ring-[#D4AF37]/[0.14] hover:ring-[#D4AF37]/45 text-left transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] shadow-sm shadow-black/30 hover:shadow-md hover:shadow-black/50 hover:scale-[1.015] active:scale-[0.99] backdrop-blur-sm"
+                                  style={{ background: "rgba(13,26,50,0.85)" }}
                                 >
-                                  <div className="p-2.5 rounded-xl bg-white/[0.06] group-hover:bg-cyan-500/[0.15] ring-1 ring-white/[0.08] group-hover:ring-cyan-500/[0.30] group-hover:shadow-[0_0_14px_rgba(6,182,212,0.22)] transition-all duration-200 w-fit">
+                                  <div className="p-2.5 rounded-xl bg-white/[0.06] group-hover:bg-cyan-500/[0.18] ring-1 ring-white/[0.08] group-hover:ring-cyan-500/[0.35] group-hover:shadow-[0_0_12px_rgba(6,182,212,0.28)] transition-all duration-200 shrink-0">
                                     <Icon className="h-5 w-5 text-[#94A3B8] group-hover:text-[#00E5C0] transition-colors" />
                                   </div>
-                                  <div className="min-w-0">
+                                  <div className="min-w-0 flex-1">
                                     <p className="text-sm font-semibold text-white/80 group-hover:text-white transition-colors leading-tight">{label}</p>
-                                    <p className="text-xs text-cyan-300/45 mt-0.5 leading-tight line-clamp-2">{description}</p>
+                                    <p className="text-xs text-cyan-300/40 mt-0.5 leading-tight line-clamp-1">{description}</p>
                                   </div>
+                                  <ChevronRight className="h-3.5 w-3.5 text-white/15 group-hover:text-cyan-400 shrink-0 transition-colors" />
                                 </button>
                               ))}
                             </div>
@@ -4720,52 +4995,68 @@ export default function AidAgentPage() {
                         </div>{/* end slide 2 */}
 
                         {/* Slide 3 — Tips by Role */}
-                        <div className="genie-console-slide px-4 pt-4 pb-4 bg-[#0A1428]/60">
+                        <div className="genie-console-slide px-5 pt-5 pb-5 bg-[#0A1428]/60">
                           <div className="flex items-center justify-center gap-2 mb-4">
-                            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/10" />
-                            <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#13213F] ring-1 ring-[#1E2A4A]">
+                            <button
+                              type="button"
+                              onClick={() => setSlideFlipped(false)}
+                              title="I am a…"
+                              className="shrink-0 p-1 rounded-lg text-cyan-300/30 hover:text-cyan-300 hover:bg-cyan-500/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400"
+                            >
+                              <ChevronLeft className="h-4 w-4" />
+                            </button>
+                            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-amber-500/[0.20]" />
+                            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#0D1A32] ring-1 ring-[#D4AF37]/[0.28] shadow-sm shadow-black/30">
                               <Lightbulb className="h-3.5 w-3.5 text-amber-400" />
-                              <span className="text-xs font-semibold text-cyan-300/65 tracking-wide">Tips by Role</span>
+                              <span className="text-xs font-bold text-white/80 tracking-[0.12em] uppercase">Tips by Role</span>
                             </div>
-                            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/10" />
+                            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-amber-500/[0.20]" />
                           </div>
                           <div className="flex gap-1.5 justify-center flex-wrap mb-3">
-                            {ROLE_TIPS.map(({ role, icon: Icon }) => (
+                            {ROLE_TIPS.map(({ role, icon: Icon, gradient }) => {
+                              const roleColorMap: Record<string, { active: string; inactive: string }> = {
+                                Student:       { active: "bg-indigo-600/70 text-white ring-indigo-400/50 shadow-indigo-900/30",      inactive: "text-indigo-300/55 hover:text-indigo-200 hover:bg-indigo-500/[0.10] ring-[#D4AF37]/[0.12]" },
+                                Parent:        { active: "bg-blue-600/70 text-white ring-blue-400/50 shadow-blue-900/30",           inactive: "text-blue-300/55 hover:text-blue-200 hover:bg-blue-500/[0.10] ring-[#D4AF37]/[0.12]" },
+                                Administrator: { active: "bg-emerald-600/70 text-white ring-emerald-400/50 shadow-emerald-900/30",  inactive: "text-emerald-300/55 hover:text-emerald-200 hover:bg-emerald-500/[0.10] ring-[#D4AF37]/[0.12]" },
+                                Leader:        { active: "bg-violet-600/70 text-white ring-violet-400/50 shadow-violet-900/30",     inactive: "text-violet-300/55 hover:text-violet-200 hover:bg-violet-500/[0.10] ring-[#D4AF37]/[0.12]" },
+                                Auditor:       { active: "bg-rose-600/70 text-white ring-rose-400/50 shadow-rose-900/30",           inactive: "text-rose-300/55 hover:text-rose-200 hover:bg-rose-500/[0.10] ring-[#D4AF37]/[0.12]" },
+                              };
+                              const colors = roleColorMap[role] ?? { active: "bg-cyan-600/80 text-white ring-[#D4AF37]/45 shadow-black/30", inactive: "bg-white/[0.05] text-cyan-200/45 hover:text-cyan-100/80 hover:bg-cyan-500/[0.08] ring-[#D4AF37]/[0.15]" };
+                              return (
                               <button
                                 key={role}
                                 onClick={() => syncRoles(role)}
-                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 ${
-                                  activeRole === role
-                                    ? "bg-cyan-600/80 text-white ring-1 ring-cyan-500/40 shadow-md shadow-cyan-900/30"
-                                    : "bg-white/[0.05] text-cyan-200/45 hover:text-cyan-100/80 hover:bg-cyan-500/[0.08] ring-1 ring-white/[0.07]"
+                                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] hover:scale-[1.04] active:scale-95 ring-1 ${
+                                  activeRole === role ? `${colors.active} shadow-md` : `bg-white/[0.04] ${colors.inactive}`
                                 }`}
                               >
-                                <Icon className="h-3 w-3" />
+                                <Icon className="h-3.5 w-3.5" />
                                 {role}
                               </button>
-                            ))}
+                              );
+                            })}
                           </div>
                           {ROLE_TIPS.filter((r) => r.role === activeRole).map(({ role, icon: Icon, gradient, accent, tips }) => (
-                            <div key={role} className="rounded-2xl bg-[#13213F] ring-1 ring-[#1E2A4A] overflow-hidden">
-                              <div className={`bg-gradient-to-r ${gradient} px-4 py-4 flex items-center gap-3`}>
-                                <div className="p-2 rounded-xl bg-white/20">
-                                  <Icon className="h-5 w-5 text-white" />
+                            <div key={role} className="rounded-2xl bg-[#0D1A32] ring-1 ring-[#D4AF37]/[0.25] overflow-hidden shadow-lg shadow-black/40">
+                              <div className={`bg-gradient-to-r ${gradient} px-5 py-4 flex items-center gap-3`}>
+                                <div className="p-2.5 rounded-xl bg-white/20">
+                                  <Icon className="h-6 w-6 text-white" />
                                 </div>
                                 <div>
-                                  <p className="text-base font-semibold text-white leading-tight">As a {role}</p>
-                                  <p className="text-xs text-white/65 leading-tight mt-0.5">Click any tip to auto-send to AskGenie</p>
+                                  <p className="text-lg font-semibold text-white leading-tight">As a {role}</p>
+                                  <p className="text-sm text-white/65 leading-tight mt-0.5">Click any tip to auto-send to Genie</p>
                                 </div>
                               </div>
-                              <div className="divide-y divide-white/[0.06] max-h-[280px] overflow-y-auto">
+                              <div className="divide-y divide-white/[0.05] max-h-[320px] overflow-y-auto">
                                 {[...tips].reverse().slice(0, 5).map(({ text, prompt }, i) => (
                                   <button
                                     key={i}
                                     onClick={() => sendMessage(prompt)}
-                                    className="w-full flex items-start gap-3 px-4 py-3.5 text-left group hover:bg-cyan-500/[0.08] transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400"
+                                    className="w-full flex items-start gap-3 px-4 py-3.5 text-left group hover:bg-white/[0.06] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400 hover:translate-x-0.5"
                                   >
-                                    <span className={`mt-2 h-1.5 w-1.5 rounded-full shrink-0 ring-1 ${accent}`} />
+                                    <span className={`mt-2 h-2 w-2 rounded-full shrink-0 ring-1 ${accent} group-hover:scale-125 transition-transform`} />
                                     <p className="text-sm text-[#94A3B8] group-hover:text-white/90 leading-snug transition-colors duration-150 flex-1">{text}</p>
-                                    <ChevronRight className="h-3.5 w-3.5 text-white/15 group-hover:text-cyan-400 shrink-0 mt-0.5 transition-colors duration-150" />
+                                    <ChevronRight className="h-4 w-4 text-white/15 group-hover:text-cyan-400 shrink-0 mt-0.5 transition-all duration-150 group-hover:translate-x-0.5" />
                                   </button>
                                 ))}
                               </div>
@@ -4776,33 +5067,174 @@ export default function AidAgentPage() {
                       </div>{/* end genie-console-slider */}
                     </div>{/* end overflow container */}
 
-                    {/* Slide navigation — bottom */}
-                    <div className="flex items-center justify-between mt-3 px-0.5">
-                      <button
-                        type="button"
-                        onClick={() => setSlideFlipped(false)}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${!slideFlipped ? "bg-cyan-600/80 text-white ring-1 ring-cyan-500/40 shadow-md shadow-cyan-900/30" : "bg-white/[0.05] text-cyan-200/50 hover:text-cyan-100 hover:bg-cyan-500/[0.08] ring-1 ring-white/[0.07]"}`}
-                      >
-                        <ChevronLeft className="h-3.5 w-3.5" />
-                        I am a…
-                      </button>
-                      <div className="flex items-center gap-1.5">
-                        <span className={`h-1.5 rounded-full transition-all duration-300 ${!slideFlipped ? "w-4 bg-cyan-400" : "w-1.5 bg-white/20"}`} />
-                        <span className={`h-1.5 rounded-full transition-all duration-300 ${slideFlipped ? "w-4 bg-cyan-400" : "w-1.5 bg-white/20"}`} />
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => setSlideFlipped(true)}
-                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${slideFlipped ? "bg-cyan-600/80 text-white ring-1 ring-cyan-500/40 shadow-md shadow-cyan-900/30" : "bg-white/[0.05] text-cyan-200/50 hover:text-cyan-100 hover:bg-cyan-500/[0.08] ring-1 ring-white/[0.07]"}`}
-                      >
-                        Tips by Role
-                        <ChevronRight className="h-3.5 w-3.5" />
-                      </button>
-                    </div>
-
                   </div>{/* end right column */}
 
                 </div>{/* end two-column console */}
+
+                {/* ── Inline chatbox — welcome state, desktop only (mobile uses footer bar) ── */}
+                <div className="hidden sm:block w-full max-w-[1280px] mt-4 px-1 sm:px-2">
+                  <div className="rounded-2xl bg-[#0A1428]/80 backdrop-blur-xl ring-1 ring-[#1E2A4A] px-4 pt-4 pb-4 shadow-xl shadow-black/40">
+                    {/* Prompt label row */}
+                    <div className="flex items-center gap-2 mb-2 px-1">
+                      <GenieBottle className="h-3.5 w-3.5 text-amber-400 shrink-0 genie-icon-shimmer" />
+                      <span className="text-sm font-semibold tracking-wide">
+                        <span className="text-white">ask</span><span className="genie-shimmer-text">Genie</span>
+                      </span>
+                      <div className="h-px flex-1 bg-white/[0.06]" />
+                    </div>
+
+                    {/* Role selector */}
+                    <div className="flex items-center gap-1.5 flex-wrap mb-2.5 px-1">
+                      <span className="text-[10px] text-cyan-400/55 font-semibold tracking-wide mr-0.5 shrink-0">I am a:</span>
+                      {ROLE_OPTIONS.map(({ label, icon: RoleIcon, color, ring, bg }) => (
+                        <button
+                          key={label}
+                          type="button"
+                          aria-pressed={selectedRole === label}
+                          onClick={() => { syncRoles(selectedRole === label ? null : label); if (selectedRole !== label) setSlideFlipped(true); }}
+                          className={`flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ring-1 ${
+                            selectedRole === label
+                              ? `${color} ${bg} ${ring}`
+                              : "text-cyan-300/45 bg-transparent ring-cyan-500/[0.18] hover:text-cyan-200 hover:bg-cyan-500/[0.10] hover:ring-cyan-400/40"
+                          }`}
+                        >
+                          <RoleIcon className="h-2.5 w-2.5 shrink-0" />
+                          {label}
+                        </button>
+                      ))}
+                      {selectedRole && (
+                        <button
+                          type="button"
+                          onClick={() => syncRoles(null)}
+                          className="text-[10px] text-cyan-400/35 hover:text-cyan-300/70 transition-colors ml-0.5"
+                        >
+                          ✕ clear
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Attached file preview */}
+                    {attachedFile && (
+                      <div className="flex items-center gap-2 px-3 py-2 mb-1.5 rounded-xl bg-cyan-500/[0.12] ring-1 ring-cyan-500/[0.28]">
+                        {attachedFile.type === "image" ? (
+                          <ImageIcon className="h-3.5 w-3.5 text-cyan-300 shrink-0" />
+                        ) : attachedFile.type === "audio" ? (
+                          <Mic className="h-3.5 w-3.5 text-rose-300 shrink-0" />
+                        ) : (
+                          <Paperclip className="h-3.5 w-3.5 text-cyan-300 shrink-0" />
+                        )}
+                        <span className="text-xs text-white/80 flex-1 truncate">{attachedFile.name}</span>
+                        <button type="button" onClick={() => setAttachedFile(null)} className="text-white/35 hover:text-white transition-colors">
+                          <X className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                    )}
+
+                    {/* Input form */}
+                    <div
+                      className={`rounded-2xl ring-1 focus-within:ring-[#D4AF37]/70 transition-all duration-200 ${!input && !attachedFile ? "genie-chatbox-invite ring-[#D4AF37]/[0.25]" : "ring-[#D4AF37]/55"}`}
+                      style={{ background: "rgba(212,175,55,0.035)" }}
+                    >
+                      <form onSubmit={handleSubmit} className="flex gap-2 items-end px-3 py-2.5">
+                        <div className="flex items-center gap-0.5 shrink-0 mb-0.5">
+                          <button type="button" title={canAccessFeature("document_upload", userTier) ? "Upload document" : "Pro — upload documents"}
+                            onClick={() => canAccessFeature("document_upload", userTier) ? fileInputRef.current?.click() : openUpgrade("document_upload")}
+                            className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? (!input && !attachedFile ? "genie-tool-invite" : "text-cyan-400/55") + " hover:text-cyan-300 hover:bg-cyan-500/[0.18]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
+                            <Paperclip className="h-4 w-4" />
+                          </button>
+                          <button type="button" title={canAccessFeature("document_upload", userTier) ? "Take or upload a photo" : "Pro — upload photos"}
+                            onClick={() => canAccessFeature("document_upload", userTier) ? cameraInputRef.current?.click() : openUpgrade("document_upload")}
+                            className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? (!input && !attachedFile ? "genie-tool-invite" : "text-cyan-400/55") + " hover:text-cyan-300 hover:bg-cyan-500/[0.18]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
+                            <Camera className="h-4 w-4" />
+                          </button>
+                          <button type="button"
+                            title={!canAccessFeature("document_upload", userTier) ? "Pro — voice messages" : isRecording ? "Stop recording" : "Record voice message"}
+                            onClick={!canAccessFeature("document_upload", userTier) ? () => openUpgrade("document_upload") : isRecording ? stopVoiceRecording : startVoiceRecording}
+                            className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
+                              isRecording
+                                ? "text-rose-400 bg-rose-500/20 ring-1 ring-rose-500/40 animate-pulse"
+                                : canAccessFeature("document_upload", userTier)
+                                ? (!input && !attachedFile ? "genie-tool-invite" : "text-cyan-400/55") + " hover:text-cyan-300 hover:bg-cyan-500/[0.18]"
+                                : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"
+                            }`}>
+                            {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+                          </button>
+                        </div>
+                        <div className="flex-1 relative">
+                          {isRecording && voiceTranscript && (
+                            <p className="absolute top-0 left-2 right-2 text-xs text-rose-300/80 italic pointer-events-none truncate">
+                              🎙 {voiceTranscript}
+                            </p>
+                          )}
+                          <textarea
+                            value={input}
+                            onChange={handleInputChange}
+                            onKeyDown={handleKeyDown}
+                            aria-label="Ask Genie a financial aid question"
+                            placeholder={isRecording ? "🎙 Listening… speak your question…" : "Ask about FAFSA, aid offers, R2T4, SAP, or any student aid question…"}
+                            rows={1}
+                            className="w-full resize-none px-2 py-1.5 bg-transparent text-white text-sm placeholder:text-cyan-200/22 focus:outline-none leading-relaxed"
+                            style={{ minHeight: "40px", maxHeight: "160px" }}
+                          />
+                        </div>
+                        {isStreaming ? (
+                          <button
+                            type="button"
+                            onClick={stopStreaming}
+                            title="Stop generating"
+                            className="shrink-0 mb-0.5 flex items-center gap-1.5 px-3 py-2 rounded-xl text-rose-300 text-xs font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
+                            style={{ background: "rgba(244,63,94,0.14)", boxShadow: "0 0 0 1px rgba(244,63,94,0.30)" }}
+                          >
+                            <Square className="h-3.5 w-3.5 fill-current" />
+                            Stop
+                          </button>
+                        ) : (
+                          <button
+                            type="submit"
+                            disabled={(!input.trim() && !attachedFile) || isLoading}
+                            onClick={triggerOrbGold}
+                            className="shrink-0 mb-0.5 flex items-center gap-1.5 px-4 py-2 rounded-xl text-white text-xs font-bold tracking-wide active:scale-95 transition-all duration-150 disabled:opacity-30 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-cyan-400"
+                            style={{
+                              background: "linear-gradient(135deg, #00B8C8 0%, #00D1C9 50%, #0099B8 100%)",
+                              boxShadow: "0 0 0 1px rgba(0,209,201,0.50), 0 2px 16px rgba(0,209,201,0.40), 0 0 32px rgba(0,229,192,0.20), inset 0 1px 0 rgba(255,255,255,0.15)",
+                            }}
+                          >
+                            <GenieBottle className="h-4 w-4 text-amber-200 genie-send-icon" />
+                            Send
+                          </button>
+                        )}
+                      </form>
+                    </div>
+
+                    {/* Footer hints */}
+                    <div className="mt-1 border-t border-white/[0.05] pt-1.5 flex flex-col items-center gap-0.5">
+                      <p className="text-[9px] text-cyan-400/28 text-center leading-snug">
+                        Enter to send · Shift+Enter new line · Verify with FSA Handbook · Unofficial — not affiliated with U.S. Dept. of Education · Built by a 15-year FA professional
+                      </p>
+                      <div className="flex flex-wrap justify-center items-center gap-x-0 gap-y-0.5">
+                        {[
+                          { label: "Plans & Pricing",     href: "/pricing",      cls: "font-semibold text-[#C9A227]/80 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.10] ring-1 ring-[#D4AF37]/[0.25] hover:ring-[#D4AF37]/45" },
+                          { label: "FAQ",                 href: "/pricing#faq",  cls: "font-medium text-white/35 hover:text-cyan-200/80 hover:bg-white/[0.06]" },
+                          { label: "Support Dev",         href: "/support",      cls: "font-medium text-white/35 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
+                          { label: "@one27__",            href: "https://x.com/one27__", cls: "font-semibold text-[#C9A227]/80 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.08] ring-1 ring-[#D4AF37]/20 hover:ring-[#D4AF37]/40" },
+                          { label: "Terms & Privacy",     href: "/legal",        cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
+                          { label: "School DPA",          href: "/dpa",          cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
+                          { label: "About",               href: "/about",        cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
+                          { label: "For Schools",         href: "/institutions", cls: "font-semibold text-cyan-400/75 hover:text-cyan-300 hover:bg-cyan-500/[0.12] ring-1 ring-cyan-500/[0.20] hover:ring-cyan-400/40" },
+                          { label: "Do Not Sell My Info", href: "/legal#ccpa",   cls: "font-medium text-white/25 hover:text-cyan-200/60 hover:bg-cyan-500/[0.06]" },
+                        ].map(({ label, href, cls }, i, arr) => (
+                          <span key={label} className="contents">
+                            <a href={href} target="_blank" rel="noopener noreferrer" className={`px-1.5 py-px rounded-full text-[9px] transition-all duration-150 ${cls}`}>{label}</a>
+                            {i < arr.length - 1 && <span className="text-white/10 text-[9px] select-none px-0.5">·</span>}
+                          </span>
+                        ))}
+                      </div>
+                      <p className="text-[9px] text-center text-cyan-500/22">
+                        © 2026 Genie Student Aid Hub | Developed by One27 | All Rights Reserved
+                      </p>
+                    </div>
+                  </div>
+                </div>
 
                 </div>{/* end z-[2] wrapper */}
               </div>
@@ -4916,8 +5348,8 @@ export default function AidAgentPage() {
             )}
           </div>
 
-          {/* Input area */}
-          <div className="shrink-0 relative bg-[#0A1428]/80 backdrop-blur-xl border-t border-[#1E2A4A] px-4 pt-4 pb-5" style={{ zIndex: 3 }}>
+          {/* Input area — always visible on mobile; hidden on desktop in welcome state (inline chatbox handles it) */}
+          <div className={`shrink-0 relative bg-[#0A1428]/80 backdrop-blur-xl border-t border-[#1E2A4A] px-4 pt-4 pb-5 ${messages.length === 0 ? "sm:hidden" : ""}`} style={{ zIndex: 3 }}>
             {/* Ambient glow bloom behind chatbox */}
             <div className="pointer-events-none absolute inset-x-0 -top-6 h-16 bg-gradient-to-t from-cyan-500/[0.06] to-transparent" />
 
@@ -4925,8 +5357,8 @@ export default function AidAgentPage() {
               {/* Prompt label row */}
               <div className="flex items-center gap-2 mb-2 px-1">
                 <GenieBottle className="h-3.5 w-3.5 text-amber-400 shrink-0 genie-icon-shimmer" />
-                <span className="text-sm font-semibold tracking-wide genie-shimmer-text">
-                  AskGenie
+                <span className="text-sm font-semibold tracking-wide">
+                  <span className="text-white">ask</span><span className="genie-shimmer-text">Genie</span>
                 </span>
                 <div className="h-px flex-1 bg-white/[0.06]" />
                 {messages.length > 0 && (
@@ -5000,9 +5432,9 @@ export default function AidAgentPage() {
 
               {/* Input form */}
               <div
-                className={`rounded-2xl ring-1 focus-within:ring-cyan-400/65 transition-all duration-200 ${howItWorksActive === "chatbox" ? "hiw-active-ring" : (!input && !attachedFile ? "genie-chatbox-invite ring-cyan-500/[0.28]" : "ring-cyan-400/55")}`}
+                className={`rounded-2xl ring-1 focus-within:ring-[#D4AF37]/70 transition-all duration-200 ${howItWorksActive === "chatbox" ? "hiw-active-ring" : (!input && !attachedFile ? "genie-chatbox-invite ring-[#D4AF37]/[0.25]" : "ring-[#D4AF37]/55")}`}
                 style={{
-                  background: "rgba(6,182,212,0.05)",
+                  background: "rgba(212,175,55,0.035)",
                   boxShadow: howItWorksActive === "chatbox"
                     ? "0 0 0 2px rgba(6,182,212,0.55), 0 0 40px rgba(6,182,212,0.30), 0 0 80px rgba(6,182,212,0.12), 0 1px 0 rgba(255,255,255,0.06) inset"
                     : undefined,
@@ -5089,43 +5521,30 @@ export default function AidAgentPage() {
 
 
               {/* Footer hints */}
-              <div className="mt-2 flex flex-col items-center gap-0.5">
-                <p className="text-[10px] text-cyan-400/30 text-center tracking-wide">
-                  Enter to send · Shift+Enter for new line · Attach docs, photos, or voice · Always verify with the FSA Handbook
+              <div className="mt-1 border-t border-white/[0.05] pt-1.5 flex flex-col items-center gap-0.5">
+                <p className="text-[9px] text-cyan-400/28 text-center leading-snug">
+                  Enter to send · Shift+Enter new line · Verify with FSA Handbook · Unofficial — not affiliated with U.S. Dept. of Education · Built by a 15-year FA professional
                 </p>
-                <p className="text-[10px] text-center text-cyan-300/30">
-                  Unofficial reference tool — not affiliated with the U.S. Department of Education
-                </p>
-                <p className="text-[10px] text-center text-cyan-200/28 italic mt-0.5">
-                  Built by a 15-year Student Financial Aid professional. Designed for the people who do this work every day.
-                </p>
-                <div className="flex flex-wrap justify-center items-center gap-x-0.5 gap-y-1 mt-1">
+                <div className="flex flex-wrap justify-center items-center gap-x-0 gap-y-0.5">
                   {[
-                    { label: "Plans & Pricing",  href: "/pricing",      cls: "font-semibold text-cyan-400/75 hover:text-cyan-300 hover:bg-cyan-500/[0.12] ring-1 ring-cyan-500/[0.20] hover:ring-cyan-400/40" },
-                    { label: "FAQ",              href: "/pricing#faq",  cls: "font-medium text-white/35 hover:text-cyan-200/80 hover:bg-white/[0.06]" },
-                    { label: "Support Dev",      href: "/support",      cls: "font-medium text-white/35 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
-                    { label: "@one27__",         href: "https://x.com/one27__", cls: "font-medium text-cyan-400/55 hover:text-cyan-300 hover:bg-cyan-500/[0.08]" },
-                    { label: "Terms & Privacy",  href: "/legal",        cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
-                    { label: "School DPA",       href: "/dpa",          cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
-                    { label: "About",            href: "/about",        cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
-                    { label: "For Schools",      href: "/institutions", cls: "font-semibold text-cyan-400/75 hover:text-cyan-300 hover:bg-cyan-500/[0.12] ring-1 ring-cyan-500/[0.20] hover:ring-cyan-400/40" },
-                    { label: "Do Not Sell My Info", href: "/legal#ccpa", cls: "font-medium text-white/25 hover:text-cyan-200/60 hover:bg-cyan-500/[0.06]" },
+                    { label: "Plans & Pricing",     href: "/pricing",      cls: "font-semibold text-[#C9A227]/80 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.10] ring-1 ring-[#D4AF37]/[0.25] hover:ring-[#D4AF37]/45" },
+                    { label: "FAQ",                 href: "/pricing#faq",  cls: "font-medium text-white/35 hover:text-cyan-200/80 hover:bg-white/[0.06]" },
+                    { label: "Support Dev",         href: "/support",      cls: "font-medium text-white/35 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
+                    { label: "@one27__",            href: "https://x.com/one27__", cls: "font-semibold text-[#C9A227]/80 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.08] ring-1 ring-[#D4AF37]/20 hover:ring-[#D4AF37]/40" },
+                    { label: "Terms & Privacy",     href: "/legal",        cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
+                    { label: "School DPA",          href: "/dpa",          cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
+                    { label: "About",               href: "/about",        cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
+                    { label: "For Schools",         href: "/institutions", cls: "font-semibold text-cyan-400/75 hover:text-cyan-300 hover:bg-cyan-500/[0.12] ring-1 ring-cyan-500/[0.20] hover:ring-cyan-400/40" },
+                    { label: "Do Not Sell My Info", href: "/legal#ccpa",   cls: "font-medium text-white/25 hover:text-cyan-200/60 hover:bg-cyan-500/[0.06]" },
                   ].map(({ label, href, cls }, i, arr) => (
                     <span key={label} className="contents">
-                      <a
-                        href={href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`px-2 py-0.5 rounded-full text-[10px] transition-all duration-150 ${cls}`}
-                      >
-                        {label}
-                      </a>
-                      {i < arr.length - 1 && <span className="text-white/12 text-[10px] select-none">·</span>}
+                      <a href={href} target="_blank" rel="noopener noreferrer" className={`px-1.5 py-px rounded-full text-[9px] transition-all duration-150 ${cls}`}>{label}</a>
+                      {i < arr.length - 1 && <span className="text-white/10 text-[9px] select-none px-0.5">·</span>}
                     </span>
                   ))}
                 </div>
-                <p className="text-[10px] text-center text-cyan-500/25 mt-0.5">
-                  © 2026 AskGenie Student Aid Hub | Developed by One27 | All Rights Reserved
+                <p className="text-[9px] text-center text-cyan-500/22">
+                  © 2026 Genie Student Aid Hub | Developed by One27 | All Rights Reserved
                 </p>
               </div>
             </div>
@@ -5133,160 +5552,431 @@ export default function AidAgentPage() {
 
         </main>
 
-        {/* ── Right Panel — Coverage + Quick Actions ── */}
-        <aside className={`${showMobileRight ? "flex" : "hidden"} fixed inset-x-0 bottom-0 z-[60] flex-col bg-[#060E1F]/97 backdrop-blur-2xl border-t border-[#1E2A4A]${howItWorksActive === "panels" ? " hiw-panel-explore" : ""}`} style={{ top: "5rem" }}>
+        {/* ── Right Dropdown — Administrators, Leaders & Auditors ── */}
+        <aside
+          className={`${showMobileRight ? "flex" : "hidden"} fixed z-[60] flex-col rounded-2xl overflow-hidden border border-violet-500/[0.15] shadow-2xl shadow-black/70 backdrop-blur-2xl`}
+          style={{ top: "84px", right: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(8,14,38,0.97) 0%, rgba(10,16,44,0.96) 50%, rgba(7,12,36,0.97) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.70), 0 0 0 1px rgba(139,92,246,0.12), inset 0 1px 0 rgba(255,255,255,0.04)" }}
+        >
           {howItWorksActive === "panels" && <div className="hiw-scan-overlay" aria-hidden="true" />}
 
-          {/* Panel header */}
-          <div className="shrink-0 flex items-center justify-between px-6 py-4 border-b border-[#1E2A4A] bg-[#0A1428]/80">
-            <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 shadow-lg shadow-cyan-500/30">
-                <Zap className="h-5 w-5 text-white" />
+          {/* Header */}
+          <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-[#1E2A4A] bg-[#0A1428]/80">
+            <div className="flex items-center gap-2.5">
+              <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/25">
+                <Zap className="h-4 w-4 text-white" />
               </div>
               <div>
-                <p className="text-xs font-bold text-cyan-500/65 uppercase tracking-widest">Student Aid Hub</p>
-                <p className="text-base font-semibold bg-gradient-to-r from-cyan-300 to-teal-300 bg-clip-text text-transparent">Administrators, Leaders &amp; Auditors</p>
+                <p className="text-[8px] font-bold text-cyan-500/65 uppercase tracking-widest">Student Aid Hub</p>
+                <p className="text-sm font-semibold bg-gradient-to-r from-cyan-300 to-teal-300 bg-clip-text text-transparent">Administrators, Leaders &amp; Auditors</p>
               </div>
             </div>
-            <button onClick={() => setShowMobileRight(false)} className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400">
-              <X className="h-5 w-5" />
+            <button onClick={() => setShowMobileRight(false)} className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all">
+              <X className="h-4 w-4" />
             </button>
           </div>
 
-          {/* 5-column grid */}
-          <div className="flex-1 overflow-y-auto p-5">
-            <div className="grid grid-cols-5 gap-5">
+          {/* Scrollable content */}
+          <div className="flex-1 overflow-y-auto p-4">
+            <div className="space-y-5">
 
-              {/* Col 1: Admin Quick Actions */}
-              <div className="flex flex-col min-w-0">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-emerald-400/80 mb-3 pb-2 border-b border-[#1E2A4A] flex items-center gap-1.5">
-                  <ClipboardList className="h-3.5 w-3.5 shrink-0" />Administrators
-                </h3>
-                <div className="space-y-1">
-                  {(() => {
-                    const r = QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Administrators");
-                    return r ? [...r.items, ...r.more].map(({ icon: Icon, label, description, q }) => (
-                      <button key={label} onClick={() => sendMessage(q)}
-                        className="w-full flex items-start gap-2 px-2.5 py-2.5 rounded-xl text-left group hover:bg-emerald-500/[0.10] ring-1 ring-transparent hover:ring-emerald-500/[0.18] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400">
-                        <div className="mt-0.5 p-1.5 rounded-lg bg-[#1E2A4A] group-hover:bg-emerald-500/[0.20] transition-colors shrink-0">
-                          <Icon className="h-3.5 w-3.5 text-[#94A3B8] group-hover:text-emerald-300 transition-colors" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-xs font-semibold text-[#E2E8F0] group-hover:text-emerald-300 leading-tight">{label}</p>
-                          <p className="text-[11px] text-[#94A3B8]/60 mt-0.5 leading-tight line-clamp-2">{description}</p>
-                        </div>
-                      </button>
-                    )) : null;
-                  })()}
-                </div>
-              </div>
-
-              {/* Col 2: Leader Quick Actions */}
-              <div className="flex flex-col min-w-0">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-violet-400/80 mb-3 pb-2 border-b border-[#1E2A4A] flex items-center gap-1.5">
-                  <TrendingUp className="h-3.5 w-3.5 shrink-0" />Leaders
-                </h3>
-                <div className="space-y-1">
-                  {(() => {
-                    const r = QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Leaders");
-                    return r ? [...r.items, ...r.more].map(({ icon: Icon, label, description, q }) => (
-                      <button key={label} onClick={() => sendMessage(q)}
-                        className="w-full flex items-start gap-2 px-2.5 py-2.5 rounded-xl text-left group hover:bg-violet-500/[0.10] ring-1 ring-transparent hover:ring-violet-500/[0.18] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400">
-                        <div className="mt-0.5 p-1.5 rounded-lg bg-[#1E2A4A] group-hover:bg-violet-500/[0.20] transition-colors shrink-0">
-                          <Icon className="h-3.5 w-3.5 text-[#94A3B8] group-hover:text-violet-300 transition-colors" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-xs font-semibold text-[#E2E8F0] group-hover:text-violet-300 leading-tight">{label}</p>
-                          <p className="text-[11px] text-[#94A3B8]/60 mt-0.5 leading-tight line-clamp-2">{description}</p>
-                        </div>
-                      </button>
-                    )) : null;
-                  })()}
-                </div>
-              </div>
-
-              {/* Col 3: Auditor Quick Actions */}
-              <div className="flex flex-col min-w-0">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-rose-400/80 mb-3 pb-2 border-b border-[#1E2A4A] flex items-center gap-1.5">
-                  <ShieldCheck className="h-3.5 w-3.5 shrink-0" />Auditors
-                </h3>
-                <div className="space-y-1">
-                  {(() => {
-                    const r = QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Auditors");
-                    return r ? [...r.items, ...r.more].map(({ icon: Icon, label, description, q }) => (
-                      <button key={label} onClick={() => sendMessage(q)}
-                        className="w-full flex items-start gap-2 px-2.5 py-2.5 rounded-xl text-left group hover:bg-rose-500/[0.10] ring-1 ring-transparent hover:ring-rose-500/[0.18] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400">
-                        <div className="mt-0.5 p-1.5 rounded-lg bg-[#1E2A4A] group-hover:bg-rose-500/[0.20] transition-colors shrink-0">
-                          <Icon className="h-3.5 w-3.5 text-[#94A3B8] group-hover:text-rose-300 transition-colors" />
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <p className="text-xs font-semibold text-[#E2E8F0] group-hover:text-rose-300 leading-tight">{label}</p>
-                          <p className="text-[11px] text-[#94A3B8]/60 mt-0.5 leading-tight line-clamp-2">{description}</p>
-                        </div>
-                      </button>
-                    )) : null;
-                  })()}
-                </div>
-              </div>
-
-              {/* Col 4: FA References */}
-              <div className="flex flex-col min-w-0">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-sky-400/80 mb-3 pb-2 border-b border-[#1E2A4A] flex items-center gap-1.5">
-                  <BookOpen className="h-3.5 w-3.5 shrink-0" />FA References
-                </h3>
-                <div className="space-y-1 mb-5">
-                  {(FEDERAL_RESOURCES.find(g => g.group === "Administrators & Advisors")?.links ?? []).map(({ name, url }) => (
-                    <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                      className="flex items-center justify-between px-2.5 py-2.5 rounded-xl text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-sky-500/[0.08] ring-1 ring-transparent hover:ring-sky-500/[0.18] transition-all duration-150 group">
-                      <span className="leading-tight">{name}</span>
-                      <ExternalLink className="h-3 w-3 text-[#94A3B8]/40 group-hover:text-sky-400 shrink-0 ml-2" />
-                    </a>
-                  ))}
-                </div>
-                <p className="text-xs font-bold uppercase tracking-widest text-sky-400/60 mb-3 pb-2 border-b border-[#1E2A4A]">Video Guides</p>
-                <div className="space-y-2">
-                  {["P6FORpg0KVo", "HAnw168huqA", "rhgwIhB58PA"].map((id) => (
-                    <div key={id} className="rounded-lg overflow-hidden ring-1 ring-white/[0.08]">
-                      <iframe src={`https://www.youtube.com/embed/${id}`} title="Admin Video"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen loading="lazy" className="w-full aspect-video" />
+              {/* Administrators Quick Actions */}
+              {(() => {
+                const ck = "rc-adm-qa";
+                const expanded = expandedSections.has(ck);
+                const r = QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Administrators");
+                const all = r ? [...r.items, ...r.more] : [];
+                const CPP = 3; const page = carouselIdx[ck] ?? 0; const tp = Math.ceil(all.length / CPP);
+                const vis = all.slice(page * CPP, (page + 1) * CPP);
+                return (
+                  <div>
+                    <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                      <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><ClipboardList className="h-3 w-3 shrink-0"/>Administrators Quick Actions</p>
+                      <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
                     </div>
-                  ))}
-                </div>
-              </div>
+                    {expanded && <div className="mt-2 grid grid-cols-3 gap-1.5">
+                      {vis.map(({ icon: Icon, label, description, q }) => (
+                        <button key={label} onClick={() => { sendMessage(q); setShowMobileRight(false); }}
+                                className="flex flex-col gap-1 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-emerald-500/[0.12] ring-1 ring-[#1A2540] hover:ring-emerald-500/35 transition-all duration-150 group text-left shadow-sm shadow-black/30 hover:shadow-md hover:shadow-emerald-900/20 hover:scale-[1.03] active:scale-[0.97]" style={{ backdropFilter: "blur(8px)" }}>
+                          <div className="flex items-center gap-1.5 min-w-0"><div className="p-1 rounded-md bg-[#1E2A4A] group-hover:bg-emerald-500/20 transition-colors shrink-0"><Icon className="h-3 w-3 text-[#94A3B8] group-hover:text-emerald-300 transition-colors"/></div><span className="text-[10px] font-semibold text-[#E2E8F0] group-hover:text-emerald-300 truncate leading-tight">{label}</span></div>
+                          <p className="text-[9px] text-[#94A3B8]/50 leading-tight line-clamp-2">{description}</p>
+                        </button>
+                      ))}
+                    </div>}
+                  </div>
+                );
+              })()}
 
-              {/* Col 5: VA Resources */}
-              <div className="flex flex-col min-w-0">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-amber-400/80 mb-3 pb-2 border-b border-[#1E2A4A] flex items-center gap-1.5">
-                  <Scale className="h-3.5 w-3.5 shrink-0" />VA Resources
-                </h3>
-                <div className="space-y-1">
-                  {VA_RESOURCES.filter(i => !isSubcat(i)).slice(0, 25).map((item) => {
-                    const l = item as { name: string; url: string };
-                    return (
-                      <a key={l.name} href={l.url} target="_blank" rel="noopener noreferrer"
-                        className="flex items-center justify-between px-2.5 py-2.5 rounded-xl text-xs font-medium text-[#E2E8F0]/80 hover:text-[#00E5C0] hover:bg-amber-500/[0.08] ring-1 ring-transparent hover:ring-amber-500/[0.18] transition-all duration-150 group">
-                        <span className="leading-tight">{l.name}</span>
-                        <ExternalLink className="h-3 w-3 text-[#94A3B8]/40 group-hover:text-amber-400 shrink-0 ml-2" />
+              {/* Leaders Quick Actions */}
+              {(() => {
+                const ck = "rc-lea-qa";
+                const expanded = expandedSections.has(ck);
+                const r = QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Leaders");
+                const all = r ? [...r.items, ...r.more] : [];
+                const CPP = 3; const page = carouselIdx[ck] ?? 0; const tp = Math.ceil(all.length / CPP);
+                const vis = all.slice(page * CPP, (page + 1) * CPP);
+                return (
+                  <div>
+                    <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                      <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><TrendingUp className="h-3 w-3 shrink-0"/>Leaders Quick Actions</p>
+                      <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                    </div>
+                    {expanded && <div className="mt-2 grid grid-cols-3 gap-1.5">
+                      {vis.map(({ icon: Icon, label, description, q }) => (
+                        <button key={label} onClick={() => { sendMessage(q); setShowMobileRight(false); }}
+                                className="flex flex-col gap-1 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-violet-500/[0.12] ring-1 ring-[#1A2540] hover:ring-violet-500/35 transition-all duration-150 group text-left shadow-sm shadow-black/30 hover:shadow-md hover:shadow-violet-900/20 hover:scale-[1.03] active:scale-[0.97]" style={{ backdropFilter: "blur(8px)" }}>
+                          <div className="flex items-center gap-1.5 min-w-0"><div className="p-1 rounded-md bg-[#1E2A4A] group-hover:bg-violet-500/20 transition-colors shrink-0"><Icon className="h-3 w-3 text-[#94A3B8] group-hover:text-violet-300 transition-colors"/></div><span className="text-[10px] font-semibold text-[#E2E8F0] group-hover:text-violet-300 truncate leading-tight">{label}</span></div>
+                          <p className="text-[9px] text-[#94A3B8]/50 leading-tight line-clamp-2">{description}</p>
+                        </button>
+                      ))}
+                    </div>}
+                  </div>
+                );
+              })()}
+
+              {/* Auditors Quick Actions */}
+              {(() => {
+                const ck = "rc-aud-qa";
+                const expanded = expandedSections.has(ck);
+                const r = QUICK_ACTIONS_BY_ROLE.find(x => x.role === "Auditors");
+                const all = r ? [...r.items, ...r.more] : [];
+                const CPP = 3; const page = carouselIdx[ck] ?? 0; const tp = Math.ceil(all.length / CPP);
+                const vis = all.slice(page * CPP, (page + 1) * CPP);
+                return (
+                  <div>
+                    <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                      <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 shrink-0"/>Auditors Quick Actions</p>
+                      <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                    </div>
+                    {expanded && <div className="mt-2 grid grid-cols-3 gap-1.5">
+                      {vis.map(({ icon: Icon, label, description, q }) => (
+                        <button key={label} onClick={() => { sendMessage(q); setShowMobileRight(false); }}
+                                className="flex flex-col gap-1 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-rose-500/[0.10] ring-1 ring-[#1A2540] hover:ring-rose-500/25 transition-all group text-left shadow-sm shadow-black/30">
+                          <div className="flex items-center gap-1.5 min-w-0"><div className="p-1 rounded-md bg-[#1E2A4A] group-hover:bg-rose-500/20 transition-colors shrink-0"><Icon className="h-3 w-3 text-[#94A3B8] group-hover:text-rose-300 transition-colors"/></div><span className="text-[10px] font-semibold text-[#E2E8F0] group-hover:text-rose-300 truncate leading-tight">{label}</span></div>
+                          <p className="text-[9px] text-[#94A3B8]/50 leading-tight line-clamp-2">{description}</p>
+                        </button>
+                      ))}
+                    </div>}
+                  </div>
+                );
+              })()}
+
+              <div className="border-t border-[#1A2540] pt-1">
+                <p className="text-[7px] font-bold uppercase tracking-[0.2em] text-[#94A3B8]/30 mb-2">Resource Links</p>
+
+                {/* Administrators & Advisors */}
+                {(() => {
+                  const ck = "rc-fa-adm";
+                  const expanded = expandedSections.has(ck);
+                  const g = FEDERAL_RESOURCES.find(x => x.group === "Administrators & Advisors");
+                  const all = [...(g?.links ?? []), ...((g?.more ?? []) as MaybeSubcat[]).filter(i => !isSubcat(i))] as LinkItem[];
+                  const CPP = 3; const page = carouselIdx[ck] ?? 0; const tp = Math.ceil(all.length / CPP);
+                  const vis = all.slice(page * CPP, (page + 1) * CPP);
+                  return (
+                    <div className="mb-1">
+                      <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><BookOpen className="h-3 w-3 shrink-0"/>Administrators &amp; Advisors</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                      </div>
+                      {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
+                        {vis.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                             className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-sky-500/35 transition-all duration-150 group shadow-sm shadow-black/30 hover:shadow-md hover:shadow-sky-900/20 hover:scale-[1.03] active:scale-[0.97] min-w-0" style={{ backdropFilter: "blur(8px)" }}>
+                            <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                          </a>
+                        ))}
+                      </div>}
+                    </div>
+                  );
+                })()}
+
+                {/* Leaders, Auditors & Compliance */}
+                {(() => {
+                  const ck = "rc-lac";
+                  const expanded = expandedSections.has(ck);
+                  const g = FEDERAL_RESOURCES.find(x => x.group === "Leaders, Auditors & Compliance");
+                  const all = [...(g?.links ?? []), ...((g?.more ?? []) as MaybeSubcat[]).filter(i => !isSubcat(i))] as LinkItem[];
+                  const CPP = 3; const page = carouselIdx[ck] ?? 0; const tp = Math.ceil(all.length / CPP);
+                  const vis = all.slice(page * CPP, (page + 1) * CPP);
+                  return (
+                    <div className="mb-1">
+                      <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Scale className="h-3 w-3 shrink-0"/>Leaders, Auditors &amp; Compliance</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                      </div>
+                      {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
+                        {vis.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                             className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-sky-500/35 transition-all duration-150 group shadow-sm shadow-black/30 hover:shadow-md hover:shadow-sky-900/20 hover:scale-[1.03] active:scale-[0.97] min-w-0" style={{ backdropFilter: "blur(8px)" }}>
+                            <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                          </a>
+                        ))}
+                      </div>}
+                    </div>
+                  );
+                })()}
+
+                {/* Private Loan Administrator Portals */}
+                {(() => {
+                  const ck = "rc-loan-portals";
+                  const expanded = expandedSections.has(ck);
+                  const all = FEDERAL_RESOURCES.find(g => g.group === "Private Loan Administrator Portals")?.links ?? [];
+                  const CPP = 3; const page = carouselIdx[ck] ?? 0; const tp = Math.ceil(all.length / CPP);
+                  const vis = all.slice(page * CPP, (page + 1) * CPP);
+                  return (
+                    <div className="mb-1">
+                      <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Landmark className="h-3 w-3 shrink-0"/>Private Loan Administrator Portals</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                      </div>
+                      {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
+                        {vis.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                             className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-sky-500/35 transition-all duration-150 group shadow-sm shadow-black/30 hover:shadow-md hover:shadow-sky-900/20 hover:scale-[1.03] active:scale-[0.97] min-w-0" style={{ backdropFilter: "blur(8px)" }}>
+                            <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                          </a>
+                        ))}
+                      </div>}
+                    </div>
+                  );
+                })()}
+
+                {/* Health Wellness Support */}
+                {(() => {
+                  const ck = "rc-hw";
+                  const expanded = expandedSections.has(ck);
+                  const g = FEDERAL_RESOURCES.find(x => x.group === "Health Wellness Support");
+                  const all = [...(g?.links ?? []), ...((g?.more ?? []) as MaybeSubcat[]).filter(i => !isSubcat(i))] as LinkItem[];
+                  const CPP = 3; const page = carouselIdx[ck] ?? 0; const tp = Math.ceil(all.length / CPP);
+                  const vis = all.slice(page * CPP, (page + 1) * CPP);
+                  return (
+                    <div className="mb-1">
+                      <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Hash className="h-3 w-3 shrink-0"/>Health Wellness Support</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                      </div>
+                      {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
+                        {vis.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                             className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-sky-500/35 transition-all duration-150 group shadow-sm shadow-black/30 hover:shadow-md hover:shadow-sky-900/20 hover:scale-[1.03] active:scale-[0.97] min-w-0" style={{ backdropFilter: "blur(8px)" }}>
+                            <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                          </a>
+                        ))}
+                      </div>}
+                    </div>
+                  );
+                })()}
+
+                {/* VA Resources */}
+                {(() => {
+                  const ck = "rc-va";
+                  const expanded = expandedSections.has(ck);
+                  const all = VA_RESOURCES.filter((i): i is LinkItem => !isSubcat(i));
+                  const CPP = 3; const page = carouselIdx[ck] ?? 0; const tp = Math.ceil(all.length / CPP);
+                  const vis = all.slice(page * CPP, (page + 1) * CPP);
+                  return (
+                    <div className="mb-1">
+                      <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                        <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><ShieldCheck className="h-3 w-3 shrink-0"/>VA Resources</p>
+                        <div className="flex items-center gap-1"><button onClick={(e) => { e.stopPropagation(); setOverlaySection(ck); }} className="text-[8px] font-semibold text-white/80 hover:text-white transition-colors px-1.5 py-0.5 rounded hover:bg-white/[0.10]">view all</button><ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} /></div>
+                      </div>
+                      {expanded && <div className="mt-2 mb-3 grid grid-cols-3 gap-1.5">
+                        {vis.map(({ name, url }) => (
+                          <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                             className="flex items-center gap-1.5 p-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-amber-500/35 transition-all duration-150 group shadow-sm shadow-black/30 hover:shadow-md hover:shadow-amber-900/20 hover:scale-[1.03] active:scale-[0.97] min-w-0" style={{ backdropFilter: "blur(8px)" }}>
+                            <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="12" height="12" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                            <span className="text-[10px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] truncate leading-tight transition-colors">{name}</span>
+                          </a>
+                        ))}
+                      </div>}
+                    </div>
+                  );
+                })()}
+
+                {/* Admin Video Guides */}
+                {(() => {
+                  const ck = "rc-admin-vid";
+                  const expanded = expandedSections.has(ck);
+                  return (
+                <div className="mb-1">
+                  <div className="flex items-center justify-between py-1 rounded-lg hover:bg-white/[0.04] cursor-pointer transition-colors" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                    <p className="text-[8.5px] font-bold uppercase tracking-widest text-cyan-400/70 flex items-center gap-1.5"><Library className="h-3 w-3 shrink-0"/>Video Showcase</p>
+                    <ChevronDown className={`h-3 w-3 ml-0.5 text-cyan-400/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} />
+                  </div>
+                  {expanded && <div className="mt-2 mb-2 grid grid-cols-2 gap-2">
+                    {[{ id: "P6FORpg0KVo", title: "Aid Packaging & Verification" }, { id: "HAnw168huqA", title: "Regulatory Compliance" }, { id: "rhgwIhB58PA", title: "Student Aid Overview" }, { id: "kKvK2foOTJM", title: "Financial Aid Administration" }].map(({ id, title }) => (
+                      <a key={id} href={`https://www.youtube.com/watch?v=${id}`} target="_blank" rel="noopener noreferrer"
+                         className="relative rounded-xl overflow-hidden ring-1 ring-white/[0.08] group hover:ring-sky-500/25 transition-all shadow-sm shadow-black/30">
+                        <img src={`https://img.youtube.com/vi/${id}/mqdefault.jpg`} alt={title} className="w-full aspect-video object-cover opacity-75 group-hover:opacity-100 transition-opacity"/>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="w-7 h-7 rounded-full bg-black/60 flex items-center justify-center group-hover:bg-red-600 transition-colors">
+                            <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5 text-white ml-0.5"><path d="M8 5v14l11-7z"/></svg>
+                          </div>
+                        </div>
+                        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-2 py-1.5">
+                          <p className="text-[9px] text-white/85 truncate leading-tight">{title}</p>
+                        </div>
                       </a>
-                    );
-                  })}
+                    ))}
+                  </div>}
                 </div>
-              </div>
+                  );
+                })()}
 
+              </div>
             </div>
           </div>
 
-          {/* Disclaimer footer */}
-          <div className="shrink-0 px-6 py-3 border-t border-[#1E2A4A]">
-            <div className="flex items-start gap-2 rounded-xl bg-amber-500/[0.08] ring-1 ring-amber-500/20 px-4 py-2.5">
-              <AlertTriangle className="h-3.5 w-3.5 text-amber-400 shrink-0 mt-0.5" />
-              <p className="text-xs text-amber-300/70 leading-relaxed">General guidance only. Verify with the FSA Handbook and consult legal counsel for institution-specific decisions.</p>
+          {/* Footer */}
+          <div className="shrink-0 px-4 py-2.5 border-t border-[#1E2A4A]">
+            <div className="flex items-start gap-2 rounded-lg bg-amber-500/[0.08] ring-1 ring-amber-500/20 px-3 py-2">
+              <AlertTriangle className="h-3 w-3 text-amber-400 shrink-0 mt-0.5" />
+              <p className="text-[10px] text-amber-300/70 leading-relaxed">General guidance only. Verify with the FSA Handbook and consult legal counsel for institution-specific decisions.</p>
             </div>
           </div>
         </aside>
 
       </div>
+
+      {/* ── Section List Overlay ── */}
+      {overlaySection && (
+        <div className="fixed inset-0 z-[80] flex items-center justify-center p-4" onClick={() => setOverlaySection(null)}>
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
+          <div
+            className="relative z-[81] w-full max-w-2xl flex flex-col rounded-2xl border border-[#1E2A4A] shadow-2xl overflow-hidden"
+            style={{ maxHeight: "calc(100dvh - 64px)", background: "rgba(6,14,31,0.98)" }}
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="shrink-0 flex items-center justify-between px-5 py-3.5 border-b border-[#1E2A4A] bg-[#0A1428]/80">
+              <h2 className="text-sm font-bold text-white">
+                {({
+                  "lc-s-qa": "Students Quick Actions",
+                  "lc-p-qa": "Parents Quick Actions",
+                  "lc-fed-sp": "Federal Student Aid",
+                  "lc-resume": "Resume Assistance",
+                  "lc-schol": "Scholarship Search Engines",
+                  "lc-intern": "Internship / Career Search",
+                  "lc-jobs": "Student Job Search",
+                  "lc-finlit": "Financial Literacy",
+                  "lc-loans": "Private Student Loans",
+                  "lc-consumer": "Students\u2019 Bills & Consumer Rights",
+                  "lc-mental": "Mental Health Resources",
+                  "lc-ai": "AI Literacy",
+                  "lc-faith": "Religion & Faith",
+                  "lc-vol": "Volunteer & Community Service",
+                  "rc-adm-qa": "Administrators Quick Actions",
+                  "rc-lea-qa": "Leaders Quick Actions",
+                  "rc-aud-qa": "Auditors Quick Actions",
+                  "rc-fa-adm": "Administrators & Advisors",
+                  "rc-lac": "Leaders, Auditors & Compliance",
+                  "rc-loan-portals": "Private Loan Administrator Portals",
+                  "rc-hw": "Health Wellness Support",
+                  "rc-va": "VA Resources",
+                } as Record<string, string>)[overlaySection] ?? overlaySection}
+              </h2>
+              <button onClick={() => setOverlaySection(null)} className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all">
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            {/* Body */}
+            <div className="flex-1 overflow-y-auto p-4">
+
+              {/* === Action sections === */}
+              {["lc-s-qa", "lc-p-qa", "rc-adm-qa", "rc-lea-qa", "rc-aud-qa"].includes(overlaySection) && (() => {
+                const roleMap: Record<string, string> = { "lc-s-qa": "Students", "lc-p-qa": "Parents", "rc-adm-qa": "Administrators", "rc-lea-qa": "Leaders", "rc-aud-qa": "Auditors" };
+                const r = QUICK_ACTIONS_BY_ROLE.find(x => x.role === roleMap[overlaySection]);
+                const all = r ? [...r.items, ...r.more] : [];
+                return (
+                  <div className="space-y-1.5">
+                    {all.map(({ icon: Icon, label, description, q }) => (
+                      <button key={label} onClick={() => { sendMessage(q); setOverlaySection(null); setShowMobileLeft(false); setShowMobileRight(false); }}
+                              className="w-full flex items-start gap-3 px-3 py-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-cyan-500/[0.10] ring-1 ring-[#1A2540] hover:ring-cyan-500/25 transition-all group text-left">
+                        <div className="p-1.5 rounded-md bg-[#1E2A4A] group-hover:bg-cyan-500/20 transition-colors shrink-0">
+                          <Icon className="h-3.5 w-3.5 text-[#94A3B8] group-hover:text-[#00E5C0] transition-colors"/>
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-[11px] font-semibold text-[#E2E8F0] group-hover:text-[#00E5C0] leading-tight">{label}</p>
+                          <p className="text-[10px] text-[#94A3B8]/60 leading-tight mt-0.5">{description}</p>
+                        </div>
+                        <ChevronRight className="h-3.5 w-3.5 text-[#94A3B8]/30 group-hover:text-cyan-400 shrink-0 mt-0.5"/>
+                      </button>
+                    ))}
+                  </div>
+                );
+              })()}
+
+              {/* === Flat link sections === */}
+              {["lc-fed-sp", "rc-fa-adm", "rc-lac", "rc-loan-portals", "rc-hw"].includes(overlaySection) && (() => {
+                const dataMap: Record<string, LinkItem[]> = {
+                  "lc-fed-sp": FEDERAL_RESOURCES.find(g => g.group === "Students & Parents")?.links ?? [],
+                  "rc-fa-adm": (() => { const g = FEDERAL_RESOURCES.find(x => x.group === "Administrators & Advisors"); return [...(g?.links ?? []), ...((g?.more ?? []) as MaybeSubcat[]).filter(i => !isSubcat(i))] as LinkItem[]; })(),
+                  "rc-lac": (() => { const g = FEDERAL_RESOURCES.find(x => x.group === "Leaders, Auditors & Compliance"); return [...(g?.links ?? []), ...((g?.more ?? []) as MaybeSubcat[]).filter(i => !isSubcat(i))] as LinkItem[]; })(),
+                  "rc-loan-portals": FEDERAL_RESOURCES.find(g => g.group === "Private Loan Administrator Portals")?.links ?? [],
+                  "rc-hw": (() => { const g = FEDERAL_RESOURCES.find(x => x.group === "Health Wellness Support"); return [...(g?.links ?? []), ...((g?.more ?? []) as MaybeSubcat[]).filter(i => !isSubcat(i))] as LinkItem[]; })(),
+                };
+                const links = dataMap[overlaySection] ?? [];
+                return (
+                  <div className="space-y-1.5">
+                    {links.map(({ name, url }) => (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                         className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-cyan-500/20 transition-all duration-150 group">
+                        <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="14" height="14" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                        <span className="text-[11px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] flex-1 leading-tight transition-colors">{name}</span>
+                        <ChevronRight className="h-3.5 w-3.5 text-[#94A3B8]/30 group-hover:text-cyan-400 shrink-0"/>
+                      </a>
+                    ))}
+                  </div>
+                );
+              })()}
+
+              {/* === Subcategorized link sections === */}
+              {["lc-resume", "lc-schol", "lc-intern", "lc-jobs", "lc-finlit", "lc-loans", "lc-consumer", "lc-mental", "lc-ai", "lc-faith", "lc-vol", "rc-va"].includes(overlaySection) && (() => {
+                const rawMap: Record<string, MaybeSubcat[]> = {
+                  "lc-resume": [...RESUME_ASSISTANCE, ...RESUME_ASSISTANCE_MORE],
+                  "lc-schol": ([{ subcat: "All" }, ...SCHOLARSHIP_ENGINES, ...SCHOLARSHIP_ENGINES_MORE] as MaybeSubcat[]),
+                  "lc-intern": ([{ subcat: "All" }, ...INTERNSHIP_SEARCH, ...INTERNSHIP_SEARCH_MORE] as MaybeSubcat[]),
+                  "lc-jobs": ([{ subcat: "All" }, ...STUDENT_JOB_SEARCH, ...STUDENT_JOB_SEARCH_MORE] as MaybeSubcat[]),
+                  "lc-finlit": [...FINANCIAL_LITERACY, ...FINANCIAL_LITERACY_MORE],
+                  "lc-loans": [...PRIVATE_STUDENT_LOANS, ...PRIVATE_STUDENT_LOANS_MORE],
+                  "lc-consumer": [...CONSUMER_RIGHTS, ...CONSUMER_RIGHTS_MORE],
+                  "lc-mental": [...MENTAL_HEALTH_STUDENT, ...MENTAL_HEALTH_STUDENT_MORE],
+                  "lc-ai": [...AI_LITERACY, ...AI_LITERACY_MORE],
+                  "lc-faith": [...RELIGION_FAITH_PHILOSOPHY, ...RELIGION_FAITH_PHILOSOPHY_MORE],
+                  "lc-vol": VOLUNTEER_RESOURCES,
+                  "rc-va": VA_RESOURCES,
+                };
+                const raw = rawMap[overlaySection] ?? [];
+                const sections = parseSections(raw);
+                return (
+                  <div className="space-y-5">
+                    {sections.map(({ title, links }) => (
+                      <div key={title}>
+                        <p className="text-[8px] font-bold uppercase tracking-widest text-[#94A3B8]/45 mb-2 px-1 pb-1 border-b border-[#1A2540]">{title}</p>
+                        <div className="space-y-1.5">
+                          {links.map(({ name, url }) => (
+                            <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                               className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-[#0A1628]/80 hover:bg-[#162645] ring-1 ring-[#1A2540] hover:ring-cyan-500/20 transition-all duration-150 group">
+                              <img src={`https://www.google.com/s2/favicons?domain=${(() => { try { return new URL(url).hostname; } catch { return ""; } })()}&sz=16`} width="14" height="14" alt="" className="shrink-0 rounded-sm opacity-60 group-hover:opacity-90 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                              <span className="text-[11px] font-semibold text-[#CBD5E1]/85 group-hover:text-[#00E5C0] flex-1 leading-tight transition-colors">{name}</span>
+                              <ChevronRight className="h-3.5 w-3.5 text-[#94A3B8]/30 group-hover:text-cyan-400 shrink-0"/>
+                            </a>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                );
+              })()}
+
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Cookie / data notice — first visit */}
       {showCookieNotice && (
