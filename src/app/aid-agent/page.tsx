@@ -63,6 +63,9 @@ import {
   Clock,
   Trash2,
   ChevronUp,
+  Bookmark,
+  BookmarkCheck,
+  Star,
 } from "lucide-react";
 
 // ─── Genie Bottle Logo ────────────────────────────────────────────────────────
@@ -131,6 +134,7 @@ interface AttachedFile {
 interface HistoryEntry {
   id: string;
   ts: number;       // Unix ms
+  bookmarked?: boolean;
   prompt: string;
   response: string;
   role?: string;
@@ -3855,6 +3859,9 @@ export default function AidAgentPage() {
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [showHistory, setShowHistory] = useState(false);
   const [expandedHistoryId, setExpandedHistoryId] = useState<string | null>(null);
+  const [historyFilter, setHistoryFilter] = useState<"all" | "bookmarked">("all");
+  const [showBookmarkToast, setShowBookmarkToast] = useState(false);
+  const roleSwipeX = useRef<number | null>(null);
   const todayKey = () => new Date().toISOString().slice(0, 10); // "YYYY-MM-DD"
   const [introVisible, setIntroVisible] = useState(() => {
     try { return localStorage.getItem("genie-intro-date") !== todayKey(); } catch { return true; }
@@ -4691,6 +4698,32 @@ export default function AidAgentPage() {
     win.document.close();
   };
 
+  const bookmarkEntry = (msgId: string, content: string) => {
+    setHistory(prev => {
+      const updated = prev.map(e => e.id === msgId ? { ...e, bookmarked: true } : e);
+      saveHistory(updated);
+      return updated;
+    });
+    printMessage(content);
+    setShowBookmarkToast(true);
+    setTimeout(() => setShowBookmarkToast(false), 3500);
+  };
+
+  const deleteHistoryEntry = (id: string) => {
+    setHistory(prev => {
+      const updated = prev.filter(e => e.id !== id);
+      saveHistory(updated);
+      return updated;
+    });
+    if (expandedHistoryId === id) setExpandedHistoryId(null);
+  };
+
+  const clearAllHistory = () => {
+    setHistory([]);
+    saveHistory([]);
+    setExpandedHistoryId(null);
+  };
+
   const isBusy = isLoading || isStreaming;
 
   return (
@@ -4920,8 +4953,8 @@ export default function AidAgentPage() {
                 <GraduationCap className="h-4 w-4 text-white" />
               </div>
               <div>
-                <p className="text-[11px] font-bold text-white/70 uppercase tracking-widest">Student Aid Hub</p>
-                <p className="text-lg font-black tracking-tight leading-none whitespace-nowrap select-none" style={{ background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-teal-shimmer 3.5s linear infinite" }}>Students &amp; Parents</p>
+                <p className="text-[11px] font-bold text-white/50 uppercase tracking-widest">Student Aid Hub</p>
+                <p className="text-lg font-black tracking-tight leading-none whitespace-nowrap select-none" style={{ background: "linear-gradient(90deg, #FFFFFF 0%, #D8EEFF 20%, #FFFFFF 40%, #EAF5FF 60%, #FFFFFF 80%, #D0E8FF 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-white-shimmer 4s linear infinite" }}>Students &amp; Parents</p>
               </div>
             </div>
             <button onClick={() => setShowMobileLeft(false)} className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all">
@@ -5500,8 +5533,21 @@ export default function AidAgentPage() {
                             </div>
                           </div>
 
-                          {/* Role selector — photo avatar grid */}
-                          <div className="grid grid-cols-5 gap-1.5 mb-4">
+                          {/* Role selector — photo avatar grid (swipe left/right to cycle roles) */}
+                          <div
+                            className="grid grid-cols-5 gap-1.5 mb-4"
+                            onTouchStart={e => { roleSwipeX.current = e.touches[0].clientX; }}
+                            onTouchEnd={e => {
+                              if (roleSwipeX.current === null) return;
+                              const dx = e.changedTouches[0].clientX - roleSwipeX.current;
+                              roleSwipeX.current = null;
+                              if (Math.abs(dx) < 40) return;
+                              const ROLES = ["Students", "Parents", "Administrators", "Leaders", "Auditors"] as const;
+                              const idx = ROLES.indexOf(activeActionRole as typeof ROLES[number]);
+                              const nextIdx = dx < 0 ? (idx + 1) % ROLES.length : (idx - 1 + ROLES.length) % ROLES.length;
+                              syncRoles(ROLES[nextIdx].replace(/s$/, ""));
+                            }}
+                          >
                             {([
                               { role: "Students",       label: "Student", photo: "/images/role-icon-student.jpg",  pos: "object-[50%_15%]", activeRing: "ring-sky-400/70",     activeGlow: "shadow-sky-500/25",     activeColor: "text-sky-300",     activeBg: "bg-sky-500/[0.12]"     },
                               { role: "Parents",        label: "Parent",  photo: "/images/role-icon-parent.jpg",   pos: "object-[50%_20%]", activeRing: "ring-blue-400/70",    activeGlow: "shadow-blue-500/25",    activeColor: "text-blue-300",    activeBg: "bg-blue-500/[0.12]"    },
@@ -5789,6 +5835,23 @@ export default function AidAgentPage() {
                                 {speakingMsgId === msg.id ? <VolumeX className="h-3 w-3" /> : <Volume2 className="h-3 w-3" />}
                                 {speakingMsgId === msg.id ? "Stop" : "Listen"}
                               </button>
+                              {(() => {
+                                const isBookmarked = history.some(e => e.id === msg.id && e.bookmarked);
+                                return (
+                                  <button
+                                    onClick={() => { if (!isBookmarked) bookmarkEntry(msg.id, msg.content); }}
+                                    title={isBookmarked ? "Bookmarked — saved as PDF" : "Bookmark & save as PDF"}
+                                    className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 ${
+                                      isBookmarked
+                                        ? "text-amber-400 bg-amber-500/[0.10] ring-1 ring-amber-500/30 cursor-default"
+                                        : "text-white/30 hover:text-amber-300 hover:bg-amber-500/[0.08]"
+                                    }`}
+                                  >
+                                    {isBookmarked ? <BookmarkCheck className="h-3 w-3" /> : <Bookmark className="h-3 w-3" />}
+                                    {isBookmarked ? "Bookmarked" : "Bookmark"}
+                                  </button>
+                                );
+                              })()}
                               <button
                                 onClick={() => printMessage(msg.content)}
                                 title="Print / Save as PDF"
@@ -6049,8 +6112,8 @@ export default function AidAgentPage() {
                 <Zap className="h-4 w-4 text-white" />
               </div>
               <div>
-                <p className="text-[11px] font-bold text-white/70 uppercase tracking-widest">Student Aid Hub</p>
-                <p className="text-lg font-black tracking-tight leading-none whitespace-nowrap select-none" style={{ background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-teal-shimmer 3.5s linear infinite" }}>Administrators, Leaders &amp; Compliance/Auditors</p>
+                <p className="text-[11px] font-bold text-white/50 uppercase tracking-widest">Student Aid Hub</p>
+                <p className="text-lg font-black tracking-tight leading-none whitespace-nowrap select-none" style={{ background: "linear-gradient(90deg, #FFFFFF 0%, #D8EEFF 20%, #FFFFFF 40%, #EAF5FF 60%, #FFFFFF 80%, #D0E8FF 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-white-shimmer 4s linear infinite" }}>Administrators, Leaders &amp; Compliance/Auditors</p>
               </div>
             </div>
             <button onClick={() => setShowMobileRight(false)} className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all">
@@ -6339,6 +6402,137 @@ export default function AidAgentPage() {
               Got it
             </button>
           </div>
+        </div>
+      )}
+
+      {/* ── History Drawer ── */}
+      {showHistory && (
+        <div className="fixed inset-0 z-[90] flex" onClick={() => setShowHistory(false)}>
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+          <div
+            className="relative z-[91] ml-auto h-full w-full max-w-sm flex flex-col overflow-hidden"
+            style={{ background: "linear-gradient(160deg, rgba(5,10,24,0.99) 0%, rgba(8,16,36,0.99) 100%)", borderLeft: "1px solid rgba(30,42,74,0.9)", boxShadow: "-20px 0 60px rgba(0,0,0,0.70)" }}
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="shrink-0 flex items-center justify-between px-4 py-3.5 border-b border-white/[0.07]" style={{ background: "rgba(6,12,28,0.80)" }}>
+              <div className="flex items-center gap-2">
+                <Clock className="h-4 w-4 text-amber-400/70" />
+                <span className="text-sm font-bold text-white tracking-wide">Conversation History</span>
+                {history.length > 0 && <span className="px-1.5 py-0.5 rounded-full bg-sky-500/20 text-sky-400 text-[10px] font-bold">{history.length}</span>}
+              </div>
+              <button onClick={() => setShowHistory(false)} className="p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all"><X className="h-4 w-4" /></button>
+            </div>
+
+            {/* Filter tabs */}
+            <div className="shrink-0 flex items-center gap-1 px-4 py-2.5 border-b border-white/[0.05]">
+              {(["all", "bookmarked"] as const).map(tab => (
+                <button
+                  key={tab}
+                  onClick={() => setHistoryFilter(tab)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold transition-all ${
+                    historyFilter === tab
+                      ? tab === "bookmarked" ? "bg-amber-500/[0.18] text-amber-300 ring-1 ring-amber-500/30" : "bg-sky-500/[0.18] text-sky-300 ring-1 ring-sky-500/30"
+                      : "text-white/35 hover:text-white/70 hover:bg-white/[0.06]"
+                  }`}
+                >
+                  {tab === "bookmarked" && <Star className="h-3 w-3" />}
+                  {tab === "all" ? "All" : "Bookmarked"}
+                  {tab === "bookmarked" && <span className="ml-0.5">{history.filter(e => e.bookmarked).length}</span>}
+                </button>
+              ))}
+              {history.length > 0 && (
+                <button onClick={clearAllHistory} className="ml-auto flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-medium text-white/25 hover:text-rose-400 hover:bg-rose-500/[0.08] transition-all">
+                  <Trash2 className="h-3 w-3" />Clear all
+                </button>
+              )}
+            </div>
+
+            {/* Entries */}
+            <div className="flex-1 overflow-y-auto genie-scroll py-2">
+              {(() => {
+                const filtered = historyFilter === "bookmarked" ? history.filter(e => e.bookmarked) : history;
+                if (filtered.length === 0) return (
+                  <div className="flex flex-col items-center justify-center gap-3 h-full px-6 py-16 text-center">
+                    {historyFilter === "bookmarked"
+                      ? <><Bookmark className="h-8 w-8 text-white/15" /><p className="text-sm text-white/30">No bookmarks yet.<br/>Tap <strong className="text-amber-400/70">Bookmark</strong> on any response.</p></>
+                      : <><Clock className="h-8 w-8 text-white/15" /><p className="text-sm text-white/30">No conversations yet.<br/>Ask Genie something!</p></>
+                    }
+                  </div>
+                );
+                // Group by date
+                const groups: Record<string, HistoryEntry[]> = {};
+                filtered.forEach(e => {
+                  const d = new Date(e.ts);
+                  const key = d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+                  if (!groups[key]) groups[key] = [];
+                  groups[key].push(e);
+                });
+                return Object.entries(groups).map(([date, entries]) => (
+                  <div key={date} className="mb-1">
+                    <div className="px-4 py-1.5"><span className="text-[10px] font-bold text-white/20 uppercase tracking-widest">{date}</span></div>
+                    {entries.map(entry => (
+                      <div key={entry.id} className="mx-2 mb-1 rounded-xl overflow-hidden ring-1 ring-white/[0.06] hover:ring-white/[0.12] transition-all" style={{ background: "rgba(10,20,44,0.60)" }}>
+                        <button
+                          className="w-full text-left px-3.5 py-2.5 flex items-start gap-2 group"
+                          onClick={() => setExpandedHistoryId(expandedHistoryId === entry.id ? null : entry.id)}
+                        >
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-1.5 mb-0.5">
+                              {entry.bookmarked && <Star className="h-2.5 w-2.5 text-amber-400 shrink-0 fill-amber-400" />}
+                              {entry.role && <span className="px-1.5 py-0.5 rounded-full text-[9px] font-bold" style={{ background: "rgba(0,180,220,0.15)", color: "rgba(0,212,255,0.85)" }}>{entry.role}</span>}
+                              <span className="text-[9px] text-white/20 ml-auto shrink-0">{new Date(entry.ts).toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" })}</span>
+                            </div>
+                            <p className="text-xs text-white/70 leading-snug line-clamp-2 group-hover:text-white/90 transition-colors">{entry.prompt}</p>
+                          </div>
+                          <ChevronDown className={`h-3.5 w-3.5 text-white/20 shrink-0 mt-1 transition-transform ${expandedHistoryId === entry.id ? "rotate-180" : ""}`} />
+                        </button>
+                        {expandedHistoryId === entry.id && (
+                          <div className="border-t border-white/[0.06] px-3.5 py-3">
+                            <p className="text-[11px] text-white/50 leading-relaxed line-clamp-6">{entry.response.replace(/[*#`]/g, "").slice(0, 500)}{entry.response.length > 500 ? "…" : ""}</p>
+                            <div className="flex items-center gap-2 mt-2.5">
+                              <button
+                                onClick={() => { if (!entry.bookmarked) bookmarkEntry(entry.id, entry.response); }}
+                                className={`flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-medium transition-all ${entry.bookmarked ? "text-amber-400/70 cursor-default" : "text-white/30 hover:text-amber-300 hover:bg-amber-500/[0.08]"}`}
+                              >
+                                {entry.bookmarked ? <BookmarkCheck className="h-3 w-3" /> : <Bookmark className="h-3 w-3" />}
+                                {entry.bookmarked ? "Bookmarked" : "Bookmark"}
+                              </button>
+                              <button
+                                onClick={() => printMessage(entry.response)}
+                                className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-medium text-white/30 hover:text-cyan-300 hover:bg-cyan-500/[0.08] transition-all"
+                              >
+                                <Printer className="h-3 w-3" />PDF
+                              </button>
+                              <button
+                                onClick={() => deleteHistoryEntry(entry.id)}
+                                className="ml-auto flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-medium text-white/20 hover:text-rose-400 hover:bg-rose-500/[0.08] transition-all"
+                              >
+                                <Trash2 className="h-3 w-3" />Delete
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ));
+              })()}
+            </div>
+
+            {/* Footer info */}
+            <div className="shrink-0 px-4 py-3 border-t border-white/[0.05] text-[9px] text-white/20 text-center">
+              Conversations auto-expire after 30 days · Bookmarks saved as PDF
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bookmark saved toast */}
+      {showBookmarkToast && (
+        <div className="fixed bottom-24 left-1/2 -translate-x-1/2 z-[100] flex items-center gap-2 px-4 py-2.5 rounded-xl shadow-xl pointer-events-none" style={{ background: "rgba(10,20,44,0.95)", border: "1px solid rgba(212,175,55,0.35)", boxShadow: "0 8px 32px rgba(0,0,0,0.50), 0 0 20px rgba(212,175,55,0.12)" }}>
+          <BookmarkCheck className="h-4 w-4 text-amber-400 shrink-0" />
+          <span className="text-xs font-semibold text-white">Bookmarked &amp; saved as PDF</span>
         </div>
       )}
 
