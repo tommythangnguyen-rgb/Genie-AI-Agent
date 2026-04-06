@@ -4920,8 +4920,8 @@ export default function AidAgentPage() {
                 <GraduationCap className="h-4 w-4 text-white" />
               </div>
               <div>
-                <p className="text-[8px] font-bold text-white/70 uppercase tracking-widest">Student Aid Hub</p>
-                <p className="text-sm font-black tracking-tight leading-none whitespace-nowrap select-none" style={{ background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-teal-shimmer 3.5s linear infinite" }}>Students &amp; Parents</p>
+                <p className="text-[11px] font-bold text-white/70 uppercase tracking-widest">Student Aid Hub</p>
+                <p className="text-lg font-black tracking-tight leading-none whitespace-nowrap select-none" style={{ background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-teal-shimmer 3.5s linear infinite" }}>Students &amp; Parents</p>
               </div>
             </div>
             <button onClick={() => setShowMobileLeft(false)} className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all">
@@ -5042,7 +5042,7 @@ export default function AidAgentPage() {
                   type="button"
                   onClick={goHome}
                   title="Return to home"
-                  className="text-2xl font-black tracking-tight leading-none whitespace-nowrap px-2 py-0.5 rounded-xl ring-1 ring-[#D4AF37]/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/60 hover:ring-[#D4AF37]/60 transition-all duration-150"
+                  className="text-2xl font-black tracking-tight leading-none whitespace-nowrap px-2 py-0.5 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 transition-all duration-150"
                   style={{
                     background: "linear-gradient(135deg, #FFFFFF 0%, #D8E8FF 22%, #FFFFFF 44%, #EAF3FF 66%, #FFFFFF 88%, #D0E4FF 100%)",
                     backgroundSize: "200% auto",
@@ -5836,7 +5836,7 @@ export default function AidAgentPage() {
               <div className="flex items-center gap-2 mb-2 px-1">
                 <GenieBottle className="h-3.5 w-3.5 text-amber-400 shrink-0 genie-icon-shimmer" />
                 <span className="text-sm font-semibold tracking-wide">
-                  <span className="text-white">ask</span><span className="genie-shimmer-text">Genie</span>
+                  <span className="text-white">ask</span><span className="genie-shimmer-teal">Genie</span>
                 </span>
                 <div className="h-px flex-1 bg-white/[0.06]" />
                 {messages.length > 0 && (
@@ -6049,8 +6049,8 @@ export default function AidAgentPage() {
                 <Zap className="h-4 w-4 text-white" />
               </div>
               <div>
-                <p className="text-[8px] font-bold text-white/70 uppercase tracking-widest">Student Aid Hub</p>
-                <p className="text-sm font-black tracking-tight leading-none whitespace-nowrap select-none" style={{ background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-teal-shimmer 3.5s linear infinite" }}>Administrators, Leaders &amp; Compliance/Auditors</p>
+                <p className="text-[11px] font-bold text-white/70 uppercase tracking-widest">Student Aid Hub</p>
+                <p className="text-lg font-black tracking-tight leading-none whitespace-nowrap select-none" style={{ background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-teal-shimmer 3.5s linear infinite" }}>Administrators, Leaders &amp; Compliance/Auditors</p>
               </div>
             </div>
             <button onClick={() => setShowMobileRight(false)} className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all">
@@ -6141,9 +6141,9 @@ export default function AidAgentPage() {
 
       </div>
 
-      {/* ── History Panel ── */}
-      {showHistory && (
-        <div className="fixed inset-0 z-[80] flex items-center justify-center p-4" onClick={() => setShowHistory(false)}>
+      {/* ── Section Resource Overlay ── */}
+      {overlaySection !== null && (
+        <div className="fixed inset-0 z-[80] flex items-center justify-center p-4" onClick={() => setOverlaySection(null)}>
           <div className="absolute inset-0 bg-black/85 backdrop-blur-md" />
           <div
             className="relative z-[81] w-full max-w-2xl flex flex-col rounded-2xl overflow-hidden"
