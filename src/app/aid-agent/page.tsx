@@ -3386,26 +3386,32 @@ export default function AidAgentPage() {
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [showHistory, setShowHistory] = useState(false);
   const [expandedHistoryId, setExpandedHistoryId] = useState<string | null>(null);
+  const todayKey = () => new Date().toISOString().slice(0, 10); // "YYYY-MM-DD"
   const [introVisible, setIntroVisible] = useState(() => {
-    try { return !localStorage.getItem("genie-intro-seen"); } catch { return false; }
+    try { return localStorage.getItem("genie-intro-date") !== todayKey(); } catch { return true; }
   });
   const [introFading, setIntroFading] = useState(false);
 
-  // Intro splash — auto-dismiss after 3.8s, or on click/keypress
+  const showIntro = useCallback(() => {
+    setIntroFading(false);
+    setIntroVisible(true);
+  }, []);
+
+  const dismissIntro = useCallback(() => {
+    setIntroFading(true);
+    try { localStorage.setItem("genie-intro-date", todayKey()); } catch {}
+    setTimeout(() => { setIntroVisible(false); setIntroFading(false); }, 700);
+  }, []);
+
+  // Intro splash — auto-dismiss after 3.8s, or on keypress
   useEffect(() => {
-    const dismiss = () => {
-      if (!introFading) {
-        setIntroFading(true);
-        try { localStorage.setItem("genie-intro-seen", "1"); } catch {}
-        setTimeout(() => setIntroVisible(false), 700);
-      }
-    };
-    const timer = setTimeout(dismiss, 3800);
-    const onKey = (e: KeyboardEvent) => { if (e.key !== "Tab") dismiss(); };
+    if (!introVisible) return;
+    const timer = setTimeout(dismissIntro, 3800);
+    const onKey = (e: KeyboardEvent) => { if (e.key !== "Tab") dismissIntro(); };
     window.addEventListener("keydown", onKey);
     return () => { clearTimeout(timer); window.removeEventListener("keydown", onKey); };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [introVisible]);
 
   // Pre-load TTS voice so speakMessage can be called synchronously (required for
   // Safari / mobile browsers that block speechSynthesis outside a user gesture).
@@ -3712,12 +3718,13 @@ export default function AidAgentPage() {
     setSpeakingMsgId(null);
     setMessages([]);
     setInput("");
+    showIntro();
     // If this tab was opened from another window (e.g. dashboard), close it
     // so the user returns to the original window automatically.
     if (typeof window !== "undefined" && window.opener && !window.opener.closed) {
       window.close();
     }
-  }, []);
+  }, [showIntro]);
 
   const stopStreaming = () => {
     readerRef.current?.cancel();
@@ -4338,7 +4345,7 @@ export default function AidAgentPage() {
             opacity: introFading ? 0 : 1,
             transform: introFading ? "scale(1.03)" : "scale(1)",
           }}
-          onClick={() => { setIntroFading(true); setTimeout(() => setIntroVisible(false), 700); }}
+          onClick={dismissIntro}
         >
           {/* Full-bleed background image */}
           <img src="/images/intro-splash.jpg" alt="" className="absolute inset-0 w-full h-full object-cover object-[50%_45%] hidden md:block" />
