@@ -4423,44 +4423,415 @@ export default function AidAgentPage() {
 
           {/* Scrollable content */}
           <div className="flex-1 overflow-y-auto p-4">
-            <div className="flex flex-col gap-2.5">
+            <div className="space-y-5">
 
-              {/* Section icon grid */}
-              <div className="grid grid-cols-2 gap-2">
-                {([
-                  { key: "lc-s-qa",     label: "Students",        img: "/images/sec-students.jpg",        pos: "object-[50%_15%]" },
-                  { key: "lc-p-qa",     label: "Parents",          img: "/images/sec-parents.jpg",         pos: "object-[50%_18%]" },
-                  { key: "lc-fed-sp",   label: "Federal Aid",      img: "/images/sec-fed-aid.jpg",         pos: "object-[50%_18%]" },
-                  { key: "lc-resume",   label: "Resume",            img: "/images/sec-resume.jpg",          pos: "object-[50%_15%]" },
-                  { key: "lc-schol",    label: "Scholarships",      img: "/images/sec-scholarship.jpg",     pos: "object-[50%_12%]" },
-                  { key: "lc-intern",   label: "Internships",       img: "/images/sec-internship.jpg",      pos: "object-[50%_14%]" },
-                  { key: "lc-jobs",     label: "Student Jobs",      img: "/images/sec-jobs.jpg",            pos: "object-[50%_12%]" },
-                  { key: "lc-finlit",   label: "Financial Lit",     img: "/images/sec-fin-literacy.jpg",    pos: "object-[50%_22%]" },
-                  { key: "lc-loans",    label: "Private Loans",     img: "/images/sec-priv-loans.jpg",      pos: "object-[50%_18%]" },
-                  { key: "lc-consumer", label: "Consumer Rights",   img: "/images/sec-consumer.jpg",        pos: "object-[50%_45%]" },
-                  { key: "lc-mental",   label: "Mental Health",     img: "/images/sec-mental-health.jpg",   pos: "object-[50%_14%]" },
-                  { key: "lc-ai",       label: "AI Literacy",       img: "/images/sec-ai-literacy.jpg",     pos: "object-[50%_14%]" },
-                  { key: "lc-faith",    label: "Faith & Spirit",    img: "/images/sec-faith.jpg",           pos: "object-[50%_18%]" },
-                  { key: "lc-vol",      label: "Volunteer",         img: "/images/sec-volunteer.jpg",       pos: "object-[50%_16%]" },
-                  { key: "lc-va",       label: "VA Resources",      img: "/images/sec-va.jpg",              pos: "object-[50%_18%]" },
-                ] as const).map(({ key, label, img, pos }) => (
-                  <button
-                    key={key}
-                    onClick={() => setOverlaySection(key)}
-                    className="relative group cursor-pointer overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4FF]/60 shadow-md shadow-black/40 hover:scale-[1.02] active:scale-[0.97] transition-all duration-200"
-                    style={{ aspectRatio: "1.6 / 1" }}
-                  >
-                    <img src={img} alt="" className={`w-full h-full object-cover ${pos}`} />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#04091A]/95 via-[#04091A]/45 to-transparent group-hover:from-[#04091A]/80 transition-all duration-200" />
-                    <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/[0.08] group-hover:ring-[#00D4FF]/40 transition-all duration-200" />
-                    <div className="absolute bottom-0 left-0 right-0 px-3 pb-2.5">
-                      <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-white/85">{label}</span>
-                    </div>
-                  </button>
-                ))}
+              {/* ── Students Quick Actions ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2.5">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-sky-500/[0.18]" />
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0A1525] ring-1 ring-sky-500/[0.22] shadow-sm">
+                    <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 ring-1 ring-sky-400/40"><img src="/images/sec-students.jpg" alt="" className="w-full h-full object-cover object-[50%_15%]" /></div>
+                    <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-white/65">Students</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("lc-s-qa")} className="text-[9px] font-semibold text-white/30 hover:text-sky-300 transition-colors px-1.5 py-0.5 rounded-md hover:bg-sky-500/[0.08]">view all</button>
+                  <div className="h-px w-4 bg-sky-500/[0.18]" />
+                </div>
+                <div className="grid grid-cols-4 gap-2">
+                  {QA_STUDENTS_ITEMS.map(({ icon: Icon, label, q }) => (
+                    <button key={label} onClick={() => { sendMessage(q); setShowMobileLeft(false); }}
+                      className="flex flex-col items-center gap-1.5 p-1.5 rounded-2xl hover:bg-sky-500/[0.10] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 hover:scale-[1.06] active:scale-95">
+                      <div className="w-12 h-12 rounded-[14px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-lg group-hover:bg-sky-500/20 group-hover:ring-sky-500/40 group-hover:shadow-[0_0_16px_rgba(56,189,248,0.28)] transition-all">
+                        <Icon className="h-5 w-5 text-[#7B91B0] group-hover:text-sky-300 transition-colors" />
+                      </div>
+                      <span className="text-[9px] font-semibold text-[#8A9ABB]/75 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{label}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
 
-              {/* Videos (collapsible) */}
+              {/* ── Parents Quick Actions ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2.5">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-blue-500/[0.18]" />
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0A1525] ring-1 ring-blue-500/[0.22] shadow-sm">
+                    <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 ring-1 ring-blue-400/40"><img src="/images/sec-parents.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
+                    <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-white/65">Parents</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("lc-p-qa")} className="text-[9px] font-semibold text-white/30 hover:text-blue-300 transition-colors px-1.5 py-0.5 rounded-md hover:bg-blue-500/[0.08]">view all</button>
+                  <div className="h-px w-4 bg-blue-500/[0.18]" />
+                </div>
+                <div className="grid grid-cols-4 gap-2">
+                  {QA_PARENTS_ITEMS.map(({ icon: Icon, label, q }) => (
+                    <button key={label} onClick={() => { sendMessage(q); setShowMobileLeft(false); }}
+                      className="flex flex-col items-center gap-1.5 p-1.5 rounded-2xl hover:bg-blue-500/[0.10] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 hover:scale-[1.06] active:scale-95">
+                      <div className="w-12 h-12 rounded-[14px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-lg group-hover:bg-blue-500/20 group-hover:ring-blue-500/40 group-hover:shadow-[0_0_16px_rgba(96,165,250,0.28)] transition-all">
+                        <Icon className="h-5 w-5 text-[#7B91B0] group-hover:text-blue-300 transition-colors" />
+                      </div>
+                      <span className="text-[9px] font-semibold text-[#8A9ABB]/75 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* ── Resource Links divider ── */}
+              <div className="flex items-center gap-2 pt-1">
+                <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[#D4AF37]/[0.15]" />
+                <span className="text-[7.5px] font-bold uppercase tracking-[0.22em] text-[#D4AF37]/40 px-1">Resource Links</span>
+                <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[#D4AF37]/[0.15]" />
+              </div>
+
+              {/* ── Federal Student Aid ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-cyan-500/[0.14]" />
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-cyan-500/[0.18]">
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-cyan-400/30"><img src="/images/sec-fed-aid.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Federal Aid</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("lc-fed-sp")} className="text-[8px] font-semibold text-white/25 hover:text-cyan-300 transition-colors px-1 py-0.5 rounded hover:bg-cyan-500/[0.08]">all</button>
+                  <div className="h-px w-3 bg-cyan-500/[0.14]" />
+                </div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {(FEDERAL_RESOURCES.find(g => g.group === "Students & Parents")?.links ?? []).slice(0, 8).map(({ name, url }) => {
+                    const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                    return (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-1 p-1.5 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                        <div className="w-11 h-11 rounded-[13px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-cyan-500/30 transition-all">
+                          <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="28" height="28" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                        </div>
+                        <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* ── Resume Assistance ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-sky-500/[0.14]" />
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-sky-500/[0.18]">
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-sky-400/30"><img src="/images/sec-resume.jpg" alt="" className="w-full h-full object-cover object-[50%_15%]" /></div>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Resume Help</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("lc-resume")} className="text-[8px] font-semibold text-white/25 hover:text-sky-300 transition-colors px-1 py-0.5 rounded hover:bg-sky-500/[0.08]">all</button>
+                  <div className="h-px w-3 bg-sky-500/[0.14]" />
+                </div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {RESUME_LINKS_TOP8.map(({ name, url }) => {
+                    const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                    return (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-1 p-1.5 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                        <div className="w-11 h-11 rounded-[13px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-sky-500/30 transition-all">
+                          <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="28" height="28" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                        </div>
+                        <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* ── Scholarship Search Engines ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-amber-500/[0.14]" />
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-amber-500/[0.18]">
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-amber-400/30"><img src="/images/sec-scholarship.jpg" alt="" className="w-full h-full object-cover object-[50%_12%]" /></div>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Scholarships</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("lc-schol")} className="text-[8px] font-semibold text-white/25 hover:text-amber-300 transition-colors px-1 py-0.5 rounded hover:bg-amber-500/[0.08]">all</button>
+                  <div className="h-px w-3 bg-amber-500/[0.14]" />
+                </div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {SCHOLARSHIP_LINKS_TOP8.map(({ name, url }) => {
+                    const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                    return (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-1 p-1.5 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                        <div className="w-11 h-11 rounded-[13px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-amber-500/30 transition-all">
+                          <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="28" height="28" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                        </div>
+                        <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* ── Internship / Career Search ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-emerald-500/[0.14]" />
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-emerald-500/[0.18]">
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-emerald-400/30"><img src="/images/sec-internship.jpg" alt="" className="w-full h-full object-cover object-[50%_14%]" /></div>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Internships</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("lc-intern")} className="text-[8px] font-semibold text-white/25 hover:text-emerald-300 transition-colors px-1 py-0.5 rounded hover:bg-emerald-500/[0.08]">all</button>
+                  <div className="h-px w-3 bg-emerald-500/[0.14]" />
+                </div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {([...INTERNSHIP_SEARCH, ...INTERNSHIP_SEARCH_MORE].filter((i): i is LinkItem => !isSubcat(i))).slice(0, 8).map(({ name, url }) => {
+                    const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                    return (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-1 p-1.5 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                        <div className="w-11 h-11 rounded-[13px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-emerald-500/30 transition-all">
+                          <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="28" height="28" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                        </div>
+                        <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* ── Student Job Search ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-violet-500/[0.14]" />
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-violet-500/[0.18]">
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-violet-400/30"><img src="/images/sec-jobs.jpg" alt="" className="w-full h-full object-cover object-[50%_12%]" /></div>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Jobs</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("lc-jobs")} className="text-[8px] font-semibold text-white/25 hover:text-violet-300 transition-colors px-1 py-0.5 rounded hover:bg-violet-500/[0.08]">all</button>
+                  <div className="h-px w-3 bg-violet-500/[0.14]" />
+                </div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {([...STUDENT_JOB_SEARCH, ...STUDENT_JOB_SEARCH_MORE].filter((i): i is LinkItem => !isSubcat(i))).slice(0, 8).map(({ name, url }) => {
+                    const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                    return (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-1 p-1.5 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                        <div className="w-11 h-11 rounded-[13px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-violet-500/30 transition-all">
+                          <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="28" height="28" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                        </div>
+                        <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* ── Financial Literacy ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-green-500/[0.14]" />
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-green-500/[0.18]">
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-green-400/30"><img src="/images/sec-fin-literacy.jpg" alt="" className="w-full h-full object-cover object-[50%_22%]" /></div>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Financial Literacy</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("lc-finlit")} className="text-[8px] font-semibold text-white/25 hover:text-green-300 transition-colors px-1 py-0.5 rounded hover:bg-green-500/[0.08]">all</button>
+                  <div className="h-px w-3 bg-green-500/[0.14]" />
+                </div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {([...FINANCIAL_LITERACY, ...FINANCIAL_LITERACY_MORE].filter((i): i is LinkItem => !isSubcat(i))).slice(0, 8).map(({ name, url }) => {
+                    const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                    return (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-1 p-1.5 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                        <div className="w-11 h-11 rounded-[13px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-green-500/30 transition-all">
+                          <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="28" height="28" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                        </div>
+                        <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* ── Private Student Loans ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-rose-500/[0.14]" />
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-rose-500/[0.18]">
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-rose-400/30"><img src="/images/sec-priv-loans.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Private Loans</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("lc-loans")} className="text-[8px] font-semibold text-white/25 hover:text-rose-300 transition-colors px-1 py-0.5 rounded hover:bg-rose-500/[0.08]">all</button>
+                  <div className="h-px w-3 bg-rose-500/[0.14]" />
+                </div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {([...PRIVATE_STUDENT_LOANS, ...PRIVATE_STUDENT_LOANS_MORE].filter((i): i is LinkItem => !isSubcat(i))).slice(0, 8).map(({ name, url }) => {
+                    const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                    return (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-1 p-1.5 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                        <div className="w-11 h-11 rounded-[13px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-rose-500/30 transition-all">
+                          <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="28" height="28" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                        </div>
+                        <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* ── Consumer Rights ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-sky-500/[0.14]" />
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-sky-500/[0.18]">
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-sky-400/30"><img src="/images/sec-consumer.jpg" alt="" className="w-full h-full object-cover object-[50%_50%]" /></div>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Consumer Rights</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("lc-consumer")} className="text-[8px] font-semibold text-white/25 hover:text-sky-300 transition-colors px-1 py-0.5 rounded hover:bg-sky-500/[0.08]">all</button>
+                  <div className="h-px w-3 bg-sky-500/[0.14]" />
+                </div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {([...CONSUMER_RIGHTS, ...CONSUMER_RIGHTS_MORE].filter((i): i is LinkItem => !isSubcat(i))).slice(0, 8).map(({ name, url }) => {
+                    const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                    return (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-1 p-1.5 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                        <div className="w-11 h-11 rounded-[13px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-sky-500/30 transition-all">
+                          <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="28" height="28" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                        </div>
+                        <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* ── Mental Health Resources ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-pink-500/[0.14]" />
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-pink-500/[0.18]">
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-pink-400/30"><img src="/images/sec-mental-health.jpg" alt="" className="w-full h-full object-cover object-[50%_14%]" /></div>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Mental Health</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("lc-mental")} className="text-[8px] font-semibold text-white/25 hover:text-pink-300 transition-colors px-1 py-0.5 rounded hover:bg-pink-500/[0.08]">all</button>
+                  <div className="h-px w-3 bg-pink-500/[0.14]" />
+                </div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {([...MENTAL_HEALTH_STUDENT, ...MENTAL_HEALTH_STUDENT_MORE].filter((i): i is LinkItem => !isSubcat(i))).slice(0, 8).map(({ name, url }) => {
+                    const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                    return (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-1 p-1.5 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                        <div className="w-11 h-11 rounded-[13px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-pink-500/30 transition-all">
+                          <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="28" height="28" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                        </div>
+                        <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* ── AI Literacy ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-indigo-500/[0.14]" />
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-indigo-500/[0.18]">
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-indigo-400/30"><img src="/images/sec-ai-literacy.jpg" alt="" className="w-full h-full object-cover object-[50%_14%]" /></div>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">AI Literacy</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("lc-ai")} className="text-[8px] font-semibold text-white/25 hover:text-indigo-300 transition-colors px-1 py-0.5 rounded hover:bg-indigo-500/[0.08]">all</button>
+                  <div className="h-px w-3 bg-indigo-500/[0.14]" />
+                </div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {([...AI_LITERACY, ...AI_LITERACY_MORE].filter((i): i is LinkItem => !isSubcat(i))).slice(0, 8).map(({ name, url }) => {
+                    const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                    return (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-1 p-1.5 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                        <div className="w-11 h-11 rounded-[13px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-indigo-500/30 transition-all">
+                          <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="28" height="28" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                        </div>
+                        <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* ── Religion & Faith ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-amber-500/[0.14]" />
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-amber-500/[0.18]">
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-amber-400/30"><img src="/images/sec-faith.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Faith &amp; Spirit</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("lc-faith")} className="text-[8px] font-semibold text-white/25 hover:text-amber-300 transition-colors px-1 py-0.5 rounded hover:bg-amber-500/[0.08]">all</button>
+                  <div className="h-px w-3 bg-amber-500/[0.14]" />
+                </div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {([...RELIGION_FAITH_PHILOSOPHY, ...RELIGION_FAITH_PHILOSOPHY_MORE].filter((i): i is LinkItem => !isSubcat(i))).slice(0, 8).map(({ name, url }) => {
+                    const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                    return (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-1 p-1.5 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                        <div className="w-11 h-11 rounded-[13px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-amber-500/30 transition-all">
+                          <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="28" height="28" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                        </div>
+                        <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* ── Volunteer & Community ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-teal-500/[0.14]" />
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-teal-500/[0.18]">
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-teal-400/30"><img src="/images/sec-volunteer.jpg" alt="" className="w-full h-full object-cover object-[50%_16%]" /></div>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Volunteer</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("lc-vol")} className="text-[8px] font-semibold text-white/25 hover:text-teal-300 transition-colors px-1 py-0.5 rounded hover:bg-teal-500/[0.08]">all</button>
+                  <div className="h-px w-3 bg-teal-500/[0.14]" />
+                </div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {(VOLUNTEER_RESOURCES.filter((i): i is LinkItem => !isSubcat(i))).slice(0, 8).map(({ name, url }) => {
+                    const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                    return (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-1 p-1.5 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                        <div className="w-11 h-11 rounded-[13px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-teal-500/30 transition-all">
+                          <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="28" height="28" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                        </div>
+                        <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* ── VA Resources ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-amber-500/[0.14]" />
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-amber-500/[0.18]">
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-amber-400/30"><img src="/images/sec-va.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">VA Resources</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("lc-va")} className="text-[8px] font-semibold text-white/25 hover:text-amber-300 transition-colors px-1 py-0.5 rounded hover:bg-amber-500/[0.08]">all</button>
+                  <div className="h-px w-3 bg-amber-500/[0.14]" />
+                </div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {(VA_RESOURCES.filter((i): i is LinkItem => !isSubcat(i))).slice(0, 8).map(({ name, url }) => {
+                    const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                    return (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-1 p-1.5 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                        <div className="w-11 h-11 rounded-[13px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-amber-500/30 transition-all">
+                          <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="28" height="28" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                        </div>
+                        <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* ── Video Showcase ── */}
               {(() => {
                 const ck = "lc-fafsa-vid";
                 const expanded = expandedSections.has(ck);
@@ -5566,72 +5937,310 @@ export default function AidAgentPage() {
 
           {/* Scrollable content */}
           <div className="flex-1 overflow-y-auto p-4">
-            <div className="flex flex-col gap-2.5">
+            <div className="space-y-5">
 
-              {/* Section icon grid */}
-              <div className="grid grid-cols-2 gap-2">
-                {([
-                  { key: "rc-adm-qa",       label: "Admin Actions",    img: "/images/sec-admin.jpg",              pos: "object-[50%_14%]" },
-                  { key: "rc-lea-qa",       label: "Leader Actions",   img: "/images/sec-leaders.jpg",            pos: "object-[50%_18%]" },
-                  { key: "rc-aud-qa",       label: "Compliance QA",    img: "/images/sec-compliance.jpg",         pos: "object-[50%_45%]" },
-                  { key: "rc-fa-adm",       label: "Admin Resources",  img: "/images/sec-admin-advisors.jpg",     pos: "object-[50%_22%]" },
-                  { key: "rc-lac",          label: "Compliance",       img: "/images/sec-leaders-compliance.jpg", pos: "object-[50%_18%]" },
-                  { key: "rc-loan-portals", label: "Loan Portals",     img: "/images/sec-loan-portals.jpg",       pos: "object-[50%_20%]" },
-                  { key: "rc-hw",           label: "Health & Wellness", img: "/images/sec-wellness.jpg",          pos: "object-[50%_12%]" },
-                  { key: "rc-va",           label: "VA Resources",     img: "/images/sec-va-right.jpg",           pos: "object-[50%_18%]" },
-                  { key: "rc-mh-admin",     label: "Mental Health",    img: "/images/sec-mh-pro.jpg",             pos: "object-[50%_14%]" },
-                  { key: "rc-vol-admin",    label: "Volunteer",        img: "/images/sec-volunteer-right.jpg",    pos: "object-[50%_18%]" },
-                ] as const).map(({ key, label, img, pos }) => (
-                  <button
-                    key={key}
-                    onClick={() => setOverlaySection(key)}
-                    className="relative group cursor-pointer overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4FF]/60 shadow-md shadow-black/40 hover:scale-[1.02] active:scale-[0.97] transition-all duration-200"
-                    style={{ aspectRatio: "1.6 / 1" }}
-                  >
-                    <img src={img} alt="" className={`w-full h-full object-cover ${pos}`} />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#04091A]/95 via-[#04091A]/45 to-transparent group-hover:from-[#04091A]/80 transition-all duration-200" />
-                    <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/[0.08] group-hover:ring-[#00D4FF]/40 transition-all duration-200" />
-                    <div className="absolute bottom-0 left-0 right-0 px-3 pb-2.5">
-                      <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-white/85">{label}</span>
-                    </div>
-                  </button>
-                ))}
+              {/* ── Administrators Quick Actions ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2.5">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-emerald-500/[0.18]" />
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0A1525] ring-1 ring-emerald-500/[0.22] shadow-sm">
+                    <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 ring-1 ring-emerald-400/40"><img src="/images/sec-admin.jpg" alt="" className="w-full h-full object-cover object-[50%_14%]" /></div>
+                    <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-white/65">Admins</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("rc-adm-qa")} className="text-[9px] font-semibold text-white/30 hover:text-emerald-300 transition-colors px-1.5 py-0.5 rounded-md hover:bg-emerald-500/[0.08]">view all</button>
+                  <div className="h-px w-4 bg-emerald-500/[0.18]" />
+                </div>
+                <div className="grid grid-cols-4 gap-2">
+                  {QA_ADMINS_ITEMS.map(({ icon: Icon, label, q }) => (
+                    <button key={label} onClick={() => { sendMessage(q); setShowMobileRight(false); }}
+                      className="flex flex-col items-center gap-1.5 p-1.5 rounded-2xl hover:bg-emerald-500/[0.10] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400 hover:scale-[1.06] active:scale-95">
+                      <div className="w-12 h-12 rounded-[14px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-lg group-hover:bg-emerald-500/20 group-hover:ring-emerald-500/40 group-hover:shadow-[0_0_16px_rgba(16,185,129,0.28)] transition-all">
+                        <Icon className="h-5 w-5 text-[#7B91B0] group-hover:text-emerald-300 transition-colors" />
+                      </div>
+                      <span className="text-[9px] font-semibold text-[#8A9ABB]/75 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{label}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
 
-              {/* Admin Videos (collapsible) */}
-              {(() => {
-                const ck = "rc-admin-vid";
-                const expanded = expandedSections.has(ck);
-                return (
-                  <div>
-                    <div className="flex items-center gap-1.5 mb-2 cursor-pointer" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
-                      <div className="h-px flex-1 bg-gradient-to-r from-transparent to-red-500/[0.14]" />
-                      <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-red-500/[0.18]">
-                        <Library className="h-2.5 w-2.5 text-red-400/80" />
-                        <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Videos</span>
-                        <ChevronDown className={`h-2.5 w-2.5 text-white/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} />
-                      </div>
-                      <div className="h-px w-3 bg-red-500/[0.14]" />
-                    </div>
-                    {expanded && <div className="grid grid-cols-2 gap-2">
-                      {[{ id: "P6FORpg0KVo", title: "Aid Packaging & Verification" }, { id: "HAnw168huqA", title: "Regulatory Compliance" }, { id: "rhgwIhB58PA", title: "Student Aid Overview" }, { id: "kKvK2foOTJM", title: "Financial Aid Administration" }].map(({ id, title }) => (
-                        <a key={id} href={`https://www.youtube.com/watch?v=${id}`} target="_blank" rel="noopener noreferrer"
-                           className="relative rounded-xl overflow-hidden ring-1 ring-white/[0.08] group hover:ring-sky-500/25 transition-all shadow-sm shadow-black/30">
-                          <img src={`https://img.youtube.com/vi/${id}/mqdefault.jpg`} alt={title} className="w-full aspect-video object-cover opacity-75 group-hover:opacity-100 transition-opacity"/>
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-7 h-7 rounded-full bg-black/60 flex items-center justify-center group-hover:bg-red-600 transition-colors">
-                              <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5 text-white ml-0.5"><path d="M8 5v14l11-7z"/></svg>
-                            </div>
-                          </div>
-                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-2 py-1.5">
-                            <p className="text-[11px] text-white/85 truncate leading-tight">{title}</p>
-                          </div>
-                        </a>
-                      ))}
-                    </div>}
+              {/* ── Leaders Quick Actions ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2.5">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-violet-500/[0.18]" />
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0A1525] ring-1 ring-violet-500/[0.22] shadow-sm">
+                    <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 ring-1 ring-violet-400/40"><img src="/images/sec-leaders.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
+                    <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-white/65">Leaders</span>
                   </div>
-                );
-              })()}
+                  <button onClick={() => setOverlaySection("rc-lea-qa")} className="text-[9px] font-semibold text-white/30 hover:text-violet-300 transition-colors px-1.5 py-0.5 rounded-md hover:bg-violet-500/[0.08]">view all</button>
+                  <div className="h-px w-4 bg-violet-500/[0.18]" />
+                </div>
+                <div className="grid grid-cols-4 gap-2">
+                  {QA_LEADERS_ITEMS.map(({ icon: Icon, label, q }) => (
+                    <button key={label} onClick={() => { sendMessage(q); setShowMobileRight(false); }}
+                      className="flex flex-col items-center gap-1.5 p-1.5 rounded-2xl hover:bg-violet-500/[0.10] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-400 hover:scale-[1.06] active:scale-95">
+                      <div className="w-12 h-12 rounded-[14px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-lg group-hover:bg-violet-500/20 group-hover:ring-violet-500/40 group-hover:shadow-[0_0_16px_rgba(139,92,246,0.28)] transition-all">
+                        <Icon className="h-5 w-5 text-[#7B91B0] group-hover:text-violet-300 transition-colors" />
+                      </div>
+                      <span className="text-[9px] font-semibold text-[#8A9ABB]/75 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* ── Auditors Quick Actions ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2.5">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-rose-500/[0.18]" />
+                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0A1525] ring-1 ring-rose-500/[0.22] shadow-sm">
+                    <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 ring-1 ring-rose-400/40"><img src="/images/sec-compliance.jpg" alt="" className="w-full h-full object-cover object-[50%_50%]" /></div>
+                    <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-white/65">Compliance/Auditors</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("rc-aud-qa")} className="text-[9px] font-semibold text-white/30 hover:text-rose-300 transition-colors px-1.5 py-0.5 rounded-md hover:bg-rose-500/[0.08]">view all</button>
+                  <div className="h-px w-4 bg-rose-500/[0.18]" />
+                </div>
+                <div className="grid grid-cols-4 gap-2">
+                  {QA_AUDITORS_ITEMS.map(({ icon: Icon, label, q }) => (
+                    <button key={label} onClick={() => { sendMessage(q); setShowMobileRight(false); }}
+                      className="flex flex-col items-center gap-1.5 p-1.5 rounded-2xl hover:bg-rose-500/[0.10] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400 hover:scale-[1.06] active:scale-95">
+                      <div className="w-12 h-12 rounded-[14px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-lg group-hover:bg-rose-500/20 group-hover:ring-rose-500/40 group-hover:shadow-[0_0_16px_rgba(244,63,94,0.28)] transition-all">
+                        <Icon className="h-5 w-5 text-[#7B91B0] group-hover:text-rose-300 transition-colors" />
+                      </div>
+                      <span className="text-[9px] font-semibold text-[#8A9ABB]/75 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* ── Resource Links divider ── */}
+              <div className="flex items-center gap-2 pt-1">
+                <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[#D4AF37]/[0.15]" />
+                <span className="text-[7.5px] font-bold uppercase tracking-[0.22em] text-[#D4AF37]/40 px-1">Resource Links</span>
+                <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[#D4AF37]/[0.15]" />
+              </div>
+
+              {/* ── Administrators & Advisors ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-emerald-500/[0.14]" />
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-emerald-500/[0.18]">
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-emerald-400/30"><img src="/images/sec-admin-advisors.jpg" alt="" className="w-full h-full object-cover object-[50%_22%]" /></div>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Admin Resources</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("rc-fa-adm")} className="text-[8px] font-semibold text-white/25 hover:text-emerald-300 transition-colors px-1 py-0.5 rounded hover:bg-emerald-500/[0.08]">all</button>
+                  <div className="h-px w-3 bg-emerald-500/[0.14]" />
+                </div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {((() => { const g = FEDERAL_RESOURCES.find(x => x.group === "Administrators & Advisors"); return [...(g?.links ?? []), ...((g?.more ?? []) as MaybeSubcat[]).filter(i => !isSubcat(i))] as LinkItem[]; })()).slice(0, 8).map(({ name, url }) => {
+                    const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                    return (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-1 p-1.5 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                        <div className="w-11 h-11 rounded-[13px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-emerald-500/30 transition-all">
+                          <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="28" height="28" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                        </div>
+                        <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* ── Leaders, Auditors & Compliance ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-violet-500/[0.14]" />
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-violet-500/[0.18]">
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-violet-400/30"><img src="/images/sec-leaders-compliance.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Compliance</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("rc-lac")} className="text-[8px] font-semibold text-white/25 hover:text-violet-300 transition-colors px-1 py-0.5 rounded hover:bg-violet-500/[0.08]">all</button>
+                  <div className="h-px w-3 bg-violet-500/[0.14]" />
+                </div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {((() => { const g = FEDERAL_RESOURCES.find(x => x.group === "Leaders, Auditors & Compliance"); return [...(g?.links ?? []), ...((g?.more ?? []) as MaybeSubcat[]).filter(i => !isSubcat(i))] as LinkItem[]; })()).slice(0, 8).map(({ name, url }) => {
+                    const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                    return (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-1 p-1.5 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                        <div className="w-11 h-11 rounded-[13px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-violet-500/30 transition-all">
+                          <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="28" height="28" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                        </div>
+                        <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* ── Private Loan Portals ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-sky-500/[0.14]" />
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-sky-500/[0.18]">
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-sky-400/30"><img src="/images/sec-loan-portals.jpg" alt="" className="w-full h-full object-cover object-[50%_20%]" /></div>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Loan Portals</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("rc-loan-portals")} className="text-[8px] font-semibold text-white/25 hover:text-sky-300 transition-colors px-1 py-0.5 rounded hover:bg-sky-500/[0.08]">all</button>
+                  <div className="h-px w-3 bg-sky-500/[0.14]" />
+                </div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {(FEDERAL_RESOURCES.find(g => g.group === "Private Loan Administrator Portals")?.links ?? []).slice(0, 8).map(({ name, url }) => {
+                    const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                    return (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-1 p-1.5 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                        <div className="w-11 h-11 rounded-[13px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-sky-500/30 transition-all">
+                          <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="28" height="28" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                        </div>
+                        <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* ── Health Wellness Support ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-green-500/[0.14]" />
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-green-500/[0.18]">
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-green-400/30"><img src="/images/sec-wellness.jpg" alt="" className="w-full h-full object-cover object-[50%_12%]" /></div>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Health &amp; Wellness</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("rc-hw")} className="text-[8px] font-semibold text-white/25 hover:text-green-300 transition-colors px-1 py-0.5 rounded hover:bg-green-500/[0.08]">all</button>
+                  <div className="h-px w-3 bg-green-500/[0.14]" />
+                </div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {((() => { const g = FEDERAL_RESOURCES.find(x => x.group === "Health Wellness Support"); return [...(g?.links ?? []), ...((g?.more ?? []) as MaybeSubcat[]).filter(i => !isSubcat(i))] as LinkItem[]; })()).slice(0, 8).map(({ name, url }) => {
+                    const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                    return (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-1 p-1.5 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                        <div className="w-11 h-11 rounded-[13px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-green-500/30 transition-all">
+                          <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="28" height="28" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                        </div>
+                        <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* ── VA Resources ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-amber-500/[0.14]" />
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-amber-500/[0.18]">
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-amber-400/30"><img src="/images/sec-va-right.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">VA Resources</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("rc-va")} className="text-[8px] font-semibold text-white/25 hover:text-amber-300 transition-colors px-1 py-0.5 rounded hover:bg-amber-500/[0.08]">all</button>
+                  <div className="h-px w-3 bg-amber-500/[0.14]" />
+                </div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {(VA_RESOURCES.filter((i): i is LinkItem => !isSubcat(i))).slice(0, 8).map(({ name, url }) => {
+                    const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                    return (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-1 p-1.5 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                        <div className="w-11 h-11 rounded-[13px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-amber-500/30 transition-all">
+                          <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="28" height="28" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                        </div>
+                        <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* ── Mental Health (Professional Wellness) ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-teal-500/[0.14]" />
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-teal-500/[0.18]">
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-teal-400/30"><img src="/images/sec-mh-pro.jpg" alt="" className="w-full h-full object-cover object-[50%_14%]" /></div>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Mental Health</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("rc-mh-admin")} className="text-[8px] font-semibold text-white/25 hover:text-teal-300 transition-colors px-1 py-0.5 rounded hover:bg-teal-500/[0.08]">all</button>
+                  <div className="h-px w-3 bg-teal-500/[0.14]" />
+                </div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {MENTAL_HEALTH_ADMIN_TOP8.map(({ name, url }) => {
+                    const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                    return (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-1 p-1.5 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                        <div className="w-11 h-11 rounded-[13px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-teal-500/30 transition-all">
+                          <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="28" height="28" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                        </div>
+                        <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* ── Volunteer & Community Service ── */}
+              <div>
+                <div className="flex items-center gap-1.5 mb-2">
+                  <div className="h-px flex-1 bg-gradient-to-r from-transparent to-lime-500/[0.14]" />
+                  <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-lime-500/[0.18]">
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-lime-400/30"><img src="/images/sec-volunteer-right.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
+                    <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Volunteer</span>
+                  </div>
+                  <button onClick={() => setOverlaySection("rc-vol-admin")} className="text-[8px] font-semibold text-white/25 hover:text-lime-300 transition-colors px-1 py-0.5 rounded hover:bg-lime-500/[0.08]">all</button>
+                  <div className="h-px w-3 bg-lime-500/[0.14]" />
+                </div>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {VOLUNTEER_ADMIN_TOP8.map(({ name, url }) => {
+                    const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                    return (
+                      <a key={name} href={url} target="_blank" rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-1 p-1.5 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                        <div className="w-11 h-11 rounded-[13px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-lime-500/30 transition-all">
+                          <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="28" height="28" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                        </div>
+                        <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+                {/* ── Admin Video Showcase ── */}
+                {(() => {
+                  const ck = "rc-admin-vid";
+                  const expanded = expandedSections.has(ck);
+                  return (
+                    <div>
+                      <div className="flex items-center gap-1.5 mb-2 cursor-pointer" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                        <div className="h-px flex-1 bg-gradient-to-r from-transparent to-red-500/[0.14]" />
+                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-red-500/[0.18]">
+                          <Library className="h-2.5 w-2.5 text-red-400/80" />
+                          <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Videos</span>
+                          <ChevronDown className={`h-2.5 w-2.5 text-white/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} />
+                        </div>
+                        <div className="h-px w-3 bg-red-500/[0.14]" />
+                      </div>
+                      {expanded && <div className="grid grid-cols-2 gap-2">
+                        {[{ id: "P6FORpg0KVo", title: "Aid Packaging & Verification" }, { id: "HAnw168huqA", title: "Regulatory Compliance" }, { id: "rhgwIhB58PA", title: "Student Aid Overview" }, { id: "kKvK2foOTJM", title: "Financial Aid Administration" }].map(({ id, title }) => (
+                          <a key={id} href={`https://www.youtube.com/watch?v=${id}`} target="_blank" rel="noopener noreferrer"
+                             className="relative rounded-xl overflow-hidden ring-1 ring-white/[0.08] group hover:ring-sky-500/25 transition-all shadow-sm shadow-black/30">
+                            <img src={`https://img.youtube.com/vi/${id}/mqdefault.jpg`} alt={title} className="w-full aspect-video object-cover opacity-75 group-hover:opacity-100 transition-opacity"/>
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <div className="w-7 h-7 rounded-full bg-black/60 flex items-center justify-center group-hover:bg-red-600 transition-colors">
+                                <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5 text-white ml-0.5"><path d="M8 5v14l11-7z"/></svg>
+                              </div>
+                            </div>
+                            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-2 py-1.5">
+                              <p className="text-[11px] text-white/85 truncate leading-tight">{title}</p>
+                            </div>
+                          </a>
+                        ))}
+                      </div>}
+                    </div>
+                  );
+                })()}
 
             </div>
           </div>
@@ -5656,58 +6265,163 @@ export default function AidAgentPage() {
             style={{ maxHeight: "calc(100dvh - 64px)", background: "rgba(6,12,28,0.99)", border: "1px solid rgba(30,42,74,0.9)", boxShadow: "0 30px 70px rgba(0,0,0,0.75), inset 0 1px 0 rgba(255,255,255,0.05)" }}
             onClick={e => e.stopPropagation()}
           >
-            {/* Banner header */}
-            {(() => {
-              const OVERLAY_META: Record<string, { title: string; banner: string; bannerPos: string }> = {
-                "lc-s-qa":        { title: "Students Quick Actions",                banner: "/images/banner-ov-student.jpg",       bannerPos: "50% 30%" },
-                "lc-p-qa":        { title: "Parents Quick Actions",                 banner: "/images/banner-ov-parent.jpg",        bannerPos: "50% 30%" },
-                "lc-fed-sp":      { title: "Federal Student Aid",                   banner: "/images/banner-ov-student.jpg",       bannerPos: "50% 40%" },
-                "lc-resume":      { title: "Resume Assistance",                     banner: "/images/banner-ov-editor.jpg",        bannerPos: "50% 25%" },
-                "lc-schol":       { title: "Scholarship Search Engines",            banner: "/images/banner-ov-student.jpg",       bannerPos: "50% 20%" },
-                "lc-intern":      { title: "Internship / Career Search",            banner: "/images/banner-ov-editor.jpg",        bannerPos: "50% 30%" },
-                "lc-jobs":        { title: "Student Job Search",                    banner: "/images/banner-ov-night.jpg",         bannerPos: "50% 35%" },
-                "lc-finlit":      { title: "Financial Literacy",                    banner: "/images/banner-ov-parent.jpg",        bannerPos: "50% 25%" },
-                "lc-loans":       { title: "Private Student Loans",                 banner: "/images/banner-ov-night.jpg",         bannerPos: "50% 30%" },
-                "lc-consumer":    { title: "Bills & Consumer Rights",               banner: "/images/banner-ov-editor.jpg",        bannerPos: "50% 35%" },
-                "lc-mental":      { title: "Mental Health Resources",               banner: "/images/banner-ov-contemplative.jpg", bannerPos: "50% 25%" },
-                "lc-ai":          { title: "AI Literacy",                           banner: "/images/banner-ov-night.jpg",         bannerPos: "50% 20%" },
-                "lc-faith":       { title: "Religion & Faith",                      banner: "/images/banner-ov-contemplative.jpg", bannerPos: "50% 30%" },
-                "lc-vol":         { title: "Volunteer & Community",                 banner: "/images/banner-ov-student.jpg",       bannerPos: "50% 35%" },
-                "lc-va":          { title: "VA Resources",                          banner: "/images/banner-ov-admin.jpg",         bannerPos: "50% 28%" },
-                "rc-adm-qa":      { title: "Administrators Quick Actions",          banner: "/images/banner-ov-admin.jpg",         bannerPos: "50% 25%" },
-                "rc-lea-qa":      { title: "Leaders Quick Actions",                 banner: "/images/banner-ov-leader.jpg",        bannerPos: "50% 25%" },
-                "rc-aud-qa":      { title: "Compliance/Auditors Quick Actions",     banner: "/images/banner-ov-leader.jpg",        bannerPos: "50% 30%" },
-                "rc-fa-adm":      { title: "Administrators & Advisors",             banner: "/images/banner-ov-admin.jpg",         bannerPos: "50% 30%" },
-                "rc-lac":         { title: "Leaders & Compliance/Auditors",         banner: "/images/banner-ov-leader.jpg",        bannerPos: "50% 28%" },
-                "rc-loan-portals":{ title: "Private Loan Administrator Portals",    banner: "/images/banner-ov-admin.jpg",         bannerPos: "50% 35%" },
-                "rc-hw":          { title: "Health & Wellness Support",             banner: "/images/banner-ov-contemplative.jpg", bannerPos: "50% 22%" },
-                "rc-va":          { title: "VA Resources",                          banner: "/images/banner-ov-admin.jpg",         bannerPos: "50% 30%" },
-                "rc-mh-admin":    { title: "Mental Health — Professional Wellness", banner: "/images/banner-ov-contemplative.jpg", bannerPos: "50% 25%" },
-                "rc-vol-admin":   { title: "Volunteer & Community Service",         banner: "/images/banner-ov-student.jpg",       bannerPos: "50% 30%" },
-              };
-              const sec = overlaySection!;
-              const meta = OVERLAY_META[sec] ?? { title: sec, banner: "/images/banner-ov-admin.jpg", bannerPos: "50% 30%" };
-              return (
-                <div className="relative shrink-0 h-24 overflow-hidden">
-                  <img src={meta.banner} alt="" className="w-full h-full object-cover" style={{ objectPosition: meta.bannerPos }} />
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(6,12,28,0.35) 0%, rgba(6,12,28,0.88) 100%)" }} />
-                  <div className="absolute inset-0 flex items-end justify-between px-5 pb-3.5">
-                    <h2 className="text-sm font-black tracking-tight" style={{ background: "linear-gradient(90deg,#00B8D4 0%,#00E5C0 18%,#7FFFEA 34%,#00D4FF 50%,#00E5C0 66%,#7FFFEA 82%,#00B8D4 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-teal-shimmer 3s linear infinite" }}>
-                      {meta.title}
-                    </h2>
-                    <button onClick={() => setOverlaySection(null)} className="p-1.5 rounded-lg text-white/50 hover:text-white hover:bg-white/[0.12] transition-all">
-                      <X className="h-4 w-4" />
+            {/* Header */}
+            <div className="shrink-0 flex items-center justify-between px-5 py-3.5 border-b border-[#1A2540]"
+              style={{ background: "linear-gradient(135deg, rgba(10,20,42,0.99) 0%, rgba(13,26,52,0.99) 100%)" }}>
+              <div className="flex items-center gap-2.5">
+                <Clock className="h-4 w-4 text-sky-400" />
+                <h2 className="text-sm font-bold text-white tracking-tight">Your History</h2>
+                <span className="text-[10px] font-semibold text-white/30 px-1.5 py-0.5 rounded-full bg-white/[0.06]">{history.length} saved · 30 days</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                {history.length > 0 && (
+                  <>
+                    <button
+                      onClick={() => {
+                        const win = window.open("", "_blank");
+                        if (!win) return;
+                        win.document.write(`<!DOCTYPE html><html><head><title>Genie History</title><style>body{font-family:system-ui,sans-serif;max-width:800px;margin:40px auto;color:#111;line-height:1.6} h1{font-size:1.5rem;margin-bottom:1rem;color:#1a1a2e} .entry{border:1px solid #ddd;border-radius:8px;margin-bottom:1.5rem;overflow:hidden} .entry-header{background:#f4f4f8;padding:12px 16px;font-size:.8rem;color:#555} .entry-role{display:inline-block;background:#e0e7ff;color:#3730a3;padding:2px 8px;border-radius:12px;font-size:.75rem;margin-left:8px} .entry-q{padding:12px 16px;font-weight:600;border-bottom:1px solid #eee} .entry-a{padding:12px 16px;white-space:pre-wrap;font-size:.9rem}</style></head><body><h1>Genie — Saved History</h1>${history.map(h => `<div class="entry"><div class="entry-header">${new Date(h.ts).toLocaleString()}${h.role ? `<span class="entry-role">${h.role}</span>` : ""}</div><div class="entry-q">${h.prompt.replace(/</g,"&lt;")}</div><div class="entry-a">${h.response.replace(/</g,"&lt;")}</div></div>`).join("")}</body></html>`);
+                        win.document.close();
+                        win.print();
+                      }}
+                      className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] font-semibold text-white/50 hover:text-white hover:bg-white/[0.08] transition-all"
+                    >
+                      <Printer className="h-3.5 w-3.5" /> Print
                     </button>
-                  </div>
+                    <button
+                      onClick={() => { if (confirm("Clear all history? This cannot be undone.")) { saveHistory([]); setHistory([]); } }}
+                      className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] font-semibold text-rose-400/60 hover:text-rose-300 hover:bg-rose-500/[0.10] transition-all"
+                    >
+                      <Trash2 className="h-3.5 w-3.5" /> Clear
+                    </button>
+                  </>
+                )}
+                <button onClick={() => setShowHistory(false)} className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all">
+                  <X className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+
+            {/* API savings tip */}
+            {history.length > 0 && (
+              <div className="shrink-0 mx-4 mt-3 mb-1 px-3 py-2 rounded-xl bg-sky-500/[0.07] ring-1 ring-sky-500/[0.18] flex items-center gap-2">
+                <Sparkles className="h-3 w-3 text-sky-400 shrink-0" />
+                <p className="text-[10px] text-sky-300/75 leading-relaxed">Asking the same question again within 24 hours automatically serves your saved answer — no API call used.</p>
+              </div>
+            )}
+
+            {/* Body */}
+            <div className="flex-1 overflow-y-auto p-4">
+              {history.length === 0 ? (
+                <div className="flex flex-col items-center justify-center h-40 gap-3 text-center">
+                  <Clock className="h-8 w-8 text-white/10" />
+                  <p className="text-sm text-white/30">No history yet. Ask Genie a question and it will be saved here for 30 days.</p>
                 </div>
-              );
-            })()}
+              ) : (
+                <div className="space-y-2">
+                  {history.map(entry => {
+                    const isExpanded = expandedHistoryId === entry.id;
+                    const date = new Date(entry.ts);
+                    const dateLabel = date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+                    const timeLabel = date.toLocaleTimeString(undefined, { hour: "numeric", minute: "2-digit" });
+                    return (
+                      <div key={entry.id} className="rounded-xl overflow-hidden ring-1 ring-[#1A2540] hover:ring-sky-500/25 transition-all">
+                        {/* Entry header */}
+                        <button
+                          className="w-full flex items-center gap-3 px-4 py-3 bg-[#0A1628]/80 hover:bg-[#0D1E38] transition-colors text-left group"
+                          onClick={() => setExpandedHistoryId(isExpanded ? null : entry.id)}
+                        >
+                          <div className="shrink-0 flex flex-col items-center w-10">
+                            <span className="text-[9px] font-bold text-white/30 uppercase tracking-wide">{dateLabel}</span>
+                            <span className="text-[9px] text-white/20">{timeLabel}</span>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-[11px] font-semibold text-white/80 group-hover:text-white truncate leading-tight">{entry.prompt}</p>
+                            {!isExpanded && <p className="text-[10px] text-[#94A3B8]/40 leading-tight mt-0.5 truncate">{entry.response.slice(0, 100)}</p>}
+                          </div>
+                          <div className="flex items-center gap-2 shrink-0">
+                            {entry.role && <span className="text-[8px] font-bold uppercase tracking-wide text-sky-400/50 px-1.5 py-0.5 rounded-full bg-sky-500/[0.08]">{entry.role}</span>}
+                            {isExpanded ? <ChevronUp className="h-3.5 w-3.5 text-white/25" /> : <ChevronDown className="h-3.5 w-3.5 text-white/25" />}
+                          </div>
+                        </button>
+                        {/* Expanded content */}
+                        {isExpanded && (
+                          <div className="px-4 py-3 border-t border-[#1A2540] bg-[#060C1C]/60">
+                            <div className="flex items-center justify-between mb-2">
+                              <p className="text-[9px] font-bold uppercase tracking-widest text-sky-400/40">Genie&apos;s Answer</p>
+                              <button
+                                onClick={() => { sendMessage(entry.prompt); setShowHistory(false); }}
+                                className="text-[9px] font-semibold text-sky-400/60 hover:text-sky-300 transition-colors px-2 py-0.5 rounded-md hover:bg-sky-500/[0.10]"
+                              >
+                                Re-ask ↺
+                              </button>
+                            </div>
+                            <div className="text-[11px] text-[#94A3B8]/80 leading-relaxed whitespace-pre-wrap max-h-60 overflow-y-auto">
+                              {entry.response}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Section List Overlay ── */}
+      {overlaySection && (
+        <div className="fixed inset-0 z-[80] flex items-center justify-center p-4" onClick={() => setOverlaySection(null)}>
+          <div className="absolute inset-0 bg-black/85 backdrop-blur-md" />
+          <div
+            className="relative z-[81] w-full max-w-2xl flex flex-col rounded-2xl overflow-hidden"
+            style={{ maxHeight: "calc(100dvh - 64px)", background: "rgba(6,12,28,0.99)", border: "1px solid rgba(30,42,74,0.9)", boxShadow: "0 30px 70px rgba(0,0,0,0.75), 0 0 0 1px rgba(56,189,248,0.07), inset 0 1px 0 rgba(255,255,255,0.05)" }}
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="shrink-0 flex items-center justify-between px-5 py-3.5 border-b border-[#1A2540]"
+              style={{ background: "linear-gradient(135deg, rgba(10,20,42,0.99) 0%, rgba(13,26,52,0.99) 100%)" }}>
+              <h2 className="text-sm font-bold text-white tracking-tight">
+                {({
+                  "lc-s-qa": "Students Quick Actions",
+                  "lc-p-qa": "Parents Quick Actions",
+                  "lc-fed-sp": "Federal Student Aid",
+                  "lc-resume": "Resume Assistance",
+                  "lc-schol": "Scholarship Search Engines",
+                  "lc-intern": "Internship / Career Search",
+                  "lc-jobs": "Student Job Search",
+                  "lc-finlit": "Financial Literacy",
+                  "lc-loans": "Private Student Loans",
+                  "lc-consumer": "Students\u2019 Bills & Consumer Rights",
+                  "lc-mental": "Mental Health Resources",
+                  "lc-ai": "AI Literacy",
+                  "lc-faith": "Religion & Faith",
+                  "lc-vol": "Volunteer & Community Service",
+                  "rc-adm-qa": "Administrators Quick Actions",
+                  "rc-lea-qa": "Leaders Quick Actions",
+                  "rc-aud-qa": "Compliance/Auditors Quick Actions",
+                  "rc-fa-adm": "Administrators & Advisors",
+                  "rc-lac": "Leaders & Compliance/Auditors",
+                  "rc-loan-portals": "Private Loan Administrator Portals",
+                  "rc-hw": "Health Wellness Support",
+                  "rc-va": "VA Resources",
+                  "lc-va": "VA Resources",
+                  "rc-mh-admin": "Mental Health — Professional Wellness",
+                  "rc-vol-admin": "Volunteer & Community Service",
+                } as Record<string, string>)[overlaySection] ?? overlaySection}
+              </h2>
+              <button onClick={() => setOverlaySection(null)} className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all">
+                <X className="h-4 w-4" />
+              </button>
+            </div>
 
             {/* Body */}
             <div className="flex-1 overflow-y-auto p-5">
 
               {/* === Quick Action sections — Android icon grid === */}
-              {["lc-s-qa", "lc-p-qa", "rc-adm-qa", "rc-lea-qa", "rc-aud-qa"].includes(overlaySection!) && (() => {
+              {["lc-s-qa", "lc-p-qa", "rc-adm-qa", "rc-lea-qa", "rc-aud-qa"].includes(overlaySection) && (() => {
                 const cfgMap: Record<string, { role: string; tileHover: string; ringFocus: string; bgHover: string; ringHover: string; iconHover: string; glow: string }> = {
                   "lc-s-qa":   { role: "Students",       tileHover: "hover:bg-sky-500/[0.10]",     ringFocus: "focus-visible:ring-sky-400",     bgHover: "group-hover:bg-sky-500/20",     ringHover: "group-hover:ring-sky-500/40",     iconHover: "group-hover:text-sky-300",     glow: "group-hover:shadow-[0_0_18px_rgba(56,189,248,0.28)]"  },
                   "lc-p-qa":   { role: "Parents",        tileHover: "hover:bg-blue-500/[0.10]",    ringFocus: "focus-visible:ring-blue-400",    bgHover: "group-hover:bg-blue-500/20",    ringHover: "group-hover:ring-blue-500/40",    iconHover: "group-hover:text-blue-300",    glow: "group-hover:shadow-[0_0_18px_rgba(96,165,250,0.28)]"  },
@@ -5715,7 +6429,7 @@ export default function AidAgentPage() {
                   "rc-lea-qa": { role: "Leaders",        tileHover: "hover:bg-violet-500/[0.10]",  ringFocus: "focus-visible:ring-violet-400",  bgHover: "group-hover:bg-violet-500/20",  ringHover: "group-hover:ring-violet-500/40",  iconHover: "group-hover:text-violet-300",  glow: "group-hover:shadow-[0_0_18px_rgba(139,92,246,0.28)]"  },
                   "rc-aud-qa": { role: "Auditors",       tileHover: "hover:bg-rose-500/[0.10]",    ringFocus: "focus-visible:ring-rose-400",    bgHover: "group-hover:bg-rose-500/20",    ringHover: "group-hover:ring-rose-500/40",    iconHover: "group-hover:text-rose-300",    glow: "group-hover:shadow-[0_0_18px_rgba(244,63,94,0.28)]"   },
                 };
-                const cfg = cfgMap[overlaySection!];
+                const cfg = cfgMap[overlaySection];
                 const r = QUICK_ACTIONS_BY_ROLE.find(x => x.role === cfg.role);
                 const all = r ? [...r.items, ...r.more] : [];
                 return (
@@ -5734,7 +6448,7 @@ export default function AidAgentPage() {
               })()}
 
               {/* === Flat link sections — favicon icon grid === */}
-              {["lc-fed-sp", "rc-fa-adm", "rc-lac", "rc-loan-portals", "rc-hw", "rc-mh-admin", "rc-vol-admin"].includes(overlaySection!) && (() => {
+              {["lc-fed-sp", "rc-fa-adm", "rc-lac", "rc-loan-portals", "rc-hw", "rc-mh-admin", "rc-vol-admin"].includes(overlaySection) && (() => {
                 const dataMap: Record<string, LinkItem[]> = {
                   "lc-fed-sp":       FEDERAL_RESOURCES.find(g => g.group === "Students & Parents")?.links ?? [],
                   "rc-fa-adm":       (() => { const g = FEDERAL_RESOURCES.find(x => x.group === "Administrators & Advisors"); return [...(g?.links ?? []), ...((g?.more ?? []) as MaybeSubcat[]).filter(i => !isSubcat(i))] as LinkItem[]; })(),
@@ -5744,10 +6458,10 @@ export default function AidAgentPage() {
                   "rc-mh-admin":     MENTAL_HEALTH_ADMIN,
                   "rc-vol-admin":    VOLUNTEER_ADMIN,
                 };
-                const links = dataMap[overlaySection!] ?? [];
+                const links = dataMap[overlaySection] ?? [];
                 return (
                   <div className="grid grid-cols-5 gap-2">
-                    {links.map(({ name, url }: LinkItem) => {
+                    {links.map(({ name, url }) => {
                       const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
                       return (
                         <a key={name} href={url} target="_blank" rel="noopener noreferrer"
@@ -5764,7 +6478,7 @@ export default function AidAgentPage() {
               })()}
 
               {/* === Subcategorized link sections — banner + favicon icon grid === */}
-              {["lc-resume", "lc-schol", "lc-intern", "lc-jobs", "lc-finlit", "lc-loans", "lc-consumer", "lc-mental", "lc-ai", "lc-faith", "lc-vol", "rc-va", "lc-va"].includes(overlaySection!) && (() => {
+              {["lc-resume", "lc-schol", "lc-intern", "lc-jobs", "lc-finlit", "lc-loans", "lc-consumer", "lc-mental", "lc-ai", "lc-faith", "lc-vol", "rc-va", "lc-va"].includes(overlaySection) && (() => {
                 const rawMap: Record<string, MaybeSubcat[]> = {
                   "lc-resume": [...RESUME_ASSISTANCE, ...RESUME_ASSISTANCE_MORE],
                   "lc-schol":  ([{ subcat: "All" }, ...SCHOLARSHIP_ENGINES, ...SCHOLARSHIP_ENGINES_MORE] as MaybeSubcat[]),
@@ -5780,7 +6494,7 @@ export default function AidAgentPage() {
                   "rc-va":     VA_RESOURCES,
                   "lc-va":     VA_RESOURCES,
                 };
-                const raw = rawMap[overlaySection!] ?? [];
+                const raw = rawMap[overlaySection] ?? [];
                 const sections = parseSections(raw);
                 return (
                   <div className="space-y-5">
