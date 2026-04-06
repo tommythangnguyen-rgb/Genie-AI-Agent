@@ -4339,23 +4339,38 @@ export default function AidAgentPage() {
       {/* ── Intro Splash ── */}
       {introVisible && (
         <div
-          className="genie-intro fixed inset-0 z-[300] flex flex-col items-center justify-center cursor-pointer select-none"
+          className="genie-intro fixed inset-0 z-[300] flex flex-col items-center justify-end cursor-pointer select-none"
           style={{
+            background: "#04091A",
             transition: introFading ? "opacity 0.7s ease, transform 0.7s ease" : undefined,
             opacity: introFading ? 0 : 1,
             transform: introFading ? "scale(1.03)" : "scale(1)",
           }}
           onClick={dismissIntro}
         >
-          {/* Full-bleed background image */}
+          {/* ── Desktop image — full-bleed cover ── */}
           <img src="/images/intro-splash.jpg" alt="" className="absolute inset-0 w-full h-full object-cover object-[50%_45%] hidden md:block" />
-          <img src="/images/intro-splash-mobile.jpg" alt="" className="absolute inset-0 w-full h-full object-cover object-[50%_30%] block md:hidden" />
-          {/* Dark vignette overlay */}
-          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 60%, rgba(0,0,0,0.08) 0%, rgba(2,8,24,0.72) 100%)" }} />
-          <div className="absolute inset-x-0 bottom-0 h-40" style={{ background: "linear-gradient(to top, rgba(2,8,24,0.95) 0%, transparent 100%)" }} />
-          {/* Content overlay — the image already has the text baked in, just add CTA */}
-          <div className="genie-intro-cta relative z-10 flex flex-col items-center gap-3 mt-auto mb-10">
-            <p className="text-white/40 text-xs font-semibold tracking-[0.18em] uppercase">Click anywhere to enter</p>
+          {/* Desktop vignette */}
+          <div className="absolute inset-0 hidden md:block" style={{ background: "radial-gradient(ellipse at 50% 60%, rgba(0,0,0,0.08) 0%, rgba(2,8,24,0.72) 100%)" }} />
+          <div className="absolute inset-x-0 bottom-0 h-40 hidden md:block" style={{ background: "linear-gradient(to top, rgba(2,8,24,0.95) 0%, transparent 100%)" }} />
+
+          {/* ── Mobile image — contained so no text is cropped ── */}
+          <div className="block md:hidden absolute inset-0 flex items-center justify-center">
+            <img
+              src="/images/intro-splash-mobile.jpg"
+              alt=""
+              className="w-full h-full object-contain object-top"
+              style={{ maxHeight: "100dvh" }}
+            />
+          </div>
+          {/* Mobile: subtle top scrim to sharpen baked-in headline text */}
+          <div className="block md:hidden absolute inset-x-0 top-0 h-[45%]" style={{ background: "linear-gradient(to bottom, rgba(4,9,26,0.35) 0%, transparent 100%)" }} />
+          {/* Mobile: bottom fade for CTA */}
+          <div className="block md:hidden absolute inset-x-0 bottom-0 h-36" style={{ background: "linear-gradient(to top, rgba(4,9,26,0.98) 0%, rgba(4,9,26,0.60) 55%, transparent 100%)" }} />
+
+          {/* CTA — same for both */}
+          <div className="genie-intro-cta relative z-10 flex flex-col items-center gap-3 mb-10">
+            <p className="text-white/50 text-xs font-semibold tracking-[0.18em] uppercase">Tap anywhere to enter</p>
             <div className="flex items-center gap-1.5">
               <span className="genie-intro-dot1 w-1.5 h-1.5 rounded-full bg-[#00D4FF]" />
               <span className="genie-intro-dot2 w-1.5 h-1.5 rounded-full bg-[#00D4FF]" />
