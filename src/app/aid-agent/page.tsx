@@ -5356,30 +5356,33 @@ export default function AidAgentPage() {
                             </div>
                           </div>
 
-                          {/* Role selector — centered grid with role colors */}
+                          {/* Role selector — photo avatar grid */}
                           <div className="grid grid-cols-5 gap-2 mb-4 justify-items-center">
                             {([
-                              { role: "Students",       label: "Student",       icon: GraduationCap,  activeColor: "text-sky-300",    activeBg: "bg-sky-500/20",     activeRing: "ring-sky-400/50",    activeGlow: "shadow-sky-500/20",    iconActive: "text-sky-300"    },
-                              { role: "Parents",        label: "Parent",        icon: Users,           activeColor: "text-blue-300",   activeBg: "bg-blue-500/20",    activeRing: "ring-blue-400/50",   activeGlow: "shadow-blue-500/20",   iconActive: "text-blue-300"   },
-                              { role: "Administrators", label: "Admin",         icon: ClipboardList,   activeColor: "text-emerald-300",activeBg: "bg-emerald-500/20", activeRing: "ring-emerald-400/50",activeGlow: "shadow-emerald-500/20",iconActive: "text-emerald-300"},
-                              { role: "Leaders",        label: "Leader",        icon: TrendingUp,      activeColor: "text-violet-300", activeBg: "bg-violet-500/20",  activeRing: "ring-violet-400/50", activeGlow: "shadow-violet-500/20", iconActive: "text-violet-300" },
-                              { role: "Auditors",       label: "Auditor",       icon: ShieldCheck,     activeColor: "text-rose-300",   activeBg: "bg-rose-500/20",    activeRing: "ring-rose-400/50",   activeGlow: "shadow-rose-500/20",   iconActive: "text-rose-300"   },
-                            ] as const).map(({ role, label, icon: RoleIcon, activeColor, activeBg, activeRing, activeGlow, iconActive }) => (
-                              <button
-                                key={role}
-                                onClick={() => syncRoles(role.replace(/s$/, "") as any)}
-                                className={`w-full flex flex-col items-center gap-1.5 px-1 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 ring-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] hover:scale-[1.05] active:scale-95 ${
-                                  activeActionRole === role
-                                    ? `${activeBg} ${activeColor} ${activeRing} shadow-md ${activeGlow}`
-                                    : "text-[#94A3B8]/70 hover:text-white/90 hover:bg-white/[0.06] ring-white/[0.08] hover:ring-white/20"
-                                }`}
-                              >
-                                <div className={`p-2 rounded-lg transition-all duration-200 ${activeActionRole === role ? `${activeBg} shadow-md ring-1 ${activeRing}` : "bg-[#D4AF37]/[0.07] ring-1 ring-[#D4AF37]/[0.15]"}`}>
-                                  <RoleIcon className={`h-5 w-5 transition-colors ${activeActionRole === role ? iconActive : "text-[#D4AF37]/75"}`} />
-                                </div>
-                                <span className="text-center leading-tight text-[10px]">{label}</span>
-                              </button>
-                            ))}
+                              { role: "Students",       label: "Student", photo: "/images/banner-student.jpg",       pos: "object-[60%_18%]", activeRing: "ring-sky-400/70",     activeGlow: "shadow-sky-500/25",     activeColor: "text-sky-300",     activeBg: "bg-sky-500/[0.12]"     },
+                              { role: "Parents",        label: "Parent",  photo: "/images/role-parent.jpg",          pos: "object-[50%_22%]", activeRing: "ring-blue-400/70",    activeGlow: "shadow-blue-500/25",    activeColor: "text-blue-300",    activeBg: "bg-blue-500/[0.12]"    },
+                              { role: "Administrators", label: "Admin",   photo: "/images/banner-administrator.jpg", pos: "object-[42%_15%]", activeRing: "ring-emerald-400/70", activeGlow: "shadow-emerald-500/25", activeColor: "text-emerald-300", activeBg: "bg-emerald-500/[0.12]" },
+                              { role: "Leaders",        label: "Leader",  photo: "/images/banner-leader.jpg",        pos: "object-[50%_12%]", activeRing: "ring-violet-400/70",  activeGlow: "shadow-violet-500/25",  activeColor: "text-violet-300",  activeBg: "bg-violet-500/[0.12]"  },
+                              { role: "Auditors",       label: "Auditor", photo: "/images/banner-auditor.jpg",       pos: "object-[42%_18%]", activeRing: "ring-rose-400/70",    activeGlow: "shadow-rose-500/25",    activeColor: "text-rose-300",    activeBg: "bg-rose-500/[0.12]"    },
+                            ] as const).map(({ role, label, photo, pos, activeRing, activeGlow, activeColor, activeBg }) => {
+                              const isActive = activeActionRole === role;
+                              return (
+                                <button
+                                  key={role}
+                                  onClick={() => syncRoles(role.replace(/s$/, "") as any)}
+                                  className={`w-full flex flex-col items-center gap-1.5 px-1 py-2 rounded-xl text-xs font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] hover:scale-[1.05] active:scale-95 ${
+                                    isActive ? `${activeBg} ${activeColor} shadow-md ${activeGlow}` : "text-[#94A3B8]/70 hover:text-white/90 hover:bg-white/[0.06]"
+                                  }`}
+                                >
+                                  <div className={`w-11 h-11 rounded-full overflow-hidden ring-2 transition-all duration-200 shadow-md ${
+                                    isActive ? `${activeRing} shadow-lg` : "ring-white/[0.12] hover:ring-white/25"
+                                  }`}>
+                                    <img src={photo} alt={label} className={`w-full h-full object-cover ${pos}`} />
+                                  </div>
+                                  <span className="text-center leading-tight text-[10px]">{label}</span>
+                                </button>
+                              );
+                            })}
                           </div>
 
                           {/* Quick Actions — Android-style icon grid (all items) */}
