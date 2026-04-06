@@ -3386,6 +3386,23 @@ export default function AidAgentPage() {
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [showHistory, setShowHistory] = useState(false);
   const [expandedHistoryId, setExpandedHistoryId] = useState<string | null>(null);
+  const [introVisible, setIntroVisible] = useState(true);
+  const [introFading, setIntroFading] = useState(false);
+
+  // Intro splash — auto-dismiss after 3.8s, or on click/keypress
+  useEffect(() => {
+    const dismiss = () => {
+      if (!introFading) {
+        setIntroFading(true);
+        setTimeout(() => setIntroVisible(false), 700);
+      }
+    };
+    const timer = setTimeout(dismiss, 3800);
+    const onKey = (e: KeyboardEvent) => { if (e.key !== "Tab") dismiss(); };
+    window.addEventListener("keydown", onKey);
+    return () => { clearTimeout(timer); window.removeEventListener("keydown", onKey); };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Pre-load TTS voice so speakMessage can be called synchronously (required for
   // Safari / mobile browsers that block speechSynthesis outside a user gesture).
@@ -4200,6 +4217,15 @@ export default function AidAgentPage() {
   return (
     <>
       <style>{`
+        @keyframes intro-fade-in { from { opacity: 0; transform: scale(1.04); } to { opacity: 1; transform: scale(1); } }
+        @keyframes intro-slide-up { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes intro-pulse-dot { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
+        .genie-intro { animation: intro-fade-in 0.9s ease-out forwards; }
+        .genie-intro-text { animation: intro-slide-up 0.8s 0.4s ease-out both; }
+        .genie-intro-cta { animation: intro-slide-up 0.8s 0.9s ease-out both; }
+        .genie-intro-dot1 { animation: intro-pulse-dot 1.4s 1.5s ease-in-out infinite; }
+        .genie-intro-dot2 { animation: intro-pulse-dot 1.4s 1.7s ease-in-out infinite; }
+        .genie-intro-dot3 { animation: intro-pulse-dot 1.4s 1.9s ease-in-out infinite; }
         .genie-scroll::-webkit-scrollbar { width: 4px; }
         .genie-scroll::-webkit-scrollbar-track { background: transparent; }
         .genie-scroll::-webkit-scrollbar-thumb {
@@ -4299,6 +4325,34 @@ export default function AidAgentPage() {
           <div className="orb-burst-core" />
         </div>
       ))}
+
+      {/* ── Intro Splash ── */}
+      {introVisible && (
+        <div
+          className="genie-intro fixed inset-0 z-[300] flex flex-col items-center justify-center cursor-pointer select-none"
+          style={{
+            transition: introFading ? "opacity 0.7s ease, transform 0.7s ease" : undefined,
+            opacity: introFading ? 0 : 1,
+            transform: introFading ? "scale(1.03)" : "scale(1)",
+          }}
+          onClick={() => { setIntroFading(true); setTimeout(() => setIntroVisible(false), 700); }}
+        >
+          {/* Full-bleed background image */}
+          <img src="/images/intro-splash.jpg" alt="" className="absolute inset-0 w-full h-full object-cover object-[50%_45%]" />
+          {/* Dark vignette overlay */}
+          <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 60%, rgba(0,0,0,0.08) 0%, rgba(2,8,24,0.72) 100%)" }} />
+          <div className="absolute inset-x-0 bottom-0 h-40" style={{ background: "linear-gradient(to top, rgba(2,8,24,0.95) 0%, transparent 100%)" }} />
+          {/* Content overlay — the image already has the text baked in, just add CTA */}
+          <div className="genie-intro-cta relative z-10 flex flex-col items-center gap-3 mt-auto mb-10">
+            <p className="text-white/40 text-xs font-semibold tracking-[0.18em] uppercase">Click anywhere to enter</p>
+            <div className="flex items-center gap-1.5">
+              <span className="genie-intro-dot1 w-1.5 h-1.5 rounded-full bg-[#00D4FF]" />
+              <span className="genie-intro-dot2 w-1.5 h-1.5 rounded-full bg-[#00D4FF]" />
+              <span className="genie-intro-dot3 w-1.5 h-1.5 rounded-full bg-[#00D4FF]" />
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="h-screen flex overflow-hidden" style={{ height: "100dvh" }} onClick={triggerBurst}>
 
@@ -5148,7 +5202,7 @@ export default function AidAgentPage() {
                           className={`block transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-guidance-headline" : ""}`}
                           style={howItWorksActive === "guidance" ? {} : { color: "#FFFFFF", textShadow: "0 0 80px rgba(255,255,255,0.20), 0 2px 40px rgba(255,255,255,0.10)" }}
                         >
-                          Student <span style={{ color: "#DC2626" }}>Aid</span>,
+                          Student <span style={{ color: "#00D4FF", textShadow: "0 0 18px rgba(0,212,255,0.55)" }}>Aid</span>,
                         </span>
                         <span
                           className={`block transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-guidance-headline" : ""}`}
@@ -5342,6 +5396,25 @@ export default function AidAgentPage() {
                               ))}
                             </div>
                           ))}
+
+                          {/* ── Role banner ── */}
+                          {(() => {
+                            const bannerMap: Record<string, string> = {
+                              Students:       "/images/banner-student.jpg",
+                              Parents:        "/images/banner-parent.jpg",
+                              Administrators: "/images/banner-administrator.jpg",
+                              Leaders:        "/images/banner-leader.jpg",
+                              Auditors:       "/images/banner-auditor.jpg",
+                            };
+                            const src = bannerMap[activeActionRole];
+                            if (!src) return null;
+                            return (
+                              <div key={activeActionRole} className="mt-3 relative h-[70px] rounded-xl overflow-hidden ring-1 ring-white/[0.07]" style={{ transition: "opacity 0.4s ease" }}>
+                                <img src={src} alt="" className="w-full h-full object-cover object-[50%_22%]" />
+                                <div className="absolute inset-0 bg-gradient-to-r from-[#04091A]/80 via-[#04091A]/30 to-[#04091A]/60" />
+                              </div>
+                            );
+                          })()}
                         </div>{/* end slide 2 */}
 
                         {/* Slide 3 — Tips by Role */}
