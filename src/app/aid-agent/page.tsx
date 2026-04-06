@@ -2453,7 +2453,7 @@ const ROLE_TIPS = [
     ],
   },
   {
-    role: "Auditor",
+    role: "Compliance/Auditor",
     icon: ShieldCheck,
     gradient: "from-rose-500 to-pink-600",
     accent: "bg-rose-500/15 ring-rose-500/25",
@@ -2476,7 +2476,7 @@ const ROLE_OPTIONS = [
   { label: "Parent",        icon: Users,          color: "text-blue-400",   ring: "ring-blue-500/40",   bg: "bg-blue-500/15"   },
   { label: "Administrator", icon: ClipboardList,  color: "text-emerald-400",ring: "ring-emerald-500/40",bg: "bg-emerald-500/15"},
   { label: "Leader",        icon: Landmark,       color: "text-violet-400", ring: "ring-violet-500/40", bg: "bg-violet-500/15" },
-  { label: "Auditor",       icon: ShieldCheck,    color: "text-rose-400",   ring: "ring-rose-500/40",   bg: "bg-rose-500/15"   },
+  { label: "Compliance/Auditor", icon: ShieldCheck, color: "text-rose-400",   ring: "ring-rose-500/40",   bg: "bg-rose-500/15"   },
 ];
 
 
@@ -3302,7 +3302,7 @@ const ROLE_COLOR_MAP: Record<string, { active: string; inactive: string }> = {
   Parent:        { active: "bg-blue-600/70 text-white ring-blue-400/50 shadow-blue-900/30",           inactive: "text-blue-300/55 hover:text-blue-200 hover:bg-blue-500/[0.10] ring-[#D4AF37]/[0.12]" },
   Administrator: { active: "bg-emerald-600/70 text-white ring-emerald-400/50 shadow-emerald-900/30",  inactive: "text-emerald-300/55 hover:text-emerald-200 hover:bg-emerald-500/[0.10] ring-[#D4AF37]/[0.12]" },
   Leader:        { active: "bg-violet-600/70 text-white ring-violet-400/50 shadow-violet-900/30",     inactive: "text-violet-300/55 hover:text-violet-200 hover:bg-violet-500/[0.10] ring-[#D4AF37]/[0.12]" },
-  Auditor:       { active: "bg-rose-600/70 text-white ring-rose-400/50 shadow-rose-900/30",           inactive: "text-rose-300/55 hover:text-rose-200 hover:bg-rose-500/[0.10] ring-[#D4AF37]/[0.12]" },
+  "Compliance/Auditor": { active: "bg-rose-600/70 text-white ring-rose-400/50 shadow-rose-900/30", inactive: "text-rose-300/55 hover:text-rose-200 hover:bg-rose-500/[0.10] ring-[#D4AF37]/[0.12]" },
 };
 const ROLE_COLOR_FALLBACK = { active: "bg-cyan-600/80 text-white ring-[#D4AF37]/45 shadow-black/30", inactive: "bg-white/[0.05] text-cyan-200/45 hover:text-cyan-100/80 hover:bg-cyan-500/[0.08] ring-[#D4AF37]/[0.15]" };
 
@@ -4341,7 +4341,8 @@ export default function AidAgentPage() {
           onClick={() => { setIntroFading(true); setTimeout(() => setIntroVisible(false), 700); }}
         >
           {/* Full-bleed background image */}
-          <img src="/images/intro-splash.jpg" alt="" className="absolute inset-0 w-full h-full object-cover object-[50%_45%]" />
+          <img src="/images/intro-splash.jpg" alt="" className="absolute inset-0 w-full h-full object-cover object-[50%_45%] hidden md:block" />
+          <img src="/images/intro-splash-mobile.jpg" alt="" className="absolute inset-0 w-full h-full object-cover object-[50%_30%] block md:hidden" />
           {/* Dark vignette overlay */}
           <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse at 50% 60%, rgba(0,0,0,0.08) 0%, rgba(2,8,24,0.72) 100%)" }} />
           <div className="absolute inset-x-0 bottom-0 h-40" style={{ background: "linear-gradient(to top, rgba(2,8,24,0.95) 0%, transparent 100%)" }} />
@@ -4384,7 +4385,7 @@ export default function AidAgentPage() {
 
           {/* ── Contextual photo strip ── */}
           <div className="shrink-0 px-4 pt-2.5">
-            <div className="flex gap-1.5 h-[68px] rounded-xl overflow-hidden">
+            <div className="flex gap-1.5 h-[110px] rounded-xl overflow-hidden">
               <div className="relative flex-1 overflow-hidden rounded-l-xl">
                 <img src="/images/student-laptop.jpg" alt="" className="w-full h-full object-cover object-[50%_25%]" />
                 <div className="absolute inset-0 bg-gradient-to-r from-[#04091A]/70 to-[#04091A]/45" />
@@ -4961,7 +4962,7 @@ export default function AidAgentPage() {
                 </button>
                 <button
                   onClick={() => { const next = !showMobileRight; setShowMobileRight(next); if (next) { resetRightTimer(); triggerOrbGold(); } }}
-                  title="Admins & Auditors panel"
+                  title="Admins & Compliance/Auditors panel"
                   className="p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60 text-[#C9A227]/65 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.12] hover:shadow-[0_0_10px_rgba(212,175,55,0.25)]"
                 >
                   {showMobileRight ? <X className="h-5 w-5" /> : <Zap className="h-5 w-5" />}
@@ -5223,7 +5224,7 @@ export default function AidAgentPage() {
                     </div>
 
                     {/* ── Human story photo strip ── */}
-                    <div className="flex gap-1.5 mb-3 rounded-xl overflow-hidden h-[72px]">
+                    <div className="flex gap-1.5 mb-3 rounded-xl overflow-hidden h-[130px]">
                       {[
                         { src: "/images/student-laptop.jpg",      pos: "object-[50%_22%]", label: "Students"    },
                         { src: "/images/hero-advisor-meeting.jpg", pos: "object-[50%_28%]", label: "Families & Offices" },
@@ -5238,34 +5239,17 @@ export default function AidAgentPage() {
                     </div>
 
                     {/* Trust strip */}
-                    <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mb-3">
+                    <div className="flex flex-wrap items-center justify-center md:justify-start gap-1.5 mb-3">
                       {[
                         { icon: BookOpen,    text: "34 CFR Full Coverage"  },
                         { icon: ShieldCheck, text: "Updated Weekly"        },
                         { icon: Users,       text: "Students · Parents · Offices" },
                       ].map(({ icon: Icon, text }) => (
-                        <span key={text} className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#0D1A32] ring-1 ring-cyan-500/[0.25] shadow-md shadow-black/35 hover:ring-cyan-400/50 hover:shadow-lg hover:shadow-cyan-900/25 hover:scale-[1.03] transition-all duration-150 cursor-default" style={{ backdropFilter: "blur(8px)", background: "linear-gradient(145deg, rgba(13,26,50,0.95) 0%, rgba(10,20,40,0.90) 100%)" }}>
-                          <Icon className="h-4 w-4 text-cyan-400 shrink-0" aria-hidden="true" />
-                          <span className="text-sm text-white/75 font-semibold">{text}</span>
+                        <span key={text} className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0D1A32] ring-1 ring-cyan-500/[0.25] shadow-md shadow-black/35 hover:ring-cyan-400/50 hover:shadow-lg hover:shadow-cyan-900/25 hover:scale-[1.03] transition-all duration-150 cursor-default" style={{ backdropFilter: "blur(8px)", background: "linear-gradient(145deg, rgba(13,26,50,0.95) 0%, rgba(10,20,40,0.90) 100%)" }}>
+                          <Icon className="h-3 w-3 text-cyan-400 shrink-0" aria-hidden="true" />
+                          <span className="text-[11px] text-white/75 font-semibold">{text}</span>
                         </span>
                       ))}
-                    </div>
-
-                    {/* ── Social proof faces ── */}
-                    <div className="flex items-center gap-2.5 mb-3">
-                      <div className="flex -space-x-2.5">
-                        {[
-                          { src: "/images/student-contemplative.jpg", pos: "object-[50%_12%]" },
-                          { src: "/images/hero-parent-student.jpg",   pos: "object-[55%_20%]" },
-                          { src: "/images/parent-documents.jpg",      pos: "object-[60%_12%]" },
-                          { src: "/images/student-laptop.jpg",        pos: "object-[50%_18%]" },
-                        ].map(({ src, pos }, i) => (
-                          <div key={i} className="w-7 h-7 rounded-full ring-2 ring-[#0A1428] overflow-hidden shadow-md">
-                            <img src={src} alt="" className={`w-full h-full object-cover ${pos}`} />
-                          </div>
-                        ))}
-                      </div>
-                      <p className="text-[11px] text-white/40 font-semibold">Students, families &amp; aid offices</p>
                     </div>
 
                     {/* How It Works */}
@@ -5277,7 +5261,7 @@ export default function AidAgentPage() {
                       </div>
                       <div className="flex-1 grid grid-cols-2 gap-3 auto-rows-fr">
                         {([
-                          { icon: Sparkles,    step: "1", title: "Choose Your Role",  body: "Select Student, Parent, Admin, Leader, or Auditor for role-specific prompts, resources, and tailored guidance.",      color: "text-violet-400", ring: "ring-[#D4AF37]/[0.28]", bg: "bg-violet-500/[0.08]", glowColor: "rgba(139,92,246,0.35)", activeKey: "role"     as const },
+                          { icon: Sparkles,    step: "1", title: "Choose Your Role",  body: "Select Student, Parent, Admin, Leader, or Compliance/Auditor for role-specific prompts, resources, and tailored guidance.",      color: "text-violet-400", ring: "ring-[#D4AF37]/[0.28]", bg: "bg-violet-500/[0.08]", glowColor: "rgba(139,92,246,0.35)", activeKey: "role"     as const },
                           { icon: Send,        step: "2", title: "Ask Anything",       body: "Type any student aid question in plain English. Upload documents, letters, or forms for instant AI analysis.",   color: "text-cyan-400",   ring: "ring-[#D4AF37]/[0.28]",  bg: "bg-cyan-500/[0.08]",   glowColor: "rgba(6,182,212,0.35)",  activeKey: "chatbox"  as const },
                           { icon: Library,     step: "3", title: "Explore the Hub",    body: "Access 500+ curated resources — scholarships, VA benefits, loan tools, federal aid portals, and institutional guides.",          color: "text-sky-400",    ring: "ring-[#D4AF37]/[0.28]",  bg: "bg-sky-500/[0.08]",    glowColor: "rgba(56,189,248,0.35)", activeKey: "panels"   as const },
                           { icon: CheckCircle, step: "4", title: "Get Clear Guidance", body: "Receive plain-English answers grounded in 34 CFR, FSA Handbook, and HEA Title IV. Free, always — no jargon.",       color: "text-emerald-400",ring: "ring-[#D4AF37]/[0.28]", bg: "bg-emerald-500/[0.08]",glowColor: "rgba(16,185,129,0.35)", activeKey: "guidance" as const },
@@ -5363,7 +5347,7 @@ export default function AidAgentPage() {
                               { role: "Parents",        label: "Parent",  photo: "/images/role-parent.jpg",          pos: "object-[50%_22%]", activeRing: "ring-blue-400/70",    activeGlow: "shadow-blue-500/25",    activeColor: "text-blue-300",    activeBg: "bg-blue-500/[0.12]"    },
                               { role: "Administrators", label: "Admin",   photo: "/images/banner-administrator.jpg", pos: "object-[42%_15%]", activeRing: "ring-emerald-400/70", activeGlow: "shadow-emerald-500/25", activeColor: "text-emerald-300", activeBg: "bg-emerald-500/[0.12]" },
                               { role: "Leaders",        label: "Leader",  photo: "/images/banner-leader.jpg",        pos: "object-[50%_12%]", activeRing: "ring-violet-400/70",  activeGlow: "shadow-violet-500/25",  activeColor: "text-violet-300",  activeBg: "bg-violet-500/[0.12]"  },
-                              { role: "Auditors",       label: "Auditor", photo: "/images/banner-auditor.jpg",       pos: "object-[42%_18%]", activeRing: "ring-rose-400/70",    activeGlow: "shadow-rose-500/25",    activeColor: "text-rose-300",    activeBg: "bg-rose-500/[0.12]"    },
+                              { role: "Auditors",       label: "Compliance/Auditor", photo: "/images/banner-auditor.jpg", pos: "object-[42%_18%]", activeRing: "ring-rose-400/70", activeGlow: "shadow-rose-500/25", activeColor: "text-rose-300", activeBg: "bg-rose-500/[0.12]" },
                             ] as const).map(({ role, label, photo, pos, activeRing, activeGlow, activeColor, activeBg }) => {
                               const isActive = activeActionRole === role;
                               return (
@@ -5906,7 +5890,7 @@ export default function AidAgentPage() {
               </div>
               <div>
                 <p className="text-[8px] font-bold text-white/70 uppercase tracking-widest">Student Aid Hub</p>
-                <p className="text-sm font-black tracking-tight leading-none whitespace-nowrap select-none" style={{ background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-teal-shimmer 3.5s linear infinite" }}>Administrators, Leaders &amp; Auditors</p>
+                <p className="text-sm font-black tracking-tight leading-none whitespace-nowrap select-none" style={{ background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-teal-shimmer 3.5s linear infinite" }}>Administrators, Leaders &amp; Compliance/Auditors</p>
               </div>
             </div>
             <button onClick={() => setShowMobileRight(false)} className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all">
@@ -5916,7 +5900,7 @@ export default function AidAgentPage() {
 
           {/* ── Contextual photo strip ── */}
           <div className="shrink-0 px-4 pt-2.5">
-            <div className="flex gap-1.5 h-[68px] rounded-xl overflow-hidden">
+            <div className="flex gap-1.5 h-[110px] rounded-xl overflow-hidden">
               <div className="relative flex-[3] overflow-hidden rounded-l-xl">
                 <img src="/images/admin-office.jpg" alt="" className="w-full h-full object-cover object-[50%_20%]" />
                 <div className="absolute inset-0 bg-gradient-to-r from-[#04091A]/65 to-[#04091A]/40" />
@@ -5987,7 +5971,7 @@ export default function AidAgentPage() {
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-rose-500/[0.18]" />
                   <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0A1525] ring-1 ring-rose-500/[0.22] shadow-sm">
                     <ShieldCheck className="h-3 w-3 text-rose-400" />
-                    <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-white/65">Auditors</span>
+                    <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-white/65">Compliance/Auditors</span>
                   </div>
                   <button onClick={() => setOverlaySection("rc-aud-qa")} className="text-[9px] font-semibold text-white/30 hover:text-rose-300 transition-colors px-1.5 py-0.5 rounded-md hover:bg-rose-500/[0.08]">view all</button>
                   <div className="h-px w-4 bg-rose-500/[0.18]" />
@@ -6395,9 +6379,9 @@ export default function AidAgentPage() {
                   "lc-vol": "Volunteer & Community Service",
                   "rc-adm-qa": "Administrators Quick Actions",
                   "rc-lea-qa": "Leaders Quick Actions",
-                  "rc-aud-qa": "Auditors Quick Actions",
+                  "rc-aud-qa": "Compliance/Auditors Quick Actions",
                   "rc-fa-adm": "Administrators & Advisors",
-                  "rc-lac": "Leaders, Auditors & Compliance",
+                  "rc-lac": "Leaders & Compliance/Auditors",
                   "rc-loan-portals": "Private Loan Administrator Portals",
                   "rc-hw": "Health Wellness Support",
                   "rc-va": "VA Resources",
