@@ -94,25 +94,32 @@ export default function InstitutionsPage() {
       <main className="max-w-5xl mx-auto px-6 pb-24 relative" style={{ zIndex: 1 }}>
 
         {/* Hero */}
-        <section className="pt-16 pb-14 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-500/[0.12] ring-1 ring-cyan-400/40 text-cyan-300 text-xs font-semibold mb-6 tracking-widest uppercase shadow-sm shadow-cyan-500/20">
-            <Building2 className="h-3.5 w-3.5" />
-            For Financial Aid Offices &amp; Institutions
+        <section className="pt-8 pb-14 text-center">
+          {/* Hero background image */}
+          <div className="relative rounded-2xl overflow-hidden mb-10">
+            <img src="/images/advisor-student.jpg" alt="" className="w-full h-64 object-cover object-[50%_30%]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#020C1B]/40 to-[#020C1B]/80" />
+            <div className="absolute inset-0 flex flex-col items-center justify-center px-6">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-500/[0.20] ring-1 ring-cyan-400/50 text-cyan-300 text-xs font-semibold mb-4 tracking-widest uppercase shadow-sm shadow-cyan-500/20">
+                <Building2 className="h-3.5 w-3.5" />
+                For Financial Aid Offices &amp; Institutions
+              </div>
+              <h1
+                className="text-4xl sm:text-5xl font-black tracking-tight leading-tight"
+                style={{
+                  background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)",
+                  backgroundSize: "200% auto",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  color: "transparent",
+                  animation: "genie-teal-shimmer 3.5s linear infinite",
+                }}
+              >
+                Built by someone who sat<br className="hidden sm:block" /> where you sit.
+              </h1>
+            </div>
           </div>
-          <h1
-            className="text-4xl sm:text-5xl font-black tracking-tight leading-tight mb-6"
-            style={{
-              background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)",
-              backgroundSize: "200% auto",
-              WebkitBackgroundClip: "text",
-              backgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              color: "transparent",
-              animation: "genie-teal-shimmer 3.5s linear infinite",
-            }}
-          >
-            Built by someone who sat<br className="hidden sm:block" /> where you sit.
-          </h1>
           <p className="text-lg text-[#94A3B8]/90 max-w-2xl mx-auto leading-relaxed mb-8">
             Genie was created by a financial aid professional with 15 years of hands-on experience. Every feature was designed for the real work that happens inside a financial aid office — not just the theory.
           </p>

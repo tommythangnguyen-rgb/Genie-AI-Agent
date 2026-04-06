@@ -58,26 +58,39 @@ export default function AboutPage() {
 
       <main className="max-w-4xl mx-auto px-6 pb-24 relative" style={{ zIndex: 1 }}>
 
+        {/* Hero — cinematic photo banner */}
+        <div className="relative rounded-2xl overflow-hidden mt-10 mb-2">
+          <img
+            src="/images/family-laptop.jpg"
+            alt=""
+            className="w-full h-64 md:h-96 object-cover object-[50%_25%]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#020C1B]/70 to-[#020C1B]/40" />
+          {/* Headline overlaid on photo */}
+          <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
+            <h1
+              className="text-4xl sm:text-5xl font-black tracking-tight leading-tight drop-shadow-lg"
+              style={{
+                background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)",
+                backgroundSize: "200% auto",
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                color: "transparent",
+                animation: "genie-teal-shimmer 3.5s linear infinite",
+              }}
+            >
+              Built From the Inside
+            </h1>
+          </div>
+        </div>
+
         {/* Hero */}
-        <section className="pt-16 pb-14 text-center">
+        <section className="pt-8 pb-14 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-500/[0.12] ring-1 ring-cyan-400/40 text-cyan-300 text-xs font-semibold mb-6 tracking-widest uppercase shadow-sm shadow-cyan-500/20">
             <ShieldCheck className="h-3.5 w-3.5" />
             15 Years · Student Financial Aid · For-Profit Post-Secondary Education
           </div>
-          <h1
-            className="text-4xl sm:text-5xl font-black tracking-tight leading-tight mb-4"
-            style={{
-              background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)",
-              backgroundSize: "200% auto",
-              WebkitBackgroundClip: "text",
-              backgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              color: "transparent",
-              animation: "genie-teal-shimmer 3.5s linear infinite",
-            }}
-          >
-            Built From the Inside
-          </h1>
           <p className="text-lg text-[#94A3B8]/90 max-w-2xl mx-auto leading-relaxed mb-8">
             Genie was created by someone who spent 15 years in the trenches of student financial aid — not reading about it, but living it, every single day.
           </p>
@@ -93,12 +106,27 @@ export default function AboutPage() {
         {/* Origin Story */}
         <section className="mb-12 rounded-2xl px-8 py-8" style={{ background: "linear-gradient(135deg, rgba(13,26,50,0.92) 0%, rgba(10,20,42,0.88) 100%)", border: "1px solid rgba(6,182,212,0.18)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
           <h2 className="text-lg font-bold text-white mb-5">The Story Behind Genie</h2>
-          <p className="text-base text-white/90 leading-relaxed mb-4">
-            Over 15 years in for-profit post-secondary financial aid, I&apos;ve helped thousands of students navigate FAFSA, award letters, R2T4 calculations, Title IV audits, SAP policies, and verification.
-          </p>
-          <p className="text-base text-white/90 leading-relaxed mb-4">
-            Year after year, the same pattern: students and families desperate for clear answers while financial aid offices stayed understaffed and staff burned out. Government handbooks are dense and written for compliance officers, not students. The stakes — tuition, enrollment, and federal aid eligibility — could not be higher.
-          </p>
+
+          {/* Photo + first two paragraphs side-by-side on md+ */}
+          <div className="md:flex md:gap-6 mb-4">
+            <div className="relative rounded-2xl overflow-hidden shrink-0 mb-4 md:mb-0 md:w-48">
+              <img
+                src="/images/advisor-student.jpg"
+                alt=""
+                className="w-full h-48 object-cover object-top"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-[#020C1B]/40 to-[#020C1B]/75" />
+            </div>
+            <div className="flex flex-col gap-4">
+              <p className="text-base text-white/90 leading-relaxed">
+                Over 15 years in for-profit post-secondary financial aid, I&apos;ve helped thousands of students navigate FAFSA, award letters, R2T4 calculations, Title IV audits, SAP policies, and verification.
+              </p>
+              <p className="text-base text-white/90 leading-relaxed">
+                Year after year, the same pattern: students and families desperate for clear answers while financial aid offices stayed understaffed and staff burned out. Government handbooks are dense and written for compliance officers, not students. The stakes — tuition, enrollment, and federal aid eligibility — could not be higher.
+              </p>
+            </div>
+          </div>
+
           <p className="text-base text-white/90 leading-relaxed mb-4">
             Genie was built to close that gap. <strong className="text-white">Not as a replacement for your financial aid office</strong>, but as a reliable companion that offers clarity at 2 a.m. before a deadline, helps decode award letters, and prepares you for any financial aid conversation.
           </p>

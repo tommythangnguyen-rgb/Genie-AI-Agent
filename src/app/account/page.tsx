@@ -207,6 +207,12 @@ function AccountPageInner() {
       </header>
 
       <main className="max-w-3xl mx-auto px-6 py-10 pb-24">
+        {/* Welcome banner image */}
+        <div className="relative rounded-2xl overflow-hidden mb-6">
+          <img src="/images/student-fafsa.jpg" alt="" className="w-full h-32 object-cover object-[50%_30%]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#020C1B]/40 to-[#020C1B]/80" />
+        </div>
+
         {/* Success banner */}
         {showSuccess && (
           <div className="mb-8 flex items-center gap-3 px-5 py-4 rounded-xl bg-emerald-500/15 ring-1 ring-emerald-400/30">

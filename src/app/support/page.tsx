@@ -123,10 +123,20 @@ export default function SupportPage() {
           >
             Keep Genie Running
           </h1>
-          <p className="text-base text-[#94A3B8]/90 max-w-xl mx-auto leading-relaxed">
+          <p className="text-base text-[#94A3B8]/90 max-w-xl mx-auto leading-relaxed mb-8">
             Genie is built and maintained by one developer. Your support covers API and hosting
             costs — thank you for being part of this community.
           </p>
+
+          {/* Contextual photo */}
+          <div className="relative rounded-2xl overflow-hidden max-w-xs mx-auto">
+            <img
+              src="/images/student-fafsa.jpg"
+              alt=""
+              className="w-full h-48 object-cover object-[50%_25%]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#020C1B]/40 to-[#020C1B]/75" />
+          </div>
         </section>
 
         {donated && (

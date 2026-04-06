@@ -124,8 +124,14 @@ export default function DpaPage() {
 
       {/* Content */}
       <main className="max-w-4xl mx-auto px-6 pb-20 relative" style={{ zIndex: 1 }}>
+        {/* Contextual banner image */}
+        <div className="relative rounded-2xl overflow-hidden mb-6 mt-8">
+          <img src="/images/advisor-student.jpg" alt="" className="w-full h-40 object-cover object-[50%_30%]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#020C1B]/40 to-[#020C1B]/80" />
+        </div>
+
         {/* Intro */}
-        <div className="pt-10 mb-8">
+        <div className="mb-8">
           <div className="flex items-center gap-3 mb-3">
             <div className="p-2 rounded-xl bg-cyan-500/[0.15] ring-1 ring-cyan-500/[0.28]">
               <FileText className="h-5 w-5 text-cyan-300" />

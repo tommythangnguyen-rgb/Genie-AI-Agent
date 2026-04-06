@@ -180,8 +180,16 @@ export default function LegalPage() {
         </div>
       </header>
 
+      {/* Contextual banner image */}
+      <div className="max-w-4xl mx-auto px-6 pt-8 relative" style={{ zIndex: 1 }}>
+        <div className="relative rounded-2xl overflow-hidden mb-6">
+          <img src="/images/document-signing.jpg" alt="" className="w-full h-40 object-cover object-[50%_30%]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#020C1B]/40 to-[#020C1B]/80" />
+        </div>
+      </div>
+
       {/* Tab bar */}
-      <div className="max-w-4xl mx-auto px-6 pt-8 pb-4 relative" style={{ zIndex: 1 }}>
+      <div className="max-w-4xl mx-auto px-6 pb-4 relative" style={{ zIndex: 1 }}>
         <div className="flex gap-2 p-1 rounded-xl bg-white/[0.05] ring-1 ring-white/[0.08] w-fit">
           <button
             onClick={() => setTab("tos")}

@@ -285,10 +285,20 @@ export default function PricingPage() {
           >
             Simple Pricing for Real<br className="hidden sm:block" /> Financial Aid Relief
           </h1>
-          <p className="text-base sm:text-lg text-[#94A3B8]/90 max-w-2xl mx-auto leading-relaxed mb-10">
+          <p className="text-base sm:text-lg text-[#94A3B8]/90 max-w-2xl mx-auto leading-relaxed mb-8">
             Your calm expert companion for FAFSA, award letters, and Title IV questions.
             Start free. Upgrade when you need document analysis and R2T4 tools.
           </p>
+
+          {/* Contextual photo strip */}
+          <div className="relative rounded-2xl overflow-hidden max-w-sm mx-auto mb-10">
+            <img
+              src="/images/student-happy.jpg"
+              alt=""
+              className="w-full h-48 object-cover object-[50%_25%]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#020C1B]/40 to-[#020C1B]/75" />
+          </div>
 
           {/* Billing toggle */}
           <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/[0.07] ring-1 ring-white/[0.12]" role="group" aria-label="Billing frequency">
