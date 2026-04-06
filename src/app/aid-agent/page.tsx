@@ -4808,38 +4808,93 @@ export default function AidAgentPage() {
       {/* ── Intro Splash ── */}
       {introVisible && (
         <div
-          className="genie-intro fixed inset-0 z-[300] flex flex-col items-center justify-end cursor-pointer select-none"
+          className="genie-intro fixed inset-0 z-[300] flex flex-col items-center justify-end cursor-pointer select-none overflow-hidden"
           style={{
-            background: "#04091A",
             transition: introFading ? "opacity 0.7s ease, transform 0.7s ease" : undefined,
             opacity: introFading ? 0 : 1,
             transform: introFading ? "scale(1.03)" : "scale(1)",
           }}
           onClick={dismissIntro}
         >
-          {/* ── Desktop image — full-bleed cover ── */}
-          <img src="/images/intro-splash.jpg" alt="" className="absolute inset-0 w-full h-full object-cover object-[50%_45%] hidden md:block" />
-          {/* Desktop vignette */}
-          <div className="absolute inset-0 hidden md:block" style={{ background: "radial-gradient(ellipse at 50% 60%, rgba(0,0,0,0.08) 0%, rgba(2,8,24,0.72) 100%)" }} />
-          <div className="absolute inset-x-0 bottom-0 h-40 hidden md:block" style={{ background: "linear-gradient(to top, rgba(2,8,24,0.95) 0%, transparent 100%)" }} />
 
-          {/* ── Mobile image — contained so no text is cropped ── */}
-          <div className="block md:hidden absolute inset-0 flex items-center justify-center">
-            <img
-              src="/images/intro-splash-mobile.jpg"
-              alt=""
-              className="w-full h-full object-contain object-top"
-              style={{ maxHeight: "100dvh" }}
-            />
+          {/* ── DESKTOP: CSS-only premium splash (always pixel-sharp) ── */}
+          <div className="hidden md:block absolute inset-0">
+            {/* Deep space base */}
+            <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, #020815 0%, #040C20 30%, #030A1C 60%, #020810 100%)" }} />
+            {/* Radial glow — centre teal */}
+            <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 80% 60% at 50% 55%, rgba(0,180,220,0.10) 0%, transparent 65%)" }} />
+            {/* Upper-left accent orb */}
+            <div className="absolute" style={{ top: "-10%", left: "-5%", width: "55%", height: "70%", background: "radial-gradient(ellipse at center, rgba(0,140,200,0.07) 0%, transparent 65%)", borderRadius: "50%" }} />
+            {/* Lower-right accent orb */}
+            <div className="absolute" style={{ bottom: "-15%", right: "-8%", width: "60%", height: "75%", background: "radial-gradient(ellipse at center, rgba(0,200,160,0.06) 0%, transparent 65%)", borderRadius: "50%" }} />
+            {/* Subtle star field dots */}
+            <div className="absolute inset-0 genie-intro-stars" />
+            {/* Horizontal light beam */}
+            <div className="absolute" style={{ top: "38%", left: 0, right: 0, height: "1px", background: "linear-gradient(90deg, transparent 0%, rgba(0,212,255,0.08) 20%, rgba(0,212,255,0.22) 50%, rgba(0,212,255,0.08) 80%, transparent 100%)" }} />
           </div>
-          {/* Mobile: subtle top scrim to sharpen baked-in headline text */}
+
+          {/* ── MOBILE: photo-based splash ── */}
+          <div className="block md:hidden absolute inset-0 flex items-center justify-center">
+            <img src="/images/intro-splash-mobile.jpg" alt="" className="w-full h-full object-contain object-top" style={{ maxHeight: "100dvh" }} />
+          </div>
           <div className="block md:hidden absolute inset-x-0 top-0 h-[45%]" style={{ background: "linear-gradient(to bottom, rgba(4,9,26,0.35) 0%, transparent 100%)" }} />
-          {/* Mobile: bottom fade for CTA */}
           <div className="block md:hidden absolute inset-x-0 bottom-0 h-36" style={{ background: "linear-gradient(to top, rgba(4,9,26,0.98) 0%, rgba(4,9,26,0.60) 55%, transparent 100%)" }} />
 
-          {/* CTA — same for both */}
+          {/* ── DESKTOP: centre content (CSS text — always crisp) ── */}
+          <div className="hidden md:flex absolute inset-0 flex-col items-center justify-center gap-7" style={{ paddingBottom: "6vh" }}>
+            {/* Logo mark */}
+            <div className="flex flex-col items-center gap-5">
+              <div className="relative flex items-center justify-center">
+                <div className="absolute" style={{ width: 96, height: 96, borderRadius: "50%", background: "radial-gradient(ellipse at center, rgba(0,212,255,0.18) 0%, transparent 70%)", filter: "blur(12px)" }} />
+                <GenieBottle className="relative h-14 w-14 genie-icon-shimmer" style={{ color: "#00D4FF", filter: "drop-shadow(0 0 18px rgba(0,212,255,0.55)) drop-shadow(0 0 36px rgba(0,212,255,0.28))" }} />
+              </div>
+              {/* Brand name */}
+              <div className="flex flex-col items-center gap-2">
+                <h1 className="font-black tracking-[-0.03em] leading-none" style={{
+                  fontSize: "clamp(3.5rem, 7vw, 6rem)",
+                  background: "linear-gradient(135deg, #FFFFFF 0%, #D0E8FF 25%, #FFFFFF 50%, #B8DCFF 75%, #FFFFFF 100%)",
+                  backgroundSize: "200% auto",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  animation: "genie-white-shimmer 5s linear infinite",
+                  filter: "drop-shadow(0 0 30px rgba(255,255,255,0.25))",
+                }}>askGenie</h1>
+                <div className="flex items-center gap-3">
+                  <div className="h-px w-16" style={{ background: "linear-gradient(90deg, transparent, rgba(0,212,255,0.5))" }} />
+                  <span className="text-xs font-bold tracking-[0.35em] uppercase" style={{ color: "rgba(0,212,255,0.75)" }}>Student Aid Hub</span>
+                  <div className="h-px w-16" style={{ background: "linear-gradient(90deg, rgba(0,212,255,0.5), transparent)" }} />
+                </div>
+              </div>
+            </div>
+
+            {/* Tagline */}
+            <div className="flex flex-col items-center gap-2 max-w-lg text-center px-8">
+              <p className="font-semibold leading-snug" style={{ fontSize: "clamp(1.05rem, 2vw, 1.35rem)", color: "rgba(255,255,255,0.88)" }}>
+                Student Aid, Made Clear.
+              </p>
+              <p style={{ fontSize: "clamp(0.8rem, 1.3vw, 1rem)", color: "rgba(148,163,184,0.75)", lineHeight: 1.6 }}>
+                Connecting families with financial aid offices — quickly and reliably.
+              </p>
+            </div>
+
+            {/* Trust badges */}
+            <div className="flex items-center gap-4">
+              {[
+                { label: "34 CFR Coverage" },
+                { label: "Updated Weekly" },
+                { label: "Students · Parents · Offices" },
+              ].map(({ label }) => (
+                <div key={label} className="px-3 py-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(0,212,255,0.18)", color: "rgba(148,163,184,0.70)", fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                  {label}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* CTA — shared */}
           <div className="genie-intro-cta relative z-10 flex flex-col items-center gap-3 mb-10">
-            <p className="text-white/50 text-xs font-semibold tracking-[0.18em] uppercase">Tap anywhere to enter</p>
+            <p className="text-white/40 text-xs font-semibold tracking-[0.22em] uppercase">Tap anywhere to enter</p>
             <div className="flex items-center gap-1.5">
               <span className="genie-intro-dot1 w-1.5 h-1.5 rounded-full bg-[#00D4FF]" />
               <span className="genie-intro-dot2 w-1.5 h-1.5 rounded-full bg-[#00D4FF]" />
@@ -4872,22 +4927,6 @@ export default function AidAgentPage() {
             <button onClick={() => setShowMobileLeft(false)} className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all">
               <X className="h-4 w-4" />
             </button>
-          </div>
-
-          {/* ── Contextual photo strip ── */}
-          <div className="shrink-0 px-4 pt-2.5">
-            <div className="flex gap-1.5 h-[110px] rounded-xl overflow-hidden">
-              <div className="relative flex-1 overflow-hidden rounded-l-xl">
-                <img src="/images/student-library.jpg" alt="" className="w-full h-full object-cover object-[50%_25%]" />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#04091A]/70 to-[#04091A]/45" />
-                <span className="absolute bottom-2 left-2 text-[9px] font-bold uppercase tracking-[0.14em] text-white/65">Students</span>
-              </div>
-              <div className="relative flex-1 overflow-hidden rounded-r-xl">
-                <img src="/images/hero-parent-student.jpg" alt="" className="w-full h-full object-cover object-[50%_22%]" />
-                <div className="absolute inset-0 bg-gradient-to-l from-[#04091A]/70 to-[#04091A]/45" />
-                <span className="absolute bottom-2 right-2 text-[9px] font-bold uppercase tracking-[0.14em] text-white/65">Parents</span>
-              </div>
-            </div>
           </div>
 
           {/* Scrollable content */}
@@ -5005,14 +5044,15 @@ export default function AidAgentPage() {
                   title="Return to home"
                   className="text-2xl font-black tracking-tight leading-none whitespace-nowrap px-2 py-0.5 rounded-xl ring-1 ring-[#D4AF37]/35 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/60 hover:ring-[#D4AF37]/60 transition-all duration-150"
                   style={{
-                    boxShadow: "0 0 14px rgba(212,175,55,0.10), inset 0 0 8px rgba(212,175,55,0.04)",
-                    background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)",
+                    background: "linear-gradient(135deg, #FFFFFF 0%, #D8E8FF 22%, #FFFFFF 44%, #EAF3FF 66%, #FFFFFF 88%, #D0E4FF 100%)",
                     backgroundSize: "200% auto",
                     WebkitBackgroundClip: "text",
                     backgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                     color: "transparent",
-                    animation: "genie-teal-shimmer 3.5s linear infinite",
+                    animation: "genie-white-shimmer 4s linear infinite",
+                    filter: "drop-shadow(0 0 18px rgba(255,255,255,0.45))",
+                    letterSpacing: "-0.02em",
                   }}
                 >
                   Genie
@@ -6016,21 +6056,6 @@ export default function AidAgentPage() {
             <button onClick={() => setShowMobileRight(false)} className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all">
               <X className="h-4 w-4" />
             </button>
-          </div>
-
-          {/* ── Contextual photo strip ── */}
-          <div className="shrink-0 px-4 pt-2.5">
-            <div className="flex gap-1.5 h-[110px] rounded-xl overflow-hidden">
-              <div className="relative flex-[3] overflow-hidden rounded-l-xl">
-                <img src="/images/admin-office.jpg" alt="" className="w-full h-full object-cover object-[50%_20%]" />
-                <div className="absolute inset-0 bg-gradient-to-r from-[#04091A]/65 to-[#04091A]/40" />
-                <span className="absolute bottom-2 left-2 text-[9px] font-bold uppercase tracking-[0.14em] text-white/65">Professionals</span>
-              </div>
-              <div className="relative flex-[2] overflow-hidden rounded-r-xl">
-                <img src="/images/document-exchange.jpg" alt="" className="w-full h-full object-cover object-[50%_35%]" />
-                <div className="absolute inset-0 bg-gradient-to-l from-[#04091A]/65 to-[#04091A]/40" />
-              </div>
-            </div>
           </div>
 
           {/* Scrollable content */}
