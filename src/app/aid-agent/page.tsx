@@ -3386,7 +3386,9 @@ export default function AidAgentPage() {
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [showHistory, setShowHistory] = useState(false);
   const [expandedHistoryId, setExpandedHistoryId] = useState<string | null>(null);
-  const [introVisible, setIntroVisible] = useState(true);
+  const [introVisible, setIntroVisible] = useState(() => {
+    try { return !localStorage.getItem("genie-intro-seen"); } catch { return false; }
+  });
   const [introFading, setIntroFading] = useState(false);
 
   // Intro splash — auto-dismiss after 3.8s, or on click/keypress
@@ -3394,6 +3396,7 @@ export default function AidAgentPage() {
     const dismiss = () => {
       if (!introFading) {
         setIntroFading(true);
+        try { localStorage.setItem("genie-intro-seen", "1"); } catch {}
         setTimeout(() => setIntroVisible(false), 700);
       }
     };
@@ -5397,24 +5400,6 @@ export default function AidAgentPage() {
                             </div>
                           ))}
 
-                          {/* ── Role banner ── */}
-                          {(() => {
-                            const bannerMap: Record<string, string> = {
-                              Students:       "/images/banner-student.jpg",
-                              Parents:        "/images/banner-parent.jpg",
-                              Administrators: "/images/banner-administrator.jpg",
-                              Leaders:        "/images/banner-leader.jpg",
-                              Auditors:       "/images/banner-auditor.jpg",
-                            };
-                            const src = bannerMap[activeActionRole];
-                            if (!src) return null;
-                            return (
-                              <div key={activeActionRole} className="mt-3 relative h-[70px] rounded-xl overflow-hidden ring-1 ring-white/[0.07]" style={{ transition: "opacity 0.4s ease" }}>
-                                <img src={src} alt="" className="w-full h-full object-cover object-[50%_22%]" />
-                                <div className="absolute inset-0 bg-gradient-to-r from-[#04091A]/80 via-[#04091A]/30 to-[#04091A]/60" />
-                              </div>
-                            );
-                          })()}
                         </div>{/* end slide 2 */}
 
                         {/* Slide 3 — Tips by Role */}
