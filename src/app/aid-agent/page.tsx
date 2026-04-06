@@ -5388,7 +5388,7 @@ export default function AidAgentPage() {
                       {[
                         { src: "/images/strip-students.jpg",    pos: "object-[50%_22%]", label: "Students"    },
                         { src: "/images/strip-families.jpg",    pos: "object-[50%_30%]", label: "Families & Offices" },
-                        { src: "/images/strip-professionals.jpg", pos: "object-[50%_20%]", label: "Professionals" },
+                        { src: "/images/strip-professionals.jpg", pos: "object-[40%_25%]", label: "Professionals" },
                       ].map(({ src, pos, label }) => (
                         <div key={src} className="relative flex-1 overflow-hidden first:rounded-l-xl last:rounded-r-xl">
                           <img src={src} alt={label} className={`w-full h-full object-cover ${pos}`} />
