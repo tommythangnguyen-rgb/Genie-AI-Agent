@@ -683,13 +683,22 @@
     genie-orb-float          4.5s ease-in-out infinite !important;
 }
 
-/* ── Chatbox invite glow — gold ── */
+/* ── Chatbox invite glow — neon teal ── */
 @keyframes genie-chatbox-invite {
-  0%, 100% { box-shadow: 0 0 0 1px rgba(212,175,55,0.32), 0 0 14px 3px rgba(212,175,55,0.14), inset 0 0 0 1px rgba(212,175,55,0.10); }
-  50%       { box-shadow: 0 0 0 2px rgba(212,175,55,0.68), 0 0 32px 10px rgba(212,175,55,0.26), inset 0 0 0 1px rgba(212,175,55,0.22); }
+  0%, 100% { box-shadow: 0 0 0 1px rgba(0,212,255,0.30), 0 0 16px 4px rgba(0,212,255,0.14), inset 0 0 0 1px rgba(0,212,255,0.08); }
+  50%       { box-shadow: 0 0 0 2px rgba(0,212,255,0.65), 0 0 36px 12px rgba(0,212,255,0.26), inset 0 0 0 1px rgba(0,212,255,0.18); }
 }
 .genie-chatbox-invite {
   animation: genie-chatbox-invite 2.8s ease-in-out infinite;
+}
+
+/* ── Role avatar icon — teal pulse glow ── */
+@keyframes genie-role-icon-pulse {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(0,212,255,0.18), 0 0 10px 3px rgba(0,212,255,0.10); }
+  50%       { box-shadow: 0 0 0 2px rgba(0,212,255,0.45), 0 0 20px 7px rgba(0,212,255,0.22); }
+}
+.genie-role-icon {
+  animation: genie-role-icon-pulse 2.6s ease-in-out infinite;
 }
 
 /* ── Get Clear Guidance: gold headline shimmer ── */

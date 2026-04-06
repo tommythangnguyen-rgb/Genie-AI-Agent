@@ -4430,7 +4430,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2.5">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-sky-500/[0.18]" />
                   <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0A1525] ring-1 ring-sky-500/[0.22] shadow-sm">
-                    <div className="w-4 h-4 rounded-full overflow-hidden shrink-0 ring-1 ring-sky-400/40"><img src="/images/sec-students.jpg" alt="" className="w-full h-full object-cover object-[50%_15%]" /></div>
+                    <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 ring-1 ring-sky-400/40"><img src="/images/sec-students.jpg" alt="" className="w-full h-full object-cover object-[50%_15%]" /></div>
                     <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-white/65">Students</span>
                   </div>
                   <button onClick={() => setOverlaySection("lc-s-qa")} className="text-[9px] font-semibold text-white/30 hover:text-sky-300 transition-colors px-1.5 py-0.5 rounded-md hover:bg-sky-500/[0.08]">view all</button>
@@ -4454,7 +4454,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2.5">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-blue-500/[0.18]" />
                   <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0A1525] ring-1 ring-blue-500/[0.22] shadow-sm">
-                    <div className="w-4 h-4 rounded-full overflow-hidden shrink-0 ring-1 ring-blue-400/40"><img src="/images/sec-parents.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
+                    <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 ring-1 ring-blue-400/40"><img src="/images/sec-parents.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
                     <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-white/65">Parents</span>
                   </div>
                   <button onClick={() => setOverlaySection("lc-p-qa")} className="text-[9px] font-semibold text-white/30 hover:text-blue-300 transition-colors px-1.5 py-0.5 rounded-md hover:bg-blue-500/[0.08]">view all</button>
@@ -4485,7 +4485,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-cyan-500/[0.14]" />
                   <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-cyan-500/[0.18]">
-                    <div className="w-3.5 h-3.5 rounded-full overflow-hidden shrink-0 ring-1 ring-cyan-400/30"><img src="/images/sec-fed-aid.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-cyan-400/30"><img src="/images/sec-fed-aid.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
                     <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Federal Aid</span>
                   </div>
                   <button onClick={() => setOverlaySection("lc-fed-sp")} className="text-[8px] font-semibold text-white/25 hover:text-cyan-300 transition-colors px-1 py-0.5 rounded hover:bg-cyan-500/[0.08]">all</button>
@@ -4512,7 +4512,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-sky-500/[0.14]" />
                   <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-sky-500/[0.18]">
-                    <div className="w-3.5 h-3.5 rounded-full overflow-hidden shrink-0 ring-1 ring-sky-400/30"><img src="/images/sec-resume.jpg" alt="" className="w-full h-full object-cover object-[50%_15%]" /></div>
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-sky-400/30"><img src="/images/sec-resume.jpg" alt="" className="w-full h-full object-cover object-[50%_15%]" /></div>
                     <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Resume Help</span>
                   </div>
                   <button onClick={() => setOverlaySection("lc-resume")} className="text-[8px] font-semibold text-white/25 hover:text-sky-300 transition-colors px-1 py-0.5 rounded hover:bg-sky-500/[0.08]">all</button>
@@ -4539,7 +4539,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-amber-500/[0.14]" />
                   <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-amber-500/[0.18]">
-                    <div className="w-3.5 h-3.5 rounded-full overflow-hidden shrink-0 ring-1 ring-amber-400/30"><img src="/images/sec-scholarship.jpg" alt="" className="w-full h-full object-cover object-[50%_12%]" /></div>
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-amber-400/30"><img src="/images/sec-scholarship.jpg" alt="" className="w-full h-full object-cover object-[50%_12%]" /></div>
                     <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Scholarships</span>
                   </div>
                   <button onClick={() => setOverlaySection("lc-schol")} className="text-[8px] font-semibold text-white/25 hover:text-amber-300 transition-colors px-1 py-0.5 rounded hover:bg-amber-500/[0.08]">all</button>
@@ -4566,7 +4566,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-emerald-500/[0.14]" />
                   <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-emerald-500/[0.18]">
-                    <div className="w-3.5 h-3.5 rounded-full overflow-hidden shrink-0 ring-1 ring-emerald-400/30"><img src="/images/sec-internship.jpg" alt="" className="w-full h-full object-cover object-[50%_14%]" /></div>
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-emerald-400/30"><img src="/images/sec-internship.jpg" alt="" className="w-full h-full object-cover object-[50%_14%]" /></div>
                     <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Internships</span>
                   </div>
                   <button onClick={() => setOverlaySection("lc-intern")} className="text-[8px] font-semibold text-white/25 hover:text-emerald-300 transition-colors px-1 py-0.5 rounded hover:bg-emerald-500/[0.08]">all</button>
@@ -4593,7 +4593,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-violet-500/[0.14]" />
                   <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-violet-500/[0.18]">
-                    <div className="w-3.5 h-3.5 rounded-full overflow-hidden shrink-0 ring-1 ring-violet-400/30"><img src="/images/sec-jobs.jpg" alt="" className="w-full h-full object-cover object-[50%_12%]" /></div>
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-violet-400/30"><img src="/images/sec-jobs.jpg" alt="" className="w-full h-full object-cover object-[50%_12%]" /></div>
                     <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Jobs</span>
                   </div>
                   <button onClick={() => setOverlaySection("lc-jobs")} className="text-[8px] font-semibold text-white/25 hover:text-violet-300 transition-colors px-1 py-0.5 rounded hover:bg-violet-500/[0.08]">all</button>
@@ -4620,7 +4620,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-green-500/[0.14]" />
                   <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-green-500/[0.18]">
-                    <div className="w-3.5 h-3.5 rounded-full overflow-hidden shrink-0 ring-1 ring-green-400/30"><img src="/images/sec-fin-literacy.jpg" alt="" className="w-full h-full object-cover object-[50%_22%]" /></div>
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-green-400/30"><img src="/images/sec-fin-literacy.jpg" alt="" className="w-full h-full object-cover object-[50%_22%]" /></div>
                     <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Financial Literacy</span>
                   </div>
                   <button onClick={() => setOverlaySection("lc-finlit")} className="text-[8px] font-semibold text-white/25 hover:text-green-300 transition-colors px-1 py-0.5 rounded hover:bg-green-500/[0.08]">all</button>
@@ -4647,7 +4647,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-rose-500/[0.14]" />
                   <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-rose-500/[0.18]">
-                    <div className="w-3.5 h-3.5 rounded-full overflow-hidden shrink-0 ring-1 ring-rose-400/30"><img src="/images/sec-priv-loans.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-rose-400/30"><img src="/images/sec-priv-loans.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
                     <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Private Loans</span>
                   </div>
                   <button onClick={() => setOverlaySection("lc-loans")} className="text-[8px] font-semibold text-white/25 hover:text-rose-300 transition-colors px-1 py-0.5 rounded hover:bg-rose-500/[0.08]">all</button>
@@ -4674,7 +4674,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-sky-500/[0.14]" />
                   <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-sky-500/[0.18]">
-                    <div className="w-3.5 h-3.5 rounded-full overflow-hidden shrink-0 ring-1 ring-sky-400/30"><img src="/images/sec-consumer.jpg" alt="" className="w-full h-full object-cover object-[50%_50%]" /></div>
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-sky-400/30"><img src="/images/sec-consumer.jpg" alt="" className="w-full h-full object-cover object-[50%_50%]" /></div>
                     <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Consumer Rights</span>
                   </div>
                   <button onClick={() => setOverlaySection("lc-consumer")} className="text-[8px] font-semibold text-white/25 hover:text-sky-300 transition-colors px-1 py-0.5 rounded hover:bg-sky-500/[0.08]">all</button>
@@ -4701,7 +4701,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-pink-500/[0.14]" />
                   <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-pink-500/[0.18]">
-                    <div className="w-3.5 h-3.5 rounded-full overflow-hidden shrink-0 ring-1 ring-pink-400/30"><img src="/images/sec-mental-health.jpg" alt="" className="w-full h-full object-cover object-[50%_14%]" /></div>
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-pink-400/30"><img src="/images/sec-mental-health.jpg" alt="" className="w-full h-full object-cover object-[50%_14%]" /></div>
                     <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Mental Health</span>
                   </div>
                   <button onClick={() => setOverlaySection("lc-mental")} className="text-[8px] font-semibold text-white/25 hover:text-pink-300 transition-colors px-1 py-0.5 rounded hover:bg-pink-500/[0.08]">all</button>
@@ -4728,7 +4728,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-indigo-500/[0.14]" />
                   <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-indigo-500/[0.18]">
-                    <div className="w-3.5 h-3.5 rounded-full overflow-hidden shrink-0 ring-1 ring-indigo-400/30"><img src="/images/sec-ai-literacy.jpg" alt="" className="w-full h-full object-cover object-[50%_14%]" /></div>
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-indigo-400/30"><img src="/images/sec-ai-literacy.jpg" alt="" className="w-full h-full object-cover object-[50%_14%]" /></div>
                     <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">AI Literacy</span>
                   </div>
                   <button onClick={() => setOverlaySection("lc-ai")} className="text-[8px] font-semibold text-white/25 hover:text-indigo-300 transition-colors px-1 py-0.5 rounded hover:bg-indigo-500/[0.08]">all</button>
@@ -4755,7 +4755,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-amber-500/[0.14]" />
                   <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-amber-500/[0.18]">
-                    <div className="w-3.5 h-3.5 rounded-full overflow-hidden shrink-0 ring-1 ring-amber-400/30"><img src="/images/sec-faith.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-amber-400/30"><img src="/images/sec-faith.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
                     <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Faith &amp; Spirit</span>
                   </div>
                   <button onClick={() => setOverlaySection("lc-faith")} className="text-[8px] font-semibold text-white/25 hover:text-amber-300 transition-colors px-1 py-0.5 rounded hover:bg-amber-500/[0.08]">all</button>
@@ -4782,7 +4782,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-teal-500/[0.14]" />
                   <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-teal-500/[0.18]">
-                    <div className="w-3.5 h-3.5 rounded-full overflow-hidden shrink-0 ring-1 ring-teal-400/30"><img src="/images/sec-volunteer.jpg" alt="" className="w-full h-full object-cover object-[50%_16%]" /></div>
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-teal-400/30"><img src="/images/sec-volunteer.jpg" alt="" className="w-full h-full object-cover object-[50%_16%]" /></div>
                     <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Volunteer</span>
                   </div>
                   <button onClick={() => setOverlaySection("lc-vol")} className="text-[8px] font-semibold text-white/25 hover:text-teal-300 transition-colors px-1 py-0.5 rounded hover:bg-teal-500/[0.08]">all</button>
@@ -4809,7 +4809,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-amber-500/[0.14]" />
                   <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-amber-500/[0.18]">
-                    <div className="w-3.5 h-3.5 rounded-full overflow-hidden shrink-0 ring-1 ring-amber-400/30"><img src="/images/sec-va.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-amber-400/30"><img src="/images/sec-va.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
                     <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">VA Resources</span>
                   </div>
                   <button onClick={() => setOverlaySection("lc-va")} className="text-[8px] font-semibold text-white/25 hover:text-amber-300 transition-colors px-1 py-0.5 rounded hover:bg-amber-500/[0.08]">all</button>
@@ -5380,8 +5380,8 @@ export default function AidAgentPage() {
                                     isActive ? `${activeBg} ${activeColor} shadow-md ${activeGlow}` : "text-[#94A3B8]/70 hover:text-white/90 hover:bg-white/[0.06]"
                                   }`}
                                 >
-                                  <div className={`w-11 h-11 rounded-full overflow-hidden ring-2 transition-all duration-200 shadow-md ${
-                                    isActive ? `${activeRing} shadow-lg` : "ring-white/[0.12] hover:ring-white/25"
+                                  <div className={`w-11 h-11 rounded-full overflow-hidden ring-2 transition-all duration-200 shadow-md genie-role-icon ${
+                                    isActive ? `${activeRing} shadow-lg` : "ring-[#00D4FF]/25 hover:ring-[#00D4FF]/50"
                                   }`}>
                                     <img src={photo} alt={label} className={`w-full h-full object-cover ${pos}`} />
                                   </div>
@@ -5772,11 +5772,11 @@ export default function AidAgentPage() {
 
               {/* Input form */}
               <div
-                className={`rounded-2xl ring-1 focus-within:ring-[#D4AF37]/70 transition-all duration-200 ${howItWorksActive === "guidance" ? "hiw-guidance-chatbox" : howItWorksActive === "chatbox" ? "hiw-active-ring" : (!input && !attachedFile ? "genie-chatbox-invite ring-[#D4AF37]/[0.25]" : "ring-[#D4AF37]/55")}`}
+                className={`rounded-2xl ring-1 focus-within:ring-[#00D4FF]/65 transition-all duration-200 ${howItWorksActive === "guidance" ? "hiw-guidance-chatbox" : howItWorksActive === "chatbox" ? "hiw-active-ring" : (!input && !attachedFile ? "genie-chatbox-invite ring-[#00D4FF]/[0.22]" : "ring-[#00D4FF]/50")}`}
                 style={{
-                  background: "rgba(212,175,55,0.035)",
+                  background: "rgba(0,212,255,0.022)",
                   boxShadow: howItWorksActive === "chatbox"
-                    ? "0 0 0 2px rgba(6,182,212,0.55), 0 0 40px rgba(6,182,212,0.30), 0 0 80px rgba(6,182,212,0.12), 0 1px 0 rgba(255,255,255,0.06) inset"
+                    ? "0 0 0 2px rgba(0,212,255,0.60), 0 0 40px rgba(0,212,255,0.28), 0 0 80px rgba(0,212,255,0.10), 0 1px 0 rgba(255,255,255,0.06) inset"
                     : undefined,
                 }}
               >
@@ -5944,7 +5944,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2.5">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-emerald-500/[0.18]" />
                   <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0A1525] ring-1 ring-emerald-500/[0.22] shadow-sm">
-                    <div className="w-4 h-4 rounded-full overflow-hidden shrink-0 ring-1 ring-emerald-400/40"><img src="/images/sec-admin.jpg" alt="" className="w-full h-full object-cover object-[50%_14%]" /></div>
+                    <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 ring-1 ring-emerald-400/40"><img src="/images/sec-admin.jpg" alt="" className="w-full h-full object-cover object-[50%_14%]" /></div>
                     <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-white/65">Admins</span>
                   </div>
                   <button onClick={() => setOverlaySection("rc-adm-qa")} className="text-[9px] font-semibold text-white/30 hover:text-emerald-300 transition-colors px-1.5 py-0.5 rounded-md hover:bg-emerald-500/[0.08]">view all</button>
@@ -5968,7 +5968,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2.5">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-violet-500/[0.18]" />
                   <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0A1525] ring-1 ring-violet-500/[0.22] shadow-sm">
-                    <div className="w-4 h-4 rounded-full overflow-hidden shrink-0 ring-1 ring-violet-400/40"><img src="/images/sec-leaders.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
+                    <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 ring-1 ring-violet-400/40"><img src="/images/sec-leaders.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
                     <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-white/65">Leaders</span>
                   </div>
                   <button onClick={() => setOverlaySection("rc-lea-qa")} className="text-[9px] font-semibold text-white/30 hover:text-violet-300 transition-colors px-1.5 py-0.5 rounded-md hover:bg-violet-500/[0.08]">view all</button>
@@ -5992,7 +5992,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2.5">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-rose-500/[0.18]" />
                   <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0A1525] ring-1 ring-rose-500/[0.22] shadow-sm">
-                    <div className="w-4 h-4 rounded-full overflow-hidden shrink-0 ring-1 ring-rose-400/40"><img src="/images/sec-compliance.jpg" alt="" className="w-full h-full object-cover object-[50%_50%]" /></div>
+                    <div className="w-5 h-5 rounded-full overflow-hidden shrink-0 ring-1 ring-rose-400/40"><img src="/images/sec-compliance.jpg" alt="" className="w-full h-full object-cover object-[50%_50%]" /></div>
                     <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-white/65">Compliance/Auditors</span>
                   </div>
                   <button onClick={() => setOverlaySection("rc-aud-qa")} className="text-[9px] font-semibold text-white/30 hover:text-rose-300 transition-colors px-1.5 py-0.5 rounded-md hover:bg-rose-500/[0.08]">view all</button>
@@ -6023,7 +6023,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-emerald-500/[0.14]" />
                   <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-emerald-500/[0.18]">
-                    <div className="w-3.5 h-3.5 rounded-full overflow-hidden shrink-0 ring-1 ring-emerald-400/30"><img src="/images/sec-admin-advisors.jpg" alt="" className="w-full h-full object-cover object-[50%_22%]" /></div>
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-emerald-400/30"><img src="/images/sec-admin-advisors.jpg" alt="" className="w-full h-full object-cover object-[50%_22%]" /></div>
                     <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Admin Resources</span>
                   </div>
                   <button onClick={() => setOverlaySection("rc-fa-adm")} className="text-[8px] font-semibold text-white/25 hover:text-emerald-300 transition-colors px-1 py-0.5 rounded hover:bg-emerald-500/[0.08]">all</button>
@@ -6050,7 +6050,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-violet-500/[0.14]" />
                   <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-violet-500/[0.18]">
-                    <div className="w-3.5 h-3.5 rounded-full overflow-hidden shrink-0 ring-1 ring-violet-400/30"><img src="/images/sec-leaders-compliance.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-violet-400/30"><img src="/images/sec-leaders-compliance.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
                     <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Compliance</span>
                   </div>
                   <button onClick={() => setOverlaySection("rc-lac")} className="text-[8px] font-semibold text-white/25 hover:text-violet-300 transition-colors px-1 py-0.5 rounded hover:bg-violet-500/[0.08]">all</button>
@@ -6077,7 +6077,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-sky-500/[0.14]" />
                   <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-sky-500/[0.18]">
-                    <div className="w-3.5 h-3.5 rounded-full overflow-hidden shrink-0 ring-1 ring-sky-400/30"><img src="/images/sec-loan-portals.jpg" alt="" className="w-full h-full object-cover object-[50%_20%]" /></div>
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-sky-400/30"><img src="/images/sec-loan-portals.jpg" alt="" className="w-full h-full object-cover object-[50%_20%]" /></div>
                     <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Loan Portals</span>
                   </div>
                   <button onClick={() => setOverlaySection("rc-loan-portals")} className="text-[8px] font-semibold text-white/25 hover:text-sky-300 transition-colors px-1 py-0.5 rounded hover:bg-sky-500/[0.08]">all</button>
@@ -6104,7 +6104,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-green-500/[0.14]" />
                   <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-green-500/[0.18]">
-                    <div className="w-3.5 h-3.5 rounded-full overflow-hidden shrink-0 ring-1 ring-green-400/30"><img src="/images/sec-wellness.jpg" alt="" className="w-full h-full object-cover object-[50%_12%]" /></div>
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-green-400/30"><img src="/images/sec-wellness.jpg" alt="" className="w-full h-full object-cover object-[50%_12%]" /></div>
                     <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Health &amp; Wellness</span>
                   </div>
                   <button onClick={() => setOverlaySection("rc-hw")} className="text-[8px] font-semibold text-white/25 hover:text-green-300 transition-colors px-1 py-0.5 rounded hover:bg-green-500/[0.08]">all</button>
@@ -6131,7 +6131,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-amber-500/[0.14]" />
                   <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-amber-500/[0.18]">
-                    <div className="w-3.5 h-3.5 rounded-full overflow-hidden shrink-0 ring-1 ring-amber-400/30"><img src="/images/sec-va-right.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-amber-400/30"><img src="/images/sec-va-right.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
                     <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">VA Resources</span>
                   </div>
                   <button onClick={() => setOverlaySection("rc-va")} className="text-[8px] font-semibold text-white/25 hover:text-amber-300 transition-colors px-1 py-0.5 rounded hover:bg-amber-500/[0.08]">all</button>
@@ -6158,7 +6158,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-teal-500/[0.14]" />
                   <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-teal-500/[0.18]">
-                    <div className="w-3.5 h-3.5 rounded-full overflow-hidden shrink-0 ring-1 ring-teal-400/30"><img src="/images/sec-mh-pro.jpg" alt="" className="w-full h-full object-cover object-[50%_14%]" /></div>
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-teal-400/30"><img src="/images/sec-mh-pro.jpg" alt="" className="w-full h-full object-cover object-[50%_14%]" /></div>
                     <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Mental Health</span>
                   </div>
                   <button onClick={() => setOverlaySection("rc-mh-admin")} className="text-[8px] font-semibold text-white/25 hover:text-teal-300 transition-colors px-1 py-0.5 rounded hover:bg-teal-500/[0.08]">all</button>
@@ -6185,7 +6185,7 @@ export default function AidAgentPage() {
                 <div className="flex items-center gap-1.5 mb-2">
                   <div className="h-px flex-1 bg-gradient-to-r from-transparent to-lime-500/[0.14]" />
                   <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-lime-500/[0.18]">
-                    <div className="w-3.5 h-3.5 rounded-full overflow-hidden shrink-0 ring-1 ring-lime-400/30"><img src="/images/sec-volunteer-right.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
+                    <div className="w-[18px] h-[18px] rounded-full overflow-hidden shrink-0 ring-1 ring-lime-400/30"><img src="/images/sec-volunteer-right.jpg" alt="" className="w-full h-full object-cover object-[50%_18%]" /></div>
                     <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Volunteer</span>
                   </div>
                   <button onClick={() => setOverlaySection("rc-vol-admin")} className="text-[8px] font-semibold text-white/25 hover:text-lime-300 transition-colors px-1 py-0.5 rounded hover:bg-lime-500/[0.08]">all</button>
