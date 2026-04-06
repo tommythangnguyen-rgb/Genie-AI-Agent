@@ -5386,9 +5386,9 @@ export default function AidAgentPage() {
                     {/* ── Human story photo strip ── */}
                     <div className="flex gap-1.5 mb-3 rounded-xl overflow-hidden h-[130px]">
                       {[
-                        { src: "/images/student-happy.jpg",       pos: "object-[50%_22%]", label: "Students"    },
-                        { src: "/images/hero-advisor-meeting.jpg", pos: "object-[50%_28%]", label: "Families & Offices" },
-                        { src: "/images/admin-office.jpg",        pos: "object-[50%_18%]", label: "Professionals" },
+                        { src: "/images/strip-students.jpg",    pos: "object-[50%_22%]", label: "Students"    },
+                        { src: "/images/strip-families.jpg",    pos: "object-[50%_30%]", label: "Families & Offices" },
+                        { src: "/images/strip-professionals.jpg", pos: "object-[50%_20%]", label: "Professionals" },
                       ].map(({ src, pos, label }) => (
                         <div key={src} className="relative flex-1 overflow-hidden first:rounded-l-xl last:rounded-r-xl">
                           <img src={src} alt={label} className={`w-full h-full object-cover ${pos}`} />
@@ -5503,11 +5503,11 @@ export default function AidAgentPage() {
                           {/* Role selector — photo avatar grid */}
                           <div className="grid grid-cols-5 gap-1.5 mb-4">
                             {([
-                              { role: "Students",       label: "Student", photo: "/images/banner-student.jpg",       pos: "object-[60%_18%]", activeRing: "ring-sky-400/70",     activeGlow: "shadow-sky-500/25",     activeColor: "text-sky-300",     activeBg: "bg-sky-500/[0.12]"     },
-                              { role: "Parents",        label: "Parent",  photo: "/images/role-parent.jpg",          pos: "object-[50%_22%]", activeRing: "ring-blue-400/70",    activeGlow: "shadow-blue-500/25",    activeColor: "text-blue-300",    activeBg: "bg-blue-500/[0.12]"    },
-                              { role: "Administrators", label: "Admin",   photo: "/images/banner-administrator.jpg", pos: "object-[42%_15%]", activeRing: "ring-emerald-400/70", activeGlow: "shadow-emerald-500/25", activeColor: "text-emerald-300", activeBg: "bg-emerald-500/[0.12]" },
-                              { role: "Leaders",        label: "Leader",  photo: "/images/banner-leader.jpg",        pos: "object-[50%_12%]", activeRing: "ring-violet-400/70",  activeGlow: "shadow-violet-500/25",  activeColor: "text-violet-300",  activeBg: "bg-violet-500/[0.12]"  },
-                              { role: "Auditors",       label: "Compliance/Auditor", photo: "/images/banner-auditor.jpg", pos: "object-[42%_18%]", activeRing: "ring-rose-400/70", activeGlow: "shadow-rose-500/25", activeColor: "text-rose-300", activeBg: "bg-rose-500/[0.12]" },
+                              { role: "Students",       label: "Student", photo: "/images/role-icon-student.jpg",  pos: "object-[50%_15%]", activeRing: "ring-sky-400/70",     activeGlow: "shadow-sky-500/25",     activeColor: "text-sky-300",     activeBg: "bg-sky-500/[0.12]"     },
+                              { role: "Parents",        label: "Parent",  photo: "/images/role-icon-parent.jpg",   pos: "object-[50%_20%]", activeRing: "ring-blue-400/70",    activeGlow: "shadow-blue-500/25",    activeColor: "text-blue-300",    activeBg: "bg-blue-500/[0.12]"    },
+                              { role: "Administrators", label: "Admin",   photo: "/images/role-icon-admin.jpg",    pos: "object-[50%_18%]", activeRing: "ring-emerald-400/70", activeGlow: "shadow-emerald-500/25", activeColor: "text-emerald-300", activeBg: "bg-emerald-500/[0.12]" },
+                              { role: "Leaders",        label: "Leader",  photo: "/images/role-icon-leader.jpg",   pos: "object-[50%_14%]", activeRing: "ring-violet-400/70",  activeGlow: "shadow-violet-500/25",  activeColor: "text-violet-300",  activeBg: "bg-violet-500/[0.12]"  },
+                              { role: "Auditors",       label: "Compliance/Auditor", photo: "/images/role-icon-auditor.jpg", pos: "object-[50%_18%]", activeRing: "ring-rose-400/70", activeGlow: "shadow-rose-500/25", activeColor: "text-rose-300", activeBg: "bg-rose-500/[0.12]" },
                             ] as const).map(({ role, label, photo, pos, activeRing, activeGlow, activeColor, activeBg }) => {
                               const isActive = activeActionRole === role;
                               return (
