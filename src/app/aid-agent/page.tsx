@@ -425,6 +425,42 @@ const FEDERAL_RESOURCES = [
       { name: "Federal Student Aid", url: "https://studentaid.gov" },
       { name: "FAFSA Application", url: "https://studentaid.gov/h/apply-for-aid/fafsa" },
       { name: "Loan Simulator", url: "https://studentaid.gov/loan-simulator" },
+      { name: "College Scorecard", url: "https://collegescorecard.ed.gov" },
+      { name: "NSLDS Student Access", url: "https://nslds.ed.gov/nslds/nslds_SA" },
+      { name: "Net Price Calculator", url: "https://studentaid.gov/understand-aid/types/loans/interest-rates" },
+      { name: "studentaid.gov Aid Summary", url: "https://studentaid.gov/aid-summary" },
+      { name: "studentaid.gov Repayment", url: "https://studentaid.gov/manage-loans/repayment" },
+      { name: "PSLF Help Tool", url: "https://studentaid.gov/pslf" },
+      { name: "Income-Driven Repayment", url: "https://studentaid.gov/manage-loans/repayment/plans/income-driven" },
+      { name: "SAVE Plan Info", url: "https://studentaid.gov/announcements-events/save-plan" },
+      { name: "Teacher Loan Forgiveness", url: "https://studentaid.gov/manage-loans/forgiveness-cancellation/teacher" },
+      { name: "Scholarships.gov", url: "https://www.scholarships.gov" },
+      { name: "MyFSA ID (Create/Manage)", url: "https://fsaid.ed.gov" },
+      { name: "FAFSA Parent Guide", url: "https://studentaid.gov/help-center/answers/article/parent-fafsa-guide" },
+      { name: "Entrance Counseling", url: "https://studentaid.gov/entrance-counseling" },
+      { name: "Exit Counseling", url: "https://studentaid.gov/exit-counseling" },
+      { name: "Federal Pell Grant", url: "https://studentaid.gov/understand-aid/types/grants/pell" },
+      { name: "TEACH Grant Program", url: "https://studentaid.gov/teach-grant-program" },
+      { name: "Work-Study Program", url: "https://studentaid.gov/understand-aid/types/work-study" },
+      { name: "Borrower Defense", url: "https://studentaid.gov/borrower-defense" },
+      { name: "School Closure Discharge", url: "https://studentaid.gov/manage-loans/forgiveness-cancellation/closed-school" },
+      { name: "Grad PLUS Loan Info", url: "https://studentaid.gov/understand-aid/types/loans/plus/grad" },
+      { name: "FAFSA Simplification Act", url: "https://studentaid.gov/announcements-events/fafsa-simplification" },
+      { name: "State Aid Programs", url: "https://studentaid.gov/understand-aid/types/state" },
+      { name: "GI Bill & Veterans Aid", url: "https://www.va.gov/education/gi-bill-benefits" },
+      { name: "Student Loan Ombudsman", url: "https://studentaid.gov/feedback-center" },
+      { name: "MPN — Master Promissory Note", url: "https://studentaid.gov/mpn" },
+      { name: "IRS AOTC Tax Credit", url: "https://www.irs.gov/credits-deductions/individuals/aotc" },
+      { name: "IRS Education Tax Benefits", url: "https://www.irs.gov/publications/p970" },
+      { name: "Federal Student Aid Data Center", url: "https://studentaid.gov/data-center" },
+      { name: "CFPB Know Before You Owe", url: "https://www.consumerfinance.gov/paying-for-college" },
+      { name: "529 College Savings Plans", url: "https://www.sec.gov/investor/pubs/intro529.htm" },
+      { name: "Fastweb Scholarships", url: "https://www.fastweb.com" },
+      { name: "Scholarships.com", url: "https://www.scholarships.com" },
+      { name: "BigFuture (College Board)", url: "https://bigfuture.collegeboard.org" },
+      { name: "Gates Scholarship", url: "https://www.thegatesscholarship.org" },
+      { name: "QuestBridge", url: "https://www.questbridge.org" },
+      { name: "Khan Academy SAT Prep (Free)", url: "https://www.khanacademy.org/sat" },
     ],
   },
   {
@@ -1087,6 +1123,16 @@ const PRIVATE_STUDENT_LOANS: MaybeSubcat[] = [
   { name: "Discover Student Loans", url: "https://www.discover.com/student-loans" },
   { name: "Citizens Bank Student Loans", url: "https://www.citizensbank.com/learning/student-loans.aspx" },
   { name: "Ascent Student Loans", url: "https://www.ascentfunding.com" },
+  { name: "CommonBond (Now Firstmark)", url: "https://www.firstmarkservices.com" },
+  { name: "LendKey Network", url: "https://www.lendkey.com" },
+  { name: "Custom Choice Loan (SouthState)", url: "https://www.customchoiceloan.com" },
+  { subcat: "Comparison & Research" },
+  { name: "NerdWallet — Best Private Loans", url: "https://www.nerdwallet.com/best/loans/student-loans/private-student-loans" },
+  { name: "Bankrate — Compare Student Loans", url: "https://www.bankrate.com/loans/student-loans" },
+  { name: "Credible — Student Loan Compare", url: "https://www.credible.com/student-loans" },
+  { name: "LendingTree Student Loans", url: "https://www.lendingtree.com/student" },
+  { name: "Student Loan Hero (LendingTree)", url: "https://studentloanhero.com" },
+  { name: "CFPB — Know Before You Owe", url: "https://www.consumerfinance.gov/paying-for-college" },
   { subcat: "State & Regional Programs" },
   { name: "MEFA (MA Educational Financing)", url: "https://www.mefa.org/loans" },
   { name: "RISLA (RI Student Loan Auth.)", url: "https://www.risla.com" },
@@ -1129,6 +1175,59 @@ const PRIVATE_STUDENT_LOANS_MORE: MaybeSubcat[] = [
   { name: "ISL Education Lending", url: "https://islelend.com" },
   { name: "Advantage Education Loan (KHESLC)", url: "https://www.advantageeducationloan.com" },
   { name: "Custom Choice (SouthState)", url: "https://www.customchoiceloan.com" },
+  { subcat: "Loan Calculators & Repayment Tools" },
+  { name: "StudentAid.gov Loan Simulator", url: "https://studentaid.gov/loan-simulator" },
+  { name: "NerdWallet Loan Calculator", url: "https://www.nerdwallet.com/article/loans/student-loans/student-loan-calculator" },
+  { name: "Bankrate Student Loan Calculator", url: "https://www.bankrate.com/loans/student-loans/student-loan-calculator" },
+  { name: "SoFi Student Loan Calculator", url: "https://www.sofi.com/resources/student-loan-calc" },
+  { name: "College Ave Loan Calculator", url: "https://www.collegeavestudentloans.com/calculator" },
+  { name: "Sallie Mae Payment Estimator", url: "https://www.salliemae.com/student-loans/student-loan-payment-calculator" },
+  { name: "Credible Loan Comparison Tool", url: "https://www.credible.com/student-loans" },
+  { name: "Earnest Loan Calculator", url: "https://www.earnest.com/student-loans/calculator" },
+  { name: "MeasureOne — Private Loan Data", url: "https://measureone.com" },
+  { name: "CFPB Student Loan Repayment Tool", url: "https://www.consumerfinance.gov/paying-for-college/repay-student-debt" },
+  { subcat: "Alternative Funding & Income Share" },
+  { name: "Edly — Income Share Agreements", url: "https://www.edly.com" },
+  { name: "Lambda School ISA (Bloom Institute)", url: "https://www.bloomtech.com/financing" },
+  { name: "Stride Funding — ISA for College", url: "https://www.stridefunding.com" },
+  { name: "Vemo Education — ISA Platform", url: "https://www.vemo.com" },
+  { name: "Blair — Income Share Agreement", url: "https://www.blair.io" },
+  { name: "Align Income Share Funding", url: "https://www.alignfunding.com" },
+  { name: "Meratas — ISA Management", url: "https://www.meratas.com" },
+  { name: "Coding Bootcamp Financing Options", url: "https://www.coursereport.com/blog/coding-bootcamp-financing" },
+  { name: "Opportunity@Work — STARs Initiative", url: "https://opportunityatwork.org" },
+  { name: "Kiva — Microloans for Students", url: "https://www.kiva.org" },
+  { subcat: "Graduate & Professional Loans" },
+  { name: "Grad PLUS Loan (Federal)", url: "https://studentaid.gov/understand-aid/types/loans/plus/grad" },
+  { name: "CommonBond Graduate Loans", url: "https://www.firstmarkservices.com" },
+  { name: "Earnest Graduate School Loans", url: "https://www.earnest.com/student-loans/graduate-school" },
+  { name: "SoFi Graduate School Loans", url: "https://www.sofi.com/student-loans/graduate" },
+  { name: "Sallie Mae Graduate School Loans", url: "https://www.salliemae.com/student-loans/graduate-student-loans" },
+  { name: "College Ave Graduate Loans", url: "https://www.collegeavestudentloans.com/graduate-student-loans" },
+  { name: "Discover Graduate Loans", url: "https://www.discover.com/student-loans/graduate" },
+  { name: "Citizens One Graduate Loans", url: "https://www.citizensbank.com/learning/student-loans-for-graduate-students.aspx" },
+  { name: "MPOWER Financing — International Grad", url: "https://www.mpowerfinancing.com" },
+  { name: "Prodigy Finance — MBA Loans", url: "https://prodigyfinance.com/mba-loans" },
+  { subcat: "Law & Medical School Loans" },
+  { name: "Access Group (Grad PLUS Alternative)", url: "https://www.accesslex.org" },
+  { name: "Sallie Mae Law School Loans", url: "https://www.salliemae.com/student-loans/law-school-loans" },
+  { name: "AAMC FIRST (Medical School Aid)", url: "https://www.aamc.org/services/first" },
+  { name: "Medloans Organizer & Calculator", url: "https://www.aamc.org/services/first/medloans" },
+  { name: "Doctor Loan (Physician Mortgages)", url: "https://www.physicianloans.com" },
+  { name: "Laurel Road — Doctor Student Loans", url: "https://www.laurelroad.com/student-loans-for-doctors" },
+  { name: "AMA — Medical Student Loans Guide", url: "https://www.ama-assn.org/residents-students/resident-student-finance/medical-student-loans" },
+  { name: "DENTASIM — Dental School Loans", url: "https://www.ada.org/resources/ada-member-advantage/student-resources/student-financial-tools" },
+  { subcat: "Understanding Your Rights" },
+  { name: "CFPB — Student Loan Rights", url: "https://www.consumerfinance.gov/consumer-tools/student-loans" },
+  { name: "Student Borrower Protection Center", url: "https://protectborrowers.org" },
+  { name: "National Consumer Law Center — Student Loans", url: "https://www.nclc.org/issues/student-loans.html" },
+  { name: "Student Defense — Legal Help", url: "https://www.studentdefense.org" },
+  { name: "Project on Predatory Student Lending", url: "https://predatorystudentlending.org" },
+  { name: "U.S. PIRG — Student Debt Campaign", url: "https://studentpirgs.org" },
+  { name: "Young Invincibles — Student Debt Policy", url: "https://younginvincibles.org/issues/higher-education" },
+  { name: "Debt Collective — Student Debt Campaigns", url: "https://debtcollective.org" },
+  { name: "American Federation of Teachers — Debt Aid", url: "https://www.aft.org/yourloans" },
+  { name: "BrightPoint — Student Loan Legal Aid", url: "https://www.brightpointindy.org" },
 ];
 
 const STUDENT_JOB_SEARCH = [
@@ -1142,6 +1241,11 @@ const STUDENT_JOB_SEARCH = [
   { name: "WayUp", url: "https://www.wayup.com" },
   { name: "USAJobs (Federal)", url: "https://www.usajobs.gov" },
   { name: "Idealist (Nonprofit)", url: "https://www.idealist.org" },
+  { name: "Monster", url: "https://www.monster.com" },
+  { name: "CareerBuilder", url: "https://www.careerbuilder.com" },
+  { name: "Wellfound / AngelList", url: "https://wellfound.com" },
+  { name: "Snagajob (Hourly Jobs)", url: "https://www.snagajob.com" },
+  { name: "Internships.com", url: "https://www.internships.com" },
 ];
 const STUDENT_JOB_SEARCH_MORE: MaybeSubcat[] = [
   { subcat: "General Platforms" },
@@ -1192,6 +1296,46 @@ const STUDENT_JOB_SEARCH_MORE: MaybeSubcat[] = [
   { name: "Campus Job", url: "https://www.campusjob.com" },
   { name: "JobSpider", url: "https://www.jobspider.com" },
   { name: "Career.io", url: "https://career.io" },
+  { name: "Forage (Virtual Experience)", url: "https://www.theforage.com" },
+  { name: "RippleMatch (Campus Recruiting)", url: "https://ripplematch.com" },
+  { name: "Symplicity (Career Services)", url: "https://www.symplicity.com" },
+  { name: "12twenty (Campus Recruiting)", url: "https://www.12twenty.com" },
+  { name: "Joinhandshake Premium", url: "https://joinhandshake.com/employers" },
+  { subcat: "On-Campus & Work-Study" },
+  { name: "Federal Work-Study Program", url: "https://studentaid.gov/understand-aid/types/work-study" },
+  { name: "On-Campus Jobs — Your University HR", url: "https://www.usajobs.gov" },
+  { name: "AmeriCorps (Paid Service)", url: "https://americorps.gov" },
+  { name: "VISTA — AmeriCorps Anti-Poverty", url: "https://americorps.gov/serve/americorps/americorps-vista" },
+  { name: "City Year — Education Service", url: "https://www.cityyear.org" },
+  { name: "Teach For America", url: "https://www.teachforamerica.org" },
+  { name: "Peace Corps (Post-Grad)", url: "https://www.peacecorps.gov" },
+  { subcat: "Gig & Freelance" },
+  { name: "Upwork (Freelancing)", url: "https://www.upwork.com" },
+  { name: "Fiverr (Gig Services)", url: "https://www.fiverr.com" },
+  { name: "Toptal (High-End Freelance)", url: "https://www.toptal.com" },
+  { name: "Guru (Freelance Platform)", url: "https://www.guru.com" },
+  { name: "Freelancer.com", url: "https://www.freelancer.com" },
+  { name: "Taskrabbit (Local Gigs)", url: "https://www.taskrabbit.com" },
+  { name: "DoorDash Driver", url: "https://www.doordash.com/dasher/signup" },
+  { name: "Uber Eats Driver", url: "https://www.ubereats.com/restaurant/en-US/signup" },
+  { name: "Instacart Shopper", url: "https://shoppers.instacart.com" },
+  { name: "Rover (Pet Care Jobs)", url: "https://www.rover.com/become-a-sitter" },
+  { name: "Wyzant (Tutoring Jobs)", url: "https://www.wyzant.com/become_a_tutor" },
+  { name: "Varsity Tutors", url: "https://www.varsitytutors.com/tutors" },
+  { name: "Chegg Tutors", url: "https://www.chegg.com/tutors" },
+  { name: "Rev (Transcription & Captions)", url: "https://www.rev.com/freelancers" },
+  { name: "Appen (AI Data Annotation)", url: "https://appen.com/join-our-crowd" },
+  { name: "UserTesting (UX Testing)", url: "https://www.usertesting.com/be-a-user-tester" },
+  { name: "Survey Junkie (Surveys)", url: "https://www.surveyjunkie.com" },
+  { subcat: "Skills & Networking" },
+  { name: "Bumble Bizz (Networking)", url: "https://bumble.com/bizz" },
+  { name: "Meetup — Professional Groups", url: "https://www.meetup.com" },
+  { name: "Lunchclub — AI Networking", url: "https://lunchclub.com" },
+  { name: "NACE — Career Services Network", url: "https://www.naceweb.org" },
+  { name: "Bureau of Labor Statistics OOH", url: "https://www.bls.gov/ooh" },
+  { name: "CareerOneStop — Career Exploration", url: "https://www.careeronestop.org" },
+  { name: "O*NET — Occupation Info", url: "https://www.onetonline.org" },
+  { name: "My Next Move — Career Quiz", url: "https://www.mynextmove.org" },
 ];
 
 const INTERNSHIP_SEARCH = [
@@ -1205,6 +1349,11 @@ const INTERNSHIP_SEARCH = [
   { name: "Indeed Internships", url: "https://www.indeed.com" },
   { name: "Virtual Internships", url: "https://www.virtualinternships.com" },
   { name: "INROADS (Diversity)", url: "https://inroads.org" },
+  { name: "Glassdoor Internships", url: "https://www.glassdoor.com" },
+  { name: "ZipRecruiter Internships", url: "https://www.ziprecruiter.com" },
+  { name: "College Recruiter", url: "https://www.collegerecruiter.com" },
+  { name: "AfterCollege", url: "https://www.aftercollege.com" },
+  { name: "Idealist Internships", url: "https://www.idealist.org" },
 ];
 const INTERNSHIP_SEARCH_MORE: MaybeSubcat[] = [
   { subcat: "General Platforms" },
@@ -1253,6 +1402,47 @@ const INTERNSHIP_SEARCH_MORE: MaybeSubcat[] = [
   { name: "Apple Internships", url: "https://jobs.apple.com/en-us/search?team=internships-STDNT-INTRN" },
   { name: "Facebook/Meta Internships", url: "https://www.metacareers.com/students-and-grads" },
   { name: "Amazon Student Programs", url: "https://www.amazon.jobs/en/teams/internships-for-students" },
+  { name: "Tesla Internship Program", url: "https://www.tesla.com/careers/search#/?type=3" },
+  { name: "Salesforce Futureforce", url: "https://www.salesforce.com/company/careers/university-recruiting" },
+  { name: "JPMorgan Chase Internships", url: "https://careers.jpmorgan.com/us/en/students" },
+  { name: "Morgan Stanley Student Programs", url: "https://www.morganstanley.com/people/diversity/programs" },
+  { name: "Bank of America Student Programs", url: "https://campus.bankofamerica.com" },
+  { name: "Deloitte Internships", url: "https://www.deloitte.com/us/en/pages/careers/topics/internships.html" },
+  { name: "McKinsey Summer Internship", url: "https://www.mckinsey.com/careers/students" },
+  { name: "Accenture Technology Internship", url: "https://www.accenture.com/us-en/careers/local/students" },
+  { name: "IBM Internship Programs", url: "https://www.ibm.com/us-en/employment/entry_level.html" },
+  { name: "Intel Internship Program", url: "https://jobs.intel.com/en/internship" },
+  { name: "Oracle Student Programs", url: "https://www.oracle.com/careers/students-grads" },
+  { name: "Nvidia Internships", url: "https://www.nvidia.com/en-us/about-nvidia/careers/university-recruiting" },
+  { name: "Lockheed Martin Internships", url: "https://www.lockheedmartin.com/en-us/who-we-are/global-talent/internships.html" },
+  { name: "Boeing Internship & Co-op", url: "https://www.boeing.com/careers/college-internships" },
+  { name: "Raytheon Technologies Interns", url: "https://careers.rtx.com/global/en/students-and-recent-graduates" },
+  { name: "Northrop Grumman Internships", url: "https://www.northropgrumman.com/careers/internships" },
+  { name: "PwC Internship Program", url: "https://www.pwc.com/us/en/careers/campus.html" },
+  { name: "EY (Ernst & Young) Internships", url: "https://www.ey.com/en_us/careers/students" },
+  { name: "KPMG Internship Program", url: "https://www.kpmg.com/us/en/careers/campus-recruiting.html" },
+  { name: "Citi Summer Analyst Program", url: "https://jobs.citi.com/students" },
+  { name: "BlackRock Summer Analyst", url: "https://careers.blackrock.com/students" },
+  { name: "Procter & Gamble Internships", url: "https://www.pgcareers.com/internship" },
+  { name: "Johnson & Johnson Internships", url: "https://jobs.jnj.com/en/students-and-recent-graduates" },
+  { name: "3M Internship & Co-op", url: "https://www.3m.com/3M/en_US/careers-us/students" },
+  { subcat: "Specific Fields" },
+  { name: "PolicyGenius (Fintech Internships)", url: "https://www.policygenius.com/about/careers" },
+  { name: "Idealist — Nonprofit Internships", url: "https://www.idealist.org/en/jobs?type=INTERNSHIP" },
+  { name: "USAJobs — Federal Internships", url: "https://www.usajobs.gov/Search/Results?j=1170&p=1" },
+  { name: "Paid Summer Research (SROP)", url: "https://www.btaa.org/resources-for/students/srop/introduction" },
+  { name: "REU Sites — NSF Research", url: "https://www.nsf.gov/crssprgm/reu/reu_search.jsp" },
+  { name: "Summer Research Diversity Programs", url: "https://www.pathwaystoscience.org/Programs.aspx" },
+  { name: "Washington Center Programs", url: "https://twc.edu" },
+  { name: "UN Secretariat Internships", url: "https://careers.un.org/lbw/home.aspx?viewtype=IP" },
+  { name: "World Bank Internship Program", url: "https://www.worldbank.org/en/about/careers/programs-and-internships/internship" },
+  { name: "IMF Internship Program", url: "https://www.imf.org/en/About/Recruitment/Internship-Program" },
+  { name: "Congressional Internships", url: "https://www.congress.gov/internships-fellowships" },
+  { name: "Senate Internship Program", url: "https://www.senate.gov/employment/interns.htm" },
+  { name: "House of Representatives Internships", url: "https://www.house.gov/educators-and-students/college-internships" },
+  { name: "State Dept Student Intern Program", url: "https://www.state.gov/student-internship-program" },
+  { name: "CIA Undergraduate Internship", url: "https://www.cia.gov/careers/student-opportunities" },
+  { name: "FBI Honors Internship Program", url: "https://www.fbijobs.gov/students" },
 ];
 
 const RESUME_ASSISTANCE: MaybeSubcat[] = [
@@ -1436,6 +1626,67 @@ const AI_LITERACY_MORE: MaybeSubcat[] = [
   { name: "Gamma AI Presentations (Free/Paid)", url: "https://gamma.app" },
   { name: "Perplexity AI Learning Guide (Free)", url: "https://www.perplexity.ai" },
   { name: "Coursera: Generative AI for Everyone (Free Audit)", url: "https://www.coursera.org/learn/generative-ai-for-everyone" },
+  { subcat: "AI Safety & Ethics" },
+  { name: "AI Safety Fundamentals (BlueDot Impact, Free)", url: "https://aisafetyfundamentals.com" },
+  { name: "Center for AI Safety Resources", url: "https://www.safe.ai" },
+  { name: "Future of Life Institute — AI Risk", url: "https://futureoflife.org/ai" },
+  { name: "Alignment Forum — AI Research", url: "https://www.alignmentforum.org" },
+  { name: "LessWrong — AI & Rationality", url: "https://www.lesswrong.com" },
+  { name: "AI Ethics Guidelines Global Inventory", url: "https://algorithmwatch.org/en/ai-ethics-guidelines-global-inventory" },
+  { name: "Montreal Declaration for Responsible AI", url: "https://www.montrealdeclaration-responsibleai.com" },
+  { name: "IEEE Ethically Aligned Design", url: "https://ethicsinaction.ieee.org" },
+  { name: "NIST AI Risk Management Framework", url: "https://www.nist.gov/artificial-intelligence" },
+  { name: "EU AI Act Compliance Guide", url: "https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai" },
+  { subcat: "AI Tools for Students" },
+  { name: "Grammarly AI Writing Assistant", url: "https://www.grammarly.com" },
+  { name: "Otter.ai — AI Meeting Notes", url: "https://otter.ai" },
+  { name: "Notion AI — Smart Workspace", url: "https://www.notion.so/product/ai" },
+  { name: "Canva AI — Design Tools (Free)", url: "https://www.canva.com/ai-image-generator" },
+  { name: "Adobe Firefly — AI Creative Tools", url: "https://firefly.adobe.com" },
+  { name: "Elicit — AI Research Assistant (Free)", url: "https://elicit.com" },
+  { name: "Consensus — AI Research Citations (Free)", url: "https://consensus.app" },
+  { name: "Semantic Scholar — AI-Powered Papers", url: "https://www.semanticscholar.org" },
+  { name: "Connected Papers — Research Map", url: "https://www.connectedpapers.com" },
+  { name: "Research Rabbit — Citation Mapping", url: "https://www.researchrabbit.ai" },
+  { name: "Scite — Smart Citation Analysis", url: "https://scite.ai" },
+  { name: "SciSpace — AI Research Tool (Free/Paid)", url: "https://typeset.io" },
+  { name: "Wordtune — AI Rewriting Tool (Free)", url: "https://www.wordtune.com" },
+  { name: "Quillbot — Paraphrase & Summarize (Free)", url: "https://quillbot.com" },
+  { name: "Hemingway Editor — Readability (Free)", url: "https://hemingwayapp.com" },
+  { name: "Sudowrite — Creative AI Writing (Paid)", url: "https://www.sudowrite.com" },
+  { name: "MagicSchool AI — Student Study Tools", url: "https://www.magicschool.ai" },
+  { name: "Khanmigo by Khan Academy (AI Tutor)", url: "https://www.khanacademy.org/khan-labs" },
+  { name: "Duolingo Max — AI Language Learning", url: "https://blog.duolingo.com/duolingo-max" },
+  { name: "Socratic by Google — Homework Help (Free)", url: "https://socratic.org" },
+  { name: "Wolfram Alpha — Computational AI (Free/Paid)", url: "https://www.wolframalpha.com" },
+  { name: "Photomath — AI Math Solver (Free)", url: "https://photomath.com" },
+  { name: "Mathway — Step-by-Step Math AI (Free)", url: "https://www.mathway.com" },
+  { subcat: "AI News & Policy" },
+  { name: "MIT Technology Review — AI", url: "https://www.technologyreview.com/topic/artificial-intelligence" },
+  { name: "The Verge — AI Section", url: "https://www.theverge.com/ai-artificial-intelligence" },
+  { name: "TechCrunch — AI Coverage", url: "https://techcrunch.com/category/artificial-intelligence" },
+  { name: "Wired — AI Coverage", url: "https://www.wired.com/tag/artificial-intelligence" },
+  { name: "VentureBeat — AI Section", url: "https://venturebeat.com/category/ai" },
+  { name: "AI Weekly Newsletter (The Algorithm)", url: "https://www.technologyreview.com/newsletters/the-algorithm" },
+  { name: "Import AI — Jack Clark Newsletter", url: "https://importai.substack.com" },
+  { name: "Politico AI & Tech Policy", url: "https://www.politico.com/news/artificial-intelligence" },
+  { name: "AI Now Institute — Policy Research", url: "https://ainowinstitute.org" },
+  { name: "Brookings — AI Policy Reports", url: "https://www.brookings.edu/topic/artificial-intelligence" },
+  { name: "CSET — Center for Security & Emerging Tech", url: "https://cset.georgetown.edu" },
+  { name: "Information Technology & Innovation Foundation (ITIF)", url: "https://itif.org/collections/artificial-intelligence" },
+  { name: "RAND Corporation — AI Research", url: "https://www.rand.org/topics/artificial-intelligence.html" },
+  { name: "GAO — AI Federal Reports", url: "https://www.gao.gov/artificial-intelligence" },
+  { name: "White House OSTP — AI Executive Order", url: "https://www.whitehouse.gov/ostp/ai-bill-of-rights" },
+  { name: "NSF — AI Research Institutes", url: "https://www.nsf.gov/cise/ai.jsp" },
+  { name: "DARPA — AI Programs", url: "https://www.darpa.mil/our-research" },
+  { name: "OpenAI Research Blog", url: "https://openai.com/research" },
+  { name: "DeepMind Research Papers", url: "https://deepmind.google/research/publications" },
+  { name: "Google AI Blog", url: "https://ai.googleblog.com" },
+  { name: "Meta AI Research", url: "https://ai.meta.com/research" },
+  { name: "Microsoft Research — AI", url: "https://www.microsoft.com/en-us/research/research-area/artificial-intelligence" },
+  { name: "Anthropic Research Papers", url: "https://www.anthropic.com/research" },
+  { name: "arXiv — AI/ML Preprints (cs.AI)", url: "https://arxiv.org/list/cs.AI/recent" },
+  { name: "Papers With Code — ML Papers", url: "https://paperswithcode.com" },
 ];
 
 // ── Mental Health Literacy — Students & Parents ──
@@ -1599,6 +1850,79 @@ const MENTAL_HEALTH_ADMIN: LinkItem[] = [
   { name: "QPR Institute — Suicide Training",  url: "https://qprinstitute.com" },
   { name: "Zero Suicide Institute",            url: "https://zerosuicide.edc.org" },
   { name: "Thrive Global — Burnout Resources", url: "https://thriveglobal.com" },
+  { name: "Wellbeing at Work (Gallup)", url: "https://www.gallup.com/workplace/215924/well-being.aspx" },
+  { name: "SHRM — Burnout Prevention", url: "https://www.shrm.org/topics-tools/topics/burnout" },
+  { name: "National Alliance on Mental Illness (NAMI) — Workplace", url: "https://www.nami.org/Your-Journey/Identity-and-Cultural-Dimensions/Workplace" },
+  { name: "APA Work & Well-Being Survey", url: "https://www.apaexcellence.org/resources/special-topics" },
+  { name: "Calm for Business", url: "https://www.calm.com/business" },
+  { name: "Lyra Health — EAP Platform", url: "https://www.lyrahealth.com" },
+  { name: "Spring Health — Employee Mental Health", url: "https://www.springhealth.com" },
+  { name: "Modern Health — Workforce Mental Health", url: "https://www.modernhealth.com" },
+  { name: "Ginger.io — Mental Health Coaching", url: "https://www.ginger.com" },
+  { name: "Telus Health (LifeWorks) EAP", url: "https://telus.com/health" },
+  { name: "ComPsych — Largest EAP Provider", url: "https://www.compsych.com" },
+  { name: "Magellan Health EAP", url: "https://www.magellanhealth.com/employer" },
+  { name: "Optum EAP", url: "https://www.optum.com/health-services/employee-assistance-programs.html" },
+  { name: "NAMI Higher Education Mental Health", url: "https://www.nami.org/Support-Education/Mental-Health-Education/NAMI-on-Campus-Colleges" },
+  { name: "Active Minds — Campus Mental Health", url: "https://www.activeminds.org/programs" },
+  { name: "Suicide Prevention Resource Center (SPRC)", url: "https://www.sprc.org/settings/colleges-universities" },
+  { name: "Jed Foundation — Campus Programs", url: "https://jedfoundation.org/jed-campus" },
+  { name: "University of Michigan Depression Center", url: "https://depressioncenter.org" },
+  { name: "Psych Hub — Mental Health Education", url: "https://psychhub.com" },
+  { name: "Workplace Mental Health Alliance", url: "https://workplacementalhealth.org" },
+  { name: "Mental Health America — Employer Toolkit", url: "https://www.mhanational.org/employer-resources" },
+  { name: "One Mind at Work", url: "https://onemindatwork.org" },
+  { name: "ADAA Workplace Resources", url: "https://adaa.org/finding-help/workplace" },
+  { name: "Crisis Text Line — Training for Workplaces", url: "https://www.crisistextline.org" },
+  { name: "988 Suicide & Crisis Lifeline — Admin Info", url: "https://988lifeline.org/professionals" },
+  { name: "International Employee Assistance Professionals Assoc.", url: "https://www.eapassn.org" },
+  { name: "Robert Wood Johnson Foundation — Well-Being", url: "https://www.rwjf.org/en/our-focus-areas/outcomes/well-being.html" },
+  { name: "BetterUp — Coaching for Organizations", url: "https://www.betterup.com" },
+  { name: "Noom for Work — Weight & Wellness", url: "https://www.noom.com/business" },
+  { name: "Talkspace for Business", url: "https://business.talkspace.com" },
+  { name: "BetterHelp for Organizations", url: "https://www.betterhelp.com/organizations" },
+  { name: "Wellthy — Complex Care Support", url: "https://wellthy.com" },
+  { name: "Virgin Pulse — Employee Wellness Platform", url: "https://www.virginpulse.com" },
+  { name: "Limeade — Employee Wellbeing", url: "https://www.limeade.com" },
+  { name: "Voya Financial Wellness", url: "https://www.voya.com/page/financial-wellness" },
+  { name: "Brightside Health — Depression & Anxiety", url: "https://www.brightside.com" },
+  { name: "Woebot Health — AI Mental Health Tool", url: "https://woebothealth.com" },
+  { name: "NORC at University of Chicago — Workforce", url: "https://www.norc.org/research/projects/employee-wellbeing.html" },
+  { name: "Harvard Pilgrim — Resilience Training", url: "https://www.harvardpilgrim.org/employer-toolkits" },
+  { name: "CCMH — College Counseling Center Benchmarking", url: "https://ccmh.psu.edu" },
+  { name: "American College Health Association", url: "https://www.acha.org/resources" },
+  { name: "Association for University and College Counseling Center Directors", url: "https://www.aucccd.org" },
+  { name: "NAADAC — Addiction Counseling Resources", url: "https://www.naadac.org/resources" },
+  { name: "SAMHSA Substance Abuse Help Line", url: "https://www.samhsa.gov/find-help/national-helpline" },
+  { name: "World Health Organization — Workplace Mental Health", url: "https://www.who.int/teams/mental-health-and-substance-use/promotion-prevention/mental-health-in-the-workplace" },
+  { name: "ILO — Work-Related Stress Guide", url: "https://www.ilo.org/safework/areasofwork/workplace-health-promotion-and-well-being/WCMS_108557/lang--en/index.htm" },
+  { name: "National Institute for Occupational Safety & Health (NIOSH)", url: "https://www.cdc.gov/niosh/topics/stress/default.html" },
+  { name: "OSHA — Stress at Work", url: "https://www.osha.gov/workplace-violence" },
+  { name: "Employee Benefit Research Institute", url: "https://www.ebri.org" },
+  { name: "Society for Human Resource Management (SHRM) Foundation", url: "https://www.shrm.org/foundation" },
+  { name: "Gallup Wellbeing Index", url: "https://news.gallup.com/poll/146927/gallup-wellbeing.aspx" },
+  { name: "Kaiser Family Foundation — Employer Health Benefits", url: "https://www.kff.org/health-costs/report/employer-health-benefits-survey" },
+  { name: "Business Group on Health", url: "https://www.businessgrouphealth.org" },
+  { name: "National Business Group on Health — Employee Assistance", url: "https://www.businessgrouphealth.org/topic-areas/employee-assistance-programs" },
+  { name: "Families First Coronavirus Response — FMLA", url: "https://www.dol.gov/agencies/whd/fmla" },
+  { name: "EEOC — Mental Health & Employment Discrimination", url: "https://www.eeoc.gov/laws/guidance/depression-ptsd-other-mental-health-conditions-workplace-your-legal-rights" },
+  { name: "ADA National Network — Reasonable Accommodation", url: "https://adata.org/factsheet/reasonable-accommodations-workplace" },
+  { name: "Bazelon Center — Mental Health in Schools & Work", url: "https://www.bazelon.org" },
+  { name: "NIMH — Mental Disorders Statistics", url: "https://www.nimh.nih.gov/health/statistics" },
+  { name: "Anxiety & Depression Association of America", url: "https://adaa.org" },
+  { name: "Depression & Bipolar Support Alliance", url: "https://www.dbsalliance.org" },
+  { name: "International OCD Foundation", url: "https://iocdf.org" },
+  { name: "National Eating Disorders Association — Workplace", url: "https://www.nationaleatingdisorders.org" },
+  { name: "Grief Share — Support Group Locator", url: "https://www.griefshare.org" },
+  { name: "American Foundation for Suicide Prevention — Workplaces", url: "https://afsp.org/suicide-prevention-in-the-workplace" },
+  { name: "Trevor Project — LGBTQ Youth Crisis", url: "https://www.thetrevorproject.org" },
+  { name: "Trans Lifeline — Crisis Support", url: "https://translifeline.org" },
+  { name: "PFLAG — Family Support", url: "https://pflag.org" },
+  { name: "National Domestic Violence Hotline — Employer Toolkit", url: "https://www.thehotline.org/resources/workplace-resources" },
+  { name: "Futures Without Violence — Employer Programs", url: "https://www.futureswithoutviolence.org/health/workplace-programs" },
+  { name: "MindWise — Screening & Prevention Programs", url: "https://www.mindwise.org" },
+  { name: "Mental Health Technology Transfer Center Network", url: "https://mhttcnetwork.org" },
+  { name: "Recovery Research Institute", url: "https://www.recoveryanswers.org" },
 ];
 
 // ── Volunteer & Community Service — Admin / Leader / Auditor ──
@@ -1619,6 +1943,84 @@ const VOLUNTEER_ADMIN: LinkItem[] = [
   { name: "Habitat for Humanity — Campus Chapters",  url: "https://www.habitat.org/volunteer/near-you/campus-chapters-and-clubs" },
   { name: "United Nations Volunteers — Online",      url: "https://www.onlinevolunteering.org" },
   { name: "Catchafire — Skills-Based Volunteering",  url: "https://www.catchafire.org" },
+  { name: "Volunteer Hub — Nonprofit Software",        url: "https://www.volunteerhub.com" },
+  { name: "Galaxy Digital — Volunteer Management",     url: "https://www.galaxydigital.com" },
+  { name: "Better Impact — Volunteer Software",        url: "https://www.betterimpact.com" },
+  { name: "InitLive — Event Volunteer Platform",       url: "https://www.initlive.com" },
+  { name: "Shift — Corporate Volunteering Platform",   url: "https://www.shiftnow.org" },
+  { name: "Benevity — Corporate Giving & Volunteering",url: "https://benevity.com" },
+  { name: "YourCause — CSR & Volunteering",            url: "https://www.yourcause.com" },
+  { name: "Submittable — Grant & Program Management",  url: "https://www.submittable.com" },
+  { name: "Charity Navigator — Nonprofit Vetting",     url: "https://www.charitynavigator.org" },
+  { name: "GuideStar (Candid) — Nonprofit Research",   url: "https://www.guidestar.org" },
+  { name: "GiveWell — Evidence-Based Giving",          url: "https://www.givewell.org" },
+  { name: "Giving What We Can — Effective Giving",     url: "https://www.givingwhatwecan.org" },
+  { name: "Network for Good — Nonprofit Fundraising",  url: "https://www.networkforgood.com" },
+  { name: "BoardSource — Nonprofit Leadership",        url: "https://boardsource.org" },
+  { name: "National Council of Nonprofits",             url: "https://www.councilofnonprofits.org" },
+  { name: "Nonprofit Finance Fund",                     url: "https://nff.org" },
+  { name: "Foundation Center Learning Lab",             url: "https://learninglab.foundationcenter.org" },
+  { name: "Grants.gov — Federal Grant Finder",          url: "https://www.grants.gov" },
+  { name: "GrantWatch — Grant Database",                url: "https://www.grantwatch.com" },
+  { name: "Do Good Institute — Service-Learning Toolkit", url: "https://dogood.umd.edu" },
+  { name: "Learn and Serve America",                    url: "https://americorps.gov/serve/fit-finder" },
+  { name: "National Service-Learning Partnership",      url: "https://nslp.org" },
+  { name: "CASE — Campus Compact Research",             url: "https://compact.org/resources" },
+  { name: "Bonner Foundation — Service-Learning",       url: "https://bonner.org" },
+  { name: "Project Pericles — Civic Engagement",        url: "https://www.projectpericles.org" },
+  { name: "AAC&U — Civic Engagement VALUE Rubric",      url: "https://www.aacu.org/civic-engagement-VALUE-rubric" },
+  { name: "AACU — Service-Learning Resources",          url: "https://www.aacu.org/resources/service-learning" },
+  { name: "COOL — Campus Outreach Opportunity League",  url: "https://www.cool2serve.org" },
+  { name: "Grantmakers for Education",                  url: "https://www.grantmakerforeducation.org" },
+  { name: "VolunteerPro — Training & Consulting",       url: "https://www.volpro.net" },
+  { name: "Energize Inc. — Volunteer Management Resources", url: "https://www.energizeinc.com" },
+  { name: "NAVSM — Assoc. for Volunteer Administration", url: "https://www.navs-online.org" },
+  { name: "COVOA — Council of Volunteer Admin Org.",    url: "https://covoa.org" },
+  { name: "Urban Institute — Nonprofit Sector",         url: "https://www.urban.org/policy-centers/center-nonprofits-philanthropy" },
+  { name: "Independent Sector — Trends & Research",     url: "https://independentsector.org/research" },
+  { name: "Bridgespan Group — Nonprofit Strategy",      url: "https://www.bridgespan.org" },
+  { name: "McKinsey Center for Government",             url: "https://www.mckinsey.com/industries/public-sector/how-we-help-clients/center-for-government" },
+  { name: "Stanford Social Innovation Review",          url: "https://ssir.org" },
+  { name: "Nonprofit Quarterly — News & Analysis",      url: "https://nonprofitquarterly.org" },
+  { name: "Community Commons — Data & Tools",           url: "https://commonsdata.org" },
+  { name: "United Way Worldwide",                       url: "https://www.unitedway.org" },
+  { name: "YMCA — Community Partnership Programs",      url: "https://www.ymca.org" },
+  { name: "Boys & Girls Clubs of America — Partners",   url: "https://www.bgca.org" },
+  { name: "Big Brothers Big Sisters — Mentoring",       url: "https://www.bbbs.org" },
+  { name: "Jewish Federations of North America",        url: "https://www.jewishfederations.org" },
+  { name: "Catholic Charities USA — National Network",  url: "https://www.catholiccharitiesusa.org" },
+  { name: "Lutheran Services in America",               url: "https://lutheranservices.org" },
+  { name: "National Urban League — Programs",           url: "https://nul.org" },
+  { name: "NAACP — Community Engagement",               url: "https://naacp.org/take-action" },
+  { name: "Rotary International — Service Clubs",       url: "https://www.rotary.org/en/get-involved/volunteer-skills" },
+  { name: "Lions Clubs International",                  url: "https://www.lionsclubs.org/en/resources-for-members/resource-center/serve-your-community" },
+  { name: "Kiwanis International",                      url: "https://www.kiwanis.org/serve/volunteer" },
+  { name: "Toastmasters International — Leadership",    url: "https://www.toastmasters.org/leadership-central" },
+  { name: "Optimist International — Community Service", url: "https://www.optimist.org" },
+  { name: "National 4-H Council",                       url: "https://4-h.org/volunteers" },
+  { name: "Girl Scouts USA — Volunteer",                url: "https://www.girlscouts.org/volunteer" },
+  { name: "Boy Scouts of America — Volunteer",          url: "https://www.scouting.org/volunteer" },
+  { name: "NROC — National Response Operations Ctr.",   url: "https://www.nvoad.org" },
+  { name: "VolunteerNation — Federal Volunteer Portal", url: "https://www.volunteer.gov" },
+  { name: "CNCS (AmeriCorps Parent Agency)",            url: "https://americorps.gov/about/agency" },
+  { name: "Corporation for National & Community Service Evaluation", url: "https://americorps.gov/evidence-exchange" },
+  { name: "National Assessment of Educational Progress", url: "https://nces.ed.gov/nationsreportcard" },
+  { name: "W.K. Kellogg Foundation — Community Grants", url: "https://www.wkkf.org" },
+  { name: "Robert Wood Johnson Foundation — Community", url: "https://www.rwjf.org" },
+  { name: "Annie E. Casey Foundation — Community Dev.", url: "https://www.aecf.org" },
+  { name: "Lumina Foundation — Higher Ed Access",       url: "https://www.luminafoundation.org" },
+  { name: "Ford Foundation — Social Justice Giving",    url: "https://www.fordfoundation.org" },
+  { name: "Bill & Melinda Gates Foundation",            url: "https://www.gatesfoundation.org" },
+  { name: "Bloomberg Philanthropies",                   url: "https://www.bloomberg.org" },
+  { name: "MacArthur Foundation — Grants",              url: "https://www.macfound.org" },
+  { name: "Rockefeller Foundation",                     url: "https://www.rockefellerfoundation.org" },
+  { name: "Kresge Foundation",                          url: "https://kresge.org" },
+  { name: "Open Society Foundations",                   url: "https://www.opensocietyfoundations.org" },
+  { name: "Conrad N. Hilton Foundation",                url: "https://www.hiltonfoundation.org" },
+  { name: "Silicon Valley Community Foundation",        url: "https://www.siliconvalleycf.org/giving" },
+  { name: "Fidelity Charitable — Giving Account",       url: "https://www.fidelitycharitable.org" },
+  { name: "Vanguard Charitable — Donor Advised Funds",  url: "https://www.vanguardcharitable.org" },
+  { name: "Schwab Charitable",                          url: "https://www.schwabcharitable.org" },
 ];
 
 // ── Religion, Faith & Philosophy ──
@@ -2370,6 +2772,73 @@ const VOLUNTEER_RESOURCES: MaybeSubcat[] = [
   { name: "Doctors Without Borders — Field Support", url: "https://www.doctorswithoutborders.org/get-involved" },
   { name: "Global Volunteers — Community Development", url: "https://globalvolunteers.org" },
   { name: "Cross-Cultural Solutions — Cultural Immersion", url: "https://www.crossculturalsolutions.org" },
+  { subcat: "Skills-Based Volunteering" },
+  { name: "Catchafire — Pro Bono Skills Matching", url: "https://www.catchafire.org" },
+  { name: "Taproot Foundation — Skills-Based Volunteering", url: "https://taprootfoundation.org" },
+  { name: "Common Impact — Pro Bono Consulting", url: "https://commonimpact.org" },
+  { name: "Skilled Volunteers for Nonprofits", url: "https://www.skilledvolunteers.org" },
+  { name: "Encore.org — Experience Corps", url: "https://encore.org/programs/experience-corps" },
+  { name: "Service Year Alliance — Full-Time Service", url: "https://serviceyear.org" },
+  { name: "Americorps State and National — Apply", url: "https://americorps.gov/serve/fit-finder/americorps-state-national" },
+  { name: "City Year — Urban Education Service", url: "https://www.cityyear.org/become-a-volunteer" },
+  { name: "Teach For America — Apply", url: "https://www.teachforamerica.org/join-tfa" },
+  { name: "New Teacher Center", url: "https://newteachercenter.org" },
+  { name: "College Advising Corps — Volunteer Advisors", url: "https://www.advisingcorps.org" },
+  { name: "National Civilian Community Corps (NCCC)", url: "https://americorps.gov/serve/americorps/americorps-nccc" },
+  { subcat: "International Service Programs" },
+  { name: "Peace Corps — Apply", url: "https://www.peacecorps.gov/volunteer/apply" },
+  { name: "WorldTeach — Teaching Abroad", url: "https://www.worldteach.org" },
+  { name: "Voluntary Service Overseas (VSO)", url: "https://www.vsointernational.org" },
+  { name: "Habitat for Humanity Global Village", url: "https://www.habitat.org/volunteer/travel-and-build/global-village" },
+  { name: "International Volunteer HQ", url: "https://www.volunteerhq.org" },
+  { name: "GoOverseas — Volunteer Programs Abroad", url: "https://www.gooverseas.com/volunteer-abroad" },
+  { name: "Go Abroad — International Volunteer Search", url: "https://www.goabroad.com/volunteer-abroad" },
+  { name: "Projects Abroad", url: "https://www.projects-abroad.org" },
+  { name: "Globe Aware — Short-Term Service Trips", url: "https://www.globeaware.org" },
+  { name: "Kaya Responsible Travel — Volunteering", url: "https://www.kayavolunteer.com" },
+  { name: "WWOOF — Organic Farm Volunteering", url: "https://wwoof.net" },
+  { name: "Workaway — Skills Exchange Hosting", url: "https://www.workaway.info" },
+  { name: "HelpX — Work Exchange Volunteer", url: "https://www.helpx.net" },
+  { subcat: "Animal & Wildlife" },
+  { name: "Humane Society — Volunteer", url: "https://www.humanesociety.org/take-action/volunteer" },
+  { name: "ASPCA — Volunteer Programs", url: "https://www.aspca.org/take-action/volunteer" },
+  { name: "Wildlife Conservation Society — Volunteer", url: "https://www.wcs.org/get-involved/volunteer" },
+  { name: "National Wildlife Federation — Habitat Gardening", url: "https://www.nwf.org/garden-for-wildlife" },
+  { name: "World Wildlife Fund — Action Center", url: "https://www.worldwildlife.org/how-to-help/get-involved" },
+  { name: "Best Friends Animal Society", url: "https://bestfriends.org/volunteer" },
+  { name: "Petfinder — Rescue Volunteering", url: "https://www.petfinder.com/animal-shelters-and-rescues/volunteering-at-a-shelter" },
+  { subcat: "Arts & Culture" },
+  { name: "Americans for the Arts — Volunteer", url: "https://www.americansforthearts.org" },
+  { name: "Volunteer Lawyers for the Arts", url: "https://www.vlany.org" },
+  { name: "Museum Volunteer Programs — Smithsonian", url: "https://www.si.edu/volunteer" },
+  { name: "Public Library Volunteer Programs", url: "https://www.ala.org/advocacy/volunteer" },
+  { name: "History Colorado — Volunteer", url: "https://www.historycolorado.org/get-involved/volunteer" },
+  { subcat: "Civic & Democracy" },
+  { name: "TurboVote — Voter Registration", url: "https://turbovote.org" },
+  { name: "Vote.org — Civic Action", url: "https://www.vote.org" },
+  { name: "Democracy Works", url: "https://www.democracy.works" },
+  { name: "League of Women Voters — Volunteer", url: "https://www.lwv.org/get-involved/volunteer" },
+  { name: "Rock the Vote — Youth Civic Engagement", url: "https://www.rockthevote.org" },
+  { name: "Common Cause — Democracy Reform", url: "https://www.commoncause.org/take-action" },
+  { name: "Amnesty International — Activism", url: "https://www.amnesty.org/en/get-involved/take-action" },
+  { name: "Human Rights Campaign — Volunteer", url: "https://www.hrc.org/get-involved/volunteer" },
+  { name: "ACLU — Volunteer Programs", url: "https://www.aclu.org/about/volunteer" },
+  { name: "NAACP — Local Chapter Volunteering", url: "https://www.naacp.org/find-local-chapter" },
+  { subcat: "Virtual & Remote Volunteering" },
+  { name: "UN Online Volunteering Platform", url: "https://www.onlinevolunteering.org" },
+  { name: "VolunteerMatch — Virtual Opportunities", url: "https://www.volunteermatch.org/search/virtual-volunteer-opportunities.jsp" },
+  { name: "Crisis Text Line — Remote Volunteer", url: "https://www.crisistextline.org/volunteer" },
+  { name: "Translators Without Borders", url: "https://www.translatorswithoutborders.org/get-involved/volunteer" },
+  { name: "Library of Congress — Digital Transcription", url: "https://www.loc.gov/conservation/heritage-volunteers" },
+  { name: "Zooniverse — Citizen Science Projects", url: "https://www.zooniverse.org/get-involved" },
+  { name: "SciStarter — Citizen Science Finder", url: "https://scistarter.org" },
+  { name: "Wikipedia — Free Knowledge Volunteering", url: "https://en.wikipedia.org/wiki/Wikipedia:Volunteering" },
+  { name: "Open Source Contributions — GitHub", url: "https://github.com/explore" },
+  { name: "Code for America — Civic Tech Volunteering", url: "https://codeforamerica.org/programs/volunteer-brigade" },
+  { name: "Code.org — CS Education Volunteer", url: "https://code.org/volunteer" },
+  { name: "Girls Who Code — Volunteer Educator", url: "https://girlswhocode.com/volunteer" },
+  { name: "Black Girls Code — Mentor", url: "https://wearebgc.org/volunteer" },
+  { name: "Khan Academy — Content Volunteer", url: "https://www.khanacademy.org/volunteering" },
 ];
 
 const ROLE_TIPS = [
@@ -4409,14 +4878,14 @@ export default function AidAgentPage() {
           <div className="shrink-0 px-4 pt-2.5">
             <div className="flex gap-1.5 h-[110px] rounded-xl overflow-hidden">
               <div className="relative flex-1 overflow-hidden rounded-l-xl">
-                <img src="/images/student-laptop.jpg" alt="" className="w-full h-full object-cover object-[50%_25%]" />
+                <img src="/images/student-library.jpg" alt="" className="w-full h-full object-cover object-[50%_25%]" />
                 <div className="absolute inset-0 bg-gradient-to-r from-[#04091A]/70 to-[#04091A]/45" />
-                <span className="absolute bottom-2 left-2 text-[8px] font-bold uppercase tracking-[0.14em] text-white/55">Students</span>
+                <span className="absolute bottom-2 left-2 text-[9px] font-bold uppercase tracking-[0.14em] text-white/65">Students</span>
               </div>
               <div className="relative flex-1 overflow-hidden rounded-r-xl">
                 <img src="/images/hero-parent-student.jpg" alt="" className="w-full h-full object-cover object-[50%_22%]" />
                 <div className="absolute inset-0 bg-gradient-to-l from-[#04091A]/70 to-[#04091A]/45" />
-                <span className="absolute bottom-2 right-2 text-[8px] font-bold uppercase tracking-[0.14em] text-white/55">Parents</span>
+                <span className="absolute bottom-2 right-2 text-[9px] font-bold uppercase tracking-[0.14em] text-white/65">Parents</span>
               </div>
             </div>
           </div>
@@ -4454,7 +4923,7 @@ export default function AidAgentPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-[#04091A]/95 via-[#04091A]/45 to-transparent group-hover:from-[#04091A]/80 transition-all duration-200" />
                     <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/[0.08] group-hover:ring-[#00D4FF]/40 transition-all duration-200" />
                     <div className="absolute bottom-0 left-0 right-0 px-3 pb-2.5">
-                      <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-white/85">{label}</span>
+                      <span className="text-[12px] font-bold uppercase tracking-[0.10em] text-white/90">{label}</span>
                     </div>
                   </button>
                 ))}
@@ -4877,7 +5346,7 @@ export default function AidAgentPage() {
                     {/* ── Human story photo strip ── */}
                     <div className="flex gap-1.5 mb-3 rounded-xl overflow-hidden h-[130px]">
                       {[
-                        { src: "/images/student-laptop.jpg",      pos: "object-[50%_22%]", label: "Students"    },
+                        { src: "/images/student-happy.jpg",       pos: "object-[50%_22%]", label: "Students"    },
                         { src: "/images/hero-advisor-meeting.jpg", pos: "object-[50%_28%]", label: "Families & Offices" },
                         { src: "/images/admin-office.jpg",        pos: "object-[50%_18%]", label: "Professionals" },
                       ].map(({ src, pos, label }) => (
@@ -4992,7 +5461,7 @@ export default function AidAgentPage() {
                           </div>
 
                           {/* Role selector — photo avatar grid */}
-                          <div className="grid grid-cols-5 gap-2 mb-4 justify-items-center">
+                          <div className="grid grid-cols-5 gap-1.5 mb-4">
                             {([
                               { role: "Students",       label: "Student", photo: "/images/banner-student.jpg",       pos: "object-[60%_18%]", activeRing: "ring-sky-400/70",     activeGlow: "shadow-sky-500/25",     activeColor: "text-sky-300",     activeBg: "bg-sky-500/[0.12]"     },
                               { role: "Parents",        label: "Parent",  photo: "/images/role-parent.jpg",          pos: "object-[50%_22%]", activeRing: "ring-blue-400/70",    activeGlow: "shadow-blue-500/25",    activeColor: "text-blue-300",    activeBg: "bg-blue-500/[0.12]"    },
@@ -5009,12 +5478,12 @@ export default function AidAgentPage() {
                                     isActive ? `${activeBg} ${activeColor} shadow-md ${activeGlow}` : "text-[#94A3B8]/70 hover:text-white/90 hover:bg-white/[0.06]"
                                   }`}
                                 >
-                                  <div className={`w-11 h-11 rounded-full overflow-hidden ring-2 transition-all duration-200 shadow-md genie-role-icon ${
+                                  <div className={`w-full aspect-square rounded-full overflow-hidden ring-2 transition-all duration-200 shadow-md genie-role-icon ${
                                     isActive ? `${activeRing} shadow-lg` : "ring-[#00D4FF]/25 hover:ring-[#00D4FF]/50"
                                   }`}>
                                     <img src={photo} alt={label} className={`w-full h-full object-cover ${pos}`} />
                                   </div>
-                                  <span className="text-center leading-tight text-[10px]">{label}</span>
+                                  <span className="text-center leading-tight text-[10px] font-semibold">{label}</span>
                                 </button>
                               );
                             })}
@@ -5555,7 +6024,7 @@ export default function AidAgentPage() {
               <div className="relative flex-[3] overflow-hidden rounded-l-xl">
                 <img src="/images/admin-office.jpg" alt="" className="w-full h-full object-cover object-[50%_20%]" />
                 <div className="absolute inset-0 bg-gradient-to-r from-[#04091A]/65 to-[#04091A]/40" />
-                <span className="absolute bottom-2 left-2 text-[8px] font-bold uppercase tracking-[0.14em] text-white/55">Professionals</span>
+                <span className="absolute bottom-2 left-2 text-[9px] font-bold uppercase tracking-[0.14em] text-white/65">Professionals</span>
               </div>
               <div className="relative flex-[2] overflow-hidden rounded-r-xl">
                 <img src="/images/document-exchange.jpg" alt="" className="w-full h-full object-cover object-[50%_35%]" />
@@ -5592,7 +6061,7 @@ export default function AidAgentPage() {
                     <div className="absolute inset-0 bg-gradient-to-t from-[#04091A]/95 via-[#04091A]/45 to-transparent group-hover:from-[#04091A]/80 transition-all duration-200" />
                     <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/[0.08] group-hover:ring-[#00D4FF]/40 transition-all duration-200" />
                     <div className="absolute bottom-0 left-0 right-0 px-3 pb-2.5">
-                      <span className="text-[10px] font-bold uppercase tracking-[0.12em] text-white/85">{label}</span>
+                      <span className="text-[12px] font-bold uppercase tracking-[0.10em] text-white/90">{label}</span>
                     </div>
                   </button>
                 ))}
@@ -5746,16 +6215,18 @@ export default function AidAgentPage() {
                 };
                 const links = dataMap[overlaySection!] ?? [];
                 return (
-                  <div className="grid grid-cols-5 gap-2">
+                  <div className="grid grid-cols-4 gap-3">
                     {links.map(({ name, url }: LinkItem) => {
                       const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                      const iconUrl = `https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${encodeURIComponent(url)}&size=256`;
                       return (
                         <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                          className="flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
-                          <div className="w-14 h-14 rounded-[16px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-sky-500/30 transition-all">
-                            <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="32" height="32" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                          className="flex flex-col items-center gap-1.5 p-2.5 rounded-2xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95 group-hover:shadow-[0_0_18px_rgba(0,212,255,0.15)]">
+                          <div className="w-16 h-16 rounded-[18px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-sky-500/40 group-hover:shadow-[0_0_16px_rgba(0,212,255,0.20)] transition-all">
+                            <img src={iconUrl} width="48" height="48" alt="" className="w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity" onError={(e) => { (e.target as HTMLImageElement).src = `https://www.google.com/s2/favicons?domain=${hostname}&sz=64`; }} />
                           </div>
-                          <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                          <span className="text-[9px] font-semibold text-[#8A9ABB]/70 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                          <span className="text-[8px] text-[#5A7090]/60 group-hover:text-sky-400/60 text-center leading-tight transition-colors line-clamp-1 w-full px-0.5">{hostname.replace(/^www\./, "")}</span>
                         </a>
                       );
                     })}
@@ -5795,16 +6266,18 @@ export default function AidAgentPage() {
                             <div className="h-px w-4 bg-sky-500/[0.15]" />
                           </div>
                         )}
-                        <div className="grid grid-cols-5 gap-2">
+                        <div className="grid grid-cols-4 gap-3">
                           {links.map(({ name, url }) => {
                             const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
+                            const iconUrl = `https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${encodeURIComponent(url)}&size=256`;
                             return (
                               <a key={name} href={url} target="_blank" rel="noopener noreferrer"
-                                className="flex flex-col items-center gap-1 p-2 rounded-xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
-                                <div className="w-14 h-14 rounded-[16px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-sky-500/30 transition-all">
-                                  <img src={`https://www.google.com/s2/favicons?domain=${hostname}&sz=64`} width="32" height="32" alt="" className="rounded-md opacity-80 group-hover:opacity-100 transition-opacity" onError={(e) => ((e.target as HTMLImageElement).style.display = "none")} />
+                                className="flex flex-col items-center gap-1.5 p-2.5 rounded-2xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
+                                <div className="w-16 h-16 rounded-[18px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-sky-500/40 group-hover:shadow-[0_0_16px_rgba(0,212,255,0.20)] transition-all">
+                                  <img src={iconUrl} width="48" height="48" alt="" className="w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity" onError={(e) => { (e.target as HTMLImageElement).src = `https://www.google.com/s2/favicons?domain=${hostname}&sz=64`; }} />
                                 </div>
-                                <span className="text-[8.5px] font-semibold text-[#8A9ABB]/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                                <span className="text-[9px] font-semibold text-[#8A9ABB]/70 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                                <span className="text-[8px] text-[#5A7090]/60 group-hover:text-sky-400/60 text-center leading-tight transition-colors line-clamp-1 w-full px-0.5">{hostname.replace(/^www\./, "")}</span>
                               </a>
                             );
                           })}
