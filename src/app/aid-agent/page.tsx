@@ -3733,10 +3733,10 @@ function EducationalBackground({ isDark = true, guidanceActive = false }: { isDa
   // Dark mode — teal table wallpaper, fully visible, no overlay
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
-      {/* Desktop: top-down teal mug on light birch */}
-      <img src="/images/bg-wood.jpg" alt="" className="hidden md:block absolute inset-0 w-full h-full object-cover object-center" />
-      {/* Mobile: angled teal mug on oak table corner with sunlight */}
-      <img src="/images/bg-wood-mobile.jpg" alt="" className="block md:hidden absolute inset-0 w-full h-full object-cover object-center" />
+      {/* Desktop: crisp teal mug on light birch — sharpening filter */}
+      <img src="/images/bg-wood.jpg" alt="" className="hidden md:block absolute inset-0 w-full h-full object-cover object-top" style={{ imageRendering: "crisp-edges", filter: "contrast(1.14) saturate(1.10) brightness(1.04)", WebkitFilter: "contrast(1.14) saturate(1.10) brightness(1.04)" } as React.CSSProperties} />
+      {/* Mobile: sunlit table corner — sharpening filter */}
+      <img src="/images/bg-wood-mobile.jpg" alt="" className="block md:hidden absolute inset-0 w-full h-full object-cover object-center" style={{ imageRendering: "crisp-edges", filter: "contrast(1.14) saturate(1.10) brightness(1.04)", WebkitFilter: "contrast(1.14) saturate(1.10) brightness(1.04)" } as React.CSSProperties} />
     </div>
   );
 }
