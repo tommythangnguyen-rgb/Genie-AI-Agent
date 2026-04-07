@@ -5682,7 +5682,7 @@ export default function AidAgentPage() {
                       <div className="genie-console-slider" style={{ transform: `translateX(${slideIndex * -33.333}%)` }}>
 
                         {/* Slide 2 — I am a… */}
-                        <div className="genie-console-slide px-5 pt-5 pb-5 bg-[#0A1428]/20">
+                        <div className="genie-console-slide px-5 pt-5 pb-5 bg-white/[0.04]">
                           {/* Header — matches Tips by Role style */}
                           <div className="flex items-center justify-center gap-2 mb-4">
                             <button
@@ -5694,7 +5694,7 @@ export default function AidAgentPage() {
                               <ChevronLeft className="h-4 w-4" />
                             </button>
                             <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/50" />
-                            <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#0D1A32] ring-1 ring-[#D4AF37]/[0.28] shadow-sm shadow-black/30 transition-all duration-200 ${howItWorksActive === "role" ? "shadow-violet-500/20" : ""}`}>
+                            <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.10] ring-1 ring-[#D4AF37]/[0.28] shadow-sm shadow-black/20 transition-all duration-200 ${howItWorksActive === "role" ? "shadow-violet-500/20" : ""}`}>
                               <Users className={`h-3.5 w-3.5 transition-colors ${howItWorksActive === "role" ? "text-violet-400" : "text-amber-400/80"}`} />
                               <span className={`text-xs font-bold tracking-[0.12em] uppercase transition-colors ${howItWorksActive === "role" ? "text-violet-400 drop-shadow-[0_0_8px_rgba(139,92,246,0.7)]" : "text-white/80"}`}>I am a…</span>
                             </div>
@@ -5772,7 +5772,7 @@ export default function AidAgentPage() {
                                   onClick={() => sendMessage(q)}
                                   className="flex flex-col items-center gap-1.5 p-2 rounded-2xl hover:bg-sky-500/[0.10] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 hover:scale-[1.05] active:scale-95"
                                 >
-                                  <div className="w-14 h-14 rounded-[16px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-lg group-hover:bg-sky-500/20 group-hover:ring-sky-500/40 group-hover:shadow-[0_0_16px_rgba(56,189,248,0.28)] transition-all">
+                                  <div className="w-14 h-14 rounded-[16px] bg-white/[0.08] ring-1 ring-white/[0.15] flex items-center justify-center shadow-md group-hover:bg-sky-500/[0.18] group-hover:ring-sky-400/40 group-hover:shadow-[0_0_16px_rgba(56,189,248,0.22)] transition-all">
                                     <Icon className="h-6 w-6 text-white/75 group-hover:text-sky-300 transition-colors" />
                                   </div>
                                   <span className="text-[10px] font-semibold text-white/85 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{label}</span>
@@ -5784,7 +5784,7 @@ export default function AidAgentPage() {
                         </div>{/* end slide 2 */}
 
                         {/* Slide 3 — Tips by Role */}
-                        <div className="genie-console-slide px-5 pt-5 pb-5 bg-[#0A1428]/20">
+                        <div className="genie-console-slide px-5 pt-5 pb-5 bg-white/[0.04]">
                           <div className="flex items-center justify-center gap-2 mb-4">
                             <button
                               type="button"
@@ -5855,7 +5855,7 @@ export default function AidAgentPage() {
                         </div>{/* end slide 3 */}
 
                         {/* Slide 4 — What Genie Covers */}
-                        <div className="genie-console-slide px-5 pt-5 pb-5 bg-[#0A1428]/20">
+                        <div className="genie-console-slide px-5 pt-5 pb-5 bg-white/[0.04]">
                           {/* Header */}
                           <div className="flex items-center justify-center gap-2 mb-4">
                             <button
