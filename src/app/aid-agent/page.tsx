@@ -5318,13 +5318,13 @@ export default function AidAgentPage() {
         {/* ── Main ── */}
         <main
           className={`flex flex-1 flex-col min-w-0 min-h-0 transition-all duration-300 ${howItWorksActive === "guidance" ? "ring-1 ring-inset ring-emerald-500/25 shadow-[inset_0_0_40px_rgba(16,185,129,0.07)]" : ""}`}
-          style={{ background: "rgba(14,28,62,0.62)", backdropFilter: "blur(24px)" }}
+          style={{ background: "rgba(14,28,62,0.62)" }}
           aria-label="Genie AI Assistant"
         >
 
           {/* ── Header ── */}
           <header
-            className="sticky top-0 z-50 shrink-0 border-b border-[#1E2A4A] backdrop-blur-xl"
+            className="sticky top-0 z-50 shrink-0 border-b border-[#1E2A4A]"
             style={{ background: "linear-gradient(135deg, rgba(14,28,62,0.94) 0%, rgba(18,34,70,0.96) 50%, rgba(14,28,62,0.94) 100%)", borderBottom: "1px solid rgba(255,255,255,0.08)" }}
           >
             <div className="relative px-3 py-1.5 flex items-center justify-between gap-2">
