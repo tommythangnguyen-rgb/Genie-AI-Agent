@@ -3109,6 +3109,20 @@ const ROLE_OPTIONS = [
 // ─── Background ───────────────────────────────────────────────────────────────
 
 function EducationalBackground({ isDark = true, guidanceActive = false }: { isDark?: boolean; guidanceActive?: boolean }) {
+  // Make html/body transparent so the fixed -z-10 background is visible
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+    const prevHtml = html.style.background;
+    const prevBody = body.style.background;
+    html.style.background = "transparent";
+    body.style.background = "transparent";
+    return () => {
+      html.style.background = prevHtml;
+      body.style.background = prevBody;
+    };
+  }, []);
+
   const darkParticles = [
     { top: "15%", left: "22%", size: 4, dur: "3.2s", delay: "0s" },
     { top: "68%", left: "8%",  size: 3, dur: "4.1s", delay: "0.7s" },
@@ -3722,8 +3736,8 @@ function EducationalBackground({ isDark = true, guidanceActive = false }: { isDa
       {/* Wood tabletop photo — subtle texture base */}
       <img src="/images/bg-wood.jpg" alt="" className="absolute inset-0 w-full h-full object-cover object-center" />
 
-      {/* Navy overlay — light enough to see the wood, dark enough for glassmorphism */}
-      <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, rgba(8,16,36,0.50) 0%, rgba(12,22,46,0.48) 35%, rgba(10,18,40,0.50) 65%, rgba(7,14,32,0.52) 100%)" }} />
+      {/* Minimal tint — keep warm wood tones; panels/main provide their own dark overlay */}
+      <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, rgba(8,16,36,0.20) 0%, rgba(12,22,46,0.18) 35%, rgba(10,18,40,0.20) 65%, rgba(7,14,32,0.22) 100%)" }} />
 
       {/* Bright center bloom — lifts the overall feel */}
       <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 80% 60% at 50% 45%, rgba(56,100,200,0.15) 0%, rgba(30,60,140,0.08) 50%, transparent 75%)" }} />
