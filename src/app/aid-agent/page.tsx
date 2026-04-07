@@ -140,7 +140,15 @@ interface HistoryEntry {
   role?: string;
 }
 
+interface SavedPdfEntry {
+  id: string;
+  ts: number;
+  prompt: string;
+  role?: string;
+}
+
 const HISTORY_KEY = "genie-history";
+const PDF_KEY = "genie-saved-pdfs";
 const HISTORY_MAX_DAYS = 30;
 
 function loadHistory(): HistoryEntry[] {
@@ -155,6 +163,18 @@ function loadHistory(): HistoryEntry[] {
 
 function saveHistory(entries: HistoryEntry[]) {
   try { localStorage.setItem(HISTORY_KEY, JSON.stringify(entries.slice(0, 500))); } catch {}
+}
+
+function loadSavedPdfs(): SavedPdfEntry[] {
+  try {
+    const raw = localStorage.getItem(PDF_KEY);
+    if (!raw) return [];
+    return JSON.parse(raw) as SavedPdfEntry[];
+  } catch { return []; }
+}
+
+function savePdfs(entries: SavedPdfEntry[]) {
+  try { localStorage.setItem(PDF_KEY, JSON.stringify(entries.slice(0, 200))); } catch {}
 }
 
 // ─── Link list helpers ────────────────────────────────────────────────────────
@@ -2845,6 +2865,139 @@ const VOLUNTEER_RESOURCES: MaybeSubcat[] = [
   { name: "Khan Academy — Content Volunteer", url: "https://www.khanacademy.org/volunteering" },
 ];
 
+// ─── Research & Journals ──────────────────────────────────────────────────────
+
+const RESEARCH_JOURNALS: MaybeSubcat[] = [
+  { subcat: "Open Access Journals" },
+  { name: "DOAJ — Directory of Open Access Journals", url: "https://doaj.org" },
+  { name: "PubMed Central (PMC) — NIH Full Text", url: "https://pmc.ncbi.nlm.nih.gov" },
+  { name: "PubMed — Biomedical Citations & Abstracts", url: "https://pubmed.ncbi.nlm.nih.gov" },
+  { name: "BioMed Central — Life Sciences Journals", url: "https://www.biomedcentral.com" },
+  { name: "PLOS ONE — Peer-Reviewed Open Access", url: "https://journals.plos.org/plosone" },
+  { name: "Europe PMC — Biomedical Literature", url: "https://europepmc.org" },
+  { subcat: "Preprint & Paper Repositories" },
+  { name: "arXiv — Physics, Math, CS, Econ", url: "https://arxiv.org" },
+  { name: "SSRN — Social Science Research Network", url: "https://www.ssrn.com" },
+  { name: "Zenodo — All-Disciplines Repository", url: "https://zenodo.org" },
+  { name: "CORE — Open Access Paper Aggregator", url: "https://core.ac.uk" },
+  { name: "SocArXiv — Social Sciences Preprints", url: "https://osf.io/preprints/socarxiv" },
+  { name: "FigShare — Research Data & Figures", url: "https://figshare.com" },
+  { name: "Research Square — Preprint Platform", url: "https://www.researchsquare.com" },
+  { subcat: "Academic Search Engines" },
+  { name: "Google Scholar", url: "https://scholar.google.com" },
+  { name: "Semantic Scholar — AI-Powered Search", url: "https://www.semanticscholar.org" },
+  { name: "OpenAlex — Open Research Index (250M+)", url: "https://openalex.org" },
+  { name: "BASE — Bielefeld Academic Search Engine", url: "https://www.base-search.net" },
+  { name: "Unpaywall — Legal Free Paper Access", url: "https://unpaywall.org" },
+  { subcat: "Health & Evidence-Based Medicine" },
+  { name: "Cochrane Library — Gold Standard Systematic Reviews", url: "https://www.cochranelibrary.com" },
+  { name: "Science Based Medicine — Critical Analysis", url: "https://sciencebasedmedicine.org" },
+  { name: "ScienceDaily — Research News Digest", url: "https://www.sciencedaily.com" },
+  { name: "TRIP Database — Evidence-Based Practice", url: "https://www.tripdatabase.com" },
+  { subcat: "AI-Assisted Research Tools" },
+  { name: "Elicit — AI Research Assistant", url: "https://elicit.com" },
+  { name: "Consensus — AI Citation Search", url: "https://consensus.app" },
+  { name: "Connected Papers — Research Graph", url: "https://www.connectedpapers.com" },
+  { name: "Litmaps — Citation Network Visualization", url: "https://www.litmaps.com" },
+  { subcat: "Academic News & Publishing" },
+  { name: "The Conversation — US (Academics Write for Public)", url: "https://theconversation.com/us" },
+  { name: "The Conversation — Global Edition", url: "https://theconversation.com/global" },
+  { name: "Science News — Research Coverage", url: "https://www.sciencenews.org" },
+  { name: "Nature News & Comment", url: "https://www.nature.com/news" },
+  { name: "Science Magazine News", url: "https://www.science.org/news" },
+];
+
+const RESEARCH_JOURNALS_ADMIN: MaybeSubcat[] = [
+  { subcat: "Policy & Regulatory Research" },
+  { name: "Brookings Institution — Policy Research", url: "https://www.brookings.edu" },
+  { name: "CSIS — Center for Strategic & International Studies", url: "https://www.csis.org" },
+  { name: "International Crisis Group", url: "https://www.crisisgroup.org" },
+  { name: "Lawfare Media — National Security & Law", url: "https://www.lawfaremedia.org" },
+  { name: "SSRN — Law, Finance & Economics Papers", url: "https://www.ssrn.com" },
+  { name: "GovInfo — U.S. Government Publications", url: "https://www.govinfo.gov" },
+  { name: "ERIC — Education Research (Dept. of Education)", url: "https://eric.ed.gov" },
+  { subcat: "Open Access Journals" },
+  { name: "DOAJ — Directory of Open Access Journals", url: "https://doaj.org" },
+  { name: "PubMed Central (PMC)", url: "https://pmc.ncbi.nlm.nih.gov" },
+  { name: "CORE — Open Access Aggregator", url: "https://core.ac.uk" },
+  { name: "OpenAlex — Comprehensive Research Index", url: "https://openalex.org" },
+  { name: "The Conversation — US (Expert Analysis)", url: "https://theconversation.com/us" },
+  { name: "The Conversation — Global", url: "https://theconversation.com/global" },
+  { subcat: "Academic Search Tools" },
+  { name: "Google Scholar", url: "https://scholar.google.com" },
+  { name: "Semantic Scholar — AI-Powered Discovery", url: "https://www.semanticscholar.org" },
+  { name: "BASE — Bielefeld Academic Search Engine", url: "https://www.base-search.net" },
+  { name: "Zenodo — Research Data Repository", url: "https://zenodo.org" },
+  { subcat: "Health & Evidence" },
+  { name: "Cochrane Library — Systematic Reviews", url: "https://www.cochranelibrary.com" },
+  { name: "Science Based Medicine", url: "https://sciencebasedmedicine.org" },
+  { name: "PubMed — Biomedical Literature", url: "https://pubmed.ncbi.nlm.nih.gov" },
+];
+
+// ─── Validated Independent Resources ──────────────────────────────────────────
+
+const INDEPENDENT_RESOURCES_STUDENT: MaybeSubcat[] = [
+  { subcat: "Investigative Journalism" },
+  { name: "ProPublica — Nonprofit Investigative Journalism", url: "https://www.propublica.org" },
+  { name: "ICIJ — International Consortium of Investigative Journalists", url: "https://www.icij.org" },
+  { name: "Reveal — Center for Investigative Reporting", url: "https://www.revealnews.org" },
+  { name: "The Markup — Tech Accountability Reporting", url: "https://themarkup.org" },
+  { subcat: "Policy & Strategic Analysis" },
+  { name: "Brookings Institution — Independent Policy Research", url: "https://www.brookings.edu" },
+  { name: "Lawfare Media — National Security Law & Policy", url: "https://www.lawfaremedia.org" },
+  { name: "CSIS — Center for Strategic & International Studies", url: "https://www.csis.org" },
+  { name: "International Crisis Group — Conflict Analysis", url: "https://www.crisisgroup.org" },
+  { name: "OpenSecrets — Money in Politics (CRP)", url: "https://www.opensecrets.org" },
+  { subcat: "Fact-Checking" },
+  { name: "FactCheck.org — Annenberg Public Policy Center", url: "https://www.factcheck.org" },
+  { name: "PolitiFact — Pulitzer Prize-Winning Fact-Checker", url: "https://www.politifact.com" },
+  { name: "Snopes — Fact-Checking Since 1994", url: "https://www.snopes.com" },
+  { name: "AP Fact Check", url: "https://apnews.com/hub/ap-fact-check" },
+  { name: "Reuters Fact Check", url: "https://www.reuters.com/fact-check" },
+  { subcat: "Science & Health (Evidence-Based)" },
+  { name: "Science Based Medicine — Critical Analysis", url: "https://sciencebasedmedicine.org" },
+  { name: "The Conversation — US (Academic Writers)", url: "https://theconversation.com/us" },
+  { name: "The Conversation — Global Edition", url: "https://theconversation.com/global" },
+  { name: "Cochrane Library — Medical Evidence Reviews", url: "https://www.cochranelibrary.com" },
+  { name: "ScienceDaily — University Research News", url: "https://www.sciencedaily.com" },
+  { name: "Science News — Research Journalism", url: "https://www.sciencenews.org" },
+  { subcat: "Transparency & Accountability" },
+  { name: "GovTrack — Congress Tracking", url: "https://www.govtrack.us" },
+  { name: "PACER — Federal Court Records", url: "https://pacer.uscourts.gov" },
+  { name: "FOIA.gov — Freedom of Information Requests", url: "https://www.foia.gov" },
+  { name: "MuckRock — FOIA Requests & Documents", url: "https://www.muckrock.com" },
+];
+
+const INDEPENDENT_RESOURCES_ADMIN: MaybeSubcat[] = [
+  { subcat: "Investigative & Accountability Journalism" },
+  { name: "ProPublica — Nonprofit Investigative Journalism", url: "https://www.propublica.org" },
+  { name: "ICIJ — International Investigative Journalism", url: "https://www.icij.org" },
+  { name: "Reveal — Center for Investigative Reporting", url: "https://www.revealnews.org" },
+  { name: "The Markup — Technology Accountability", url: "https://themarkup.org" },
+  { subcat: "Policy, Law & Strategic Research" },
+  { name: "Lawfare Media — National Security Law & Policy", url: "https://www.lawfaremedia.org" },
+  { name: "Brookings Institution — Independent Policy Research", url: "https://www.brookings.edu" },
+  { name: "CSIS — Center for Strategic & International Studies", url: "https://www.csis.org" },
+  { name: "International Crisis Group — Conflict Prevention", url: "https://www.crisisgroup.org" },
+  { name: "OpenSecrets — Money in U.S. Politics", url: "https://www.opensecrets.org" },
+  { subcat: "Fact-Checking & Verification" },
+  { name: "FactCheck.org — Annenberg/UPenn", url: "https://www.factcheck.org" },
+  { name: "PolitiFact — Truth-O-Meter", url: "https://www.politifact.com" },
+  { name: "Snopes — Claims Verification", url: "https://www.snopes.com" },
+  { name: "AP Fact Check", url: "https://apnews.com/hub/ap-fact-check" },
+  { name: "Reuters Fact Check", url: "https://www.reuters.com/fact-check" },
+  { subcat: "Science, Health & Evidence" },
+  { name: "Science Based Medicine", url: "https://sciencebasedmedicine.org" },
+  { name: "The Conversation — US (Expert Commentary)", url: "https://theconversation.com/us" },
+  { name: "The Conversation — Global", url: "https://theconversation.com/global" },
+  { name: "Cochrane Library — Systematic Evidence Reviews", url: "https://www.cochranelibrary.com" },
+  { subcat: "Government Transparency" },
+  { name: "GovTrack — U.S. Congress Tracker", url: "https://www.govtrack.us" },
+  { name: "FOIA.gov — Federal FOIA Portal", url: "https://www.foia.gov" },
+  { name: "MuckRock — FOIA Requests & Public Records", url: "https://www.muckrock.com" },
+  { name: "USASpending.gov — Federal Spending Transparency", url: "https://www.usaspending.gov" },
+];
+
 const ROLE_TIPS = [
   {
     role: "Student",
@@ -3563,36 +3716,42 @@ function EducationalBackground({ isDark = true, guidanceActive = false }: { isDa
     );
   }
 
-  // Dark mode — indigo/slate theme
+  // Dark mode — wood tabletop base with deep navy overlay
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
-      {/* Deep navy base */}
-      <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, #0A1428 0%, #0D1A30 35%, #0A1428 65%, #08152A 100%)" }} />
+      {/* Wood tabletop photo — subtle texture base */}
+      <img src="/images/bg-wood.jpg" alt="" className="absolute inset-0 w-full h-full object-cover object-center" />
 
-      {/* Animated atmospheric orbs */}
+      {/* Navy overlay — light enough to see the wood, dark enough for glassmorphism */}
+      <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, rgba(8,16,36,0.50) 0%, rgba(12,22,46,0.48) 35%, rgba(10,18,40,0.50) 65%, rgba(7,14,32,0.52) 100%)" }} />
+
+      {/* Bright center bloom — lifts the overall feel */}
+      <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 80% 60% at 50% 45%, rgba(56,100,200,0.15) 0%, rgba(30,60,140,0.08) 50%, transparent 75%)" }} />
+
+      {/* Animated atmospheric orbs — more vibrant */}
       <div
-        className="genie-orb absolute -top-64 -left-64 w-[900px] h-[900px] rounded-full blur-[160px]"
-        style={{ background: "radial-gradient(circle, rgba(79,70,229,0.13) 0%, rgba(99,102,241,0.06) 50%, transparent 70%)", "--orb-dur": "16s" } as React.CSSProperties}
+        className="genie-orb absolute -top-64 -left-64 w-[900px] h-[900px] rounded-full blur-[140px]"
+        style={{ background: "radial-gradient(circle, rgba(99,102,241,0.22) 0%, rgba(79,70,229,0.10) 50%, transparent 70%)", "--orb-dur": "16s" } as React.CSSProperties}
       />
       <div
-        className="genie-orb absolute bottom-0 right-0 w-[700px] h-[700px] rounded-full blur-[140px]"
-        style={{ background: "radial-gradient(circle, rgba(67,56,202,0.11) 0%, rgba(79,70,229,0.05) 50%, transparent 70%)", "--orb-dur": "20s" } as React.CSSProperties}
+        className="genie-orb absolute bottom-0 right-0 w-[700px] h-[700px] rounded-full blur-[120px]"
+        style={{ background: "radial-gradient(circle, rgba(79,70,229,0.18) 0%, rgba(99,102,241,0.08) 50%, transparent 70%)", "--orb-dur": "20s" } as React.CSSProperties}
       />
       <div
-        className="genie-orb absolute top-1/3 right-1/4 w-[500px] h-[500px] rounded-full blur-[120px]"
-        style={{ background: "radial-gradient(circle, rgba(109,40,217,0.07) 0%, transparent 65%)", "--orb-dur": "24s" } as React.CSSProperties}
+        className="genie-orb absolute top-1/3 right-1/4 w-[500px] h-[500px] rounded-full blur-[100px]"
+        style={{ background: "radial-gradient(circle, rgba(59,130,246,0.16) 0%, transparent 65%)", "--orb-dur": "24s" } as React.CSSProperties}
       />
-      {/* Gold orbs */}
+      {/* Warm gold accent orbs */}
       <div
-        className="genie-orb absolute bottom-1/4 left-1/4 w-[600px] h-[600px] rounded-full blur-[150px]"
-        style={{ background: "radial-gradient(circle, rgba(245,158,11,0.10) 0%, rgba(217,119,6,0.04) 55%, transparent 70%)", "--orb-dur": "22s" } as React.CSSProperties}
+        className="genie-orb absolute bottom-1/4 left-1/4 w-[600px] h-[600px] rounded-full blur-[130px]"
+        style={{ background: "radial-gradient(circle, rgba(245,158,11,0.15) 0%, rgba(217,119,6,0.06) 55%, transparent 70%)", "--orb-dur": "22s" } as React.CSSProperties}
       />
       <div
-        className="genie-orb absolute top-0 right-0 w-[450px] h-[450px] rounded-full blur-[130px]"
-        style={{ background: "radial-gradient(circle, rgba(251,191,36,0.08) 0%, rgba(245,158,11,0.03) 55%, transparent 70%)", "--orb-dur": "18s" } as React.CSSProperties}
+        className="genie-orb absolute top-0 right-0 w-[450px] h-[450px] rounded-full blur-[110px]"
+        style={{ background: "radial-gradient(circle, rgba(251,191,36,0.13) 0%, rgba(245,158,11,0.05) 55%, transparent 70%)", "--orb-dur": "18s" } as React.CSSProperties}
       />
 
-      {/* Sparkle particles */}
+      {/* Sparkle particles — brighter */}
       {darkParticles.map((p, i) => (
         <div
           key={i}
@@ -3600,8 +3759,12 @@ function EducationalBackground({ isDark = true, guidanceActive = false }: { isDa
           style={{
             top: p.top, left: p.left,
             width: p.size, height: p.size,
-            background: "radial-gradient(circle, rgba(165,180,252,0.9) 0%, rgba(129,140,248,0.4) 100%)",
-            boxShadow: "0 0 6px 2px rgba(165,180,252,0.35)",
+            background: i % 2 === 0
+              ? "radial-gradient(circle, rgba(196,210,255,0.95) 0%, rgba(147,197,253,0.5) 100%)"
+              : "radial-gradient(circle, rgba(251,191,36,0.90) 0%, rgba(245,158,11,0.45) 100%)",
+            boxShadow: i % 2 === 0
+              ? "0 0 8px 3px rgba(147,197,253,0.45)"
+              : "0 0 8px 3px rgba(251,191,36,0.40)",
             "--p-dur": p.dur,
             animationDelay: p.delay,
           } as React.CSSProperties}
@@ -3779,6 +3942,44 @@ const ROLE_COLOR_MAP: Record<string, { active: string; inactive: string }> = {
 };
 const ROLE_COLOR_FALLBACK = { active: "bg-cyan-600/80 text-white ring-[#D4AF37]/45 shadow-black/30", inactive: "bg-white/[0.05] text-cyan-200/45 hover:text-cyan-100/80 hover:bg-cyan-500/[0.08] ring-[#D4AF37]/[0.15]" };
 
+// ─── Site tile helpers (crisp icon tiles, no blurry favicons) ────────────────
+
+function getSiteIcon(url: string) {
+  const h = url.toLowerCase();
+  if (/\.gov|studentaid|fafsa|govinfo|whitehouse|congress\.gov/.test(h)) return Landmark;
+  if (/irs\.gov|tax|receipt/.test(h)) return Receipt;
+  if (/scholar|pubmed|arxiv|doaj|cochrane|semantic|zenodo|figshare|core\.ac|ssrn|socarxiv|openalex|base-search|europepmc|plos|biomedcentral|researchsquare|litmaps|connectedpapers|elicit|consensus/.test(h)) return BookOpen;
+  if (/linkedin|indeed|monster|glassdoor|career|internship|ziprecruiter|handshake|simplyhired|zippia|lever|greenhouse/.test(h)) return Briefcase;
+  if (/scholarship|fastweb|niche|petersons|bold\.org|scholarships\.com|collegeboard|unigo/.test(h)) return Award;
+  if (/health|mental|crisis|wellbeing|nami|samhsa|nimh|jed|active.minds|talkspace|betterhelp|headspace|calm\.com|crisistextline/.test(h)) return Sparkles;
+  if (/openai|anthropic|hugging|deeplearn|kaggle|elementsofai|fast\.ai|nvidia|cohere|perplexity|notebooklm|alignmentforum|lesswrong|aisafety/.test(h)) return Zap;
+  if (/law|legal|court|pacer|uscourts|lawfare|findlaw|justia|gavel|aclu|naacp/.test(h)) return Scale;
+  if (/propublica|icij|reveal|markup|factcheck|politifact|snopes|reuters|apnews|brookings|csis|crisisgroup|sciencebasedmedicine|theconversation|sciencenews|sciencedaily|nature\.com|science\.org/.test(h)) return FileText;
+  if (/volunteer|americorps|redcross|habitat|idealist|volunteermatch|peacecorps|catchafire/.test(h)) return Users;
+  if (/va\.gov|veteran|military|ebenefits|myhealth\.va/.test(h)) return ShieldCheck;
+  if (/sallie|sofi|earnest|college.ave|navient|discover|credible|lendkey|ascent/.test(h)) return PiggyBank;
+  if (/investopedia|khanacademy|cfpb|consumer|nfcc|bettermoneyhabits|mint\.intuit|nerdwallet/.test(h)) return TrendingUp;
+  if (/foia|muckrock|govtrack|usaspending|opensecrets|pacer/.test(h)) return Search;
+  return ExternalLink;
+}
+
+const _SITE_GRADIENTS: [string, string][] = [
+  ["#3730a3", "#4f46e5"], // indigo
+  ["#0369a1", "#0891b2"], // sky→cyan
+  ["#047857", "#0d9488"], // emerald→teal
+  ["#6d28d9", "#7c3aed"], // violet
+  ["#0f766e", "#0891b2"], // teal→cyan
+  ["#1d4ed8", "#2563eb"], // blue
+  ["#065f46", "#047857"], // dark emerald
+  ["#1e3a5f", "#1d4ed8"], // navy→blue
+];
+
+function getSiteGradient(hostname: string): [string, string] {
+  let hash = 0;
+  for (let i = 0; i < hostname.length; i++) hash = ((hash << 5) - hash) + hostname.charCodeAt(i);
+  return _SITE_GRADIENTS[Math.abs(hash) % _SITE_GRADIENTS.length];
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function AidAgentPage() {
@@ -3795,6 +3996,8 @@ export default function AidAgentPage() {
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set(["sec-left-videos", "sec-videos-social"]));
   const bottomRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const desktopChatScrollRef = useRef<HTMLDivElement>(null);
+  const desktopBottomRef = useRef<HTMLDivElement>(null);
   const userScrolledUpRef = useRef(false);
   const [orbDriftX, setOrbDriftX] = useState(0);
   const [orbScrollY, setOrbScrollY] = useState(0);
@@ -3818,7 +4021,7 @@ export default function AidAgentPage() {
   const pcOrbRef = useRef<HTMLDivElement>(null);
   const [howItWorksActive, setHowItWorksActive] = useState<"role" | "chatbox" | "panels" | "guidance" | null>(null);
   const [slideIndex, setSlideIndex] = useState(0);
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(true);
   // Daily rotation offset — shifts which tips appear first, updates each day
   const tipsRotationOffset = useMemo(() => Math.floor(Date.now() / 86400000), []);
 
@@ -3859,8 +4062,11 @@ export default function AidAgentPage() {
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [showHistory, setShowHistory] = useState(false);
   const [expandedHistoryId, setExpandedHistoryId] = useState<string | null>(null);
-  const [historyFilter, setHistoryFilter] = useState<"all" | "bookmarked">("all");
+  const [historyFilter, setHistoryFilter] = useState<"all" | "bookmarked" | "pdfs">("all");
   const [showBookmarkToast, setShowBookmarkToast] = useState(false);
+  const [historyDeleteMode, setHistoryDeleteMode] = useState(false);
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
+  const [savedPdfs, setSavedPdfs] = useState<SavedPdfEntry[]>([]);
   const roleSwipeX = useRef<number | null>(null);
   const todayKey = () => new Date().toISOString().slice(0, 10); // "YYYY-MM-DD"
   const [introVisible, setIntroVisible] = useState(() => {
@@ -3897,6 +4103,7 @@ export default function AidAgentPage() {
 
   useEffect(() => {
     setHistory(loadHistory());
+    setSavedPdfs(loadSavedPdfs());
     if (!localStorage.getItem("genie-terms-accepted")) setShowDisclaimer(true);
     if (!localStorage.getItem("genie-cookie-accepted")) setShowCookieNotice(true);
     // Fetch tier + usage for feature gating, usage meter, and auth state
@@ -4063,6 +4270,7 @@ export default function AidAgentPage() {
   useEffect(() => {
     if (!userScrolledUpRef.current) {
       bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+      desktopBottomRef.current?.scrollIntoView({ behavior: "smooth" });
     }
   }, [messages]);
 
@@ -4070,6 +4278,7 @@ export default function AidAgentPage() {
   useEffect(() => {
     if (isStreaming && !userScrolledUpRef.current) {
       bottomRef.current?.scrollIntoView({ behavior: "instant" });
+      desktopBottomRef.current?.scrollIntoView({ behavior: "instant" });
     }
   }, [isStreaming]);
 
@@ -4450,7 +4659,16 @@ export default function AidAgentPage() {
     window.speechSynthesis.speak(utterance);
   };
 
-  const printMessage = (content: string) => {
+  const printMessage = (content: string, promptSnippet?: string) => {
+    // Save a PDF record for the PDFs tab
+    if (promptSnippet) {
+      setSavedPdfs(prev => {
+        const entry: SavedPdfEntry = { id: `pdf-${Date.now()}`, ts: Date.now(), prompt: promptSnippet, role: selectedRole ?? undefined };
+        const updated = [entry, ...prev];
+        savePdfs(updated);
+        return updated;
+      });
+    }
     const now = new Date();
     const dateStr = now.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
     const timeStr = now.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit", hour12: true });
@@ -4722,9 +4940,67 @@ export default function AidAgentPage() {
     setHistory([]);
     saveHistory([]);
     setExpandedHistoryId(null);
+    setHistoryDeleteMode(false);
+    setShowClearConfirm(false);
   };
 
   const isBusy = isLoading || isStreaming;
+
+  // Shared message bubble list — rendered in both mobile inline view and desktop overlay
+  const messageBubbles = messages.map((msg) => (
+    <div key={msg.id} className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
+      {msg.role === "assistant" && (
+        <div className="shrink-0 mt-1">
+          <div className="p-1.5 rounded-xl bg-indigo-600 shadow-md shadow-indigo-900/40 ring-1 ring-indigo-500/30">
+            <GenieBottle className="h-4 w-4 text-white genie-icon-shimmer" />
+          </div>
+        </div>
+      )}
+      <div className={`relative ${msg.role === "user" ? "max-w-[72%] text-white px-4 py-3 rounded-2xl rounded-tr-sm text-sm leading-relaxed ring-1 ring-indigo-500/30 bg-indigo-600 shadow-lg shadow-indigo-900/30" : "max-w-[82%] ring-1 ring-white/[0.10] px-5 py-4 rounded-2xl rounded-tl-sm bg-white/[0.05]"}`}>
+        {msg.role === "user" ? (
+          <div>
+            {msg.senderRole && (() => { const opt = ROLE_OPTIONS.find(r => r.label === msg.senderRole); return (<span className={`inline-block text-[10px] font-bold uppercase tracking-widest mb-1.5 px-2 py-0.5 rounded-md ring-1 ${opt?.color ?? "text-white/50"} ${opt?.bg ?? "bg-white/10"} ${opt?.ring ?? "ring-white/20"}`}>{msg.senderRole}</span>); })()}
+            {msg.attachedFileName && (<div className="flex items-center gap-1.5 mb-1.5 text-[10px] text-white/50"><Paperclip className="h-3 w-3 shrink-0" /><span className="truncate">{msg.attachedFileName}</span></div>)}
+            <p>{msg.content}</p>
+          </div>
+        ) : (
+          <div className="relative">
+            <div className="flex items-center gap-1.5 mb-2" aria-label="AI-generated response">
+              <Sparkles className="h-3 w-3 text-indigo-400/60" aria-hidden="true" />
+              <span className="text-[10px] font-medium text-white/30 tracking-wide">AI-generated · Always verify with official sources</span>
+            </div>
+            <StreamingContent content={msg.content} msgId={msg.id} streamingMsgId={streamingMsgId} isStreaming={isStreaming} className="prose-invert text-sm text-white/85 leading-relaxed" />
+            {msg.id === streamingMsgId && isStreaming && (<span className="inline-block w-0.5 h-4 bg-indigo-400 animate-pulse ml-0.5 align-text-bottom rounded-full" />)}
+            {msg.content && !isStreaming && (
+              <div className="flex items-center gap-2 mt-2.5 pt-2 border-t border-white/[0.06]">
+                <button onClick={() => speakMessage(msg.id, msg.content)} title={speakingMsgId === msg.id ? "Stop reading" : "Read aloud"} className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${speakingMsgId === msg.id ? "bg-cyan-500/[0.18] text-cyan-300 ring-1 ring-cyan-500/40" : "text-white/30 hover:text-cyan-300 hover:bg-cyan-500/[0.08]"}`}>
+                  {speakingMsgId === msg.id ? <VolumeX className="h-3 w-3" /> : <Volume2 className="h-3 w-3" />}
+                  {speakingMsgId === msg.id ? "Stop" : "Listen"}
+                </button>
+                {(() => { const isBookmarked = history.some(e => e.id === msg.id && e.bookmarked); return (<button onClick={() => { if (!isBookmarked) bookmarkEntry(msg.id, msg.content); }} title={isBookmarked ? "Bookmarked — saved as PDF" : "Bookmark & save as PDF"} className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 ${isBookmarked ? "text-amber-400 bg-amber-500/[0.10] ring-1 ring-amber-500/30 cursor-default" : "text-white/30 hover:text-amber-300 hover:bg-amber-500/[0.08]"}`}>{isBookmarked ? <BookmarkCheck className="h-3 w-3" /> : <Bookmark className="h-3 w-3" />}{isBookmarked ? "Bookmarked" : "Bookmark"}</button>); })()}
+                <button onClick={() => printMessage(msg.content)} title="Print / Save as PDF" className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium text-white/30 hover:text-cyan-300 hover:bg-cyan-500/[0.08] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400">
+                  <Printer className="h-3 w-3" />Print/View
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  ));
+
+  const typingIndicator = isLoading ? (
+    <div className="flex gap-3 justify-start genie-fade-in-up">
+      <div className="shrink-0 mt-1 p-1.5 rounded-xl bg-indigo-600 shadow-md ring-1 ring-indigo-500/30">
+        <GenieBottle className="h-4 w-4 text-white genie-icon-shimmer" />
+      </div>
+      <div className="ring-1 ring-white/[0.10] px-5 py-4 rounded-2xl rounded-tl-sm bg-white/[0.05]">
+        <div className="flex items-center gap-1.5">
+          {[0, 1, 2].map((i) => (<span key={i} className="genie-typing-dot" />))}
+        </div>
+      </div>
+    </div>
+  ) : null;
 
   return (
     <>
@@ -4850,28 +5126,24 @@ export default function AidAgentPage() {
           onClick={dismissIntro}
         >
 
-          {/* ── DESKTOP: CSS-only premium splash (always pixel-sharp) ── */}
+          {/* ── DESKTOP: photo-based premium splash ── */}
           <div className="hidden md:block absolute inset-0">
-            {/* Deep space base */}
-            <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, #020815 0%, #040C20 30%, #030A1C 60%, #020810 100%)" }} />
-            {/* Radial glow — centre teal */}
-            <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 80% 60% at 50% 55%, rgba(0,180,220,0.10) 0%, transparent 65%)" }} />
-            {/* Upper-left accent orb */}
-            <div className="absolute" style={{ top: "-10%", left: "-5%", width: "55%", height: "70%", background: "radial-gradient(ellipse at center, rgba(0,140,200,0.07) 0%, transparent 65%)", borderRadius: "50%" }} />
-            {/* Lower-right accent orb */}
-            <div className="absolute" style={{ bottom: "-15%", right: "-8%", width: "60%", height: "75%", background: "radial-gradient(ellipse at center, rgba(0,200,160,0.06) 0%, transparent 65%)", borderRadius: "50%" }} />
-            {/* Subtle star field dots */}
-            <div className="absolute inset-0 genie-intro-stars" />
-            {/* Horizontal light beam */}
-            <div className="absolute" style={{ top: "38%", left: 0, right: 0, height: "1px", background: "linear-gradient(90deg, transparent 0%, rgba(0,212,255,0.08) 20%, rgba(0,212,255,0.22) 50%, rgba(0,212,255,0.08) 80%, transparent 100%)" }} />
+            {/* Hero photo */}
+            <img src="/images/intro-splash.jpg" alt="" className="w-full h-full object-cover object-[50%_35%]" />
+            {/* Dark overlay — preserves legibility of branding text */}
+            <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, rgba(2,8,21,0.72) 0%, rgba(4,12,32,0.60) 40%, rgba(3,10,28,0.68) 100%)" }} />
+            {/* Subtle vignette edge */}
+            <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 110% 100% at 50% 50%, transparent 45%, rgba(2,8,21,0.55) 100%)" }} />
+            {/* Bottom fade for CTA area */}
+            <div className="absolute inset-x-0 bottom-0 h-40" style={{ background: "linear-gradient(to top, rgba(2,8,21,0.95) 0%, transparent 100%)" }} />
           </div>
 
           {/* ── MOBILE: photo-based splash ── */}
-          <div className="block md:hidden absolute inset-0 flex items-center justify-center">
-            <img src="/images/intro-splash-mobile.jpg" alt="" className="w-full h-full object-contain object-top" style={{ maxHeight: "100dvh" }} />
+          <div className="block md:hidden absolute inset-0">
+            <img src="/images/intro-splash-mobile.jpg" alt="" className="w-full h-full object-cover object-[50%_40%]" />
+            {/* Dark overlay — bright daytime photo needs stronger scrim for text legibility */}
+            <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(2,8,21,0.55) 0%, rgba(2,8,21,0.30) 35%, rgba(2,8,21,0.55) 70%, rgba(2,8,21,0.97) 100%)" }} />
           </div>
-          <div className="block md:hidden absolute inset-x-0 top-0 h-[45%]" style={{ background: "linear-gradient(to bottom, rgba(4,9,26,0.35) 0%, transparent 100%)" }} />
-          <div className="block md:hidden absolute inset-x-0 bottom-0 h-36" style={{ background: "linear-gradient(to top, rgba(4,9,26,0.98) 0%, rgba(4,9,26,0.60) 55%, transparent 100%)" }} />
 
           {/* ── DESKTOP: centre content (CSS text — always crisp) ── */}
           <div className="hidden md:flex absolute inset-0 flex-col items-center justify-center gap-7" style={{ paddingBottom: "6vh" }}>
@@ -4906,7 +5178,7 @@ export default function AidAgentPage() {
               <p className="font-semibold leading-snug" style={{ fontSize: "clamp(1.05rem, 2vw, 1.35rem)", color: "rgba(255,255,255,0.88)" }}>
                 Student Aid, Made Clear.
               </p>
-              <p style={{ fontSize: "clamp(0.8rem, 1.3vw, 1rem)", color: "rgba(148,163,184,0.75)", lineHeight: 1.6 }}>
+              <p style={{ fontSize: "clamp(0.8rem, 1.3vw, 1rem)", color: "rgba(203,213,225,0.95)", lineHeight: 1.6 }}>
                 Connecting families with financial aid offices — quickly and reliably.
               </p>
             </div>
@@ -4922,6 +5194,39 @@ export default function AidAgentPage() {
                   {label}
                 </div>
               ))}
+            </div>
+          </div>
+
+          {/* ── MOBILE: centre branding ── */}
+          <div className="flex md:hidden absolute inset-0 flex-col items-center justify-center gap-5 px-6" style={{ paddingBottom: "12vh" }}>
+            <div className="flex flex-col items-center gap-4">
+              <div className="relative flex items-center justify-center">
+                <div className="absolute" style={{ width: 72, height: 72, borderRadius: "50%", background: "radial-gradient(ellipse at center, rgba(0,212,255,0.22) 0%, transparent 70%)", filter: "blur(10px)" }} />
+                <GenieBottle className="relative h-11 w-11 genie-icon-shimmer" style={{ color: "#00D4FF", filter: "drop-shadow(0 0 14px rgba(0,212,255,0.60)) drop-shadow(0 0 28px rgba(0,212,255,0.30))" }} />
+              </div>
+              <div className="flex flex-col items-center gap-1.5">
+                <h1 className="font-black tracking-[-0.03em] leading-none" style={{
+                  fontSize: "clamp(2.6rem, 11vw, 3.8rem)",
+                  background: "linear-gradient(135deg, #FFFFFF 0%, #D0E8FF 25%, #FFFFFF 50%, #B8DCFF 75%, #FFFFFF 100%)",
+                  backgroundSize: "200% auto",
+                  WebkitBackgroundClip: "text",
+                  backgroundClip: "text",
+                  WebkitTextFillColor: "transparent",
+                  animation: "genie-white-shimmer 5s linear infinite",
+                  filter: "drop-shadow(0 0 20px rgba(255,255,255,0.20))",
+                }}>askGenie</h1>
+                <div className="flex items-center gap-2.5">
+                  <div className="h-px w-10" style={{ background: "linear-gradient(90deg, transparent, rgba(0,212,255,0.5))" }} />
+                  <span className="text-[10px] font-bold tracking-[0.32em] uppercase" style={{ color: "rgba(0,212,255,0.80)" }}>Student Aid Hub</span>
+                  <div className="h-px w-10" style={{ background: "linear-gradient(90deg, rgba(0,212,255,0.5), transparent)" }} />
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col items-center gap-1.5 text-center">
+              <p className="font-semibold" style={{ fontSize: "clamp(1rem, 4.5vw, 1.2rem)", color: "rgba(255,255,255,0.90)" }}>Student Aid, Made Clear.</p>
+              <p style={{ fontSize: "clamp(0.78rem, 3.2vw, 0.92rem)", color: "rgba(203,213,225,0.95)", lineHeight: 1.55 }}>
+                Connecting families with financial aid offices — quickly and reliably.
+              </p>
             </div>
           </div>
 
@@ -4942,7 +5247,7 @@ export default function AidAgentPage() {
         {/* ── Left Dropdown — Students & Parents ── */}
         <aside
           className={`${showMobileLeft ? "flex" : "hidden"} fixed z-[60] flex-col rounded-2xl overflow-hidden border border-cyan-500/[0.15] shadow-2xl shadow-black/70 backdrop-blur-2xl`}
-          style={{ top: "84px", left: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(6,18,40,0.62) 0%, rgba(8,22,48,0.58) 50%, rgba(6,16,36,0.62) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.70), 0 0 0 1px rgba(6,182,212,0.18), inset 0 1px 0 rgba(255,255,255,0.06)" }}
+          style={{ top: "84px", left: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(14,30,65,0.72) 0%, rgba(18,36,75,0.68) 50%, rgba(12,26,58,0.72) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.10), inset 0 1px 0 rgba(255,255,255,0.10)" }}
         >
           {howItWorksActive === "panels" && <div className="hiw-scan-overlay" aria-hidden="true" />}
 
@@ -4971,27 +5276,32 @@ export default function AidAgentPage() {
                 {([
                   { key: "lc-s-qa",     label: "Students",        img: "/images/sec-students.jpg",        pos: "object-[50%_15%]" },
                   { key: "lc-p-qa",     label: "Parents",          img: "/images/sec-parents.jpg",         pos: "object-[50%_18%]" },
-                  { key: "lc-fed-sp",   label: "Federal Aid",      img: "/images/sec-fed-aid.jpg",         pos: "object-[50%_18%]" },
-                  { key: "lc-resume",   label: "Resume",            img: "/images/sec-resume.jpg",          pos: "object-[50%_15%]" },
-                  { key: "lc-schol",    label: "Scholarships",      img: "/images/sec-scholarship.jpg",     pos: "object-[50%_12%]" },
-                  { key: "lc-intern",   label: "Internships",       img: "/images/sec-internship.jpg",      pos: "object-[50%_14%]" },
-                  { key: "lc-jobs",     label: "Student Jobs",      img: "/images/sec-jobs.jpg",            pos: "object-[50%_12%]" },
-                  { key: "lc-finlit",   label: "Financial Lit",     img: "/images/sec-fin-literacy.jpg",    pos: "object-[50%_22%]" },
-                  { key: "lc-loans",    label: "Private Loans",     img: "/images/sec-priv-loans.jpg",      pos: "object-[50%_18%]" },
-                  { key: "lc-consumer", label: "Consumer Rights",   img: "/images/sec-consumer.jpg",        pos: "object-[50%_45%]" },
-                  { key: "lc-mental",   label: "Mental Health",     img: "/images/sec-mental-health.jpg",   pos: "object-[50%_14%]" },
-                  { key: "lc-ai",       label: "AI Literacy",       img: "/images/sec-ai-literacy.jpg",     pos: "object-[50%_14%]" },
-                  { key: "lc-faith",    label: "Faith & Spirit",    img: "/images/sec-faith.jpg",           pos: "object-[50%_18%]" },
-                  { key: "lc-vol",      label: "Volunteer",         img: "/images/sec-volunteer.jpg",       pos: "object-[50%_16%]" },
-                  { key: "lc-va",       label: "VA Resources",      img: "/images/sec-va.jpg",              pos: "object-[50%_18%]" },
-                ] as const).map(({ key, label, img, pos }) => (
+                  { key: "lc-fed-sp",   label: "Federal Aid",      img: "/images/sec-fed-aid.jpg",         pos: "object-[50%_18%]", Icon: Landmark },
+                  { key: "lc-resume",   label: "Resume",            img: "/images/sec-resume.jpg",          pos: "object-[50%_15%]", Icon: FileText },
+                  { key: "lc-schol",    label: "Scholarships",      img: "/images/sec-scholarship.jpg",     pos: "object-[50%_12%]", Icon: Award },
+                  { key: "lc-intern",   label: "Internships",       img: "/images/sec-internship.jpg",      pos: "object-[50%_14%]", Icon: Briefcase },
+                  { key: "lc-jobs",     label: "Student Jobs",      img: "/images/sec-jobs.jpg",            pos: "object-[50%_12%]", Icon: Briefcase },
+                  { key: "lc-finlit",   label: "Financial Literacy", img: "/images/sec-fin-literacy.jpg",   pos: "object-[50%_22%]", Icon: TrendingUp },
+                  { key: "lc-loans",    label: "Private Loans",     img: "/images/sec-priv-loans.jpg",      pos: "object-[50%_18%]", Icon: PiggyBank },
+                  { key: "lc-consumer", label: "Consumer Rights",   img: "/images/sec-consumer.jpg",        pos: "object-[50%_45%]", Icon: Scale },
+                  { key: "lc-mental",   label: "Mental Health",     img: "/images/mental.jpg",              pos: "object-[50%_14%]", Icon: Sparkles },
+                  { key: "lc-ai",       label: "AI Literacy",       img: "/images/sec-ai-literacy.jpg",     pos: "object-[50%_14%]", Icon: Lightbulb },
+                  { key: "lc-faith",    label: "Faith & Spirit",    img: "/images/sec-faith-student.jpg",   pos: "object-[50%_22%]", Icon: Star },
+                  { key: "lc-vol",      label: "Volunteer",         img: "/images/sec-volunteer.jpg",       pos: "object-[50%_16%]", Icon: Users },
+                  { key: "lc-va",       label: "VA Resources",      img: "/images/sec-va.jpg",              pos: "object-[50%_18%]", Icon: ShieldCheck },
+                  { key: "lc-research", label: "Research & Journals", img: "/images/sec-research-student.jpg", pos: "object-[50%_20%]", Icon: BookOpen },
+                  { key: "lc-indep",    label: "Independent Resources", img: "/images/sec-indep-student.jpg",   pos: "object-[50%_25%]", Icon: Gavel },
+                ]).map(({ key, label, img, pos, Icon }) => (
                   <button
                     key={key}
                     onClick={() => setOverlaySection(key)}
                     className="relative group cursor-pointer overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4FF]/60 shadow-md shadow-black/40 hover:scale-[1.02] active:scale-[0.97] transition-all duration-200"
                     style={{ aspectRatio: "1.6 / 1" }}
                   >
-                    <img src={img} alt="" className={`w-full h-full object-cover ${pos}`} />
+                    <img src={img} alt="" className={`w-full h-full object-cover ${pos}`} onError={(e) => { e.currentTarget.style.display = "none"; const fb = e.currentTarget.nextElementSibling as HTMLElement | null; if (fb) fb.style.display = "flex"; }} />
+                    <div style={{ display: "none" }} className="absolute inset-0 items-center justify-center bg-gradient-to-br from-indigo-900/80 via-slate-900/90 to-[#04091A]">
+                      {Icon && <Icon className="h-9 w-9 text-indigo-300/60" />}
+                    </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-[#04091A]/95 via-[#04091A]/45 to-transparent group-hover:from-[#04091A]/80 transition-all duration-200" />
                     <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/[0.08] group-hover:ring-[#00D4FF]/40 transition-all duration-200" />
                     <div className="absolute bottom-0 left-0 right-0 px-3 pb-2.5">
@@ -5051,14 +5361,14 @@ export default function AidAgentPage() {
         {/* ── Main ── */}
         <main
           className={`flex flex-1 flex-col min-w-0 min-h-0 transition-all duration-300 ${howItWorksActive === "guidance" ? "ring-1 ring-inset ring-emerald-500/25 shadow-[inset_0_0_40px_rgba(16,185,129,0.07)]" : ""}`}
-          style={{ background: "rgba(10,20,40,0.82)" }}
+          style={{ background: "rgba(14,28,62,0.62)", backdropFilter: "blur(24px)" }}
           aria-label="Genie AI Assistant"
         >
 
           {/* ── Header ── */}
           <header
             className="sticky top-0 z-50 shrink-0 border-b border-[#1E2A4A] backdrop-blur-xl"
-            style={{ background: "linear-gradient(135deg, rgba(10,20,40,0.98) 0%, rgba(13,26,50,0.99) 50%, rgba(10,20,40,0.98) 100%)" }}
+            style={{ background: "linear-gradient(135deg, rgba(14,28,62,0.94) 0%, rgba(18,34,70,0.96) 50%, rgba(14,28,62,0.94) 100%)", borderBottom: "1px solid rgba(255,255,255,0.08)" }}
           >
             <div className="relative px-3 py-1.5 flex items-center justify-between gap-2">
 
@@ -5100,7 +5410,7 @@ export default function AidAgentPage() {
                 <button
                   onClick={goHome}
                   title="Home"
-                  className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-[#C9A227]/65 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.12] hover:shadow-[0_0_10px_rgba(212,175,55,0.25)] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60 text-xs font-medium"
+                  className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-white hover:text-white hover:bg-white/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/40 text-xs font-medium"
                 >
                   <Home className="h-5 w-5" />
                   <span className="hidden sm:inline">Home</span>
@@ -5108,7 +5418,7 @@ export default function AidAgentPage() {
                 <button
                   onClick={() => setIsDark(!isDark)}
                   title={isDark ? "Switch to bright mode" : "Switch to dark mode"}
-                  className="p-1.5 rounded-lg text-[#C9A227]/65 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.12] hover:shadow-[0_0_10px_rgba(212,175,55,0.25)] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60"
+                  className="p-1.5 rounded-lg text-white hover:text-white hover:bg-white/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/40"
                 >
                   {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
                 </button>
@@ -5116,10 +5426,10 @@ export default function AidAgentPage() {
                   <Link
                     href="/account"
                     title={userEmail ?? "Your account"}
-                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#D4AF37]/[0.12] ring-1 ring-[#D4AF37]/[0.35] text-[#D4AF37] hover:bg-[#D4AF37]/[0.22] hover:text-white transition-colors text-xs font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]"
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white/[0.10] ring-1 ring-white/[0.25] text-white hover:bg-white/[0.18] hover:text-white transition-colors text-xs font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
                   >
                     <UserCircle className="h-5 w-5 shrink-0" />
-                    <span className="hidden sm:inline max-w-[72px] truncate text-[#00E5C0]">
+                    <span className="hidden sm:inline max-w-[72px] truncate text-white">
                       {userEmail ? userEmail.split("@")[0] : "Account"}
                     </span>
                   </Link>
@@ -5134,7 +5444,7 @@ export default function AidAgentPage() {
                     </button>
                     <Link
                       href="/account"
-                      className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-[#D4AF37]/[0.08] ring-1 ring-[#D4AF37]/[0.22] text-[#C9A227]/70 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.14] hover:shadow-[0_0_10px_rgba(212,175,55,0.20)] transition-all duration-150 text-xs font-semibold focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60"
+                      className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white/[0.08] ring-1 ring-white/[0.18] text-white hover:text-white hover:bg-white/[0.14] transition-all duration-150 text-xs font-semibold focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/40"
                     >
                       <UserCircle className="h-5 w-5 shrink-0" />
                       <span>Account</span>
@@ -5144,14 +5454,9 @@ export default function AidAgentPage() {
                 <button
                   onClick={() => setShowHistory(h => !h)}
                   title="View history"
-                  className="relative p-1.5 rounded-lg text-[#C9A227]/65 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.12] hover:shadow-[0_0_10px_rgba(212,175,55,0.25)] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60"
+                  className="p-1.5 rounded-lg text-white hover:text-white hover:bg-white/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/40"
                 >
                   <Clock className="h-5 w-5" />
-                  {history.length > 0 && (
-                    <span className="absolute -top-0.5 -right-0.5 min-w-[14px] h-3.5 px-0.5 rounded-full bg-sky-500 text-[8px] font-bold text-white flex items-center justify-center leading-none">
-                      {history.length > 99 ? "99+" : history.length}
-                    </span>
-                  )}
                 </button>
                 <button
                   onClick={() => { const next = !showMobileRight; setShowMobileRight(next); if (next) { resetRightTimer(); triggerOrbGold(); } }}
@@ -5164,7 +5469,7 @@ export default function AidAgentPage() {
                   <button
                     onClick={() => setMessages([])}
                     title="New chat"
-                    className="p-1.5 rounded-lg text-[#C9A227]/65 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.12] hover:shadow-[0_0_10px_rgba(212,175,55,0.25)] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60"
+                    className="p-1.5 rounded-lg text-white hover:text-white hover:bg-white/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/40"
                   >
                     <SquarePen className="h-5 w-5" />
                   </button>
@@ -5299,9 +5604,10 @@ export default function AidAgentPage() {
 
           {/* Messages / Welcome */}
           <div ref={scrollContainerRef} className={`flex-1 overflow-y-auto min-h-0 genie-scroll-main transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-active-panel" : ""}`} role="log" aria-live="polite" aria-label="Conversation" style={{ position: "relative", zIndex: 3 }}>
-            {messages.length === 0 ? (
+            {/* ── Dashboard — always rendered; hidden on mobile when chat is active ── */}
+            <div className={messages.length > 0 ? "hidden md:block" : undefined}>
 
-              /* ── Welcome state ── */
+              {/* ── Welcome state ── */}
               <div className="relative flex flex-col items-center px-1 py-4 sm:px-2 sm:py-6 genie-fade-in-up overflow-hidden">
 
                 {/* ── Shooting stars layer ── */}
@@ -5399,7 +5705,7 @@ export default function AidAgentPage() {
                           className={`block transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-guidance-headline" : ""}`}
                           style={howItWorksActive === "guidance" ? {} : { color: "#FFFFFF", textShadow: "0 0 80px rgba(255,255,255,0.20), 0 2px 40px rgba(255,255,255,0.10)" }}
                         >
-                          Student <span style={{ color: "#00D4FF", textShadow: "0 0 18px rgba(0,212,255,0.55)" }}>Aid</span>,
+                          Student Aid,
                         </span>
                         <span
                           className={`block transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-guidance-headline" : ""}`}
@@ -5409,7 +5715,7 @@ export default function AidAgentPage() {
                         </span>
                       </h2>
                       <p
-                        className="font-bold tracking-[-0.005em] leading-snug text-[#94A3B8]/70 text-center md:text-left"
+                        className="font-bold tracking-[-0.005em] leading-snug text-slate-200/95 text-center md:text-left"
                         style={{ fontSize: "clamp(0.9rem, 2vw, 1.1rem)" }}
                       >
                         Connecting families with financial aid offices — quickly and reliably.
@@ -5419,9 +5725,9 @@ export default function AidAgentPage() {
                     {/* ── Human story photo strip ── */}
                     <div className="flex gap-1.5 mb-3 rounded-xl overflow-hidden h-[130px]">
                       {[
-                        { src: "/images/strip-students.jpg",    pos: "object-[50%_22%]", label: "Students"    },
-                        { src: "/images/strip-families.jpg",    pos: "object-[50%_30%]", label: "Families & Offices" },
-                        { src: "/images/strip-professionals.jpg", pos: "object-[40%_25%]", label: "Professionals" },
+                        { src: "/images/strip-students.jpg",    pos: "object-[50%_20%]", label: "Students"    },
+                        { src: "/images/strip-families.jpg",    pos: "object-[50%_25%]", label: "Families & Offices" },
+                        { src: "/images/strip-professionals.jpg", pos: "object-[50%_30%]", label: "Professionals" },
                       ].map(({ src, pos, label }) => (
                         <div key={src} className="relative flex-1 overflow-hidden first:rounded-l-xl last:rounded-r-xl">
                           <img src={src} alt={label} className={`w-full h-full object-cover ${pos}`} />
@@ -5448,9 +5754,9 @@ export default function AidAgentPage() {
                     {/* How It Works */}
                     <div className="w-full flex-1 flex flex-col mb-3">
                       <div className="flex items-center gap-2 mb-3">
-                        <div className="h-px flex-1 bg-gradient-to-r from-transparent to-cyan-500/[0.15]" />
-                        <span className="text-xs font-bold uppercase tracking-[0.16em] text-cyan-400/60 px-2">How it works</span>
-                        <div className="h-px flex-1 bg-gradient-to-l from-transparent to-cyan-500/[0.15]" />
+                        <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/50" />
+                        <span className="text-xs font-bold uppercase tracking-[0.16em] text-white px-2">How it works</span>
+                        <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/50" />
                       </div>
                       <div className="flex-1 grid grid-cols-2 gap-3 auto-rows-fr">
                         {([
@@ -5465,10 +5771,10 @@ export default function AidAgentPage() {
                             onClick={() => { setHowItWorksActive(activeKey); triggerOrbGold(); if (activeKey === "panels") { setShowMobileLeft(true); setShowMobileRight(true); resetLeftTimer(); resetRightTimer(); } }}
                             className={`flex flex-col gap-2 p-4 rounded-2xl ${bg} ring-1 ${ring} text-left transition-all duration-200 hover:scale-[1.04] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 backdrop-blur-sm ${howItWorksActive === activeKey ? "hiw-active-ring brightness-125" : ""}`}
                             style={{
-                              background: `linear-gradient(145deg, rgba(13,26,50,0.90) 0%, rgba(13,26,50,0.70) 100%)`,
+                              background: `linear-gradient(145deg, rgba(20,40,80,0.88) 0%, rgba(14,28,58,0.75) 100%)`,
                               boxShadow: howItWorksActive === activeKey
-                                ? `0 0 0 1px rgba(212,175,55,0.45), 0 4px 20px ${glowColor}, 0 0 40px ${glowColor}, inset 0 1px 0 rgba(255,255,255,0.08)`
-                                : `0 2px 12px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.05)`,
+                                ? `0 0 0 1px rgba(212,175,55,0.55), 0 6px 24px ${glowColor}, 0 0 48px ${glowColor}, inset 0 1px 0 rgba(255,255,255,0.16), inset 0 -1px 0 rgba(0,0,0,0.20)`
+                                : `0 4px 16px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.12) inset, 0 -2px 0 rgba(0,0,0,0.25) inset`,
                             }}
                           >
                             <div className="flex items-center justify-between">
@@ -5490,7 +5796,7 @@ export default function AidAgentPage() {
                   <div ref={tipsRef} className={`w-full md:w-[54%] flex flex-col transition-all duration-300${howItWorksActive === "role" ? " ring-2 ring-violet-500/40 rounded-2xl p-1" : ""}`}>
 
                     {/* Slide container */}
-                    <div className="overflow-hidden rounded-2xl ring-1 ring-[#D4AF37]/[0.22]">
+                    <div className="overflow-hidden rounded-2xl">
                       <div className="genie-console-slider" style={{ transform: `translateX(${slideIndex * -33.333}%)` }}>
 
                         {/* Slide 2 — I am a… */}
@@ -5505,12 +5811,12 @@ export default function AidAgentPage() {
                             >
                               <ChevronLeft className="h-4 w-4" />
                             </button>
-                            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-violet-500/[0.20]" />
+                            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/50" />
                             <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#0D1A32] ring-1 ring-[#D4AF37]/[0.28] shadow-sm shadow-black/30 transition-all duration-200 ${howItWorksActive === "role" ? "shadow-violet-500/20" : ""}`}>
                               <Users className={`h-3.5 w-3.5 transition-colors ${howItWorksActive === "role" ? "text-violet-400" : "text-amber-400/80"}`} />
                               <span className={`text-xs font-bold tracking-[0.12em] uppercase transition-colors ${howItWorksActive === "role" ? "text-violet-400 drop-shadow-[0_0_8px_rgba(139,92,246,0.7)]" : "text-white/80"}`}>I am a…</span>
                             </div>
-                            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-violet-500/[0.20]" />
+                            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/50" />
                             <div className="flex items-center gap-1 shrink-0">
                               <button
                                 type="button"
@@ -5561,11 +5867,11 @@ export default function AidAgentPage() {
                                   key={role}
                                   onClick={() => syncRoles(role.replace(/s$/, "") as any)}
                                   className={`w-full flex flex-col items-center gap-1.5 px-1 py-2 rounded-xl text-xs font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] hover:scale-[1.05] active:scale-95 ${
-                                    isActive ? `${activeBg} ${activeColor} shadow-md ${activeGlow}` : "text-[#94A3B8]/70 hover:text-white/90 hover:bg-white/[0.06]"
+                                    isActive ? `${activeBg} ${activeColor} shadow-md ${activeGlow}` : "text-white/85 hover:text-white hover:bg-white/[0.06]"
                                   }`}
                                 >
                                   <div className={`w-full aspect-square rounded-full overflow-hidden ring-2 transition-all duration-200 shadow-md genie-role-icon ${
-                                    isActive ? `${activeRing} shadow-lg` : "ring-[#00D4FF]/25 hover:ring-[#00D4FF]/50"
+                                    isActive ? `${activeRing} shadow-lg` : "ring-white/30 hover:ring-white/55"
                                   }`}>
                                     <img src={photo} alt={label} className={`w-full h-full object-cover ${pos}`} />
                                   </div>
@@ -5577,17 +5883,17 @@ export default function AidAgentPage() {
 
                           {/* Quick Actions — Android-style icon grid (all items) */}
                           {activeActionItems.map(({ role, items, more }) => (
-                            <div key={role} className="grid grid-cols-4 gap-1.5 overflow-y-auto" style={{ maxHeight: "min(360px, 46dvh)" }}>
+                            <div key={role} className="grid grid-cols-4 gap-2">
                               {[...items, ...more].map(({ icon: Icon, label, q }) => (
                                 <button
                                   key={`${role}-${label}`}
                                   onClick={() => sendMessage(q)}
-                                  className="flex flex-col items-center gap-1.5 p-1.5 rounded-2xl hover:bg-sky-500/[0.10] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 hover:scale-[1.06] active:scale-95"
+                                  className="flex flex-col items-center gap-1.5 p-2 rounded-2xl hover:bg-sky-500/[0.10] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 hover:scale-[1.05] active:scale-95"
                                 >
-                                  <div className="w-12 h-12 rounded-[14px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-lg group-hover:bg-sky-500/20 group-hover:ring-sky-500/40 group-hover:shadow-[0_0_16px_rgba(56,189,248,0.28)] transition-all">
-                                    <Icon className="h-5 w-5 text-[#7B91B0] group-hover:text-sky-300 transition-colors" />
+                                  <div className="w-14 h-14 rounded-[16px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-lg group-hover:bg-sky-500/20 group-hover:ring-sky-500/40 group-hover:shadow-[0_0_16px_rgba(56,189,248,0.28)] transition-all">
+                                    <Icon className="h-6 w-6 text-white/75 group-hover:text-sky-300 transition-colors" />
                                   </div>
-                                  <span className="text-[9px] font-semibold text-[#8A9ABB]/75 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{label}</span>
+                                  <span className="text-[10px] font-semibold text-white/85 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{label}</span>
                                 </button>
                               ))}
                             </div>
@@ -5745,9 +6051,9 @@ export default function AidAgentPage() {
                                 className="flex flex-col items-center gap-1.5 p-1.5 rounded-2xl hover:bg-[#D4AF37]/[0.08] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] hover:scale-[1.06] active:scale-95"
                               >
                                 <div className={`w-12 h-12 rounded-[14px] ${bg} ring-1 ${ring} flex items-center justify-center shadow-lg group-hover:shadow-[0_0_16px_rgba(212,175,55,0.22)] transition-all`}>
-                                  <TopicIcon className={`h-5 w-5 ${color}`} />
+                                  <TopicIcon className="h-5 w-5 text-white" />
                                 </div>
-                                <span className="text-[8.5px] font-semibold text-[#8A9ABB]/70 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{topic}</span>
+                                <span className="text-[8.5px] font-semibold text-white/85 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{topic}</span>
                               </button>
                             ))}
                           </div>
@@ -5763,143 +6069,153 @@ export default function AidAgentPage() {
                 </div>{/* end z-[2] wrapper */}
               </div>
 
-            ) : (
+            </div>{/* end dashboard wrapper */}
 
-              /* ── Chat messages ── */
-              <div className="px-4 py-6 space-y-5 max-w-4xl mx-auto w-full">
-                {messages.map((msg) => (
-                  <div
-                    key={msg.id}
-                    className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-                  >
-                    {msg.role === "assistant" && (
-                      <div className="shrink-0 mt-1">
-                        <div className="p-1.5 rounded-xl bg-indigo-600 shadow-md shadow-indigo-900/40 ring-1 ring-indigo-500/30">
-                          <GenieBottle className="h-4 w-4 text-white genie-icon-shimmer" />
-                        </div>
-                      </div>
-                    )}
-
-                    <div
-                      className={`relative ${
-                        msg.role === "user"
-                          ? "max-w-[72%] text-white px-4 py-3 rounded-2xl rounded-tr-sm text-sm leading-relaxed ring-1 ring-indigo-500/30 bg-indigo-600 shadow-lg shadow-indigo-900/30"
-                          : "max-w-[82%] ring-1 ring-white/[0.10] px-5 py-4 rounded-2xl rounded-tl-sm bg-white/[0.05]"
-                      }`}
-                    >
-                      {msg.role === "user" ? (
-                        <div>
-                          {msg.senderRole && (() => {
-                            const opt = ROLE_OPTIONS.find(r => r.label === msg.senderRole);
-                            return (
-                              <span className={`inline-block text-[10px] font-bold uppercase tracking-widest mb-1.5 px-2 py-0.5 rounded-md ring-1 ${opt?.color ?? "text-white/50"} ${opt?.bg ?? "bg-white/10"} ${opt?.ring ?? "ring-white/20"}`}>
-                                {msg.senderRole}
-                              </span>
-                            );
-                          })()}
-                          {msg.attachedFileName && (
-                            <div className="flex items-center gap-1.5 mb-1.5 text-[10px] text-white/50">
-                              <Paperclip className="h-3 w-3 shrink-0" />
-                              <span className="truncate">{msg.attachedFileName}</span>
-                            </div>
-                          )}
-                          <p>{msg.content}</p>
-                        </div>
-                      ) : (
-                        <div className="relative">
-                          <div className="flex items-center gap-1.5 mb-2" aria-label="AI-generated response">
-                            <Sparkles className="h-3 w-3 text-indigo-400/60" aria-hidden="true" />
-                            <span className="text-[10px] font-medium text-white/30 tracking-wide">AI-generated · Always verify with official sources</span>
-                          </div>
-                          <StreamingContent
-                            content={msg.content}
-                            msgId={msg.id}
-                            streamingMsgId={streamingMsgId}
-                            isStreaming={isStreaming}
-                            className="prose-invert text-sm text-white/85 leading-relaxed"
-                          />
-                          {msg.id === streamingMsgId && isStreaming && (
-                            <span className="inline-block w-0.5 h-4 bg-indigo-400 animate-pulse ml-0.5 align-text-bottom rounded-full" />
-                          )}
-                          {msg.content && !isStreaming && (
-                            <div className="flex items-center gap-2 mt-2.5 pt-2 border-t border-white/[0.06]">
-                              <button
-                                onClick={() => speakMessage(msg.id, msg.content)}
-                                title={speakingMsgId === msg.id ? "Stop reading" : "Read aloud"}
-                                className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
-                                  speakingMsgId === msg.id
-                                    ? "bg-cyan-500/[0.18] text-cyan-300 ring-1 ring-cyan-500/40"
-                                    : "text-white/30 hover:text-cyan-300 hover:bg-cyan-500/[0.08]"
-                                }`}
-                              >
-                                {speakingMsgId === msg.id ? <VolumeX className="h-3 w-3" /> : <Volume2 className="h-3 w-3" />}
-                                {speakingMsgId === msg.id ? "Stop" : "Listen"}
-                              </button>
-                              {(() => {
-                                const isBookmarked = history.some(e => e.id === msg.id && e.bookmarked);
-                                return (
-                                  <button
-                                    onClick={() => { if (!isBookmarked) bookmarkEntry(msg.id, msg.content); }}
-                                    title={isBookmarked ? "Bookmarked — saved as PDF" : "Bookmark & save as PDF"}
-                                    className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 ${
-                                      isBookmarked
-                                        ? "text-amber-400 bg-amber-500/[0.10] ring-1 ring-amber-500/30 cursor-default"
-                                        : "text-white/30 hover:text-amber-300 hover:bg-amber-500/[0.08]"
-                                    }`}
-                                  >
-                                    {isBookmarked ? <BookmarkCheck className="h-3 w-3" /> : <Bookmark className="h-3 w-3" />}
-                                    {isBookmarked ? "Bookmarked" : "Bookmark"}
-                                  </button>
-                                );
-                              })()}
-                              <button
-                                onClick={() => printMessage(msg.content)}
-                                title="Print / Save as PDF"
-                                className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium text-white/30 hover:text-cyan-300 hover:bg-cyan-500/[0.08] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
-                              >
-                                <Printer className="h-3 w-3" />
-                                Print/View
-                              </button>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-
-                {/* Typing indicator */}
-                {isLoading && (
-                  <div className="flex gap-3 justify-start genie-fade-in-up">
-                    <div className="shrink-0 mt-1 p-1.5 rounded-xl bg-indigo-600 shadow-md ring-1 ring-indigo-500/30">
-                      <GenieBottle className="h-4 w-4 text-white genie-icon-shimmer" />
-                    </div>
-                    <div className="ring-1 ring-white/[0.10] px-5 py-4 rounded-2xl rounded-tl-sm bg-white/[0.05]">
-                      <div className="flex items-center gap-1.5">
-                        {[0, 1, 2].map((i) => (
-                          <span key={i} className="genie-typing-dot" />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
-
+            {/* ── Mobile chat messages — inline, shown only on mobile ── */}
+            {messages.length > 0 && (
+              <div className="md:hidden px-4 py-6 space-y-5 max-w-4xl mx-auto w-full">
+                {messageBubbles}
+                {typingIndicator}
                 <div ref={bottomRef} />
               </div>
             )}
           </div>
 
-          {/* Input area — always visible on all devices/sizes */}
-          <div className="shrink-0 relative bg-[#0A1428]/80 backdrop-blur-xl border-t border-[#1E2A4A] px-4 pt-3 pb-3" style={{ zIndex: 3 }}>
+          {/* ── Desktop Chat Overlay — centered glass panel floating over the dashboard ── */}
+          {messages.length > 0 && (
+            <div className="hidden md:flex fixed inset-0 z-[72] items-center justify-center pointer-events-none">
+              {/* Backdrop — click to close */}
+              <div
+                className="absolute inset-0 pointer-events-auto"
+                style={{ background: "rgba(2,8,21,0.52)", backdropFilter: "blur(5px)" }}
+                onClick={goHome}
+              />
+              {/* Floating panel */}
+              <div
+                className="relative pointer-events-auto flex flex-col rounded-2xl overflow-hidden"
+                style={{
+                  width: "min(740px, calc(100vw - 80px))",
+                  height: "78vh",
+                  background: "linear-gradient(160deg, rgba(6,14,34,0.97) 0%, rgba(8,18,42,0.96) 50%, rgba(6,14,34,0.97) 100%)",
+                  backdropFilter: "blur(28px)",
+                  border: "1px solid rgba(6,182,212,0.16)",
+                  boxShadow: "0 32px 80px rgba(0,0,0,0.75), 0 0 0 1px rgba(6,182,212,0.12), inset 0 1px 0 rgba(255,255,255,0.05)",
+                }}
+              >
+                {/* Panel header */}
+                <div className="shrink-0 flex items-center justify-between px-5 py-3 border-b border-white/[0.07]" style={{ background: "rgba(10,20,42,0.70)" }}>
+                  <div className="flex items-center gap-2.5">
+                    <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/25">
+                      <GenieBottle className="h-3.5 w-3.5 text-white genie-icon-shimmer" />
+                    </div>
+                    <span className="text-sm font-bold text-white tracking-tight">askGenie</span>
+                    <span className="text-xs text-white/30 font-medium">— Student Aid Hub</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={goHome}
+                      title="New chat"
+                      className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium text-white/30 hover:text-cyan-300 hover:bg-cyan-500/[0.10] transition-all duration-150"
+                    >
+                      <Home className="h-3.5 w-3.5" />
+                      Home
+                    </button>
+                    <button
+                      onClick={goHome}
+                      title="Close chat"
+                      className="p-1.5 rounded-lg text-white/35 hover:text-white hover:bg-white/[0.10] transition-all duration-150"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Messages scroll area */}
+                <div ref={desktopChatScrollRef} className="flex-1 overflow-y-auto min-h-0 genie-scroll-main px-5 py-5 space-y-5">
+                  {messageBubbles}
+                  {typingIndicator}
+                  <div ref={desktopBottomRef} />
+                </div>
+
+                {/* Input — desktop overlay version (textareaRef lives here) */}
+                <div className="shrink-0 relative border-t border-white/[0.07] px-4 pt-3 pb-3" style={{ background: "rgba(8,16,36,0.80)", backdropFilter: "blur(12px)" }}>
+                  <div className="pointer-events-none absolute inset-x-0 -top-6 h-16 bg-gradient-to-t from-cyan-500/[0.06] to-transparent" />
+                  <div className="relative w-full">
+                    <div className="flex items-center gap-2 mb-2 px-1">
+                      <GenieBottle className="h-3.5 w-3.5 text-amber-400 shrink-0 genie-icon-shimmer" />
+                      <span className="text-sm font-semibold tracking-wide">
+                        <span style={{ background: "linear-gradient(90deg, #FFFFFF 0%, #D8EEFF 20%, #FFFFFF 40%, #EAF5FF 60%, #FFFFFF 80%, #D0E8FF 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-white-shimmer 4s linear infinite" }}>askGenie</span>
+                      </span>
+                      <div className="h-px flex-1 bg-white/[0.06]" />
+                    </div>
+                    <div className={`flex items-center gap-1.5 flex-wrap mb-2.5 px-1 rounded-xl transition-all duration-300 ${howItWorksActive === "role" ? "hiw-active-shimmer py-1.5 -mx-1" : ""}`}>
+                      <span className="text-[10px] text-white font-semibold tracking-wide mr-0.5 shrink-0">I am a:</span>
+                      {ROLE_OPTIONS.map(({ label, icon: RoleIcon, color, ring, bg }) => (
+                        <button key={label} type="button" aria-pressed={selectedRole === label}
+                          onClick={() => { syncRoles(selectedRole === label ? null : label); if (selectedRole !== label) setSlideIndex(1); }}
+                          className={`flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ring-1 ${selectedRole === label ? `${color} ${bg} ${ring}` : "text-white/80 bg-transparent ring-white/[0.22] hover:text-white hover:bg-white/[0.10] hover:ring-white/50"}`}>
+                          <RoleIcon className="h-2.5 w-2.5 shrink-0" />{label}
+                        </button>
+                      ))}
+                      {selectedRole && (<button type="button" onClick={() => syncRoles(null)} className="text-[10px] text-white/50 hover:text-white/80 transition-colors ml-0.5">✕ clear</button>)}
+                    </div>
+                    {attachedFile && (
+                      <div className="flex items-center gap-2 px-3 py-2 mb-1.5 rounded-xl bg-indigo-500/20 ring-1 ring-indigo-500/30">
+                        {attachedFile.type === "image" ? <ImageIcon className="h-3.5 w-3.5 text-indigo-300 shrink-0" /> : attachedFile.type === "audio" ? <Mic className="h-3.5 w-3.5 text-rose-300 shrink-0" /> : <Paperclip className="h-3.5 w-3.5 text-indigo-300 shrink-0" />}
+                        <span className="text-xs text-white/80 flex-1 truncate">{attachedFile.name}</span>
+                        <button type="button" onClick={() => setAttachedFile(null)} className="text-white/35 hover:text-white transition-colors"><X className="h-3.5 w-3.5" /></button>
+                      </div>
+                    )}
+                    <div className={`rounded-2xl ring-1 focus-within:ring-white/75 transition-all duration-200 ${howItWorksActive === "guidance" ? "hiw-guidance-chatbox" : howItWorksActive === "chatbox" ? "hiw-active-ring" : (!input && !attachedFile ? "ring-white/35" : "ring-white/65")}`} style={{ background: "rgba(255,255,255,0.035)", boxShadow: "0 1px 0 rgba(255,255,255,0.06) inset" }}>
+                      <form onSubmit={handleSubmit} className="flex gap-2 items-end px-3 py-2.5">
+                        <div className="flex items-center gap-0.5 shrink-0 mb-0.5">
+                          <button type="button" title={canAccessFeature("document_upload", userTier) ? "Upload document" : "Pro — upload documents"} onClick={() => canAccessFeature("document_upload", userTier) ? fileInputRef.current?.click() : openUpgrade("document_upload")} className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-white hover:text-white hover:bg-white/[0.12] hover:shadow-[0_0_8px_rgba(255,255,255,0.25)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}><Paperclip className="h-4 w-4" /></button>
+                          <button type="button" title={canAccessFeature("document_upload", userTier) ? "Upload photo" : "Pro — upload photos"} onClick={() => canAccessFeature("document_upload", userTier) ? cameraInputRef.current?.click() : openUpgrade("document_upload")} className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-white hover:text-white hover:bg-white/[0.12] hover:shadow-[0_0_8px_rgba(255,255,255,0.25)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}><Camera className="h-4 w-4" /></button>
+                          <button type="button" title={!canAccessFeature("document_upload", userTier) ? "Pro — voice messages" : isRecording ? "Stop recording" : "Record voice message"} onClick={!canAccessFeature("document_upload", userTier) ? () => openUpgrade("document_upload") : isRecording ? stopVoiceRecording : startVoiceRecording} className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${isRecording ? "text-rose-400 bg-rose-500/20 ring-1 ring-rose-500/40 animate-pulse shadow-[0_0_12px_rgba(244,63,94,0.45)]" : canAccessFeature("document_upload", userTier) ? "text-white hover:text-white hover:bg-white/[0.12] hover:shadow-[0_0_8px_rgba(255,255,255,0.25)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>{isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}</button>
+                        </div>
+                        <div className="flex-1 relative">
+                          {isRecording && voiceTranscript && (<p className="absolute top-0 left-2 right-2 text-xs text-rose-300/80 italic pointer-events-none truncate">🎙 {voiceTranscript}</p>)}
+                          <textarea
+                            ref={textareaRef}
+                            value={input}
+                            onChange={handleInputChange}
+                            onKeyDown={handleKeyDown}
+                            aria-label="Ask Genie a financial aid question"
+                            placeholder={isRecording ? "🎙 Listening… speak your question…" : "Ask about FAFSA, aid offers, R2T4, SAP, or any student aid question…"}
+                            rows={1}
+                            className="w-full resize-none px-2 py-1.5 bg-transparent text-white text-sm placeholder:text-white/40 focus:outline-none leading-relaxed"
+                            style={{ minHeight: "40px", maxHeight: "160px" }}
+                          />
+                        </div>
+                        {isStreaming ? (
+                          <button type="button" onClick={stopStreaming} title="Stop generating" className="shrink-0 mb-0.5 flex items-center gap-1.5 px-3 py-2 rounded-xl text-rose-300 text-xs font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400" style={{ background: "rgba(244,63,94,0.14)", boxShadow: "0 0 0 1px rgba(244,63,94,0.30), 0 2px 10px rgba(244,63,94,0.20)" }}>
+                            <Square className="h-3.5 w-3.5 fill-current" />Stop
+                          </button>
+                        ) : (
+                          <button type="submit" disabled={(!input.trim() && !attachedFile) || isLoading} onClick={triggerOrbGold} className="shrink-0 mb-0.5 flex items-center gap-1.5 px-4 py-2 rounded-xl text-white text-xs font-bold tracking-wide active:scale-95 transition-all duration-150 disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-cyan-400" style={{ background: "linear-gradient(135deg, #00B8C8 0%, #00D1C9 50%, #0099B8 100%)", boxShadow: "0 0 0 1px rgba(0,209,201,0.50), 0 2px 16px rgba(0,209,201,0.40), 0 0 32px rgba(0,229,192,0.20), inset 0 1px 0 rgba(255,255,255,0.15)" }}>
+                            <GenieBottle className="h-4 w-4 text-amber-200 genie-send-icon" />Send
+                          </button>
+                        )}
+                      </form>
+                    </div>
+                    <p className="mt-1 text-[9px] text-cyan-400/25 text-center leading-snug">Enter ↵ to send · Shift+Enter new line · Unofficial guidance — verify with FSA Handbook</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Input area — always visible on mobile; on desktop only when no chat is active */}
+          <div className={`shrink-0 relative bg-[#0A1428]/80 backdrop-blur-xl border-t border-[#1E2A4A] px-4 pt-3 pb-3 ${messages.length > 0 ? "md:hidden" : ""}`} style={{ zIndex: 3 }}>
             {/* Ambient glow bloom behind chatbox */}
             <div className="pointer-events-none absolute inset-x-0 -top-6 h-16 bg-gradient-to-t from-cyan-500/[0.06] to-transparent" />
 
-            <div className="relative max-w-3xl mx-auto">
+            <div className="relative w-full">
               {/* Prompt label row */}
               <div className="flex items-center gap-2 mb-2 px-1">
                 <GenieBottle className="h-3.5 w-3.5 text-amber-400 shrink-0 genie-icon-shimmer" />
                 <span className="text-sm font-semibold tracking-wide">
-                  <span className="text-white">ask</span><span className="genie-shimmer-teal">Genie</span>
+                  <span style={{ background: "linear-gradient(90deg, #FFFFFF 0%, #D8EEFF 20%, #FFFFFF 40%, #EAF5FF 60%, #FFFFFF 80%, #D0E8FF 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-white-shimmer 4s linear infinite" }}>askGenie</span>
                 </span>
                 <div className="h-px flex-1 bg-white/[0.06]" />
                 {messages.length > 0 && (
@@ -5916,7 +6232,7 @@ export default function AidAgentPage() {
 
               {/* Role selector */}
               <div className={`flex items-center gap-1.5 flex-wrap mb-2.5 px-1 rounded-xl transition-all duration-300 ${howItWorksActive === "role" ? "hiw-active-shimmer py-1.5 -mx-1" : ""}`}>
-                <span className="text-[10px] text-cyan-400/55 font-semibold tracking-wide mr-0.5 shrink-0">I am a:</span>
+                <span className="text-[10px] text-white font-semibold tracking-wide mr-0.5 shrink-0">I am a:</span>
                 {ROLE_OPTIONS.map(({ label, icon: RoleIcon, color, ring, bg }) => (
                   <button
                     key={label}
@@ -5926,7 +6242,7 @@ export default function AidAgentPage() {
                     className={`flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ring-1 ${
                       selectedRole === label
                         ? `${color} ${bg} ${ring}`
-                        : "text-cyan-300/45 bg-transparent ring-cyan-500/[0.18] hover:text-cyan-200 hover:bg-cyan-500/[0.10] hover:ring-cyan-400/40"
+                        : "text-white/80 bg-transparent ring-white/[0.22] hover:text-white hover:bg-white/[0.10] hover:ring-white/50"
                     }`}
                     style={selectedRole === label ? {} : undefined}
                   >
@@ -5938,7 +6254,7 @@ export default function AidAgentPage() {
                   <button
                     type="button"
                     onClick={() => syncRoles(null)}
-                    className="text-[10px] text-cyan-400/35 hover:text-cyan-300/70 transition-colors ml-0.5"
+                    className="text-[10px] text-white/50 hover:text-white/80 transition-colors ml-0.5"
                   >
                     ✕ clear
                   </button>
@@ -5973,12 +6289,12 @@ export default function AidAgentPage() {
 
               {/* Input form */}
               <div
-                className={`rounded-2xl ring-1 focus-within:ring-[#00D4FF]/65 transition-all duration-200 ${howItWorksActive === "guidance" ? "hiw-guidance-chatbox" : howItWorksActive === "chatbox" ? "hiw-active-ring" : (!input && !attachedFile ? "genie-chatbox-invite ring-[#00D4FF]/[0.22]" : "ring-[#00D4FF]/50")}`}
+                className={`rounded-2xl ring-1 focus-within:ring-white/75 transition-all duration-200 ${howItWorksActive === "guidance" ? "hiw-guidance-chatbox" : howItWorksActive === "chatbox" ? "hiw-active-ring" : (!input && !attachedFile ? "ring-white/35" : "ring-white/65")}`}
                 style={{
-                  background: "rgba(0,212,255,0.022)",
+                  background: "rgba(255,255,255,0.035)",
                   boxShadow: howItWorksActive === "chatbox"
-                    ? "0 0 0 2px rgba(0,212,255,0.60), 0 0 40px rgba(0,212,255,0.28), 0 0 80px rgba(0,212,255,0.10), 0 1px 0 rgba(255,255,255,0.06) inset"
-                    : undefined,
+                    ? "0 0 0 2px rgba(255,255,255,0.60), 0 0 40px rgba(255,255,255,0.18), 0 0 80px rgba(255,255,255,0.08), 0 1px 0 rgba(255,255,255,0.10) inset"
+                    : "0 1px 0 rgba(255,255,255,0.06) inset",
                 }}
               >
                 <form
@@ -5989,12 +6305,12 @@ export default function AidAgentPage() {
                   <div className="flex items-center gap-0.5 shrink-0 mb-0.5">
                     <button type="button" title={canAccessFeature("document_upload", userTier) ? "Upload document (.pdf, .txt, .doc, .csv)" : "Pro — upload documents"}
                       onClick={() => canAccessFeature("document_upload", userTier) ? fileInputRef.current?.click() : openUpgrade("document_upload")}
-                      className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? (!input && !attachedFile ? "genie-tool-invite" : "text-cyan-400/55") + " hover:text-cyan-300 hover:bg-cyan-500/[0.18] hover:shadow-[0_0_8px_rgba(6,182,212,0.35)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
+                      className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-white hover:text-white hover:bg-white/[0.12] hover:shadow-[0_0_8px_rgba(255,255,255,0.25)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
                       <Paperclip className="h-4 w-4" />
                     </button>
                     <button type="button" title={canAccessFeature("document_upload", userTier) ? "Take or upload a photo for context" : "Pro — upload photos"}
                       onClick={() => canAccessFeature("document_upload", userTier) ? cameraInputRef.current?.click() : openUpgrade("document_upload")}
-                      className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? (!input && !attachedFile ? "genie-tool-invite" : "text-cyan-400/55") + " hover:text-cyan-300 hover:bg-cyan-500/[0.18] hover:shadow-[0_0_8px_rgba(6,182,212,0.35)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
+                      className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-white hover:text-white hover:bg-white/[0.12] hover:shadow-[0_0_8px_rgba(255,255,255,0.25)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
                       <Camera className="h-4 w-4" />
                     </button>
                     <button type="button"
@@ -6004,7 +6320,7 @@ export default function AidAgentPage() {
                         isRecording
                           ? "text-rose-400 bg-rose-500/20 ring-1 ring-rose-500/40 animate-pulse shadow-[0_0_12px_rgba(244,63,94,0.45)]"
                           : canAccessFeature("document_upload", userTier)
-                          ? (!input && !attachedFile ? "genie-tool-invite" : "text-cyan-400/55") + " hover:text-cyan-300 hover:bg-cyan-500/[0.18] hover:shadow-[0_0_8px_rgba(6,182,212,0.35)]"
+                          ? "text-white hover:text-white hover:bg-white/[0.12] hover:shadow-[0_0_8px_rgba(255,255,255,0.25)]"
                           : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"
                       }`}>
                       {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
@@ -6024,7 +6340,7 @@ export default function AidAgentPage() {
                       aria-label="Ask Genie a financial aid question"
                       placeholder={isRecording ? "🎙 Listening… speak your question…" : "Ask about FAFSA, aid offers, R2T4, SAP, or any student aid question…"}
                       rows={1}
-                      className="w-full resize-none px-2 py-1.5 bg-transparent text-white text-sm placeholder:text-cyan-200/22 focus:outline-none leading-relaxed"
+                      className="w-full resize-none px-2 py-1.5 bg-transparent text-white text-sm placeholder:text-white/40 focus:outline-none leading-relaxed"
                       style={{ minHeight: "40px", maxHeight: "160px" }}
                     />
                   </div>
@@ -6071,16 +6387,16 @@ export default function AidAgentPage() {
           <div className="shrink-0 border-t border-[#0F1E3A] px-4 py-2" style={{ background: "rgba(4,10,26,0.97)", zIndex: 3 }}>
             <div className="flex flex-wrap justify-center items-center gap-x-0 gap-y-0.5 mb-0.5">
               {[
-                { label: "Plans & Pricing",     href: "/pricing",      cls: "font-semibold text-[#C9A227]/80 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.10] ring-1 ring-[#D4AF37]/[0.25] hover:ring-[#D4AF37]/45" },
-                { label: "Get the App",         href: "#install",      cls: "font-semibold text-emerald-400/80 hover:text-emerald-300 hover:bg-emerald-500/[0.12] ring-1 ring-emerald-500/[0.28] hover:ring-emerald-400/50" },
-                { label: "FAQ",                 href: "/pricing#faq",  cls: "font-medium text-white/35 hover:text-cyan-200/80 hover:bg-white/[0.06]" },
-                { label: "Support Dev",         href: "/support",      cls: "font-medium text-white/35 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
-                { label: "@one27__",            href: "https://x.com/one27__", cls: "font-semibold text-[#C9A227]/80 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.08] ring-1 ring-[#D4AF37]/20 hover:ring-[#D4AF37]/40" },
-                { label: "Terms & Privacy",     href: "/legal",        cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
-                { label: "School DPA",          href: "/dpa",          cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
-                { label: "About",               href: "/about",        cls: "font-medium text-white/30 hover:text-cyan-200/80 hover:bg-cyan-500/[0.08]" },
-                { label: "For Schools",         href: "/institutions", cls: "font-semibold text-cyan-400/75 hover:text-cyan-300 hover:bg-cyan-500/[0.12] ring-1 ring-cyan-500/[0.20] hover:ring-cyan-400/40" },
-                { label: "Do Not Sell My Info", href: "/legal#ccpa",   cls: "font-medium text-white/25 hover:text-cyan-200/60 hover:bg-cyan-500/[0.06]" },
+                { label: "Plans & Pricing",     href: "/pricing",      cls: "font-semibold text-white hover:text-white hover:bg-white/[0.08]" },
+                { label: "Get the App",         href: "#install",      cls: "font-semibold text-white hover:text-white hover:bg-white/[0.08]" },
+                { label: "FAQ",                 href: "/pricing#faq",  cls: "font-medium text-white hover:text-white hover:bg-white/[0.06]" },
+                { label: "Support Dev",         href: "/support",      cls: "font-medium text-white hover:text-white hover:bg-white/[0.08]" },
+                { label: "@one27__",            href: "https://x.com/one27__", cls: "font-semibold text-white hover:text-white hover:bg-white/[0.08]" },
+                { label: "Terms & Privacy",     href: "/legal",        cls: "font-medium text-white hover:text-white hover:bg-white/[0.08]" },
+                { label: "School DPA",          href: "/dpa",          cls: "font-medium text-white hover:text-white hover:bg-white/[0.08]" },
+                { label: "About",               href: "/about",        cls: "font-medium text-white hover:text-white hover:bg-white/[0.08]" },
+                { label: "For Schools",         href: "/institutions", cls: "font-semibold text-white hover:text-white hover:bg-white/[0.08]" },
+                { label: "Do Not Sell My Info", href: "/legal#ccpa",   cls: "font-medium text-white hover:text-white hover:bg-white/[0.06]" },
               ].map(({ label, href, cls }, i, arr) => (
                 <span key={label} className="contents">
                   {href === "#install"
@@ -6101,7 +6417,7 @@ export default function AidAgentPage() {
         {/* ── Right Dropdown — Administrators, Leaders & Auditors ── */}
         <aside
           className={`${showMobileRight ? "flex" : "hidden"} fixed z-[60] flex-col rounded-2xl overflow-hidden border border-violet-500/[0.15] shadow-2xl shadow-black/70 backdrop-blur-2xl`}
-          style={{ top: "84px", right: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(8,14,38,0.62) 0%, rgba(10,16,44,0.58) 50%, rgba(7,12,36,0.62) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.70), 0 0 0 1px rgba(139,92,246,0.20), inset 0 1px 0 rgba(255,255,255,0.06)" }}
+          style={{ top: "84px", right: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(14,30,65,0.72) 0%, rgba(18,36,75,0.68) 50%, rgba(12,26,58,0.72) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.10), inset 0 1px 0 rgba(255,255,255,0.10)" }}
         >
           {howItWorksActive === "panels" && <div className="hiw-scan-overlay" aria-hidden="true" />}
 
@@ -6113,7 +6429,7 @@ export default function AidAgentPage() {
               </div>
               <div>
                 <p className="text-[11px] font-bold text-white/50 uppercase tracking-widest">Student Aid Hub</p>
-                <p className="text-lg font-black tracking-tight leading-none whitespace-nowrap select-none" style={{ background: "linear-gradient(90deg, #FFFFFF 0%, #D8EEFF 20%, #FFFFFF 40%, #EAF5FF 60%, #FFFFFF 80%, #D0E8FF 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-white-shimmer 4s linear infinite" }}>Administrators, Leaders &amp; Compliance/Auditors</p>
+                <p className="font-black tracking-tight leading-none select-none" style={{ fontSize: "clamp(0.95rem, 3.5vw, 1.125rem)", background: "linear-gradient(90deg, #FFFFFF 0%, #D8EEFF 20%, #FFFFFF 40%, #EAF5FF 60%, #FFFFFF 80%, #D0E8FF 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-white-shimmer 4s linear infinite" }}>Admin, Leaders &amp; Compliance</p>
               </div>
             </div>
             <button onClick={() => setShowMobileRight(false)} className="p-2 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-all">
@@ -6128,24 +6444,30 @@ export default function AidAgentPage() {
               {/* Section icon grid */}
               <div className="grid grid-cols-2 gap-2">
                 {([
-                  { key: "rc-adm-qa",       label: "Admin Actions",    img: "/images/sec-admin.jpg",              pos: "object-[50%_14%]" },
-                  { key: "rc-lea-qa",       label: "Leader Actions",   img: "/images/sec-leaders.jpg",            pos: "object-[50%_18%]" },
-                  { key: "rc-aud-qa",       label: "Compliance QA",    img: "/images/sec-compliance.jpg",         pos: "object-[50%_45%]" },
-                  { key: "rc-fa-adm",       label: "Admin Resources",  img: "/images/sec-admin-advisors.jpg",     pos: "object-[50%_22%]" },
-                  { key: "rc-lac",          label: "Compliance",       img: "/images/sec-leaders-compliance.jpg", pos: "object-[50%_18%]" },
-                  { key: "rc-loan-portals", label: "Loan Portals",     img: "/images/sec-loan-portals.jpg",       pos: "object-[50%_20%]" },
-                  { key: "rc-hw",           label: "Health & Wellness", img: "/images/sec-wellness.jpg",          pos: "object-[50%_12%]" },
-                  { key: "rc-va",           label: "VA Resources",     img: "/images/sec-va-right.jpg",           pos: "object-[50%_18%]" },
-                  { key: "rc-mh-admin",     label: "Mental Health",    img: "/images/sec-mh-pro.jpg",             pos: "object-[50%_14%]" },
-                  { key: "rc-vol-admin",    label: "Volunteer",        img: "/images/sec-volunteer-right.jpg",    pos: "object-[50%_18%]" },
-                ] as const).map(({ key, label, img, pos }) => (
+                  { key: "rc-adm-qa",       label: "Admin Actions",    img: "/images/sec-admin.jpg",              pos: "object-[50%_14%]", Icon: ClipboardList },
+                  { key: "rc-lea-qa",       label: "Leader Actions",   img: "/images/sec-leaders.jpg",            pos: "object-[50%_18%]", Icon: Users },
+                  { key: "rc-aud-qa",       label: "Compliance QA",    img: "/images/sec-compliance.jpg",         pos: "object-[50%_45%]", Icon: ShieldCheck },
+                  { key: "rc-fa-adm",       label: "Admin Resources",  img: "/images/sec-admin-advisors.jpg",     pos: "object-[50%_22%]", Icon: BookOpen },
+                  { key: "rc-lac",          label: "Compliance",       img: "/images/sec-leaders-compliance.jpg", pos: "object-[50%_18%]", Icon: Scale },
+                  { key: "rc-loan-portals", label: "Loan Portals",     img: "/images/sec-loan-portals.jpg",       pos: "object-[50%_20%]", Icon: DollarSign },
+                  { key: "rc-hw",           label: "Health & Wellness", img: "/images/sec-wellness.jpg",          pos: "object-[50%_12%]", Icon: Sparkles },
+                  { key: "rc-va",           label: "VA Resources",     img: "/images/sec-va-right.jpg",           pos: "object-[50%_18%]", Icon: ShieldCheck },
+                  { key: "rc-mh-admin",     label: "Mental Health",    img: "/images/mental.jpg",                 pos: "object-[50%_14%]", Icon: Sparkles },
+                  { key: "rc-vol-admin",    label: "Volunteer",        img: "/images/sec-volunteer-right.jpg",    pos: "object-[50%_18%]", Icon: Users },
+                  { key: "rc-faith",        label: "Faith & Spirit",   img: "/images/sec-faith-admin.jpg",         pos: "object-[50%_30%]", Icon: Star },
+                  { key: "rc-research",     label: "Research & Policy", img: "/images/sec-research-admin.jpg",      pos: "object-[50%_22%]", Icon: BookOpen },
+                  { key: "rc-indep",        label: "Independent Resources", img: "/images/sec-indep-admin.jpg",    pos: "object-[50%_30%]", Icon: Gavel },
+                ]).map(({ key, label, img, pos, Icon }) => (
                   <button
                     key={key}
                     onClick={() => setOverlaySection(key)}
                     className="relative group cursor-pointer overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4FF]/60 shadow-md shadow-black/40 hover:scale-[1.02] active:scale-[0.97] transition-all duration-200"
                     style={{ aspectRatio: "1.6 / 1" }}
                   >
-                    <img src={img} alt="" className={`w-full h-full object-cover ${pos}`} />
+                    <img src={img} alt="" className={`w-full h-full object-cover ${pos}`} onError={(e) => { e.currentTarget.style.display = "none"; const fb = e.currentTarget.nextElementSibling as HTMLElement | null; if (fb) fb.style.display = "flex"; }} />
+                    <div style={{ display: "none" }} className="absolute inset-0 items-center justify-center bg-gradient-to-br from-indigo-900/80 via-slate-900/90 to-[#04091A]">
+                      {Icon && <Icon className="h-9 w-9 text-indigo-300/60" />}
+                    </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-[#04091A]/95 via-[#04091A]/45 to-transparent group-hover:from-[#04091A]/80 transition-all duration-200" />
                     <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/[0.08] group-hover:ring-[#00D4FF]/40 transition-all duration-200" />
                     <div className="absolute bottom-0 left-0 right-0 px-3 pb-2.5">
@@ -6241,6 +6563,11 @@ export default function AidAgentPage() {
                 "rc-va":          { title: "VA Resources",                          banner: "/images/banner-ov-admin.jpg",         bannerPos: "50% 30%" },
                 "rc-mh-admin":    { title: "Mental Health — Professional Wellness", banner: "/images/banner-ov-contemplative.jpg", bannerPos: "50% 25%" },
                 "rc-vol-admin":   { title: "Volunteer & Community Service",         banner: "/images/banner-ov-student.jpg",       bannerPos: "50% 30%" },
+                "rc-faith":      { title: "Faith, Spirit & Wellness",              banner: "/images/banner-ov-contemplative.jpg", bannerPos: "50% 28%" },
+                "lc-research":   { title: "Research & Peer-Reviewed Journals",     banner: "/images/banner-ov-night.jpg",         bannerPos: "50% 20%" },
+                "lc-indep":      { title: "Validated Independent Resources",       banner: "/images/banner-ov-editor.jpg",        bannerPos: "50% 30%" },
+                "rc-research":   { title: "Research, Policy & Journals",           banner: "/images/banner-ov-admin.jpg",         bannerPos: "50% 25%" },
+                "rc-indep":      { title: "Validated Independent Resources",       banner: "/images/banner-ov-leader.jpg",        bannerPos: "50% 28%" },
               };
               const sec = overlaySection!;
               const meta = OVERLAY_META[sec] ?? { title: sec, banner: "/images/banner-ov-admin.jpg", bannerPos: "50% 30%" };
@@ -6249,7 +6576,7 @@ export default function AidAgentPage() {
                   <img src={meta.banner} alt="" className="w-full h-full object-cover" style={{ objectPosition: meta.bannerPos }} />
                   <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(6,12,28,0.35) 0%, rgba(6,12,28,0.88) 100%)" }} />
                   <div className="absolute inset-0 flex items-end justify-between px-5 pb-3.5">
-                    <h2 className="text-sm font-black tracking-tight" style={{ background: "linear-gradient(90deg,#00B8D4 0%,#00E5C0 18%,#7FFFEA 34%,#00D4FF 50%,#00E5C0 66%,#7FFFEA 82%,#00B8D4 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-teal-shimmer 3s linear infinite" }}>
+                    <h2 className="text-sm font-black tracking-tight text-white">
                       {meta.title}
                     </h2>
                     <button onClick={() => setOverlaySection(null)} className="p-1.5 rounded-lg text-white/50 hover:text-white hover:bg-white/[0.12] transition-all">
@@ -6307,11 +6634,16 @@ export default function AidAgentPage() {
                     {links.map(({ name, url }: LinkItem) => {
                       const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
                       const iconUrl = `https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${encodeURIComponent(url)}&size=256`;
+                      const [g1, g2] = getSiteGradient(hostname);
+                      const SiteIco = getSiteIcon(url) as any;
                       return (
                         <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                           className="flex flex-col items-center gap-1.5 p-2.5 rounded-2xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95 group-hover:shadow-[0_0_18px_rgba(0,212,255,0.15)]">
-                          <div className="w-16 h-16 rounded-[18px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-sky-500/40 group-hover:shadow-[0_0_16px_rgba(0,212,255,0.20)] transition-all">
-                            <img src={iconUrl} width="48" height="48" alt="" className="w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity" onError={(e) => { (e.target as HTMLImageElement).src = `https://www.google.com/s2/favicons?domain=${hostname}&sz=64`; }} />
+                          <div className="w-16 h-16 rounded-[18px] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-sky-500/40 group-hover:shadow-[0_0_16px_rgba(0,212,255,0.20)] transition-all" style={{ background: "#0D1A32" }}>
+                            <img src={iconUrl} width="48" height="48" alt="" className="w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity" onError={(e) => { e.currentTarget.style.display = "none"; const fb = e.currentTarget.nextElementSibling as HTMLElement | null; if (fb) fb.style.display = "flex"; }} />
+                            <div style={{ display: "none", background: `linear-gradient(135deg, ${g1}, ${g2})` }} className="w-full h-full items-center justify-center shrink-0">
+                              <SiteIco className="h-7 w-7 text-white/90" />
+                            </div>
                           </div>
                           <span className="text-[9px] font-semibold text-[#8A9ABB]/70 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
                           <span className="text-[8px] text-[#5A7090]/60 group-hover:text-sky-400/60 text-center leading-tight transition-colors line-clamp-1 w-full px-0.5">{hostname.replace(/^www\./, "")}</span>
@@ -6323,7 +6655,7 @@ export default function AidAgentPage() {
               })()}
 
               {/* === Subcategorized link sections — banner + favicon icon grid === */}
-              {["lc-resume", "lc-schol", "lc-intern", "lc-jobs", "lc-finlit", "lc-loans", "lc-consumer", "lc-mental", "lc-ai", "lc-faith", "lc-vol", "rc-va", "lc-va"].includes(overlaySection!) && (() => {
+              {["lc-resume", "lc-schol", "lc-intern", "lc-jobs", "lc-finlit", "lc-loans", "lc-consumer", "lc-mental", "lc-ai", "lc-faith", "rc-faith", "lc-vol", "rc-va", "lc-va", "lc-research", "lc-indep", "rc-research", "rc-indep"].includes(overlaySection!) && (() => {
                 const rawMap: Record<string, MaybeSubcat[]> = {
                   "lc-resume": [...RESUME_ASSISTANCE, ...RESUME_ASSISTANCE_MORE],
                   "lc-schol":  ([{ subcat: "All" }, ...SCHOLARSHIP_ENGINES, ...SCHOLARSHIP_ENGINES_MORE] as MaybeSubcat[]),
@@ -6335,9 +6667,14 @@ export default function AidAgentPage() {
                   "lc-mental": [...MENTAL_HEALTH_STUDENT, ...MENTAL_HEALTH_STUDENT_MORE],
                   "lc-ai":     [...AI_LITERACY, ...AI_LITERACY_MORE],
                   "lc-faith":  [...RELIGION_FAITH_PHILOSOPHY, ...RELIGION_FAITH_PHILOSOPHY_MORE],
+                  "rc-faith":  [...RELIGION_FAITH_PHILOSOPHY, ...RELIGION_FAITH_PHILOSOPHY_MORE],
                   "lc-vol":    VOLUNTEER_RESOURCES,
                   "rc-va":     VA_RESOURCES,
                   "lc-va":     VA_RESOURCES,
+                  "lc-research": RESEARCH_JOURNALS,
+                  "lc-indep":    INDEPENDENT_RESOURCES_STUDENT,
+                  "rc-research": RESEARCH_JOURNALS_ADMIN,
+                  "rc-indep":    INDEPENDENT_RESOURCES_ADMIN,
                 };
                 const raw = rawMap[overlaySection!] ?? [];
                 const sections = parseSections(raw);
@@ -6358,11 +6695,16 @@ export default function AidAgentPage() {
                           {links.map(({ name, url }) => {
                             const hostname = (() => { try { return new URL(url).hostname; } catch { return ""; } })();
                             const iconUrl = `https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${encodeURIComponent(url)}&size=256`;
+                            const [g1, g2] = getSiteGradient(hostname);
+                            const SiteIco = getSiteIcon(url) as any;
                             return (
                               <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                                 className="flex flex-col items-center gap-1.5 p-2.5 rounded-2xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
-                                <div className="w-16 h-16 rounded-[18px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-sky-500/40 group-hover:shadow-[0_0_16px_rgba(0,212,255,0.20)] transition-all">
-                                  <img src={iconUrl} width="48" height="48" alt="" className="w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity" onError={(e) => { (e.target as HTMLImageElement).src = `https://www.google.com/s2/favicons?domain=${hostname}&sz=64`; }} />
+                                <div className="w-16 h-16 rounded-[18px] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-sky-500/40 group-hover:shadow-[0_0_16px_rgba(0,212,255,0.20)] transition-all" style={{ background: "#0D1A32" }}>
+                                  <img src={iconUrl} width="48" height="48" alt="" className="w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity" onError={(e) => { e.currentTarget.style.display = "none"; const fb = e.currentTarget.nextElementSibling as HTMLElement | null; if (fb) fb.style.display = "flex"; }} />
+                                  <div style={{ display: "none", background: `linear-gradient(135deg, ${g1}, ${g2})` }} className="w-full h-full items-center justify-center shrink-0">
+                                    <SiteIco className="h-7 w-7 text-white/90" />
+                                  </div>
                                 </div>
                                 <span className="text-[9px] font-semibold text-[#8A9ABB]/70 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
                                 <span className="text-[8px] text-[#5A7090]/60 group-hover:text-sky-400/60 text-center leading-tight transition-colors line-clamp-1 w-full px-0.5">{hostname.replace(/^www\./, "")}</span>
@@ -6426,31 +6768,79 @@ export default function AidAgentPage() {
 
             {/* Filter tabs */}
             <div className="shrink-0 flex items-center gap-1 px-4 py-2.5 border-b border-white/[0.05]">
-              {(["all", "bookmarked"] as const).map(tab => (
+              {(["all", "bookmarked", "pdfs"] as const).map(tab => (
                 <button
                   key={tab}
-                  onClick={() => setHistoryFilter(tab)}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold transition-all ${
+                  onClick={() => { setHistoryFilter(tab); setHistoryDeleteMode(false); setShowClearConfirm(false); }}
+                  className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[11px] font-semibold transition-all ${
                     historyFilter === tab
-                      ? tab === "bookmarked" ? "bg-amber-500/[0.18] text-amber-300 ring-1 ring-amber-500/30" : "bg-sky-500/[0.18] text-sky-300 ring-1 ring-sky-500/30"
+                      ? tab === "bookmarked" ? "bg-amber-500/[0.18] text-amber-300 ring-1 ring-amber-500/30"
+                        : tab === "pdfs" ? "bg-emerald-500/[0.18] text-emerald-300 ring-1 ring-emerald-500/30"
+                        : "bg-sky-500/[0.18] text-sky-300 ring-1 ring-sky-500/30"
                       : "text-white/35 hover:text-white/70 hover:bg-white/[0.06]"
                   }`}
                 >
                   {tab === "bookmarked" && <Star className="h-3 w-3" />}
-                  {tab === "all" ? "All" : "Bookmarked"}
+                  {tab === "pdfs" && <FileText className="h-3 w-3" />}
+                  {tab === "all" ? "All" : tab === "bookmarked" ? "Bookmarked" : "Saved PDFs"}
                   {tab === "bookmarked" && <span className="ml-0.5">{history.filter(e => e.bookmarked).length}</span>}
+                  {tab === "pdfs" && savedPdfs.length > 0 && <span className="ml-0.5">{savedPdfs.length}</span>}
                 </button>
               ))}
-              {history.length > 0 && (
-                <button onClick={clearAllHistory} className="ml-auto flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-medium text-white/25 hover:text-rose-400 hover:bg-rose-500/[0.08] transition-all">
-                  <Trash2 className="h-3 w-3" />Clear all
+              {historyFilter !== "pdfs" && history.length > 0 && !historyDeleteMode && (
+                <button onClick={() => setHistoryDeleteMode(true)} className="ml-auto flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-medium text-white/25 hover:text-white/60 hover:bg-white/[0.06] transition-all">
+                  <Trash2 className="h-3 w-3" />Select
                 </button>
+              )}
+              {historyDeleteMode && !showClearConfirm && (
+                <div className="ml-auto flex items-center gap-1">
+                  <button onClick={() => { setHistoryDeleteMode(false); setShowClearConfirm(false); }} className="px-2 py-1 rounded-lg text-[10px] font-medium text-white/40 hover:text-white/70 hover:bg-white/[0.06] transition-all">Cancel</button>
+                  <button onClick={() => setShowClearConfirm(true)} className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-medium text-rose-400/80 hover:text-rose-300 hover:bg-rose-500/[0.10] ring-1 ring-rose-500/25 transition-all">
+                    <Trash2 className="h-3 w-3" />Clear all
+                  </button>
+                </div>
+              )}
+              {showClearConfirm && (
+                <div className="ml-auto flex items-center gap-1">
+                  <span className="text-[10px] text-white/50 mr-1">Delete all history?</span>
+                  <button onClick={() => setShowClearConfirm(false)} className="px-2 py-1 rounded-lg text-[10px] font-medium text-white/40 hover:text-white/70 hover:bg-white/[0.06] transition-all">No</button>
+                  <button onClick={clearAllHistory} className="px-2 py-1 rounded-lg text-[10px] font-bold text-white bg-rose-600 hover:bg-rose-500 transition-all">Yes, delete</button>
+                </div>
               )}
             </div>
 
             {/* Entries */}
             <div className="flex-1 overflow-y-auto genie-scroll py-2">
-              {(() => {
+              {historyFilter === "pdfs" ? (
+                savedPdfs.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center gap-3 h-full px-6 py-16 text-center">
+                    <FileText className="h-8 w-8 text-white/15" />
+                    <p className="text-sm text-white/30">No saved PDFs yet.<br/>Click <strong className="text-cyan-400/70">PDF</strong> on any response to save it here.</p>
+                  </div>
+                ) : (
+                  <div className="px-2 pt-2 space-y-1">
+                    {savedPdfs.map((pdf, i) => (
+                      <div key={pdf.id} className="mx-0 mb-1 rounded-xl overflow-hidden ring-1 ring-white/[0.06] hover:ring-white/[0.12] transition-all flex items-start gap-2 px-3.5 py-2.5" style={{ background: "rgba(10,20,44,0.60)" }}>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5 mb-0.5">
+                            <FileText className="h-3 w-3 text-emerald-400/70 shrink-0" />
+                            {pdf.role && <span className="px-1.5 py-0.5 rounded-full text-[9px] font-bold" style={{ background: "rgba(0,180,220,0.15)", color: "rgba(0,212,255,0.85)" }}>{pdf.role}</span>}
+                            <span className="text-[9px] text-white/20 ml-auto shrink-0">{new Date(pdf.ts).toLocaleDateString("en-US", { month: "short", day: "numeric" })}</span>
+                          </div>
+                          <p className="text-xs text-white/65 leading-snug line-clamp-2">{pdf.prompt}</p>
+                        </div>
+                        <button
+                          onClick={() => setSavedPdfs(prev => { const updated = prev.filter(p => p.id !== pdf.id); savePdfs(updated); return updated; })}
+                          className="shrink-0 p-1 rounded-lg text-white/20 hover:text-rose-400 hover:bg-rose-500/[0.08] transition-all mt-0.5"
+                          title="Remove from saved PDFs"
+                        >
+                          <X className="h-3 w-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )
+              ) : (() => {
                 const filtered = historyFilter === "bookmarked" ? history.filter(e => e.bookmarked) : history;
                 if (filtered.length === 0) return (
                   <div className="flex flex-col items-center justify-center gap-3 h-full px-6 py-16 text-center">
@@ -6499,7 +6889,7 @@ export default function AidAgentPage() {
                                 {entry.bookmarked ? "Bookmarked" : "Bookmark"}
                               </button>
                               <button
-                                onClick={() => printMessage(entry.response)}
+                                onClick={() => printMessage(entry.response, entry.prompt)}
                                 className="flex items-center gap-1 px-2 py-1 rounded-lg text-[10px] font-medium text-white/30 hover:text-cyan-300 hover:bg-cyan-500/[0.08] transition-all"
                               >
                                 <Printer className="h-3 w-3" />PDF
