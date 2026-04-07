@@ -3730,70 +3730,13 @@ function EducationalBackground({ isDark = true, guidanceActive = false }: { isDa
     );
   }
 
-  // Dark mode — wood tabletop base with deep navy overlay
+  // Dark mode — teal table wallpaper, fully visible, no overlay
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
-      {/* Wood tabletop photo — subtle texture base */}
-      <img src="/images/bg-wood.jpg" alt="" className="absolute inset-0 w-full h-full object-cover object-center" />
-
-      {/* Minimal tint — keep warm wood tones; panels/main provide their own dark overlay */}
-      <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, rgba(8,16,36,0.20) 0%, rgba(12,22,46,0.18) 35%, rgba(10,18,40,0.20) 65%, rgba(7,14,32,0.22) 100%)" }} />
-
-      {/* Bright center bloom — lifts the overall feel */}
-      <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 80% 60% at 50% 45%, rgba(56,100,200,0.15) 0%, rgba(30,60,140,0.08) 50%, transparent 75%)" }} />
-
-      {/* Animated atmospheric orbs — more vibrant */}
-      <div
-        className="genie-orb absolute -top-64 -left-64 w-[900px] h-[900px] rounded-full blur-[140px]"
-        style={{ background: "radial-gradient(circle, rgba(99,102,241,0.22) 0%, rgba(79,70,229,0.10) 50%, transparent 70%)", "--orb-dur": "16s" } as React.CSSProperties}
-      />
-      <div
-        className="genie-orb absolute bottom-0 right-0 w-[700px] h-[700px] rounded-full blur-[120px]"
-        style={{ background: "radial-gradient(circle, rgba(79,70,229,0.18) 0%, rgba(99,102,241,0.08) 50%, transparent 70%)", "--orb-dur": "20s" } as React.CSSProperties}
-      />
-      <div
-        className="genie-orb absolute top-1/3 right-1/4 w-[500px] h-[500px] rounded-full blur-[100px]"
-        style={{ background: "radial-gradient(circle, rgba(59,130,246,0.16) 0%, transparent 65%)", "--orb-dur": "24s" } as React.CSSProperties}
-      />
-      {/* Warm gold accent orbs */}
-      <div
-        className="genie-orb absolute bottom-1/4 left-1/4 w-[600px] h-[600px] rounded-full blur-[130px]"
-        style={{ background: "radial-gradient(circle, rgba(245,158,11,0.15) 0%, rgba(217,119,6,0.06) 55%, transparent 70%)", "--orb-dur": "22s" } as React.CSSProperties}
-      />
-      <div
-        className="genie-orb absolute top-0 right-0 w-[450px] h-[450px] rounded-full blur-[110px]"
-        style={{ background: "radial-gradient(circle, rgba(251,191,36,0.13) 0%, rgba(245,158,11,0.05) 55%, transparent 70%)", "--orb-dur": "18s" } as React.CSSProperties}
-      />
-
-      {/* Sparkle particles — brighter */}
-      {darkParticles.map((p, i) => (
-        <div
-          key={i}
-          className="genie-particle absolute rounded-full"
-          style={{
-            top: p.top, left: p.left,
-            width: p.size, height: p.size,
-            background: i % 2 === 0
-              ? "radial-gradient(circle, rgba(196,210,255,0.95) 0%, rgba(147,197,253,0.5) 100%)"
-              : "radial-gradient(circle, rgba(251,191,36,0.90) 0%, rgba(245,158,11,0.45) 100%)",
-            boxShadow: i % 2 === 0
-              ? "0 0 8px 3px rgba(147,197,253,0.45)"
-              : "0 0 8px 3px rgba(251,191,36,0.40)",
-            "--p-dur": p.dur,
-            animationDelay: p.delay,
-          } as React.CSSProperties}
-        />
-      ))}
-
-      {/* SVG: subtle dot grid */}
-      <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice">
-        <defs>
-          <pattern id="edu-dots" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
-            <circle cx="20" cy="20" r="0.7" fill="#a5b4fc" fillOpacity="0.12" />
-          </pattern>
-        </defs>
-        <rect width="1440" height="900" fill="url(#edu-dots)" />
-      </svg>
+      {/* Desktop: top-down teal mug on light birch */}
+      <img src="/images/bg-wood.jpg" alt="" className="hidden md:block absolute inset-0 w-full h-full object-cover object-center" />
+      {/* Mobile: angled teal mug on oak table corner with sunlight */}
+      <img src="/images/bg-wood-mobile.jpg" alt="" className="block md:hidden absolute inset-0 w-full h-full object-cover object-center" />
     </div>
   );
 }
