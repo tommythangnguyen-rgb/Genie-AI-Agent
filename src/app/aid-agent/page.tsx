@@ -5770,12 +5770,12 @@ export default function AidAgentPage() {
                                 <button
                                   key={`${role}-${label}`}
                                   onClick={() => sendMessage(q)}
-                                  className="flex flex-col items-center gap-1.5 p-2 rounded-2xl hover:bg-sky-500/[0.10] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 hover:scale-[1.05] active:scale-95"
+                                  className="flex flex-col items-center gap-1.5 p-2 rounded-2xl hover:bg-cyan-500/[0.10] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 hover:scale-[1.05] active:scale-95"
                                 >
-                                  <div className="w-14 h-14 rounded-[16px] bg-white/[0.08] ring-1 ring-white/[0.15] flex items-center justify-center shadow-md group-hover:bg-sky-500/[0.18] group-hover:ring-sky-400/40 group-hover:shadow-[0_0_16px_rgba(56,189,248,0.22)] transition-all">
-                                    <Icon className="h-6 w-6 text-white/75 group-hover:text-sky-300 transition-colors" />
+                                  <div className="w-14 h-14 rounded-[16px] bg-white/[0.08] ring-1 ring-cyan-400/[0.30] flex items-center justify-center shadow-md group-hover:bg-cyan-500/[0.18] group-hover:ring-cyan-400/60 group-hover:shadow-[0_0_18px_rgba(0,209,201,0.35)] transition-all" style={{ boxShadow: "0 0 10px rgba(0,209,201,0.15), inset 0 1px 0 rgba(255,255,255,0.12)" }}>
+                                    <Icon className="h-6 w-6 text-cyan-400 drop-shadow-[0_0_6px_rgba(0,209,201,0.70)] group-hover:text-cyan-300 group-hover:drop-shadow-[0_0_10px_rgba(0,209,201,0.90)] transition-all" />
                                   </div>
-                                  <span className="text-[10px] font-semibold text-white/85 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{label}</span>
+                                  <span className="text-[10px] font-semibold text-white/85 group-hover:text-cyan-200 text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{label}</span>
                                 </button>
                               ))}
                             </div>
