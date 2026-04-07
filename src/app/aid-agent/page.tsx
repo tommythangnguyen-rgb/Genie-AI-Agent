@@ -6020,7 +6020,7 @@ export default function AidAgentPage() {
                 </div>
 
                 {/* Input — desktop overlay version (textareaRef lives here) */}
-                <div className="shrink-0 relative border-t border-white/[0.07] px-4 pt-3 pb-3" style={{ background: "rgba(8,16,36,0.80)", backdropFilter: "blur(12px)" }}>
+                <div className="shrink-0 relative border-t border-white/[0.07] px-4 pt-3 pb-3" style={{ background: "rgba(4,10,26,0.97)" }}>
                   <div className="pointer-events-none absolute inset-x-0 -top-6 h-16 bg-gradient-to-t from-cyan-500/[0.06] to-transparent" />
                   <div className="relative w-full">
                     <div className="flex items-center gap-2 mb-2 px-1">
@@ -6088,7 +6088,7 @@ export default function AidAgentPage() {
           )}
 
           {/* Input area — always visible on mobile; on desktop only when no chat is active */}
-          <div className={`shrink-0 relative bg-[#0A1428]/80 backdrop-blur-xl border-t border-[#1E2A4A] px-4 pt-3 pb-3 ${messages.length > 0 ? "md:hidden" : ""}`} style={{ zIndex: 3 }}>
+          <div className={`shrink-0 relative border-t border-[#1E2A4A] px-4 pt-3 pb-3 ${messages.length > 0 ? "md:hidden" : ""}`} style={{ background: "rgba(4,10,26,0.97)", zIndex: 3 }}>
             {/* Ambient glow bloom behind chatbox */}
             <div className="pointer-events-none absolute inset-x-0 -top-6 h-16 bg-gradient-to-t from-cyan-500/[0.06] to-transparent" />
 
