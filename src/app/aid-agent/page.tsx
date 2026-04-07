@@ -5651,22 +5651,22 @@ export default function AidAgentPage() {
                             key={step}
                             type="button"
                             onClick={() => { setHowItWorksActive(activeKey); triggerOrbGold(); if (activeKey === "panels") { setShowMobileLeft(true); setShowMobileRight(true); resetLeftTimer(); resetRightTimer(); } }}
-                            className={`flex flex-col gap-2 p-4 rounded-2xl ${bg} ring-1 ${ring} text-left transition-all duration-200 hover:scale-[1.04] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 backdrop-blur-sm ${howItWorksActive === activeKey ? "hiw-active-ring brightness-125" : ""}`}
+                            className={`flex flex-col gap-2 p-4 rounded-2xl ring-1 ${ring} text-left transition-all duration-200 hover:scale-[1.04] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${howItWorksActive === activeKey ? "hiw-active-ring brightness-125" : ""}`}
                             style={{
-                              background: `linear-gradient(145deg, rgba(20,40,80,0.88) 0%, rgba(14,28,58,0.75) 100%)`,
+                              background: `linear-gradient(145deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.06) 100%)`,
                               boxShadow: howItWorksActive === activeKey
-                                ? `0 0 0 1px rgba(212,175,55,0.55), 0 6px 24px ${glowColor}, 0 0 48px ${glowColor}, inset 0 1px 0 rgba(255,255,255,0.16), inset 0 -1px 0 rgba(0,0,0,0.20)`
-                                : `0 4px 16px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.12) inset, 0 -2px 0 rgba(0,0,0,0.25) inset`,
+                                ? `0 0 0 1px rgba(212,175,55,0.55), 0 6px 24px ${glowColor}, 0 0 48px ${glowColor}, inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -1px 0 rgba(0,0,0,0.10)`
+                                : `0 2px 12px rgba(0,0,0,0.20), inset 0 1px 0 rgba(255,255,255,0.18)`,
                             }}
                           >
                             <div className="flex items-center justify-between">
                               <div className={`p-2 rounded-xl ${bg} ring-1 ${ring} shadow-sm`}>
                                 <Icon className={`h-4 w-4 ${color} ${howItWorksActive === activeKey ? "animate-pulse" : ""}`} aria-hidden="true" />
                               </div>
-                              <span className="text-xl font-black text-white/[0.07] tabular-nums leading-none">{step}</span>
+                              <span className="text-xl font-black text-white/25 tabular-nums leading-none" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.70)" }}>{step}</span>
                             </div>
-                            <p className="text-sm font-bold text-white/90 leading-tight">{title}</p>
-                            <p className="text-xs text-[#94A3B8]/80 leading-snug">{body}</p>
+                            <p className="text-sm font-bold text-white leading-tight" style={{ textShadow: "0 1px 5px rgba(0,0,0,0.80)" }}>{title}</p>
+                            <p className="text-xs text-white/80 leading-snug" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.70)" }}>{body}</p>
                           </button>
                         ))}
                       </div>
