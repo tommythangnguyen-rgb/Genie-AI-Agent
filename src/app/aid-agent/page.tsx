@@ -5612,7 +5612,7 @@ export default function AidAgentPage() {
                         { src: "/images/strip-professionals.jpg", pos: "object-[50%_30%]", label: "Professionals" },
                       ].map(({ src, pos, label }) => (
                         <div key={src} className="relative flex-1 overflow-hidden first:rounded-l-xl last:rounded-r-xl">
-                          <img src={src} alt={label} className={`w-full h-full object-cover ${pos}`} style={{ filter: "saturate(0.78) contrast(1.12) brightness(0.94) hue-rotate(8deg)" }} />
+                          <img src={src} alt={label} className={`w-full h-full object-cover ${pos}`} style={{ filter: "saturate(1.18) contrast(1.04) brightness(1.10)" }} />
                           <div className="absolute inset-0 bg-gradient-to-t from-[#04091A]/90 via-[#04091A]/40 to-transparent" />
                           <span className="absolute bottom-1.5 left-0 right-0 text-center text-[8px] font-bold uppercase tracking-[0.14em] text-white/55">{label}</span>
                         </div>
@@ -5755,7 +5755,7 @@ export default function AidAgentPage() {
                                   <div className={`w-full aspect-square rounded-full overflow-hidden ring-2 transition-all duration-200 shadow-md genie-role-icon ${
                                     isActive ? `${activeRing} shadow-lg` : "ring-white/30 hover:ring-white/55"
                                   }`}>
-                                    <img src={photo} alt={label} className={`w-full h-full object-cover ${pos}`} style={{ filter: "saturate(0.78) contrast(1.12) brightness(0.94) hue-rotate(8deg)" }} />
+                                    <img src={photo} alt={label} className={`w-full h-full object-cover ${pos}`} style={{ filter: "saturate(1.18) contrast(1.04) brightness(1.10)" }} />
                                   </div>
                                   <span className="text-center leading-tight text-[10px] font-semibold">{label}</span>
                                 </button>
