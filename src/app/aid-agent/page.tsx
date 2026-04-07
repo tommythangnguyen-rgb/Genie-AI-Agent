@@ -5775,7 +5775,7 @@ export default function AidAgentPage() {
                                   <div className="w-14 h-14 rounded-[16px] bg-white/[0.08] ring-1 ring-cyan-400/[0.30] flex items-center justify-center shadow-md group-hover:bg-cyan-500/[0.18] group-hover:ring-cyan-400/60 group-hover:shadow-[0_0_18px_rgba(0,209,201,0.35)] transition-all" style={{ boxShadow: "0 0 10px rgba(0,209,201,0.15), inset 0 1px 0 rgba(255,255,255,0.12)" }}>
                                     <Icon className="h-6 w-6 text-cyan-400 drop-shadow-[0_0_6px_rgba(0,209,201,0.70)] group-hover:text-cyan-300 group-hover:drop-shadow-[0_0_10px_rgba(0,209,201,0.90)] transition-all" />
                                   </div>
-                                  <span className="text-[10px] font-semibold text-cyan-400 group-hover:text-cyan-300 text-center leading-tight transition-colors line-clamp-2 w-full px-0.5" style={{ textShadow: "0 0 8px rgba(0,209,201,0.55)" }}>{label}</span>
+                                  <span className="text-[10px] font-semibold text-white group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5" style={{ textShadow: "0 0 10px rgba(255,255,255,0.90), 0 1px 4px rgba(0,0,0,0.70)" }}>{label}</span>
                                 </button>
                               ))}
                             </div>
