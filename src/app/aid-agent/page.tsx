@@ -6088,13 +6088,13 @@ export default function AidAgentPage() {
           )}
 
           {/* Input area — always visible on mobile; on desktop only when no chat is active */}
-          <div className={`shrink-0 relative border-t border-[#1E2A4A] px-4 pt-3 pb-3 ${messages.length > 0 ? "md:hidden" : ""}`} style={{ background: "rgba(4,10,26,0.97)", zIndex: 3 }}>
+          <div className={`shrink-0 relative border-t border-[#1E2A4A] px-3 pt-2 pb-2 md:px-4 md:pt-3 md:pb-3 ${messages.length > 0 ? "md:hidden" : ""}`} style={{ background: "rgba(4,10,26,0.97)", zIndex: 3 }}>
             {/* Ambient glow bloom behind chatbox */}
             <div className="pointer-events-none absolute inset-x-0 -top-6 h-16 bg-gradient-to-t from-cyan-500/[0.06] to-transparent" />
 
             <div className="relative w-full">
               {/* Prompt label row */}
-              <div className="flex items-center gap-2 mb-2 px-1">
+              <div className="flex items-center gap-2 mb-1 md:mb-2 px-1">
                 <GenieBottle className="h-3.5 w-3.5 text-amber-400 shrink-0 genie-icon-shimmer" />
                 <span className="text-sm font-semibold tracking-wide">
                   <span style={{ background: "linear-gradient(90deg, #FFFFFF 0%, #D8EEFF 20%, #FFFFFF 40%, #EAF5FF 60%, #FFFFFF 80%, #D0E8FF 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-white-shimmer 4s linear infinite" }}>askGenie</span>
@@ -6266,7 +6266,7 @@ export default function AidAgentPage() {
           </div>
 
           {/* ── Site Footer Bar ── */}
-          <div className="shrink-0 border-t border-[#0F1E3A] px-4 py-2" style={{ background: "rgba(4,10,26,0.97)", zIndex: 3 }}>
+          <div className="shrink-0 border-t border-[#0F1E3A] px-3 py-1 md:px-4 md:py-2" style={{ background: "rgba(4,10,26,0.97)", zIndex: 3 }}>
             <div className="flex flex-wrap justify-center items-center gap-x-0 gap-y-0.5 mb-0.5">
               {[
                 { label: "Plans & Pricing",     href: "/pricing",      cls: "font-semibold text-white hover:text-white hover:bg-white/[0.08]" },
