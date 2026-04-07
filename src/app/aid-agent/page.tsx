@@ -5204,12 +5204,12 @@ export default function AidAgentPage() {
         {/* ── Left Dropdown — Students & Parents ── */}
         <aside
           className={`${showMobileLeft ? "flex" : "hidden"} fixed z-[60] flex-col rounded-2xl overflow-hidden border border-cyan-500/[0.15] shadow-2xl shadow-black/70 backdrop-blur-2xl`}
-          style={{ top: "84px", left: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(14,30,65,0.72) 0%, rgba(18,36,75,0.68) 50%, rgba(12,26,58,0.72) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.10), inset 0 1px 0 rgba(255,255,255,0.10)" }}
+          style={{ top: "84px", left: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(14,30,65,0.48) 0%, rgba(18,36,75,0.44) 50%, rgba(12,26,58,0.48) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.40), 0 0 0 1px rgba(255,255,255,0.13), inset 0 1px 0 rgba(255,255,255,0.14)" }}
         >
           {howItWorksActive === "panels" && <div className="hiw-scan-overlay" aria-hidden="true" />}
 
           {/* Header */}
-          <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-[#1E2A4A] bg-[#0A1428]/80">
+          <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-[#1E2A4A] bg-[#0A1428]/45">
             <div className="flex items-center gap-2.5">
               <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/25">
                 <GraduationCap className="h-4 w-4 text-white" />
@@ -5255,11 +5255,11 @@ export default function AidAgentPage() {
                     className="relative group cursor-pointer overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4FF]/60 shadow-md shadow-black/40 hover:scale-[1.02] active:scale-[0.97] transition-all duration-200"
                     style={{ aspectRatio: "1.6 / 1" }}
                   >
-                    <img src={img} alt="" className={`w-full h-full object-cover ${pos}`} onError={(e) => { e.currentTarget.style.display = "none"; const fb = e.currentTarget.nextElementSibling as HTMLElement | null; if (fb) fb.style.display = "flex"; }} />
+                    <img src={img} alt="" className={`w-full h-full object-cover ${pos}`} style={{ filter: "saturate(1.18) contrast(1.04) brightness(1.10)" }} onError={(e) => { e.currentTarget.style.display = "none"; const fb = e.currentTarget.nextElementSibling as HTMLElement | null; if (fb) fb.style.display = "flex"; }} />
                     <div style={{ display: "none" }} className="absolute inset-0 items-center justify-center bg-gradient-to-br from-indigo-900/80 via-slate-900/90 to-[#04091A]">
                       {Icon && <Icon className="h-9 w-9 text-indigo-300/60" />}
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#04091A]/95 via-[#04091A]/45 to-transparent group-hover:from-[#04091A]/80 transition-all duration-200" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#04091A]/65 via-[#04091A]/20 to-transparent group-hover:from-[#04091A]/50 transition-all duration-200" />
                     <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/[0.08] group-hover:ring-[#00D4FF]/40 transition-all duration-200" />
                     <div className="absolute bottom-0 left-0 right-0 px-3 pb-2.5">
                       <span className="text-[12px] font-bold uppercase tracking-[0.10em] text-white/90">{label}</span>
@@ -6307,12 +6307,12 @@ export default function AidAgentPage() {
         {/* ── Right Dropdown — Administrators, Leaders & Auditors ── */}
         <aside
           className={`${showMobileRight ? "flex" : "hidden"} fixed z-[60] flex-col rounded-2xl overflow-hidden border border-violet-500/[0.15] shadow-2xl shadow-black/70 backdrop-blur-2xl`}
-          style={{ top: "84px", right: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(14,30,65,0.72) 0%, rgba(18,36,75,0.68) 50%, rgba(12,26,58,0.72) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.10), inset 0 1px 0 rgba(255,255,255,0.10)" }}
+          style={{ top: "84px", right: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(14,30,65,0.48) 0%, rgba(18,36,75,0.44) 50%, rgba(12,26,58,0.48) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.40), 0 0 0 1px rgba(255,255,255,0.13), inset 0 1px 0 rgba(255,255,255,0.14)" }}
         >
           {howItWorksActive === "panels" && <div className="hiw-scan-overlay" aria-hidden="true" />}
 
           {/* Header */}
-          <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-[#1E2A4A] bg-[#0A1428]/80">
+          <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-[#1E2A4A] bg-[#0A1428]/45">
             <div className="flex items-center gap-2.5">
               <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/25">
                 <Zap className="h-4 w-4 text-white" />
@@ -6354,11 +6354,11 @@ export default function AidAgentPage() {
                     className="relative group cursor-pointer overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4FF]/60 shadow-md shadow-black/40 hover:scale-[1.02] active:scale-[0.97] transition-all duration-200"
                     style={{ aspectRatio: "1.6 / 1" }}
                   >
-                    <img src={img} alt="" className={`w-full h-full object-cover ${pos}`} onError={(e) => { e.currentTarget.style.display = "none"; const fb = e.currentTarget.nextElementSibling as HTMLElement | null; if (fb) fb.style.display = "flex"; }} />
+                    <img src={img} alt="" className={`w-full h-full object-cover ${pos}`} style={{ filter: "saturate(1.18) contrast(1.04) brightness(1.10)" }} onError={(e) => { e.currentTarget.style.display = "none"; const fb = e.currentTarget.nextElementSibling as HTMLElement | null; if (fb) fb.style.display = "flex"; }} />
                     <div style={{ display: "none" }} className="absolute inset-0 items-center justify-center bg-gradient-to-br from-indigo-900/80 via-slate-900/90 to-[#04091A]">
                       {Icon && <Icon className="h-9 w-9 text-indigo-300/60" />}
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#04091A]/95 via-[#04091A]/45 to-transparent group-hover:from-[#04091A]/80 transition-all duration-200" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#04091A]/65 via-[#04091A]/20 to-transparent group-hover:from-[#04091A]/50 transition-all duration-200" />
                     <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/[0.08] group-hover:ring-[#00D4FF]/40 transition-all duration-200" />
                     <div className="absolute bottom-0 left-0 right-0 px-3 pb-2.5">
                       <span className="text-[12px] font-bold uppercase tracking-[0.10em] text-white/90">{label}</span>
