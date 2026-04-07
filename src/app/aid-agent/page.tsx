@@ -5455,59 +5455,67 @@ export default function AidAgentPage() {
                 className="relative flex items-center justify-center"
                 style={{ width: "clamp(148px, 15vw, 195px)", height: "clamp(148px, 15vw, 195px)", animation: "genie-orb-float 5.5s ease-in-out infinite" }}
               >
-                {/* Wide outer ambient glow — very soft */}
+                {/* Wide outer ambient glow */}
                 <div className="absolute rounded-full pointer-events-none" style={{
-                  inset: -55, background: "radial-gradient(circle, rgba(0,209,201,0.14) 0%, rgba(0,184,255,0.06) 45%, transparent 68%)",
-                  filter: "blur(22px)", animation: "genie-orb-pulse 5s ease-in-out infinite",
+                  inset: -65, background: "radial-gradient(circle, rgba(0,229,192,0.28) 0%, rgba(0,184,255,0.12) 40%, transparent 68%)",
+                  filter: "blur(26px)", animation: "genie-orb-pulse 5s ease-in-out infinite",
                 }} />
-                {/* Subtle gold ambient halo */}
+                {/* Gold premium halo */}
                 <div className="absolute rounded-full pointer-events-none" style={{
-                  inset: -40, background: "radial-gradient(circle, rgba(212,175,55,0.06) 0%, transparent 60%)",
-                  filter: "blur(18px)", animation: "genie-orb-pulse 7s ease-in-out infinite 2s",
+                  inset: -45, background: "radial-gradient(circle, rgba(212,175,55,0.18) 0%, rgba(255,200,50,0.06) 50%, transparent 70%)",
+                  filter: "blur(20px)", animation: "genie-orb-pulse 7s ease-in-out infinite 2s",
                 }} />
                 {/* Primary expanding halo */}
                 <div className="absolute inset-0 rounded-full pointer-events-none" style={{
-                  background: "radial-gradient(circle, rgba(0,209,201,0.22) 0%, transparent 70%)",
+                  background: "radial-gradient(circle, rgba(0,229,192,0.38) 0%, transparent 70%)",
                   animation: "genie-halo-expand 3.5s ease-out infinite",
                 }} />
                 {/* Secondary halo */}
                 <div className="absolute inset-0 rounded-full pointer-events-none" style={{
-                  background: "radial-gradient(circle, rgba(0,184,255,0.14) 0%, transparent 65%)",
+                  background: "radial-gradient(circle, rgba(0,184,255,0.24) 0%, transparent 65%)",
                   animation: "genie-halo-expand-2 3.5s ease-out infinite 1.75s",
                 }} />
-                {/* Tertiary halo */}
+                {/* Tertiary halo — violet accent */}
                 <div className="absolute inset-0 rounded-full pointer-events-none" style={{
-                  background: "radial-gradient(circle, rgba(99,102,241,0.10) 0%, transparent 60%)",
+                  background: "radial-gradient(circle, rgba(99,102,241,0.18) 0%, transparent 60%)",
                   animation: "genie-halo-expand-3 4s ease-out infinite 0.9s",
                 }} />
                 {/* Orb sphere */}
                 <div className={`relative z-10 rounded-full overflow-hidden${orbGlowing ? " genie-orb-gold" : ""}${orbCelebrating ? " genie-orb-celebrate" : ""}`} style={{
                   width: "clamp(98px, 11vw, 132px)", height: "clamp(98px, 11vw, 132px)",
-                  background: "radial-gradient(circle at 34% 26%, rgba(220,255,254,1) 0%, rgba(0,229,192,0.94) 18%, rgba(0,195,210,0.90) 42%, rgba(0,60,100,0.96) 75%, rgba(3,18,48,1) 100%)",
+                  background: "radial-gradient(circle at 32% 24%, rgba(255,255,255,0.98) 0%, rgba(160,255,248,1) 5%, rgba(0,235,200,1) 18%, rgba(0,195,220,0.97) 38%, rgba(0,90,160,0.98) 62%, rgba(0,28,75,1) 82%, rgba(2,10,38,1) 100%)",
                   animation: (orbGlowing || orbCelebrating) ? undefined : "genie-orb-glow-pulse 4.2s ease-in-out infinite",
                   willChange: "box-shadow, filter, transform",
-                  boxShadow: "0 0 0 2px rgba(0,209,201,0.55), 0 0 28px 10px rgba(0,209,201,0.30), 0 0 60px 20px rgba(0,184,255,0.16), inset 0 1px 0 rgba(255,255,255,0.32), 0 16px 52px rgba(0,0,0,0.55)",
+                  boxShadow: "0 0 0 2.5px rgba(0,235,200,0.85), 0 0 0 5px rgba(0,209,201,0.22), 0 0 38px 14px rgba(0,229,192,0.50), 0 0 80px 30px rgba(0,184,255,0.24), inset 0 2px 0 rgba(255,255,255,0.55), 0 18px 60px rgba(0,0,0,0.65)",
                 }}>
+                  {/* Rotating bands */}
                   <div style={{
                     position: "absolute", top: 0, left: 0, width: "200%", height: "100%",
-                    background: "repeating-linear-gradient(90deg,transparent 0%,transparent 7%,rgba(255,255,255,0.09) 7%,rgba(255,255,255,0.09) 8.5%,transparent 8.5%,transparent 20%,rgba(0,229,192,0.12) 20%,rgba(0,229,192,0.12) 23%,transparent 23%,transparent 50%)",
+                    background: "repeating-linear-gradient(90deg,transparent 0%,transparent 7%,rgba(255,255,255,0.11) 7%,rgba(255,255,255,0.11) 8.5%,transparent 8.5%,transparent 20%,rgba(0,235,200,0.15) 20%,rgba(0,235,200,0.15) 23%,transparent 23%,transparent 50%)",
                     animation: "genie-orb-bands 18s linear infinite",
                   }} />
+                  {/* Primary specular highlight — brilliant white */}
                   <div style={{
-                    position: "absolute", top: "7%", left: "16%", width: "36%", height: "30%",
-                    background: "radial-gradient(circle, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.28) 60%, transparent 100%)",
-                    borderRadius: "50%", filter: "blur(2.5px)",
+                    position: "absolute", top: "6%", left: "14%", width: "40%", height: "32%",
+                    background: "radial-gradient(circle, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.55) 40%, transparent 100%)",
+                    borderRadius: "50%", filter: "blur(2px)",
                   }} />
-                  {/* Small secondary gleam */}
+                  {/* Secondary gleam bottom-right */}
                   <div style={{
-                    position: "absolute", top: "52%", right: "12%", width: "18%", height: "16%",
-                    background: "radial-gradient(circle, rgba(255,255,255,0.35) 0%, transparent 100%)",
+                    position: "absolute", top: "54%", right: "10%", width: "20%", height: "18%",
+                    background: "radial-gradient(circle, rgba(160,255,248,0.60) 0%, transparent 100%)",
                     borderRadius: "50%", filter: "blur(1.5px)",
+                  }} />
+                  {/* Teal inner bloom */}
+                  <div style={{
+                    position: "absolute", bottom: "10%", left: "20%", width: "30%", height: "22%",
+                    background: "radial-gradient(circle, rgba(0,255,220,0.22) 0%, transparent 100%)",
+                    borderRadius: "50%", filter: "blur(3px)",
                   }} />
                 </div>
               </div>
               {/* Mascot label */}
-              <p className="mt-1 text-[10px] font-bold tracking-[0.18em] uppercase pointer-events-none" style={{ color: "rgba(0,229,192,0.55)", textShadow: "0 0 8px rgba(0,209,201,0.40)" }}>✦ Genie</p>
+              <p className="mt-1 text-[10px] font-bold tracking-[0.18em] uppercase pointer-events-none" style={{ color: "rgba(0,235,200,0.85)", textShadow: "0 0 12px rgba(0,229,192,0.70), 0 0 24px rgba(0,184,255,0.40)" }}>✦ Genie</p>
             </div>
           )}
 
@@ -5533,10 +5541,10 @@ export default function AidAgentPage() {
                 width: mobileOrbExpanded ? 56 : 28,
                 height: mobileOrbExpanded ? 56 : 28,
                 borderRadius: "50%",
-                background: "radial-gradient(circle at 36% 28%, rgba(210,255,252,0.98) 0%, rgba(0,209,201,0.90) 22%, rgba(0,163,196,0.88) 50%, rgba(0,50,90,0.97) 80%, rgba(3,20,50,1) 100%)",
+                background: "radial-gradient(circle at 32% 24%, rgba(255,255,255,0.98) 0%, rgba(160,255,248,1) 5%, rgba(0,235,200,1) 18%, rgba(0,195,220,0.97) 38%, rgba(0,90,160,0.98) 62%, rgba(0,28,75,1) 82%, rgba(2,10,38,1) 100%)",
                 boxShadow: orbGlowing
-                  ? "0 0 0 3px rgba(255,215,0,0.80), 0 0 18px 6px rgba(255,170,0,0.55)"
-                  : "0 0 0 1.5px rgba(0,209,201,0.55), 0 0 10px 3px rgba(0,209,201,0.28)",
+                  ? "0 0 0 3px rgba(255,215,0,0.90), 0 0 22px 8px rgba(255,170,0,0.65)"
+                  : "0 0 0 2px rgba(0,235,200,0.85), 0 0 14px 5px rgba(0,229,192,0.50), 0 0 28px 10px rgba(0,184,255,0.25)",
                 transition: "width 0.3s ease, height 0.3s ease, box-shadow 0.4s ease",
                 animation: mobileOrbRoaming ? undefined : "genie-mobile-orb-float 4.5s ease-in-out infinite",
                 overflow: "hidden",
@@ -5545,13 +5553,13 @@ export default function AidAgentPage() {
             >
               <div style={{
                 position: "absolute", top: 0, left: 0, width: "200%", height: "100%",
-                background: "repeating-linear-gradient(90deg,transparent 0%,transparent 7%,rgba(255,255,255,0.07) 7%,rgba(255,255,255,0.07) 8.5%,transparent 8.5%,transparent 50%)",
+                background: "repeating-linear-gradient(90deg,transparent 0%,transparent 7%,rgba(255,255,255,0.11) 7%,rgba(255,255,255,0.11) 8.5%,transparent 8.5%,transparent 50%)",
                 animation: "genie-orb-bands 18s linear infinite",
               }} />
               <div style={{
-                position: "absolute", top: "8%", left: "18%", width: "32%", height: "28%",
-                background: "radial-gradient(circle, rgba(255,255,255,0.70) 0%, rgba(255,255,255,0.20) 60%, transparent 100%)",
-                borderRadius: "50%", filter: "blur(1.5px)",
+                position: "absolute", top: "6%", left: "14%", width: "38%", height: "30%",
+                background: "radial-gradient(circle, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.50) 45%, transparent 100%)",
+                borderRadius: "50%", filter: "blur(1px)",
               }} />
             </div>
             {mobileOrbExpanded && (
