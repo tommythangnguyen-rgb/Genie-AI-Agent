@@ -5318,7 +5318,7 @@ export default function AidAgentPage() {
         {/* ── Main ── */}
         <main
           className={`flex flex-1 flex-col min-w-0 min-h-0 transition-all duration-300 ${howItWorksActive === "guidance" ? "ring-1 ring-inset ring-emerald-500/25 shadow-[inset_0_0_40px_rgba(16,185,129,0.07)]" : ""}`}
-          style={{ background: "rgba(14,28,62,0.62)" }}
+          style={{ background: "transparent" }}
           aria-label="Genie AI Assistant"
         >
 
@@ -5567,83 +5567,8 @@ export default function AidAgentPage() {
               {/* ── Welcome state ── */}
               <div className="relative flex flex-col items-center px-1 py-4 sm:px-2 sm:py-6 genie-fade-in-up overflow-hidden">
 
-                {/* ── Shooting stars layer ── */}
-                <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-                  {/* Pulsing background orbs */}
-                  {[
-                    { w:380, h:380, top:"5%",  left:"10%",  color:"rgba(99,102,241,0.16)",  dur:"8s",  delay:"0s"   },
-                    { w:300, h:300, top:"40%", left:"65%",  color:"rgba(139,92,246,0.12)",  dur:"10s", delay:"1.5s" },
-                    { w:240, h:240, top:"70%", left:"20%",  color:"rgba(251,191,36,0.09)",  dur:"9s",  delay:"3s"   },
-                    { w:220, h:220, top:"15%", left:"75%",  color:"rgba(56,189,248,0.08)",  dur:"11s", delay:"0.8s" },
-                  ].map((o, i) => (
-                    <div key={i} className="genie-orb-bg" style={{
-                      width: o.w, height: o.h,
-                      top: o.top, left: o.left,
-                      background: o.color,
-                      ["--dur" as any]: o.dur,
-                      ["--delay" as any]: o.delay,
-                    }} />
-                  ))}
 
-                  {/* Shooting stars — directional, infrequent (fires ~11% of cycle then hides)
-                       angle = atan2(ty,tx) so bright head always faces travel direction */}
-                  {[
-                    // Classic NE→SW: atan2(260,-400)=147°
-                    { len:105, thick:1.5, top:"7%",  left:"86%", dur:"30s", delay:"0s",  tx:"-400px", ty:"260px", angle:"147deg"  },
-                    // NW→SE (left→right): atan2(200,300)=34°
-                    { len:80,  thick:1,   top:"12%", left:"3%",  dur:"36s", delay:"9s",  tx:"300px",  ty:"200px", angle:"34deg"   },
-                    // Steep near-vertical: atan2(480,-80)=100°
-                    { len:60,  thick:1,   top:"3%",  left:"52%", dur:"40s", delay:"18s", tx:"-80px",  ty:"480px", angle:"100deg"  },
-                    // Near-horizontal left: atan2(80,-500)=171°
-                    { len:135, thick:2,   top:"28%", left:"97%", dur:"34s", delay:"5s",  tx:"-500px", ty:"80px",  angle:"171deg"  },
-                    // Rising upper-left: atan2(-300,-260)=-131°
-                    { len:75,  thick:1,   top:"75%", left:"70%", dur:"38s", delay:"24s", tx:"-260px", ty:"-300px",angle:"-131deg" },
-                    // Rising upper-right: atan2(-350,240)=-55°
-                    { len:90,  thick:1.5, top:"70%", left:"8%",  dur:"32s", delay:"14s", tx:"240px",  ty:"-350px",angle:"-55deg"  },
-                  ].map((s, i) => (
-                    <div key={i} className="genie-shooting-star" style={{
-                      width: s.len,
-                      top: s.top, left: s.left,
-                      ["--thickness" as any]: `${s.thick}px`,
-                      ["--dur" as any]: s.dur,
-                      ["--delay" as any]: s.delay,
-                      ["--tx" as any]: s.tx,
-                      ["--ty" as any]: s.ty,
-                      ["--angle" as any]: s.angle,
-                    }} />
-                  ))}
-
-                  {/* Static twinkling pinpoint stars */}
-                  {[
-                    { w:2.5, h:2.5, top:"10%", left:"5%",  dur:"2.8s", delay:"0s"   },
-                    { w:3,   h:3,   top:"6%",  left:"28%", dur:"3.5s", delay:"1s"   },
-                    { w:2,   h:2,   top:"18%", left:"88%", dur:"2.2s", delay:"0.5s" },
-                    { w:3,   h:3,   top:"52%", left:"94%", dur:"4s",   delay:"2s"   },
-                    { w:2.5, h:2.5, top:"72%", left:"3%",  dur:"3s",   delay:"1.5s" },
-                    { w:2,   h:2,   top:"82%", left:"52%", dur:"2.5s", delay:"0.8s" },
-                    { w:3,   h:3,   top:"33%", left:"97%", dur:"3.8s", delay:"3s"   },
-                    { w:2,   h:2,   top:"60%", left:"46%", dur:"2.9s", delay:"0.3s" },
-                    { w:2.5, h:2.5, top:"25%", left:"15%", dur:"4.2s", delay:"2.4s" },
-                    { w:2,   h:2,   top:"45%", left:"78%", dur:"3.1s", delay:"1.8s" },
-                  ].map((s, i) => (
-                    <div key={`tw-${i}`} className="genie-star-twinkle" style={{
-                      width: s.w, height: s.h,
-                      top: s.top, left: s.left,
-                      ["--dur" as any]: s.dur,
-                      ["--delay" as any]: s.delay,
-                    }} />
-                  ))}
-                </div>
-
-                {/* ── Bottom constellation fade — blurs constellations near Tips by Role ── */}
-                <div
-                  className="pointer-events-none absolute inset-x-0 bottom-0 h-[560px]"
-                  style={{ background: "linear-gradient(to top, rgba(10,20,40,0.97) 0%, rgba(10,20,40,0.86) 16%, rgba(10,20,40,0.58) 36%, rgba(10,20,40,0.22) 58%, transparent 100%)", zIndex: 1 }}
-                  aria-hidden="true"
-                />
-
-                {/* ── All visible content — sits above fade overlay ── */}
-                <div className="relative w-full flex flex-col items-center" style={{ zIndex: 2 }}>
+                <div className="relative w-full flex flex-col items-center">
 
                 {/* ── Two-column console ── */}
                 <div className="w-full max-w-[1280px] flex flex-col md:flex-row gap-3 md:gap-5 items-stretch px-1 sm:px-2">
