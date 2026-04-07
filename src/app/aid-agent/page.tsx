@@ -5351,7 +5351,7 @@ export default function AidAgentPage() {
                     WebkitTextFillColor: "transparent",
                     color: "transparent",
                     animation: "genie-white-shimmer 4s linear infinite",
-                    filter: "drop-shadow(0 0 18px rgba(255,255,255,0.45))",
+                    filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.85))",
                     letterSpacing: "-0.02em",
                   }}
                 >
@@ -5585,20 +5585,20 @@ export default function AidAgentPage() {
                       >
                         <span
                           className={`block transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-guidance-headline" : ""}`}
-                          style={howItWorksActive === "guidance" ? {} : { color: "#FFFFFF", textShadow: "0 0 80px rgba(255,255,255,0.20), 0 2px 40px rgba(255,255,255,0.10)" }}
+                          style={howItWorksActive === "guidance" ? {} : { color: "#FFFFFF", textShadow: "0 2px 6px rgba(0,0,0,0.90), 0 4px 16px rgba(0,0,0,0.70)" }}
                         >
                           Student Aid,
                         </span>
                         <span
                           className={`block transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-guidance-headline" : ""}`}
-                          style={howItWorksActive === "guidance" ? {} : { color: "#FFFFFF", textShadow: "0 0 80px rgba(255,255,255,0.20), 0 2px 40px rgba(255,255,255,0.10)" }}
+                          style={howItWorksActive === "guidance" ? {} : { color: "#FFFFFF", textShadow: "0 2px 6px rgba(0,0,0,0.90), 0 4px 16px rgba(0,0,0,0.70)" }}
                         >
                           Made Clear.
                         </span>
                       </h2>
                       <p
                         className="font-bold tracking-[-0.005em] leading-snug text-slate-200/95 text-center md:text-left"
-                        style={{ fontSize: "clamp(0.9rem, 2vw, 1.1rem)" }}
+                        style={{ fontSize: "clamp(0.9rem, 2vw, 1.1rem)", textShadow: "0 1px 5px rgba(0,0,0,0.85), 0 3px 10px rgba(0,0,0,0.65)" }}
                       >
                         Connecting families with financial aid offices — quickly and reliably.
                       </p>
@@ -5637,7 +5637,7 @@ export default function AidAgentPage() {
                     <div className="w-full flex-1 flex flex-col mb-3">
                       <div className="flex items-center gap-2 mb-3">
                         <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/50" />
-                        <span className="text-xs font-bold uppercase tracking-[0.16em] text-white px-2">How it works</span>
+                        <span className="text-xs font-bold uppercase tracking-[0.16em] text-white px-2" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.90)" }}>How it works</span>
                         <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/50" />
                       </div>
                       <div className="flex-1 grid grid-cols-2 gap-3 auto-rows-fr">
