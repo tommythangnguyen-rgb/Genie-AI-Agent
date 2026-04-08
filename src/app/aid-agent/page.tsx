@@ -5325,7 +5325,7 @@ export default function AidAgentPage() {
           {/* ── Header ── */}
           <header
             className="sticky top-0 z-50 shrink-0 border-b border-[#1E2A4A]"
-            style={{ background: "linear-gradient(135deg, rgba(14,28,62,0.94) 0%, rgba(18,34,70,0.96) 50%, rgba(14,28,62,0.94) 100%)", borderBottom: "1px solid rgba(255,255,255,0.08)" }}
+            style={{ background: "linear-gradient(135deg, rgba(14,28,62,0.55) 0%, rgba(18,34,70,0.60) 50%, rgba(14,28,62,0.55) 100%)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", borderBottom: "1px solid rgba(255,255,255,0.10)" }}
           >
             <div className="relative px-3 py-1.5 flex items-center justify-between gap-2">
 
@@ -6028,7 +6028,7 @@ export default function AidAgentPage() {
                 </div>
 
                 {/* Input — desktop overlay version (textareaRef lives here) */}
-                <div className="shrink-0 relative border-t border-white/[0.07] px-4 pt-3 pb-3" style={{ background: "rgba(4,10,26,0.97)" }}>
+                <div className="shrink-0 relative border-t border-white/[0.07] px-4 pt-3 pb-3" style={{ background: "rgba(4,10,26,0.60)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
                   <div className="pointer-events-none absolute inset-x-0 -top-6 h-16 bg-gradient-to-t from-cyan-500/[0.06] to-transparent" />
                   <div className="relative w-full">
                     <div className="flex items-center gap-2 mb-2 px-1">
@@ -6096,7 +6096,7 @@ export default function AidAgentPage() {
           )}
 
           {/* Input area — always visible on mobile; on desktop only when no chat is active */}
-          <div className={`shrink-0 relative border-t border-[#1E2A4A] px-3 pt-2 pb-2 md:px-4 md:pt-3 md:pb-3 ${messages.length > 0 ? "md:hidden" : ""}`} style={{ background: "rgba(4,10,26,0.97)", zIndex: 3 }}>
+          <div className={`shrink-0 relative border-t border-[#1E2A4A] px-3 pt-2 pb-2 md:px-4 md:pt-3 md:pb-3 ${messages.length > 0 ? "md:hidden" : ""}`} style={{ background: "rgba(4,10,26,0.60)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", zIndex: 3 }}>
             {/* Ambient glow bloom behind chatbox */}
             <div className="pointer-events-none absolute inset-x-0 -top-6 h-16 bg-gradient-to-t from-cyan-500/[0.06] to-transparent" />
 
@@ -6274,7 +6274,7 @@ export default function AidAgentPage() {
           </div>
 
           {/* ── Site Footer Bar ── */}
-          <div className="shrink-0 border-t border-[#0F1E3A] px-3 py-1 md:px-4 md:py-2" style={{ background: "rgba(4,10,26,0.97)", zIndex: 3 }}>
+          <div className="shrink-0 border-t border-[#0F1E3A] px-3 py-1 md:px-4 md:py-2" style={{ background: "rgba(4,10,26,0.60)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", zIndex: 3 }}>
             <div className="flex flex-wrap justify-center items-center gap-x-0 gap-y-0.5 mb-0.5">
               {[
                 { label: "Plans & Pricing",     href: "/pricing",      cls: "font-semibold text-white hover:text-white hover:bg-white/[0.08]" },
