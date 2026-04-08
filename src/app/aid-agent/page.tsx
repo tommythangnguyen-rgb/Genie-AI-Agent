@@ -6030,7 +6030,7 @@ export default function AidAgentPage() {
                 {/* Input — desktop overlay version (textareaRef lives here) */}
                 <div className="shrink-0 relative border-t border-white/[0.07] px-4 pt-3 pb-3" style={{ background: "rgba(4,10,26,0.60)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
                   <div className="pointer-events-none absolute inset-x-0 -top-6 h-16 bg-gradient-to-t from-cyan-500/[0.06] to-transparent" />
-                  <div className="relative w-full">
+                  <div className="relative w-full max-w-xl mx-auto">
                     <div className="flex items-center gap-2 mb-2 px-1">
                       <GenieBottle className="h-3.5 w-3.5 text-amber-400 shrink-0 genie-icon-shimmer" />
                       <span className="text-sm font-semibold tracking-wide">
@@ -6100,7 +6100,7 @@ export default function AidAgentPage() {
             {/* Ambient glow bloom behind chatbox */}
             <div className="pointer-events-none absolute inset-x-0 -top-6 h-16 bg-gradient-to-t from-cyan-500/[0.06] to-transparent" />
 
-            <div className="relative w-full">
+            <div className="relative w-full max-w-xl mx-auto">
               {/* Prompt label row */}
               <div className="flex items-center gap-2 mb-1 md:mb-2 px-1">
                 <GenieBottle className="h-3.5 w-3.5 text-amber-400 shrink-0 genie-icon-shimmer" />
