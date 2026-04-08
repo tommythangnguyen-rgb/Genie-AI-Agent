@@ -5650,25 +5650,25 @@ export default function AidAgentPage() {
                       </div>
                       <div className="flex-1 grid grid-cols-2 gap-3 auto-rows-fr">
                         {([
-                          { icon: Sparkles,    step: "1", title: "Choose Your Role",  body: "Select Student, Parent, Admin, Leader, or Compliance/Auditor for role-specific prompts, resources, and tailored guidance.",      color: "text-violet-400", ring: "ring-[#D4AF37]/[0.28]", bg: "bg-violet-500/[0.08]", glowColor: "rgba(139,92,246,0.35)", activeKey: "role"     as const },
-                          { icon: Send,        step: "2", title: "Ask Anything",       body: "Type any student aid question in plain English. Upload documents, letters, or forms for instant AI analysis.",   color: "text-cyan-400",   ring: "ring-[#D4AF37]/[0.28]",  bg: "bg-cyan-500/[0.08]",   glowColor: "rgba(6,182,212,0.35)",  activeKey: "chatbox"  as const },
-                          { icon: Library,     step: "3", title: "Explore the Hub",    body: "Access 500+ curated resources — scholarships, VA benefits, loan tools, federal aid portals, and institutional guides.",          color: "text-sky-400",    ring: "ring-[#D4AF37]/[0.28]",  bg: "bg-sky-500/[0.08]",    glowColor: "rgba(56,189,248,0.35)", activeKey: "panels"   as const },
-                          { icon: CheckCircle, step: "4", title: "Get Clear Guidance", body: "Receive plain-English answers grounded in 34 CFR, FSA Handbook, and HEA Title IV. Free, always — no jargon.",       color: "text-emerald-400",ring: "ring-[#D4AF37]/[0.28]", bg: "bg-emerald-500/[0.08]",glowColor: "rgba(16,185,129,0.35)", activeKey: "guidance" as const },
-                        ] as const).map(({ icon: Icon, step, title, body, color, ring, bg, glowColor, activeKey }) => (
+                          { icon: Sparkles,    step: "1", title: "Choose Your Role",  body: "Select Student, Parent, Admin, Leader, or Compliance/Auditor for role-specific prompts, resources, and tailored guidance.",      color: "text-violet-300", iconBg: "bg-violet-500/[0.20]", cardRing: "ring-violet-400/[0.55]", glowColor: "rgba(139,92,246,0.35)", cardBg: "linear-gradient(145deg, rgba(139,92,246,0.18) 0%, rgba(139,92,246,0.08) 100%)", idleGlow: "0 4px 20px rgba(139,92,246,0.20), inset 0 1px 0 rgba(255,255,255,0.14)", activeKey: "role"     as const },
+                          { icon: Send,        step: "2", title: "Ask Anything",       body: "Type any student aid question in plain English. Upload documents, letters, or forms for instant AI analysis.",                   color: "text-cyan-300",   iconBg: "bg-cyan-500/[0.20]",   cardRing: "ring-cyan-400/[0.55]",   glowColor: "rgba(6,182,212,0.35)",  cardBg: "linear-gradient(145deg, rgba(6,182,212,0.18) 0%, rgba(6,182,212,0.08) 100%)",   idleGlow: "0 4px 20px rgba(6,182,212,0.20), inset 0 1px 0 rgba(255,255,255,0.14)",   activeKey: "chatbox"  as const },
+                          { icon: Library,     step: "3", title: "Explore the Hub",    body: "Access 500+ curated resources — scholarships, VA benefits, loan tools, federal aid portals, and institutional guides.",          color: "text-sky-300",    iconBg: "bg-sky-500/[0.20]",    cardRing: "ring-sky-400/[0.55]",    glowColor: "rgba(56,189,248,0.35)", cardBg: "linear-gradient(145deg, rgba(56,189,248,0.18) 0%, rgba(56,189,248,0.08) 100%)", idleGlow: "0 4px 20px rgba(56,189,248,0.20), inset 0 1px 0 rgba(255,255,255,0.14)",  activeKey: "panels"   as const },
+                          { icon: CheckCircle, step: "4", title: "Get Clear Guidance", body: "Receive plain-English answers grounded in 34 CFR, FSA Handbook, and HEA Title IV. Free, always — no jargon.",                 color: "text-emerald-300",iconBg: "bg-emerald-500/[0.20]",cardRing: "ring-emerald-400/[0.55]",glowColor: "rgba(16,185,129,0.35)", cardBg: "linear-gradient(145deg, rgba(16,185,129,0.18) 0%, rgba(16,185,129,0.08) 100%)", idleGlow: "0 4px 20px rgba(16,185,129,0.20), inset 0 1px 0 rgba(255,255,255,0.14)", activeKey: "guidance" as const },
+                        ] as const).map(({ icon: Icon, step, title, body, color, iconBg, cardRing, glowColor, cardBg, idleGlow, activeKey }) => (
                           <button
                             key={step}
                             type="button"
                             onClick={() => { setHowItWorksActive(activeKey); triggerOrbGold(); if (activeKey === "panels") { setShowMobileLeft(true); setShowMobileRight(true); resetLeftTimer(); resetRightTimer(); } }}
-                            className={`flex flex-col gap-2 p-4 rounded-2xl ring-1 ${ring} text-left transition-all duration-200 hover:scale-[1.04] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${howItWorksActive === activeKey ? "hiw-active-ring brightness-125" : ""}`}
+                            className={`flex flex-col gap-2 p-4 rounded-2xl ring-1 ${cardRing} text-left transition-all duration-200 hover:scale-[1.04] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${howItWorksActive === activeKey ? "hiw-active-ring brightness-125" : ""}`}
                             style={{
-                              background: `linear-gradient(145deg, rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.06) 100%)`,
+                              background: cardBg,
                               boxShadow: howItWorksActive === activeKey
                                 ? `0 0 0 1px rgba(212,175,55,0.55), 0 6px 24px ${glowColor}, 0 0 48px ${glowColor}, inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -1px 0 rgba(0,0,0,0.10)`
-                                : `0 2px 12px rgba(0,0,0,0.20), inset 0 1px 0 rgba(255,255,255,0.18)`,
+                                : idleGlow,
                             }}
                           >
                             <div className="flex items-center justify-between">
-                              <div className={`p-2 rounded-xl ${bg} ring-1 ${ring} shadow-sm`}>
+                              <div className={`p-2 rounded-xl ${iconBg} ring-1 ${cardRing} shadow-sm`}>
                                 <Icon className={`h-4 w-4 ${color} ${howItWorksActive === activeKey ? "animate-pulse" : ""}`} aria-hidden="true" />
                               </div>
                               <span className="text-xl font-black text-white/25 tabular-nums leading-none" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.70)" }}>{step}</span>
