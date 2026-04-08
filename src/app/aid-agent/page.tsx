@@ -5571,7 +5571,7 @@ export default function AidAgentPage() {
                         { icon: ShieldCheck, text: "Updated Weekly"        },
                         { icon: Users,       text: "Students · Parents · Offices" },
                       ].map(({ icon: Icon, text }) => (
-                        <span key={text} className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#0D1A32] ring-1 ring-cyan-500/[0.25] shadow-md shadow-black/35 hover:ring-cyan-400/50 hover:shadow-lg hover:shadow-cyan-900/25 hover:scale-[1.03] transition-all duration-150 cursor-default" style={{ backdropFilter: "blur(8px)", background: "linear-gradient(145deg, rgba(13,26,50,0.95) 0%, rgba(10,20,40,0.90) 100%)" }}>
+                        <span key={text} className="flex items-center gap-1.5 px-2.5 py-1 rounded-full ring-1 ring-cyan-400/[0.40] transition-all duration-150 cursor-default" style={{ backdropFilter: "blur(8px)", background: "linear-gradient(145deg, rgba(6,182,212,0.14) 0%, rgba(6,182,212,0.06) 100%)", boxShadow: "0 2px 14px rgba(6,182,212,0.12), inset 0 1px 0 rgba(255,255,255,0.10)" }}>
                           <Icon className="h-3 w-3 text-cyan-400 shrink-0" aria-hidden="true" />
                           <span className="text-[11px] text-white/75 font-semibold">{text}</span>
                         </span>
@@ -6056,22 +6056,8 @@ export default function AidAgentPage() {
                   </button>
                 )}
               </div>
-              {/* Home button — mobile only, shown when in chat */}
-              {messages.length > 0 && (
-                <div className="flex md:hidden justify-end mb-1 px-1">
-                  <button
-                    onClick={goHome}
-                    title="Back to Home"
-                    className="flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] font-medium text-white/30 hover:text-cyan-300 hover:bg-cyan-500/[0.08] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
-                  >
-                    <Home className="h-3 w-3" />
-                    Home
-                  </button>
-                </div>
-              )}
-
-              {/* Role selector */}
-              <div className={`flex items-center gap-1.5 flex-wrap mb-1.5 md:mb-2.5 px-1 rounded-xl transition-all duration-300 ${howItWorksActive === "role" ? "hiw-active-shimmer py-1.5 -mx-1" : ""}`}>
+              {/* Role selector — desktop only */}
+              <div className={`hidden md:flex items-center gap-1.5 flex-wrap md:mb-2.5 px-1 rounded-xl transition-all duration-300 ${howItWorksActive === "role" ? "hiw-active-shimmer py-1.5 -mx-1" : ""}`}>
                 <span className="text-[10px] text-white font-semibold tracking-wide mr-0.5 shrink-0">I am a:</span>
                 {ROLE_OPTIONS.map(({ label, icon: RoleIcon, color, ring, bg }) => (
                   <button
