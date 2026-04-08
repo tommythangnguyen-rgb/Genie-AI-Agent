@@ -4372,6 +4372,7 @@ export default function AidAgentPage() {
     readerRef.current?.cancel();
     readerRef.current = null;
     setIsStreaming(false);
+    setIsLoading(false);
     setStreamingMsgId(null);
   };
 
@@ -4531,6 +4532,7 @@ export default function AidAgentPage() {
         },
       ]);
     } finally {
+      setIsLoading(false);
       setIsStreaming(false);
       setStreamingMsgId(null);
       readerRef.current = null;
