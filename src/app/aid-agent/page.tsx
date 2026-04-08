@@ -5564,21 +5564,6 @@ export default function AidAgentPage() {
                       </p>
                     </div>
 
-                    {/* ── Human story photo strip ── */}
-                    <div className="flex gap-1.5 mb-3 rounded-xl overflow-hidden h-[130px]">
-                      {[
-                        { src: "/images/strip-students.jpg",    pos: "object-[50%_20%]", label: "Students"    },
-                        { src: "/images/strip-families.jpg",    pos: "object-[50%_25%]", label: "Families & Offices" },
-                        { src: "/images/strip-professionals.jpg", pos: "object-[50%_30%]", label: "Professionals" },
-                      ].map(({ src, pos, label }) => (
-                        <div key={src} className="relative flex-1 overflow-hidden first:rounded-l-xl last:rounded-r-xl">
-                          <img src={src} alt={label} className={`w-full h-full object-cover ${pos}`} style={{ filter: "saturate(1.18) contrast(1.04) brightness(1.10)" }} />
-                          <div className="absolute inset-0 bg-gradient-to-t from-[#04091A]/90 via-[#04091A]/40 to-transparent" />
-                          <span className="absolute bottom-1.5 left-0 right-0 text-center text-[8px] font-bold uppercase tracking-[0.14em] text-white/55">{label}</span>
-                        </div>
-                      ))}
-                    </div>
-
                     {/* Trust strip */}
                     <div className="flex flex-wrap items-center justify-center md:justify-start gap-1.5 mb-3">
                       {[
