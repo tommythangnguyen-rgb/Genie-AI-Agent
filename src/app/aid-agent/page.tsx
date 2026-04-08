@@ -5334,7 +5334,7 @@ export default function AidAgentPage() {
                 <button
                   onClick={() => { const next = !showMobileLeft; setShowMobileLeft(next); if (next) { resetLeftTimer(); triggerOrbGold(); } }}
                   title="Students & Parents panel"
-                  className="shrink-0 p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60 text-[#C9A227]/65 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.12] hover:shadow-[0_0_10px_rgba(212,175,55,0.25)]"
+                  className={`shrink-0 p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.12] hover:shadow-[0_0_10px_rgba(212,175,55,0.25)] ${howItWorksActive === "panels" ? "text-[#D4AF37] bg-[#D4AF37]/[0.15] shadow-[0_0_18px_rgba(212,175,55,0.55)] ring-1 ring-[#D4AF37]/50" : "text-[#C9A227]/65"}`}
                 >
                   {showMobileLeft ? <X className="h-5 w-5" /> : <GraduationCap className="h-5 w-5" />}
                 </button>
@@ -5418,7 +5418,7 @@ export default function AidAgentPage() {
                 <button
                   onClick={() => { const next = !showMobileRight; setShowMobileRight(next); if (next) { resetRightTimer(); triggerOrbGold(); } }}
                   title="Admins & Compliance/Auditors panel"
-                  className="p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60 text-[#C9A227]/65 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.12] hover:shadow-[0_0_10px_rgba(212,175,55,0.25)]"
+                  className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.12] hover:shadow-[0_0_10px_rgba(212,175,55,0.25)] ${howItWorksActive === "panels" ? "text-[#D4AF37] bg-[#D4AF37]/[0.15] shadow-[0_0_18px_rgba(212,175,55,0.55)] ring-1 ring-[#D4AF37]/50" : "text-[#C9A227]/65"}`}
                 >
                   {showMobileRight ? <X className="h-5 w-5" /> : <Zap className="h-5 w-5" />}
                 </button>
@@ -5595,7 +5595,7 @@ export default function AidAgentPage() {
                           <button
                             key={step}
                             type="button"
-                            onClick={() => { setHowItWorksActive(activeKey); triggerOrbGold(); if (activeKey === "panels") { setShowMobileLeft(true); setShowMobileRight(true); resetLeftTimer(); resetRightTimer(); } }}
+                            onClick={() => { setHowItWorksActive(activeKey); triggerOrbGold(); }}
                             className={`flex flex-col gap-2 p-4 rounded-2xl ring-1 ${cardRing} text-left transition-all duration-200 hover:scale-[1.04] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${howItWorksActive === activeKey ? "hiw-active-ring brightness-125" : ""}`}
                             style={{
                               background: cardBg,
@@ -6057,7 +6057,7 @@ export default function AidAgentPage() {
                 )}
               </div>
               {/* Role selector — mobile: icon-only row; desktop: full pill row */}
-              <div className="flex md:hidden items-center gap-0.5 mb-1.5 px-1">
+              <div className={`flex md:hidden items-center gap-0.5 mb-1.5 px-1 rounded-xl transition-all duration-300 ${howItWorksActive === "role" ? "hiw-active-shimmer py-1 -mx-1" : ""}`}>
                 {ROLE_OPTIONS.map(({ label, icon: RoleIcon, color, ring, bg }) => (
                   <button
                     key={label}
