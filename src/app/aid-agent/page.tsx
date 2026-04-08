@@ -6063,6 +6063,7 @@ export default function AidAgentPage() {
               </div>
               {/* Role selector — mobile: icon-only row; desktop: full pill row */}
               <div className={`flex md:hidden items-center gap-0.5 mb-1.5 px-1 rounded-xl transition-all duration-300 ${howItWorksActive === "role" ? "hiw-active-shimmer py-1 -mx-1" : ""}`}>
+                <span className="text-[10px] font-semibold text-white/45 tracking-wide mr-1 shrink-0">Role:</span>
                 {ROLE_OPTIONS.map(({ label, icon: RoleIcon, color, ring, bg }) => (
                   <button
                     key={label}
