@@ -5325,7 +5325,7 @@ export default function AidAgentPage() {
           {/* ── Header ── */}
           <header
             className="sticky top-0 z-50 shrink-0 border-b border-[#1E2A4A]"
-            style={{ background: "linear-gradient(135deg, rgba(14,28,62,0.55) 0%, rgba(18,34,70,0.60) 50%, rgba(14,28,62,0.55) 100%)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", borderBottom: "1px solid rgba(255,255,255,0.10)" }}
+            style={{ background: "linear-gradient(135deg, rgba(14,28,62,0.22) 0%, rgba(18,34,70,0.25) 50%, rgba(14,28,62,0.22) 100%)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", borderBottom: "1px solid rgba(255,255,255,0.10)" }}
           >
             <div className="relative px-3 py-1.5 flex items-center justify-between gap-2">
 
@@ -6008,7 +6008,7 @@ export default function AidAgentPage() {
                             onChange={handleInputChange}
                             onKeyDown={handleKeyDown}
                             aria-label="Ask Genie a financial aid question"
-                            placeholder={isRecording ? "🎙 Listening… speak your question…" : "Ask about FAFSA, aid offers, R2T4, SAP, or any student aid question…"}
+                            placeholder={isRecording ? "🎙 Listening… speak your question…" : "Type here and send it!"}
                             rows={1}
                             className="w-full resize-none px-2 py-1.5 bg-transparent text-white text-sm placeholder:text-white/40 focus:outline-none leading-relaxed"
                             style={{ minHeight: "40px", maxHeight: "160px" }}
@@ -6033,13 +6033,13 @@ export default function AidAgentPage() {
           )}
 
           {/* Input area — always visible on mobile; on desktop only when no chat is active */}
-          <div className={`shrink-0 relative border-t border-[#1E2A4A] px-3 pt-2 pb-2 md:px-4 md:pt-3 md:pb-3 ${messages.length > 0 ? "md:hidden" : ""}`} style={{ background: "rgba(4,10,26,0.60)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", zIndex: 3 }}>
+          <div className={`shrink-0 relative border-t border-[#1E2A4A] px-3 pt-1.5 pb-1.5 md:px-4 md:pt-3 md:pb-3 ${messages.length > 0 ? "md:hidden" : ""}`} style={{ background: "rgba(4,10,26,0.60)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", zIndex: 3 }}>
             {/* Ambient glow bloom behind chatbox */}
             <div className="pointer-events-none absolute inset-x-0 -top-6 h-16 bg-gradient-to-t from-cyan-500/[0.06] to-transparent" />
 
             <div className="relative w-full max-w-xl mx-auto">
-              {/* Prompt label row */}
-              <div className="flex items-center gap-2 mb-1 md:mb-2 px-1">
+              {/* Prompt label row — desktop only */}
+              <div className="hidden md:flex items-center gap-2 mb-2 px-1">
                 <GenieBottle className="h-3.5 w-3.5 text-amber-400 shrink-0 genie-icon-shimmer" />
                 <span className="text-sm font-semibold tracking-wide">
                   <span style={{ background: "linear-gradient(90deg, #FFFFFF 0%, #D8EEFF 20%, #FFFFFF 40%, #EAF5FF 60%, #FFFFFF 80%, #D0E8FF 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-white-shimmer 4s linear infinite" }}>askGenie</span>
@@ -6056,9 +6056,22 @@ export default function AidAgentPage() {
                   </button>
                 )}
               </div>
+              {/* Home button — mobile only, shown when in chat */}
+              {messages.length > 0 && (
+                <div className="flex md:hidden justify-end mb-1 px-1">
+                  <button
+                    onClick={goHome}
+                    title="Back to Home"
+                    className="flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] font-medium text-white/30 hover:text-cyan-300 hover:bg-cyan-500/[0.08] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+                  >
+                    <Home className="h-3 w-3" />
+                    Home
+                  </button>
+                </div>
+              )}
 
               {/* Role selector */}
-              <div className={`flex items-center gap-1.5 flex-wrap mb-2.5 px-1 rounded-xl transition-all duration-300 ${howItWorksActive === "role" ? "hiw-active-shimmer py-1.5 -mx-1" : ""}`}>
+              <div className={`flex items-center gap-1.5 flex-wrap mb-1.5 md:mb-2.5 px-1 rounded-xl transition-all duration-300 ${howItWorksActive === "role" ? "hiw-active-shimmer py-1.5 -mx-1" : ""}`}>
                 <span className="text-[10px] text-white font-semibold tracking-wide mr-0.5 shrink-0">I am a:</span>
                 {ROLE_OPTIONS.map(({ label, icon: RoleIcon, color, ring, bg }) => (
                   <button
@@ -6165,7 +6178,7 @@ export default function AidAgentPage() {
                       onChange={handleInputChange}
                       onKeyDown={handleKeyDown}
                       aria-label="Ask Genie a financial aid question"
-                      placeholder={isRecording ? "🎙 Listening… speak your question…" : "Ask about FAFSA, aid offers, R2T4, SAP, or any student aid question…"}
+                      placeholder={isRecording ? "🎙 Listening… speak your question…" : "Type here and send it!"}
                       rows={1}
                       className="w-full resize-none px-2 py-1.5 bg-transparent text-white text-sm placeholder:text-white/40 focus:outline-none leading-relaxed"
                       style={{ minHeight: "40px", maxHeight: "160px" }}
@@ -6204,14 +6217,14 @@ export default function AidAgentPage() {
               </div>
 
 
-              <p className="mt-1 text-[9px] text-cyan-400/25 text-center leading-snug">
+              <p className="hidden md:block mt-1 text-[9px] text-cyan-400/25 text-center leading-snug">
                 Enter ↵ to send · Shift+Enter new line · Unofficial guidance — verify with FSA Handbook
               </p>
             </div>
           </div>
 
           {/* ── Site Footer Bar ── */}
-          <div className="shrink-0 border-t border-[#0F1E3A] px-3 py-1 md:px-4 md:py-2" style={{ background: "rgba(4,10,26,0.60)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", zIndex: 3 }}>
+          <div className="shrink-0 border-t border-[#0F1E3A] px-3 py-1 md:px-4 md:py-2" style={{ background: "rgba(4,10,26,0.22)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", zIndex: 3 }}>
             <div className="flex flex-wrap justify-center items-center gap-x-0 gap-y-0.5 mb-0.5">
               {[
                 { label: "Plans & Pricing",     href: "/pricing",      cls: "font-semibold text-white hover:text-white hover:bg-white/[0.08]" },
