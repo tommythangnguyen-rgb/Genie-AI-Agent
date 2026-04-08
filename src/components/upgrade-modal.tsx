@@ -51,7 +51,7 @@ const FEATURE_META: Record<Feature, { icon: React.ElementType; title: string; bo
 const CTA_VARIANTS = [
   "Start your 14-day free trial",
   "Upgrade to Pro — try free for 14 days",
-  "Unlock Pro — no card required for trial",
+  "Unlock Pro — card required to start trial",
   "Get full access — free for 2 weeks",
 ];
 
@@ -167,7 +167,7 @@ export function UpgradeModal({ feature, onClose, onUpgrade }: UpgradeModalProps)
         {/* Pricing note */}
         <p className="text-xs text-white/35 text-center mb-4">
           Pro starts at <strong className="text-white/60">$5.99/month</strong> — or $59/year (save 18%).
-          14-day free trial, no card required.
+          14-day free trial. Card required.
         </p>
 
         {/* Error */}

@@ -5225,7 +5225,7 @@ export default function AidAgentPage() {
           </div>
 
           {/* Scrollable content */}
-          <div className="flex-1 overflow-y-auto p-4">
+          <div className="flex-1 overflow-y-auto genie-scroll p-4">
             <div className="flex flex-col gap-2.5">
 
               {/* Section icon grid */}
@@ -5436,8 +5436,8 @@ export default function AidAgentPage() {
 
           </header>
 
-          {/* ── Fixed orb companion — right rail, welcome state only ── */}
-          {messages.length === 0 && (
+          {/* ── Fixed orb companion — removed ── */}
+          {false && (
             <div
               ref={pcOrbRef}
               aria-hidden="true"
@@ -5518,54 +5518,6 @@ export default function AidAgentPage() {
               <p className="mt-1 text-[10px] font-bold tracking-[0.18em] uppercase pointer-events-none" style={{ color: "rgba(0,235,200,0.85)", textShadow: "0 0 12px rgba(0,229,192,0.70), 0 0 24px rgba(0,184,255,0.40)" }}>✦ Genie</p>
             </div>
           )}
-
-          {/* ── Mobile orb — starts top-center, roams freely after first interaction ── */}
-          <button
-            aria-label={mobileOrbExpanded ? "Shrink guide orb" : "Expand guide orb"}
-            onClick={() => { setMobileOrbExpanded(v => !v); triggerOrbGold(); }}
-            className={`lg:hidden pointer-events-auto select-none${mobileOrbRoaming ? " genie-mobile-orb-roaming" : ""}`}
-            style={{
-              position: "fixed",
-              ...(mobileOrbRoaming ? {} : { top: "18%", left: "50%", transform: "translateX(-50%)" }),
-              zIndex: 2,
-              background: "none",
-              border: "none",
-              padding: 0,
-              cursor: "pointer",
-              opacity: mobileOrbRoaming ? 0.38 : 0.72,
-              transition: "opacity 1.2s ease",
-            }}
-          >
-            <div
-              style={{
-                width: mobileOrbExpanded ? 56 : 28,
-                height: mobileOrbExpanded ? 56 : 28,
-                borderRadius: "50%",
-                background: "radial-gradient(circle at 32% 24%, rgba(255,255,255,0.98) 0%, rgba(160,255,248,1) 5%, rgba(0,235,200,1) 18%, rgba(0,195,220,0.97) 38%, rgba(0,90,160,0.98) 62%, rgba(0,28,75,1) 82%, rgba(2,10,38,1) 100%)",
-                boxShadow: orbGlowing
-                  ? "0 0 0 3px rgba(255,215,0,0.90), 0 0 22px 8px rgba(255,170,0,0.65)"
-                  : "0 0 0 2px rgba(0,235,200,0.85), 0 0 14px 5px rgba(0,229,192,0.50), 0 0 28px 10px rgba(0,184,255,0.25)",
-                transition: "width 0.3s ease, height 0.3s ease, box-shadow 0.4s ease",
-                animation: mobileOrbRoaming ? undefined : "genie-mobile-orb-float 4.5s ease-in-out infinite",
-                overflow: "hidden",
-                position: "relative",
-              }}
-            >
-              <div style={{
-                position: "absolute", top: 0, left: 0, width: "200%", height: "100%",
-                background: "repeating-linear-gradient(90deg,transparent 0%,transparent 7%,rgba(255,255,255,0.11) 7%,rgba(255,255,255,0.11) 8.5%,transparent 8.5%,transparent 50%)",
-                animation: "genie-orb-bands 18s linear infinite",
-              }} />
-              <div style={{
-                position: "absolute", top: "6%", left: "14%", width: "38%", height: "30%",
-                background: "radial-gradient(circle, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.50) 45%, transparent 100%)",
-                borderRadius: "50%", filter: "blur(1px)",
-              }} />
-            </div>
-            {mobileOrbExpanded && (
-              <p style={{ fontSize: 7, color: "rgba(0,209,201,0.65)", textAlign: "center", marginTop: 3, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase" }}>guide</p>
-            )}
-          </button>
 
           {/* Messages / Welcome */}
           <div ref={scrollContainerRef} className={`flex-1 overflow-y-auto min-h-0 genie-scroll-main transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-active-panel" : ""}`} role="log" aria-live="polite" aria-label="Conversation" style={{ position: "relative", zIndex: 3 }}>
@@ -6328,7 +6280,7 @@ export default function AidAgentPage() {
           </div>
 
           {/* Scrollable content */}
-          <div className="flex-1 overflow-y-auto p-4">
+          <div className="flex-1 overflow-y-auto genie-scroll p-4">
             <div className="flex flex-col gap-2.5">
 
               {/* Section icon grid */}

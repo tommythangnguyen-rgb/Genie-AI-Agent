@@ -61,7 +61,7 @@ export async function POST(req: NextRequest) {
       metadata: { userId: session.userId, tier: plan.tier },
     };
 
-    // Add 14-day free trial for Pro plans — no card required upfront
+    // Add 14-day free trial for Pro plans — card required upfront
     if (plan.trialDays > 0) {
       subscriptionData.trial_period_days = plan.trialDays;
       subscriptionData.trial_settings = {
@@ -74,8 +74,8 @@ export async function POST(req: NextRequest) {
       payment_method_types: ["card"],
       line_items: [{ price: plan.priceId, quantity: 1 }],
       mode: "subscription",
-      // Allow trial without card if trial is offered
-      payment_method_collection: plan.trialDays > 0 ? "if_required" : "always",
+      // Card always required — trial starts after card is collected
+      payment_method_collection: "always",
       success_url: `${baseUrl}/account?success=true&plan=${plan.tier.toLowerCase()}`,
       cancel_url: `${baseUrl}/pricing`,
       metadata: { userId: session.userId, tier: plan.tier },

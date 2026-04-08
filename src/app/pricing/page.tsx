@@ -68,6 +68,8 @@ const TIERS: Tier[] = [
   {
     id: "free",
     name: "Free",
+    badge: "Community Members",
+    badgeColor: "from-slate-500 to-slate-600",
     monthlyPrice: 0,
     yearlyPrice: 0,
     description: "Start exploring financial aid guidance — no card needed.",
@@ -78,6 +80,26 @@ const TIERS: Tier[] = [
     dailyLimit: "10 messages / day",
     includes: ["role_selector", "basic_chat", "award_summaries"],
     excludes: ["unlimited_chat", "doc_upload", "advanced_tools", "pdf_export", "chat_history", "overage", "unlimited_usage", "team_sharing", "custom_templates", "admin_dashboard"],
+  },
+  {
+    id: "pro-annual",
+    name: "Pro",
+    badge: "Annual — Save 18%",
+    badgeColor: "from-emerald-500 to-teal-600",
+    monthlyPrice: null,
+    yearlyPrice: 59,
+    priceNote: "billed once / year · ~$4.92/mo",
+    description: "Every Pro feature — unlimited questions, full document analysis — at the best yearly rate.",
+    highlight: false,
+    ctaLabel: "Get Pro Annual — $59 / yr",
+    ctaVariant: "outline",
+    checkoutId: "PRO_YEARLY",
+    dailyLimit: "Unlimited",
+    includes: [
+      "role_selector", "basic_chat", "award_summaries",
+      "unlimited_chat", "doc_upload", "advanced_tools", "pdf_export", "chat_history", "overage",
+    ],
+    excludes: ["unlimited_usage", "team_sharing", "custom_templates", "admin_dashboard"],
   },
   {
     id: "pro",
@@ -152,7 +174,7 @@ const FAQ_ITEMS = [
   },
   {
     q: "Is a credit card required to start the trial?",
-    a: "No. You can start the 14-day Pro trial without entering any payment information. If you decide to continue after the trial, you'll add a card at that point.",
+    a: "Yes. A card is required to start the 14-day Pro trial. You won't be charged until the trial ends. Cancel anytime before then from your account page and you'll never be charged.",
   },
   {
     q: "Can I cancel anytime?",
@@ -189,7 +211,9 @@ export default function PricingPage() {
 
     const planId = tier.id === "pro"
       ? (annual ? "PRO_YEARLY" : "PRO_MONTHLY")
-      : (annual ? "TEAM_YEARLY" : "TEAM_MONTHLY");
+      : tier.id === "team"
+      ? (annual ? "TEAM_YEARLY" : "TEAM_MONTHLY")
+      : tier.checkoutId!;
 
     setLoading(tier.id);
     setCheckoutError(null);
@@ -293,7 +317,7 @@ export default function PricingPage() {
           {/* Contextual photo strip */}
           <div className="relative rounded-2xl overflow-hidden max-w-sm mx-auto mb-10">
             <img
-              src="/images/student-happy.jpg"
+              src="/images/pricing2.jpg"
               alt=""
               className="w-full h-48 object-cover object-[50%_25%]"
             />
@@ -329,7 +353,7 @@ export default function PricingPage() {
         )}
 
         {/* ── Pricing cards ── */}
-        <div className="grid sm:grid-cols-3 gap-5 mb-14 items-start">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-14 items-start">
           {TIERS.map((tier) => {
             const savings = annual ? getSavings(tier) : null;
             const isHighlight = tier.highlight;
@@ -367,10 +391,10 @@ export default function PricingPage() {
                 {/* Price */}
                 <div className="mb-1 flex items-end gap-1.5">
                   <span className="text-4xl font-extrabold text-white leading-none">
-                    {getPrice(tier)}
+                    {tier.monthlyPrice === null ? `$${tier.yearlyPrice}` : getPrice(tier)}
                   </span>
                   <div className="mb-0.5">
-                    <p className="text-sm text-white/50">/month</p>
+                    <p className="text-sm text-white/50">{tier.monthlyPrice === null ? "/year" : "/month"}</p>
                     {tier.priceNote && (
                       <p className="text-[10px] text-white/35">{tier.priceNote}</p>
                     )}
@@ -414,10 +438,15 @@ export default function PricingPage() {
                   {loading !== tier.id && tier.ctaVariant === "primary" && <ArrowRight className="h-4 w-4" />}
                 </button>
 
-                {/* Trial note for Pro */}
+                {/* Trial / billing note */}
                 {tier.id === "pro" && (
                   <p className="text-[10px] text-white/30 text-center -mt-4 mb-4">
-                    14-day free trial · No card required
+                    14-day free trial · Card required
+                  </p>
+                )}
+                {tier.id === "pro-annual" && (
+                  <p className="text-[10px] text-white/30 text-center -mt-4 mb-4">
+                    14-day free trial · Card required · Billed annually
                   </p>
                 )}
 

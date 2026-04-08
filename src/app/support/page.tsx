@@ -131,9 +131,9 @@ export default function SupportPage() {
           {/* Contextual photo */}
           <div className="relative rounded-2xl overflow-hidden max-w-xs mx-auto">
             <img
-              src="/images/student-fafsa.jpg"
+              src="/images/support-dev.jpg"
               alt=""
-              className="w-full h-48 object-cover object-[50%_25%]"
+              className="w-full h-48 object-cover object-[50%_20%]"
             />
             <div className="absolute inset-0 bg-gradient-to-b from-[#020C1B]/40 to-[#020C1B]/75" />
           </div>

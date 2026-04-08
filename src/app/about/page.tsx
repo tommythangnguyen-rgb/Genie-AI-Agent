@@ -61,7 +61,7 @@ export default function AboutPage() {
         {/* Hero — cinematic photo banner */}
         <div className="relative rounded-2xl overflow-hidden mt-10 mb-2">
           <img
-            src="/images/family-laptop.jpg"
+            src="/images/about-hero.jpg"
             alt=""
             className="w-full h-64 md:h-96 object-cover object-[50%_25%]"
           />
