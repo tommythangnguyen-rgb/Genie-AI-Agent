@@ -6056,7 +6056,24 @@ export default function AidAgentPage() {
                   </button>
                 )}
               </div>
-              {/* Role selector — desktop only */}
+              {/* Role selector — mobile: icon-only row; desktop: full pill row */}
+              <div className="flex md:hidden items-center gap-0.5 mb-1.5 px-1">
+                {ROLE_OPTIONS.map(({ label, icon: RoleIcon, color, ring, bg }) => (
+                  <button
+                    key={label}
+                    type="button"
+                    title={label}
+                    aria-pressed={selectedRole === label}
+                    onClick={() => { syncRoles(selectedRole === label ? null : label); if (selectedRole !== label) setSlideIndex(1); }}
+                    className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400 ${selectedRole === label ? `${color} ${bg} ring-1 ${ring}` : "text-white/35 hover:text-white/65"}`}
+                  >
+                    <RoleIcon className="h-3.5 w-3.5 shrink-0" />
+                  </button>
+                ))}
+                {selectedRole && (
+                  <button type="button" onClick={() => syncRoles(null)} className="text-[9px] text-white/25 hover:text-white/55 transition-colors ml-0.5">✕</button>
+                )}
+              </div>
               <div className={`hidden md:flex items-center gap-1.5 flex-wrap md:mb-2.5 px-1 rounded-xl transition-all duration-300 ${howItWorksActive === "role" ? "hiw-active-shimmer py-1.5 -mx-1" : ""}`}>
                 <span className="text-[10px] text-white font-semibold tracking-wide mr-0.5 shrink-0">I am a:</span>
                 {ROLE_OPTIONS.map(({ label, icon: RoleIcon, color, ring, bg }) => (
@@ -6226,10 +6243,10 @@ export default function AidAgentPage() {
               ].map(({ label, href, cls }, i, arr) => (
                 <span key={label} className="contents">
                   {href === "#install"
-                    ? <button type="button" onClick={() => setShowAppModal(true)} className={`px-1.5 py-px rounded-full text-[9px] transition-all duration-150 ${cls}`}>{label}</button>
-                    : <a href={href} {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})} className={`px-1.5 py-px rounded-full text-[9px] transition-all duration-150 ${cls}`}>{label}</a>
+                    ? <button type="button" onClick={() => setShowAppModal(true)} className={`px-1 py-px rounded-full text-[7px] md:text-[9px] md:px-1.5 transition-all duration-150 ${cls}`}>{label}</button>
+                    : <a href={href} {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})} className={`px-1 py-px rounded-full text-[7px] md:text-[9px] md:px-1.5 transition-all duration-150 ${cls}`}>{label}</a>
                   }
-                  {i < arr.length - 1 && <span className="text-white/10 text-[9px] select-none px-0.5">·</span>}
+                  {i < arr.length - 1 && <span className="text-white/10 text-[7px] md:text-[9px] select-none px-0.5">·</span>}
                 </span>
               ))}
             </div>
