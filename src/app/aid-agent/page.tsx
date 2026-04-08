@@ -6132,28 +6132,28 @@ export default function AidAgentPage() {
 
               {/* Input form */}
               <div
-                className={`rounded-2xl ring-1 focus-within:ring-white/75 transition-all duration-200 ${howItWorksActive === "guidance" ? "hiw-guidance-chatbox" : howItWorksActive === "chatbox" ? "hiw-active-ring" : (!input && !attachedFile ? "ring-white/35" : "ring-white/65")}`}
+                className={`rounded-2xl ring-1 focus-within:ring-cyan-400/80 md:focus-within:ring-white/75 transition-all duration-200 ${howItWorksActive === "guidance" ? "hiw-guidance-chatbox" : howItWorksActive === "chatbox" ? "hiw-active-ring" : (!input && !attachedFile ? "ring-cyan-400/35 md:ring-white/35" : "ring-cyan-400/65 md:ring-white/65")}`}
                 style={{
                   background: "rgba(255,255,255,0.035)",
                   boxShadow: howItWorksActive === "chatbox"
                     ? "0 0 0 2px rgba(255,255,255,0.60), 0 0 40px rgba(255,255,255,0.18), 0 0 80px rgba(255,255,255,0.08), 0 1px 0 rgba(255,255,255,0.10) inset"
-                    : "0 1px 0 rgba(255,255,255,0.06) inset",
+                    : "0 0 18px rgba(0,229,192,0.18), 0 1px 0 rgba(255,255,255,0.06) inset",
                 }}
               >
                 <form
                   onSubmit={handleSubmit}
                   className="flex gap-2 items-end px-3 py-2.5"
                 >
-                  {/* Upload + mic buttons — illuminate when idle to invite use */}
+                  {/* Upload + mic buttons — teal on mobile, white on desktop */}
                   <div className="flex items-center gap-0.5 shrink-0 mb-0.5">
                     <button type="button" title={canAccessFeature("document_upload", userTier) ? "Upload document (.pdf, .txt, .doc, .csv)" : "Pro — upload documents"}
                       onClick={() => canAccessFeature("document_upload", userTier) ? fileInputRef.current?.click() : openUpgrade("document_upload")}
-                      className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-white hover:text-white hover:bg-white/[0.12] hover:shadow-[0_0_8px_rgba(255,255,255,0.25)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
+                      className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-cyan-400 md:text-white hover:text-cyan-300 md:hover:text-white hover:bg-cyan-500/[0.15] md:hover:bg-white/[0.12] hover:shadow-[0_0_10px_rgba(0,229,192,0.40)] md:hover:shadow-[0_0_8px_rgba(255,255,255,0.25)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
                       <Paperclip className="h-4 w-4" />
                     </button>
                     <button type="button" title={canAccessFeature("document_upload", userTier) ? "Take or upload a photo for context" : "Pro — upload photos"}
                       onClick={() => canAccessFeature("document_upload", userTier) ? cameraInputRef.current?.click() : openUpgrade("document_upload")}
-                      className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-white hover:text-white hover:bg-white/[0.12] hover:shadow-[0_0_8px_rgba(255,255,255,0.25)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
+                      className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-cyan-400 md:text-white hover:text-cyan-300 md:hover:text-white hover:bg-cyan-500/[0.15] md:hover:bg-white/[0.12] hover:shadow-[0_0_10px_rgba(0,229,192,0.40)] md:hover:shadow-[0_0_8px_rgba(255,255,255,0.25)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
                       <Camera className="h-4 w-4" />
                     </button>
                     <button type="button"
@@ -6163,7 +6163,7 @@ export default function AidAgentPage() {
                         isRecording
                           ? "text-rose-400 bg-rose-500/20 ring-1 ring-rose-500/40 animate-pulse shadow-[0_0_12px_rgba(244,63,94,0.45)]"
                           : canAccessFeature("document_upload", userTier)
-                          ? "text-white hover:text-white hover:bg-white/[0.12] hover:shadow-[0_0_8px_rgba(255,255,255,0.25)]"
+                          ? "text-cyan-400 md:text-white hover:text-cyan-300 md:hover:text-white hover:bg-cyan-500/[0.15] md:hover:bg-white/[0.12] hover:shadow-[0_0_10px_rgba(0,229,192,0.40)] md:hover:shadow-[0_0_8px_rgba(255,255,255,0.25)]"
                           : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"
                       }`}>
                       {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
