@@ -4991,6 +4991,11 @@ export default function AidAgentPage() {
           background: rgba(96, 165, 250, 0.55);
         }
         .genie-scroll-main { scrollbar-width: thin; scrollbar-color: rgba(96,165,250,0.30) rgba(10,46,122,0.25); }
+        @media (max-width: 767px) {
+          .mobile-chatbox-neon {
+            box-shadow: 0 0 0 1px rgba(0,229,192,0.55), 0 0 18px rgba(0,229,192,0.45), 0 0 40px rgba(0,229,192,0.18), inset 0 1px 0 rgba(0,229,192,0.08) !important;
+          }
+        }
       `}</style>
       {showDisclaimer && (
         <div role="dialog" aria-modal="true" aria-labelledby="disclaimer-title" className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
@@ -6132,12 +6137,12 @@ export default function AidAgentPage() {
 
               {/* Input form */}
               <div
-                className={`rounded-2xl ring-1 focus-within:ring-cyan-400/80 md:focus-within:ring-white/75 transition-all duration-200 ${howItWorksActive === "guidance" ? "hiw-guidance-chatbox" : howItWorksActive === "chatbox" ? "hiw-active-ring" : (!input && !attachedFile ? "ring-cyan-400/35 md:ring-white/35" : "ring-cyan-400/65 md:ring-white/65")}`}
+                className={`mobile-chatbox-neon rounded-2xl ring-1 focus-within:ring-cyan-400/80 md:focus-within:ring-white/75 transition-all duration-200 ${howItWorksActive === "guidance" ? "hiw-guidance-chatbox" : howItWorksActive === "chatbox" ? "hiw-active-ring" : (!input && !attachedFile ? "ring-cyan-400/50 md:ring-white/35" : "ring-cyan-400/75 md:ring-white/65")}`}
                 style={{
                   background: "rgba(255,255,255,0.035)",
                   boxShadow: howItWorksActive === "chatbox"
                     ? "0 0 0 2px rgba(255,255,255,0.60), 0 0 40px rgba(255,255,255,0.18), 0 0 80px rgba(255,255,255,0.08), 0 1px 0 rgba(255,255,255,0.10) inset"
-                    : "0 0 18px rgba(0,229,192,0.18), 0 1px 0 rgba(255,255,255,0.06) inset",
+                    : "0 1px 0 rgba(255,255,255,0.06) inset",
                 }}
               >
                 <form
