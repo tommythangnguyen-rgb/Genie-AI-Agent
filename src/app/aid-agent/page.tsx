@@ -6117,7 +6117,7 @@ export default function AidAgentPage() {
                 accept=".pdf,.txt,.doc,.docx,.csv,.md"
                 onChange={(e) => { if (e.target.files?.[0]) handleFileSelect(e.target.files[0]); e.target.value = ""; }} />
               <input ref={cameraInputRef} type="file" className="hidden"
-                accept="image/*" capture="environment"
+                accept="image/*"
                 onChange={(e) => { if (e.target.files?.[0]) handleFileSelect(e.target.files[0]); e.target.value = ""; }} />
 
               {/* Attached file preview */}
@@ -6159,7 +6159,7 @@ export default function AidAgentPage() {
                       className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-cyan-400 md:text-white hover:text-cyan-300 md:hover:text-white hover:bg-cyan-500/[0.15] md:hover:bg-white/[0.12] hover:shadow-[0_0_10px_rgba(0,229,192,0.40)] md:hover:shadow-[0_0_8px_rgba(255,255,255,0.25)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
                       <Paperclip className="h-4 w-4" />
                     </button>
-                    <button type="button" title={canAccessFeature("document_upload", userTier) ? "Take or upload a photo for context" : "Pro — upload photos"}
+                    <button type="button" title={canAccessFeature("document_upload", userTier) ? "Attach photo or screenshot" : "Pro — attach photos & screenshots"}
                       onClick={() => canAccessFeature("document_upload", userTier) ? cameraInputRef.current?.click() : openUpgrade("document_upload")}
                       className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-cyan-400 md:text-white hover:text-cyan-300 md:hover:text-white hover:bg-cyan-500/[0.15] md:hover:bg-white/[0.12] hover:shadow-[0_0_10px_rgba(0,229,192,0.40)] md:hover:shadow-[0_0_8px_rgba(255,255,255,0.25)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
                       <Camera className="h-4 w-4" />
