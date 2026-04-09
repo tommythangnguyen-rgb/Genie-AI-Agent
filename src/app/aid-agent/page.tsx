@@ -6396,10 +6396,10 @@ export default function AidAgentPage() {
       {/* ── Section Resource Overlay ── */}
       {overlaySection !== null && (
         <div className="fixed inset-0 z-[80] flex items-center justify-center p-4" onClick={() => setOverlaySection(null)}>
-          <div className="absolute inset-0 bg-black/85 backdrop-blur-md" />
+          <div className="absolute inset-0 bg-black/45 backdrop-blur-sm" />
           <div
             className="relative z-[81] w-full max-w-2xl flex flex-col rounded-2xl overflow-hidden"
-            style={{ maxHeight: "calc(100dvh - 64px)", background: "rgba(6,12,28,0.99)", border: "1px solid rgba(30,42,74,0.9)", boxShadow: "0 30px 70px rgba(0,0,0,0.75), inset 0 1px 0 rgba(255,255,255,0.05)" }}
+            style={{ maxHeight: "calc(100dvh - 64px)", background: "rgba(8,16,36,0.18)", backdropFilter: "blur(28px)", WebkitBackdropFilter: "blur(28px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 30px 70px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.06), inset 0 1px 0 rgba(255,255,255,0.12)" }}
             onClick={e => e.stopPropagation()}
           >
             {/* Banner header */}
@@ -6441,7 +6441,7 @@ export default function AidAgentPage() {
               return (
                 <div className="relative shrink-0 h-24 overflow-hidden">
                   <img src={meta.banner} alt="" className="w-full h-full object-cover" style={{ objectPosition: meta.bannerPos }} />
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(6,12,28,0.35) 0%, rgba(6,12,28,0.88) 100%)" }} />
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.60) 100%)" }} />
                   <div className="absolute inset-0 flex items-end justify-between px-5 pb-3.5">
                     <h2 className="text-sm font-black tracking-tight text-white">
                       {meta.title}
@@ -6474,10 +6474,10 @@ export default function AidAgentPage() {
                     {all.map(({ icon: Icon, label, q }) => (
                       <button key={label} onClick={() => { sendMessage(q); setOverlaySection(null); setShowMobileLeft(false); setShowMobileRight(false); }}
                         className={`flex flex-col items-center gap-1.5 p-2 rounded-2xl ${cfg.tileHover} transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 ${cfg.ringFocus} hover:scale-[1.06] active:scale-95`}>
-                        <div className={`w-14 h-14 rounded-[16px] bg-[#0D1A32] ring-1 ring-white/[0.10] flex items-center justify-center shadow-lg ${cfg.bgHover} ${cfg.ringHover} ${cfg.glow} transition-all`}>
-                          <Icon className={`h-6 w-6 text-[#7B91B0] ${cfg.iconHover} transition-colors`} />
+                        <div className={`w-14 h-14 rounded-[16px] bg-white/[0.08] ring-1 ring-white/[0.18] flex items-center justify-center shadow-lg ${cfg.bgHover} ${cfg.ringHover} ${cfg.glow} transition-all`}>
+                          <Icon className={`h-6 w-6 text-white/70 ${cfg.iconHover} transition-colors`} />
                         </div>
-                        <span className="text-[9px] font-semibold text-[#8A9ABB]/75 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{label}</span>
+                        <span className="text-[9px] font-semibold text-white/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{label}</span>
                       </button>
                     ))}
                   </div>
@@ -6506,14 +6506,14 @@ export default function AidAgentPage() {
                       return (
                         <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                           className="flex flex-col items-center gap-1.5 p-2.5 rounded-2xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95 group-hover:shadow-[0_0_18px_rgba(0,212,255,0.15)]">
-                          <div className="w-16 h-16 rounded-[18px] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-sky-500/40 group-hover:shadow-[0_0_16px_rgba(0,212,255,0.20)] transition-all" style={{ background: "#0D1A32" }}>
+                          <div className="w-16 h-16 rounded-[18px] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-sky-500/40 group-hover:shadow-[0_0_16px_rgba(0,212,255,0.20)] transition-all" style={{ background: "rgba(255,255,255,0.07)" }}>
                             <img src={iconUrl} width="48" height="48" alt="" className="w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity" onError={(e) => { e.currentTarget.style.display = "none"; const fb = e.currentTarget.nextElementSibling as HTMLElement | null; if (fb) fb.style.display = "flex"; }} />
                             <div style={{ display: "none", background: `linear-gradient(135deg, ${g1}, ${g2})` }} className="w-full h-full items-center justify-center shrink-0">
                               <SiteIco className="h-7 w-7 text-white/90" />
                             </div>
                           </div>
-                          <span className="text-[9px] font-semibold text-[#8A9ABB]/70 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
-                          <span className="text-[8px] text-[#5A7090]/60 group-hover:text-sky-400/60 text-center leading-tight transition-colors line-clamp-1 w-full px-0.5">{hostname.replace(/^www\./, "")}</span>
+                          <span className="text-[9px] font-semibold text-white/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                          <span className="text-[8px] text-white/40 group-hover:text-sky-400/70 text-center leading-tight transition-colors line-clamp-1 w-full px-0.5">{hostname.replace(/^www\./, "")}</span>
                         </a>
                       );
                     })}
@@ -6552,7 +6552,7 @@ export default function AidAgentPage() {
                         {title !== "All" && (
                           <div className="flex items-center gap-1.5 mb-3">
                             <div className="h-px flex-1 bg-gradient-to-r from-transparent to-sky-500/[0.15]" />
-                            <div className="px-2.5 py-1 rounded-full bg-[#0A1525] ring-1 ring-sky-500/[0.18]">
+                            <div className="px-2.5 py-1 rounded-full bg-white/[0.07] ring-1 ring-sky-500/[0.25]">
                               <span className="text-[8px] font-bold uppercase tracking-[0.16em] text-white/45">{title}</span>
                             </div>
                             <div className="h-px w-4 bg-sky-500/[0.15]" />
@@ -6567,14 +6567,14 @@ export default function AidAgentPage() {
                             return (
                               <a key={name} href={url} target="_blank" rel="noopener noreferrer"
                                 className="flex flex-col items-center gap-1.5 p-2.5 rounded-2xl hover:bg-white/[0.07] transition-all duration-200 group hover:scale-[1.06] active:scale-95">
-                                <div className="w-16 h-16 rounded-[18px] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-sky-500/40 group-hover:shadow-[0_0_16px_rgba(0,212,255,0.20)] transition-all" style={{ background: "#0D1A32" }}>
+                                <div className="w-16 h-16 rounded-[18px] ring-1 ring-white/[0.10] flex items-center justify-center shadow-md overflow-hidden group-hover:ring-sky-500/40 group-hover:shadow-[0_0_16px_rgba(0,212,255,0.20)] transition-all" style={{ background: "rgba(255,255,255,0.07)" }}>
                                   <img src={iconUrl} width="48" height="48" alt="" className="w-full h-full object-cover opacity-85 group-hover:opacity-100 transition-opacity" onError={(e) => { e.currentTarget.style.display = "none"; const fb = e.currentTarget.nextElementSibling as HTMLElement | null; if (fb) fb.style.display = "flex"; }} />
                                   <div style={{ display: "none", background: `linear-gradient(135deg, ${g1}, ${g2})` }} className="w-full h-full items-center justify-center shrink-0">
                                     <SiteIco className="h-7 w-7 text-white/90" />
                                   </div>
                                 </div>
-                                <span className="text-[9px] font-semibold text-[#8A9ABB]/70 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
-                                <span className="text-[8px] text-[#5A7090]/60 group-hover:text-sky-400/60 text-center leading-tight transition-colors line-clamp-1 w-full px-0.5">{hostname.replace(/^www\./, "")}</span>
+                                <span className="text-[9px] font-semibold text-white/65 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{name}</span>
+                                <span className="text-[8px] text-white/40 group-hover:text-sky-400/70 text-center leading-tight transition-colors line-clamp-1 w-full px-0.5">{hostname.replace(/^www\./, "")}</span>
                               </a>
                             );
                           })}
