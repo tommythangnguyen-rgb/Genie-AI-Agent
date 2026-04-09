@@ -6427,7 +6427,7 @@ export default function AidAgentPage() {
           <div className="absolute inset-0 bg-black/45 backdrop-blur-sm" />
           <div
             className="relative z-[81] w-full max-w-2xl flex flex-col rounded-2xl overflow-hidden"
-            style={{ maxHeight: "calc(100dvh - 64px)", background: "rgba(8,16,36,0.18)", backdropFilter: "blur(28px)", WebkitBackdropFilter: "blur(28px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 30px 70px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.06), inset 0 1px 0 rgba(255,255,255,0.12)" }}
+            style={{ maxHeight: "calc(100dvh - 64px)", background: "rgba(0,180,180,0.14)", backdropFilter: "blur(28px)", WebkitBackdropFilter: "blur(28px)", border: "1px solid rgba(0,210,210,0.30)", boxShadow: "0 30px 70px rgba(0,0,0,0.55), 0 0 0 1px rgba(0,210,210,0.10), inset 0 1px 0 rgba(255,255,255,0.12)" }}
             onClick={e => e.stopPropagation()}
           >
             {/* Banner header */}
