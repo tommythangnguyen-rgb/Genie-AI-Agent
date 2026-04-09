@@ -4654,8 +4654,8 @@ export default function AidAgentPage() {
 
         {/* ── Left Dropdown — Students & Parents ── */}
         <aside
-          className={`panel-white ${showMobileLeft ? "flex" : "hidden"} fixed z-[60] flex-col rounded-2xl overflow-hidden border border-cyan-500/[0.15] shadow-2xl shadow-black/70 backdrop-blur-2xl`}
-          style={{ top: "84px", left: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(14,30,65,0.20) 0%, rgba(18,36,75,0.18) 50%, rgba(12,26,58,0.20) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.40), 0 0 0 1px rgba(255,255,255,0.13), inset 0 1px 0 rgba(255,255,255,0.14)" }}
+          className={`panel-white ${showMobileLeft ? "flex" : "hidden"} fixed z-[60] flex-col rounded-2xl overflow-hidden border border-white/[0.18] shadow-2xl shadow-black/70 backdrop-blur-2xl`}
+          style={{ top: "84px", left: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(120,120,130,0.22) 0%, rgba(140,140,150,0.18) 50%, rgba(110,110,120,0.22) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.40), 0 0 0 1px rgba(255,255,255,0.18), inset 0 1px 0 rgba(255,255,255,0.22)" }}
         >
           {howItWorksActive === "panels" && <div className="hiw-scan-overlay" aria-hidden="true" />}
 
@@ -5731,8 +5731,8 @@ export default function AidAgentPage() {
 
         {/* ── Right Dropdown — Administrators, Leaders & Auditors ── */}
         <aside
-          className={`panel-white ${showMobileRight ? "flex" : "hidden"} fixed z-[60] flex-col rounded-2xl overflow-hidden border border-violet-500/[0.15] shadow-2xl shadow-black/70 backdrop-blur-2xl`}
-          style={{ top: "84px", right: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(14,30,65,0.20) 0%, rgba(18,36,75,0.18) 50%, rgba(12,26,58,0.20) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.40), 0 0 0 1px rgba(255,255,255,0.13), inset 0 1px 0 rgba(255,255,255,0.14)" }}
+          className={`panel-white ${showMobileRight ? "flex" : "hidden"} fixed z-[60] flex-col rounded-2xl overflow-hidden border border-white/[0.18] shadow-2xl shadow-black/70 backdrop-blur-2xl`}
+          style={{ top: "84px", right: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(120,120,130,0.22) 0%, rgba(140,140,150,0.18) 50%, rgba(110,110,120,0.22) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.40), 0 0 0 1px rgba(255,255,255,0.18), inset 0 1px 0 rgba(255,255,255,0.22)" }}
         >
           {howItWorksActive === "panels" && <div className="hiw-scan-overlay" aria-hidden="true" />}
 
@@ -5858,7 +5858,7 @@ export default function AidAgentPage() {
           <div className="absolute inset-0 bg-black/45 backdrop-blur-sm" />
           <div
             className="relative z-[81] w-full max-w-2xl flex flex-col rounded-2xl overflow-hidden"
-            style={{ maxHeight: "calc(100dvh - 64px)", background: "rgba(0,180,180,0.14)", backdropFilter: "blur(28px)", WebkitBackdropFilter: "blur(28px)", border: "1px solid rgba(0,210,210,0.30)", boxShadow: "0 30px 70px rgba(0,0,0,0.55), 0 0 0 1px rgba(0,210,210,0.10), inset 0 1px 0 rgba(255,255,255,0.12)" }}
+            style={{ maxHeight: "calc(100dvh - 64px)", background: "rgba(130,130,140,0.18)", backdropFilter: "blur(28px)", WebkitBackdropFilter: "blur(28px)", border: "1px solid rgba(255,255,255,0.22)", boxShadow: "0 30px 70px rgba(0,0,0,0.55), 0 0 0 1px rgba(200,200,210,0.12), inset 0 1px 0 rgba(255,255,255,0.18)" }}
             onClick={e => e.stopPropagation()}
           >
             {/* Banner header */}
