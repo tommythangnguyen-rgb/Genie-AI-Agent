@@ -3392,6 +3392,15 @@ export default function AidAgentPage() {
   // Daily rotation offset — shifts which tips appear first, updates each day
   const tipsRotationOffset = useMemo(() => Math.floor(Date.now() / 86400000), []);
 
+  // Per-role color scheme for quick-action icon tiles
+  const ROLE_TILE_COLORS: Record<string, { outerHover: string; focusRing: string; iconRing: string; hoverRing: string; iconBg: string; iconShadow: string; iconClass: string; dropShadow: string; hoverGlow: string }> = {
+    Students:       { outerHover: "hover:bg-blue-500/[0.12]",    focusRing: "focus-visible:ring-blue-400",    iconRing: "ring-blue-400/[0.45]",    hoverRing: "group-hover:ring-blue-300/70",    iconBg: "linear-gradient(145deg, rgba(59,130,246,0.28) 0%, rgba(59,130,246,0.12) 100%)",    iconShadow: "0 2px 16px rgba(59,130,246,0.22), 0 0 0 1px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.20)",    iconClass: "text-blue-300",    dropShadow: "drop-shadow-[0_0_8px_rgba(59,130,246,0.85)]",    hoverGlow: "group-hover:drop-shadow-[0_0_12px_rgba(96,165,250,1)]"    },
+    Parents:        { outerHover: "hover:bg-orange-500/[0.12]",  focusRing: "focus-visible:ring-orange-400",  iconRing: "ring-orange-400/[0.45]",  hoverRing: "group-hover:ring-orange-300/70",  iconBg: "linear-gradient(145deg, rgba(249,115,22,0.28) 0%, rgba(249,115,22,0.12) 100%)",  iconShadow: "0 2px 16px rgba(249,115,22,0.22), 0 0 0 1px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.20)",  iconClass: "text-orange-300",  dropShadow: "drop-shadow-[0_0_8px_rgba(249,115,22,0.85)]",  hoverGlow: "group-hover:drop-shadow-[0_0_12px_rgba(251,146,60,1)]"  },
+    Administrators: { outerHover: "hover:bg-emerald-500/[0.12]", focusRing: "focus-visible:ring-emerald-400", iconRing: "ring-emerald-400/[0.45]", hoverRing: "group-hover:ring-emerald-300/70", iconBg: "linear-gradient(145deg, rgba(16,185,129,0.28) 0%, rgba(16,185,129,0.12) 100%)", iconShadow: "0 2px 16px rgba(16,185,129,0.22), 0 0 0 1px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.20)", iconClass: "text-emerald-300", dropShadow: "drop-shadow-[0_0_8px_rgba(16,185,129,0.85)]", hoverGlow: "group-hover:drop-shadow-[0_0_12px_rgba(52,211,153,1)]" },
+    Leaders:        { outerHover: "hover:bg-violet-500/[0.12]",  focusRing: "focus-visible:ring-violet-400",  iconRing: "ring-violet-400/[0.45]",  hoverRing: "group-hover:ring-violet-300/70",  iconBg: "linear-gradient(145deg, rgba(139,92,246,0.28) 0%, rgba(139,92,246,0.12) 100%)",  iconShadow: "0 2px 16px rgba(139,92,246,0.22), 0 0 0 1px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.20)",  iconClass: "text-violet-300",  dropShadow: "drop-shadow-[0_0_8px_rgba(139,92,246,0.85)]",  hoverGlow: "group-hover:drop-shadow-[0_0_12px_rgba(167,139,250,1)]"  },
+    Auditors:       { outerHover: "hover:bg-rose-500/[0.12]",    focusRing: "focus-visible:ring-rose-400",    iconRing: "ring-rose-400/[0.45]",    hoverRing: "group-hover:ring-rose-300/70",    iconBg: "linear-gradient(145deg, rgba(244,63,94,0.28) 0%, rgba(244,63,94,0.12) 100%)",    iconShadow: "0 2px 16px rgba(244,63,94,0.22), 0 0 0 1px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.20)",    iconClass: "text-rose-300",    dropShadow: "drop-shadow-[0_0_8px_rgba(244,63,94,0.85)]",    hoverGlow: "group-hover:drop-shadow-[0_0_12px_rgba(251,113,133,1)]"    },
+  };
+
   // Memoized state-dependent data slices
   const activeActionItems = useMemo(
     () => QUICK_ACTIONS_BY_ROLE.filter(r => r.role === activeActionRole),
@@ -5166,28 +5175,28 @@ export default function AidAgentPage() {
                           </div>
 
                           {/* Quick Actions — Android-style icon grid (all items) */}
-                          {activeActionItems.map(({ role, items, more }) => (
+                          {activeActionItems.map(({ role, items, more }) => {
+                            const tc = ROLE_TILE_COLORS[role] ?? ROLE_TILE_COLORS.Students;
+                            return (
                             <div key={role} className="grid grid-cols-4 gap-2">
                               {[...items, ...more].map(({ icon: Icon, label, q }) => (
                                 <button
                                   key={`${role}-${label}`}
                                   onClick={() => sendMessage(q)}
-                                  className="flex flex-col items-center gap-1.5 p-2 rounded-2xl hover:bg-cyan-500/[0.12] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 hover:scale-[1.06] active:scale-95"
+                                  className={`flex flex-col items-center gap-1.5 p-2 rounded-2xl ${tc.outerHover} transition-all duration-200 group ${tc.focusRing} focus-visible:outline-none focus-visible:ring-2 hover:scale-[1.06] active:scale-95`}
                                 >
                                   <div
-                                    className="w-14 h-14 rounded-[18px] ring-1 ring-cyan-400/[0.45] flex items-center justify-center transition-all group-hover:ring-cyan-300/70 group-hover:scale-[1.06]"
-                                    style={{
-                                      background: "linear-gradient(145deg, rgba(6,182,212,0.28) 0%, rgba(6,182,212,0.12) 100%)",
-                                      boxShadow: "0 2px 16px rgba(0,209,201,0.22), 0 0 0 1px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.20)",
-                                    }}
+                                    className={`w-14 h-14 rounded-[18px] ring-1 ${tc.iconRing} flex items-center justify-center transition-all ${tc.hoverRing} group-hover:scale-[1.06]`}
+                                    style={{ background: tc.iconBg, boxShadow: tc.iconShadow }}
                                   >
-                                    <Icon className="h-6 w-6 text-cyan-300 drop-shadow-[0_0_8px_rgba(0,209,201,0.85)] group-hover:text-white group-hover:drop-shadow-[0_0_12px_rgba(0,229,255,1)] transition-all" />
+                                    <Icon className={`h-6 w-6 ${tc.iconClass} ${tc.dropShadow} group-hover:text-white ${tc.hoverGlow} transition-all`} />
                                   </div>
                                   <span className="text-[10px] font-semibold text-white/85 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5" style={{ textShadow: "0 1px 6px rgba(0,0,0,0.80)" }}>{label}</span>
                                 </button>
                               ))}
                             </div>
-                          ))}
+                            );
+                          })}
 
                         </div>{/* end slide 2 */}
 
