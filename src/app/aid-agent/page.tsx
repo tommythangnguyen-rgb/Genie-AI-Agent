@@ -5651,7 +5651,7 @@ export default function AidAgentPage() {
                   </div>{/* end left column */}
 
                   {/* ══ RIGHT — Slide 2 + 3: I am a… / Tips by Role ══ */}
-                  <div ref={tipsRef} className={`w-full md:w-[54%] flex flex-col transition-all duration-300${howItWorksActive === "role" ? " ring-2 ring-violet-500/40 rounded-2xl p-1" : ""}`}>
+                  <div ref={tipsRef} className="w-full md:w-[54%] flex flex-col">
 
                     {/* Slide container */}
                     <div className="overflow-hidden">
