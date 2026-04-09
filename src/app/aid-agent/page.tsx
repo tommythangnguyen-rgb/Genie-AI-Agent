@@ -3133,14 +3133,15 @@ function EducationalBackground({ isDark = true, guidanceActive = false }: { isDa
   ];
 
   if (!isDark) {
-    // Bright mode — polished fine silver
+    // Bright mode — polished premium beige
     return (
       <div className="fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
-        {/* Polished fine silver base */}
-        <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, #e8e8e8 0%, #f2f2f2 30%, #e0e0e0 60%, #d6d6d6 100%)" }} />
-        {/* Sheen overlay — brushed metal depth */}
-        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 120% 80% at 50% 0%, rgba(255,255,255,0.60) 0%, transparent 60%)" }} />
-        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 80% 60% at 80% 100%, rgba(195,195,195,0.35) 0%, transparent 60%)" }} />
+        {/* Warm beige base */}
+        <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, #f5f0e8 0%, #faf6ef 30%, #f0ead8 60%, #e8e0cc 100%)" }} />
+        {/* Warm sheen at top — gives depth like fine linen */}
+        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 120% 80% at 50% 0%, rgba(255,252,240,0.65) 0%, transparent 60%)" }} />
+        {/* Subtle warm shadow at bottom-right */}
+        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 80% 60% at 85% 100%, rgba(200,185,155,0.30) 0%, transparent 60%)" }} />
       </div>
     );
   }
