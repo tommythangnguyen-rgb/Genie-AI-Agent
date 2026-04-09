@@ -4424,15 +4424,7 @@ export default function AidAgentPage() {
 
         /* Bright mode — override white text to readable dark tones */
         .bright-mode .text-white { color: #111827 !important; }
-        .bright-mode .text-white\\/95 { color: rgb(17 24 39 / 0.95) !important; }
-        .bright-mode .text-white\\/90 { color: rgb(17 24 39 / 0.90) !important; }
-        .bright-mode .text-white\\/80 { color: rgb(17 24 39 / 0.80) !important; }
-        .bright-mode .text-white\\/75 { color: rgb(17 24 39 / 0.75) !important; }
-        .bright-mode .text-white\\/70 { color: rgb(17 24 39 / 0.70) !important; }
-        .bright-mode .text-white\\/60 { color: rgb(17 24 39 / 0.60) !important; }
-        .bright-mode .text-white\\/50 { color: rgb(17 24 39 / 0.50) !important; }
-        .bright-mode .text-white\\/40 { color: rgb(17 24 39 / 0.40) !important; }
-        .bright-mode .text-white\\/30 { color: rgb(17 24 39 / 0.30) !important; }
+        .bright-mode .text-white\\/95,.bright-mode .text-white\\/90,.bright-mode .text-white\\/85,.bright-mode .text-white\\/80,.bright-mode .text-white\\/75,.bright-mode .text-white\\/70,.bright-mode .text-white\\/65,.bright-mode .text-white\\/60,.bright-mode .text-white\\/55,.bright-mode .text-white\\/50,.bright-mode .text-white\\/45,.bright-mode .text-white\\/40,.bright-mode .text-white\\/30,.bright-mode .text-white\\/22,.bright-mode .text-white\\/15,.bright-mode .text-white\\/10 { color: #111827 !important; }
         .bright-mode .hw-footer-glow { color: #111827 !important; text-shadow: none; }
         .bright-mode .hw-icon-glow { filter: drop-shadow(0 0 5px rgba(0,0,0,0.25)); }
       `}</style>
