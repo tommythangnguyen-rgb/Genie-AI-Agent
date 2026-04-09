@@ -5616,10 +5616,10 @@ export default function AidAgentPage() {
                       </div>
                       <div className="flex-1 grid grid-cols-2 gap-3 auto-rows-fr">
                         {([
-                          { icon: Sparkles,    step: "1", title: "Choose Your Role",  body: "Select Student, Parent, Admin, Leader, or Compliance/Auditor for role-specific prompts, resources, and tailored guidance.",      color: "text-violet-300", iconBg: "bg-violet-500/[0.20]", cardRing: "ring-violet-400/[0.55]", glowColor: "rgba(139,92,246,0.35)", cardBg: "linear-gradient(145deg, rgba(139,92,246,0.18) 0%, rgba(139,92,246,0.08) 100%)", idleGlow: "0 4px 20px rgba(139,92,246,0.20), inset 0 1px 0 rgba(255,255,255,0.14)", activeKey: "role"     as const },
-                          { icon: Send,        step: "2", title: "Ask Anything",       body: "Type any student aid question in plain English. Upload documents, letters, or forms for instant AI analysis.",                   color: "text-cyan-300",   iconBg: "bg-cyan-500/[0.20]",   cardRing: "ring-cyan-400/[0.55]",   glowColor: "rgba(6,182,212,0.35)",  cardBg: "linear-gradient(145deg, rgba(6,182,212,0.18) 0%, rgba(6,182,212,0.08) 100%)",   idleGlow: "0 4px 20px rgba(6,182,212,0.20), inset 0 1px 0 rgba(255,255,255,0.14)",   activeKey: "chatbox"  as const },
-                          { icon: Library,     step: "3", title: "Explore the Hub",    body: "Access 500+ curated resources — scholarships, VA benefits, loan tools, federal aid portals, and institutional guides.",          color: "text-sky-300",    iconBg: "bg-sky-500/[0.20]",    cardRing: "ring-sky-400/[0.55]",    glowColor: "rgba(56,189,248,0.35)", cardBg: "linear-gradient(145deg, rgba(56,189,248,0.18) 0%, rgba(56,189,248,0.08) 100%)", idleGlow: "0 4px 20px rgba(56,189,248,0.20), inset 0 1px 0 rgba(255,255,255,0.14)",  activeKey: "panels"   as const },
-                          { icon: CheckCircle, step: "4", title: "Get Clear Guidance", body: "Receive plain-English answers grounded in 34 CFR, FSA Handbook, and HEA Title IV. Free, always — no jargon.",                 color: "text-emerald-300",iconBg: "bg-emerald-500/[0.20]",cardRing: "ring-emerald-400/[0.55]",glowColor: "rgba(16,185,129,0.35)", cardBg: "linear-gradient(145deg, rgba(16,185,129,0.18) 0%, rgba(16,185,129,0.08) 100%)", idleGlow: "0 4px 20px rgba(16,185,129,0.20), inset 0 1px 0 rgba(255,255,255,0.14)", activeKey: "guidance" as const },
+                          { icon: Sparkles,    step: "1", title: "Choose Your Role",  body: "Select Student, Parent, Admin, Leader, or Compliance/Auditor for role-specific prompts, resources, and tailored guidance.",      color: "text-violet-200", iconBg: "bg-violet-500/[0.40]", cardRing: "ring-violet-400/[0.75]", glowColor: "rgba(139,92,246,0.45)", cardBg: "linear-gradient(145deg, rgba(139,92,246,0.38) 0%, rgba(139,92,246,0.18) 100%)", idleGlow: "0 4px 24px rgba(139,92,246,0.35), 0 1px 0 rgba(255,255,255,0.18) inset", activeKey: "role"     as const },
+                          { icon: Send,        step: "2", title: "Ask Anything",       body: "Type any student aid question in plain English. Upload documents, letters, or forms for instant AI analysis.",                   color: "text-cyan-200",   iconBg: "bg-cyan-500/[0.40]",   cardRing: "ring-cyan-400/[0.75]",   glowColor: "rgba(6,182,212,0.45)",  cardBg: "linear-gradient(145deg, rgba(6,182,212,0.38) 0%, rgba(6,182,212,0.18) 100%)",   idleGlow: "0 4px 24px rgba(6,182,212,0.35), 0 1px 0 rgba(255,255,255,0.18) inset",   activeKey: "chatbox"  as const },
+                          { icon: Library,     step: "3", title: "Explore the Hub",    body: "Access 500+ curated resources — scholarships, VA benefits, loan tools, federal aid portals, and institutional guides.",          color: "text-sky-200",    iconBg: "bg-sky-500/[0.40]",    cardRing: "ring-sky-400/[0.75]",    glowColor: "rgba(56,189,248,0.45)", cardBg: "linear-gradient(145deg, rgba(56,189,248,0.38) 0%, rgba(56,189,248,0.18) 100%)", idleGlow: "0 4px 24px rgba(56,189,248,0.35), 0 1px 0 rgba(255,255,255,0.18) inset",  activeKey: "panels"   as const },
+                          { icon: CheckCircle, step: "4", title: "Get Clear Guidance", body: "Receive plain-English answers grounded in 34 CFR, FSA Handbook, and HEA Title IV. Free, always — no jargon.",                 color: "text-emerald-200",iconBg: "bg-emerald-500/[0.40]",cardRing: "ring-emerald-400/[0.75]",glowColor: "rgba(16,185,129,0.45)", cardBg: "linear-gradient(145deg, rgba(16,185,129,0.38) 0%, rgba(16,185,129,0.18) 100%)", idleGlow: "0 4px 24px rgba(16,185,129,0.35), 0 1px 0 rgba(255,255,255,0.18) inset", activeKey: "guidance" as const },
                         ] as const).map(({ icon: Icon, step, title, body, color, iconBg, cardRing, glowColor, cardBg, idleGlow, activeKey }) => (
                           <button
                             key={step}
@@ -5628,6 +5628,8 @@ export default function AidAgentPage() {
                             className={`flex flex-col gap-2 p-4 rounded-2xl ring-1 ${cardRing} text-left transition-all duration-200 hover:scale-[1.04] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${howItWorksActive === activeKey ? "hiw-active-ring brightness-125" : ""}`}
                             style={{
                               background: cardBg,
+                              backdropFilter: "blur(14px)",
+                              WebkitBackdropFilter: "blur(14px)",
                               boxShadow: howItWorksActive === activeKey
                                 ? `0 0 0 1px rgba(212,175,55,0.55), 0 6px 24px ${glowColor}, 0 0 48px ${glowColor}, inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -1px 0 rgba(0,0,0,0.10)`
                                 : idleGlow,
@@ -5637,7 +5639,7 @@ export default function AidAgentPage() {
                               <div className={`p-2 rounded-xl ${iconBg} ring-1 ${cardRing} shadow-sm`}>
                                 <Icon className={`h-4 w-4 ${color} ${howItWorksActive === activeKey ? "animate-pulse" : ""}`} aria-hidden="true" />
                               </div>
-                              <span className="text-xl font-black text-white/25 tabular-nums leading-none" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.70)" }}>{step}</span>
+                              <span className="text-xl font-black text-white/50 tabular-nums leading-none" style={{ textShadow: "0 1px 6px rgba(0,0,0,0.80)" }}>{step}</span>
                             </div>
                             <p className="text-sm font-bold text-white leading-tight" style={{ textShadow: "0 1px 5px rgba(0,0,0,0.80)" }}>{title}</p>
                             <p className="text-xs text-white/80 leading-snug" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.70)" }}>{body}</p>
@@ -5744,12 +5746,20 @@ export default function AidAgentPage() {
                                 <button
                                   key={`${role}-${label}`}
                                   onClick={() => sendMessage(q)}
-                                  className="flex flex-col items-center gap-1.5 p-2 rounded-2xl hover:bg-cyan-500/[0.10] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 hover:scale-[1.05] active:scale-95"
+                                  className="flex flex-col items-center gap-1.5 p-2 rounded-2xl hover:bg-cyan-500/[0.12] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 hover:scale-[1.06] active:scale-95"
                                 >
-                                  <div className="w-14 h-14 rounded-[16px] bg-white/[0.08] ring-1 ring-cyan-400/[0.30] flex items-center justify-center shadow-md group-hover:bg-cyan-500/[0.18] group-hover:ring-cyan-400/60 group-hover:shadow-[0_0_18px_rgba(0,209,201,0.35)] transition-all" style={{ boxShadow: "0 0 10px rgba(0,209,201,0.15), inset 0 1px 0 rgba(255,255,255,0.12)" }}>
-                                    <Icon className="h-6 w-6 text-cyan-400 drop-shadow-[0_0_6px_rgba(0,209,201,0.70)] group-hover:text-cyan-300 group-hover:drop-shadow-[0_0_10px_rgba(0,209,201,0.90)] transition-all" />
+                                  <div
+                                    className="w-14 h-14 rounded-[18px] ring-1 ring-cyan-400/[0.45] flex items-center justify-center transition-all group-hover:ring-cyan-300/70 group-hover:scale-[1.06]"
+                                    style={{
+                                      background: "linear-gradient(145deg, rgba(6,182,212,0.22) 0%, rgba(6,182,212,0.10) 100%)",
+                                      backdropFilter: "blur(10px)",
+                                      WebkitBackdropFilter: "blur(10px)",
+                                      boxShadow: "0 2px 16px rgba(0,209,201,0.22), 0 0 0 1px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.20)",
+                                    }}
+                                  >
+                                    <Icon className="h-6 w-6 text-cyan-300 drop-shadow-[0_0_8px_rgba(0,209,201,0.85)] group-hover:text-white group-hover:drop-shadow-[0_0_12px_rgba(0,229,255,1)] transition-all" />
                                   </div>
-                                  <span className="text-[10px] font-semibold text-white group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5" style={{ textShadow: "0 0 10px rgba(255,255,255,0.90), 0 1px 4px rgba(0,0,0,0.70)" }}>{label}</span>
+                                  <span className="text-[10px] font-semibold text-white/85 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5" style={{ textShadow: "0 1px 6px rgba(0,0,0,0.80)" }}>{label}</span>
                                 </button>
                               ))}
                             </div>
