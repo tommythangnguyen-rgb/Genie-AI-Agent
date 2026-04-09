@@ -4421,6 +4421,20 @@ export default function AidAgentPage() {
         .hw-icon-glow { filter: drop-shadow(0 0 7px rgba(255,255,255,0.65)); }
         .hw-gold-glow { filter: drop-shadow(0 0 10px rgba(255,215,0,0.70)); }
         .hw-footer-glow { text-shadow: 0 0 9px rgba(255,255,255,0.55); }
+
+        /* Bright mode — override white text to readable dark tones */
+        .bright-mode .text-white { color: #111827 !important; }
+        .bright-mode .text-white\\/95 { color: rgb(17 24 39 / 0.95) !important; }
+        .bright-mode .text-white\\/90 { color: rgb(17 24 39 / 0.90) !important; }
+        .bright-mode .text-white\\/80 { color: rgb(17 24 39 / 0.80) !important; }
+        .bright-mode .text-white\\/75 { color: rgb(17 24 39 / 0.75) !important; }
+        .bright-mode .text-white\\/70 { color: rgb(17 24 39 / 0.70) !important; }
+        .bright-mode .text-white\\/60 { color: rgb(17 24 39 / 0.60) !important; }
+        .bright-mode .text-white\\/50 { color: rgb(17 24 39 / 0.50) !important; }
+        .bright-mode .text-white\\/40 { color: rgb(17 24 39 / 0.40) !important; }
+        .bright-mode .text-white\\/30 { color: rgb(17 24 39 / 0.30) !important; }
+        .bright-mode .hw-footer-glow { color: #111827 !important; text-shadow: none; }
+        .bright-mode .hw-icon-glow { filter: drop-shadow(0 0 5px rgba(0,0,0,0.25)); }
       `}</style>
       {showDisclaimer && (
         <div role="dialog" aria-modal="true" aria-labelledby="disclaimer-title" className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
@@ -4629,7 +4643,7 @@ export default function AidAgentPage() {
         </div>
       )}
 
-      <div className="h-screen flex overflow-hidden" style={{ height: "100dvh" }} onClick={triggerBurst}>
+      <div className={`h-screen flex overflow-hidden${!isDark ? " bright-mode" : ""}`} style={{ height: "100dvh" }} onClick={triggerBurst}>
 
         {/* ── Left Dropdown — Students & Parents ── */}
         <aside
