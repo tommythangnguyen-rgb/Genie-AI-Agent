@@ -5636,11 +5636,11 @@ export default function AidAgentPage() {
                   <div ref={tipsRef} className={`w-full md:w-[54%] flex flex-col transition-all duration-300${howItWorksActive === "role" ? " ring-2 ring-violet-500/40 rounded-2xl p-1" : ""}`}>
 
                     {/* Slide container */}
-                    <div className="overflow-hidden rounded-2xl">
+                    <div className="overflow-hidden">
                       <div className="genie-console-slider" style={{ transform: `translateX(${slideIndex * -33.333}%)` }}>
 
                         {/* Slide 2 — I am a… */}
-                        <div className="genie-console-slide px-5 pt-5 pb-5 bg-white/[0.04]">
+                        <div className="genie-console-slide px-5 pt-5 pb-5">
                           {/* Header — matches Tips by Role style */}
                           <div className="flex items-center justify-center gap-2 mb-4">
                             <button
@@ -5742,7 +5742,7 @@ export default function AidAgentPage() {
                         </div>{/* end slide 2 */}
 
                         {/* Slide 3 — Tips by Role */}
-                        <div className="genie-console-slide px-5 pt-5 pb-5 bg-white/[0.04]">
+                        <div className="genie-console-slide px-5 pt-5 pb-5">
                           <div className="flex items-center justify-center gap-2 mb-4">
                             <button
                               type="button"
@@ -5813,7 +5813,7 @@ export default function AidAgentPage() {
                         </div>{/* end slide 3 */}
 
                         {/* Slide 4 — What Genie Covers */}
-                        <div className="genie-console-slide px-5 pt-5 pb-5 bg-white/[0.04]">
+                        <div className="genie-console-slide px-5 pt-5 pb-5">
                           {/* Header */}
                           <div className="flex items-center justify-center gap-2 mb-4">
                             <button
