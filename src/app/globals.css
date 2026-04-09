@@ -722,12 +722,8 @@
 }
 
 /* ── Role avatar icon — teal pulse glow ── */
-@keyframes genie-role-icon-pulse {
-  0%, 100% { box-shadow: 0 0 0 2px rgba(0,212,255,0.18), 0 0 10px 3px rgba(0,212,255,0.10); }
-  50%       { box-shadow: 0 0 0 2px rgba(0,212,255,0.45), 0 0 20px 7px rgba(0,212,255,0.22); }
-}
 .genie-role-icon {
-  animation: genie-role-icon-pulse 2.6s ease-in-out infinite;
+  /* no animation */
 }
 
 /* ── Get Clear Guidance: gold headline shimmer ── */

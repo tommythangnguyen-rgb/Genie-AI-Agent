@@ -5728,17 +5728,13 @@ export default function AidAgentPage() {
                                     isActive ? `${activeBg} ${activeColor} shadow-md ${activeGlow}` : "text-white/85 hover:text-white hover:bg-white/[0.06]"
                                   }`}
                                 >
-                                  <div className={`relative w-full aspect-square rounded-full overflow-hidden ring-2 transition-all duration-200 shadow-md genie-role-icon ${
-                                    isActive ? `${activeRing} shadow-lg` : "ring-cyan-400/50 hover:ring-cyan-300/70"
-                                  }`} style={{ boxShadow: isActive ? undefined : "0 0 10px rgba(0,209,201,0.25), inset 0 0 0 1px rgba(0,229,192,0.18)" }}>
-                                    <img src={photo} alt={label} className={`w-full h-full object-cover ${pos}`} style={{ filter: "saturate(1.10) contrast(1.05) brightness(1.05)" }} />
-                                    {/* Teal dome overlay */}
+                                  <div className={`relative w-full aspect-square rounded-full overflow-hidden transition-all duration-200 genie-role-icon ${
+                                    isActive ? `ring-2 ${activeRing} shadow-lg ${activeGlow}` : ""
+                                  }`}>
+                                    <img src={photo} alt={label} className={`w-full h-full object-cover ${pos}`} style={{ filter: "saturate(1.10) contrast(1.02) brightness(1.05)" }} />
+                                    {/* Soft edge fade vignette */}
                                     <div className="absolute inset-0 rounded-full pointer-events-none" style={{
-                                      background: "radial-gradient(ellipse at 50% 0%, rgba(0,229,192,0.32) 0%, rgba(0,184,212,0.18) 45%, rgba(0,150,180,0.08) 75%, transparent 100%)",
-                                      mixBlendMode: "screen",
-                                    }} />
-                                    <div className="absolute inset-0 rounded-full pointer-events-none" style={{
-                                      background: "linear-gradient(to bottom, rgba(0,229,192,0.14) 0%, transparent 55%)",
+                                      background: "radial-gradient(circle, transparent 55%, rgba(0,0,0,0.55) 100%)",
                                     }} />
                                   </div>
                                   <span className="text-center leading-tight text-[10px] font-semibold">{label}</span>
