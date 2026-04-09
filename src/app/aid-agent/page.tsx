@@ -5957,7 +5957,7 @@ export default function AidAgentPage() {
               {/* Backdrop — click to close */}
               <div
                 className="absolute inset-0 pointer-events-auto"
-                style={{ background: "rgba(2,8,21,0.52)", backdropFilter: "blur(5px)" }}
+                style={{ background: "rgba(0,0,0,0.35)", backdropFilter: "blur(3px)" }}
                 onClick={goHome}
               />
               {/* Floating panel */}
@@ -5966,14 +5966,15 @@ export default function AidAgentPage() {
                 style={{
                   width: "min(740px, calc(100vw - 80px))",
                   height: "78vh",
-                  background: "linear-gradient(160deg, rgba(6,14,34,0.97) 0%, rgba(8,18,42,0.96) 50%, rgba(6,14,34,0.97) 100%)",
-                  backdropFilter: "blur(28px)",
-                  border: "1px solid rgba(6,182,212,0.16)",
-                  boxShadow: "0 32px 80px rgba(0,0,0,0.75), 0 0 0 1px rgba(6,182,212,0.12), inset 0 1px 0 rgba(255,255,255,0.05)",
+                  background: "rgba(8,16,36,0.18)",
+                  backdropFilter: "blur(32px)",
+                  WebkitBackdropFilter: "blur(32px)",
+                  border: "1px solid rgba(255,255,255,0.14)",
+                  boxShadow: "0 32px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.06), inset 0 1px 0 rgba(255,255,255,0.12)",
                 }}
               >
                 {/* Panel header */}
-                <div className="shrink-0 flex items-center justify-between px-5 py-3 border-b border-white/[0.07]" style={{ background: "rgba(10,20,42,0.70)" }}>
+                <div className="shrink-0 flex items-center justify-between px-5 py-3 border-b border-white/[0.10]" style={{ background: "rgba(255,255,255,0.05)" }}>
                   <div className="flex items-center gap-2.5">
                     <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/25">
                       <GenieBottle className="h-3.5 w-3.5 text-white genie-icon-shimmer" />
