@@ -5755,9 +5755,7 @@ export default function AidAgentPage() {
                                   <div
                                     className="w-14 h-14 rounded-[18px] ring-1 ring-cyan-400/[0.45] flex items-center justify-center transition-all group-hover:ring-cyan-300/70 group-hover:scale-[1.06]"
                                     style={{
-                                      background: "linear-gradient(145deg, rgba(6,182,212,0.22) 0%, rgba(6,182,212,0.10) 100%)",
-                                      backdropFilter: "blur(10px)",
-                                      WebkitBackdropFilter: "blur(10px)",
+                                      background: "linear-gradient(145deg, rgba(6,182,212,0.28) 0%, rgba(6,182,212,0.12) 100%)",
                                       boxShadow: "0 2px 16px rgba(0,209,201,0.22), 0 0 0 1px rgba(255,255,255,0.08), inset 0 1px 0 rgba(255,255,255,0.20)",
                                     }}
                                   >
