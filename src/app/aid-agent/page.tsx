@@ -4993,11 +4993,6 @@ export default function AidAgentPage() {
           background: rgba(96, 165, 250, 0.55);
         }
         .genie-scroll-main { scrollbar-width: thin; scrollbar-color: rgba(96,165,250,0.30) rgba(10,46,122,0.25); }
-        @media (max-width: 767px) {
-          .mobile-chatbox-neon {
-            box-shadow: 0 0 0 1px rgba(0,229,192,0.55), 0 0 18px rgba(0,229,192,0.45), 0 0 40px rgba(0,229,192,0.18), inset 0 1px 0 rgba(0,229,192,0.08) !important;
-          }
-        }
       `}</style>
       {showDisclaimer && (
         <div role="dialog" aria-modal="true" aria-labelledby="disclaimer-title" className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
@@ -5984,8 +5979,7 @@ export default function AidAgentPage() {
 
                 {/* Input — desktop overlay version (textareaRef lives here) */}
                 <div className="shrink-0 relative border-t border-white/[0.08] px-4 pt-3 pb-3" style={{ background: "transparent", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
-                  <div className="pointer-events-none absolute inset-x-0 -top-6 h-16 bg-gradient-to-t from-cyan-500/[0.06] to-transparent" />
-                  <div className="relative w-full max-w-xl mx-auto">
+                        <div className="relative w-full max-w-xl mx-auto">
                     <div className="flex items-center gap-2 mb-2 px-1">
                       <GenieBottle className="h-3.5 w-3.5 text-amber-400 shrink-0 genie-icon-shimmer" />
                       <span className="text-sm font-semibold tracking-wide">
@@ -6053,7 +6047,6 @@ export default function AidAgentPage() {
           {/* Input area — always visible on mobile; on desktop only when no chat is active */}
           <div className={`shrink-0 relative border-t border-white/[0.08] px-3 pt-1.5 pb-1.5 md:px-4 md:pt-3 md:pb-3 ${messages.length > 0 ? "md:hidden" : ""}`} style={{ background: "transparent", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", zIndex: 3 }}>
             {/* Ambient glow bloom behind chatbox */}
-            <div className="pointer-events-none absolute inset-x-0 -top-6 h-16 bg-gradient-to-t from-cyan-500/[0.06] to-transparent" />
 
             <div className="relative w-full max-w-xl mx-auto">
               {/* Prompt label row — desktop only */}
@@ -6151,7 +6144,7 @@ export default function AidAgentPage() {
 
               {/* Input form */}
               <div
-                className={`mobile-chatbox-neon rounded-2xl ring-1 focus-within:ring-cyan-400/80 md:focus-within:ring-white/75 transition-all duration-200 ${howItWorksActive === "guidance" ? "hiw-guidance-chatbox" : howItWorksActive === "chatbox" ? "hiw-active-ring" : (!input && !attachedFile ? "ring-cyan-400/50 md:ring-white/35" : "ring-cyan-400/75 md:ring-white/65")}`}
+                className={`rounded-2xl ring-1 focus-within:ring-white/60 transition-all duration-200 ${howItWorksActive === "guidance" ? "hiw-guidance-chatbox" : howItWorksActive === "chatbox" ? "hiw-active-ring" : (!input && !attachedFile ? "ring-white/25" : "ring-white/55")}`}
                 style={{
                   background: "rgba(255,255,255,0.035)",
                   boxShadow: howItWorksActive === "chatbox"
@@ -6167,12 +6160,12 @@ export default function AidAgentPage() {
                   <div className="flex items-center gap-0.5 shrink-0 mb-0.5">
                     <button type="button" title={canAccessFeature("document_upload", userTier) ? "Upload document (.pdf, .txt, .doc, .csv)" : "Pro — upload documents"}
                       onClick={() => canAccessFeature("document_upload", userTier) ? fileInputRef.current?.click() : openUpgrade("document_upload")}
-                      className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-cyan-400 md:text-white hover:text-cyan-300 md:hover:text-white hover:bg-cyan-500/[0.15] md:hover:bg-white/[0.12] hover:shadow-[0_0_10px_rgba(0,229,192,0.40)] md:hover:shadow-[0_0_8px_rgba(255,255,255,0.25)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
+                      className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-white/70 hover:text-white hover:bg-white/[0.12] hover:shadow-[0_0_8px_rgba(255,255,255,0.20)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
                       <Paperclip className="h-4 w-4" />
                     </button>
                     <button type="button" title={canAccessFeature("document_upload", userTier) ? "Attach photo or screenshot" : "Pro — attach photos & screenshots"}
                       onClick={() => canAccessFeature("document_upload", userTier) ? cameraInputRef.current?.click() : openUpgrade("document_upload")}
-                      className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-cyan-400 md:text-white hover:text-cyan-300 md:hover:text-white hover:bg-cyan-500/[0.15] md:hover:bg-white/[0.12] hover:shadow-[0_0_10px_rgba(0,229,192,0.40)] md:hover:shadow-[0_0_8px_rgba(255,255,255,0.25)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
+                      className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-white/70 hover:text-white hover:bg-white/[0.12] hover:shadow-[0_0_8px_rgba(255,255,255,0.20)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>
                       <Camera className="h-4 w-4" />
                     </button>
                     <button type="button"
@@ -6182,7 +6175,7 @@ export default function AidAgentPage() {
                         isRecording
                           ? "text-rose-400 bg-rose-500/20 ring-1 ring-rose-500/40 animate-pulse shadow-[0_0_12px_rgba(244,63,94,0.45)]"
                           : canAccessFeature("document_upload", userTier)
-                          ? "text-cyan-400 md:text-white hover:text-cyan-300 md:hover:text-white hover:bg-cyan-500/[0.15] md:hover:bg-white/[0.12] hover:shadow-[0_0_10px_rgba(0,229,192,0.40)] md:hover:shadow-[0_0_8px_rgba(255,255,255,0.25)]"
+                          ? "text-white/70 hover:text-white hover:bg-white/[0.12] hover:shadow-[0_0_8px_rgba(255,255,255,0.20)]"
                           : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"
                       }`}>
                       {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
