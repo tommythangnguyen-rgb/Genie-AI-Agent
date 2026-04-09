@@ -5292,18 +5292,29 @@ export default function AidAgentPage() {
                     </div>
                     {expanded && <div className="grid grid-cols-2 gap-2">
                       {[{ id: "RtDYpEfAa5U", title: "How to Fill Out the FAFSA" }, { id: "NmEP38x-1Z8", title: "FAFSA Tips & Common Mistakes" }, { id: "rhgwIhB58PA", title: "Student Aid Overview" }, { id: "C5OJJD3Eytk", title: "Understanding Aid Offers" }].map(({ id, title }) => (
-                        <a key={id} href={`https://www.youtube.com/watch?v=${id}`} target="_blank" rel="noopener noreferrer"
-                           className="relative rounded-xl overflow-hidden ring-1 ring-white/[0.08] group hover:ring-sky-500/25 transition-all shadow-sm shadow-black/30">
-                          <img src={`https://img.youtube.com/vi/${id}/mqdefault.jpg`} alt={title} className="w-full aspect-video object-cover opacity-75 group-hover:opacity-100 transition-opacity"/>
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-7 h-7 rounded-full bg-black/60 flex items-center justify-center group-hover:bg-red-600 transition-colors">
-                              <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5 text-white ml-0.5"><path d="M8 5v14l11-7z"/></svg>
-                            </div>
-                          </div>
-                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-2 py-1.5">
-                            <p className="text-[11px] text-white/85 truncate leading-tight">{title}</p>
-                          </div>
-                        </a>
+                        <div key={id} className="relative rounded-xl overflow-hidden ring-1 ring-white/[0.08] shadow-sm shadow-black/30" style={{ aspectRatio: "16/9" }}>
+                          {expandedSections.has(`vid-${id}`) ? (
+                            <iframe
+                              src={`https://www.youtube.com/embed/${id}?autoplay=1&rel=0`}
+                              title={title}
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                              className="w-full h-full border-0"
+                            />
+                          ) : (
+                            <button type="button" onClick={() => setExpandedSections(p => { const n = new Set(p); n.add(`vid-${id}`); return n; })} className="w-full h-full group">
+                              <img src={`https://img.youtube.com/vi/${id}/mqdefault.jpg`} alt={title} className="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition-opacity"/>
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="w-9 h-9 rounded-full bg-black/60 flex items-center justify-center group-hover:bg-red-600 transition-colors shadow-lg">
+                                  <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4 text-white ml-0.5"><path d="M8 5v14l11-7z"/></svg>
+                                </div>
+                              </div>
+                              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-2 py-1.5">
+                                <p className="text-[11px] text-white/85 truncate leading-tight">{title}</p>
+                              </div>
+                            </button>
+                          )}
+                        </div>
                       ))}
                     </div>}
                   </div>
@@ -6345,18 +6356,29 @@ export default function AidAgentPage() {
                     </div>
                     {expanded && <div className="grid grid-cols-2 gap-2">
                       {[{ id: "P6FORpg0KVo", title: "Aid Packaging & Verification" }, { id: "HAnw168huqA", title: "Regulatory Compliance" }, { id: "rhgwIhB58PA", title: "Student Aid Overview" }, { id: "kKvK2foOTJM", title: "Financial Aid Administration" }].map(({ id, title }) => (
-                        <a key={id} href={`https://www.youtube.com/watch?v=${id}`} target="_blank" rel="noopener noreferrer"
-                           className="relative rounded-xl overflow-hidden ring-1 ring-white/[0.08] group hover:ring-sky-500/25 transition-all shadow-sm shadow-black/30">
-                          <img src={`https://img.youtube.com/vi/${id}/mqdefault.jpg`} alt={title} className="w-full aspect-video object-cover opacity-75 group-hover:opacity-100 transition-opacity"/>
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="w-7 h-7 rounded-full bg-black/60 flex items-center justify-center group-hover:bg-red-600 transition-colors">
-                              <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5 text-white ml-0.5"><path d="M8 5v14l11-7z"/></svg>
-                            </div>
-                          </div>
-                          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-2 py-1.5">
-                            <p className="text-[11px] text-white/85 truncate leading-tight">{title}</p>
-                          </div>
-                        </a>
+                        <div key={id} className="relative rounded-xl overflow-hidden ring-1 ring-white/[0.08] shadow-sm shadow-black/30" style={{ aspectRatio: "16/9" }}>
+                          {expandedSections.has(`vid-${id}`) ? (
+                            <iframe
+                              src={`https://www.youtube.com/embed/${id}?autoplay=1&rel=0`}
+                              title={title}
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                              className="w-full h-full border-0"
+                            />
+                          ) : (
+                            <button type="button" onClick={() => setExpandedSections(p => { const n = new Set(p); n.add(`vid-${id}`); return n; })} className="w-full h-full group">
+                              <img src={`https://img.youtube.com/vi/${id}/mqdefault.jpg`} alt={title} className="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition-opacity"/>
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <div className="w-9 h-9 rounded-full bg-black/60 flex items-center justify-center group-hover:bg-red-600 transition-colors shadow-lg">
+                                  <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4 text-white ml-0.5"><path d="M8 5v14l11-7z"/></svg>
+                                </div>
+                              </div>
+                              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-2 py-1.5">
+                                <p className="text-[11px] text-white/85 truncate leading-tight">{title}</p>
+                              </div>
+                            </button>
+                          )}
+                        </div>
                       ))}
                     </div>}
                   </div>
