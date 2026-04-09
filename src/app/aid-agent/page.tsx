@@ -4910,12 +4910,27 @@ export default function AidAgentPage() {
     <div key={msg.id} className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
       {msg.role === "assistant" && (
         <div className="shrink-0 mt-1">
-          <div className="p-1.5 rounded-xl bg-indigo-600 shadow-md shadow-indigo-900/40 ring-1 ring-indigo-500/30">
+          <div className="p-1.5 rounded-xl ring-1 ring-indigo-400/40" style={{ background: "rgba(99,102,241,0.35)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", boxShadow: "0 0 12px rgba(99,102,241,0.35), inset 0 1px 0 rgba(255,255,255,0.20)" }}>
             <GenieBottle className="h-4 w-4 text-white genie-icon-shimmer" />
           </div>
         </div>
       )}
-      <div className={`relative ${msg.role === "user" ? "max-w-[72%] text-white px-4 py-3 rounded-2xl rounded-tr-sm text-sm leading-relaxed ring-1 ring-indigo-500/30 bg-indigo-600 shadow-lg shadow-indigo-900/30" : "max-w-[82%] ring-1 ring-white/[0.18] px-5 py-4 rounded-2xl rounded-tl-sm shadow-lg shadow-black/40"}`} style={msg.role === "assistant" ? { background: "rgba(4,9,26,0.82)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" } : undefined}>
+      <div
+        className={`relative ${msg.role === "user" ? "max-w-[72%] text-white px-4 py-3 rounded-2xl rounded-tr-sm text-sm leading-relaxed" : "max-w-[82%] px-5 py-4 rounded-2xl rounded-tl-sm"}`}
+        style={msg.role === "user" ? {
+          background: "rgba(99,102,241,0.28)",
+          backdropFilter: "blur(18px)",
+          WebkitBackdropFilter: "blur(18px)",
+          border: "1px solid rgba(139,92,246,0.40)",
+          boxShadow: "0 4px 24px rgba(99,102,241,0.22), 0 1px 0 rgba(255,255,255,0.18) inset",
+        } : {
+          background: "rgba(255,255,255,0.07)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          border: "1px solid rgba(255,255,255,0.14)",
+          boxShadow: "0 4px 28px rgba(0,0,0,0.35), 0 1px 0 rgba(255,255,255,0.12) inset",
+        }}
+      >
         {msg.role === "user" ? (
           <div>
             {msg.senderRole && (() => { const opt = ROLE_OPTIONS.find(r => r.label === msg.senderRole); return (<span className={`inline-block text-[10px] font-bold uppercase tracking-widest mb-1.5 px-2 py-0.5 rounded-md ring-1 ${opt?.color ?? "text-white/50"} ${opt?.bg ?? "bg-white/10"} ${opt?.ring ?? "ring-white/20"}`}>{msg.senderRole}</span>); })()}
@@ -4925,8 +4940,8 @@ export default function AidAgentPage() {
         ) : (
           <div className="relative">
             <div className="flex items-center gap-1.5 mb-2" aria-label="AI-generated response">
-              <Sparkles className="h-3 w-3 text-indigo-400/60" aria-hidden="true" />
-              <span className="text-[10px] font-medium text-white/30 tracking-wide">AI-generated · Always verify with official sources</span>
+              <Sparkles className="h-3 w-3 text-indigo-300/80" aria-hidden="true" />
+              <span className="text-[10px] font-medium text-white/55 tracking-wide">AI-generated · Always verify with official sources</span>
             </div>
             <StreamingContent content={msg.content} msgId={msg.id} streamingMsgId={streamingMsgId} isStreaming={isStreaming} className="prose-invert text-sm text-white leading-relaxed" />
             {msg.id === streamingMsgId && isStreaming && (<span className="inline-block w-0.5 h-4 bg-indigo-400 animate-pulse ml-0.5 align-text-bottom rounded-full" />)}
@@ -4950,10 +4965,10 @@ export default function AidAgentPage() {
 
   const typingIndicator = isLoading ? (
     <div className="flex gap-3 justify-start genie-fade-in-up">
-      <div className="shrink-0 mt-1 p-1.5 rounded-xl bg-indigo-600 shadow-md ring-1 ring-indigo-500/30">
+      <div className="shrink-0 mt-1 p-1.5 rounded-xl ring-1 ring-indigo-400/40" style={{ background: "rgba(99,102,241,0.35)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", boxShadow: "0 0 12px rgba(99,102,241,0.35), inset 0 1px 0 rgba(255,255,255,0.20)" }}>
         <GenieBottle className="h-4 w-4 text-white genie-icon-shimmer" />
       </div>
-      <div className="ring-1 ring-white/[0.18] px-5 py-4 rounded-2xl rounded-tl-sm shadow-lg shadow-black/40" style={{ background: "rgba(4,9,26,0.82)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
+      <div className="px-5 py-4 rounded-2xl rounded-tl-sm" style={{ background: "rgba(255,255,255,0.07)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 28px rgba(0,0,0,0.35), 0 1px 0 rgba(255,255,255,0.12) inset" }}>
         <div className="flex items-center gap-1.5">
           {[0, 1, 2].map((i) => (<span key={i} className="genie-typing-dot" />))}
         </div>
