@@ -6648,11 +6648,11 @@ export default function AidAgentPage() {
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
           <div
             className="relative z-[91] ml-auto h-full w-full max-w-sm flex flex-col overflow-hidden"
-            style={{ background: "linear-gradient(160deg, rgba(5,10,24,0.99) 0%, rgba(8,16,36,0.99) 100%)", borderLeft: "1px solid rgba(30,42,74,0.9)", boxShadow: "-20px 0 60px rgba(0,0,0,0.70)" }}
+            style={{ background: "rgba(15,25,60,0.82)", backdropFilter: "blur(32px)", WebkitBackdropFilter: "blur(32px)", borderLeft: "1px solid rgba(255,255,255,0.14)", boxShadow: "-20px 0 60px rgba(0,0,0,0.55)" }}
             onClick={e => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="shrink-0 flex items-center justify-between px-4 py-3.5 border-b border-white/[0.07]" style={{ background: "rgba(6,12,28,0.80)" }}>
+            <div className="shrink-0 flex items-center justify-between px-4 py-3.5 border-b border-white/[0.10]" style={{ background: "rgba(255,255,255,0.05)" }}>
               <div className="flex items-center gap-2">
                 <Clock className="h-4 w-4 text-amber-400/70" />
                 <span className="text-sm font-bold text-white tracking-wide">Conversation History</span>

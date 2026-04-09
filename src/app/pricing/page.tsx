@@ -257,7 +257,7 @@ export default function PricingPage() {
   return (
     <div
       className="min-h-screen text-white relative"
-      style={{ background: "linear-gradient(135deg, #06101F 0%, #0A1428 55%, #0D1A35 100%)" }}
+      style={{ background: "linear-gradient(135deg, #1e3a6e 0%, #253d7a 50%, #1a3060 100%)" }}
     >
       {/* Genie Orbs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }} aria-hidden="true">
@@ -266,7 +266,7 @@ export default function PricingPage() {
         <div className="genie-orb-bg" style={{ width: 400, height: 400, top: "80%", left: "5%", background: "rgba(0,209,201,0.06)", ["--dur" as any]: "13s", ["--delay" as any]: "4s" }} />
       </div>
       {/* ── Header ── */}
-      <header className="sticky top-0 z-50 border-b border-cyan-500/20 bg-[#060E1F]/95 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-white/[0.15] bg-white/[0.08] backdrop-blur-xl">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link
             href="/aid-agent"
@@ -366,10 +366,11 @@ export default function PricingPage() {
                     : ""
                 }`}
                 style={!isHighlight ? {
-                  background: "linear-gradient(135deg, rgba(13,26,50,0.92) 0%, rgba(10,20,42,0.88) 100%)",
-                  border: "1px solid rgba(6,182,212,0.18)",
-                  boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)",
-                  backdropFilter: "blur(12px)",
+                  background: "rgba(255,255,255,0.08)",
+                  backdropFilter: "blur(16px)",
+                  WebkitBackdropFilter: "blur(16px)",
+                  border: "1px solid rgba(255,255,255,0.14)",
+                  boxShadow: "0 8px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.10)",
                 } : undefined}
               >
                 {/* Badge */}

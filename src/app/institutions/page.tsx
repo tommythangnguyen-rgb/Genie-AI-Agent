@@ -63,7 +63,7 @@ export default function InstitutionsPage() {
   return (
     <div
       className="min-h-screen text-white relative"
-      style={{ background: "linear-gradient(135deg, #06101F 0%, #0A1428 55%, #0D1A35 100%)" }}
+      style={{ background: "linear-gradient(135deg, #1e3a6e 0%, #253d7a 50%, #1a3060 100%)" }}
     >
       {/* Genie Orbs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }} aria-hidden="true">
@@ -73,7 +73,7 @@ export default function InstitutionsPage() {
       </div>
 
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-cyan-500/20 bg-[#060E1F]/95 backdrop-blur-xl">
+      <header className="sticky top-0 z-50 border-b border-white/[0.15] bg-white/[0.08] backdrop-blur-xl">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link href="/aid-agent" className="flex items-center gap-2 text-[#94A3B8]/70 hover:text-[#00E5C0] transition-colors text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded-lg px-2 py-1 ring-1 ring-white/10 hover:bg-white/[0.05]">
             <Home className="h-4 w-4" />
@@ -140,7 +140,7 @@ export default function InstitutionsPage() {
         </section>
 
         {/* Why Genie for Institutions */}
-        <section className="mb-14 rounded-2xl px-8 py-8" style={{ background: "linear-gradient(135deg, rgba(13,26,50,0.92) 0%, rgba(10,20,42,0.88) 100%)", border: "1px solid rgba(6,182,212,0.18)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
+        <section className="mb-14 rounded-2xl px-8 py-8" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
           <h2 className="text-xl font-bold text-white mb-6">Why Financial Aid Offices Choose Genie</h2>
           <div className="grid sm:grid-cols-2 gap-6">
             {[
@@ -164,7 +164,7 @@ export default function InstitutionsPage() {
           <h2 className="text-xl font-bold text-white mb-6">What Genie Does for Your Office</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {FEATURES.map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="rounded-2xl px-6 py-5 transition-all" style={{ background: "linear-gradient(135deg, rgba(13,26,50,0.92) 0%, rgba(10,20,42,0.88) 100%)", border: "1px solid rgba(6,182,212,0.18)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
+              <div key={title} className="rounded-2xl px-6 py-5 transition-all" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
                 <div className="p-2 rounded-xl bg-cyan-500/[0.15] ring-1 ring-cyan-500/[0.28] w-fit mb-3">
                   <Icon className="h-4 w-4 text-cyan-300" />
                 </div>
@@ -176,7 +176,7 @@ export default function InstitutionsPage() {
         </section>
 
         {/* Compliance Section */}
-        <section className="mb-14 rounded-2xl px-8 py-7" style={{ background: "linear-gradient(135deg, rgba(13,26,50,0.92) 0%, rgba(10,20,42,0.88) 100%)", border: "1px solid rgba(6,182,212,0.18)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
+        <section className="mb-14 rounded-2xl px-8 py-7" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
           <h2 className="text-xl font-bold text-white mb-4">Built for Compliance</h2>
           <div className="space-y-2.5">
             {[
@@ -203,7 +203,7 @@ export default function InstitutionsPage() {
             </div>
             <h2 className="text-xl font-bold text-white">Request a Demo</h2>
           </div>
-          <div className="rounded-2xl px-8 py-7" style={{ background: "linear-gradient(135deg, rgba(13,26,50,0.92) 0%, rgba(10,20,42,0.88) 100%)", border: "1px solid rgba(6,182,212,0.18)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
+          <div className="rounded-2xl px-8 py-7" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
             {submitted ? (
               <div className="flex flex-col items-center gap-3 py-8 text-center">
                 <CheckCircle className="h-10 w-10 text-cyan-400" />
@@ -221,7 +221,7 @@ export default function InstitutionsPage() {
                       value={formState.name}
                       onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                       placeholder="Director of Financial Aid"
-                      className="w-full bg-white/[0.05] ring-1 ring-[#1E3A5F]/60 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+                      className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
                     />
                   </div>
                   <div>
@@ -232,7 +232,7 @@ export default function InstitutionsPage() {
                       value={formState.email}
                       onChange={(e) => setFormState({ ...formState, email: e.target.value })}
                       placeholder="you@college.edu"
-                      className="w-full bg-white/[0.05] ring-1 ring-[#1E3A5F]/60 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+                      className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
                     />
                   </div>
                 </div>
@@ -244,7 +244,7 @@ export default function InstitutionsPage() {
                     value={formState.institution}
                     onChange={(e) => setFormState({ ...formState, institution: e.target.value })}
                     placeholder="Your College or University"
-                    className="w-full bg-white/[0.05] ring-1 ring-[#1E3A5F]/60 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+                    className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
                   />
                 </div>
                 <div>
@@ -254,7 +254,7 @@ export default function InstitutionsPage() {
                     value={formState.message}
                     onChange={(e) => setFormState({ ...formState, message: e.target.value })}
                     placeholder="Tell us about your team size, current challenges, or specific features you want to explore..."
-                    className="w-full bg-white/[0.05] ring-1 ring-[#1E3A5F]/60 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all resize-none"
+                    className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all resize-none"
                   />
                 </div>
                 <button

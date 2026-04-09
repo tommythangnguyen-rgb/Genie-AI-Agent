@@ -28,7 +28,7 @@ export default function AboutPage() {
   };
 
   return (
-    <div className="min-h-screen text-white relative" style={{ background: "linear-gradient(135deg, #06101F 0%, #0A1428 55%, #0D1A35 100%)" }}>
+    <div className="min-h-screen text-white relative" style={{ background: "linear-gradient(135deg, #1e3a6e 0%, #253d7a 50%, #1a3060 100%)" }}>
 
       {/* Genie Orbs */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }} aria-hidden="true">
@@ -38,7 +38,7 @@ export default function AboutPage() {
       </div>
 
       {/* Header */}
-      <header className="sticky top-0 z-10 border-b border-cyan-500/20 bg-[#060E1F]/95 backdrop-blur-xl" style={{ zIndex: 50 }}>
+      <header className="sticky top-0 z-10 border-b border-white/[0.15] bg-white/[0.08] backdrop-blur-xl" style={{ zIndex: 50 }}>
         <div className="max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link href="/aid-agent" className="flex items-center gap-2 text-[#94A3B8]/70 hover:text-[#00E5C0] transition-colors text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded-lg px-2 py-1 ring-1 ring-white/10 hover:bg-white/[0.05]">
             <Home className="h-4 w-4" />
@@ -104,7 +104,7 @@ export default function AboutPage() {
         </section>
 
         {/* Origin Story */}
-        <section className="mb-12 rounded-2xl px-8 py-8" style={{ background: "linear-gradient(135deg, rgba(13,26,50,0.92) 0%, rgba(10,20,42,0.88) 100%)", border: "1px solid rgba(6,182,212,0.18)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
+        <section className="mb-12 rounded-2xl px-8 py-8" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
           <h2 className="text-lg font-bold text-white mb-5">The Story Behind Genie</h2>
 
           {/* Photo + first two paragraphs side-by-side on md+ */}
@@ -146,7 +146,7 @@ export default function AboutPage() {
             </div>
             <h2 className="text-xl font-bold text-white">Our Mission</h2>
           </div>
-          <div className="rounded-2xl px-8 py-6 space-y-4" style={{ background: "linear-gradient(135deg, rgba(13,26,50,0.92) 0%, rgba(10,20,42,0.88) 100%)", border: "1px solid rgba(6,182,212,0.18)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
+          <div className="rounded-2xl px-8 py-6 space-y-4" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
             <p className="text-white/90 leading-relaxed">
               Make financial aid <strong className="text-white">understandable, accessible, and actionable</strong> for every person who touches it — whether you are a first-generation student, a parent decoding an award letter, or a financial aid administrator running an R2T4 withdrawal.
             </p>
@@ -182,7 +182,7 @@ export default function AboutPage() {
             </div>
             <h2 className="text-xl font-bold text-white">AI, Transparency & Our Intentions</h2>
           </div>
-          <div className="rounded-2xl px-8 py-6 space-y-4" style={{ background: "linear-gradient(135deg, rgba(13,26,50,0.92) 0%, rgba(10,20,42,0.88) 100%)", border: "1px solid rgba(6,182,212,0.18)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
+          <div className="rounded-2xl px-8 py-6 space-y-4" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
             <p className="text-white/90 leading-relaxed">
               We want to be direct with you: <strong className="text-white">AI is a powerful tool — and a responsibility.</strong> The conversations around artificial intelligence are real: job displacement, misinformation, loss of human connection. Those concerns deserve to be taken seriously, and they shaped how Genie was built.
             </p>
@@ -239,7 +239,7 @@ export default function AboutPage() {
                 desc: "Compliance officers, executives, and auditors needing quick, reliable reference to federal regulations, program requirements, and audit preparation.",
               },
             ].map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="rounded-2xl px-6 py-5" style={{ background: "linear-gradient(135deg, rgba(13,26,50,0.92) 0%, rgba(10,20,42,0.88) 100%)", border: "1px solid rgba(6,182,212,0.18)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
+              <div key={title} className="rounded-2xl px-6 py-5" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
                 <div className="p-2 rounded-xl bg-cyan-500/[0.12] w-fit mb-3">
                   <Icon className="h-4 w-4 text-cyan-300" />
                 </div>
@@ -306,7 +306,7 @@ export default function AboutPage() {
             </div>
             <h2 className="text-xl font-bold text-white">Contact & Demo Request</h2>
           </div>
-          <div className="rounded-2xl px-8 py-7" style={{ background: "linear-gradient(135deg, rgba(13,26,50,0.92) 0%, rgba(10,20,42,0.88) 100%)", border: "1px solid rgba(6,182,212,0.18)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
+          <div className="rounded-2xl px-8 py-7" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
             {submitted ? (
               <div className="flex flex-col items-center gap-3 py-6 text-center">
                 <CheckCircle className="h-10 w-10 text-cyan-400" />
@@ -324,7 +324,7 @@ export default function AboutPage() {
                       value={formState.name}
                       onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                       placeholder="Your full name"
-                      className="w-full bg-[#0D1A32]/80 ring-1 ring-[#1E3A5F]/50 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+                      className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
                     />
                   </div>
                   <div>
@@ -335,7 +335,7 @@ export default function AboutPage() {
                       value={formState.email}
                       onChange={(e) => setFormState({ ...formState, email: e.target.value })}
                       placeholder="you@example.com"
-                      className="w-full bg-[#0D1A32]/80 ring-1 ring-[#1E3A5F]/50 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+                      className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
                     />
                   </div>
                 </div>
@@ -344,7 +344,7 @@ export default function AboutPage() {
                   <select
                     value={formState.role}
                     onChange={(e) => setFormState({ ...formState, role: e.target.value })}
-                    className="w-full bg-[#0D1A32]/80 ring-1 ring-[#1E3A5F]/50 rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all appearance-none"
+                    className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all appearance-none"
                   >
                     <option value="" className="bg-[#0e4099]">Select your role</option>
                     <option value="student" className="bg-[#0e4099]">Student</option>
@@ -363,7 +363,7 @@ export default function AboutPage() {
                     value={formState.message}
                     onChange={(e) => setFormState({ ...formState, message: e.target.value })}
                     placeholder="Tell us about your needs, your institution, or request a demo..."
-                    className="w-full bg-[#0D1A32]/80 ring-1 ring-[#1E3A5F]/50 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all resize-none"
+                    className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all resize-none"
                   />
                 </div>
                 <button

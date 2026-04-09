@@ -170,10 +170,10 @@ function AccountPageInner() {
   return (
     <div
       className="min-h-screen text-white"
-      style={{ background: "linear-gradient(135deg, #0a2e7a 0%, #0e4099 50%, #1252b8 100%)" }}
+      style={{ background: "linear-gradient(135deg, #1e3a6e 0%, #253d7a 50%, #1a3060 100%)" }}
     >
       {/* Header */}
-      <header className="sticky top-0 z-10 border-b border-white/[0.10] bg-[#071035]/80 backdrop-blur-xl">
+      <header className="sticky top-0 z-10 border-b border-white/[0.15] bg-white/[0.08] backdrop-blur-xl">
         <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link
             href="/aid-agent"
@@ -238,7 +238,7 @@ function AccountPageInner() {
               onOpenChange={(open) => setAuthDialog((s) => ({ ...s, open }))}
               defaultMode={authDialog.mode}
             />
-            <div className="rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.10] px-8 py-10 text-center">
+            <div className="rounded-2xl bg-white/[0.08] ring-1 ring-white/[0.18] px-8 py-10 text-center">
               <AlertCircle className="h-10 w-10 text-indigo-400 mx-auto mb-4" />
               <h2 className="text-lg font-bold text-white mb-2">Sign in to view your account</h2>
               <p className="text-sm text-white/60 mb-6">
@@ -274,7 +274,7 @@ function AccountPageInner() {
                 <h2 className="text-lg font-bold text-white">Subscription</h2>
               </div>
 
-              <div className="rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.10] px-7 py-6">
+              <div className="rounded-2xl bg-white/[0.08] ring-1 ring-white/[0.18] px-7 py-6">
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-5">
                   <div>
                     <p className="text-xs text-white/50 mb-1">Current plan</p>
@@ -389,7 +389,7 @@ function AccountPageInner() {
                   <span className="text-xs text-white/40">({members.length + 1} / 3 seats)</span>
                 </div>
 
-                <div className="rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.10] px-7 py-6">
+                <div className="rounded-2xl bg-white/[0.08] ring-1 ring-white/[0.18] px-7 py-6">
                   {/* Current members */}
                   <div className="space-y-3 mb-6">
                     <div className="flex items-center justify-between py-2.5 px-3 rounded-lg bg-white/[0.04]">
@@ -510,7 +510,7 @@ export default function AccountPage() {
       fallback={
         <div
           className="min-h-screen flex items-center justify-center text-white"
-          style={{ background: "linear-gradient(135deg, #0a2e7a 0%, #0e4099 50%, #1252b8 100%)" }}
+          style={{ background: "linear-gradient(135deg, #1e3a6e 0%, #253d7a 50%, #1a3060 100%)" }}
         >
           <RefreshCw className="h-6 w-6 text-indigo-400 animate-spin" />
         </div>
