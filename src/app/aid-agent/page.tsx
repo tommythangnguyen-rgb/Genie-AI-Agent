@@ -3734,9 +3734,9 @@ function EducationalBackground({ isDark = true, guidanceActive = false }: { isDa
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
       {/* Desktop: teal table top-down photo */}
-      <img src="/images/bg-wood.jpg" alt="" className="hidden md:block absolute inset-0 w-full h-full object-cover object-center" style={{ filter: "grayscale(100%)" }} />
+      <img src="/images/bg-wood.jpg" alt="" className="hidden md:block absolute inset-0 w-full h-full object-cover object-center" />
       {/* Mobile */}
-      <img src="/images/bg-wood-mobile.jpg" alt="" className="block md:hidden absolute inset-0 w-full h-full object-cover object-center" style={{ filter: "grayscale(100%)" }} />
+      <img src="/images/bg-wood-mobile.jpg" alt="" className="block md:hidden absolute inset-0 w-full h-full object-cover object-center" />
     </div>
   );
 }
