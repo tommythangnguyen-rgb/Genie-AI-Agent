@@ -5983,7 +5983,7 @@ export default function AidAgentPage() {
                 </div>
 
                 {/* Input — desktop overlay version (textareaRef lives here) */}
-                <div className="shrink-0 relative border-t border-white/[0.07] px-4 pt-3 pb-3" style={{ background: "rgba(4,10,26,0.60)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
+                <div className="shrink-0 relative border-t border-white/[0.08] px-4 pt-3 pb-3" style={{ background: "transparent", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
                   <div className="pointer-events-none absolute inset-x-0 -top-6 h-16 bg-gradient-to-t from-cyan-500/[0.06] to-transparent" />
                   <div className="relative w-full max-w-xl mx-auto">
                     <div className="flex items-center gap-2 mb-2 px-1">
@@ -6051,7 +6051,7 @@ export default function AidAgentPage() {
           )}
 
           {/* Input area — always visible on mobile; on desktop only when no chat is active */}
-          <div className={`shrink-0 relative border-t border-[#1E2A4A] px-3 pt-1.5 pb-1.5 md:px-4 md:pt-3 md:pb-3 ${messages.length > 0 ? "md:hidden" : ""}`} style={{ background: "rgba(4,10,26,0.60)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", zIndex: 3 }}>
+          <div className={`shrink-0 relative border-t border-white/[0.08] px-3 pt-1.5 pb-1.5 md:px-4 md:pt-3 md:pb-3 ${messages.length > 0 ? "md:hidden" : ""}`} style={{ background: "transparent", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", zIndex: 3 }}>
             {/* Ambient glow bloom behind chatbox */}
             <div className="pointer-events-none absolute inset-x-0 -top-6 h-16 bg-gradient-to-t from-cyan-500/[0.06] to-transparent" />
 
