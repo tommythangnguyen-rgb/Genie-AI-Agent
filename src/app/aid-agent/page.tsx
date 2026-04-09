@@ -4993,6 +4993,9 @@ export default function AidAgentPage() {
           background: rgba(96, 165, 250, 0.55);
         }
         .genie-scroll-main { scrollbar-width: thin; scrollbar-color: rgba(96,165,250,0.30) rgba(10,46,122,0.25); }
+        .hw-icon-glow { filter: drop-shadow(0 0 7px rgba(255,255,255,0.65)); }
+        .hw-gold-glow { filter: drop-shadow(0 0 10px rgba(255,215,0,0.70)); }
+        .hw-footer-glow { text-shadow: 0 0 9px rgba(255,255,255,0.55); }
       `}</style>
       {showDisclaimer && (
         <div role="dialog" aria-modal="true" aria-labelledby="disclaimer-title" className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
@@ -5344,7 +5347,7 @@ export default function AidAgentPage() {
                 <button
                   onClick={() => { const next = !showMobileLeft; setShowMobileLeft(next); if (next) { resetLeftTimer(); triggerOrbGold(); } }}
                   title="Students & Parents panel"
-                  className={`shrink-0 p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.12] hover:shadow-[0_0_10px_rgba(212,175,55,0.25)] ${howItWorksActive === "panels" ? "text-[#D4AF37] bg-[#D4AF37]/[0.15] shadow-[0_0_18px_rgba(212,175,55,0.55)] ring-1 ring-[#D4AF37]/50" : "text-[#C9A227]/65"}`}
+                  className={`shrink-0 p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.12] hover:shadow-[0_0_10px_rgba(212,175,55,0.25)] ${howItWorksActive === "panels" ? "text-[#D4AF37] bg-[#D4AF37]/[0.15] shadow-[0_0_18px_rgba(212,175,55,0.55)] ring-1 ring-[#D4AF37]/50" : "text-[#FFD700] hw-gold-glow"}`}
                 >
                   {showMobileLeft ? <X className="h-5 w-5" /> : <GraduationCap className="h-5 w-5" />}
                 </button>
@@ -5377,7 +5380,7 @@ export default function AidAgentPage() {
                 <button
                   onClick={goHome}
                   title="Home"
-                  className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-white hover:text-white hover:bg-white/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/40 text-xs font-medium"
+                  className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-white hover:text-white hover:bg-white/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/40 text-xs font-medium hw-icon-glow"
                 >
                   <Home className="h-5 w-5" />
                   <span className="hidden sm:inline">Home</span>
@@ -5385,7 +5388,7 @@ export default function AidAgentPage() {
                 <button
                   onClick={() => setIsDark(!isDark)}
                   title={isDark ? "Switch to bright mode" : "Switch to dark mode"}
-                  className="p-1.5 rounded-lg text-white hover:text-white hover:bg-white/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/40"
+                  className="p-1.5 rounded-lg text-white hover:text-white hover:bg-white/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/40 hw-icon-glow"
                 >
                   {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
                 </button>
@@ -5421,14 +5424,14 @@ export default function AidAgentPage() {
                 <button
                   onClick={() => setShowHistory(h => !h)}
                   title="View history"
-                  className="p-1.5 rounded-lg text-white hover:text-white hover:bg-white/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/40"
+                  className="p-1.5 rounded-lg text-white hover:text-white hover:bg-white/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/40 hw-icon-glow"
                 >
                   <Clock className="h-5 w-5" />
                 </button>
                 <button
                   onClick={() => { const next = !showMobileRight; setShowMobileRight(next); if (next) { resetRightTimer(); triggerOrbGold(); } }}
                   title="Admins & Compliance/Auditors panel"
-                  className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.12] hover:shadow-[0_0_10px_rgba(212,175,55,0.25)] ${howItWorksActive === "panels" ? "text-[#D4AF37] bg-[#D4AF37]/[0.15] shadow-[0_0_18px_rgba(212,175,55,0.55)] ring-1 ring-[#D4AF37]/50" : "text-[#C9A227]/65"}`}
+                  className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.12] hover:shadow-[0_0_10px_rgba(212,175,55,0.25)] ${howItWorksActive === "panels" ? "text-[#D4AF37] bg-[#D4AF37]/[0.15] shadow-[0_0_18px_rgba(212,175,55,0.55)] ring-1 ring-[#D4AF37]/50" : "text-[#FFD700] hw-gold-glow"}`}
                 >
                   {showMobileRight ? <X className="h-5 w-5" /> : <Zap className="h-5 w-5" />}
                 </button>
@@ -5436,7 +5439,7 @@ export default function AidAgentPage() {
                   <button
                     onClick={() => setMessages([])}
                     title="New chat"
-                    className="p-1.5 rounded-lg text-white hover:text-white hover:bg-white/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/40"
+                    className="p-1.5 rounded-lg text-white hover:text-white hover:bg-white/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/40 hw-icon-glow"
                   >
                     <SquarePen className="h-5 w-5" />
                   </button>
@@ -6002,7 +6005,7 @@ export default function AidAgentPage() {
                         <button type="button" onClick={() => setAttachedFile(null)} className="text-white/35 hover:text-white transition-colors"><X className="h-3.5 w-3.5" /></button>
                       </div>
                     )}
-                    <div className={`rounded-2xl ring-1 focus-within:ring-white/75 transition-all duration-200 ${howItWorksActive === "guidance" ? "hiw-guidance-chatbox" : howItWorksActive === "chatbox" ? "hiw-active-ring" : (!input && !attachedFile ? "ring-white/35" : "ring-white/65")}`} style={{ background: "rgba(255,255,255,0.035)", boxShadow: "0 1px 0 rgba(255,255,255,0.06) inset" }}>
+                    <div className={`rounded-2xl ring-1 focus-within:ring-white/70 transition-all duration-200 ${howItWorksActive === "guidance" ? "hiw-guidance-chatbox" : howItWorksActive === "chatbox" ? "hiw-active-ring" : (!input && !attachedFile ? "ring-white/40" : "ring-white/65")}`} style={{ background: "rgba(255,255,255,0.09)", boxShadow: "0 0 0 1px rgba(255,255,255,0.10), 0 4px 28px rgba(0,0,0,0.50), 0 1px 0 rgba(255,255,255,0.10) inset" }}>
                       <form onSubmit={handleSubmit} className="flex gap-2 items-end px-3 py-2.5">
                         <div className="flex items-center gap-0.5 shrink-0 mb-0.5">
                           <button type="button" title={canAccessFeature("document_upload", userTier) ? "Upload document" : "Pro — upload documents"} onClick={() => canAccessFeature("document_upload", userTier) ? fileInputRef.current?.click() : openUpgrade("document_upload")} className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-white hover:text-white hover:bg-white/[0.12] hover:shadow-[0_0_8px_rgba(255,255,255,0.25)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}><Paperclip className="h-4 w-4" /></button>
@@ -6141,12 +6144,12 @@ export default function AidAgentPage() {
 
               {/* Input form */}
               <div
-                className={`rounded-2xl ring-1 focus-within:ring-white/60 transition-all duration-200 ${howItWorksActive === "guidance" ? "hiw-guidance-chatbox" : howItWorksActive === "chatbox" ? "hiw-active-ring" : (!input && !attachedFile ? "ring-white/25" : "ring-white/55")}`}
+                className={`rounded-2xl ring-1 focus-within:ring-white/70 transition-all duration-200 ${howItWorksActive === "guidance" ? "hiw-guidance-chatbox" : howItWorksActive === "chatbox" ? "hiw-active-ring" : (!input && !attachedFile ? "ring-white/40" : "ring-white/65")}`}
                 style={{
-                  background: "rgba(255,255,255,0.035)",
+                  background: "rgba(255,255,255,0.09)",
                   boxShadow: howItWorksActive === "chatbox"
-                    ? "0 0 0 2px rgba(255,255,255,0.60), 0 0 40px rgba(255,255,255,0.18), 0 0 80px rgba(255,255,255,0.08), 0 1px 0 rgba(255,255,255,0.10) inset"
-                    : "0 1px 0 rgba(255,255,255,0.06) inset",
+                    ? "0 0 0 2px rgba(255,255,255,0.60), 0 0 40px rgba(255,255,255,0.18), 0 0 80px rgba(255,255,255,0.08), 0 1px 0 rgba(255,255,255,0.12) inset"
+                    : "0 0 0 1px rgba(255,255,255,0.10), 0 4px 28px rgba(0,0,0,0.50), 0 1px 0 rgba(255,255,255,0.10) inset",
                 }}
               >
                 <form
@@ -6252,8 +6255,8 @@ export default function AidAgentPage() {
               ].map(({ label, href, cls }, i, arr) => (
                 <span key={label} className="contents">
                   {href === "#install"
-                    ? <button type="button" onClick={() => setShowAppModal(true)} className={`px-1 py-px rounded-full text-[7px] md:text-[9px] md:px-1.5 transition-all duration-150 ${cls}`}>{label}</button>
-                    : <a href={href} {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})} className={`px-1 py-px rounded-full text-[7px] md:text-[9px] md:px-1.5 transition-all duration-150 ${cls}`}>{label}</a>
+                    ? <button type="button" onClick={() => setShowAppModal(true)} className={`px-1 py-px rounded-full text-[7px] md:text-[9px] md:px-1.5 transition-all duration-150 hw-footer-glow ${cls}`}>{label}</button>
+                    : <a href={href} {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})} className={`px-1 py-px rounded-full text-[7px] md:text-[9px] md:px-1.5 transition-all duration-150 hw-footer-glow ${cls}`}>{label}</a>
                   }
                   {i < arr.length - 1 && <span className="text-white/10 text-[7px] md:text-[9px] select-none px-0.5">·</span>}
                 </span>
