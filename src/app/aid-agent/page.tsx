@@ -4425,8 +4425,14 @@ export default function AidAgentPage() {
         /* Bright mode — override white text to readable dark tones */
         .bright-mode .text-white { color: #111827 !important; }
         .bright-mode .text-white\\/95,.bright-mode .text-white\\/90,.bright-mode .text-white\\/85,.bright-mode .text-white\\/80,.bright-mode .text-white\\/75,.bright-mode .text-white\\/70,.bright-mode .text-white\\/65,.bright-mode .text-white\\/60,.bright-mode .text-white\\/55,.bright-mode .text-white\\/50,.bright-mode .text-white\\/45,.bright-mode .text-white\\/40,.bright-mode .text-white\\/30,.bright-mode .text-white\\/22,.bright-mode .text-white\\/15,.bright-mode .text-white\\/10 { color: #111827 !important; }
+        .bright-mode .hover\\:text-white:hover { color: #111827 !important; }
         .bright-mode .hw-footer-glow { color: #111827 !important; text-shadow: none; }
         .bright-mode .hw-icon-glow { filter: drop-shadow(0 0 5px rgba(0,0,0,0.25)); }
+        /* Panels — keep white text even in bright mode */
+        .bright-mode .panel-white .text-white,
+        .bright-mode .panel-white .text-white\\/95,.bright-mode .panel-white .text-white\\/90,.bright-mode .panel-white .text-white\\/85,.bright-mode .panel-white .text-white\\/80,.bright-mode .panel-white .text-white\\/75,.bright-mode .panel-white .text-white\\/70,.bright-mode .panel-white .text-white\\/65,.bright-mode .panel-white .text-white\\/60,.bright-mode .panel-white .text-white\\/55,.bright-mode .panel-white .text-white\\/50,.bright-mode .panel-white .text-white\\/45,.bright-mode .panel-white .text-white\\/40,.bright-mode .panel-white .text-white\\/30,.bright-mode .panel-white .text-white\\/22,.bright-mode .panel-white .text-white\\/15,.bright-mode .panel-white .text-white\\/10 { color: white !important; }
+        .bright-mode .panel-white .hover\\:text-white:hover { color: white !important; }
+        .bright-mode .panel-white .hw-footer-glow { color: white !important; text-shadow: 0 0 9px rgba(255,255,255,0.55); }
       `}</style>
       {showDisclaimer && (
         <div role="dialog" aria-modal="true" aria-labelledby="disclaimer-title" className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
@@ -4639,7 +4645,7 @@ export default function AidAgentPage() {
 
         {/* ── Left Dropdown — Students & Parents ── */}
         <aside
-          className={`${showMobileLeft ? "flex" : "hidden"} fixed z-[60] flex-col rounded-2xl overflow-hidden border border-cyan-500/[0.15] shadow-2xl shadow-black/70 backdrop-blur-2xl`}
+          className={`panel-white ${showMobileLeft ? "flex" : "hidden"} fixed z-[60] flex-col rounded-2xl overflow-hidden border border-cyan-500/[0.15] shadow-2xl shadow-black/70 backdrop-blur-2xl`}
           style={{ top: "84px", left: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(14,30,65,0.20) 0%, rgba(18,36,75,0.18) 50%, rgba(12,26,58,0.20) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.40), 0 0 0 1px rgba(255,255,255,0.13), inset 0 1px 0 rgba(255,255,255,0.14)" }}
         >
           {howItWorksActive === "panels" && <div className="hiw-scan-overlay" aria-hidden="true" />}
@@ -5716,7 +5722,7 @@ export default function AidAgentPage() {
 
         {/* ── Right Dropdown — Administrators, Leaders & Auditors ── */}
         <aside
-          className={`${showMobileRight ? "flex" : "hidden"} fixed z-[60] flex-col rounded-2xl overflow-hidden border border-violet-500/[0.15] shadow-2xl shadow-black/70 backdrop-blur-2xl`}
+          className={`panel-white ${showMobileRight ? "flex" : "hidden"} fixed z-[60] flex-col rounded-2xl overflow-hidden border border-violet-500/[0.15] shadow-2xl shadow-black/70 backdrop-blur-2xl`}
           style={{ top: "84px", right: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(14,30,65,0.20) 0%, rgba(18,36,75,0.18) 50%, rgba(12,26,58,0.20) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.40), 0 0 0 1px rgba(255,255,255,0.13), inset 0 1px 0 rgba(255,255,255,0.14)" }}
         >
           {howItWorksActive === "panels" && <div className="hiw-scan-overlay" aria-hidden="true" />}
