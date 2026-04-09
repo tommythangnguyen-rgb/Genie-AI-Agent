@@ -5032,9 +5032,9 @@ export default function AidAgentPage() {
                     {/* How It Works */}
                     <div className="w-full flex-1 flex flex-col mb-3">
                       <div className="flex items-center gap-2 mb-3">
-                        <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/50" />
-                        <span className="text-xs font-bold uppercase tracking-[0.16em] text-white px-2" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.90)" }}>How it works</span>
-                        <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/50" />
+                        <div className={`h-px flex-1 ${isDark ? "bg-gradient-to-r from-transparent to-white/50" : "bg-gradient-to-r from-transparent to-black/40"}`} />
+                        <span className={`text-xs font-bold uppercase tracking-[0.16em] px-2 ${isDark ? "text-white" : "text-gray-900"}`} style={{ textShadow: isDark ? "0 1px 4px rgba(0,0,0,0.90)" : "none" }}>How it works</span>
+                        <div className={`h-px flex-1 ${isDark ? "bg-gradient-to-l from-transparent to-white/50" : "bg-gradient-to-l from-transparent to-black/40"}`} />
                       </div>
                       <div className="flex-1 grid grid-cols-2 gap-3 auto-rows-fr">
                         {([
@@ -5091,12 +5091,12 @@ export default function AidAgentPage() {
                             >
                               <ChevronLeft className="h-4 w-4" />
                             </button>
-                            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/50" />
+                            <div className={`h-px flex-1 ${isDark ? "bg-gradient-to-r from-transparent to-white/50" : "bg-gradient-to-r from-transparent to-black/40"}`} />
                             <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.10] ring-1 ring-[#D4AF37]/[0.28] shadow-sm shadow-black/20 transition-all duration-200 ${howItWorksActive === "role" ? "shadow-violet-500/20" : ""}`}>
                               <Users className={`h-3.5 w-3.5 transition-colors ${howItWorksActive === "role" ? "text-violet-400" : "text-amber-400/80"}`} />
-                              <span className={`text-xs font-bold tracking-[0.12em] uppercase transition-colors ${howItWorksActive === "role" ? "text-violet-400 drop-shadow-[0_0_8px_rgba(139,92,246,0.7)]" : "text-white/80"}`}>I am a…</span>
+                              <span className={`text-xs font-bold tracking-[0.12em] uppercase transition-colors ${howItWorksActive === "role" ? "text-violet-400 drop-shadow-[0_0_8px_rgba(139,92,246,0.7)]" : isDark ? "text-white/80" : "text-gray-900"}`}>I am a…</span>
                             </div>
-                            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/50" />
+                            <div className={`h-px flex-1 ${isDark ? "bg-gradient-to-l from-transparent to-white/50" : "bg-gradient-to-l from-transparent to-black/40"}`} />
                             <div className="flex items-center gap-1 shrink-0">
                               <button
                                 type="button"
@@ -5436,14 +5436,14 @@ export default function AidAgentPage() {
                       <span className="text-sm font-semibold tracking-wide">
                         <span style={{ background: "linear-gradient(90deg, #FFFFFF 0%, #D8EEFF 20%, #FFFFFF 40%, #EAF5FF 60%, #FFFFFF 80%, #D0E8FF 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-white-shimmer 4s linear infinite" }}>askGenie</span>
                       </span>
-                      <div className="h-px flex-1 bg-white/[0.06]" />
+                      <div className={`h-px flex-1 ${isDark ? "bg-white/[0.06]" : "bg-black/[0.12]"}`} />
                     </div>
                     <div className={`flex items-center gap-1.5 flex-wrap mb-2.5 px-1 rounded-xl transition-all duration-300 ${howItWorksActive === "role" ? "hiw-active-shimmer py-1.5 -mx-1" : ""}`}>
-                      <span className="text-[10px] text-white font-semibold tracking-wide mr-0.5 shrink-0">I am a:</span>
+                      <span className={`text-[10px] font-semibold tracking-wide mr-0.5 shrink-0 ${isDark ? "text-white" : "text-gray-900"}`}>I am a:</span>
                       {ROLE_OPTIONS.map(({ label, icon: RoleIcon, color, ring, bg }) => (
                         <button key={label} type="button" aria-pressed={selectedRole === label}
                           onClick={() => { syncRoles(selectedRole === label ? null : label); if (selectedRole !== label) setSlideIndex(1); }}
-                          className={`flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ring-1 ${selectedRole === label ? `${color} ${bg} ${ring}` : "text-white/80 bg-transparent ring-white/[0.22] hover:text-white hover:bg-white/[0.10] hover:ring-white/50"}`}>
+                          className={`flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ring-1 ${selectedRole === label ? `${color} ${bg} ${ring}` : isDark ? "text-white/80 bg-transparent ring-white/[0.22] hover:text-white hover:bg-white/[0.10] hover:ring-white/50" : "text-gray-800 bg-transparent ring-black/[0.18] hover:text-gray-900 hover:bg-black/[0.06] hover:ring-black/30"}`}>
                           <RoleIcon className="h-2.5 w-2.5 shrink-0" />{label}
                         </button>
                       ))}
@@ -5538,7 +5538,7 @@ export default function AidAgentPage() {
                 )}
               </div>
               <div className={`hidden md:flex items-center gap-1.5 flex-wrap md:mb-2.5 px-1 rounded-xl transition-all duration-300 ${howItWorksActive === "role" ? "hiw-active-shimmer py-1.5 -mx-1" : ""}`}>
-                <span className="text-[10px] text-white font-semibold tracking-wide mr-0.5 shrink-0">I am a:</span>
+                <span className={`text-[10px] font-semibold tracking-wide mr-0.5 shrink-0 ${isDark ? "text-white" : "text-gray-900"}`}>I am a:</span>
                 {ROLE_OPTIONS.map(({ label, icon: RoleIcon, color, ring, bg }) => (
                   <button
                     key={label}
@@ -5548,7 +5548,7 @@ export default function AidAgentPage() {
                     className={`flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ring-1 ${
                       selectedRole === label
                         ? `${color} ${bg} ${ring}`
-                        : "text-white/80 bg-transparent ring-white/[0.22] hover:text-white hover:bg-white/[0.10] hover:ring-white/50"
+                        : isDark ? "text-white/80 bg-transparent ring-white/[0.22] hover:text-white hover:bg-white/[0.10] hover:ring-white/50" : "text-gray-800 bg-transparent ring-black/[0.18] hover:text-gray-900 hover:bg-black/[0.06] hover:ring-black/30"
                     }`}
                     style={selectedRole === label ? {} : undefined}
                   >
