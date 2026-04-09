@@ -4915,7 +4915,7 @@ export default function AidAgentPage() {
           </div>
         </div>
       )}
-      <div className={`relative ${msg.role === "user" ? "max-w-[72%] text-white px-4 py-3 rounded-2xl rounded-tr-sm text-sm leading-relaxed ring-1 ring-indigo-500/30 bg-indigo-600 shadow-lg shadow-indigo-900/30" : "max-w-[82%] ring-1 ring-white/[0.10] px-5 py-4 rounded-2xl rounded-tl-sm bg-white/[0.05]"}`}>
+      <div className={`relative ${msg.role === "user" ? "max-w-[72%] text-white px-4 py-3 rounded-2xl rounded-tr-sm text-sm leading-relaxed ring-1 ring-indigo-500/30 bg-indigo-600 shadow-lg shadow-indigo-900/30" : "max-w-[82%] ring-1 ring-white/[0.18] px-5 py-4 rounded-2xl rounded-tl-sm shadow-lg shadow-black/40"}`} style={msg.role === "assistant" ? { background: "rgba(4,9,26,0.82)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" } : undefined}>
         {msg.role === "user" ? (
           <div>
             {msg.senderRole && (() => { const opt = ROLE_OPTIONS.find(r => r.label === msg.senderRole); return (<span className={`inline-block text-[10px] font-bold uppercase tracking-widest mb-1.5 px-2 py-0.5 rounded-md ring-1 ${opt?.color ?? "text-white/50"} ${opt?.bg ?? "bg-white/10"} ${opt?.ring ?? "ring-white/20"}`}>{msg.senderRole}</span>); })()}
@@ -4928,7 +4928,7 @@ export default function AidAgentPage() {
               <Sparkles className="h-3 w-3 text-indigo-400/60" aria-hidden="true" />
               <span className="text-[10px] font-medium text-white/30 tracking-wide">AI-generated · Always verify with official sources</span>
             </div>
-            <StreamingContent content={msg.content} msgId={msg.id} streamingMsgId={streamingMsgId} isStreaming={isStreaming} className="prose-invert text-sm text-white/85 leading-relaxed" />
+            <StreamingContent content={msg.content} msgId={msg.id} streamingMsgId={streamingMsgId} isStreaming={isStreaming} className="prose-invert text-sm text-white leading-relaxed" />
             {msg.id === streamingMsgId && isStreaming && (<span className="inline-block w-0.5 h-4 bg-indigo-400 animate-pulse ml-0.5 align-text-bottom rounded-full" />)}
             {msg.content && !isStreaming && (
               <div className="flex items-center gap-2 mt-2.5 pt-2 border-t border-white/[0.06]">
@@ -4953,7 +4953,7 @@ export default function AidAgentPage() {
       <div className="shrink-0 mt-1 p-1.5 rounded-xl bg-indigo-600 shadow-md ring-1 ring-indigo-500/30">
         <GenieBottle className="h-4 w-4 text-white genie-icon-shimmer" />
       </div>
-      <div className="ring-1 ring-white/[0.10] px-5 py-4 rounded-2xl rounded-tl-sm bg-white/[0.05]">
+      <div className="ring-1 ring-white/[0.18] px-5 py-4 rounded-2xl rounded-tl-sm shadow-lg shadow-black/40" style={{ background: "rgba(4,9,26,0.82)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
         <div className="flex items-center gap-1.5">
           {[0, 1, 2].map((i) => (<span key={i} className="genie-typing-dot" />))}
         </div>
@@ -5262,7 +5262,7 @@ export default function AidAgentPage() {
                     className="relative group cursor-pointer overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4FF]/60 shadow-md shadow-black/40 hover:scale-[1.02] active:scale-[0.97] transition-all duration-200"
                     style={{ aspectRatio: "1.6 / 1" }}
                   >
-                    <img src={img} alt="" className={`w-full h-full object-cover ${pos}`} style={{ filter: "saturate(1.18) contrast(1.04) brightness(1.10)" }} onError={(e) => { e.currentTarget.style.display = "none"; const fb = e.currentTarget.nextElementSibling as HTMLElement | null; if (fb) fb.style.display = "flex"; }} />
+                    <img src={img} alt="" className={`w-full h-full object-cover ${pos}`} style={{ filter: "saturate(1.18) contrast(1.04) brightness(1.10)", opacity: 0.38 }} onError={(e) => { e.currentTarget.style.display = "none"; const fb = e.currentTarget.nextElementSibling as HTMLElement | null; if (fb) fb.style.display = "flex"; }} />
                     <div style={{ display: "none" }} className="absolute inset-0 items-center justify-center bg-gradient-to-br from-indigo-900/80 via-slate-900/90 to-[#04091A]">
                       {Icon && <Icon className="h-9 w-9 text-indigo-300/60" />}
                     </div>
@@ -6326,7 +6326,7 @@ export default function AidAgentPage() {
                     className="relative group cursor-pointer overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4FF]/60 shadow-md shadow-black/40 hover:scale-[1.02] active:scale-[0.97] transition-all duration-200"
                     style={{ aspectRatio: "1.6 / 1" }}
                   >
-                    <img src={img} alt="" className={`w-full h-full object-cover ${pos}`} style={{ filter: "saturate(1.18) contrast(1.04) brightness(1.10)" }} onError={(e) => { e.currentTarget.style.display = "none"; const fb = e.currentTarget.nextElementSibling as HTMLElement | null; if (fb) fb.style.display = "flex"; }} />
+                    <img src={img} alt="" className={`w-full h-full object-cover ${pos}`} style={{ filter: "saturate(1.18) contrast(1.04) brightness(1.10)", opacity: 0.38 }} onError={(e) => { e.currentTarget.style.display = "none"; const fb = e.currentTarget.nextElementSibling as HTMLElement | null; if (fb) fb.style.display = "flex"; }} />
                     <div style={{ display: "none" }} className="absolute inset-0 items-center justify-center bg-gradient-to-br from-indigo-900/80 via-slate-900/90 to-[#04091A]">
                       {Icon && <Icon className="h-9 w-9 text-indigo-300/60" />}
                     </div>
