@@ -5449,8 +5449,8 @@ export default function AidAgentPage() {
 
           </header>
 
-          {/* ── Fixed orb companion — removed ── */}
-          {false && (
+          {/* ── Fixed orb companion ── */}
+          {(
             <div
               ref={pcOrbRef}
               aria-hidden="true"
@@ -5460,7 +5460,7 @@ export default function AidAgentPage() {
                 right: mobileOrbRoaming ? undefined : "max(24px, calc(50vw - 520px))",
                 top: mobileOrbRoaming ? undefined : "88px",
                 zIndex: 1,
-                opacity: mobileOrbRoaming ? 0.42 : 0.90,
+                opacity: mobileOrbRoaming ? 0.55 : 1.0,
                 transition: mobileOrbRoaming ? undefined : "opacity 0.6s ease",
               }}
             >
@@ -5470,59 +5470,60 @@ export default function AidAgentPage() {
               >
                 {/* Wide outer ambient glow */}
                 <div className="absolute rounded-full pointer-events-none" style={{
-                  inset: -65, background: "radial-gradient(circle, rgba(0,229,192,0.28) 0%, rgba(0,184,255,0.12) 40%, transparent 68%)",
+                  inset: -65, background: "radial-gradient(circle, rgba(0,229,192,0.45) 0%, rgba(0,184,255,0.20) 40%, transparent 68%)",
                   filter: "blur(26px)", animation: "genie-orb-pulse 5s ease-in-out infinite",
                 }} />
                 {/* Gold premium halo */}
                 <div className="absolute rounded-full pointer-events-none" style={{
-                  inset: -45, background: "radial-gradient(circle, rgba(212,175,55,0.18) 0%, rgba(255,200,50,0.06) 50%, transparent 70%)",
+                  inset: -45, background: "radial-gradient(circle, rgba(212,175,55,0.28) 0%, rgba(255,200,50,0.10) 50%, transparent 70%)",
                   filter: "blur(20px)", animation: "genie-orb-pulse 7s ease-in-out infinite 2s",
                 }} />
                 {/* Primary expanding halo */}
                 <div className="absolute inset-0 rounded-full pointer-events-none" style={{
-                  background: "radial-gradient(circle, rgba(0,229,192,0.38) 0%, transparent 70%)",
+                  background: "radial-gradient(circle, rgba(0,229,192,0.55) 0%, transparent 70%)",
                   animation: "genie-halo-expand 3.5s ease-out infinite",
                 }} />
                 {/* Secondary halo */}
                 <div className="absolute inset-0 rounded-full pointer-events-none" style={{
-                  background: "radial-gradient(circle, rgba(0,184,255,0.24) 0%, transparent 65%)",
+                  background: "radial-gradient(circle, rgba(0,184,255,0.38) 0%, transparent 65%)",
                   animation: "genie-halo-expand-2 3.5s ease-out infinite 1.75s",
                 }} />
                 {/* Tertiary halo — violet accent */}
                 <div className="absolute inset-0 rounded-full pointer-events-none" style={{
-                  background: "radial-gradient(circle, rgba(99,102,241,0.18) 0%, transparent 60%)",
+                  background: "radial-gradient(circle, rgba(99,102,241,0.28) 0%, transparent 60%)",
                   animation: "genie-halo-expand-3 4s ease-out infinite 0.9s",
                 }} />
                 {/* Orb sphere */}
                 <div className={`relative z-10 rounded-full overflow-hidden${orbGlowing ? " genie-orb-gold" : ""}${orbCelebrating ? " genie-orb-celebrate" : ""}`} style={{
                   width: "clamp(98px, 11vw, 132px)", height: "clamp(98px, 11vw, 132px)",
-                  background: "radial-gradient(circle at 32% 24%, rgba(255,255,255,0.98) 0%, rgba(160,255,248,1) 5%, rgba(0,235,200,1) 18%, rgba(0,195,220,0.97) 38%, rgba(0,90,160,0.98) 62%, rgba(0,28,75,1) 82%, rgba(2,10,38,1) 100%)",
+                  background: "radial-gradient(circle at 30% 22%, rgba(255,255,255,1) 0%, rgba(190,255,252,1) 4%, rgba(0,242,215,1) 14%, rgba(0,175,222,1) 30%, rgba(0,52,138,1) 55%, rgba(0,10,52,1) 76%, rgba(1,4,18,1) 100%)",
                   animation: (orbGlowing || orbCelebrating) ? undefined : "genie-orb-glow-pulse 4.2s ease-in-out infinite",
                   willChange: "box-shadow, filter, transform",
-                  boxShadow: "0 0 0 2.5px rgba(0,235,200,0.85), 0 0 0 5px rgba(0,209,201,0.22), 0 0 38px 14px rgba(0,229,192,0.50), 0 0 80px 30px rgba(0,184,255,0.24), inset 0 2px 0 rgba(255,255,255,0.55), 0 18px 60px rgba(0,0,0,0.65)",
+                  filter: "contrast(1.18) saturate(1.15)",
+                  boxShadow: "0 0 0 2px rgba(0,245,215,1), 0 0 0 5px rgba(0,209,201,0.40), 0 0 45px 18px rgba(0,229,192,0.70), 0 0 90px 35px rgba(0,184,255,0.40), inset 0 2px 0 rgba(255,255,255,0.75), 0 20px 70px rgba(0,0,0,0.85)",
                 }}>
                   {/* Rotating bands */}
                   <div style={{
                     position: "absolute", top: 0, left: 0, width: "200%", height: "100%",
-                    background: "repeating-linear-gradient(90deg,transparent 0%,transparent 7%,rgba(255,255,255,0.11) 7%,rgba(255,255,255,0.11) 8.5%,transparent 8.5%,transparent 20%,rgba(0,235,200,0.15) 20%,rgba(0,235,200,0.15) 23%,transparent 23%,transparent 50%)",
+                    background: "repeating-linear-gradient(90deg,transparent 0%,transparent 7%,rgba(255,255,255,0.14) 7%,rgba(255,255,255,0.14) 8.5%,transparent 8.5%,transparent 20%,rgba(0,235,200,0.20) 20%,rgba(0,235,200,0.20) 23%,transparent 23%,transparent 50%)",
                     animation: "genie-orb-bands 18s linear infinite",
                   }} />
                   {/* Primary specular highlight — brilliant white */}
                   <div style={{
-                    position: "absolute", top: "6%", left: "14%", width: "40%", height: "32%",
-                    background: "radial-gradient(circle, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.55) 40%, transparent 100%)",
+                    position: "absolute", top: "5%", left: "12%", width: "44%", height: "36%",
+                    background: "radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.70) 35%, transparent 100%)",
                     borderRadius: "50%", filter: "blur(2px)",
                   }} />
                   {/* Secondary gleam bottom-right */}
                   <div style={{
-                    position: "absolute", top: "54%", right: "10%", width: "20%", height: "18%",
-                    background: "radial-gradient(circle, rgba(160,255,248,0.60) 0%, transparent 100%)",
+                    position: "absolute", top: "54%", right: "10%", width: "22%", height: "20%",
+                    background: "radial-gradient(circle, rgba(180,255,252,0.80) 0%, transparent 100%)",
                     borderRadius: "50%", filter: "blur(1.5px)",
                   }} />
                   {/* Teal inner bloom */}
                   <div style={{
-                    position: "absolute", bottom: "10%", left: "20%", width: "30%", height: "22%",
-                    background: "radial-gradient(circle, rgba(0,255,220,0.22) 0%, transparent 100%)",
+                    position: "absolute", bottom: "10%", left: "18%", width: "32%", height: "24%",
+                    background: "radial-gradient(circle, rgba(0,255,220,0.35) 0%, transparent 100%)",
                     borderRadius: "50%", filter: "blur(3px)",
                   }} />
                 </div>
@@ -6232,7 +6233,7 @@ export default function AidAgentPage() {
               </div>
 
 
-              <p className="hidden md:block mt-1 text-[9px] text-cyan-400/25 text-center leading-snug">
+              <p className="hidden md:block mt-1 text-[9px] text-cyan-400/65 text-center leading-snug">
                 Enter ↵ to send · Shift+Enter new line · Unofficial guidance — verify with FSA Handbook
               </p>
             </div>
@@ -6262,7 +6263,7 @@ export default function AidAgentPage() {
                 </span>
               ))}
             </div>
-            <p className="text-[8px] text-center text-cyan-500/20">
+            <p className="text-[8px] text-center text-cyan-400/70">
               © 2026 Genie Student Aid Hub | Developed by One27 | All Rights Reserved · Not affiliated with U.S. Dept. of Education
             </p>
           </div>
