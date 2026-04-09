@@ -5464,8 +5464,8 @@ export default function AidAgentPage() {
 
           </header>
 
-          {/* ── Fixed orb companion ── */}
-          {(
+          {/* ── Fixed orb companion — removed ── */}
+          {false && (
             <div
               ref={pcOrbRef}
               aria-hidden="true"
