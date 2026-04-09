@@ -5336,10 +5336,7 @@ export default function AidAgentPage() {
         >
 
           {/* ── Header ── */}
-          <header
-            className="sticky top-0 z-50 shrink-0 border-b border-[#1E2A4A]"
-            style={{ background: "transparent", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", borderBottom: "1px solid rgba(255,255,255,0.08)" }}
-          >
+          <header className="sticky top-0 z-50 shrink-0">
             <div className="relative px-3 py-1.5 flex items-center justify-between gap-2">
 
               {/* Left — left panel toggle + Genie branding (always visible) */}
@@ -5978,7 +5975,7 @@ export default function AidAgentPage() {
                 </div>
 
                 {/* Input — desktop overlay version (textareaRef lives here) */}
-                <div className="shrink-0 relative border-t border-white/[0.08] px-4 pt-3 pb-3" style={{ background: "transparent", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
+                <div className="shrink-0 relative px-4 pt-3 pb-3">
                         <div className="relative w-full max-w-xl mx-auto">
                     <div className="flex items-center gap-2 mb-2 px-1">
                       <GenieBottle className="h-3.5 w-3.5 text-amber-400 shrink-0 genie-icon-shimmer" />
@@ -6045,7 +6042,7 @@ export default function AidAgentPage() {
           )}
 
           {/* Input area — always visible on mobile; on desktop only when no chat is active */}
-          <div className={`shrink-0 relative border-t border-white/[0.08] px-3 pt-1.5 pb-1.5 md:px-4 md:pt-3 md:pb-3 ${messages.length > 0 ? "md:hidden" : ""}`} style={{ background: "transparent", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", zIndex: 3 }}>
+          <div className={`shrink-0 relative px-3 pt-1.5 pb-1.5 md:px-4 md:pt-3 md:pb-3 ${messages.length > 0 ? "md:hidden" : ""}`} style={{ zIndex: 3 }}>
             {/* Ambient glow bloom behind chatbox */}
 
             <div className="relative w-full max-w-xl mx-auto">
@@ -6239,7 +6236,7 @@ export default function AidAgentPage() {
           </div>
 
           {/* ── Site Footer Bar ── */}
-          <div className="shrink-0 border-t border-white/[0.08] px-3 py-1 md:px-4 md:py-2" style={{ background: "transparent", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", zIndex: 3 }}>
+          <div className="shrink-0 px-3 py-1 md:px-4 md:py-2" style={{ zIndex: 3 }}>
             <div className="flex flex-wrap justify-center items-center gap-x-0 gap-y-0.5 mb-0.5">
               {[
                 { label: "Plans & Pricing",     href: "/pricing",      cls: "font-semibold text-white hover:text-white hover:bg-white/[0.08]" },
