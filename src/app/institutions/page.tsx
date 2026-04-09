@@ -140,7 +140,7 @@ export default function InstitutionsPage() {
         </section>
 
         {/* Why Genie for Institutions */}
-        <section className="mb-14 rounded-2xl px-8 py-8" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
+        <section className="mb-14 rounded-2xl px-8 py-8" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
           <h2 className="text-xl font-bold text-white mb-6">Why Financial Aid Offices Choose Genie</h2>
           <div className="grid sm:grid-cols-2 gap-6">
             {[
@@ -164,7 +164,7 @@ export default function InstitutionsPage() {
           <h2 className="text-xl font-bold text-white mb-6">What Genie Does for Your Office</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {FEATURES.map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="rounded-2xl px-6 py-5 transition-all" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
+              <div key={title} className="rounded-2xl px-6 py-5 transition-all" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
                 <div className="p-2 rounded-xl bg-cyan-500/[0.15] ring-1 ring-cyan-500/[0.28] w-fit mb-3">
                   <Icon className="h-4 w-4 text-cyan-300" />
                 </div>
@@ -176,7 +176,7 @@ export default function InstitutionsPage() {
         </section>
 
         {/* Compliance Section */}
-        <section className="mb-14 rounded-2xl px-8 py-7" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
+        <section className="mb-14 rounded-2xl px-8 py-7" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
           <h2 className="text-xl font-bold text-white mb-4">Built for Compliance</h2>
           <div className="space-y-2.5">
             {[
@@ -203,7 +203,7 @@ export default function InstitutionsPage() {
             </div>
             <h2 className="text-xl font-bold text-white">Request a Demo</h2>
           </div>
-          <div className="rounded-2xl px-8 py-7" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
+          <div className="rounded-2xl px-8 py-7" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
             {submitted ? (
               <div className="flex flex-col items-center gap-3 py-8 text-center">
                 <CheckCircle className="h-10 w-10 text-cyan-400" />

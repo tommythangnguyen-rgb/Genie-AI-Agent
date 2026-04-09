@@ -104,7 +104,7 @@ export default function AboutPage() {
         </section>
 
         {/* Origin Story */}
-        <section className="mb-12 rounded-2xl px-8 py-8" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
+        <section className="mb-12 rounded-2xl px-8 py-8" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
           <h2 className="text-lg font-bold text-white mb-5">The Story Behind Genie</h2>
 
           {/* Photo + first two paragraphs side-by-side on md+ */}
@@ -146,7 +146,7 @@ export default function AboutPage() {
             </div>
             <h2 className="text-xl font-bold text-white">Our Mission</h2>
           </div>
-          <div className="rounded-2xl px-8 py-6 space-y-4" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
+          <div className="rounded-2xl px-8 py-6 space-y-4" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
             <p className="text-white/90 leading-relaxed">
               Make financial aid <strong className="text-white">understandable, accessible, and actionable</strong> for every person who touches it — whether you are a first-generation student, a parent decoding an award letter, or a financial aid administrator running an R2T4 withdrawal.
             </p>
@@ -182,7 +182,7 @@ export default function AboutPage() {
             </div>
             <h2 className="text-xl font-bold text-white">AI, Transparency & Our Intentions</h2>
           </div>
-          <div className="rounded-2xl px-8 py-6 space-y-4" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
+          <div className="rounded-2xl px-8 py-6 space-y-4" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
             <p className="text-white/90 leading-relaxed">
               We want to be direct with you: <strong className="text-white">AI is a powerful tool — and a responsibility.</strong> The conversations around artificial intelligence are real: job displacement, misinformation, loss of human connection. Those concerns deserve to be taken seriously, and they shaped how Genie was built.
             </p>
@@ -239,7 +239,7 @@ export default function AboutPage() {
                 desc: "Compliance officers, executives, and auditors needing quick, reliable reference to federal regulations, program requirements, and audit preparation.",
               },
             ].map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="rounded-2xl px-6 py-5" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
+              <div key={title} className="rounded-2xl px-6 py-5" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
                 <div className="p-2 rounded-xl bg-cyan-500/[0.12] w-fit mb-3">
                   <Icon className="h-4 w-4 text-cyan-300" />
                 </div>
@@ -306,7 +306,7 @@ export default function AboutPage() {
             </div>
             <h2 className="text-xl font-bold text-white">Contact & Demo Request</h2>
           </div>
-          <div className="rounded-2xl px-8 py-7" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)", backdropFilter: "blur(12px)" }}>
+          <div className="rounded-2xl px-8 py-7" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
             {submitted ? (
               <div className="flex flex-col items-center gap-3 py-6 text-center">
                 <CheckCircle className="h-10 w-10 text-cyan-400" />
