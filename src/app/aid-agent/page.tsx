@@ -5343,7 +5343,7 @@ export default function AidAgentPage() {
           {/* ── Header ── */}
           <header
             className="sticky top-0 z-50 shrink-0 border-b border-[#1E2A4A]"
-            style={{ background: "linear-gradient(135deg, rgba(14,28,62,0.22) 0%, rgba(18,34,70,0.25) 50%, rgba(14,28,62,0.22) 100%)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", borderBottom: "1px solid rgba(255,255,255,0.10)" }}
+            style={{ background: "transparent", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", borderBottom: "1px solid rgba(255,255,255,0.08)" }}
           >
             <div className="relative px-3 py-1.5 flex items-center justify-between gap-2">
 
@@ -6246,7 +6246,7 @@ export default function AidAgentPage() {
           </div>
 
           {/* ── Site Footer Bar ── */}
-          <div className="shrink-0 border-t border-[#0F1E3A] px-3 py-1 md:px-4 md:py-2" style={{ background: "rgba(4,10,26,0.22)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", zIndex: 3 }}>
+          <div className="shrink-0 border-t border-white/[0.08] px-3 py-1 md:px-4 md:py-2" style={{ background: "transparent", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", zIndex: 3 }}>
             <div className="flex flex-wrap justify-center items-center gap-x-0 gap-y-0.5 mb-0.5">
               {[
                 { label: "Plans & Pricing",     href: "/pricing",      cls: "font-semibold text-white hover:text-white hover:bg-white/[0.08]" },
