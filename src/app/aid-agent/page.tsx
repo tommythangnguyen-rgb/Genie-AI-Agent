@@ -4977,7 +4977,7 @@ export default function AidAgentPage() {
           <div
             ref={pcOrbRef}
             aria-hidden="true"
-            className="hidden lg:flex flex-col items-center pointer-events-none select-none"
+            className="flex flex-col items-center pointer-events-none select-none"
             style={{
               position: "fixed",
               right: mobileOrbRoaming ? undefined : "max(20px, calc(50vw - 530px))",
@@ -4989,7 +4989,7 @@ export default function AidAgentPage() {
           >
             <div
               className="relative flex items-center justify-center"
-              style={{ width: "clamp(130px, 13vw, 172px)", height: "clamp(130px, 13vw, 172px)", animation: "genie-orb-float 6s ease-in-out infinite" }}
+              style={{ width: "clamp(72px, 13vw, 172px)", height: "clamp(72px, 13vw, 172px)", animation: "genie-orb-float 6s ease-in-out infinite" }}
             >
               {/* Wide outer ambient glow — warm white */}
               <div className="absolute rounded-full pointer-events-none" style={{
@@ -5018,7 +5018,7 @@ export default function AidAgentPage() {
               }} />
               {/* Orb sphere — pure white light */}
               <div className={`relative z-10 rounded-full overflow-hidden${orbGlowing ? " genie-orb-gold" : ""}${orbCelebrating ? " genie-orb-celebrate" : ""}`} style={{
-                width: "clamp(88px, 10vw, 118px)", height: "clamp(88px, 10vw, 118px)",
+                width: "clamp(48px, 10vw, 118px)", height: "clamp(48px, 10vw, 118px)",
                 background: "radial-gradient(circle at 30% 22%, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 8%, rgba(248,250,255,1) 18%, rgba(232,238,255,1) 30%, rgba(210,220,252,1) 44%, rgba(180,196,242,1) 58%, rgba(140,160,222,1) 72%, rgba(92,115,195,1) 84%, rgba(40,62,155,1) 93%, rgba(12,22,70,1) 100%)",
                 animation: (orbGlowing || orbCelebrating) ? undefined : "genie-orb-glow-pulse 4.5s ease-in-out infinite",
                 willChange: "box-shadow, filter, transform",
@@ -5061,7 +5061,7 @@ export default function AidAgentPage() {
             <div>
 
               {/* ── Welcome state ── */}
-              <div className="relative flex flex-col items-center px-1 py-4 sm:px-2 sm:py-6 genie-fade-in-up overflow-hidden">
+              <div className="relative flex flex-col items-center px-1 py-4 sm:px-2 sm:py-6 genie-fade-in-up">
 
 
                 <div className="relative w-full flex flex-col items-center">
@@ -5277,7 +5277,7 @@ export default function AidAgentPage() {
                   </div>{/* end left column */}
 
                   {/* ══ RIGHT — Unified askGenie unit ══ */}
-                  <div ref={tipsRef} className="w-full md:w-[54%] flex flex-col gap-3 px-1 pb-2 md:sticky md:top-[56px] md:self-start">
+                  <div ref={tipsRef} className="w-full md:w-[54%] flex flex-col gap-3 px-1 pb-2 md:sticky md:top-[8px] md:self-start">
 
                     {/* ── Embedded Chat Window — all screen sizes ── */}
                     <div className="flex flex-col rounded-2xl overflow-hidden transition-all duration-300"
