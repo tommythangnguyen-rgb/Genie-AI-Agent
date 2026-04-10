@@ -3406,13 +3406,14 @@ export default function AidAgentPage() {
   const [orbGlowing, setOrbGlowing] = useState(false);
   const [mobileOrbExpanded, setMobileOrbExpanded] = useState(false);
   const [mobileOrbRoaming, setMobileOrbRoaming] = useState(false);
+  const [isDesktopOrb, setIsDesktopOrb] = useState(false);
   const [orbCelebrating, setOrbCelebrating] = useState(false);
   const orbGlowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const tipsRef = useRef<HTMLDivElement>(null);
   const pcOrbRef = useRef<HTMLDivElement>(null);
   const [howItWorksActive, setHowItWorksActive] = useState<"role" | "chatbox" | "panels" | "guidance" | null>(null);
   const [slideIndex, setSlideIndex] = useState(0);
-  const [openAccordions, setOpenAccordions] = useState<Set<string>>(new Set(["hiw"]));
+  const [openAccordions, setOpenAccordions] = useState<Set<string>>(new Set());
   const [isDark, setIsDark] = useState(true);
   const GENIE_WELCOME = "Hi! Which role best describes you today? I can help with FAFSA questions, award letters, R2T4 calculations, and more.";
   const [welcomeTyped, setWelcomeTyped] = useState("");
@@ -3564,9 +3565,18 @@ export default function AidAgentPage() {
     };
   }, []);
 
-  // Start mobile orb roaming on first user interaction
+  // Track desktop vs mobile for orb
+  useEffect(() => {
+    const check = () => setIsDesktopOrb(window.innerWidth >= 1024);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  // Start mobile orb roaming on first user interaction (desktop only)
   useEffect(() => {
     const startRoam = () => {
+      if (window.innerWidth < 1024) return;
       setMobileOrbRoaming(true);
       window.removeEventListener("touchstart", startRoam, { capture: true });
       window.removeEventListener("click", startRoam, { capture: true });
@@ -4978,7 +4988,15 @@ export default function AidAgentPage() {
             ref={pcOrbRef}
             aria-hidden="true"
             className="flex flex-col items-center pointer-events-none select-none"
-            style={{
+            style={!isDesktopOrb ? {
+              position: "fixed",
+              left: "50%",
+              top: "36%",
+              transform: "translateX(-50%)",
+              zIndex: 0,
+              opacity: 0.18,
+              pointerEvents: "none",
+            } : {
               position: "fixed",
               right: mobileOrbRoaming ? undefined : "max(20px, calc(50vw - 530px))",
               top: mobileOrbRoaming ? undefined : "92px",
