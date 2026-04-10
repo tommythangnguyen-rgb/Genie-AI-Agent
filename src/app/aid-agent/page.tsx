@@ -5219,7 +5219,7 @@ export default function AidAgentPage() {
                           <div className="p-1 rounded-lg" style={{ background: "rgba(212,175,55,0.14)" }}>
                             <Users className="h-3.5 w-3.5 text-amber-400/80" />
                           </div>
-                          <span className={`text-xs font-bold tracking-[0.08em] uppercase ${isDark ? "text-white/65" : "text-gray-700"}`}>Quick Tips &amp; Prompts</span>
+                          <span className={`text-xs font-bold tracking-[0.08em] uppercase ${isDark ? "text-white/65" : "text-gray-700"}`}>Quick Prompts by Role</span>
                           <span className="text-[9px] text-white/25 font-medium">{openAccordions.has("iam") ? "" : "· tap to expand"}</span>
                         </div>
                         <ChevronDown className={`h-4 w-4 text-white/35 transition-transform duration-200 shrink-0 ${openAccordions.has("iam") ? "rotate-180" : ""}`} />
