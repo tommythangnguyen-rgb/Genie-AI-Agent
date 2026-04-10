@@ -5106,8 +5106,8 @@ export default function AidAgentPage() {
                   {/* ══ RIGHT — Unified askGenie unit ══ */}
                   <div ref={tipsRef} className="w-full md:w-[54%] flex flex-col gap-3 px-1 pb-2">
 
-                    {/* ── Chat Input Card ── */}
-                    <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.14]"
+                    {/* ── Chat Input Card — desktop only ── */}
+                    <div className="hidden md:block rounded-2xl overflow-hidden ring-1 ring-white/[0.14]"
                       style={{
                         background: "rgba(8,18,42,0.58)",
                         backdropFilter: "blur(24px)",
@@ -5219,8 +5219,8 @@ export default function AidAgentPage() {
                           <div className="p-1 rounded-lg" style={{ background: "rgba(212,175,55,0.14)" }}>
                             <Users className="h-3.5 w-3.5 text-amber-400/80" />
                           </div>
-                          <span className={`text-xs font-bold tracking-[0.08em] uppercase ${isDark ? "text-white/65" : "text-gray-700"}`}>I am a…</span>
-                          <span className="text-[9px] text-white/25 font-medium">{openAccordions.has("iam") ? "" : "· quick tips & prompts"}</span>
+                          <span className={`text-xs font-bold tracking-[0.08em] uppercase ${isDark ? "text-white/65" : "text-gray-700"}`}>Quick Tips &amp; Prompts</span>
+                          <span className="text-[9px] text-white/25 font-medium">{openAccordions.has("iam") ? "" : "· tap to expand"}</span>
                         </div>
                         <ChevronDown className={`h-4 w-4 text-white/35 transition-transform duration-200 shrink-0 ${openAccordions.has("iam") ? "rotate-180" : ""}`} />
                       </button>
@@ -5295,7 +5295,80 @@ export default function AidAgentPage() {
 
                         </div>
                       )}{/* end accordion content */}
-                    </div>{/* end I am a… accordion */}
+                    </div>{/* end Quick Tips & Prompts accordion */}
+
+                    {/* ── Tips by Role accordion ── */}
+                    <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]"
+                      style={{
+                        background: "rgba(8,18,42,0.42)",
+                        backdropFilter: "blur(18px)",
+                        WebkitBackdropFilter: "blur(18px)",
+                        boxShadow: "0 4px 20px rgba(0,0,0,0.28)",
+                      }}>
+
+                      <button
+                        type="button"
+                        onClick={() => setOpenAccordions(prev => { const n = new Set(prev); n.has("tips") ? n.delete("tips") : n.add("tips"); return n; })}
+                        className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400"
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <div className="p-1 rounded-lg" style={{ background: "rgba(251,191,36,0.14)" }}>
+                            <Lightbulb className="h-3.5 w-3.5 text-amber-400" />
+                          </div>
+                          <span className={`text-xs font-bold tracking-[0.08em] uppercase ${isDark ? "text-white/65" : "text-gray-700"}`}>Tips by Role</span>
+                          <span className="text-[9px] text-white/25 font-medium">{openAccordions.has("tips") ? "" : "· tap to expand"}</span>
+                        </div>
+                        <ChevronDown className={`h-4 w-4 text-white/35 transition-transform duration-200 shrink-0 ${openAccordions.has("tips") ? "rotate-180" : ""}`} />
+                      </button>
+
+                      {openAccordions.has("tips") && (
+                        <div className="px-4 pb-4 pt-1 border-t border-white/[0.06]">
+                          <div className="flex gap-1.5 justify-center flex-wrap mt-3 mb-3">
+                            {ROLE_TIPS.map(({ role, icon: Icon }) => {
+                              const colors = ROLE_COLOR_MAP[role] ?? ROLE_COLOR_FALLBACK;
+                              return (
+                                <button
+                                  key={role}
+                                  onClick={() => syncRoles(role)}
+                                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] hover:scale-[1.04] active:scale-95 ring-1 ${
+                                    activeRole === role ? `${colors.active} shadow-md` : `bg-white/[0.04] ${colors.inactive}`
+                                  }`}
+                                >
+                                  <Icon className="h-3 w-3" />
+                                  {role}
+                                </button>
+                              );
+                            })}
+                          </div>
+                          {activeTipData && (
+                            <div key={activeTipData.role} className="rounded-2xl overflow-hidden ring-1 ring-[#D4AF37]/[0.22] shadow-lg shadow-black/30">
+                              <div className={`bg-gradient-to-r ${activeTipData.gradient} px-4 py-3 flex items-center gap-3`}>
+                                <div className="p-2 rounded-xl bg-white/20 shrink-0">
+                                  <activeTipData.icon className="h-5 w-5 text-white" />
+                                </div>
+                                <div>
+                                  <p className="text-sm font-semibold text-white leading-tight">As a {activeTipData.role}</p>
+                                  <p className="text-xs text-white/60 leading-tight mt-0.5">Tap any tip to send to Genie</p>
+                                </div>
+                              </div>
+                              <div className="divide-y divide-white/[0.05]" style={{ background: "rgba(13,26,50,0.50)", maxHeight: "min(400px, 50dvh)", overflowY: "auto" }}>
+                                {rotatedTips.map(({ text, prompt }, i) => (
+                                  <button
+                                    key={i}
+                                    onClick={() => sendMessage(prompt)}
+                                    className="w-full flex items-start gap-3 px-4 py-3 text-left group hover:bg-white/[0.05] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400"
+                                  >
+                                    <span className={`mt-1.5 h-1.5 w-1.5 rounded-full shrink-0 ring-1 ${activeTipData.accent} group-hover:scale-125 transition-transform`} />
+                                    <p className="text-xs text-[#94A3B8] group-hover:text-white/90 leading-snug transition-colors flex-1">{text}</p>
+                                    <ChevronRight className="h-3.5 w-3.5 text-white/15 group-hover:text-cyan-400 shrink-0 mt-0.5 transition-all group-hover:translate-x-0.5" />
+                                  </button>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      )}{/* end tips accordion content */}
+                    </div>{/* end Tips by Role accordion */}
 
                   </div>{/* end right column */}
 
