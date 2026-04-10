@@ -3390,7 +3390,7 @@ export default function AidAgentPage() {
   const pcOrbRef = useRef<HTMLDivElement>(null);
   const [howItWorksActive, setHowItWorksActive] = useState<"role" | "chatbox" | "panels" | "guidance" | null>(null);
   const [slideIndex, setSlideIndex] = useState(0);
-  const [openAccordions, setOpenAccordions] = useState<Set<string>>(new Set());
+  const [openAccordions, setOpenAccordions] = useState<Set<string>>(new Set(["hiw"]));
   const [isDark, setIsDark] = useState(true);
   // Daily rotation offset — shifts which tips appear first, updates each day
   const tipsRotationOffset = useMemo(() => Math.floor(Date.now() / 86400000), []);
@@ -5060,54 +5060,76 @@ export default function AidAgentPage() {
                       ))}
                     </div>
 
-                    {/* How It Works */}
-                    <div className="w-full flex flex-col mb-3">
-                      <div className="flex items-center gap-2 mb-3">
-                        <div className={`h-px flex-1 ${isDark ? "bg-gradient-to-r from-transparent to-white/50" : "bg-gradient-to-r from-transparent to-black/40"}`} />
-                        <span className={`text-xs font-bold uppercase tracking-[0.16em] px-2 ${isDark ? "text-white" : "text-gray-900"}`} style={{ textShadow: isDark ? "0 1px 4px rgba(0,0,0,0.90)" : "none" }}>How it works</span>
-                        <div className={`h-px flex-1 ${isDark ? "bg-gradient-to-l from-transparent to-white/50" : "bg-gradient-to-l from-transparent to-black/40"}`} />
-                      </div>
-                      <div className="flex-1 grid grid-cols-2 gap-3 auto-rows-fr">
-                        {([
-                          { icon: Sparkles,    step: "1", title: "Choose Your Role",  body: "Select Student, Parent, Admin, Leader, or Compliance/Auditor for role-specific prompts, resources, and tailored guidance.",      color: "text-violet-200", iconBg: "bg-violet-500/[0.40]", cardRing: "ring-violet-400/[0.75]", glowColor: "rgba(139,92,246,0.45)", cardBg: "linear-gradient(145deg, rgba(139,92,246,0.38) 0%, rgba(139,92,246,0.18) 100%)", idleGlow: "0 4px 24px rgba(139,92,246,0.35), 0 1px 0 rgba(255,255,255,0.18) inset", activeKey: "role"     as const },
-                          { icon: Send,        step: "2", title: "Ask Anything",       body: "Type any student aid question in plain English. Upload documents, letters, or forms for instant AI analysis.",                   color: "text-cyan-200",   iconBg: "bg-cyan-500/[0.40]",   cardRing: "ring-cyan-400/[0.75]",   glowColor: "rgba(6,182,212,0.45)",  cardBg: "linear-gradient(145deg, rgba(6,182,212,0.38) 0%, rgba(6,182,212,0.18) 100%)",   idleGlow: "0 4px 24px rgba(6,182,212,0.35), 0 1px 0 rgba(255,255,255,0.18) inset",   activeKey: "chatbox"  as const },
-                          { icon: Library,     step: "3", title: "Explore the Hub",    body: "Access 500+ curated resources — scholarships, VA benefits, loan tools, federal aid portals, and institutional guides.",          color: "text-sky-200",    iconBg: "bg-sky-500/[0.40]",    cardRing: "ring-sky-400/[0.75]",    glowColor: "rgba(56,189,248,0.45)", cardBg: "linear-gradient(145deg, rgba(56,189,248,0.38) 0%, rgba(56,189,248,0.18) 100%)", idleGlow: "0 4px 24px rgba(56,189,248,0.35), 0 1px 0 rgba(255,255,255,0.18) inset",  activeKey: "panels"   as const },
-                          { icon: CheckCircle, step: "4", title: "Get Clear Guidance", body: "Receive plain-English answers grounded in 34 CFR, FSA Handbook, and HEA Title IV. Free, always — no jargon.",                 color: "text-emerald-200",iconBg: "bg-emerald-500/[0.40]",cardRing: "ring-emerald-400/[0.75]",glowColor: "rgba(16,185,129,0.45)", cardBg: "linear-gradient(145deg, rgba(16,185,129,0.38) 0%, rgba(16,185,129,0.18) 100%)", idleGlow: "0 4px 24px rgba(16,185,129,0.35), 0 1px 0 rgba(255,255,255,0.18) inset", activeKey: "guidance" as const },
-                        ] as const).map(({ icon: Icon, step, title, body, color, iconBg, cardRing, glowColor, cardBg, idleGlow, activeKey }) => (
-                          <button
-                            key={step}
-                            type="button"
-                            onClick={() => { setHowItWorksActive(activeKey); triggerOrbGold(); }}
-                            className={`flex flex-col gap-2 p-4 rounded-2xl ring-1 ${cardRing} text-left transition-all duration-200 hover:scale-[1.04] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${howItWorksActive === activeKey ? "hiw-active-ring brightness-125" : ""}`}
-                            style={{
-                              background: cardBg,
-                              backdropFilter: "blur(14px)",
-                              WebkitBackdropFilter: "blur(14px)",
-                              boxShadow: howItWorksActive === activeKey
-                                ? `0 0 0 1px rgba(212,175,55,0.55), 0 6px 24px ${glowColor}, 0 0 48px ${glowColor}, inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -1px 0 rgba(0,0,0,0.10)`
-                                : idleGlow,
-                            }}
-                          >
-                            <div className="flex items-center justify-between">
-                              <div className={`p-2 rounded-xl ${iconBg} ring-1 ${cardRing} shadow-sm`}>
-                                <Icon className={`h-4 w-4 ${color} ${howItWorksActive === activeKey ? "animate-pulse" : ""}`} aria-hidden="true" />
+                    {/* How It Works — accordion, open by default */}
+                    <div className="w-full flex flex-col mb-3 rounded-2xl overflow-hidden ring-1 ring-white/[0.10]"
+                      style={{ background: "rgba(8,18,42,0.35)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
+                      <button
+                        type="button"
+                        onClick={() => setOpenAccordions(prev => { const n = new Set(prev); n.has("hiw") ? n.delete("hiw") : n.add("hiw"); return n; })}
+                        className="w-full flex items-center justify-between px-4 py-3 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400"
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className={`h-px w-8 ${isDark ? "bg-white/30" : "bg-black/20"}`} />
+                          <span className={`text-xs font-bold uppercase tracking-[0.16em] ${isDark ? "text-white/70" : "text-gray-800"}`}>How it works</span>
+                        </div>
+                        <ChevronDown className={`h-4 w-4 text-white/35 transition-transform duration-200 shrink-0 ${openAccordions.has("hiw") ? "rotate-180" : ""}`} />
+                      </button>
+                      {openAccordions.has("hiw") && (
+                        <div className="grid grid-cols-2 gap-3 px-4 pb-4">
+                          {([
+                            { icon: Sparkles,    step: "1", title: "Choose Your Role",  body: "Select Student, Parent, Admin, Leader, or Compliance/Auditor for role-specific prompts, resources, and tailored guidance.",      color: "text-violet-200", iconBg: "bg-violet-500/[0.40]", cardRing: "ring-violet-400/[0.75]", glowColor: "rgba(139,92,246,0.45)", cardBg: "linear-gradient(145deg, rgba(139,92,246,0.38) 0%, rgba(139,92,246,0.18) 100%)", idleGlow: "0 4px 24px rgba(139,92,246,0.35), 0 1px 0 rgba(255,255,255,0.18) inset", activeKey: "role"     as const },
+                            { icon: Send,        step: "2", title: "Ask Anything",       body: "Type any student aid question in plain English. Upload documents, letters, or forms for instant AI analysis.",                   color: "text-cyan-200",   iconBg: "bg-cyan-500/[0.40]",   cardRing: "ring-cyan-400/[0.75]",   glowColor: "rgba(6,182,212,0.45)",  cardBg: "linear-gradient(145deg, rgba(6,182,212,0.38) 0%, rgba(6,182,212,0.18) 100%)",   idleGlow: "0 4px 24px rgba(6,182,212,0.35), 0 1px 0 rgba(255,255,255,0.18) inset",   activeKey: "chatbox"  as const },
+                            { icon: Library,     step: "3", title: "Explore the Hub",    body: "Access 500+ curated resources — scholarships, VA benefits, loan tools, federal aid portals, and institutional guides.",          color: "text-sky-200",    iconBg: "bg-sky-500/[0.40]",    cardRing: "ring-sky-400/[0.75]",    glowColor: "rgba(56,189,248,0.45)", cardBg: "linear-gradient(145deg, rgba(56,189,248,0.38) 0%, rgba(56,189,248,0.18) 100%)", idleGlow: "0 4px 24px rgba(56,189,248,0.35), 0 1px 0 rgba(255,255,255,0.18) inset",  activeKey: "panels"   as const },
+                            { icon: CheckCircle, step: "4", title: "Get Clear Guidance", body: "Receive plain-English answers grounded in 34 CFR, FSA Handbook, and HEA Title IV. Free, always — no jargon.",                 color: "text-emerald-200",iconBg: "bg-emerald-500/[0.40]",cardRing: "ring-emerald-400/[0.75]",glowColor: "rgba(16,185,129,0.45)", cardBg: "linear-gradient(145deg, rgba(16,185,129,0.38) 0%, rgba(16,185,129,0.18) 100%)", idleGlow: "0 4px 24px rgba(16,185,129,0.35), 0 1px 0 rgba(255,255,255,0.18) inset", activeKey: "guidance" as const },
+                          ] as const).map(({ icon: Icon, step, title, body, color, iconBg, cardRing, glowColor, cardBg, idleGlow, activeKey }) => (
+                            <button
+                              key={step}
+                              type="button"
+                              onClick={() => { setHowItWorksActive(activeKey); triggerOrbGold(); }}
+                              className={`flex flex-col gap-2 p-4 rounded-2xl ring-1 ${cardRing} text-left transition-all duration-200 hover:scale-[1.04] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${howItWorksActive === activeKey ? "hiw-active-ring brightness-125" : ""}`}
+                              style={{
+                                background: cardBg,
+                                backdropFilter: "blur(14px)",
+                                WebkitBackdropFilter: "blur(14px)",
+                                boxShadow: howItWorksActive === activeKey
+                                  ? `0 0 0 1px rgba(212,175,55,0.55), 0 6px 24px ${glowColor}, 0 0 48px ${glowColor}, inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -1px 0 rgba(0,0,0,0.10)`
+                                  : idleGlow,
+                              }}
+                            >
+                              <div className="flex items-center justify-between">
+                                <div className={`p-2 rounded-xl ${iconBg} ring-1 ${cardRing} shadow-sm`}>
+                                  <Icon className={`h-4 w-4 ${color} ${howItWorksActive === activeKey ? "animate-pulse" : ""}`} aria-hidden="true" />
+                                </div>
+                                <span className="text-xl font-black text-white/50 tabular-nums leading-none" style={{ textShadow: "0 1px 6px rgba(0,0,0,0.80)" }}>{step}</span>
                               </div>
-                              <span className="text-xl font-black text-white/50 tabular-nums leading-none" style={{ textShadow: "0 1px 6px rgba(0,0,0,0.80)" }}>{step}</span>
-                            </div>
-                            <p className="text-sm font-bold text-white leading-tight" style={{ textShadow: "0 1px 5px rgba(0,0,0,0.80)" }}>{title}</p>
-                            <p className="text-xs text-white/80 leading-snug" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.70)" }}>{body}</p>
-                          </button>
-                        ))}
-                      </div>
+                              <p className="text-sm font-bold text-white leading-tight" style={{ textShadow: "0 1px 5px rgba(0,0,0,0.80)" }}>{title}</p>
+                              <p className="text-xs text-white/80 leading-snug" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.70)" }}>{body}</p>
+                            </button>
+                          ))}
+                        </div>
+                      )}
                     </div>
 
-                    {/* What Genie Covers */}
-                    <div className="w-full flex flex-col">
-                      <div className="flex items-center gap-2 mb-3">
-                        <div className={`h-px flex-1 ${isDark ? "bg-gradient-to-r from-transparent to-white/50" : "bg-gradient-to-r from-transparent to-black/40"}`} />
-                        <span className={`text-xs font-bold uppercase tracking-[0.16em] px-2 ${isDark ? "text-white" : "text-gray-900"}`} style={{ textShadow: isDark ? "0 1px 4px rgba(0,0,0,0.90)" : "none" }}>What Genie Covers</span>
-                        <div className={`h-px flex-1 ${isDark ? "bg-gradient-to-l from-transparent to-white/50" : "bg-gradient-to-l from-transparent to-black/40"}`} />
-                      </div>
+                    {/* What Genie Covers — accordion, closed by default */}
+                    <div className="w-full flex flex-col rounded-2xl overflow-hidden ring-1 ring-white/[0.10]"
+                      style={{ background: "rgba(8,18,42,0.35)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
+                      <button
+                        type="button"
+                        onClick={() => setOpenAccordions(prev => { const n = new Set(prev); n.has("covers") ? n.delete("covers") : n.add("covers"); return n; })}
+                        className="w-full flex items-center justify-between px-4 py-3 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400"
+                      >
+                        <div className="flex items-center gap-2">
+                          <div className="p-1 rounded-lg shrink-0" style={{ background: "rgba(212,175,55,0.14)" }}>
+                            <Sparkles className="h-3.5 w-3.5 text-[#D4AF37]" />
+                          </div>
+                          <span className={`text-xs font-bold uppercase tracking-[0.08em] ${isDark ? "text-white/65" : "text-gray-800"}`}>What Genie Covers</span>
+                          <span className="text-[9px] text-white/25 font-medium">{openAccordions.has("covers") ? "" : "· 28 topic areas"}</span>
+                        </div>
+                        <ChevronDown className={`h-4 w-4 text-white/35 transition-transform duration-200 shrink-0 ${openAccordions.has("covers") ? "rotate-180" : ""}`} />
+                      </button>
+
+                      {openAccordions.has("covers") && (
+                      <div className="px-4 pb-4 pt-1 border-t border-white/[0.06]">
 
                       {/* Intro strip */}
                       <div className="mb-2.5 px-3.5 py-2.5 rounded-xl ring-1 ring-[#D4AF37]/[0.18] flex items-center gap-3"
@@ -5165,7 +5187,10 @@ export default function AidAgentPage() {
                           </button>
                         ))}
                       </div>
-                    </div>
+
+                      </div>
+                      )}{/* end covers accordion content */}
+                    </div>{/* end What Genie Covers accordion */}
 
                   </div>{/* end left column */}
 
@@ -5299,8 +5324,8 @@ export default function AidAgentPage() {
                       </div>
                     </div>{/* end embedded chat window */}
 
-                    {/* ── Accordions — hidden on desktop when chat is active ── */}
-                    {messages.length === 0 && (<>
+                    {/* ── Accordions — always visible, scrollable below chat ── */}
+                    <>
 
                     {/* ── I am a… accordion (tips) ── */}
                     <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]"
@@ -5471,7 +5496,7 @@ export default function AidAgentPage() {
                       )}{/* end tips accordion content */}
                     </div>{/* end Tips by Role accordion */}
 
-                    </>)}{/* end accordions (hidden when chatting) */}
+                    </>{/* end accordions */}
 
                   </div>{/* end right column */}
 
