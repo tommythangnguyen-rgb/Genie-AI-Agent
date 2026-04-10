@@ -3146,9 +3146,14 @@ function EducationalBackground({ isDark = true, guidanceActive = false }: { isDa
     );
   }
 
-  // True black background
+  // Rich background images — desktop / mobile
   return (
-    <div className="fixed inset-0 -z-10 bg-black" aria-hidden="true" />
+    <div className="fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
+      <img src="/images/desktop-bg.jpg" alt="" className="hidden md:block w-full h-full object-cover object-center" />
+      <img src="/images/mobile-bg.jpg"  alt="" className="block md:hidden w-full h-full object-cover object-center" />
+      {/* Unified dark veil for text legibility across all overlaid cards */}
+      <div className="absolute inset-0" style={{ background: "rgba(5,2,14,0.48)" }} />
+    </div>
   );
 }
 
@@ -4579,7 +4584,7 @@ export default function AidAgentPage() {
           onClick={dismissIntro}
         >
 
-          {/* ── DESKTOP: hero video splash ── */}
+          {/* ── DESKTOP: SuperHERO intro splash ── */}
           <div className="hidden md:block absolute inset-0">
             <video
               ref={heroVideoDesktopRef}
@@ -4587,17 +4592,18 @@ export default function AidAgentPage() {
               muted
               loop
               playsInline
-              className="w-full h-full object-cover object-[50%_35%]"
+              className="w-full h-full object-cover object-center"
             >
-              <source src="/videos/hero-genie.mp4" type="video/mp4" />
-              <img src="/images/intro-splash.jpg" alt="" className="w-full h-full object-cover object-[50%_35%]" />
+              <source src="/videos/superhero-genie.mp4" type="video/mp4" />
+              <img src="/images/desktop-bg.jpg" alt="" className="w-full h-full object-cover object-center" />
             </video>
-            <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, rgba(2,8,21,0.62) 0%, rgba(4,12,32,0.48) 40%, rgba(3,10,28,0.58) 100%)" }} />
-            <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 110% 100% at 50% 50%, transparent 45%, rgba(2,8,21,0.55) 100%)" }} />
-            <div className="absolute inset-x-0 bottom-0 h-40" style={{ background: "linear-gradient(to top, rgba(2,8,21,0.95) 0%, transparent 100%)" }} />
+            {/* Deep purple-tinted scrim — lets video richness show through */}
+            <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, rgba(8,3,20,0.58) 0%, rgba(5,2,14,0.42) 40%, rgba(7,2,18,0.52) 100%)" }} />
+            <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 110% 100% at 50% 50%, transparent 45%, rgba(6,2,16,0.55) 100%)" }} />
+            <div className="absolute inset-x-0 bottom-0 h-40" style={{ background: "linear-gradient(to top, rgba(5,2,14,0.97) 0%, transparent 100%)" }} />
           </div>
 
-          {/* ── MOBILE: hero video splash ── */}
+          {/* ── MOBILE: SuperHERO intro splash ── */}
           <div className="block md:hidden absolute inset-0">
             <video
               ref={heroVideoMobileRef}
@@ -4605,12 +4611,12 @@ export default function AidAgentPage() {
               muted
               loop
               playsInline
-              className="w-full h-full object-cover object-[50%_40%]"
+              className="w-full h-full object-cover object-center"
             >
-              <source src="/videos/hero-genie.mp4" type="video/mp4" />
-              <img src="/images/intro-splash-mobile.jpg" alt="" className="w-full h-full object-cover object-[50%_40%]" />
+              <source src="/videos/superhero-genie.mp4" type="video/mp4" />
+              <img src="/images/mobile-bg.jpg" alt="" className="w-full h-full object-cover object-center" />
             </video>
-            <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(2,8,21,0.45) 0%, rgba(2,8,21,0.20) 35%, rgba(2,8,21,0.45) 70%, rgba(2,8,21,0.95) 100%)" }} />
+            <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(8,3,20,0.40) 0%, rgba(5,2,14,0.18) 35%, rgba(7,2,18,0.40) 70%, rgba(5,2,14,0.96) 100%)" }} />
           </div>
 
           {/* ── Audio toggle button (both desktop + mobile) ── */}
@@ -4637,25 +4643,25 @@ export default function AidAgentPage() {
             {/* Logo mark */}
             <div className="flex flex-col items-center gap-5">
               <div className="relative flex items-center justify-center">
-                <div className="absolute" style={{ width: 96, height: 96, borderRadius: "50%", background: "radial-gradient(ellipse at center, rgba(0,212,255,0.18) 0%, transparent 70%)", filter: "blur(12px)" }} />
-                <GenieBottle className="relative h-14 w-14 genie-icon-shimmer" style={{ color: "#00D4FF", filter: "drop-shadow(0 0 18px rgba(0,212,255,0.55)) drop-shadow(0 0 36px rgba(0,212,255,0.28))" }} />
+                <div className="absolute" style={{ width: 96, height: 96, borderRadius: "50%", background: "radial-gradient(ellipse at center, rgba(212,175,55,0.22) 0%, transparent 70%)", filter: "blur(14px)" }} />
+                <GenieBottle className="relative h-14 w-14 genie-icon-shimmer" style={{ color: "#D4AF37", filter: "drop-shadow(0 0 18px rgba(212,175,55,0.70)) drop-shadow(0 0 40px rgba(212,175,55,0.35))" }} />
               </div>
               {/* Brand name */}
               <div className="flex flex-col items-center gap-2">
                 <h1 className="font-black tracking-[-0.03em] leading-none" style={{
                   fontSize: "clamp(3.5rem, 7vw, 6rem)",
-                  background: "linear-gradient(135deg, #FFFFFF 0%, #D0E8FF 25%, #FFFFFF 50%, #B8DCFF 75%, #FFFFFF 100%)",
+                  background: "linear-gradient(135deg, #FFFFFF 0%, #F0E0FF 25%, #FFFFFF 50%, #E8D0FF 75%, #FFFFFF 100%)",
                   backgroundSize: "200% auto",
                   WebkitBackgroundClip: "text",
                   backgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   animation: "genie-white-shimmer 5s linear infinite",
-                  filter: "drop-shadow(0 0 30px rgba(255,255,255,0.25))",
+                  filter: "drop-shadow(0 0 30px rgba(212,175,55,0.20))",
                 }}>askGenie</h1>
                 <div className="flex items-center gap-3">
-                  <div className="h-px w-16" style={{ background: "linear-gradient(90deg, transparent, rgba(0,212,255,0.5))" }} />
-                  <span className="text-xs font-bold tracking-[0.35em] uppercase" style={{ color: "rgba(0,212,255,0.75)" }}>Student Aid Hub</span>
-                  <div className="h-px w-16" style={{ background: "linear-gradient(90deg, rgba(0,212,255,0.5), transparent)" }} />
+                  <div className="h-px w-16" style={{ background: "linear-gradient(90deg, transparent, rgba(212,175,55,0.60))" }} />
+                  <span className="text-xs font-bold tracking-[0.35em] uppercase" style={{ color: "rgba(212,175,55,0.85)" }}>Student Aid Hub</span>
+                  <div className="h-px w-16" style={{ background: "linear-gradient(90deg, rgba(212,175,55,0.60), transparent)" }} />
                 </div>
               </div>
             </div>
@@ -4677,7 +4683,7 @@ export default function AidAgentPage() {
                 { label: "Updated Weekly" },
                 { label: "Students · Parents · Offices" },
               ].map(({ label }) => (
-                <div key={label} className="px-3 py-1.5 rounded-full" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(0,212,255,0.18)", color: "rgba(148,163,184,0.70)", fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                <div key={label} className="px-3 py-1.5 rounded-full" style={{ background: "rgba(212,175,55,0.07)", border: "1px solid rgba(212,175,55,0.28)", color: "rgba(212,175,55,0.75)", fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase" }}>
                   {label}
                 </div>
               ))}
@@ -4688,24 +4694,24 @@ export default function AidAgentPage() {
           <div className="flex md:hidden absolute inset-0 flex-col items-center justify-center gap-5 px-6" style={{ paddingBottom: "12vh" }}>
             <div className="flex flex-col items-center gap-4">
               <div className="relative flex items-center justify-center">
-                <div className="absolute" style={{ width: 72, height: 72, borderRadius: "50%", background: "radial-gradient(ellipse at center, rgba(0,212,255,0.22) 0%, transparent 70%)", filter: "blur(10px)" }} />
-                <GenieBottle className="relative h-11 w-11 genie-icon-shimmer" style={{ color: "#00D4FF", filter: "drop-shadow(0 0 14px rgba(0,212,255,0.60)) drop-shadow(0 0 28px rgba(0,212,255,0.30))" }} />
+                <div className="absolute" style={{ width: 72, height: 72, borderRadius: "50%", background: "radial-gradient(ellipse at center, rgba(212,175,55,0.25) 0%, transparent 70%)", filter: "blur(12px)" }} />
+                <GenieBottle className="relative h-11 w-11 genie-icon-shimmer" style={{ color: "#D4AF37", filter: "drop-shadow(0 0 14px rgba(212,175,55,0.70)) drop-shadow(0 0 30px rgba(212,175,55,0.35))" }} />
               </div>
               <div className="flex flex-col items-center gap-1.5">
                 <h1 className="font-black tracking-[-0.03em] leading-none" style={{
                   fontSize: "clamp(2.6rem, 11vw, 3.8rem)",
-                  background: "linear-gradient(135deg, #FFFFFF 0%, #D0E8FF 25%, #FFFFFF 50%, #B8DCFF 75%, #FFFFFF 100%)",
+                  background: "linear-gradient(135deg, #FFFFFF 0%, #F0E0FF 25%, #FFFFFF 50%, #E8D0FF 75%, #FFFFFF 100%)",
                   backgroundSize: "200% auto",
                   WebkitBackgroundClip: "text",
                   backgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   animation: "genie-white-shimmer 5s linear infinite",
-                  filter: "drop-shadow(0 0 20px rgba(255,255,255,0.20))",
+                  filter: "drop-shadow(0 0 20px rgba(212,175,55,0.18))",
                 }}>askGenie</h1>
                 <div className="flex items-center gap-2.5">
-                  <div className="h-px w-10" style={{ background: "linear-gradient(90deg, transparent, rgba(0,212,255,0.5))" }} />
-                  <span className="text-[10px] font-bold tracking-[0.32em] uppercase" style={{ color: "rgba(0,212,255,0.80)" }}>Student Aid Hub</span>
-                  <div className="h-px w-10" style={{ background: "linear-gradient(90deg, rgba(0,212,255,0.5), transparent)" }} />
+                  <div className="h-px w-10" style={{ background: "linear-gradient(90deg, transparent, rgba(212,175,55,0.60))" }} />
+                  <span className="text-[10px] font-bold tracking-[0.32em] uppercase" style={{ color: "rgba(212,175,55,0.85)" }}>Student Aid Hub</span>
+                  <div className="h-px w-10" style={{ background: "linear-gradient(90deg, rgba(212,175,55,0.60), transparent)" }} />
                 </div>
               </div>
             </div>
@@ -4719,11 +4725,11 @@ export default function AidAgentPage() {
 
           {/* CTA — shared */}
           <div className="genie-intro-cta relative z-10 flex flex-col items-center gap-3 mb-10">
-            <p className="text-white/40 text-xs font-semibold tracking-[0.22em] uppercase">Tap anywhere to enter</p>
+            <p className="text-white/45 text-xs font-semibold tracking-[0.22em] uppercase">Tap anywhere to enter</p>
             <div className="flex items-center gap-1.5">
-              <span className="genie-intro-dot1 w-1.5 h-1.5 rounded-full bg-[#00D4FF]" />
-              <span className="genie-intro-dot2 w-1.5 h-1.5 rounded-full bg-[#00D4FF]" />
-              <span className="genie-intro-dot3 w-1.5 h-1.5 rounded-full bg-[#00D4FF]" />
+              <span className="genie-intro-dot1 w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
+              <span className="genie-intro-dot2 w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
+              <span className="genie-intro-dot3 w-1.5 h-1.5 rounded-full bg-[#D4AF37]" />
             </div>
           </div>
         </div>
@@ -4734,12 +4740,12 @@ export default function AidAgentPage() {
         {/* ── Left Dropdown — Students & Parents ── */}
         <aside
           className={`panel-white ${showMobileLeft ? "flex" : "hidden"} fixed z-[60] flex-col rounded-2xl overflow-hidden border border-white/[0.18] shadow-2xl shadow-black/70 backdrop-blur-2xl`}
-          style={{ top: "84px", left: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(120,120,130,0.22) 0%, rgba(140,140,150,0.18) 50%, rgba(110,110,120,0.22) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.40), 0 0 0 1px rgba(255,255,255,0.18), inset 0 1px 0 rgba(255,255,255,0.22)" }}
+          style={{ top: "84px", left: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(40,15,70,0.55) 0%, rgba(25,8,50,0.50) 50%, rgba(35,10,60,0.55) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.50), 0 0 0 1px rgba(212,175,55,0.15), inset 0 1px 0 rgba(255,255,255,0.15)" }}
         >
           {howItWorksActive === "panels" && <div className="hiw-scan-overlay" aria-hidden="true" />}
 
           {/* Header */}
-          <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-white/[0.08]" style={{ background: "rgba(10,20,40,0.25)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}>
+          <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-white/[0.08]" style={{ background: "rgba(12,5,28,0.45)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
             <div className="flex items-center gap-2.5">
               <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/25">
                 <GenieBottle className="h-4 w-4 text-white" />
@@ -4864,7 +4870,7 @@ export default function AidAgentPage() {
         >
 
           {/* ── Header ── */}
-          <header className="sticky top-0 z-50 shrink-0">
+          <header className="sticky top-0 z-50 shrink-0" style={{ background: "rgba(8,3,18,0.55)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: "1px solid rgba(212,175,55,0.12)" }}>
             <div className="relative px-3 py-1.5 flex items-center justify-between gap-2">
 
               {/* Left — left panel toggle + Genie branding (always visible) */}
@@ -5106,16 +5112,16 @@ export default function AidAgentPage() {
                         { icon: ShieldCheck, text: "Updated Weekly"        },
                         { icon: Users,       text: "Students · Parents · Offices" },
                       ].map(({ icon: Icon, text }) => (
-                        <span key={text} className="flex items-center gap-1.5 px-2.5 py-1 rounded-full ring-1 ring-cyan-400/[0.40] transition-all duration-150 cursor-default" style={{ backdropFilter: "blur(8px)", background: "linear-gradient(145deg, rgba(6,182,212,0.14) 0%, rgba(6,182,212,0.06) 100%)", boxShadow: "0 2px 14px rgba(6,182,212,0.12), inset 0 1px 0 rgba(255,255,255,0.10)" }}>
-                          <Icon className="h-3 w-3 text-cyan-400 shrink-0" aria-hidden="true" />
-                          <span className="text-[11px] text-white/75 font-semibold">{text}</span>
+                        <span key={text} className="flex items-center gap-1.5 px-2.5 py-1 rounded-full ring-1 ring-[#D4AF37]/[0.35] transition-all duration-150 cursor-default" style={{ backdropFilter: "blur(8px)", background: "linear-gradient(145deg, rgba(212,175,55,0.12) 0%, rgba(212,175,55,0.05) 100%)", boxShadow: "0 2px 14px rgba(212,175,55,0.10), inset 0 1px 0 rgba(255,255,255,0.10)" }}>
+                          <Icon className="h-3 w-3 shrink-0" style={{ color: "#D4AF37" }} aria-hidden="true" />
+                          <span className="text-[11px] text-white/80 font-semibold">{text}</span>
                         </span>
                       ))}
                     </div>
 
                     {/* How It Works — accordion, open by default */}
                     <div className="w-full flex flex-col mb-3 rounded-2xl overflow-hidden ring-1 ring-white/[0.10]"
-                      style={{ background: "rgba(8,18,42,0.35)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
+                      style={{ background: "rgba(12,5,28,0.48)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)" }}>
                       <button
                         type="button"
                         onClick={() => setOpenAccordions(prev => { const n = new Set(prev); n.has("hiw") ? n.delete("hiw") : n.add("hiw"); return n; })}
@@ -5172,11 +5178,11 @@ export default function AidAgentPage() {
                     <div className="flex flex-col rounded-2xl overflow-hidden transition-all duration-300"
                       style={{
                         height: "min(74vh, 720px)",
-                        background: "rgba(8,16,36,0.18)",
+                        background: "rgba(10,4,22,0.28)",
                         backdropFilter: "blur(32px)",
                         WebkitBackdropFilter: "blur(32px)",
-                        border: "1px solid rgba(255,255,255,0.14)",
-                        boxShadow: "0 32px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.06), inset 0 1px 0 rgba(255,255,255,0.12)",
+                        border: "1px solid rgba(212,175,55,0.18)",
+                        boxShadow: "0 32px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(212,175,55,0.08), inset 0 1px 0 rgba(255,255,255,0.10)",
                       }}>
 
                       {/* Panel header */}
@@ -5303,10 +5309,10 @@ export default function AidAgentPage() {
                     {/* ── I am a… accordion (tips) ── */}
                     <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]"
                       style={{
-                        background: "rgba(8,18,42,0.42)",
-                        backdropFilter: "blur(18px)",
-                        WebkitBackdropFilter: "blur(18px)",
-                        boxShadow: "0 4px 20px rgba(0,0,0,0.28)",
+                        background: "rgba(12,5,28,0.55)",
+                        backdropFilter: "blur(20px)",
+                        WebkitBackdropFilter: "blur(20px)",
+                        boxShadow: "0 4px 20px rgba(0,0,0,0.35)",
                       }}>
 
                       <button
@@ -5399,10 +5405,10 @@ export default function AidAgentPage() {
                     {/* ── Tips by Role accordion ── */}
                     <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]"
                       style={{
-                        background: "rgba(8,18,42,0.42)",
-                        backdropFilter: "blur(18px)",
-                        WebkitBackdropFilter: "blur(18px)",
-                        boxShadow: "0 4px 20px rgba(0,0,0,0.28)",
+                        background: "rgba(12,5,28,0.55)",
+                        backdropFilter: "blur(20px)",
+                        WebkitBackdropFilter: "blur(20px)",
+                        boxShadow: "0 4px 20px rgba(0,0,0,0.35)",
                       }}>
 
                       <button
@@ -5472,10 +5478,10 @@ export default function AidAgentPage() {
                     {/* ── What Genie Covers accordion ── */}
                     <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]"
                       style={{
-                        background: "rgba(8,18,42,0.42)",
-                        backdropFilter: "blur(18px)",
-                        WebkitBackdropFilter: "blur(18px)",
-                        boxShadow: "0 4px 20px rgba(0,0,0,0.28)",
+                        background: "rgba(12,5,28,0.55)",
+                        backdropFilter: "blur(20px)",
+                        WebkitBackdropFilter: "blur(20px)",
+                        boxShadow: "0 4px 20px rgba(0,0,0,0.35)",
                       }}>
                       <button
                         type="button"
@@ -5923,12 +5929,12 @@ export default function AidAgentPage() {
         {/* ── Right Dropdown — Administrators, Leaders & Auditors ── */}
         <aside
           className={`panel-white ${showMobileRight ? "flex" : "hidden"} fixed z-[60] flex-col rounded-2xl overflow-hidden border border-white/[0.18] shadow-2xl shadow-black/70 backdrop-blur-2xl`}
-          style={{ top: "84px", right: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(120,120,130,0.22) 0%, rgba(140,140,150,0.18) 50%, rgba(110,110,120,0.22) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.40), 0 0 0 1px rgba(255,255,255,0.18), inset 0 1px 0 rgba(255,255,255,0.22)" }}
+          style={{ top: "84px", right: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(40,15,70,0.55) 0%, rgba(25,8,50,0.50) 50%, rgba(35,10,60,0.55) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.50), 0 0 0 1px rgba(212,175,55,0.15), inset 0 1px 0 rgba(255,255,255,0.15)" }}
         >
           {howItWorksActive === "panels" && <div className="hiw-scan-overlay" aria-hidden="true" />}
 
           {/* Header */}
-          <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-white/[0.08]" style={{ background: "rgba(10,20,40,0.25)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}>
+          <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-white/[0.08]" style={{ background: "rgba(12,5,28,0.45)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
             <div className="flex items-center gap-2.5">
               <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/25">
                 <Zap className="h-4 w-4 text-white" />
