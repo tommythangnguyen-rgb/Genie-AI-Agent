@@ -3227,13 +3227,13 @@ let _cachedVoice: SpeechSynthesisVoice | null | undefined = undefined;
 
 async function pickCalmFemaleVoice(): Promise<SpeechSynthesisVoice | null> {
   if (_cachedVoice !== undefined) return _cachedVoice;
-  if (typeof window === "undefined" || !window.speechSynthesis) { _cachedVoice = null; return null; }
+  if (typeof window === "undefined" || !window.speechSynthesis) { return null; }
   let voices = window.speechSynthesis.getVoices();
   if (voices.length === 0) {
     await new Promise<void>((resolve) => {
       const handler = () => resolve();
       window.speechSynthesis.addEventListener("voiceschanged", handler, { once: true });
-      setTimeout(resolve, 1200);
+      setTimeout(resolve, 2000);
     });
     voices = window.speechSynthesis.getVoices();
   }
@@ -3242,18 +3242,22 @@ async function pickCalmFemaleVoice(): Promise<SpeechSynthesisVoice | null> {
     const v = voices.find((v) => v.name === name);
     if (v) { _cachedVoice = v; return v; }
   }
-  // 2. Any Microsoft Natural online English voice
-  const msNatural = voices.find(
-    (v) => v.name.includes("Microsoft") && v.name.includes("Natural") && v.lang.startsWith("en")
+  // 2. Any Microsoft Online/Natural English voice (avoid Desktop which is robotic)
+  const msOnline = voices.find(
+    (v) => v.name.includes("Microsoft") && (v.name.includes("Online") || v.name.includes("Natural")) && v.lang.startsWith("en")
   );
-  if (msNatural) { _cachedVoice = msNatural; return msNatural; }
+  if (msOnline) { _cachedVoice = msOnline; return msOnline; }
   // 3. Any Google English voice
   const googleEn = voices.find((v) => v.name.includes("Google") && v.lang.startsWith("en"));
   if (googleEn) { _cachedVoice = googleEn; return googleEn; }
-  // 4. Any en-US voice
-  const fallback = voices.find((v) => v.lang === "en-US") ?? voices.find((v) => v.lang.startsWith("en")) ?? null;
-  _cachedVoice = fallback;
-  return fallback;
+  // 4. Any non-Desktop en-US voice (Desktop voices are robotic; skip them)
+  const nonDesktop = voices.find((v) => v.lang === "en-US" && !v.name.includes("Desktop"));
+  if (nonDesktop) { _cachedVoice = nonDesktop; return nonDesktop; }
+  // 5. Any en-US voice as last resort — do NOT cache null so we retry on next call
+  const any = voices.find((v) => v.lang.startsWith("en")) ?? null;
+  if (any) { _cachedVoice = any; }
+  // Don't cache null — retry next time voices may be loaded
+  return any;
 }
 
 // ─── Streaming text renderer ──────────────────────────────────────────────────
@@ -3790,10 +3794,8 @@ export default function AidAgentPage() {
     if (chatboxLabel) {
       setActiveRole(chatboxLabel);
       setActiveActionRole((chatboxLabel + "s") as "Students" | "Parents" | "Administrators" | "Leaders" | "Auditors");
-      // Scroll welcome-state Tips by Role into view after a brief render tick
-      setTimeout(() => {
-        tipsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 80);
+      // Open Quick Prompts accordion without scrolling
+      setOpenAccordions(prev => { const n = new Set(prev); n.add("iam"); return n; });
     }
   }, []);
 
@@ -4098,9 +4100,6 @@ export default function AidAgentPage() {
       else { clearInterval(ttsTimerRef.current!); ttsTimerRef.current = null; }
     }, 10000);
     window.speechSynthesis.speak(utterance);
-    // Scroll chat to bottom so user can follow along as text is read
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-    desktopBottomRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const printMessage = (content: string, promptSnippet?: string) => {
@@ -4682,11 +4681,8 @@ export default function AidAgentPage() {
 
             {/* Tagline */}
             <div className="flex flex-col items-center gap-2 max-w-lg text-center px-8">
-              <p className="font-semibold leading-snug" style={{ fontSize: "clamp(1.05rem, 2vw, 1.35rem)", color: "rgba(255,255,255,0.88)" }}>
-                Student Aid, Made Clear.
-              </p>
-              <p style={{ fontSize: "clamp(0.8rem, 1.3vw, 1rem)", color: "rgba(203,213,225,0.95)", lineHeight: 1.6 }}>
-                Connecting families with financial aid offices — quickly and reliably.
+              <p className="font-black tracking-[0.10em] uppercase" style={{ fontSize: "clamp(1.1rem, 2.2vw, 1.5rem)", background: "linear-gradient(135deg, #FFFFFF 0%, #D8EEFF 30%, #FFFFFF 60%, #EAF3FF 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", animation: "genie-white-shimmer 4s linear infinite", filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.80))" }}>
+                Student Aid Hub
               </p>
             </div>
 
@@ -4730,10 +4726,7 @@ export default function AidAgentPage() {
               </div>
             </div>
             <div className="flex flex-col items-center gap-1.5 text-center">
-              <p className="font-semibold" style={{ fontSize: "clamp(1rem, 4.5vw, 1.2rem)", color: "rgba(255,255,255,0.90)" }}>Student Aid, Made Clear.</p>
-              <p style={{ fontSize: "clamp(0.78rem, 3.2vw, 0.92rem)", color: "rgba(203,213,225,0.95)", lineHeight: 1.55 }}>
-                Connecting families with financial aid offices — quickly and reliably.
-              </p>
+              <p className="font-black tracking-[0.10em] uppercase" style={{ fontSize: "clamp(1rem, 4.5vw, 1.25rem)", background: "linear-gradient(135deg, #FFFFFF 0%, #D8EEFF 30%, #FFFFFF 60%, #EAF3FF 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", animation: "genie-white-shimmer 4s linear infinite", filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.80))" }}>Student Aid Hub</p>
             </div>
           </div>
 
@@ -4913,7 +4906,7 @@ export default function AidAgentPage() {
                     letterSpacing: "-0.02em",
                   }}
                 >
-                  Genie
+                  AskGenie
                 </button>
               </div>
 
@@ -4981,89 +4974,87 @@ export default function AidAgentPage() {
 
           </header>
 
-          {/* ── Fixed orb companion — removed ── */}
-          {false && (
+          {/* ── White Light Orb Mascot ── */}
+          <div
+            ref={pcOrbRef}
+            aria-hidden="true"
+            className="hidden lg:flex flex-col items-center pointer-events-none select-none"
+            style={{
+              position: "fixed",
+              right: mobileOrbRoaming ? undefined : "max(20px, calc(50vw - 530px))",
+              top: mobileOrbRoaming ? undefined : "92px",
+              zIndex: 1,
+              opacity: mobileOrbRoaming ? 0.50 : 0.92,
+              transition: mobileOrbRoaming ? undefined : "opacity 0.6s ease",
+            }}
+          >
             <div
-              ref={pcOrbRef}
-              aria-hidden="true"
-              className="hidden lg:flex flex-col items-center pointer-events-none select-none"
-              style={{
-                position: "fixed",
-                right: mobileOrbRoaming ? undefined : "max(24px, calc(50vw - 520px))",
-                top: mobileOrbRoaming ? undefined : "88px",
-                zIndex: 1,
-                opacity: mobileOrbRoaming ? 0.55 : 1.0,
-                transition: mobileOrbRoaming ? undefined : "opacity 0.6s ease",
-              }}
+              className="relative flex items-center justify-center"
+              style={{ width: "clamp(130px, 13vw, 172px)", height: "clamp(130px, 13vw, 172px)", animation: "genie-orb-float 6s ease-in-out infinite" }}
             >
-              <div
-                className="relative flex items-center justify-center"
-                style={{ width: "clamp(148px, 15vw, 195px)", height: "clamp(148px, 15vw, 195px)", animation: "genie-orb-float 5.5s ease-in-out infinite" }}
-              >
-                {/* Wide outer ambient glow */}
-                <div className="absolute rounded-full pointer-events-none" style={{
-                  inset: -65, background: "radial-gradient(circle, rgba(0,229,192,0.45) 0%, rgba(0,184,255,0.20) 40%, transparent 68%)",
-                  filter: "blur(26px)", animation: "genie-orb-pulse 5s ease-in-out infinite",
+              {/* Wide outer ambient glow — warm white */}
+              <div className="absolute rounded-full pointer-events-none" style={{
+                inset: -60, background: "radial-gradient(circle, rgba(255,252,240,0.32) 0%, rgba(230,225,255,0.14) 45%, transparent 70%)",
+                filter: "blur(28px)", animation: "genie-orb-pulse 5.5s ease-in-out infinite",
+              }} />
+              {/* Gold premium halo */}
+              <div className="absolute rounded-full pointer-events-none" style={{
+                inset: -40, background: "radial-gradient(circle, rgba(212,175,55,0.22) 0%, rgba(255,200,50,0.08) 55%, transparent 72%)",
+                filter: "blur(18px)", animation: "genie-orb-pulse 7.5s ease-in-out infinite 2s",
+              }} />
+              {/* Primary expanding halo — white */}
+              <div className="absolute inset-0 rounded-full pointer-events-none" style={{
+                background: "radial-gradient(circle, rgba(255,255,255,0.45) 0%, transparent 70%)",
+                animation: "genie-halo-expand 4s ease-out infinite",
+              }} />
+              {/* Secondary halo — soft silver-blue */}
+              <div className="absolute inset-0 rounded-full pointer-events-none" style={{
+                background: "radial-gradient(circle, rgba(210,220,255,0.30) 0%, transparent 65%)",
+                animation: "genie-halo-expand-2 4s ease-out infinite 2s",
+              }} />
+              {/* Tertiary halo — warm gold whisper */}
+              <div className="absolute inset-0 rounded-full pointer-events-none" style={{
+                background: "radial-gradient(circle, rgba(212,175,55,0.18) 0%, transparent 60%)",
+                animation: "genie-halo-expand-3 5s ease-out infinite 1.2s",
+              }} />
+              {/* Orb sphere — pure white light */}
+              <div className={`relative z-10 rounded-full overflow-hidden${orbGlowing ? " genie-orb-gold" : ""}${orbCelebrating ? " genie-orb-celebrate" : ""}`} style={{
+                width: "clamp(88px, 10vw, 118px)", height: "clamp(88px, 10vw, 118px)",
+                background: "radial-gradient(circle at 30% 22%, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 8%, rgba(248,250,255,1) 18%, rgba(232,238,255,1) 30%, rgba(210,220,252,1) 44%, rgba(180,196,242,1) 58%, rgba(140,160,222,1) 72%, rgba(92,115,195,1) 84%, rgba(40,62,155,1) 93%, rgba(12,22,70,1) 100%)",
+                animation: (orbGlowing || orbCelebrating) ? undefined : "genie-orb-glow-pulse 4.5s ease-in-out infinite",
+                willChange: "box-shadow, filter, transform",
+                filter: "contrast(1.12) saturate(0.85) brightness(1.08)",
+                boxShadow: "0 0 0 1.5px rgba(255,255,255,0.90), 0 0 0 4px rgba(220,228,255,0.35), 0 0 38px 14px rgba(255,255,255,0.55), 0 0 80px 28px rgba(200,215,255,0.28), inset 0 2px 0 rgba(255,255,255,0.90), 0 18px 60px rgba(0,0,0,0.80)",
+              }}>
+                {/* Rotating light bands */}
+                <div style={{
+                  position: "absolute", top: 0, left: 0, width: "200%", height: "100%",
+                  background: "repeating-linear-gradient(90deg,transparent 0%,transparent 7%,rgba(255,255,255,0.18) 7%,rgba(255,255,255,0.18) 8.5%,transparent 8.5%,transparent 20%,rgba(230,235,255,0.14) 20%,rgba(230,235,255,0.14) 23%,transparent 23%,transparent 50%)",
+                  animation: "genie-orb-bands 20s linear infinite",
                 }} />
-                {/* Gold premium halo */}
-                <div className="absolute rounded-full pointer-events-none" style={{
-                  inset: -45, background: "radial-gradient(circle, rgba(212,175,55,0.28) 0%, rgba(255,200,50,0.10) 50%, transparent 70%)",
-                  filter: "blur(20px)", animation: "genie-orb-pulse 7s ease-in-out infinite 2s",
+                {/* Primary specular highlight — pure brilliant white */}
+                <div style={{
+                  position: "absolute", top: "4%", left: "11%", width: "46%", height: "38%",
+                  background: "radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.75) 30%, transparent 100%)",
+                  borderRadius: "50%", filter: "blur(1.5px)",
                 }} />
-                {/* Primary expanding halo */}
-                <div className="absolute inset-0 rounded-full pointer-events-none" style={{
-                  background: "radial-gradient(circle, rgba(0,229,192,0.55) 0%, transparent 70%)",
-                  animation: "genie-halo-expand 3.5s ease-out infinite",
+                {/* Secondary gleam */}
+                <div style={{
+                  position: "absolute", top: "52%", right: "9%", width: "20%", height: "18%",
+                  background: "radial-gradient(circle, rgba(220,230,255,0.85) 0%, transparent 100%)",
+                  borderRadius: "50%", filter: "blur(1.5px)",
                 }} />
-                {/* Secondary halo */}
-                <div className="absolute inset-0 rounded-full pointer-events-none" style={{
-                  background: "radial-gradient(circle, rgba(0,184,255,0.38) 0%, transparent 65%)",
-                  animation: "genie-halo-expand-2 3.5s ease-out infinite 1.75s",
+                {/* Soft inner glow at center */}
+                <div style={{
+                  position: "absolute", bottom: "12%", left: "20%", width: "30%", height: "22%",
+                  background: "radial-gradient(circle, rgba(200,212,255,0.40) 0%, transparent 100%)",
+                  borderRadius: "50%", filter: "blur(3px)",
                 }} />
-                {/* Tertiary halo — violet accent */}
-                <div className="absolute inset-0 rounded-full pointer-events-none" style={{
-                  background: "radial-gradient(circle, rgba(99,102,241,0.28) 0%, transparent 60%)",
-                  animation: "genie-halo-expand-3 4s ease-out infinite 0.9s",
-                }} />
-                {/* Orb sphere */}
-                <div className={`relative z-10 rounded-full overflow-hidden${orbGlowing ? " genie-orb-gold" : ""}${orbCelebrating ? " genie-orb-celebrate" : ""}`} style={{
-                  width: "clamp(98px, 11vw, 132px)", height: "clamp(98px, 11vw, 132px)",
-                  background: "radial-gradient(circle at 30% 22%, rgba(255,255,255,1) 0%, rgba(190,255,252,1) 4%, rgba(0,242,215,1) 14%, rgba(0,175,222,1) 30%, rgba(0,52,138,1) 55%, rgba(0,10,52,1) 76%, rgba(1,4,18,1) 100%)",
-                  animation: (orbGlowing || orbCelebrating) ? undefined : "genie-orb-glow-pulse 4.2s ease-in-out infinite",
-                  willChange: "box-shadow, filter, transform",
-                  filter: "contrast(1.18) saturate(1.15)",
-                  boxShadow: "0 0 0 2px rgba(0,245,215,1), 0 0 0 5px rgba(0,209,201,0.40), 0 0 45px 18px rgba(0,229,192,0.70), 0 0 90px 35px rgba(0,184,255,0.40), inset 0 2px 0 rgba(255,255,255,0.75), 0 20px 70px rgba(0,0,0,0.85)",
-                }}>
-                  {/* Rotating bands */}
-                  <div style={{
-                    position: "absolute", top: 0, left: 0, width: "200%", height: "100%",
-                    background: "repeating-linear-gradient(90deg,transparent 0%,transparent 7%,rgba(255,255,255,0.14) 7%,rgba(255,255,255,0.14) 8.5%,transparent 8.5%,transparent 20%,rgba(0,235,200,0.20) 20%,rgba(0,235,200,0.20) 23%,transparent 23%,transparent 50%)",
-                    animation: "genie-orb-bands 18s linear infinite",
-                  }} />
-                  {/* Primary specular highlight — brilliant white */}
-                  <div style={{
-                    position: "absolute", top: "5%", left: "12%", width: "44%", height: "36%",
-                    background: "radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.70) 35%, transparent 100%)",
-                    borderRadius: "50%", filter: "blur(2px)",
-                  }} />
-                  {/* Secondary gleam bottom-right */}
-                  <div style={{
-                    position: "absolute", top: "54%", right: "10%", width: "22%", height: "20%",
-                    background: "radial-gradient(circle, rgba(180,255,252,0.80) 0%, transparent 100%)",
-                    borderRadius: "50%", filter: "blur(1.5px)",
-                  }} />
-                  {/* Teal inner bloom */}
-                  <div style={{
-                    position: "absolute", bottom: "10%", left: "18%", width: "32%", height: "24%",
-                    background: "radial-gradient(circle, rgba(0,255,220,0.35) 0%, transparent 100%)",
-                    borderRadius: "50%", filter: "blur(3px)",
-                  }} />
-                </div>
               </div>
-              {/* Mascot label */}
-              <p className="mt-1 text-[10px] font-bold tracking-[0.18em] uppercase pointer-events-none" style={{ color: "rgba(0,235,200,0.85)", textShadow: "0 0 12px rgba(0,229,192,0.70), 0 0 24px rgba(0,184,255,0.40)" }}>✦ Genie</p>
             </div>
-          )}
+            {/* Mascot label */}
+            <p className="mt-1 text-[9px] font-bold tracking-[0.20em] uppercase pointer-events-none" style={{ color: "rgba(220,228,255,0.80)", textShadow: "0 0 10px rgba(255,255,255,0.60), 0 0 22px rgba(200,215,255,0.40)" }}>✦ Genie</p>
+          </div>
 
           {/* Messages / Welcome */}
           <div ref={scrollContainerRef} className={`flex-1 overflow-y-auto min-h-0 genie-scroll-main transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-active-panel" : ""}`} role="log" aria-live="polite" aria-label="Conversation" style={{ position: "relative", zIndex: 3 }}>
@@ -5086,28 +5077,11 @@ export default function AidAgentPage() {
                     {/* ── Hero Headline ── */}
                     <div className="mb-3 text-center md:text-left">
                       <h2
-                        className="font-black tracking-[-0.03em] leading-[0.88] mb-2"
-                        style={{ fontSize: "clamp(2.8rem, 7.5vw, 5.2rem)" }}
+                        className={`font-black tracking-[0.06em] leading-tight mb-2 transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-guidance-headline" : ""}`}
+                        style={howItWorksActive === "guidance" ? { fontSize: "clamp(2rem, 5vw, 3.2rem)" } : { fontSize: "clamp(2rem, 5vw, 3.2rem)", background: "linear-gradient(135deg, #FFFFFF 0%, #D8EEFF 20%, #FFFFFF 44%, #EAF3FF 66%, #FFFFFF 88%, #D0E4FF 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-white-shimmer 4s linear infinite", textShadow: "none", filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.80))" }}
                       >
-                        <span
-                          className={`block transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-guidance-headline" : ""}`}
-                          style={howItWorksActive === "guidance" ? {} : { color: "#FFFFFF", textShadow: "0 2px 6px rgba(0,0,0,0.90), 0 4px 16px rgba(0,0,0,0.70)" }}
-                        >
-                          Student Aid,
-                        </span>
-                        <span
-                          className={`block transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-guidance-headline" : ""}`}
-                          style={howItWorksActive === "guidance" ? {} : { color: "#FFFFFF", textShadow: "0 2px 6px rgba(0,0,0,0.90), 0 4px 16px rgba(0,0,0,0.70)" }}
-                        >
-                          Made Clear.
-                        </span>
+                        STUDENT AID HUB
                       </h2>
-                      <p
-                        className="font-bold tracking-[-0.005em] leading-snug text-slate-200/95 text-center md:text-left"
-                        style={{ fontSize: "clamp(0.9rem, 2vw, 1.1rem)", textShadow: "0 1px 5px rgba(0,0,0,0.85), 0 3px 10px rgba(0,0,0,0.65)" }}
-                      >
-                        Connecting families with financial aid offices — quickly and reliably.
-                      </p>
                     </div>
 
                     {/* Trust strip */}
@@ -5141,10 +5115,10 @@ export default function AidAgentPage() {
                       {openAccordions.has("hiw") && (
                         <div className="grid grid-cols-2 gap-3 px-4 pb-4">
                           {([
-                            { icon: Sparkles,    step: "1", title: "Choose Your Role",  body: "Select Student, Parent, Admin, Leader, or Compliance/Auditor for role-specific prompts, resources, and tailored guidance.",      color: "text-violet-200", iconBg: "bg-violet-500/[0.40]", cardRing: "ring-violet-400/[0.75]", glowColor: "rgba(139,92,246,0.45)", cardBg: "linear-gradient(145deg, rgba(139,92,246,0.38) 0%, rgba(139,92,246,0.18) 100%)", idleGlow: "0 4px 24px rgba(139,92,246,0.35), 0 1px 0 rgba(255,255,255,0.18) inset", activeKey: "role"     as const },
-                            { icon: Send,        step: "2", title: "Ask Anything",       body: "Type any student aid question in plain English. Upload documents, letters, or forms for instant AI analysis.",                   color: "text-cyan-200",   iconBg: "bg-cyan-500/[0.40]",   cardRing: "ring-cyan-400/[0.75]",   glowColor: "rgba(6,182,212,0.45)",  cardBg: "linear-gradient(145deg, rgba(6,182,212,0.38) 0%, rgba(6,182,212,0.18) 100%)",   idleGlow: "0 4px 24px rgba(6,182,212,0.35), 0 1px 0 rgba(255,255,255,0.18) inset",   activeKey: "chatbox"  as const },
-                            { icon: Library,     step: "3", title: "Explore the Hub",    body: "Access 500+ curated resources — scholarships, VA benefits, loan tools, federal aid portals, and institutional guides.",          color: "text-sky-200",    iconBg: "bg-sky-500/[0.40]",    cardRing: "ring-sky-400/[0.75]",    glowColor: "rgba(56,189,248,0.45)", cardBg: "linear-gradient(145deg, rgba(56,189,248,0.38) 0%, rgba(56,189,248,0.18) 100%)", idleGlow: "0 4px 24px rgba(56,189,248,0.35), 0 1px 0 rgba(255,255,255,0.18) inset",  activeKey: "panels"   as const },
-                            { icon: CheckCircle, step: "4", title: "Get Clear Guidance", body: "Receive plain-English answers grounded in 34 CFR, FSA Handbook, and HEA Title IV. Free, always — no jargon.",                 color: "text-emerald-200",iconBg: "bg-emerald-500/[0.40]",cardRing: "ring-emerald-400/[0.75]",glowColor: "rgba(16,185,129,0.45)", cardBg: "linear-gradient(145deg, rgba(16,185,129,0.38) 0%, rgba(16,185,129,0.18) 100%)", idleGlow: "0 4px 24px rgba(16,185,129,0.35), 0 1px 0 rgba(255,255,255,0.18) inset", activeKey: "guidance" as const },
+                            { icon: Sparkles,    step: "1", title: "Choose Your Role",  body: "Select Student, Parent, Admin, Leader, or Compliance/Auditor for role-specific prompts, resources, and tailored guidance.",      color: "text-purple-200",  iconBg: "bg-purple-600/[0.38]",  cardRing: "ring-purple-400/[0.55]",   glowColor: "rgba(120,60,210,0.40)",  cardBg: "linear-gradient(145deg, rgba(88,28,135,0.42) 0%, rgba(40,10,80,0.30) 100%)",   idleGlow: "0 4px 24px rgba(88,28,135,0.28), 0 1px 0 rgba(255,255,255,0.12) inset",  activeKey: "role"     as const },
+                            { icon: Send,        step: "2", title: "Ask Anything",       body: "Type any student aid question in plain English. Upload documents, letters, or forms for instant AI analysis.",                   color: "text-indigo-200",  iconBg: "bg-indigo-600/[0.38]",  cardRing: "ring-indigo-400/[0.55]",   glowColor: "rgba(99,80,210,0.40)",   cardBg: "linear-gradient(145deg, rgba(67,40,180,0.42) 0%, rgba(30,15,110,0.30) 100%)",  idleGlow: "0 4px 24px rgba(67,40,180,0.28), 0 1px 0 rgba(255,255,255,0.12) inset",  activeKey: "chatbox"  as const },
+                            { icon: Library,     step: "3", title: "Explore the Hub",    body: "Access 500+ curated resources — scholarships, VA benefits, loan tools, federal aid portals, and institutional guides.",          color: "text-amber-200",   iconBg: "bg-[#D4AF37]/[0.28]",   cardRing: "ring-[#D4AF37]/[0.55]",    glowColor: "rgba(212,175,55,0.35)",  cardBg: "linear-gradient(145deg, rgba(212,175,55,0.22) 0%, rgba(150,110,20,0.14) 100%)", idleGlow: "0 4px 24px rgba(212,175,55,0.20), 0 1px 0 rgba(255,255,255,0.12) inset",  activeKey: "panels"   as const },
+                            { icon: CheckCircle, step: "4", title: "Get Clear Guidance", body: "Receive plain-English answers grounded in 34 CFR, FSA Handbook, and HEA Title IV. Free, always — no jargon.",                 color: "text-violet-200",  iconBg: "bg-violet-600/[0.38]",  cardRing: "ring-violet-400/[0.55]",   glowColor: "rgba(150,100,240,0.40)", cardBg: "linear-gradient(145deg, rgba(110,50,200,0.42) 0%, rgba(55,18,120,0.30) 100%)",  idleGlow: "0 4px 24px rgba(110,50,200,0.28), 0 1px 0 rgba(255,255,255,0.12) inset",  activeKey: "guidance" as const },
                           ] as const).map(({ icon: Icon, step, title, body, color, iconBg, cardRing, glowColor, cardBg, idleGlow, activeKey }) => (
                             <button
                               key={step}
@@ -5196,21 +5170,9 @@ export default function AidAgentPage() {
                           <div className="p-1.5 rounded-lg" style={{ background: "rgba(212,175,55,0.18)", boxShadow: "0 0 12px rgba(212,175,55,0.45), 0 0 0 1px rgba(212,175,55,0.30)" }}>
                             <GenieBottle className="h-3.5 w-3.5 genie-icon-shimmer" style={{ color: "#D4AF37", filter: "drop-shadow(0 0 5px rgba(212,175,55,0.80))" }} />
                           </div>
-                          <span className="text-sm font-bold text-white tracking-tight">askGenie</span>
+                          <span className="text-sm font-bold text-white tracking-tight">Genie</span>
                         </div>
-                        {messages.length > 0 && (
-                          <div className="flex items-center gap-2">
-                            <button onClick={goHome} title="New chat"
-                              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium text-white/30 hover:text-cyan-300 hover:bg-cyan-500/[0.10] transition-all duration-150">
-                              <Home className="h-3.5 w-3.5" />Home
-                            </button>
-                            <button onClick={goHome} title="Close chat"
-                              className="p-1.5 rounded-lg text-white/35 hover:text-white hover:bg-white/[0.10] transition-all duration-150">
-                              <X className="h-4 w-4" />
-                            </button>
-                          </div>
-                        )}
-                      </div>
+                        </div>
 
                       {/* Messages area — welcome typewriter when idle, real messages when chatting */}
                       {messages.length > 0 ? (
