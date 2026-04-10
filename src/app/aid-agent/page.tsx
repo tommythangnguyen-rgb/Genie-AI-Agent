@@ -4901,14 +4901,7 @@ export default function AidAgentPage() {
                   title="Return to home"
                   className="text-2xl font-black tracking-tight leading-none whitespace-nowrap px-2 py-0.5 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 transition-all duration-150"
                   style={{
-                    background: "linear-gradient(135deg, #FFFFFF 0%, #D8E8FF 22%, #FFFFFF 44%, #EAF3FF 66%, #FFFFFF 88%, #D0E4FF 100%)",
-                    backgroundSize: "200% auto",
-                    WebkitBackgroundClip: "text",
-                    backgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    color: "transparent",
-                    animation: "genie-white-shimmer 4s linear infinite",
-                    filter: "drop-shadow(0 2px 4px rgba(0,0,0,0.85))",
+                    color: "#FFFFFF",
                     letterSpacing: "-0.02em",
                   }}
                 >
@@ -5074,7 +5067,7 @@ export default function AidAgentPage() {
                 <div className="relative w-full flex flex-col items-center">
 
                 {/* ── Two-column console ── */}
-                <div className="w-full max-w-[1280px] flex flex-col md:flex-row gap-3 md:gap-5 items-stretch px-1 sm:px-2">
+                <div className="w-full max-w-[1280px] flex flex-col md:flex-row gap-3 md:gap-5 items-stretch md:items-start px-1 sm:px-2">
 
                   {/* ══ LEFT — Slide 1: Hero & How It Works ══ */}
                   <div className="w-full md:w-[46%] flex flex-col">
@@ -5084,7 +5077,7 @@ export default function AidAgentPage() {
                     <div className="mb-3 text-center md:text-left">
                       <h2
                         className={`font-black tracking-[0.06em] leading-tight mb-2 transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-guidance-headline" : ""}`}
-                        style={howItWorksActive === "guidance" ? { fontSize: "clamp(2rem, 5vw, 3.2rem)" } : { fontSize: "clamp(2rem, 5vw, 3.2rem)", background: "linear-gradient(135deg, #FFFFFF 0%, #D8EEFF 20%, #FFFFFF 44%, #EAF3FF 66%, #FFFFFF 88%, #D0E4FF 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-white-shimmer 4s linear infinite", textShadow: "none", filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.80))" }}
+                        style={howItWorksActive === "guidance" ? { fontSize: "clamp(2rem, 5vw, 3.2rem)" } : { fontSize: "clamp(2rem, 5vw, 3.2rem)", color: "#FFFFFF" }}
                       >
                         STUDENT AID HUB
                       </h2>
@@ -5154,10 +5147,137 @@ export default function AidAgentPage() {
                       )}
                     </div>
 
+                    {/* ── Desktop-only: accordions below How It Works ── */}
+                    <div className="hidden md:flex flex-col gap-3 mt-0">
+                      {/* Quick Prompts by Role */}
+                      <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]" style={{ background: "rgba(12,5,28,0.55)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", boxShadow: "0 4px 20px rgba(0,0,0,0.35)" }}>
+                        <button type="button" onClick={() => setOpenAccordions(prev => { const n = new Set(prev); n.has("iam") ? n.delete("iam") : n.add("iam"); return n; })} className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400">
+                          <div className="flex items-center gap-2.5">
+                            <div className="p-1 rounded-lg" style={{ background: "rgba(212,175,55,0.14)" }}><Users className="h-3.5 w-3.5 text-amber-400/80" /></div>
+                            <span className={`text-xs font-bold tracking-[0.08em] uppercase ${isDark ? "text-white/65" : "text-gray-700"}`}>Quick Prompts by Role</span>
+                            <span className="text-[9px] text-white/25 font-medium">{openAccordions.has("iam") ? "" : "· tap to expand"}</span>
+                          </div>
+                          <ChevronDown className={`h-4 w-4 text-white/35 transition-transform duration-200 shrink-0 ${openAccordions.has("iam") ? "rotate-180" : ""}`} />
+                        </button>
+                        {openAccordions.has("iam") && (
+                          <div className="px-4 pb-4 pt-1 border-t border-white/[0.06]">
+                            {activeActionItems.map(({ role, items, more }) => {
+                              const tc = ROLE_TILE_COLORS[role] ?? ROLE_TILE_COLORS.Students;
+                              return (
+                                <div key={role} className="grid grid-cols-4 gap-2">
+                                  {[...items, ...more].map(({ icon: Icon, label, q }) => (
+                                    <button key={`${role}-${label}`} onClick={() => sendFromAccordion(q)} className={`flex flex-col items-center gap-1.5 p-2 rounded-2xl ${tc.outerHover} transition-all duration-200 group ${tc.focusRing} focus-visible:outline-none focus-visible:ring-2 hover:scale-[1.06] active:scale-95`}>
+                                      <div className={`w-12 h-12 rounded-[16px] ring-1 ${tc.iconRing} flex items-center justify-center transition-all ${tc.hoverRing} group-hover:scale-[1.06]`} style={{ background: tc.iconBg, boxShadow: tc.iconShadow }}>
+                                        <Icon className={`h-5 w-5 ${tc.iconClass} ${tc.dropShadow} group-hover:text-white ${tc.hoverGlow} transition-all`} />
+                                      </div>
+                                      <span className="text-[10px] font-semibold text-white/80 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5" style={{ textShadow: "0 1px 6px rgba(0,0,0,0.80)" }}>{label}</span>
+                                    </button>
+                                  ))}
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Tips by Role */}
+                      <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]" style={{ background: "rgba(12,5,28,0.55)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", boxShadow: "0 4px 20px rgba(0,0,0,0.35)" }}>
+                        <button type="button" onClick={() => setOpenAccordions(prev => { const n = new Set(prev); n.has("tips") ? n.delete("tips") : n.add("tips"); return n; })} className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400">
+                          <div className="flex items-center gap-2.5">
+                            <div className="p-1 rounded-lg" style={{ background: "rgba(251,191,36,0.14)" }}><Lightbulb className="h-3.5 w-3.5 text-amber-400" /></div>
+                            <span className={`text-xs font-bold tracking-[0.08em] uppercase ${isDark ? "text-white/65" : "text-gray-700"}`}>Tips by Role</span>
+                            <span className="text-[9px] text-white/25 font-medium">{openAccordions.has("tips") ? "" : "· tap to expand"}</span>
+                          </div>
+                          <ChevronDown className={`h-4 w-4 text-white/35 transition-transform duration-200 shrink-0 ${openAccordions.has("tips") ? "rotate-180" : ""}`} />
+                        </button>
+                        {openAccordions.has("tips") && (
+                          <div className="px-4 pb-4 pt-1 border-t border-white/[0.06]">
+                            {activeTipData && (
+                              <div key={activeTipData.role} className="rounded-2xl overflow-hidden ring-1 ring-[#D4AF37]/[0.22] shadow-lg shadow-black/30">
+                                <div className={`bg-gradient-to-r ${activeTipData.gradient} px-4 py-3 flex items-center gap-3`}>
+                                  <div className="p-2 rounded-xl bg-white/20 shrink-0"><activeTipData.icon className="h-5 w-5 text-white" /></div>
+                                  <div>
+                                    <p className="text-sm font-semibold text-white leading-tight">As a {activeTipData.role}</p>
+                                    <p className="text-xs text-white/60 leading-tight mt-0.5">Tap any tip to send to Genie</p>
+                                  </div>
+                                </div>
+                                <div className="divide-y divide-white/[0.05]" style={{ background: "rgba(13,26,50,0.50)", maxHeight: "min(400px, 50dvh)", overflowY: "auto" }}>
+                                  {rotatedTips.map(({ text, prompt }, i) => (
+                                    <button key={i} onClick={() => sendFromAccordion(prompt)} className="w-full flex items-start gap-3 px-4 py-3 text-left group hover:bg-white/[0.05] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400">
+                                      <span className={`mt-1.5 h-1.5 w-1.5 rounded-full shrink-0 ring-1 ${activeTipData.accent} group-hover:scale-125 transition-transform`} />
+                                      <p className="text-xs text-[#94A3B8] group-hover:text-white/90 leading-snug transition-colors flex-1">{text}</p>
+                                      <ChevronRight className="h-3.5 w-3.5 text-white/15 group-hover:text-cyan-400 shrink-0 mt-0.5 transition-all group-hover:translate-x-0.5" />
+                                    </button>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* What Genie Covers */}
+                      <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]" style={{ background: "rgba(12,5,28,0.55)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", boxShadow: "0 4px 20px rgba(0,0,0,0.35)" }}>
+                        <button type="button" onClick={() => setOpenAccordions(prev => { const n = new Set(prev); n.has("covers") ? n.delete("covers") : n.add("covers"); return n; })} className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400">
+                          <div className="flex items-center gap-2.5">
+                            <div className="p-1 rounded-lg shrink-0" style={{ background: "rgba(212,175,55,0.14)" }}><Sparkles className="h-3.5 w-3.5 text-[#D4AF37]" /></div>
+                            <span className={`text-xs font-bold tracking-[0.08em] uppercase ${isDark ? "text-white/65" : "text-gray-700"}`}>What Genie Covers</span>
+                            <span className="text-[9px] text-white/25 font-medium">{openAccordions.has("covers") ? "" : "· 28 topic areas"}</span>
+                          </div>
+                          <ChevronDown className={`h-4 w-4 text-white/35 transition-transform duration-200 shrink-0 ${openAccordions.has("covers") ? "rotate-180" : ""}`} />
+                        </button>
+                        {openAccordions.has("covers") && (
+                          <div className="px-4 pb-4 pt-1 border-t border-white/[0.06]">
+                            <div className="mb-2.5 mt-2 px-3.5 py-2.5 rounded-xl ring-1 ring-[#D4AF37]/[0.18] flex items-center gap-3" style={{ background: "linear-gradient(135deg, rgba(212,175,55,0.07) 0%, rgba(212,175,55,0.03) 100%)" }}>
+                              <div className="p-1.5 rounded-lg shrink-0" style={{ background: "rgba(212,175,55,0.12)" }}><BookOpen className="h-3.5 w-3.5 text-[#D4AF37]" /></div>
+                              <p className="text-[11px] text-[#94A3B8]/80 leading-snug"><span className="text-white/90 font-semibold">28 topic areas</span> · Federal regs, state aid, audits, litigation &amp; more. Click to ask Genie.</p>
+                            </div>
+                            <div className="grid grid-cols-4 gap-1.5 overflow-y-auto" style={{ maxHeight: "min(260px, 30dvh)" }}>
+                              {[
+                                { topic: "34 CFR Parts 600–690",        icon: Scale,         bg: "bg-sky-500/[0.08]",     ring: "ring-sky-400/[0.22]"     },
+                                { topic: "HEA Title IV",                 icon: Award,         bg: "bg-violet-500/[0.08]",  ring: "ring-violet-400/[0.22]"  },
+                                { topic: "FA Offer Letters",             icon: FileText,      bg: "bg-emerald-500/[0.08]", ring: "ring-emerald-400/[0.22]" },
+                                { topic: "R2T4 Calculator",              icon: Calculator,    bg: "bg-amber-500/[0.08]",   ring: "ring-amber-400/[0.22]"   },
+                                { topic: "FSA Compliance Audits",        icon: ShieldCheck,   bg: "bg-rose-500/[0.08]",    ring: "ring-rose-400/[0.22]"    },
+                                { topic: "ED Program Reviews",           icon: ClipboardList, bg: "bg-cyan-500/[0.08]",    ring: "ring-cyan-400/[0.22]"    },
+                                { topic: "OIG Audits & Investigations",  icon: Search,        bg: "bg-orange-500/[0.08]",  ring: "ring-orange-400/[0.22]"  },
+                                { topic: "FAFSA Simplification Act",     icon: Sparkles,      bg: "bg-indigo-500/[0.08]",  ring: "ring-indigo-400/[0.22]"  },
+                                { topic: "One Big Beautiful Bill",       icon: TrendingUp,    bg: "bg-violet-500/[0.08]",  ring: "ring-violet-400/[0.22]"  },
+                                { topic: "SAVE Plan & Litigation",       icon: Gavel,         bg: "bg-red-500/[0.08]",     ring: "ring-red-400/[0.22]"     },
+                                { topic: "IRS Education Tax Credits",    icon: DollarSign,    bg: "bg-green-500/[0.08]",   ring: "ring-green-400/[0.22]"   },
+                                { topic: "State Aid (50 states)",        icon: MapPin,        bg: "bg-teal-500/[0.08]",    ring: "ring-teal-400/[0.22]"    },
+                                { topic: "SAP Policies",                 icon: BookOpen,      bg: "bg-sky-500/[0.08]",     ring: "ring-sky-400/[0.22]"     },
+                                { topic: "Loan Repayment & Forgiveness", icon: RefreshCcw,    bg: "bg-emerald-500/[0.08]", ring: "ring-emerald-400/[0.22]" },
+                                { topic: "529 Plans & Tax Strategy",     icon: PiggyBank,     bg: "bg-amber-500/[0.08]",   ring: "ring-amber-400/[0.22]"   },
+                                { topic: "Gainful Employment Rule",      icon: Briefcase,     bg: "bg-rose-500/[0.08]",    ring: "ring-rose-400/[0.22]"    },
+                                { topic: "Verification Requirements",    icon: CheckCircle,   bg: "bg-emerald-500/[0.08]", ring: "ring-emerald-400/[0.22]" },
+                                { topic: "Professional Judgment",        icon: Scale,         bg: "bg-violet-500/[0.08]",  ring: "ring-violet-400/[0.22]"  },
+                                { topic: "Cost of Attendance",           icon: DollarSign,    bg: "bg-green-500/[0.08]",   ring: "ring-green-400/[0.22]"   },
+                                { topic: "Dependency Status Rules",      icon: Users,         bg: "bg-blue-500/[0.08]",    ring: "ring-blue-400/[0.22]"    },
+                                { topic: "Work-Study Programs",          icon: Briefcase,     bg: "bg-cyan-500/[0.08]",    ring: "ring-cyan-400/[0.22]"    },
+                                { topic: "TEACH Grant & Perkins",        icon: Award,         bg: "bg-amber-500/[0.08]",   ring: "ring-amber-400/[0.22]"   },
+                                { topic: "Veterans & GI Bill Aid",       icon: ShieldCheck,   bg: "bg-orange-500/[0.08]",  ring: "ring-orange-400/[0.22]"  },
+                                { topic: "Cohort Default Rates",         icon: TrendingUp,    bg: "bg-rose-500/[0.08]",    ring: "ring-rose-400/[0.22]"    },
+                                { topic: "Loan Consolidation",           icon: RefreshCcw,    bg: "bg-sky-500/[0.08]",     ring: "ring-sky-400/[0.22]"     },
+                                { topic: "Consortium Agreements",        icon: Landmark,      bg: "bg-teal-500/[0.08]",    ring: "ring-teal-400/[0.22]"    },
+                                { topic: "Study Abroad Aid Rules",       icon: MapPin,        bg: "bg-indigo-500/[0.08]",  ring: "ring-indigo-400/[0.22]"  },
+                                { topic: "Accreditation & Eligibility",  icon: BookOpen,      bg: "bg-violet-500/[0.08]",  ring: "ring-violet-400/[0.22]"  },
+                              ].map(({ topic, icon: TopicIcon, bg, ring }) => (
+                                <button key={topic} type="button" onClick={() => sendFromAccordion(COVERAGE_TOPIC_PROMPTS[topic] ?? `Tell me about ${topic}.`)} className="flex flex-col items-center gap-1.5 p-1.5 rounded-2xl hover:bg-[#D4AF37]/[0.08] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] hover:scale-[1.06] active:scale-95">
+                                  <div className={`w-10 h-10 rounded-[12px] ${bg} ring-1 ${ring} flex items-center justify-center shadow-md group-hover:shadow-[0_0_14px_rgba(212,175,55,0.20)] transition-all`}><TopicIcon className="h-4 w-4 text-white" /></div>
+                                  <span className="text-[8px] font-semibold text-white/80 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{topic}</span>
+                                </button>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>{/* end desktop-only accordions */}
+
                   </div>{/* end left column */}
 
                   {/* ══ RIGHT — Unified askGenie unit ══ */}
-                  <div ref={tipsRef} className="w-full md:w-[54%] flex flex-col gap-3 px-1 pb-2">
+                  <div ref={tipsRef} className="w-full md:w-[54%] flex flex-col gap-3 px-1 pb-2 md:sticky md:top-[56px] md:self-start">
 
                     {/* ── Embedded Chat Window — all screen sizes ── */}
                     <div className="flex flex-col rounded-2xl overflow-hidden transition-all duration-300"
@@ -5276,8 +5396,8 @@ export default function AidAgentPage() {
                       </div>
                     </div>{/* end embedded chat window */}
 
-                    {/* ── Accordions — always visible, scrollable below chat ── */}
-                    <>
+                    {/* ── Accordions — mobile only (desktop moved to left column) ── */}
+                    <div className="flex md:hidden flex-col gap-3">
 
                     {/* ── I am a… accordion (tips) ── */}
                     <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]"
@@ -5472,7 +5592,7 @@ export default function AidAgentPage() {
                       )}{/* end covers accordion content */}
                     </div>{/* end What Genie Covers accordion */}
 
-                    </>{/* end accordions */}
+                    </div>{/* end accordions */}
 
                   </div>{/* end right column */}
 
