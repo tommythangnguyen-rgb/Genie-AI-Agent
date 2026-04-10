@@ -4681,8 +4681,11 @@ export default function AidAgentPage() {
 
             {/* Tagline */}
             <div className="flex flex-col items-center gap-2 max-w-lg text-center px-8">
-              <p className="font-black tracking-[0.10em] uppercase" style={{ fontSize: "clamp(1.1rem, 2.2vw, 1.5rem)", background: "linear-gradient(135deg, #FFFFFF 0%, #D8EEFF 30%, #FFFFFF 60%, #EAF3FF 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", animation: "genie-white-shimmer 4s linear infinite", filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.80))" }}>
-                Student Aid Hub
+              <p className="font-semibold leading-snug" style={{ fontSize: "clamp(1.05rem, 2vw, 1.35rem)", color: "rgba(255,255,255,0.88)" }}>
+                Student Aid, Made Clear.
+              </p>
+              <p style={{ fontSize: "clamp(0.8rem, 1.3vw, 1rem)", color: "rgba(203,213,225,0.95)", lineHeight: 1.6 }}>
+                Connecting families with financial aid offices — quickly and reliably.
               </p>
             </div>
 
@@ -4726,7 +4729,10 @@ export default function AidAgentPage() {
               </div>
             </div>
             <div className="flex flex-col items-center gap-1.5 text-center">
-              <p className="font-black tracking-[0.10em] uppercase" style={{ fontSize: "clamp(1rem, 4.5vw, 1.25rem)", background: "linear-gradient(135deg, #FFFFFF 0%, #D8EEFF 30%, #FFFFFF 60%, #EAF3FF 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", animation: "genie-white-shimmer 4s linear infinite", filter: "drop-shadow(0 2px 8px rgba(0,0,0,0.80))" }}>Student Aid Hub</p>
+              <p className="font-semibold" style={{ fontSize: "clamp(1rem, 4.5vw, 1.2rem)", color: "rgba(255,255,255,0.90)" }}>Student Aid, Made Clear.</p>
+              <p style={{ fontSize: "clamp(0.78rem, 3.2vw, 0.92rem)", color: "rgba(203,213,225,0.95)", lineHeight: 1.55 }}>
+                Connecting families with financial aid offices — quickly and reliably.
+              </p>
             </div>
           </div>
 
@@ -4821,7 +4827,7 @@ export default function AidAgentPage() {
                       <div className="h-px flex-1 bg-gradient-to-r from-transparent to-red-500/[0.14]" />
                       <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-red-500/[0.18]">
                         <Library className="h-2.5 w-2.5 text-red-400/80" />
-                        <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Videos</span>
+                        <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Featured Videos</span>
                         <ChevronDown className={`h-2.5 w-2.5 text-white/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} />
                       </div>
                       <div className="h-px w-3 bg-red-500/[0.14]" />
@@ -5908,7 +5914,7 @@ export default function AidAgentPage() {
                       <div className="h-px flex-1 bg-gradient-to-r from-transparent to-red-500/[0.14]" />
                       <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-red-500/[0.18]">
                         <Library className="h-2.5 w-2.5 text-red-400/80" />
-                        <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Videos</span>
+                        <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Featured Videos</span>
                         <ChevronDown className={`h-2.5 w-2.5 text-white/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} />
                       </div>
                       <div className="h-px w-3 bg-red-500/[0.14]" />
