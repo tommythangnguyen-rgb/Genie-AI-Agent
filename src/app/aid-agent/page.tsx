@@ -5061,7 +5061,7 @@ export default function AidAgentPage() {
                     </div>
 
                     {/* How It Works */}
-                    <div className="w-full flex-1 flex flex-col mb-3">
+                    <div className="w-full flex flex-col mb-3">
                       <div className="flex items-center gap-2 mb-3">
                         <div className={`h-px flex-1 ${isDark ? "bg-gradient-to-r from-transparent to-white/50" : "bg-gradient-to-r from-transparent to-black/40"}`} />
                         <span className={`text-xs font-bold uppercase tracking-[0.16em] px-2 ${isDark ? "text-white" : "text-gray-900"}`} style={{ textShadow: isDark ? "0 1px 4px rgba(0,0,0,0.90)" : "none" }}>How it works</span>
@@ -5101,6 +5101,72 @@ export default function AidAgentPage() {
                       </div>
                     </div>
 
+                    {/* What Genie Covers */}
+                    <div className="w-full flex flex-col">
+                      <div className="flex items-center gap-2 mb-3">
+                        <div className={`h-px flex-1 ${isDark ? "bg-gradient-to-r from-transparent to-white/50" : "bg-gradient-to-r from-transparent to-black/40"}`} />
+                        <span className={`text-xs font-bold uppercase tracking-[0.16em] px-2 ${isDark ? "text-white" : "text-gray-900"}`} style={{ textShadow: isDark ? "0 1px 4px rgba(0,0,0,0.90)" : "none" }}>What Genie Covers</span>
+                        <div className={`h-px flex-1 ${isDark ? "bg-gradient-to-l from-transparent to-white/50" : "bg-gradient-to-l from-transparent to-black/40"}`} />
+                      </div>
+
+                      {/* Intro strip */}
+                      <div className="mb-2.5 px-3.5 py-2.5 rounded-xl ring-1 ring-[#D4AF37]/[0.18] flex items-center gap-3"
+                        style={{ background: "linear-gradient(135deg, rgba(212,175,55,0.07) 0%, rgba(212,175,55,0.03) 100%)" }}>
+                        <div className="p-1.5 rounded-lg shrink-0" style={{ background: "rgba(212,175,55,0.12)" }}>
+                          <BookOpen className="h-3.5 w-3.5 text-[#D4AF37]" />
+                        </div>
+                        <p className="text-[11px] text-[#94A3B8]/80 leading-snug">
+                          <span className="text-white/90 font-semibold">28 topic areas</span> · Federal regs, state aid, audits, litigation &amp; more. Click to ask Genie.
+                        </p>
+                      </div>
+
+                      {/* Topic grid */}
+                      <div className="grid grid-cols-4 gap-1.5 overflow-y-auto" style={{ maxHeight: "min(260px, 30dvh)" }}>
+                        {[
+                          { topic: "34 CFR Parts 600–690",        icon: Scale,         bg: "bg-sky-500/[0.08]",     ring: "ring-sky-400/[0.22]"     },
+                          { topic: "HEA Title IV",                 icon: Award,         bg: "bg-violet-500/[0.08]",  ring: "ring-violet-400/[0.22]"  },
+                          { topic: "FA Offer Letters",             icon: FileText,      bg: "bg-emerald-500/[0.08]", ring: "ring-emerald-400/[0.22]" },
+                          { topic: "R2T4 Calculator",              icon: Calculator,    bg: "bg-amber-500/[0.08]",   ring: "ring-amber-400/[0.22]"   },
+                          { topic: "FSA Compliance Audits",        icon: ShieldCheck,   bg: "bg-rose-500/[0.08]",    ring: "ring-rose-400/[0.22]"    },
+                          { topic: "ED Program Reviews",           icon: ClipboardList, bg: "bg-cyan-500/[0.08]",    ring: "ring-cyan-400/[0.22]"    },
+                          { topic: "OIG Audits & Investigations",  icon: Search,        bg: "bg-orange-500/[0.08]",  ring: "ring-orange-400/[0.22]"  },
+                          { topic: "FAFSA Simplification Act",     icon: Sparkles,      bg: "bg-indigo-500/[0.08]",  ring: "ring-indigo-400/[0.22]"  },
+                          { topic: "One Big Beautiful Bill",       icon: TrendingUp,    bg: "bg-violet-500/[0.08]",  ring: "ring-violet-400/[0.22]"  },
+                          { topic: "SAVE Plan & Litigation",       icon: Gavel,         bg: "bg-red-500/[0.08]",     ring: "ring-red-400/[0.22]"     },
+                          { topic: "IRS Education Tax Credits",    icon: DollarSign,    bg: "bg-green-500/[0.08]",   ring: "ring-green-400/[0.22]"   },
+                          { topic: "State Aid (50 states)",        icon: MapPin,        bg: "bg-teal-500/[0.08]",    ring: "ring-teal-400/[0.22]"    },
+                          { topic: "SAP Policies",                 icon: BookOpen,      bg: "bg-sky-500/[0.08]",     ring: "ring-sky-400/[0.22]"     },
+                          { topic: "Loan Repayment & Forgiveness", icon: RefreshCcw,    bg: "bg-emerald-500/[0.08]", ring: "ring-emerald-400/[0.22]" },
+                          { topic: "529 Plans & Tax Strategy",     icon: PiggyBank,     bg: "bg-amber-500/[0.08]",   ring: "ring-amber-400/[0.22]"   },
+                          { topic: "Gainful Employment Rule",      icon: Briefcase,     bg: "bg-rose-500/[0.08]",    ring: "ring-rose-400/[0.22]"    },
+                          { topic: "Verification Requirements",    icon: CheckCircle,   bg: "bg-emerald-500/[0.08]", ring: "ring-emerald-400/[0.22]" },
+                          { topic: "Professional Judgment",        icon: Scale,         bg: "bg-violet-500/[0.08]",  ring: "ring-violet-400/[0.22]"  },
+                          { topic: "Cost of Attendance",           icon: DollarSign,    bg: "bg-green-500/[0.08]",   ring: "ring-green-400/[0.22]"   },
+                          { topic: "Dependency Status Rules",      icon: Users,         bg: "bg-blue-500/[0.08]",    ring: "ring-blue-400/[0.22]"    },
+                          { topic: "Work-Study Programs",          icon: Briefcase,     bg: "bg-cyan-500/[0.08]",    ring: "ring-cyan-400/[0.22]"    },
+                          { topic: "TEACH Grant & Perkins",        icon: Award,         bg: "bg-amber-500/[0.08]",   ring: "ring-amber-400/[0.22]"   },
+                          { topic: "Veterans & GI Bill Aid",       icon: ShieldCheck,   bg: "bg-orange-500/[0.08]",  ring: "ring-orange-400/[0.22]"  },
+                          { topic: "Cohort Default Rates",         icon: TrendingUp,    bg: "bg-rose-500/[0.08]",    ring: "ring-rose-400/[0.22]"    },
+                          { topic: "Loan Consolidation",           icon: RefreshCcw,    bg: "bg-sky-500/[0.08]",     ring: "ring-sky-400/[0.22]"     },
+                          { topic: "Consortium Agreements",        icon: Landmark,      bg: "bg-teal-500/[0.08]",    ring: "ring-teal-400/[0.22]"    },
+                          { topic: "Study Abroad Aid Rules",       icon: MapPin,        bg: "bg-indigo-500/[0.08]",  ring: "ring-indigo-400/[0.22]"  },
+                          { topic: "Accreditation & Eligibility",  icon: BookOpen,      bg: "bg-violet-500/[0.08]",  ring: "ring-violet-400/[0.22]"  },
+                        ].map(({ topic, icon: TopicIcon, bg, ring }) => (
+                          <button
+                            key={topic}
+                            type="button"
+                            onClick={() => sendMessage(COVERAGE_TOPIC_PROMPTS[topic] ?? `Tell me about ${topic}.`)}
+                            className="flex flex-col items-center gap-1.5 p-1.5 rounded-2xl hover:bg-[#D4AF37]/[0.08] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] hover:scale-[1.06] active:scale-95"
+                          >
+                            <div className={`w-10 h-10 rounded-[12px] ${bg} ring-1 ${ring} flex items-center justify-center shadow-md group-hover:shadow-[0_0_14px_rgba(212,175,55,0.20)] transition-all`}>
+                              <TopicIcon className="h-4 w-4 text-white" />
+                            </div>
+                            <span className="text-[8px] font-semibold text-white/80 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{topic}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
                   </div>{/* end left column */}
 
                   {/* ══ RIGHT — Unified askGenie unit ══ */}
@@ -5127,8 +5193,23 @@ export default function AidAgentPage() {
                         <span className="text-xs text-white/25 font-medium">· Student Aid AI</span>
                       </div>
 
+                      {/* Welcome bubble */}
+                      <div className="px-4 pt-3.5 pb-2.5">
+                        <div className="flex items-start gap-2.5">
+                          <div className="shrink-0 p-1.5 rounded-xl bg-gradient-to-br from-cyan-500/80 to-teal-600/80 shadow-md shadow-cyan-500/20 mt-0.5">
+                            <GenieBottle className="h-3.5 w-3.5 text-white" />
+                          </div>
+                          <div className="flex-1 px-3.5 py-2.5 rounded-2xl rounded-tl-sm ring-1 ring-white/[0.10]"
+                            style={{ background: "rgba(255,255,255,0.07)", boxShadow: "0 2px 12px rgba(0,0,0,0.30)" }}>
+                            <p className="text-sm text-white/90 leading-relaxed">
+                              Hi! Which role best describes you today? I can help with FAFSA questions, award letters, R2T4 calculations, and more.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
                       {/* Role selector */}
-                      <div className={`px-4 py-2.5 border-b border-white/[0.06] transition-all duration-300 ${howItWorksActive === "role" ? "hiw-active-shimmer" : ""}`}>
+                      <div className={`px-4 py-2.5 border-t border-b border-white/[0.06] transition-all duration-300 ${howItWorksActive === "role" ? "hiw-active-shimmer" : ""}`}>
                         <div className="flex items-center gap-1.5 flex-wrap">
                           <span className={`text-[10px] font-semibold tracking-wide mr-0.5 shrink-0 ${isDark ? "text-white/60" : "text-gray-700"}`}>I am a:</span>
                           {ROLE_OPTIONS.map(({ label, icon: RoleIcon, color, ring, bg }) => (
