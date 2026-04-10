@@ -5172,49 +5172,71 @@ export default function AidAgentPage() {
                   {/* ══ RIGHT — Unified askGenie unit ══ */}
                   <div ref={tipsRef} className="w-full md:w-[54%] flex flex-col gap-3 px-1 pb-2">
 
-                    {/* ── Chat Input Card — desktop only ── */}
-                    <div className="hidden md:block rounded-2xl overflow-hidden ring-1 ring-white/[0.14]"
+                    {/* ── Embedded Chat Window — desktop only ── */}
+                    <div className="hidden md:flex flex-col rounded-2xl overflow-hidden transition-all duration-300"
                       style={{
-                        background: "rgba(8,18,42,0.58)",
-                        backdropFilter: "blur(24px)",
-                        WebkitBackdropFilter: "blur(24px)",
-                        boxShadow: "0 8px 32px rgba(0,0,0,0.42), 0 1px 0 rgba(255,255,255,0.10) inset",
+                        height: messages.length > 0 ? "min(74vh, 720px)" : "auto",
+                        background: "rgba(8,16,36,0.18)",
+                        backdropFilter: "blur(32px)",
+                        WebkitBackdropFilter: "blur(32px)",
+                        border: "1px solid rgba(255,255,255,0.14)",
+                        boxShadow: "0 32px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.06), inset 0 1px 0 rgba(255,255,255,0.12)",
                       }}>
 
-                      {/* Card header */}
-                      <div className="flex items-center gap-2.5 px-4 py-3 border-b border-white/[0.08]"
+                      {/* Panel header */}
+                      <div className="shrink-0 flex items-center justify-between px-5 py-3 border-b border-white/[0.10]" style={{ background: "rgba(255,255,255,0.05)" }}>
+                        <div className="flex items-center gap-2.5">
+                          <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/25">
+                            <GenieBottle className="h-3.5 w-3.5 text-white genie-icon-shimmer" />
+                          </div>
+                          <span className="text-sm font-bold text-white tracking-tight">askGenie</span>
+                          <span className="text-xs text-white/30 font-medium">— Student Aid Hub</span>
+                        </div>
+                        {messages.length > 0 && (
+                          <div className="flex items-center gap-2">
+                            <button onClick={goHome} title="New chat"
+                              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium text-white/30 hover:text-cyan-300 hover:bg-cyan-500/[0.10] transition-all duration-150">
+                              <Home className="h-3.5 w-3.5" />Home
+                            </button>
+                            <button onClick={goHome} title="Close chat"
+                              className="p-1.5 rounded-lg text-white/35 hover:text-white hover:bg-white/[0.10] transition-all duration-150">
+                              <X className="h-4 w-4" />
+                            </button>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Messages area OR welcome bubble */}
+                      {messages.length > 0 ? (
+                        <div ref={desktopChatScrollRef} className="flex-1 overflow-y-auto min-h-0 genie-scroll-main px-5 py-5 space-y-5">
+                          {messageBubbles}
+                          {typingIndicator}
+                          <div ref={desktopBottomRef} />
+                        </div>
+                      ) : (
+                        <div className="px-5 pt-4 pb-3">
+                          <div className="flex items-start gap-2.5">
+                            <div className="shrink-0 p-1.5 rounded-xl bg-gradient-to-br from-cyan-500/80 to-teal-600/80 shadow-md shadow-cyan-500/20 mt-0.5">
+                              <GenieBottle className="h-3.5 w-3.5 text-white" />
+                            </div>
+                            <div className="flex-1 px-3.5 py-2.5 rounded-2xl rounded-tl-sm ring-1 ring-white/[0.10]"
+                              style={{ background: "rgba(255,255,255,0.07)", boxShadow: "0 2px 12px rgba(0,0,0,0.30)" }}>
+                              <p className="text-sm text-white/90 leading-relaxed">
+                                Hi! Which role best describes you today? I can help with FAFSA questions, award letters, R2T4 calculations, and more.
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Role pills — compact row above input */}
+                      <div className={`shrink-0 px-4 py-2 border-t border-white/[0.08] transition-all duration-300 ${howItWorksActive === "role" ? "hiw-active-shimmer" : ""}`}
                         style={{ background: "rgba(255,255,255,0.025)" }}>
-                        <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/25">
-                          <GenieBottle className="h-3.5 w-3.5 text-white genie-icon-shimmer" />
-                        </div>
-                        <span className="text-sm font-bold tracking-tight">
-                          <span style={{ background: "linear-gradient(90deg, #FFFFFF 0%, #D8EEFF 20%, #FFFFFF 40%, #EAF5FF 60%, #FFFFFF 80%, #D0E8FF 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-white-shimmer 4s linear infinite" }}>askGenie</span>
-                        </span>
-                        <span className="text-xs text-white/25 font-medium">· Student Aid AI</span>
-                      </div>
-
-                      {/* Welcome bubble */}
-                      <div className="px-4 pt-3.5 pb-2.5">
-                        <div className="flex items-start gap-2.5">
-                          <div className="shrink-0 p-1.5 rounded-xl bg-gradient-to-br from-cyan-500/80 to-teal-600/80 shadow-md shadow-cyan-500/20 mt-0.5">
-                            <GenieBottle className="h-3.5 w-3.5 text-white" />
-                          </div>
-                          <div className="flex-1 px-3.5 py-2.5 rounded-2xl rounded-tl-sm ring-1 ring-white/[0.10]"
-                            style={{ background: "rgba(255,255,255,0.07)", boxShadow: "0 2px 12px rgba(0,0,0,0.30)" }}>
-                            <p className="text-sm text-white/90 leading-relaxed">
-                              Hi! Which role best describes you today? I can help with FAFSA questions, award letters, R2T4 calculations, and more.
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Role selector */}
-                      <div className={`px-4 py-2.5 border-t border-b border-white/[0.06] transition-all duration-300 ${howItWorksActive === "role" ? "hiw-active-shimmer" : ""}`}>
                         <div className="flex items-center gap-1.5 flex-wrap">
-                          <span className={`text-[10px] font-semibold tracking-wide mr-0.5 shrink-0 ${isDark ? "text-white/60" : "text-gray-700"}`}>I am a:</span>
+                          <span className={`text-[10px] font-semibold tracking-wide mr-0.5 shrink-0 ${isDark ? "text-white/55" : "text-gray-700"}`}>I am a:</span>
                           {ROLE_OPTIONS.map(({ label, icon: RoleIcon, color, ring, bg }) => (
                             <button key={label} type="button" aria-pressed={selectedRole === label}
-                              onClick={() => { syncRoles(selectedRole === label ? null : label); if (selectedRole !== label) setSlideIndex(1); }}
+                              onClick={() => { syncRoles(selectedRole === label ? null : label); }}
                               className={`flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ring-1 ${
                                 selectedRole === label
                                   ? `${color} ${bg} ${ring}`
@@ -5229,8 +5251,8 @@ export default function AidAgentPage() {
 
                       {/* Attached file preview */}
                       {attachedFile && (
-                        <div className="flex items-center gap-2 px-4 pt-2.5 pb-0">
-                          <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-indigo-500/20 ring-1 ring-indigo-500/30 w-full">
+                        <div className="shrink-0 px-4 pt-2">
+                          <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-indigo-500/20 ring-1 ring-indigo-500/30">
                             {attachedFile.type === "image" ? <ImageIcon className="h-3.5 w-3.5 text-indigo-300 shrink-0" /> : attachedFile.type === "audio" ? <Mic className="h-3.5 w-3.5 text-rose-300 shrink-0" /> : <Paperclip className="h-3.5 w-3.5 text-indigo-300 shrink-0" />}
                             <span className="text-xs text-white/80 flex-1 truncate">{attachedFile.name}</span>
                             <button type="button" onClick={() => setAttachedFile(null)} className="text-white/35 hover:text-white transition-colors"><X className="h-3.5 w-3.5" /></button>
@@ -5239,19 +5261,14 @@ export default function AidAgentPage() {
                       )}
 
                       {/* Input form */}
-                      <div className="px-4 pt-2.5 pb-3.5">
-                        <div className={`rounded-xl ring-1 focus-within:ring-white/60 transition-all duration-200 ${howItWorksActive === "guidance" ? "hiw-guidance-chatbox" : howItWorksActive === "chatbox" ? "hiw-active-ring" : (!input && !attachedFile ? "ring-white/[0.28]" : "ring-white/55")}`}
-                          style={{
-                            background: "rgba(255,255,255,0.07)",
-                            boxShadow: howItWorksActive === "chatbox"
-                              ? "0 0 0 2px rgba(255,255,255,0.55), 0 0 40px rgba(255,255,255,0.14), 0 1px 0 rgba(255,255,255,0.10) inset"
-                              : "0 0 0 1px rgba(255,255,255,0.06), 0 3px 18px rgba(0,0,0,0.40), 0 1px 0 rgba(255,255,255,0.08) inset",
-                          }}>
+                      <div className="shrink-0 px-4 pt-2.5 pb-3.5">
+                        <div className={`rounded-2xl ring-1 focus-within:ring-white/70 transition-all duration-200 ${howItWorksActive === "guidance" ? "hiw-guidance-chatbox" : howItWorksActive === "chatbox" ? "hiw-active-ring" : (!input && !attachedFile ? "ring-white/40" : "ring-white/65")}`}
+                          style={{ background: "rgba(255,255,255,0.09)", boxShadow: "0 0 0 1px rgba(255,255,255,0.10), 0 4px 28px rgba(0,0,0,0.50), 0 1px 0 rgba(255,255,255,0.10) inset" }}>
                           <form onSubmit={handleSubmit} className="flex gap-2 items-end px-3 py-2.5">
                             <div className="flex items-center gap-0.5 shrink-0 mb-0.5">
-                              <button type="button" title={canAccessFeature("document_upload", userTier) ? "Upload document" : "Pro — upload documents"} onClick={() => canAccessFeature("document_upload", userTier) ? fileInputRef.current?.click() : openUpgrade("document_upload")} className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-white/60 hover:text-white hover:bg-white/[0.12]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}><Paperclip className="h-4 w-4" /></button>
-                              <button type="button" title={canAccessFeature("document_upload", userTier) ? "Upload photo" : "Pro — upload photos"} onClick={() => canAccessFeature("document_upload", userTier) ? cameraInputRef.current?.click() : openUpgrade("document_upload")} className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-white/60 hover:text-white hover:bg-white/[0.12]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}><Camera className="h-4 w-4" /></button>
-                              <button type="button" title={!canAccessFeature("document_upload", userTier) ? "Pro — voice messages" : isRecording ? "Stop recording" : "Record voice message"} onClick={!canAccessFeature("document_upload", userTier) ? () => openUpgrade("document_upload") : isRecording ? stopVoiceRecording : startVoiceRecording} className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${isRecording ? "text-rose-400 bg-rose-500/20 ring-1 ring-rose-500/40 animate-pulse shadow-[0_0_12px_rgba(244,63,94,0.45)]" : canAccessFeature("document_upload", userTier) ? "text-white/60 hover:text-white hover:bg-white/[0.12]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>{isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}</button>
+                              <button type="button" title={canAccessFeature("document_upload", userTier) ? "Upload document" : "Pro — upload documents"} onClick={() => canAccessFeature("document_upload", userTier) ? fileInputRef.current?.click() : openUpgrade("document_upload")} className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-white hover:text-white hover:bg-white/[0.12] hover:shadow-[0_0_8px_rgba(255,255,255,0.25)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}><Paperclip className="h-4 w-4" /></button>
+                              <button type="button" title={canAccessFeature("document_upload", userTier) ? "Upload photo" : "Pro — upload photos"} onClick={() => canAccessFeature("document_upload", userTier) ? cameraInputRef.current?.click() : openUpgrade("document_upload")} className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-white hover:text-white hover:bg-white/[0.12] hover:shadow-[0_0_8px_rgba(255,255,255,0.25)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}><Camera className="h-4 w-4" /></button>
+                              <button type="button" title={!canAccessFeature("document_upload", userTier) ? "Pro — voice messages" : isRecording ? "Stop recording" : "Record voice message"} onClick={!canAccessFeature("document_upload", userTier) ? () => openUpgrade("document_upload") : isRecording ? stopVoiceRecording : startVoiceRecording} className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${isRecording ? "text-rose-400 bg-rose-500/20 ring-1 ring-rose-500/40 animate-pulse shadow-[0_0_12px_rgba(244,63,94,0.45)]" : canAccessFeature("document_upload", userTier) ? "text-white hover:text-white hover:bg-white/[0.12] hover:shadow-[0_0_8px_rgba(255,255,255,0.25)]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>{isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}</button>
                             </div>
                             <div className="flex-1 relative">
                               {isRecording && voiceTranscript && (<p className="absolute top-0 left-2 right-2 text-xs text-rose-300/80 italic pointer-events-none truncate">🎙 {voiceTranscript}</p>)}
@@ -5263,7 +5280,7 @@ export default function AidAgentPage() {
                                 aria-label="Ask Genie a financial aid question"
                                 placeholder={isRecording ? "🎙 Listening… speak your question…" : "Type here and send it!"}
                                 rows={1}
-                                className="w-full resize-none px-2 py-1.5 bg-transparent text-white text-sm placeholder:text-white/35 focus:outline-none leading-relaxed"
+                                className="w-full resize-none px-2 py-1.5 bg-transparent text-white text-sm placeholder:text-white/40 focus:outline-none leading-relaxed"
                                 style={{ minHeight: "40px", maxHeight: "160px" }}
                               />
                             </div>
@@ -5278,9 +5295,12 @@ export default function AidAgentPage() {
                             )}
                           </form>
                         </div>
-                        <p className="mt-1.5 text-[9px] text-cyan-400/25 text-center leading-snug">Enter ↵ to send · Shift+Enter new line · Unofficial guidance — verify with FSA Handbook</p>
+                        <p className="mt-1 text-[9px] text-cyan-400/25 text-center leading-snug">Enter ↵ to send · Shift+Enter new line · Unofficial guidance — verify with FSA Handbook</p>
                       </div>
-                    </div>{/* end chat input card */}
+                    </div>{/* end embedded chat window */}
+
+                    {/* ── Accordions — hidden on desktop when chat is active ── */}
+                    {messages.length === 0 && (<>
 
                     {/* ── I am a… accordion (tips) ── */}
                     <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]"
@@ -5451,6 +5471,8 @@ export default function AidAgentPage() {
                       )}{/* end tips accordion content */}
                     </div>{/* end Tips by Role accordion */}
 
+                    </>)}{/* end accordions (hidden when chatting) */}
+
                   </div>{/* end right column */}
 
                 </div>{/* end two-column console */}
@@ -5470,8 +5492,8 @@ export default function AidAgentPage() {
             )}
           </div>
 
-          {/* ── Desktop Chat Overlay — centered glass panel floating over the dashboard ── */}
-          {messages.length > 0 && (
+          {/* ── Desktop Chat Overlay — disabled; chat is now embedded in right column ── */}
+          {messages.length > 0 && false && (
             <div className="hidden md:flex fixed inset-0 z-[72] items-center justify-center pointer-events-none">
               {/* Backdrop — click to close */}
               <div
@@ -5550,8 +5572,8 @@ export default function AidAgentPage() {
                     </div>
                     {attachedFile && (
                       <div className="flex items-center gap-2 px-3 py-2 mb-1.5 rounded-xl bg-indigo-500/20 ring-1 ring-indigo-500/30">
-                        {attachedFile.type === "image" ? <ImageIcon className="h-3.5 w-3.5 text-indigo-300 shrink-0" /> : attachedFile.type === "audio" ? <Mic className="h-3.5 w-3.5 text-rose-300 shrink-0" /> : <Paperclip className="h-3.5 w-3.5 text-indigo-300 shrink-0" />}
-                        <span className="text-xs text-white/80 flex-1 truncate">{attachedFile.name}</span>
+                        {attachedFile!.type === "image" ? <ImageIcon className="h-3.5 w-3.5 text-indigo-300 shrink-0" /> : attachedFile!.type === "audio" ? <Mic className="h-3.5 w-3.5 text-rose-300 shrink-0" /> : <Paperclip className="h-3.5 w-3.5 text-indigo-300 shrink-0" />}
+                        <span className="text-xs text-white/80 flex-1 truncate">{attachedFile!.name}</span>
                         <button type="button" onClick={() => setAttachedFile(null)} className="text-white/35 hover:text-white transition-colors"><X className="h-3.5 w-3.5" /></button>
                       </div>
                     )}
