@@ -3399,7 +3399,7 @@ export default function AidAgentPage() {
   const [isDark, setIsDark] = useState(true);
   const GENIE_WELCOME = "Hi! Which role best describes you today? I can help with FAFSA questions, award letters, R2T4 calculations, and more.";
   const [welcomeTyped, setWelcomeTyped] = useState("");
-  const [heroMuted, setHeroMuted] = useState(true);
+  const [heroMuted, setHeroMuted] = useState(false);
   const heroVideoDesktopRef = useRef<HTMLVideoElement>(null);
   const heroVideoMobileRef = useRef<HTMLVideoElement>(null);
   // Daily rotation offset — shifts which tips appear first, updates each day
@@ -4070,8 +4070,8 @@ export default function AidAgentPage() {
     if (typeof window === "undefined" || !window.speechSynthesis) { setSpeakingMsgId(null); return; }
     const utterance = new SpeechSynthesisUtterance(plain);
     utterance.lang  = ttsLang;
-    utterance.rate  = 0.88;
-    utterance.pitch = 0.95;
+    utterance.rate  = 1.05;
+    utterance.pitch = 1.05;
     utterance.volume = 1.0;
     if (voiceRef.current) utterance.voice = voiceRef.current;
     const cleanup = () => {
@@ -4085,6 +4085,9 @@ export default function AidAgentPage() {
       else { clearInterval(ttsTimerRef.current!); ttsTimerRef.current = null; }
     }, 10000);
     window.speechSynthesis.speak(utterance);
+    // Scroll chat to bottom so user can follow along as text is read
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    desktopBottomRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const printMessage = (content: string, promptSnippet?: string) => {
@@ -4418,7 +4421,7 @@ export default function AidAgentPage() {
               <div className="flex items-center gap-2 mt-2.5 pt-2 border-t border-white/[0.06]">
                 <button onClick={() => speakMessage(msg.id, msg.content)} title={speakingMsgId === msg.id ? "Stop reading" : "Read aloud"} className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${speakingMsgId === msg.id ? "bg-cyan-500/[0.18] text-cyan-300 ring-1 ring-cyan-500/40" : "text-white/30 hover:text-cyan-300 hover:bg-cyan-500/[0.08]"}`}>
                   {speakingMsgId === msg.id ? <VolumeX className="h-3 w-3" /> : <Volume2 className="h-3 w-3" />}
-                  {speakingMsgId === msg.id ? "Stop" : "Listen"}
+                  {speakingMsgId === msg.id ? "Stop" : "Play"}
                 </button>
                 {(() => { const isBookmarked = history.some(e => e.id === msg.id && e.bookmarked); return (<button onClick={() => { if (!isBookmarked) bookmarkEntry(msg.id, msg.content); }} title={isBookmarked ? "Bookmarked — saved as PDF" : "Bookmark & save as PDF"} className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 ${isBookmarked ? "text-amber-400 bg-amber-500/[0.10] ring-1 ring-amber-500/30 cursor-default" : "text-white/30 hover:text-amber-300 hover:bg-amber-500/[0.08]"}`}>{isBookmarked ? <BookmarkCheck className="h-3 w-3" /> : <Bookmark className="h-3 w-3" />}{isBookmarked ? "Bookmarked" : "Bookmark"}</button>); })()}
                 <button onClick={() => printMessage(msg.content)} title="Print / Save as PDF" className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[11px] font-medium text-white/30 hover:text-cyan-300 hover:bg-cyan-500/[0.08] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400">
@@ -4589,7 +4592,6 @@ export default function AidAgentPage() {
             <video
               ref={heroVideoDesktopRef}
               autoPlay
-              muted
               loop
               playsInline
               className="w-full h-full object-cover object-center"
@@ -4608,7 +4610,6 @@ export default function AidAgentPage() {
             <video
               ref={heroVideoMobileRef}
               autoPlay
-              muted
               loop
               playsInline
               className="w-full h-full object-cover object-center"
@@ -4915,13 +4916,6 @@ export default function AidAgentPage() {
                 >
                   <Home className="h-5 w-5" />
                 </button>
-                <button
-                  onClick={() => setIsDark(!isDark)}
-                  title={isDark ? "Switch to bright mode" : "Switch to dark mode"}
-                  className="p-1.5 rounded-lg text-white hover:text-white hover:bg-white/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/40 hw-icon-glow"
-                >
-                  {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-                </button>
                 {isAuthenticated ? (
                   <Link
                     href="/account"
@@ -4937,14 +4931,12 @@ export default function AidAgentPage() {
                       className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 shadow-sm shadow-cyan-900/40"
                     >
                       <LogIn className="h-5 w-5 shrink-0" />
-                      <span>Sign In</span>
                     </button>
                     <Link
                       href="/account"
                       className="hidden sm:flex items-center gap-1 px-2.5 py-1.5 rounded-lg bg-white/[0.08] ring-1 ring-white/[0.18] text-white hover:text-white hover:bg-white/[0.14] transition-all duration-150 text-xs font-semibold focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/40"
                     >
                       <UserCircle className="h-5 w-5 shrink-0" />
-                      <span>Account</span>
                     </Link>
                   </>
                 )}
@@ -5333,47 +5325,6 @@ export default function AidAgentPage() {
                       {openAccordions.has("iam") && (
                         <div className="px-4 pb-4 pt-1 border-t border-white/[0.06]">
 
-                          {/* Role photo grid */}
-                          <div
-                            className="grid grid-cols-5 gap-1.5 mt-3 mb-4"
-                            onTouchStart={e => { roleSwipeX.current = e.touches[0].clientX; }}
-                            onTouchEnd={e => {
-                              if (roleSwipeX.current === null) return;
-                              const dx = e.changedTouches[0].clientX - roleSwipeX.current;
-                              roleSwipeX.current = null;
-                              if (Math.abs(dx) < 40) return;
-                              const ROLES = ["Students", "Parents", "Administrators", "Leaders", "Auditors"] as const;
-                              const idx = ROLES.indexOf(activeActionRole as typeof ROLES[number]);
-                              const nextIdx = dx < 0 ? (idx + 1) % ROLES.length : (idx - 1 + ROLES.length) % ROLES.length;
-                              syncRoles(ROLES[nextIdx].replace(/s$/, ""));
-                            }}
-                          >
-                            {([
-                              { role: "Students",       label: "Student", photo: "/images/role-icon-student.jpg",  pos: "object-[50%_15%]", activeRing: "ring-sky-400/70",     activeGlow: "shadow-sky-500/25",     activeColor: "text-sky-300",     activeBg: "bg-sky-500/[0.12]"     },
-                              { role: "Parents",        label: "Parent",  photo: "/images/role-icon-parent.jpg",   pos: "object-[50%_20%]", activeRing: "ring-blue-400/70",    activeGlow: "shadow-blue-500/25",    activeColor: "text-blue-300",    activeBg: "bg-blue-500/[0.12]"    },
-                              { role: "Administrators", label: "Admin",   photo: "/images/role-icon-admin.jpg",    pos: "object-[50%_18%]", activeRing: "ring-emerald-400/70", activeGlow: "shadow-emerald-500/25", activeColor: "text-emerald-300", activeBg: "bg-emerald-500/[0.12]" },
-                              { role: "Leaders",        label: "Leader",  photo: "/images/role-icon-leader.jpg",   pos: "object-[50%_14%]", activeRing: "ring-violet-400/70",  activeGlow: "shadow-violet-500/25",  activeColor: "text-violet-300",  activeBg: "bg-violet-500/[0.12]"  },
-                              { role: "Auditors",       label: "Compliance/Auditor", photo: "/images/role-icon-auditor.jpg", pos: "object-[50%_18%]", activeRing: "ring-rose-400/70", activeGlow: "shadow-rose-500/25", activeColor: "text-rose-300", activeBg: "bg-rose-500/[0.12]" },
-                            ] as const).map(({ role, label, photo, pos, activeRing, activeGlow, activeColor, activeBg }) => {
-                              const isActive = activeActionRole === role;
-                              return (
-                                <button
-                                  key={role}
-                                  onClick={() => syncRoles(role.replace(/s$/, "") as any)}
-                                  className={`w-full flex flex-col items-center gap-1.5 px-1 py-2 rounded-xl text-xs font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] hover:scale-[1.05] active:scale-95 ${
-                                    isActive ? `${activeBg} ${activeColor} shadow-md ${activeGlow}` : "text-white/80 hover:text-white hover:bg-white/[0.06]"
-                                  }`}
-                                >
-                                  <div className={`relative w-full aspect-square rounded-full overflow-hidden transition-all duration-200 genie-role-icon ${isActive ? `ring-2 ${activeRing} shadow-lg ${activeGlow}` : ""}`}>
-                                    <img src={photo} alt={label} className={`w-full h-full object-cover ${pos}`} style={{ filter: "saturate(1.10) contrast(1.02) brightness(1.05)" }} />
-                                    <div className="absolute inset-0 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, transparent 55%, rgba(0,0,0,0.55) 100%)" }} />
-                                  </div>
-                                  <span className="text-center leading-tight text-[10px] font-semibold">{label}</span>
-                                </button>
-                              );
-                            })}
-                          </div>
-
                           {/* Quick action tiles */}
                           {activeActionItems.map(({ role, items, more }) => {
                             const tc = ROLE_TILE_COLORS[role] ?? ROLE_TILE_COLORS.Students;
@@ -5428,23 +5379,6 @@ export default function AidAgentPage() {
 
                       {openAccordions.has("tips") && (
                         <div className="px-4 pb-4 pt-1 border-t border-white/[0.06]">
-                          <div className="flex gap-1.5 justify-center flex-wrap mt-3 mb-3">
-                            {ROLE_TIPS.map(({ role, icon: Icon }) => {
-                              const colors = ROLE_COLOR_MAP[role] ?? ROLE_COLOR_FALLBACK;
-                              return (
-                                <button
-                                  key={role}
-                                  onClick={() => syncRoles(role)}
-                                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] hover:scale-[1.04] active:scale-95 ring-1 ${
-                                    activeRole === role ? `${colors.active} shadow-md` : `bg-white/[0.04] ${colors.inactive}`
-                                  }`}
-                                >
-                                  <Icon className="h-3 w-3" />
-                                  {role}
-                                </button>
-                              );
-                            })}
-                          </div>
                           {activeTipData && (
                             <div key={activeTipData.role} className="rounded-2xl overflow-hidden ring-1 ring-[#D4AF37]/[0.22] shadow-lg shadow-black/30">
                               <div className={`bg-gradient-to-r ${activeTipData.gradient} px-4 py-3 flex items-center gap-3`}>
