@@ -3390,6 +3390,7 @@ export default function AidAgentPage() {
   const pcOrbRef = useRef<HTMLDivElement>(null);
   const [howItWorksActive, setHowItWorksActive] = useState<"role" | "chatbox" | "panels" | "guidance" | null>(null);
   const [slideIndex, setSlideIndex] = useState(0);
+  const [openAccordions, setOpenAccordions] = useState<Set<string>>(new Set());
   const [isDark, setIsDark] = useState(true);
   // Daily rotation offset — shifts which tips appear first, updates each day
   const tipsRotationOffset = useMemo(() => Math.floor(Date.now() / 86400000), []);
@@ -5102,56 +5103,134 @@ export default function AidAgentPage() {
 
                   </div>{/* end left column */}
 
-                  {/* ══ RIGHT — Slide 2 + 3: I am a… / Tips by Role ══ */}
-                  <div ref={tipsRef} className="w-full md:w-[54%] flex flex-col">
+                  {/* ══ RIGHT — Unified askGenie unit ══ */}
+                  <div ref={tipsRef} className="w-full md:w-[54%] flex flex-col gap-3 px-1 pb-2">
 
-                    {/* Slide container */}
-                    <div className="overflow-hidden">
-                      <div className="genie-console-slider" style={{ transform: `translateX(${slideIndex * -33.333}%)` }}>
+                    {/* ── Chat Input Card ── */}
+                    <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.14]"
+                      style={{
+                        background: "rgba(8,18,42,0.58)",
+                        backdropFilter: "blur(24px)",
+                        WebkitBackdropFilter: "blur(24px)",
+                        boxShadow: "0 8px 32px rgba(0,0,0,0.42), 0 1px 0 rgba(255,255,255,0.10) inset",
+                      }}>
 
-                        {/* Slide 2 — I am a… */}
-                        <div className="genie-console-slide px-5 pt-5 pb-5">
-                          {/* Header — matches Tips by Role style */}
-                          <div className="flex items-center justify-center gap-2 mb-4">
-                            <button
-                              type="button"
-                              onClick={() => setSlideIndex(2)}
-                              title="What Genie Covers"
-                              className="shrink-0 p-1 rounded-lg text-[#C9A227]/35 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]"
-                            >
-                              <ChevronLeft className="h-4 w-4" />
+                      {/* Card header */}
+                      <div className="flex items-center gap-2.5 px-4 py-3 border-b border-white/[0.08]"
+                        style={{ background: "rgba(255,255,255,0.025)" }}>
+                        <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/25">
+                          <GenieBottle className="h-3.5 w-3.5 text-white genie-icon-shimmer" />
+                        </div>
+                        <span className="text-sm font-bold tracking-tight">
+                          <span style={{ background: "linear-gradient(90deg, #FFFFFF 0%, #D8EEFF 20%, #FFFFFF 40%, #EAF5FF 60%, #FFFFFF 80%, #D0E8FF 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-white-shimmer 4s linear infinite" }}>askGenie</span>
+                        </span>
+                        <span className="text-xs text-white/25 font-medium">· Student Aid AI</span>
+                      </div>
+
+                      {/* Role selector */}
+                      <div className={`px-4 py-2.5 border-b border-white/[0.06] transition-all duration-300 ${howItWorksActive === "role" ? "hiw-active-shimmer" : ""}`}>
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <span className={`text-[10px] font-semibold tracking-wide mr-0.5 shrink-0 ${isDark ? "text-white/60" : "text-gray-700"}`}>I am a:</span>
+                          {ROLE_OPTIONS.map(({ label, icon: RoleIcon, color, ring, bg }) => (
+                            <button key={label} type="button" aria-pressed={selectedRole === label}
+                              onClick={() => { syncRoles(selectedRole === label ? null : label); if (selectedRole !== label) setSlideIndex(1); }}
+                              className={`flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ring-1 ${
+                                selectedRole === label
+                                  ? `${color} ${bg} ${ring}`
+                                  : isDark ? "text-white/75 bg-transparent ring-white/[0.18] hover:text-white hover:bg-white/[0.10] hover:ring-white/45" : "text-gray-800 bg-transparent ring-black/[0.18] hover:text-gray-900 hover:bg-black/[0.06] hover:ring-black/30"
+                              }`}>
+                              <RoleIcon className="h-2.5 w-2.5 shrink-0" />{label}
                             </button>
-                            <div className={`h-px flex-1 ${isDark ? "bg-gradient-to-r from-transparent to-white/50" : "bg-gradient-to-r from-transparent to-black/40"}`} />
-                            <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/[0.10] ring-1 ring-[#D4AF37]/[0.28] shadow-sm shadow-black/20 transition-all duration-200 ${howItWorksActive === "role" ? "shadow-violet-500/20" : ""}`}>
-                              <Users className={`h-3.5 w-3.5 transition-colors ${howItWorksActive === "role" ? "text-violet-400" : "text-amber-400/80"}`} />
-                              <span className={`text-xs font-bold tracking-[0.12em] uppercase transition-colors ${howItWorksActive === "role" ? "text-violet-400 drop-shadow-[0_0_8px_rgba(139,92,246,0.7)]" : isDark ? "text-white/80" : "text-gray-900"}`}>I am a…</span>
-                            </div>
-                            <div className={`h-px flex-1 ${isDark ? "bg-gradient-to-l from-transparent to-white/50" : "bg-gradient-to-l from-transparent to-black/40"}`} />
-                            <div className="flex items-center gap-1 shrink-0">
-                              <button
-                                type="button"
-                                onClick={() => setSlideIndex(1)}
-                                title="Tips by Role"
-                                className="flex items-center gap-1 px-2 py-1.5 rounded-xl bg-cyan-500/[0.10] ring-1 ring-cyan-500/[0.28] text-cyan-300/70 hover:bg-cyan-500/[0.20] hover:ring-cyan-400/55 hover:text-white transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 shadow-sm"
-                              >
-                                <span className="text-[10px] font-bold tracking-wide whitespace-nowrap">Tips</span>
-                                <ChevronRight className="h-3.5 w-3.5 shrink-0" />
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => setSlideIndex(2)}
-                                title="What Genie Covers"
-                                className="flex items-center gap-1 px-2 py-1.5 rounded-xl bg-[#D4AF37]/[0.08] ring-1 ring-[#D4AF37]/[0.25] text-[#C9A227]/60 hover:bg-[#D4AF37]/[0.16] hover:ring-[#D4AF37]/50 hover:text-[#D4AF37] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] shadow-sm"
-                              >
-                                <Sparkles className="h-3 w-3 shrink-0" />
-                                <ChevronRight className="h-3.5 w-3.5 shrink-0" />
-                              </button>
-                            </div>
-                          </div>
+                          ))}
+                          {selectedRole && (<button type="button" onClick={() => syncRoles(null)} className="text-[10px] text-white/40 hover:text-white/70 transition-colors ml-0.5">✕ clear</button>)}
+                        </div>
+                      </div>
 
-                          {/* Role selector — photo avatar grid (swipe left/right to cycle roles) */}
+                      {/* Attached file preview */}
+                      {attachedFile && (
+                        <div className="flex items-center gap-2 px-4 pt-2.5 pb-0">
+                          <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-indigo-500/20 ring-1 ring-indigo-500/30 w-full">
+                            {attachedFile.type === "image" ? <ImageIcon className="h-3.5 w-3.5 text-indigo-300 shrink-0" /> : attachedFile.type === "audio" ? <Mic className="h-3.5 w-3.5 text-rose-300 shrink-0" /> : <Paperclip className="h-3.5 w-3.5 text-indigo-300 shrink-0" />}
+                            <span className="text-xs text-white/80 flex-1 truncate">{attachedFile.name}</span>
+                            <button type="button" onClick={() => setAttachedFile(null)} className="text-white/35 hover:text-white transition-colors"><X className="h-3.5 w-3.5" /></button>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Input form */}
+                      <div className="px-4 pt-2.5 pb-3.5">
+                        <div className={`rounded-xl ring-1 focus-within:ring-white/60 transition-all duration-200 ${howItWorksActive === "guidance" ? "hiw-guidance-chatbox" : howItWorksActive === "chatbox" ? "hiw-active-ring" : (!input && !attachedFile ? "ring-white/[0.28]" : "ring-white/55")}`}
+                          style={{
+                            background: "rgba(255,255,255,0.07)",
+                            boxShadow: howItWorksActive === "chatbox"
+                              ? "0 0 0 2px rgba(255,255,255,0.55), 0 0 40px rgba(255,255,255,0.14), 0 1px 0 rgba(255,255,255,0.10) inset"
+                              : "0 0 0 1px rgba(255,255,255,0.06), 0 3px 18px rgba(0,0,0,0.40), 0 1px 0 rgba(255,255,255,0.08) inset",
+                          }}>
+                          <form onSubmit={handleSubmit} className="flex gap-2 items-end px-3 py-2.5">
+                            <div className="flex items-center gap-0.5 shrink-0 mb-0.5">
+                              <button type="button" title={canAccessFeature("document_upload", userTier) ? "Upload document" : "Pro — upload documents"} onClick={() => canAccessFeature("document_upload", userTier) ? fileInputRef.current?.click() : openUpgrade("document_upload")} className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-white/60 hover:text-white hover:bg-white/[0.12]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}><Paperclip className="h-4 w-4" /></button>
+                              <button type="button" title={canAccessFeature("document_upload", userTier) ? "Upload photo" : "Pro — upload photos"} onClick={() => canAccessFeature("document_upload", userTier) ? cameraInputRef.current?.click() : openUpgrade("document_upload")} className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${canAccessFeature("document_upload", userTier) ? "text-white/60 hover:text-white hover:bg-white/[0.12]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}><Camera className="h-4 w-4" /></button>
+                              <button type="button" title={!canAccessFeature("document_upload", userTier) ? "Pro — voice messages" : isRecording ? "Stop recording" : "Record voice message"} onClick={!canAccessFeature("document_upload", userTier) ? () => openUpgrade("document_upload") : isRecording ? stopVoiceRecording : startVoiceRecording} className={`p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${isRecording ? "text-rose-400 bg-rose-500/20 ring-1 ring-rose-500/40 animate-pulse shadow-[0_0_12px_rgba(244,63,94,0.45)]" : canAccessFeature("document_upload", userTier) ? "text-white/60 hover:text-white hover:bg-white/[0.12]" : "text-white/22 hover:text-violet-400 hover:bg-violet-500/15"}`}>{isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}</button>
+                            </div>
+                            <div className="flex-1 relative">
+                              {isRecording && voiceTranscript && (<p className="absolute top-0 left-2 right-2 text-xs text-rose-300/80 italic pointer-events-none truncate">🎙 {voiceTranscript}</p>)}
+                              <textarea
+                                ref={textareaRef}
+                                value={input}
+                                onChange={handleInputChange}
+                                onKeyDown={handleKeyDown}
+                                aria-label="Ask Genie a financial aid question"
+                                placeholder={isRecording ? "🎙 Listening… speak your question…" : "Type here and send it!"}
+                                rows={1}
+                                className="w-full resize-none px-2 py-1.5 bg-transparent text-white text-sm placeholder:text-white/35 focus:outline-none leading-relaxed"
+                                style={{ minHeight: "40px", maxHeight: "160px" }}
+                              />
+                            </div>
+                            {isStreaming ? (
+                              <button type="button" onClick={stopStreaming} title="Stop generating" className="shrink-0 mb-0.5 flex items-center gap-1.5 px-3 py-2 rounded-xl text-rose-300 text-xs font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400" style={{ background: "rgba(244,63,94,0.14)", boxShadow: "0 0 0 1px rgba(244,63,94,0.30), 0 2px 10px rgba(244,63,94,0.20)" }}>
+                                <Square className="h-3.5 w-3.5 fill-current" />Stop
+                              </button>
+                            ) : (
+                              <button type="submit" disabled={(!input.trim() && !attachedFile) || isLoading} onClick={triggerOrbGold} className="shrink-0 mb-0.5 flex items-center gap-1.5 px-4 py-2 rounded-xl text-white text-xs font-bold tracking-wide active:scale-95 transition-all duration-150 disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-cyan-400" style={{ background: "linear-gradient(135deg, #00B8C8 0%, #00D1C9 50%, #0099B8 100%)", boxShadow: "0 0 0 1px rgba(0,209,201,0.50), 0 2px 16px rgba(0,209,201,0.40), 0 0 32px rgba(0,229,192,0.20), inset 0 1px 0 rgba(255,255,255,0.15)" }}>
+                                <GenieBottle className="h-4 w-4 text-amber-200 genie-send-icon" />Send
+                              </button>
+                            )}
+                          </form>
+                        </div>
+                        <p className="mt-1.5 text-[9px] text-cyan-400/25 text-center leading-snug">Enter ↵ to send · Shift+Enter new line · Unofficial guidance — verify with FSA Handbook</p>
+                      </div>
+                    </div>{/* end chat input card */}
+
+                    {/* ── I am a… accordion (tips) ── */}
+                    <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]"
+                      style={{
+                        background: "rgba(8,18,42,0.42)",
+                        backdropFilter: "blur(18px)",
+                        WebkitBackdropFilter: "blur(18px)",
+                        boxShadow: "0 4px 20px rgba(0,0,0,0.28)",
+                      }}>
+
+                      <button
+                        type="button"
+                        onClick={() => setOpenAccordions(prev => { const n = new Set(prev); n.has("iam") ? n.delete("iam") : n.add("iam"); return n; })}
+                        className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400"
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <div className="p-1 rounded-lg" style={{ background: "rgba(212,175,55,0.14)" }}>
+                            <Users className="h-3.5 w-3.5 text-amber-400/80" />
+                          </div>
+                          <span className={`text-xs font-bold tracking-[0.08em] uppercase ${isDark ? "text-white/65" : "text-gray-700"}`}>I am a…</span>
+                          <span className="text-[9px] text-white/25 font-medium">{openAccordions.has("iam") ? "" : "· quick tips & prompts"}</span>
+                        </div>
+                        <ChevronDown className={`h-4 w-4 text-white/35 transition-transform duration-200 shrink-0 ${openAccordions.has("iam") ? "rotate-180" : ""}`} />
+                      </button>
+
+                      {openAccordions.has("iam") && (
+                        <div className="px-4 pb-4 pt-1 border-t border-white/[0.06]">
+
+                          {/* Role photo grid */}
                           <div
-                            className="grid grid-cols-5 gap-1.5 mb-4"
+                            className="grid grid-cols-5 gap-1.5 mt-3 mb-4"
                             onTouchStart={e => { roleSwipeX.current = e.touches[0].clientX; }}
                             onTouchEnd={e => {
                               if (roleSwipeX.current === null) return;
@@ -5177,17 +5256,12 @@ export default function AidAgentPage() {
                                   key={role}
                                   onClick={() => syncRoles(role.replace(/s$/, "") as any)}
                                   className={`w-full flex flex-col items-center gap-1.5 px-1 py-2 rounded-xl text-xs font-semibold transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] hover:scale-[1.05] active:scale-95 ${
-                                    isActive ? `${activeBg} ${activeColor} shadow-md ${activeGlow}` : "text-white/85 hover:text-white hover:bg-white/[0.06]"
+                                    isActive ? `${activeBg} ${activeColor} shadow-md ${activeGlow}` : "text-white/80 hover:text-white hover:bg-white/[0.06]"
                                   }`}
                                 >
-                                  <div className={`relative w-full aspect-square rounded-full overflow-hidden transition-all duration-200 genie-role-icon ${
-                                    isActive ? `ring-2 ${activeRing} shadow-lg ${activeGlow}` : ""
-                                  }`}>
+                                  <div className={`relative w-full aspect-square rounded-full overflow-hidden transition-all duration-200 genie-role-icon ${isActive ? `ring-2 ${activeRing} shadow-lg ${activeGlow}` : ""}`}>
                                     <img src={photo} alt={label} className={`w-full h-full object-cover ${pos}`} style={{ filter: "saturate(1.10) contrast(1.02) brightness(1.05)" }} />
-                                    {/* Soft edge fade vignette */}
-                                    <div className="absolute inset-0 rounded-full pointer-events-none" style={{
-                                      background: "radial-gradient(circle, transparent 55%, rgba(0,0,0,0.55) 100%)",
-                                    }} />
+                                    <div className="absolute inset-0 rounded-full pointer-events-none" style={{ background: "radial-gradient(circle, transparent 55%, rgba(0,0,0,0.55) 100%)" }} />
                                   </div>
                                   <span className="text-center leading-tight text-[10px] font-semibold">{label}</span>
                                 </button>
@@ -5195,192 +5269,33 @@ export default function AidAgentPage() {
                             })}
                           </div>
 
-                          {/* Quick Actions — Android-style icon grid (all items) */}
+                          {/* Quick action tiles */}
                           {activeActionItems.map(({ role, items, more }) => {
                             const tc = ROLE_TILE_COLORS[role] ?? ROLE_TILE_COLORS.Students;
                             return (
-                            <div key={role} className="grid grid-cols-4 gap-2">
-                              {[...items, ...more].map(({ icon: Icon, label, q }) => (
-                                <button
-                                  key={`${role}-${label}`}
-                                  onClick={() => sendMessage(q)}
-                                  className={`flex flex-col items-center gap-1.5 p-2 rounded-2xl ${tc.outerHover} transition-all duration-200 group ${tc.focusRing} focus-visible:outline-none focus-visible:ring-2 hover:scale-[1.06] active:scale-95`}
-                                >
-                                  <div
-                                    className={`w-14 h-14 rounded-[18px] ring-1 ${tc.iconRing} flex items-center justify-center transition-all ${tc.hoverRing} group-hover:scale-[1.06]`}
-                                    style={{ background: tc.iconBg, boxShadow: tc.iconShadow }}
-                                  >
-                                    <Icon className={`h-6 w-6 ${tc.iconClass} ${tc.dropShadow} group-hover:text-white ${tc.hoverGlow} transition-all`} />
-                                  </div>
-                                  <span className="text-[10px] font-semibold text-white/85 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5" style={{ textShadow: "0 1px 6px rgba(0,0,0,0.80)" }}>{label}</span>
-                                </button>
-                              ))}
-                            </div>
-                            );
-                          })}
-
-                        </div>{/* end slide 2 */}
-
-                        {/* Slide 3 — Tips by Role */}
-                        <div className="genie-console-slide px-5 pt-5 pb-5">
-                          <div className="flex items-center justify-center gap-2 mb-4">
-                            <button
-                              type="button"
-                              onClick={() => setSlideIndex(0)}
-                              title="I am a…"
-                              className="shrink-0 p-1 rounded-lg text-cyan-300/30 hover:text-cyan-300 hover:bg-cyan-500/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-cyan-400"
-                            >
-                              <ChevronLeft className="h-4 w-4" />
-                            </button>
-                            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-amber-500/[0.20]" />
-                            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#0D1A32] ring-1 ring-[#D4AF37]/[0.28] shadow-sm shadow-black/30">
-                              <Lightbulb className="h-3.5 w-3.5 text-amber-400" />
-                              <span className="text-xs font-bold text-white/80 tracking-[0.12em] uppercase">Tips by Role</span>
-                            </div>
-                            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-amber-500/[0.20]" />
-                            <button
-                              type="button"
-                              onClick={() => setSlideIndex(2)}
-                              title="What Genie Covers"
-                              className="shrink-0 p-1 rounded-lg text-[#C9A227]/35 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]"
-                            >
-                              <ChevronRight className="h-4 w-4" />
-                            </button>
-                          </div>
-                          <div className="flex gap-1.5 justify-center flex-wrap mb-3">
-                            {ROLE_TIPS.map(({ role, icon: Icon, gradient }) => {
-                              const colors = ROLE_COLOR_MAP[role] ?? ROLE_COLOR_FALLBACK;
-                              return (
-                              <button
-                                key={role}
-                                onClick={() => syncRoles(role)}
-                                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-sm font-medium transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] hover:scale-[1.04] active:scale-95 ring-1 ${
-                                  activeRole === role ? `${colors.active} shadow-md` : `bg-white/[0.04] ${colors.inactive}`
-                                }`}
-                              >
-                                <Icon className="h-3.5 w-3.5" />
-                                {role}
-                              </button>
-                              );
-                            })}
-                          </div>
-                          {activeTipData && (
-                            <div key={activeTipData.role} className="rounded-2xl bg-[#0D1A32]/40 ring-1 ring-[#D4AF37]/[0.25] overflow-hidden shadow-lg shadow-black/30 backdrop-blur-sm">
-                              <div className={`bg-gradient-to-r ${activeTipData.gradient} px-5 py-4 flex items-center gap-3`}>
-                                <div className="p-2.5 rounded-xl bg-white/20">
-                                  <activeTipData.icon className="h-6 w-6 text-white" />
-                                </div>
-                                <div>
-                                  <p className="text-lg font-semibold text-white leading-tight">As a {activeTipData.role}</p>
-                                  <p className="text-sm text-white/65 leading-tight mt-0.5">Click any tip to auto-send to Genie</p>
-                                </div>
-                              </div>
-                              <div className="divide-y divide-white/[0.05] overflow-y-auto" style={{ maxHeight: "min(520px, 55dvh)" }}>
-                                {rotatedTips.map(({ text, prompt }, i) => (
+                              <div key={role} className="grid grid-cols-4 gap-2">
+                                {[...items, ...more].map(({ icon: Icon, label, q }) => (
                                   <button
-                                    key={i}
-                                    onClick={() => sendMessage(prompt)}
-                                    className="w-full flex items-start gap-3 px-4 py-3.5 text-left group hover:bg-white/[0.06] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400 hover:translate-x-0.5"
+                                    key={`${role}-${label}`}
+                                    onClick={() => sendMessage(q)}
+                                    className={`flex flex-col items-center gap-1.5 p-2 rounded-2xl ${tc.outerHover} transition-all duration-200 group ${tc.focusRing} focus-visible:outline-none focus-visible:ring-2 hover:scale-[1.06] active:scale-95`}
                                   >
-                                    <span className={`mt-2 h-2 w-2 rounded-full shrink-0 ring-1 ${activeTipData.accent} group-hover:scale-125 transition-transform`} />
-                                    <p className="text-sm text-[#94A3B8] group-hover:text-white/90 leading-snug transition-colors duration-150 flex-1">{text}</p>
-                                    <ChevronRight className="h-4 w-4 text-white/15 group-hover:text-cyan-400 shrink-0 mt-0.5 transition-all duration-150 group-hover:translate-x-0.5" />
+                                    <div
+                                      className={`w-12 h-12 rounded-[16px] ring-1 ${tc.iconRing} flex items-center justify-center transition-all ${tc.hoverRing} group-hover:scale-[1.06]`}
+                                      style={{ background: tc.iconBg, boxShadow: tc.iconShadow }}
+                                    >
+                                      <Icon className={`h-5 w-5 ${tc.iconClass} ${tc.dropShadow} group-hover:text-white ${tc.hoverGlow} transition-all`} />
+                                    </div>
+                                    <span className="text-[10px] font-semibold text-white/80 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5" style={{ textShadow: "0 1px 6px rgba(0,0,0,0.80)" }}>{label}</span>
                                   </button>
                                 ))}
                               </div>
-                            </div>
-                          )}
-                        </div>{/* end slide 3 */}
+                            );
+                          })}
 
-                        {/* Slide 4 — What Genie Covers */}
-                        <div className="genie-console-slide px-5 pt-5 pb-5">
-                          {/* Header */}
-                          <div className="flex items-center justify-center gap-2 mb-4">
-                            <button
-                              type="button"
-                              onClick={() => setSlideIndex(1)}
-                              title="Tips by Role"
-                              className="shrink-0 p-1 rounded-lg text-[#C9A227]/35 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]"
-                            >
-                              <ChevronLeft className="h-4 w-4" />
-                            </button>
-                            <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[#D4AF37]/[0.18]" />
-                            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full ring-1 ring-[#D4AF37]/[0.35] shadow-sm shadow-black/30"
-                              style={{ background: "linear-gradient(135deg, rgba(13,20,40,0.95) 0%, rgba(30,20,5,0.90) 100%)" }}>
-                              <Sparkles className="h-3.5 w-3.5 text-[#D4AF37]" />
-                              <span className="text-xs font-bold tracking-[0.12em] uppercase" style={{ color: "#D4AF37" }}>What Genie Covers</span>
-                            </div>
-                            <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[#D4AF37]/[0.18]" />
-                            <button
-                              type="button"
-                              onClick={() => setSlideIndex(0)}
-                              title="I am a…"
-                              className="shrink-0 p-1 rounded-lg text-[#C9A227]/35 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]"
-                            >
-                              <ChevronRight className="h-4 w-4" />
-                            </button>
-                          </div>
-
-                          {/* Premium intro strip */}
-                          <div className="mb-3 px-4 py-3 rounded-xl ring-1 ring-[#D4AF37]/[0.18] flex items-center gap-3"
-                            style={{ background: "linear-gradient(135deg, rgba(212,175,55,0.07) 0%, rgba(212,175,55,0.03) 100%)" }}>
-                            <div className="p-2 rounded-xl shrink-0" style={{ background: "rgba(212,175,55,0.12)" }}>
-                              <BookOpen className="h-4 w-4 text-[#D4AF37]" />
-                            </div>
-                            <p className="text-xs text-[#94A3B8]/80 leading-snug">
-                              <span className="text-white/90 font-semibold">28 topic areas</span> · Federal regulations, state aid, audits, litigation &amp; more. Click any topic to ask Genie.
-                            </p>
-                          </div>
-
-                          {/* Topic grid — Android-style icon grid */}
-                          <div className="grid grid-cols-4 gap-1.5 overflow-y-auto" style={{ maxHeight: "min(420px, 50dvh)" }}>
-                            {[
-                              { topic: "34 CFR Parts 600–690",       icon: Scale,        color: "text-sky-300",     ring: "ring-sky-400/[0.22]",    bg: "bg-sky-500/[0.08]"    },
-                              { topic: "HEA Title IV",                icon: Award,        color: "text-violet-300",  ring: "ring-violet-400/[0.22]", bg: "bg-violet-500/[0.08]" },
-                              { topic: "FA Offer Letters",            icon: FileText,     color: "text-emerald-300", ring: "ring-emerald-400/[0.22]",bg: "bg-emerald-500/[0.08]"},
-                              { topic: "R2T4 Calculator",             icon: Calculator,   color: "text-amber-300",   ring: "ring-amber-400/[0.22]",  bg: "bg-amber-500/[0.08]"  },
-                              { topic: "FSA Compliance Audits",       icon: ShieldCheck,  color: "text-rose-300",    ring: "ring-rose-400/[0.22]",   bg: "bg-rose-500/[0.08]"   },
-                              { topic: "ED Program Reviews",          icon: ClipboardList,color: "text-cyan-300",    ring: "ring-cyan-400/[0.22]",   bg: "bg-cyan-500/[0.08]"   },
-                              { topic: "OIG Audits & Investigations", icon: Search,       color: "text-orange-300",  ring: "ring-orange-400/[0.22]", bg: "bg-orange-500/[0.08]" },
-                              { topic: "FAFSA Simplification Act",    icon: Sparkles,     color: "text-indigo-300",  ring: "ring-indigo-400/[0.22]", bg: "bg-indigo-500/[0.08]" },
-                              { topic: "One Big Beautiful Bill",      icon: TrendingUp,   color: "text-violet-300",  ring: "ring-violet-400/[0.22]", bg: "bg-violet-500/[0.08]" },
-                              { topic: "SAVE Plan & Litigation",      icon: Gavel,        color: "text-red-300",     ring: "ring-red-400/[0.22]",    bg: "bg-red-500/[0.08]"    },
-                              { topic: "IRS Education Tax Credits",   icon: DollarSign,   color: "text-green-300",   ring: "ring-green-400/[0.22]",  bg: "bg-green-500/[0.08]"  },
-                              { topic: "State Aid (50 states)",       icon: MapPin,       color: "text-teal-300",    ring: "ring-teal-400/[0.22]",   bg: "bg-teal-500/[0.08]"   },
-                              { topic: "SAP Policies",                icon: BookOpen,     color: "text-sky-300",     ring: "ring-sky-400/[0.22]",    bg: "bg-sky-500/[0.08]"    },
-                              { topic: "Loan Repayment & Forgiveness",icon: RefreshCcw,   color: "text-emerald-300", ring: "ring-emerald-400/[0.22]",bg: "bg-emerald-500/[0.08]"},
-                              { topic: "529 Plans & Tax Strategy",    icon: PiggyBank,    color: "text-amber-300",   ring: "ring-amber-400/[0.22]",  bg: "bg-amber-500/[0.08]"  },
-                              { topic: "Gainful Employment Rule",     icon: Briefcase,    color: "text-rose-300",    ring: "ring-rose-400/[0.22]",   bg: "bg-rose-500/[0.08]"   },
-                              { topic: "Verification Requirements",   icon: CheckCircle,  color: "text-emerald-300", ring: "ring-emerald-400/[0.22]",bg: "bg-emerald-500/[0.08]"},
-                              { topic: "Professional Judgment",       icon: Scale,        color: "text-violet-300",  ring: "ring-violet-400/[0.22]", bg: "bg-violet-500/[0.08]" },
-                              { topic: "Cost of Attendance",          icon: DollarSign,   color: "text-green-300",   ring: "ring-green-400/[0.22]",  bg: "bg-green-500/[0.08]"  },
-                              { topic: "Dependency Status Rules",     icon: Users,        color: "text-blue-300",    ring: "ring-blue-400/[0.22]",   bg: "bg-blue-500/[0.08]"   },
-                              { topic: "Work-Study Programs",         icon: Briefcase,    color: "text-cyan-300",    ring: "ring-cyan-400/[0.22]",   bg: "bg-cyan-500/[0.08]"   },
-                              { topic: "TEACH Grant & Perkins",       icon: Award,        color: "text-amber-300",   ring: "ring-amber-400/[0.22]",  bg: "bg-amber-500/[0.08]"  },
-                              { topic: "Veterans & GI Bill Aid",      icon: ShieldCheck,  color: "text-orange-300",  ring: "ring-orange-400/[0.22]", bg: "bg-orange-500/[0.08]" },
-                              { topic: "Cohort Default Rates",        icon: TrendingUp,   color: "text-rose-300",    ring: "ring-rose-400/[0.22]",   bg: "bg-rose-500/[0.08]"   },
-                              { topic: "Loan Consolidation",          icon: RefreshCcw,   color: "text-sky-300",     ring: "ring-sky-400/[0.22]",    bg: "bg-sky-500/[0.08]"    },
-                              { topic: "Consortium Agreements",       icon: Landmark,     color: "text-teal-300",    ring: "ring-teal-400/[0.22]",   bg: "bg-teal-500/[0.08]"   },
-                              { topic: "Study Abroad Aid Rules",      icon: MapPin,       color: "text-indigo-300",  ring: "ring-indigo-400/[0.22]", bg: "bg-indigo-500/[0.08]" },
-                              { topic: "Accreditation & Eligibility", icon: BookOpen,     color: "text-violet-300",  ring: "ring-violet-400/[0.22]", bg: "bg-violet-500/[0.08]" },
-                            ].map(({ topic, icon: TopicIcon, color, ring, bg }) => (
-                              <button
-                                key={topic}
-                                type="button"
-                                onClick={() => sendMessage(COVERAGE_TOPIC_PROMPTS[topic] ?? `Tell me about ${topic}.`)}
-                                className="flex flex-col items-center gap-1.5 p-1.5 rounded-2xl hover:bg-[#D4AF37]/[0.08] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] hover:scale-[1.06] active:scale-95"
-                              >
-                                <div className={`w-12 h-12 rounded-[14px] ${bg} ring-1 ${ring} flex items-center justify-center shadow-lg group-hover:shadow-[0_0_16px_rgba(212,175,55,0.22)] transition-all`}>
-                                  <TopicIcon className="h-5 w-5 text-white" />
-                                </div>
-                                <span className="text-[8.5px] font-semibold text-white/85 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{topic}</span>
-                              </button>
-                            ))}
-                          </div>
-                        </div>{/* end slide 4 */}
-
-                      </div>{/* end genie-console-slider */}
-                    </div>{/* end overflow container */}
+                        </div>
+                      )}{/* end accordion content */}
+                    </div>{/* end I am a… accordion */}
 
                   </div>{/* end right column */}
 
@@ -5525,13 +5440,13 @@ export default function AidAgentPage() {
             </div>
           )}
 
-          {/* Input area — always visible on mobile; on desktop only when no chat is active */}
-          <div className={`shrink-0 relative px-3 pt-1.5 pb-1.5 md:px-4 md:pt-3 md:pb-3 ${messages.length > 0 ? "md:hidden" : ""}`} style={{ zIndex: 3 }}>
+          {/* Input area — mobile only (desktop uses right column chat card) */}
+          <div className="shrink-0 relative md:hidden px-3 pt-1.5 pb-1.5" style={{ zIndex: 3 }}>
             {/* Ambient glow bloom behind chatbox */}
 
             <div className="relative w-full max-w-xl mx-auto">
-              {/* Prompt label row — desktop only */}
-              <div className="hidden md:flex items-center gap-2 mb-2 px-1">
+              {/* Prompt label row — hidden (desktop uses right column card) */}
+              <div className="hidden items-center gap-2 mb-2 px-1">
                 <GenieBottle className="h-3.5 w-3.5 text-amber-400 shrink-0 genie-icon-shimmer" />
                 <span className="text-sm font-semibold tracking-wide">
                   <span style={{ background: "linear-gradient(90deg, #FFFFFF 0%, #D8EEFF 20%, #FFFFFF 40%, #EAF5FF 60%, #FFFFFF 80%, #D0E8FF 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-white-shimmer 4s linear infinite" }}>askGenie</span>
@@ -5669,7 +5584,6 @@ export default function AidAgentPage() {
                       </p>
                     )}
                     <textarea
-                      ref={textareaRef}
                       value={input}
                       onChange={handleInputChange}
                       onKeyDown={handleKeyDown}
