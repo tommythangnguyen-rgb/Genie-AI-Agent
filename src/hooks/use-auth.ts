@@ -12,11 +12,13 @@ export function useAuth() {
   const [isLoading, setIsLoading] = useState(false);
 
   const handlePostSignIn = async () => {
-    // On askGenie pages, just refresh to reflect authenticated state
+    // On askGenie pages (or genie127.com root), just refresh to reflect authenticated state
     const askGeniePages = ["/account", "/aid-agent", "/pricing", "/about", "/support", "/legal", "/institutions"];
-    const isAskGeniePage = typeof window !== "undefined" && askGeniePages.some(
+    const isGenieDomain = typeof window !== "undefined" &&
+      (window.location.hostname === "genie127.com" || window.location.hostname === "www.genie127.com");
+    const isAskGeniePage = isGenieDomain || (typeof window !== "undefined" && askGeniePages.some(
       (p) => window.location.pathname === p || window.location.pathname.startsWith(p + "/")
-    );
+    ));
     if (isAskGeniePage) {
       // Full navigation remounts the client component and re-triggers useEffect/fetchStatus
       window.location.href = window.location.pathname;

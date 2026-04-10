@@ -3392,6 +3392,8 @@ export default function AidAgentPage() {
   const [slideIndex, setSlideIndex] = useState(0);
   const [openAccordions, setOpenAccordions] = useState<Set<string>>(new Set(["hiw"]));
   const [isDark, setIsDark] = useState(true);
+  const GENIE_WELCOME = "Hi! Which role best describes you today? I can help with FAFSA questions, award letters, R2T4 calculations, and more.";
+  const [welcomeTyped, setWelcomeTyped] = useState("");
   // Daily rotation offset — shifts which tips appear first, updates each day
   const tipsRotationOffset = useMemo(() => Math.floor(Date.now() / 86400000), []);
 
@@ -3473,6 +3475,18 @@ export default function AidAgentPage() {
     return () => { clearTimeout(timer); window.removeEventListener("keydown", onKey); };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [introVisible]);
+
+  // Typewriter animation for the Genie welcome message on page load
+  useEffect(() => {
+    let i = 0;
+    const id = setInterval(() => {
+      i++;
+      setWelcomeTyped(GENIE_WELCOME.slice(0, i));
+      if (i >= GENIE_WELCOME.length) clearInterval(id);
+    }, 20);
+    return () => clearInterval(id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Pre-load TTS voice so speakMessage can be called synchronously (required for
   // Safari / mobile browsers that block speechSynthesis outside a user gesture).
@@ -4685,7 +4699,7 @@ export default function AidAgentPage() {
           <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-white/[0.08]" style={{ background: "rgba(10,20,40,0.25)", backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}>
             <div className="flex items-center gap-2.5">
               <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/25">
-                <GraduationCap className="h-4 w-4 text-white" />
+                <GenieBottle className="h-4 w-4 text-white" />
               </div>
               <div>
                 <p className="text-[11px] font-bold text-white/50 uppercase tracking-widest">Student Aid Hub</p>
@@ -4817,7 +4831,7 @@ export default function AidAgentPage() {
                   title="Students & Parents panel"
                   className={`shrink-0 p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.12] hover:shadow-[0_0_10px_rgba(212,175,55,0.25)] ${howItWorksActive === "panels" ? "text-[#D4AF37] bg-[#D4AF37]/[0.15] shadow-[0_0_18px_rgba(212,175,55,0.55)] ring-1 ring-[#D4AF37]/50" : "text-[#FFD700] hw-gold-glow"}`}
                 >
-                  {showMobileLeft ? <X className="h-5 w-5" /> : <GraduationCap className="h-5 w-5" />}
+                  {showMobileLeft ? <X className="h-5 w-5" /> : <GenieBottle className="h-5 w-5" />}
                 </button>
                 <button
                   type="button"
@@ -4851,7 +4865,6 @@ export default function AidAgentPage() {
                   className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-white hover:text-white hover:bg-white/[0.10] transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/40 text-xs font-medium hw-icon-glow"
                 >
                   <Home className="h-5 w-5" />
-                  <span className="hidden sm:inline">Home</span>
                 </button>
                 <button
                   onClick={() => setIsDark(!isDark)}
@@ -4867,9 +4880,6 @@ export default function AidAgentPage() {
                     className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white/[0.10] ring-1 ring-white/[0.25] text-white hover:bg-white/[0.18] hover:text-white transition-colors text-xs font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
                   >
                     <UserCircle className="h-5 w-5 shrink-0" />
-                    <span className="hidden sm:inline max-w-[72px] truncate text-white">
-                      {userEmail ? userEmail.split("@")[0] : "Account"}
-                    </span>
                   </Link>
                 ) : (
                   <>
@@ -5003,8 +5013,8 @@ export default function AidAgentPage() {
 
           {/* Messages / Welcome */}
           <div ref={scrollContainerRef} className={`flex-1 overflow-y-auto min-h-0 genie-scroll-main transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-active-panel" : ""}`} role="log" aria-live="polite" aria-label="Conversation" style={{ position: "relative", zIndex: 3 }}>
-            {/* ── Dashboard — always rendered; hidden on mobile when chat is active ── */}
-            <div className={messages.length > 0 ? "hidden md:block" : undefined}>
+            {/* ── Dashboard — always visible on all screen sizes ── */}
+            <div>
 
               {/* ── Welcome state ── */}
               <div className="relative flex flex-col items-center px-1 py-4 sm:px-2 sm:py-6 genie-fade-in-up overflow-hidden">
@@ -5110,97 +5120,15 @@ export default function AidAgentPage() {
                       )}
                     </div>
 
-                    {/* What Genie Covers — accordion, closed by default */}
-                    <div className="w-full flex flex-col rounded-2xl overflow-hidden ring-1 ring-white/[0.10]"
-                      style={{ background: "rgba(8,18,42,0.35)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
-                      <button
-                        type="button"
-                        onClick={() => setOpenAccordions(prev => { const n = new Set(prev); n.has("covers") ? n.delete("covers") : n.add("covers"); return n; })}
-                        className="w-full flex items-center justify-between px-4 py-3 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400"
-                      >
-                        <div className="flex items-center gap-2">
-                          <div className="p-1 rounded-lg shrink-0" style={{ background: "rgba(212,175,55,0.14)" }}>
-                            <Sparkles className="h-3.5 w-3.5 text-[#D4AF37]" />
-                          </div>
-                          <span className={`text-xs font-bold uppercase tracking-[0.08em] ${isDark ? "text-white/65" : "text-gray-800"}`}>What Genie Covers</span>
-                          <span className="text-[9px] text-white/25 font-medium">{openAccordions.has("covers") ? "" : "· 28 topic areas"}</span>
-                        </div>
-                        <ChevronDown className={`h-4 w-4 text-white/35 transition-transform duration-200 shrink-0 ${openAccordions.has("covers") ? "rotate-180" : ""}`} />
-                      </button>
-
-                      {openAccordions.has("covers") && (
-                      <div className="px-4 pb-4 pt-1 border-t border-white/[0.06]">
-
-                      {/* Intro strip */}
-                      <div className="mb-2.5 px-3.5 py-2.5 rounded-xl ring-1 ring-[#D4AF37]/[0.18] flex items-center gap-3"
-                        style={{ background: "linear-gradient(135deg, rgba(212,175,55,0.07) 0%, rgba(212,175,55,0.03) 100%)" }}>
-                        <div className="p-1.5 rounded-lg shrink-0" style={{ background: "rgba(212,175,55,0.12)" }}>
-                          <BookOpen className="h-3.5 w-3.5 text-[#D4AF37]" />
-                        </div>
-                        <p className="text-[11px] text-[#94A3B8]/80 leading-snug">
-                          <span className="text-white/90 font-semibold">28 topic areas</span> · Federal regs, state aid, audits, litigation &amp; more. Click to ask Genie.
-                        </p>
-                      </div>
-
-                      {/* Topic grid */}
-                      <div className="grid grid-cols-4 gap-1.5 overflow-y-auto" style={{ maxHeight: "min(260px, 30dvh)" }}>
-                        {[
-                          { topic: "34 CFR Parts 600–690",        icon: Scale,         bg: "bg-sky-500/[0.08]",     ring: "ring-sky-400/[0.22]"     },
-                          { topic: "HEA Title IV",                 icon: Award,         bg: "bg-violet-500/[0.08]",  ring: "ring-violet-400/[0.22]"  },
-                          { topic: "FA Offer Letters",             icon: FileText,      bg: "bg-emerald-500/[0.08]", ring: "ring-emerald-400/[0.22]" },
-                          { topic: "R2T4 Calculator",              icon: Calculator,    bg: "bg-amber-500/[0.08]",   ring: "ring-amber-400/[0.22]"   },
-                          { topic: "FSA Compliance Audits",        icon: ShieldCheck,   bg: "bg-rose-500/[0.08]",    ring: "ring-rose-400/[0.22]"    },
-                          { topic: "ED Program Reviews",           icon: ClipboardList, bg: "bg-cyan-500/[0.08]",    ring: "ring-cyan-400/[0.22]"    },
-                          { topic: "OIG Audits & Investigations",  icon: Search,        bg: "bg-orange-500/[0.08]",  ring: "ring-orange-400/[0.22]"  },
-                          { topic: "FAFSA Simplification Act",     icon: Sparkles,      bg: "bg-indigo-500/[0.08]",  ring: "ring-indigo-400/[0.22]"  },
-                          { topic: "One Big Beautiful Bill",       icon: TrendingUp,    bg: "bg-violet-500/[0.08]",  ring: "ring-violet-400/[0.22]"  },
-                          { topic: "SAVE Plan & Litigation",       icon: Gavel,         bg: "bg-red-500/[0.08]",     ring: "ring-red-400/[0.22]"     },
-                          { topic: "IRS Education Tax Credits",    icon: DollarSign,    bg: "bg-green-500/[0.08]",   ring: "ring-green-400/[0.22]"   },
-                          { topic: "State Aid (50 states)",        icon: MapPin,        bg: "bg-teal-500/[0.08]",    ring: "ring-teal-400/[0.22]"    },
-                          { topic: "SAP Policies",                 icon: BookOpen,      bg: "bg-sky-500/[0.08]",     ring: "ring-sky-400/[0.22]"     },
-                          { topic: "Loan Repayment & Forgiveness", icon: RefreshCcw,    bg: "bg-emerald-500/[0.08]", ring: "ring-emerald-400/[0.22]" },
-                          { topic: "529 Plans & Tax Strategy",     icon: PiggyBank,     bg: "bg-amber-500/[0.08]",   ring: "ring-amber-400/[0.22]"   },
-                          { topic: "Gainful Employment Rule",      icon: Briefcase,     bg: "bg-rose-500/[0.08]",    ring: "ring-rose-400/[0.22]"    },
-                          { topic: "Verification Requirements",    icon: CheckCircle,   bg: "bg-emerald-500/[0.08]", ring: "ring-emerald-400/[0.22]" },
-                          { topic: "Professional Judgment",        icon: Scale,         bg: "bg-violet-500/[0.08]",  ring: "ring-violet-400/[0.22]"  },
-                          { topic: "Cost of Attendance",           icon: DollarSign,    bg: "bg-green-500/[0.08]",   ring: "ring-green-400/[0.22]"   },
-                          { topic: "Dependency Status Rules",      icon: Users,         bg: "bg-blue-500/[0.08]",    ring: "ring-blue-400/[0.22]"    },
-                          { topic: "Work-Study Programs",          icon: Briefcase,     bg: "bg-cyan-500/[0.08]",    ring: "ring-cyan-400/[0.22]"    },
-                          { topic: "TEACH Grant & Perkins",        icon: Award,         bg: "bg-amber-500/[0.08]",   ring: "ring-amber-400/[0.22]"   },
-                          { topic: "Veterans & GI Bill Aid",       icon: ShieldCheck,   bg: "bg-orange-500/[0.08]",  ring: "ring-orange-400/[0.22]"  },
-                          { topic: "Cohort Default Rates",         icon: TrendingUp,    bg: "bg-rose-500/[0.08]",    ring: "ring-rose-400/[0.22]"    },
-                          { topic: "Loan Consolidation",           icon: RefreshCcw,    bg: "bg-sky-500/[0.08]",     ring: "ring-sky-400/[0.22]"     },
-                          { topic: "Consortium Agreements",        icon: Landmark,      bg: "bg-teal-500/[0.08]",    ring: "ring-teal-400/[0.22]"    },
-                          { topic: "Study Abroad Aid Rules",       icon: MapPin,        bg: "bg-indigo-500/[0.08]",  ring: "ring-indigo-400/[0.22]"  },
-                          { topic: "Accreditation & Eligibility",  icon: BookOpen,      bg: "bg-violet-500/[0.08]",  ring: "ring-violet-400/[0.22]"  },
-                        ].map(({ topic, icon: TopicIcon, bg, ring }) => (
-                          <button
-                            key={topic}
-                            type="button"
-                            onClick={() => sendMessage(COVERAGE_TOPIC_PROMPTS[topic] ?? `Tell me about ${topic}.`)}
-                            className="flex flex-col items-center gap-1.5 p-1.5 rounded-2xl hover:bg-[#D4AF37]/[0.08] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] hover:scale-[1.06] active:scale-95"
-                          >
-                            <div className={`w-10 h-10 rounded-[12px] ${bg} ring-1 ${ring} flex items-center justify-center shadow-md group-hover:shadow-[0_0_14px_rgba(212,175,55,0.20)] transition-all`}>
-                              <TopicIcon className="h-4 w-4 text-white" />
-                            </div>
-                            <span className="text-[8px] font-semibold text-white/80 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{topic}</span>
-                          </button>
-                        ))}
-                      </div>
-
-                      </div>
-                      )}{/* end covers accordion content */}
-                    </div>{/* end What Genie Covers accordion */}
-
                   </div>{/* end left column */}
 
                   {/* ══ RIGHT — Unified askGenie unit ══ */}
                   <div ref={tipsRef} className="w-full md:w-[54%] flex flex-col gap-3 px-1 pb-2">
 
-                    {/* ── Embedded Chat Window — desktop only ── */}
-                    <div className="hidden md:flex flex-col rounded-2xl overflow-hidden transition-all duration-300"
+                    {/* ── Embedded Chat Window — all screen sizes ── */}
+                    <div className="flex flex-col rounded-2xl overflow-hidden transition-all duration-300"
                       style={{
-                        height: messages.length > 0 ? "min(74vh, 720px)" : "auto",
+                        height: "min(74vh, 720px)",
                         background: "rgba(8,16,36,0.18)",
                         backdropFilter: "blur(32px)",
                         WebkitBackdropFilter: "blur(32px)",
@@ -5231,7 +5159,7 @@ export default function AidAgentPage() {
                         )}
                       </div>
 
-                      {/* Messages area OR welcome bubble */}
+                      {/* Messages area — welcome typewriter when idle, real messages when chatting */}
                       {messages.length > 0 ? (
                         <div ref={desktopChatScrollRef} className="flex-1 overflow-y-auto min-h-0 genie-scroll-main px-5 py-5 space-y-5">
                           {messageBubbles}
@@ -5239,7 +5167,7 @@ export default function AidAgentPage() {
                           <div ref={desktopBottomRef} />
                         </div>
                       ) : (
-                        <div className="px-5 pt-4 pb-3">
+                        <div className="flex-1 overflow-y-auto min-h-0 genie-scroll-main px-5 py-5">
                           <div className="flex items-start gap-2.5">
                             <div className="shrink-0 p-1.5 rounded-xl bg-gradient-to-br from-cyan-500/80 to-teal-600/80 shadow-md shadow-cyan-500/20 mt-0.5">
                               <GenieBottle className="h-3.5 w-3.5 text-white" />
@@ -5247,7 +5175,10 @@ export default function AidAgentPage() {
                             <div className="flex-1 px-3.5 py-2.5 rounded-2xl rounded-tl-sm ring-1 ring-white/[0.10]"
                               style={{ background: "rgba(255,255,255,0.07)", boxShadow: "0 2px 12px rgba(0,0,0,0.30)" }}>
                               <p className="text-sm text-white/90 leading-relaxed">
-                                Hi! Which role best describes you today? I can help with FAFSA questions, award letters, R2T4 calculations, and more.
+                                {welcomeTyped}
+                                {welcomeTyped.length < GENIE_WELCOME.length && (
+                                  <span className="inline-block w-[2px] h-[1em] bg-cyan-300/80 ml-0.5 align-middle animate-pulse" />
+                                )}
                               </p>
                             </div>
                           </div>
@@ -5496,6 +5427,88 @@ export default function AidAgentPage() {
                       )}{/* end tips accordion content */}
                     </div>{/* end Tips by Role accordion */}
 
+                    {/* ── What Genie Covers accordion ── */}
+                    <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]"
+                      style={{
+                        background: "rgba(8,18,42,0.42)",
+                        backdropFilter: "blur(18px)",
+                        WebkitBackdropFilter: "blur(18px)",
+                        boxShadow: "0 4px 20px rgba(0,0,0,0.28)",
+                      }}>
+                      <button
+                        type="button"
+                        onClick={() => setOpenAccordions(prev => { const n = new Set(prev); n.has("covers") ? n.delete("covers") : n.add("covers"); return n; })}
+                        className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400"
+                      >
+                        <div className="flex items-center gap-2.5">
+                          <div className="p-1 rounded-lg shrink-0" style={{ background: "rgba(212,175,55,0.14)" }}>
+                            <Sparkles className="h-3.5 w-3.5 text-[#D4AF37]" />
+                          </div>
+                          <span className={`text-xs font-bold tracking-[0.08em] uppercase ${isDark ? "text-white/65" : "text-gray-700"}`}>What Genie Covers</span>
+                          <span className="text-[9px] text-white/25 font-medium">{openAccordions.has("covers") ? "" : "· 28 topic areas"}</span>
+                        </div>
+                        <ChevronDown className={`h-4 w-4 text-white/35 transition-transform duration-200 shrink-0 ${openAccordions.has("covers") ? "rotate-180" : ""}`} />
+                      </button>
+
+                      {openAccordions.has("covers") && (
+                        <div className="px-4 pb-4 pt-1 border-t border-white/[0.06]">
+                          <div className="mb-2.5 mt-2 px-3.5 py-2.5 rounded-xl ring-1 ring-[#D4AF37]/[0.18] flex items-center gap-3"
+                            style={{ background: "linear-gradient(135deg, rgba(212,175,55,0.07) 0%, rgba(212,175,55,0.03) 100%)" }}>
+                            <div className="p-1.5 rounded-lg shrink-0" style={{ background: "rgba(212,175,55,0.12)" }}>
+                              <BookOpen className="h-3.5 w-3.5 text-[#D4AF37]" />
+                            </div>
+                            <p className="text-[11px] text-[#94A3B8]/80 leading-snug">
+                              <span className="text-white/90 font-semibold">28 topic areas</span> · Federal regs, state aid, audits, litigation &amp; more. Click to ask Genie.
+                            </p>
+                          </div>
+                          <div className="grid grid-cols-4 gap-1.5 overflow-y-auto" style={{ maxHeight: "min(260px, 30dvh)" }}>
+                            {[
+                              { topic: "34 CFR Parts 600–690",        icon: Scale,         bg: "bg-sky-500/[0.08]",     ring: "ring-sky-400/[0.22]"     },
+                              { topic: "HEA Title IV",                 icon: Award,         bg: "bg-violet-500/[0.08]",  ring: "ring-violet-400/[0.22]"  },
+                              { topic: "FA Offer Letters",             icon: FileText,      bg: "bg-emerald-500/[0.08]", ring: "ring-emerald-400/[0.22]" },
+                              { topic: "R2T4 Calculator",              icon: Calculator,    bg: "bg-amber-500/[0.08]",   ring: "ring-amber-400/[0.22]"   },
+                              { topic: "FSA Compliance Audits",        icon: ShieldCheck,   bg: "bg-rose-500/[0.08]",    ring: "ring-rose-400/[0.22]"    },
+                              { topic: "ED Program Reviews",           icon: ClipboardList, bg: "bg-cyan-500/[0.08]",    ring: "ring-cyan-400/[0.22]"    },
+                              { topic: "OIG Audits & Investigations",  icon: Search,        bg: "bg-orange-500/[0.08]",  ring: "ring-orange-400/[0.22]"  },
+                              { topic: "FAFSA Simplification Act",     icon: Sparkles,      bg: "bg-indigo-500/[0.08]",  ring: "ring-indigo-400/[0.22]"  },
+                              { topic: "One Big Beautiful Bill",       icon: TrendingUp,    bg: "bg-violet-500/[0.08]",  ring: "ring-violet-400/[0.22]"  },
+                              { topic: "SAVE Plan & Litigation",       icon: Gavel,         bg: "bg-red-500/[0.08]",     ring: "ring-red-400/[0.22]"     },
+                              { topic: "IRS Education Tax Credits",    icon: DollarSign,    bg: "bg-green-500/[0.08]",   ring: "ring-green-400/[0.22]"   },
+                              { topic: "State Aid (50 states)",        icon: MapPin,        bg: "bg-teal-500/[0.08]",    ring: "ring-teal-400/[0.22]"    },
+                              { topic: "SAP Policies",                 icon: BookOpen,      bg: "bg-sky-500/[0.08]",     ring: "ring-sky-400/[0.22]"     },
+                              { topic: "Loan Repayment & Forgiveness", icon: RefreshCcw,    bg: "bg-emerald-500/[0.08]", ring: "ring-emerald-400/[0.22]" },
+                              { topic: "529 Plans & Tax Strategy",     icon: PiggyBank,     bg: "bg-amber-500/[0.08]",   ring: "ring-amber-400/[0.22]"   },
+                              { topic: "Gainful Employment Rule",      icon: Briefcase,     bg: "bg-rose-500/[0.08]",    ring: "ring-rose-400/[0.22]"    },
+                              { topic: "Verification Requirements",    icon: CheckCircle,   bg: "bg-emerald-500/[0.08]", ring: "ring-emerald-400/[0.22]" },
+                              { topic: "Professional Judgment",        icon: Scale,         bg: "bg-violet-500/[0.08]",  ring: "ring-violet-400/[0.22]"  },
+                              { topic: "Cost of Attendance",           icon: DollarSign,    bg: "bg-green-500/[0.08]",   ring: "ring-green-400/[0.22]"   },
+                              { topic: "Dependency Status Rules",      icon: Users,         bg: "bg-blue-500/[0.08]",    ring: "ring-blue-400/[0.22]"    },
+                              { topic: "Work-Study Programs",          icon: Briefcase,     bg: "bg-cyan-500/[0.08]",    ring: "ring-cyan-400/[0.22]"    },
+                              { topic: "TEACH Grant & Perkins",        icon: Award,         bg: "bg-amber-500/[0.08]",   ring: "ring-amber-400/[0.22]"   },
+                              { topic: "Veterans & GI Bill Aid",       icon: ShieldCheck,   bg: "bg-orange-500/[0.08]",  ring: "ring-orange-400/[0.22]"  },
+                              { topic: "Cohort Default Rates",         icon: TrendingUp,    bg: "bg-rose-500/[0.08]",    ring: "ring-rose-400/[0.22]"    },
+                              { topic: "Loan Consolidation",           icon: RefreshCcw,    bg: "bg-sky-500/[0.08]",     ring: "ring-sky-400/[0.22]"     },
+                              { topic: "Consortium Agreements",        icon: Landmark,      bg: "bg-teal-500/[0.08]",    ring: "ring-teal-400/[0.22]"    },
+                              { topic: "Study Abroad Aid Rules",       icon: MapPin,        bg: "bg-indigo-500/[0.08]",  ring: "ring-indigo-400/[0.22]"  },
+                              { topic: "Accreditation & Eligibility",  icon: BookOpen,      bg: "bg-violet-500/[0.08]",  ring: "ring-violet-400/[0.22]"  },
+                            ].map(({ topic, icon: TopicIcon, bg, ring }) => (
+                              <button
+                                key={topic}
+                                type="button"
+                                onClick={() => sendMessage(COVERAGE_TOPIC_PROMPTS[topic] ?? `Tell me about ${topic}.`)}
+                                className="flex flex-col items-center gap-1.5 p-1.5 rounded-2xl hover:bg-[#D4AF37]/[0.08] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] hover:scale-[1.06] active:scale-95"
+                              >
+                                <div className={`w-10 h-10 rounded-[12px] ${bg} ring-1 ${ring} flex items-center justify-center shadow-md group-hover:shadow-[0_0_14px_rgba(212,175,55,0.20)] transition-all`}>
+                                  <TopicIcon className="h-4 w-4 text-white" />
+                                </div>
+                                <span className="text-[8px] font-semibold text-white/80 group-hover:text-white text-center leading-tight transition-colors line-clamp-2 w-full px-0.5">{topic}</span>
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}{/* end covers accordion content */}
+                    </div>{/* end What Genie Covers accordion */}
+
                     </>{/* end accordions */}
 
                   </div>{/* end right column */}
@@ -5507,9 +5520,9 @@ export default function AidAgentPage() {
 
             </div>{/* end dashboard wrapper */}
 
-            {/* ── Mobile chat messages — inline, shown only on mobile ── */}
-            {messages.length > 0 && (
-              <div className="md:hidden px-4 py-6 space-y-5 max-w-4xl mx-auto w-full">
+            {/* ── Mobile chat messages — disabled; chat now embedded in right column ── */}
+            {messages.length > 0 && false && (
+              <div className="hidden px-4 py-6 space-y-5 max-w-4xl mx-auto w-full">
                 {messageBubbles}
                 {typingIndicator}
                 <div ref={bottomRef} />
@@ -5641,8 +5654,8 @@ export default function AidAgentPage() {
             </div>
           )}
 
-          {/* Input area — mobile only (desktop uses right column chat card) */}
-          <div className="shrink-0 relative md:hidden px-3 pt-1.5 pb-1.5" style={{ zIndex: 3 }}>
+          {/* Input area — disabled; all sizes use embedded chat in right column */}
+          <div className="shrink-0 relative hidden px-3 pt-1.5 pb-1.5" style={{ zIndex: 3 }}>
             {/* Ambient glow bloom behind chatbox */}
 
             <div className="relative w-full max-w-xl mx-auto">
