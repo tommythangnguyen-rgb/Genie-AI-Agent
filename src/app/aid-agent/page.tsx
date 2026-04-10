@@ -4993,7 +4993,7 @@ export default function AidAgentPage() {
               left: "50%",
               top: "36%",
               transform: "translateX(-50%)",
-              zIndex: 0,
+              zIndex: 4,
               opacity: 0.18,
               pointerEvents: "none",
             } : {
