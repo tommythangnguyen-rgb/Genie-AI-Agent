@@ -4582,11 +4582,19 @@ export default function AidAgentPage() {
             <div className="absolute inset-x-0 bottom-0 h-40" style={{ background: "linear-gradient(to top, rgba(2,8,21,0.95) 0%, transparent 100%)" }} />
           </div>
 
-          {/* ── MOBILE: photo-based splash ── */}
+          {/* ── MOBILE: hero video splash ── */}
           <div className="block md:hidden absolute inset-0">
-            <img src="/images/intro-splash-mobile.jpg" alt="" className="w-full h-full object-cover object-[50%_40%]" />
-            {/* Dark overlay — bright daytime photo needs stronger scrim for text legibility */}
-            <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(2,8,21,0.55) 0%, rgba(2,8,21,0.30) 35%, rgba(2,8,21,0.55) 70%, rgba(2,8,21,0.97) 100%)" }} />
+            <video
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-full object-cover object-[50%_40%]"
+            >
+              <source src="/videos/hero-genie.mp4" type="video/mp4" />
+              <img src="/images/intro-splash-mobile.jpg" alt="" className="w-full h-full object-cover object-[50%_40%]" />
+            </video>
+            <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(2,8,21,0.45) 0%, rgba(2,8,21,0.20) 35%, rgba(2,8,21,0.45) 70%, rgba(2,8,21,0.95) 100%)" }} />
           </div>
 
           {/* ── DESKTOP: centre content (CSS text — always crisp) ── */}
