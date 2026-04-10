@@ -4827,6 +4827,51 @@ export default function AidAgentPage() {
                 ))}
               </div>
 
+              {/* Contact Leaders (collapsible) */}
+              {(() => {
+                const ck = "lc-contact-leaders";
+                const expanded = expandedSections.has(ck);
+                const contacts = [
+                  { label: "Find My Rep",      sub: "U.S. House",        href: "https://www.house.gov/representatives/find-your-representative", Icon: Landmark },
+                  { label: "Find My Senator",  sub: "U.S. Senate",       href: "https://www.senate.gov/senators/senators-contact.htm",          Icon: Users },
+                  { label: "White House",       sub: "Contact President", href: "https://www.whitehouse.gov/contact",                            Icon: Star },
+                  { label: "Congress.gov",      sub: "Bills & Laws",      href: "https://congress.gov",                                          Icon: BookOpen },
+                  { label: "Elected Officials", sub: "USA.gov",           href: "https://www.usa.gov/elected-officials",                         Icon: ShieldCheck },
+                  { label: "State Lawmakers",   sub: "NCSL Directory",    href: "https://www.ncsl.org/state-legislatures",                       Icon: MapPin },
+                ];
+                return (
+                  <div>
+                    <div className="flex items-center gap-1.5 mb-2 cursor-pointer" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                      <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[#D4AF37]/[0.18]" />
+                      <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-[#D4AF37]/[0.22]">
+                        <Landmark className="h-2.5 w-2.5 text-[#D4AF37]/80" />
+                        <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Contact Leaders</span>
+                        <ChevronDown className={`h-2.5 w-2.5 text-white/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} />
+                      </div>
+                      <div className="h-px w-3 bg-[#D4AF37]/[0.18]" />
+                    </div>
+                    {expanded && (
+                      <div className="grid grid-cols-2 gap-2">
+                        {contacts.map(({ label, sub, href, Icon }) => (
+                          <a key={href} href={href} target="_blank" rel="noopener noreferrer"
+                            className="flex items-center gap-2 px-3 py-2.5 rounded-xl ring-1 ring-white/[0.08] hover:ring-[#D4AF37]/40 transition-all duration-150 group"
+                            style={{ background: "rgba(10,20,44,0.55)" }}>
+                            <div className="p-1.5 rounded-lg shrink-0" style={{ background: "rgba(212,175,55,0.12)" }}>
+                              <Icon className="h-3.5 w-3.5 text-[#D4AF37]" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <p className="text-[11px] font-bold text-white/85 group-hover:text-white truncate leading-tight transition-colors">{label}</p>
+                              <p className="text-[9px] text-white/35 truncate leading-tight">{sub}</p>
+                            </div>
+                            <ExternalLink className="h-2.5 w-2.5 text-white/20 group-hover:text-[#D4AF37]/60 shrink-0 transition-colors" />
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
+
               {/* Videos (collapsible) */}
               {(() => {
                 const ck = "lc-fafsa-vid";
@@ -6041,6 +6086,51 @@ export default function AidAgentPage() {
                   </button>
                 ))}
               </div>
+
+              {/* Contact Leaders (collapsible) */}
+              {(() => {
+                const ck = "rc-contact-leaders";
+                const expanded = expandedSections.has(ck);
+                const contacts = [
+                  { label: "Find My Rep",      sub: "U.S. House",        href: "https://www.house.gov/representatives/find-your-representative", Icon: Landmark },
+                  { label: "Find My Senator",  sub: "U.S. Senate",       href: "https://www.senate.gov/senators/senators-contact.htm",          Icon: Users },
+                  { label: "White House",       sub: "Contact President", href: "https://www.whitehouse.gov/contact",                            Icon: Star },
+                  { label: "Congress.gov",      sub: "Bills & Laws",      href: "https://congress.gov",                                          Icon: BookOpen },
+                  { label: "Elected Officials", sub: "USA.gov",           href: "https://www.usa.gov/elected-officials",                         Icon: ShieldCheck },
+                  { label: "State Lawmakers",   sub: "NCSL Directory",    href: "https://www.ncsl.org/state-legislatures",                       Icon: MapPin },
+                ];
+                return (
+                  <div>
+                    <div className="flex items-center gap-1.5 mb-2 cursor-pointer" onClick={() => setExpandedSections(p => { const n = new Set(p); n.has(ck) ? n.delete(ck) : n.add(ck); return n; })}>
+                      <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[#D4AF37]/[0.18]" />
+                      <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#091222] ring-1 ring-[#D4AF37]/[0.22]">
+                        <Landmark className="h-2.5 w-2.5 text-[#D4AF37]/80" />
+                        <span className="text-[8px] font-bold uppercase tracking-[0.14em] text-white/50">Contact Leaders</span>
+                        <ChevronDown className={`h-2.5 w-2.5 text-white/30 transition-transform duration-200${expanded ? " rotate-180" : ""}`} />
+                      </div>
+                      <div className="h-px w-3 bg-[#D4AF37]/[0.18]" />
+                    </div>
+                    {expanded && (
+                      <div className="grid grid-cols-2 gap-2">
+                        {contacts.map(({ label, sub, href, Icon }) => (
+                          <a key={href} href={href} target="_blank" rel="noopener noreferrer"
+                            className="flex items-center gap-2 px-3 py-2.5 rounded-xl ring-1 ring-white/[0.08] hover:ring-[#D4AF37]/40 transition-all duration-150 group"
+                            style={{ background: "rgba(10,20,44,0.55)" }}>
+                            <div className="p-1.5 rounded-lg shrink-0" style={{ background: "rgba(212,175,55,0.12)" }}>
+                              <Icon className="h-3.5 w-3.5 text-[#D4AF37]" />
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <p className="text-[11px] font-bold text-white/85 group-hover:text-white truncate leading-tight transition-colors">{label}</p>
+                              <p className="text-[9px] text-white/35 truncate leading-tight">{sub}</p>
+                            </div>
+                            <ExternalLink className="h-2.5 w-2.5 text-white/20 group-hover:text-[#D4AF37]/60 shrink-0 transition-colors" />
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
 
               {/* Admin Videos (collapsible) */}
               {(() => {
