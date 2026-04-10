@@ -3394,6 +3394,9 @@ export default function AidAgentPage() {
   const [isDark, setIsDark] = useState(true);
   const GENIE_WELCOME = "Hi! Which role best describes you today? I can help with FAFSA questions, award letters, R2T4 calculations, and more.";
   const [welcomeTyped, setWelcomeTyped] = useState("");
+  const [heroMuted, setHeroMuted] = useState(true);
+  const heroVideoDesktopRef = useRef<HTMLVideoElement>(null);
+  const heroVideoMobileRef = useRef<HTMLVideoElement>(null);
   // Daily rotation offset — shifts which tips appear first, updates each day
   const tipsRotationOffset = useMemo(() => Math.floor(Date.now() / 86400000), []);
 
@@ -3975,6 +3978,12 @@ export default function AidAgentPage() {
     }
   };
 
+  // Accordion shortcut: send message then scroll chat window into view
+  const sendFromAccordion = (msg: string) => {
+    sendMessage(msg);
+    setTimeout(() => tipsRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 80);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     sendMessage(input);
@@ -4365,8 +4374,8 @@ export default function AidAgentPage() {
     <div key={msg.id} className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
       {msg.role === "assistant" && (
         <div className="shrink-0 mt-1">
-          <div className="p-1.5 rounded-xl ring-1 ring-indigo-400/40" style={{ background: "rgba(99,102,241,0.35)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", boxShadow: "0 0 12px rgba(99,102,241,0.35), inset 0 1px 0 rgba(255,255,255,0.20)" }}>
-            <GenieBottle className="h-4 w-4 text-white genie-icon-shimmer" />
+          <div className="p-1.5 rounded-xl" style={{ background: "rgba(212,175,55,0.18)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", boxShadow: "0 0 14px rgba(212,175,55,0.40), 0 0 0 1px rgba(212,175,55,0.28), inset 0 1px 0 rgba(255,255,255,0.15)" }}>
+            <GenieBottle className="h-4 w-4 genie-icon-shimmer" style={{ color: "#D4AF37", filter: "drop-shadow(0 0 6px rgba(212,175,55,0.75))" }} />
           </div>
         </div>
       )}
@@ -4420,8 +4429,8 @@ export default function AidAgentPage() {
 
   const typingIndicator = isLoading ? (
     <div className="flex gap-3 justify-start genie-fade-in-up">
-      <div className="shrink-0 mt-1 p-1.5 rounded-xl ring-1 ring-indigo-400/40" style={{ background: "rgba(99,102,241,0.35)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", boxShadow: "0 0 12px rgba(99,102,241,0.35), inset 0 1px 0 rgba(255,255,255,0.20)" }}>
-        <GenieBottle className="h-4 w-4 text-white genie-icon-shimmer" />
+      <div className="shrink-0 mt-1 p-1.5 rounded-xl" style={{ background: "rgba(212,175,55,0.18)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", boxShadow: "0 0 14px rgba(212,175,55,0.40), 0 0 0 1px rgba(212,175,55,0.28), inset 0 1px 0 rgba(255,255,255,0.15)" }}>
+        <GenieBottle className="h-4 w-4 genie-icon-shimmer" style={{ color: "#D4AF37", filter: "drop-shadow(0 0 6px rgba(212,175,55,0.75))" }} />
       </div>
       <div className="px-5 py-4 rounded-2xl rounded-tl-sm" style={{ background: "rgba(255,255,255,0.07)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 28px rgba(0,0,0,0.35), 0 1px 0 rgba(255,255,255,0.12) inset" }}>
         <div className="flex items-center gap-1.5">
@@ -4570,21 +4579,28 @@ export default function AidAgentPage() {
           onClick={dismissIntro}
         >
 
-          {/* ── DESKTOP: photo-based premium splash ── */}
+          {/* ── DESKTOP: hero video splash ── */}
           <div className="hidden md:block absolute inset-0">
-            {/* Hero photo */}
-            <img src="/images/intro-splash.jpg" alt="" className="w-full h-full object-cover object-[50%_35%]" />
-            {/* Dark overlay — preserves legibility of branding text */}
-            <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, rgba(2,8,21,0.72) 0%, rgba(4,12,32,0.60) 40%, rgba(3,10,28,0.68) 100%)" }} />
-            {/* Subtle vignette edge */}
+            <video
+              ref={heroVideoDesktopRef}
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-full object-cover object-[50%_35%]"
+            >
+              <source src="/videos/hero-genie.mp4" type="video/mp4" />
+              <img src="/images/intro-splash.jpg" alt="" className="w-full h-full object-cover object-[50%_35%]" />
+            </video>
+            <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, rgba(2,8,21,0.62) 0%, rgba(4,12,32,0.48) 40%, rgba(3,10,28,0.58) 100%)" }} />
             <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 110% 100% at 50% 50%, transparent 45%, rgba(2,8,21,0.55) 100%)" }} />
-            {/* Bottom fade for CTA area */}
             <div className="absolute inset-x-0 bottom-0 h-40" style={{ background: "linear-gradient(to top, rgba(2,8,21,0.95) 0%, transparent 100%)" }} />
           </div>
 
           {/* ── MOBILE: hero video splash ── */}
           <div className="block md:hidden absolute inset-0">
             <video
+              ref={heroVideoMobileRef}
               autoPlay
               muted
               loop
@@ -4596,6 +4612,25 @@ export default function AidAgentPage() {
             </video>
             <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(2,8,21,0.45) 0%, rgba(2,8,21,0.20) 35%, rgba(2,8,21,0.45) 70%, rgba(2,8,21,0.95) 100%)" }} />
           </div>
+
+          {/* ── Audio toggle button (both desktop + mobile) ── */}
+          <button
+            type="button"
+            onClick={() => {
+              const next = !heroMuted;
+              setHeroMuted(next);
+              if (heroVideoDesktopRef.current) heroVideoDesktopRef.current.muted = next;
+              if (heroVideoMobileRef.current) heroVideoMobileRef.current.muted = next;
+            }}
+            className="absolute bottom-4 right-4 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-semibold text-white/70 hover:text-white transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40"
+            style={{ background: "rgba(0,0,0,0.45)", backdropFilter: "blur(8px)", border: "1px solid rgba(255,255,255,0.15)" }}
+          >
+            {heroMuted ? (
+              <><svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>Unmute</>
+            ) : (
+              <><svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>Mute</>
+            )}
+          </button>
 
           {/* ── DESKTOP: centre content (CSS text — always crisp) ── */}
           <div className="hidden md:flex absolute inset-0 flex-col items-center justify-center gap-7" style={{ paddingBottom: "6vh" }}>
@@ -5147,11 +5182,10 @@ export default function AidAgentPage() {
                       {/* Panel header */}
                       <div className="shrink-0 flex items-center justify-between px-5 py-3 border-b border-white/[0.10]" style={{ background: "rgba(255,255,255,0.05)" }}>
                         <div className="flex items-center gap-2.5">
-                          <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/25">
-                            <GenieBottle className="h-3.5 w-3.5 text-white genie-icon-shimmer" />
+                          <div className="p-1.5 rounded-lg" style={{ background: "rgba(212,175,55,0.18)", boxShadow: "0 0 12px rgba(212,175,55,0.45), 0 0 0 1px rgba(212,175,55,0.30)" }}>
+                            <GenieBottle className="h-3.5 w-3.5 genie-icon-shimmer" style={{ color: "#D4AF37", filter: "drop-shadow(0 0 5px rgba(212,175,55,0.80))" }} />
                           </div>
                           <span className="text-sm font-bold text-white tracking-tight">askGenie</span>
-                          <span className="text-xs text-white/30 font-medium">— Student Aid Hub</span>
                         </div>
                         {messages.length > 0 && (
                           <div className="flex items-center gap-2">
@@ -5177,8 +5211,8 @@ export default function AidAgentPage() {
                       ) : (
                         <div className="flex-1 overflow-y-auto min-h-0 genie-scroll-main px-5 py-5">
                           <div className="flex items-start gap-2.5">
-                            <div className="shrink-0 p-1.5 rounded-xl bg-gradient-to-br from-cyan-500/80 to-teal-600/80 shadow-md shadow-cyan-500/20 mt-0.5">
-                              <GenieBottle className="h-3.5 w-3.5 text-white" />
+                            <div className="shrink-0 p-1.5 rounded-xl mt-0.5" style={{ background: "rgba(212,175,55,0.18)", boxShadow: "0 0 12px rgba(212,175,55,0.45), 0 0 0 1px rgba(212,175,55,0.30)" }}>
+                              <GenieBottle className="h-3.5 w-3.5 genie-icon-shimmer" style={{ color: "#D4AF37", filter: "drop-shadow(0 0 5px rgba(212,175,55,0.80))" }} />
                             </div>
                             <div className="flex-1 px-3.5 py-2.5 rounded-2xl rounded-tl-sm ring-1 ring-white/[0.10]"
                               style={{ background: "rgba(255,255,255,0.07)", boxShadow: "0 2px 12px rgba(0,0,0,0.30)" }}>
@@ -5342,7 +5376,7 @@ export default function AidAgentPage() {
                                 {[...items, ...more].map(({ icon: Icon, label, q }) => (
                                   <button
                                     key={`${role}-${label}`}
-                                    onClick={() => sendMessage(q)}
+                                    onClick={() => sendFromAccordion(q)}
                                     className={`flex flex-col items-center gap-1.5 p-2 rounded-2xl ${tc.outerHover} transition-all duration-200 group ${tc.focusRing} focus-visible:outline-none focus-visible:ring-2 hover:scale-[1.06] active:scale-95`}
                                   >
                                     <div
@@ -5420,7 +5454,7 @@ export default function AidAgentPage() {
                                 {rotatedTips.map(({ text, prompt }, i) => (
                                   <button
                                     key={i}
-                                    onClick={() => sendMessage(prompt)}
+                                    onClick={() => sendFromAccordion(prompt)}
                                     className="w-full flex items-start gap-3 px-4 py-3 text-left group hover:bg-white/[0.05] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400"
                                   >
                                     <span className={`mt-1.5 h-1.5 w-1.5 rounded-full shrink-0 ring-1 ${activeTipData.accent} group-hover:scale-125 transition-transform`} />
@@ -5503,7 +5537,7 @@ export default function AidAgentPage() {
                               <button
                                 key={topic}
                                 type="button"
-                                onClick={() => sendMessage(COVERAGE_TOPIC_PROMPTS[topic] ?? `Tell me about ${topic}.`)}
+                                onClick={() => sendFromAccordion(COVERAGE_TOPIC_PROMPTS[topic] ?? `Tell me about ${topic}.`)}
                                 className="flex flex-col items-center gap-1.5 p-1.5 rounded-2xl hover:bg-[#D4AF37]/[0.08] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] hover:scale-[1.06] active:scale-95"
                               >
                                 <div className={`w-10 h-10 rounded-[12px] ${bg} ring-1 ${ring} flex items-center justify-center shadow-md group-hover:shadow-[0_0_14px_rgba(212,175,55,0.20)] transition-all`}>
