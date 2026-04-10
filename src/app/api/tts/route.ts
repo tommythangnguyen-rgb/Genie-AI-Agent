@@ -10,15 +10,14 @@
  *
  * Returns 503 when key/region absent → client falls back to Web Speech API.
  *
- * Voice: en-US-AriaNeural — warm, natural, calm female (Microsoft's best).
- * Style: "calm" + slight rate/pitch reduction for soothing delivery.
+ * GET /api/tts — returns config status (safe for diagnostics, no key exposed).
  */
 
 import { beautifulEloquentSpeech } from "@/lib/tts/speech-utils";
 
 const VOICE  = process.env.AZURE_SPEECH_VOICE ?? "en-US-AriaNeural";
-const REGION = process.env.AZURE_SPEECH_REGION;
-const KEY    = process.env.AZURE_SPEECH_KEY;
+const REGION = process.env.AZURE_SPEECH_REGION?.trim();
+const KEY    = process.env.AZURE_SPEECH_KEY?.trim();
 
 function escapeXml(s: string): string {
   return s
@@ -29,8 +28,20 @@ function escapeXml(s: string): string {
     .replace(/'/g,  "&apos;");
 }
 
+/** GET /api/tts — diagnostic: are credentials configured? */
+export async function GET() {
+  return Response.json({
+    configured: !!(KEY && REGION),
+    region: REGION ?? null,
+    voice: VOICE,
+    keyPresent: !!KEY,
+    regionPresent: !!REGION,
+  });
+}
+
 export async function POST(req: Request) {
   if (!KEY || !REGION) {
+    console.log("[AzureTTS] Missing credentials — AZURE_SPEECH_KEY or AZURE_SPEECH_REGION not set");
     return new Response("Azure Speech key/region not configured", { status: 503 });
   }
 
@@ -39,13 +50,15 @@ export async function POST(req: Request) {
 
   const processed = escapeXml(beautifulEloquentSpeech(text).slice(0, 9000));
 
-  const ssml = `<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xmlns:mstts='http://www.w3.org/2001/mstts' xml:lang='${lang}'>
+  // Simple, widely-compatible SSML — no express-as style which can 400
+  // on some Azure subscription tiers. AriaNeural already sounds natural.
+  const ssml = `<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='${lang}'>
   <voice name='${VOICE}'>
-    <mstts:express-as style='calm'>
-      <prosody rate='-4%' pitch='-3%'>${processed}</prosody>
-    </mstts:express-as>
+    <prosody rate='-4%' pitch='-3%'>${processed}</prosody>
   </voice>
 </speak>`;
+
+  console.log(`[AzureTTS] Requesting voice=${VOICE} region=${REGION} textLen=${processed.length}`);
 
   const azureRes = await fetch(
     `https://${REGION}.tts.speech.microsoft.com/cognitiveservices/v1`,
@@ -63,10 +76,13 @@ export async function POST(req: Request) {
 
   if (!azureRes.ok) {
     const err = await azureRes.text().catch(() => "");
-    console.error(`[AzureTTS] ${azureRes.status}:`, err);
-    return new Response(`Azure TTS error: ${azureRes.status}`, { status: azureRes.status >= 500 ? 502 : azureRes.status });
+    console.error(`[AzureTTS] ${azureRes.status} from ${REGION}:`, err.slice(0, 500));
+    return new Response(`Azure TTS error: ${azureRes.status}`, {
+      status: azureRes.status >= 500 ? 502 : azureRes.status,
+    });
   }
 
+  console.log(`[AzureTTS] Success — streaming audio`);
   return new Response(azureRes.body, {
     headers: {
       "Content-Type": "audio/mpeg",

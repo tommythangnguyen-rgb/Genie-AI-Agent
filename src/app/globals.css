@@ -712,6 +712,30 @@
     genie-orb-float          4.5s ease-in-out infinite !important;
 }
 
+/* Orb: responsive positioning via CSS — no JS state needed */
+.genie-orb-mascot {
+  position: fixed;
+  pointer-events: none;
+  /* Mobile: gentle CSS roam across the background */
+  z-index: 4;
+  opacity: 0.32;
+  animation:
+    genie-mobile-orb-roam-x 30s ease-in-out infinite,
+    genie-mobile-orb-roam-y 24s ease-in-out infinite;
+}
+@media (min-width: 1024px) {
+  .genie-orb-mascot {
+    /* Desktop: fixed right side, JS mouse-follow takes over after first click */
+    right: max(20px, calc(50vw - 530px));
+    top: 92px;
+    left: auto;
+    animation: none;
+    z-index: 1;
+    opacity: 0.92;
+    transition: opacity 0.6s ease;
+  }
+}
+
 /* ── Chatbox invite glow — neon teal ── */
 @keyframes genie-chatbox-invite {
   0%, 100% { box-shadow: 0 0 0 1px rgba(0,212,255,0.30), 0 0 16px 4px rgba(0,212,255,0.14), inset 0 0 0 1px rgba(0,212,255,0.08); }

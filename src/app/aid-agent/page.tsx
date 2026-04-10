@@ -3370,6 +3370,218 @@ function getSiteGradient(hostname: string): [string, string] {
   return _SITE_GRADIENTS[Math.abs(hash) % _SITE_GRADIENTS.length];
 }
 
+// ─── Welcome Messages ─────────────────────────────────────────────────────────
+
+const GENIE_WELCOME_MESSAGES: string[] = [
+  // Role-selection openers
+  "Hi! Which role best describes you today? I can help with FAFSA questions, award letters, R2T4 calculations, and more.",
+  "Welcome! Are you a student, parent, administrator, or policy leader? Tell me your role and I'll tailor my help.",
+  "Hello! Whether you're applying for aid or reviewing regulations, I'm here. What's your role today?",
+  "Good to see you! I specialize in federal student aid. Are you a student, parent, school admin, or auditor?",
+  "Hey there! I can answer questions across the entire student aid lifecycle. Who am I helping today?",
+  "Welcome to AskGenie! Students, parents, counselors, and aid administrators — I'm ready for all of you.",
+  "Hi! Federal financial aid can be overwhelming. Let me be your guide. What's your role today?",
+  "Hello and welcome! From FAFSA to loan repayment, I've got you covered. Who are you today?",
+  "Greetings! I'm your student aid expert. Let me know if you're a student, parent, administrator, or leader.",
+  "Welcome! Ready to simplify financial aid? Tell me your role and let's get started.",
+  // FAFSA-focused
+  "Ready to tackle FAFSA? Whether you're filing for the first time or updating your info, I'm here to help.",
+  "FAFSA season can be stressful — let me make it easier. What questions do you have?",
+  "Hi! The FAFSA opens doors to grants, loans, and work-study. Let me help you navigate it.",
+  "Did you know the FAFSA has a priority deadline at most schools? Ask me how to make sure you don't miss it.",
+  "FAFSA tip: the sooner you file, the better your chances at limited campus-based aid. Need help getting started?",
+  "Hi! Whether you're completing the FAFSA for the first time or making corrections, I can walk you through every step.",
+  "The Simplified FAFSA changed a lot for the 2024-25 award year. I can explain what's new — just ask!",
+  "Confused by the Student Aid Index? I can explain how it affects your aid package.",
+  "Hi! FAFSA, CSS Profile, verification — I know them all. What do you need help with today?",
+  "Did you know dependent students must report parental income on the FAFSA? I can explain the rules.",
+  // Scholarship-focused
+  "Looking for scholarship money? I can help you search, apply, and maximize your awards.",
+  "Hi! Scholarships don't have to be repaid — let's find every dollar you qualify for.",
+  "Did you know most scholarship dollars go unclaimed every year? I can help you find and apply for them.",
+  "Hello! Outside scholarships can reduce or supplement your aid package. I can help you understand the impact.",
+  "Hi! From institutional merit aid to private scholarships, I know the landscape. What are you looking for?",
+  "Searching for scholarships? Tell me your major, background, and interests and I'll point you in the right direction.",
+  "Hi! Many employers also offer tuition assistance. Ask me how to stack scholarship and employer aid.",
+  "Did you know some states offer additional grant programs on top of federal aid? Ask me about yours.",
+  "Hello! I can help you craft a compelling scholarship essay or understand award renewal requirements.",
+  "Scholarships for first-generation students, veterans, STEM majors, and more — I know them all. What fits you?",
+  // Loan-focused
+  "Hi! Federal student loans come with flexible repayment options that private loans often don't. Ask me anything.",
+  "Confused about subsidized vs. unsubsidized loans? I can explain the difference and what it means for you.",
+  "Hello! PLUS loans, Direct loans, Perkins loans — I can break down your borrowing options.",
+  "Did you know you can pay loan interest while in school to reduce your total debt? Ask me how.",
+  "Hi! Income-driven repayment plans can lower your monthly payment significantly. Want to know more?",
+  "Thinking about refinancing student loans? I can explain when it helps — and when it doesn't.",
+  "Hi! Public Service Loan Forgiveness can eliminate federal loan balances after 10 years of qualifying payments. I'll explain.",
+  "Worried about loan default? I can explain deferment, forbearance, and income-driven plans to keep you on track.",
+  "Hello! The SAVE plan is the newest income-driven repayment option. Ask me how it compares to IBR and PAYE.",
+  "Did you know Direct PLUS Loans for parents have different terms than student loans? I can explain.",
+  // Award letter guidance
+  "Hi! Got your financial aid award letter? I can help you decode every line — grants, loans, work-study, and all.",
+  "Award letters can be confusing. Let me translate the numbers into plain English for you.",
+  "Hello! Not all aid is equal — some must be repaid. I can help you understand your offer.",
+  "Got multiple award letters from different schools? I can help you compare them apples-to-apples.",
+  "Hi! Work-study funds aren't automatic — you have to earn them through a job. Ask me how it works.",
+  "Did you know you can appeal a financial aid decision? I can help you write a professional appeal letter.",
+  "Hello! Understanding your Cost of Attendance vs. Expected Aid gap is critical. Let me help you do that math.",
+  "Hi! Award letters list your full cost — tuition, housing, meals, books. I can help you build a real budget.",
+  "Your aid package may change each year. I can explain satisfactory academic progress and other renewal requirements.",
+  "Hello! Some grants and scholarships have grade requirements to renew. Ask me how to protect your award.",
+  // R2T4 / administrators
+  "Hi! R2T4 calculations are complex — I can walk through every step of the Return to Title IV process.",
+  "Hello, Administrator! Verification, R2T4, COD reporting — I'm built for your compliance questions.",
+  "Hi! Whether you need help with PPA compliance, enrollment reporting, or award year transitions, I've got you.",
+  "Need help setting up your professional judgment policy? I can outline best practices from the FSA Handbook.",
+  "Hi! Special circumstances adjustments allow schools to update the SAI for unusual situations. Ask me how.",
+  "Did you know schools must complete R2T4 within 45 days of determining a student withdrew? I can explain the timeline.",
+  "Hello! Reconciling COD data with your SIS is critical at year-end. I can walk you through common pitfalls.",
+  "Hi Administrator! From entrance counseling requirements to enrollment certifications, I know Title IV compliance.",
+  "Consortium agreements, study abroad aid, and non-standard terms — I can help with the complex scenarios.",
+  "Hello! Audit findings, program reviews, and liabilities — I can help you understand your institutional risk.",
+  // Policy and leadership
+  "Hello, Policy Leader! From HEA reauthorization to regulatory updates, I track the latest in student aid policy.",
+  "Hi! I can summarize recent Federal Register notices, Dear Colleague Letters, and Electronic Announcements.",
+  "Hello! Congressional budget impacts on Pell Grants and loan programs are my specialty — ask me anything.",
+  "Hi Leader! Understanding the political landscape of higher ed funding is essential. Let me be your briefing tool.",
+  "Did you know Pell Grant maximum awards are set annually by Congress? I can explain current funding levels.",
+  "Hi! State authorization reciprocity, distance learning regulations, and gainful employment rules — I know them all.",
+  "Hello! I can help you draft talking points on student loan forgiveness, FAFSA simplification, or Pell expansion.",
+  "Hi! Federal-state aid partnerships and need-based vs. merit aid policy tradeoffs are complex. Let me help.",
+  "Did you know institutional risk categories affect ED's oversight intensity? I can explain the framework.",
+  "Hello Leader! Equity in college access and the role of federal aid programs — let's dig in.",
+  // Parents
+  "Hi, Parents! I know navigating aid for your child can be overwhelming. I'm here to help every step.",
+  "Hello! Parent PLUS Loans, dependency overrides, and reporting requirements — I can answer parent-specific questions.",
+  "Hi! As a parent, your income and assets directly impact your child's aid eligibility. I can explain how.",
+  "Thinking about the CSS Profile vs. FAFSA? Some schools require both. Let me walk you through the difference.",
+  "Hi! If you're a divorced or separated parent, aid rules can get complicated. Ask me how FAFSA handles your situation.",
+  "Hello Parent! College savings plans like 529s affect aid differently than you might expect. Let me explain.",
+  "Hi! Small business owners and self-employed parents face unique FAFSA reporting rules. I can help.",
+  "Did you know you can transfer your remaining GI Bill benefits to a dependent child? I can explain how.",
+  "Hello! If your family income changed recently, you may qualify for more aid than the FAFSA shows. Ask me.",
+  "Hi Parent! Understanding Expected Family Contribution — now called the Student Aid Index — is the key to maximizing aid.",
+  // Encouraging / motivational
+  "Hi! Every question you ask brings you closer to funding your education. I'm here for all of them.",
+  "Hello! College is an investment in your future, and you deserve every dollar of aid available. Let me help.",
+  "Hi! Don't let financial barriers stop you. I can help you find every grant, scholarship, and loan available.",
+  "Hello! Thousands of students leave aid money on the table each year. I'm here to help you claim what's yours.",
+  "Hi! Whether you're applying to college or already enrolled, it's never too late to optimize your financial aid.",
+  "Hello! You've got this — and I've got the financial aid knowledge to back you up. Ask me anything.",
+  "Hi! Your future is worth investing in. Let me help you find the funding to make it happen.",
+  "Hello! The path through financial aid can feel winding, but you don't have to walk it alone. I'm here.",
+  "Hi! Ask me anything — no question is too basic when it comes to funding your education.",
+  "Hello! Big dreams deserve big funding. Let me help you build the strongest financial aid package possible.",
+  // Deadline reminders
+  "Hi! Financial aid deadlines are critical. Ask me about FAFSA opening dates, priority deadlines, and state cutoffs.",
+  "Hello! Many states have early March financial aid deadlines. Have you filed your FAFSA yet?",
+  "Hi! Missing the priority deadline can cost you thousands in campus-based aid. Let me help you stay on track.",
+  "Did you know some scholarship deadlines fall before the FAFSA opens? Plan early — ask me how.",
+  "Hi! Award year transitions happen July 1. I can help you understand what changes and what you need to do.",
+  "Hello! Loan entrance counseling must be completed before aid disbursement. Have you done yours?",
+  "Hi! Master Promissory Notes are required for federal loans. I can walk you through the process.",
+  "Did you know Satisfactory Academic Progress is reviewed at the end of every semester? Ask me what it means.",
+  "Hello! Some schools require mid-year recertification for income-driven repayment. I can help you prepare.",
+  "Hi! Renewal deadlines for institutional scholarships often differ from federal aid deadlines. Let me clarify yours.",
+  // Specific aid types
+  "Hi! Federal Pell Grants are the foundation of need-based aid. Ask me how eligibility is determined.",
+  "Hello! The Federal Supplemental Educational Opportunity Grant targets students with exceptional need. Ask me more.",
+  "Hi! Work-Study programs provide on- and off-campus employment while you're enrolled. Interested?",
+  "Did you know Iraq and Afghanistan Service Grants exist for children of 9/11 victims? Ask me about eligibility.",
+  "Hi! Teacher Education Assistance for College and Higher Education grants are available for future teachers. I can explain.",
+  "Hello! HRSA scholarships support health professions students in exchange for service. Ask me about them.",
+  "Hi! AmeriCorps education awards can be used to repay student loans. Ask me how.",
+  "Did you know the National Health Service Corps offers loan repayment for primary care providers? Ask me.",
+  "Hi! GI Bill benefits, Yellow Ribbon, and Tuition Assistance for active duty — I know military education benefits well.",
+  "Hello! VR&E (Vocational Rehabilitation) can cover full education costs for eligible veterans. Ask me more.",
+  // Verification process
+  "Hi! Selected for verification? Don't panic — I can walk you through exactly what documents you need.",
+  "Hello! FAFSA verification is a normal process selected schools use to confirm your information. I'll explain.",
+  "Hi! Tax transcripts, identity verification, and household size — verification can ask for all of these. Ask me.",
+  "Did you know you can use the IRS Data Retrieval Tool to simplify verification? I can walk you through it.",
+  "Hi! V1, V4, V5 — verification tracking groups each require different documents. I know them all.",
+  "Hello! Conflicting information can trigger verification even after you've already submitted. I can help you resolve it.",
+  "Hi! Verification must be completed before aid is disbursed. Let me help you move through it quickly.",
+  "Did you know schools can only request specific documents during verification? Ask me what's allowed.",
+  "Hi! If verification reveals changes to your FAFSA data, it can affect your aid package. I'll explain.",
+  "Hello! Professional judgment lets schools make adjustments for verification discrepancies. Ask me how it works.",
+  // Repayment and forgiveness
+  "Hi! Out of school and managing loans? I can help you navigate repayment options and forgiveness programs.",
+  "Hello! Income-Driven Repayment plans cap payments at a percentage of your discretionary income. Ask me which is right.",
+  "Hi! Loan rehabilitation can remove a default from your record and restore your aid eligibility. Ask me how.",
+  "Did you know borrower defense to repayment can discharge loans if your school defrauded you? Ask me more.",
+  "Hi! Total and Permanent Disability discharge eliminates federal loans for qualifying borrowers. I can explain.",
+  "Hello! Teacher Loan Forgiveness offers up to $17,500 for teachers in low-income schools. Ask me about eligibility.",
+  "Hi! Closed school discharge applies if your school closed while you were enrolled. I can explain your rights.",
+  "Did you know making extra payments toward principal can save thousands in interest? I can do the math with you.",
+  "Hi! Consolidation can simplify multiple loan payments but may affect your forgiveness timeline. Ask me to explain.",
+  "Hello! PSLF requires 120 qualifying payments on an IDR plan while working for a qualifying employer. I'll walk you through it.",
+  // General encouragement and help offers
+  "Hi! Ask me anything — from financial aid jargon to complex policy questions, I'm ready.",
+  "Hello! I combine AI smarts with deep knowledge of Title IV regulations to give you accurate, helpful answers.",
+  "Hi! Whether your question is simple or complex, I'll give you a clear, honest answer.",
+  "Hello! I'm updated with the latest FSA guidance, Dear Colleague Letters, and regulatory changes.",
+  "Hi! Don't hesitate to ask follow-up questions. I'm here for a conversation, not just a one-liner.",
+  "Hello! I can help you draft emails, prepare for meetings, or understand complex regulatory documents.",
+  "Hi! Financial aid literacy is power. Let me help you understand every aspect of your aid package.",
+  "Hello! I'm always learning from the latest ED guidance. You can trust that my answers reflect current policy.",
+  "Hi! From EFC to SAI, from COA to EFC, I can decode any financial aid acronym you throw at me.",
+  "Hello! Let's make financial aid simple together. What's on your mind today?",
+  // Additional unique starters
+  "Hi! Many students don't realize they can request a professional judgment review. Ask me when and how.",
+  "Hello! Dependency status on the FAFSA can be tricky. I can help you determine if you're dependent or independent.",
+  "Hi! Independent student status unlocks higher loan limits. Ask me how to qualify or request it.",
+  "Did you know students with unusual circumstances can appeal their dependency status? Ask me how.",
+  "Hi! Emancipated minors, homeless youth, and foster care alumni have special FAFSA provisions. Ask me about them.",
+  "Hello! If you're incarcerated, you may still qualify for Pell Grants under the Second Chance Pell program.",
+  "Hi! Students with disabilities may qualify for additional grants and loan discharge provisions. Ask me.",
+  "Hello! Undocumented and DACA students have limited federal aid options but may qualify for state programs. Ask me.",
+  "Hi! AB 540 students in California and similar state policies can unlock significant institutional aid. Ask me.",
+  "Hello! International students typically don't qualify for federal aid — but I can explain what options exist.",
+  "Hi! Part-time enrollment affects your aid eligibility and disbursement amounts. I'll explain the rules.",
+  "Hello! Less-than-half-time enrollment may still qualify for some aid. Ask me what's available.",
+  "Hi! Gap year? Taking time off can affect your Satisfactory Academic Progress and loan grace periods. I'll explain.",
+  "Hello! Transferring schools? I can help you understand how your aid follows you — or doesn't.",
+  "Hi! Running out of financial aid eligibility? I can explain the 150% rule and your options.",
+  "Hello! Overborrowing on student loans is a real risk. I can help you borrow only what you truly need.",
+  "Hi! A budget is your best financial aid tool. I can help you create one that accounts for all your costs.",
+  "Hello! Cost of Attendance includes more than tuition. Books, housing, transportation, and personal expenses count too.",
+  "Hi! Understanding the difference between direct and indirect costs helps you plan better. Ask me to explain.",
+  "Hello! Some schools have emergency aid funds for unexpected hardship. Ask me how to access them.",
+  "Hi! COVID-related HEERF grants were a one-time deal, but emergency institutional funds still exist. Ask me.",
+  "Hello! Food insecurity on campus is real — I can point you to resources that financial aid doesn't always cover.",
+  "Hi! Textbook costs can be reduced through library reserves, rentals, and open educational resources. Ask me.",
+  "Hello! On-campus housing vs. off-campus cost comparisons are part of your Cost of Attendance. I can help you analyze.",
+  "Hi! Meal plan costs are often built into COA. Ask me how they compare to cooking for yourself.",
+  "Hello! Commuter students have different COA components than residential students. I can help you understand yours.",
+  "Hi! Study abroad programs can use federal aid — but there are rules. Ask me how it works.",
+  "Hello! Online students often have different fee structures. I can help you understand how aid applies.",
+  "Hi! Concurrent enrollment at two schools can affect aid eligibility. Ask me about consortium agreements.",
+  "Hello! Graduate students have different loan limits and eligibility rules than undergrads. Ask me.",
+  "Hi! PhD students on full fellowships may still need to file the FAFSA for other programs. I'll explain why.",
+  "Hello! Professional degree students — law, medicine, dentistry — have unique loan options. Ask me.",
+  "Hi! Grad PLUS loans have no annual limits but require credit approval. Ask me how they compare to Direct Loans.",
+  "Hello! Graduate enrollment can restart your loan grace period under certain conditions. Ask me.",
+  "Hi! Employer tuition assistance and federal aid can be stacked strategically. Ask me how.",
+  "Hello! Union-sponsored scholarships and tuition benefits are often overlooked. Ask me how to find them.",
+  "Hi! Corporate tuition reimbursement programs differ from scholarships. I can explain tax implications too.",
+  "Hello! Military spouses and dependents have access to special scholarship programs. Ask me about MyCAA and more.",
+  "Hi! Native American students may qualify for tribal scholarships and BIA education grants. Ask me.",
+  "Hello! HBCU, HSI, and tribal college students have access to special institutional and federal funds. Ask me.",
+  "Hi! First-generation college students have dedicated support programs and grant opportunities. Ask me.",
+  "Hello! Returning adult students over 24 are automatically independent on the FAFSA. I can explain what that means.",
+  "Hi! Widows and widowers may have special aid considerations. Ask me how loss of a parent affects your FAFSA.",
+  "Hello! If a parent became disabled or passed away after filing the FAFSA, ask about professional judgment.",
+  "Hi! Natural disasters and major life disruptions can qualify for special circumstances adjustments. Ask me.",
+  "Hello! Job loss or significant income reduction can be grounds for a financial aid appeal. I'll help you prepare.",
+  "Hi! Medical expenses that reduce family ability to pay can sometimes be considered for aid adjustments.",
+  "Hello! I'm here for you through every stage — applying, enrolling, graduating, and repaying. What do you need?",
+  "Hi! Whether it's 7am or midnight, I'm always ready to help with your financial aid questions.",
+  "Hello! The student aid system is complex, but you don't have to navigate it alone. I'm your guide.",
+  "Hi! From your first FAFSA to your final loan payment, I've got knowledge to share every step of the way.",
+  "Hello! Great financial decisions start with great information. Ask me anything about student aid today.",
+];
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function AidAgentPage() {
@@ -3406,7 +3618,6 @@ export default function AidAgentPage() {
   const [orbGlowing, setOrbGlowing] = useState(false);
   const [mobileOrbExpanded, setMobileOrbExpanded] = useState(false);
   const [mobileOrbRoaming, setMobileOrbRoaming] = useState(false);
-  const [isDesktopOrb, setIsDesktopOrb] = useState(false);
   const [orbCelebrating, setOrbCelebrating] = useState(false);
   const orbGlowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const tipsRef = useRef<HTMLDivElement>(null);
@@ -3415,7 +3626,10 @@ export default function AidAgentPage() {
   const [slideIndex, setSlideIndex] = useState(0);
   const [openAccordions, setOpenAccordions] = useState<Set<string>>(new Set());
   const [isDark, setIsDark] = useState(true);
-  const GENIE_WELCOME = "Hi! Which role best describes you today? I can help with FAFSA questions, award letters, R2T4 calculations, and more.";
+  const GENIE_WELCOME = useMemo(
+    () => GENIE_WELCOME_MESSAGES[Math.floor(Math.random() * GENIE_WELCOME_MESSAGES.length)],
+    []
+  );
   const [welcomeTyped, setWelcomeTyped] = useState("");
   const [heroMuted, setHeroMuted] = useState(false);
   const heroVideoDesktopRef = useRef<HTMLVideoElement>(null);
@@ -3565,14 +3779,6 @@ export default function AidAgentPage() {
     };
   }, []);
 
-  // Track desktop vs mobile for orb
-  useEffect(() => {
-    const check = () => setIsDesktopOrb(window.innerWidth >= 1024);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-
   // Start mobile orb roaming on first user interaction (desktop only)
   useEffect(() => {
     const startRoam = () => {
@@ -3611,6 +3817,7 @@ export default function AidAgentPage() {
 
     el.style.right = "auto";
     el.style.transition = "none";
+    el.style.opacity = "0.50";
     el.style.left = px.v + "px";
     el.style.top  = py.v + "px";
 
@@ -5032,23 +5239,7 @@ export default function AidAgentPage() {
           <div
             ref={pcOrbRef}
             aria-hidden="true"
-            className="flex flex-col items-center pointer-events-none select-none"
-            style={!isDesktopOrb ? {
-              position: "fixed",
-              left: "50%",
-              top: "36%",
-              transform: "translateX(-50%)",
-              zIndex: 4,
-              opacity: 0.18,
-              pointerEvents: "none",
-            } : {
-              position: "fixed",
-              right: mobileOrbRoaming ? undefined : "max(20px, calc(50vw - 530px))",
-              top: mobileOrbRoaming ? undefined : "92px",
-              zIndex: 1,
-              opacity: mobileOrbRoaming ? 0.50 : 0.92,
-              transition: mobileOrbRoaming ? undefined : "opacity 0.6s ease",
-            }}
+            className="genie-orb-mascot flex flex-col items-center select-none"
           >
             <div
               className="relative flex items-center justify-center"
@@ -5130,7 +5321,7 @@ export default function AidAgentPage() {
                 <div className="relative w-full flex flex-col items-center">
 
                 {/* ── Two-column console ── */}
-                <div className="w-full max-w-[1280px] flex flex-col md:flex-row gap-3 md:gap-5 items-stretch md:items-start px-1 sm:px-2">
+                <div className="w-full max-w-[1280px] flex flex-col md:flex-row gap-3 md:gap-5 items-start px-1 sm:px-2">
 
                   {/* ══ LEFT — Slide 1: Hero & How It Works ══ */}
                   <div className="w-full md:w-[46%] flex flex-col">
@@ -5343,7 +5534,7 @@ export default function AidAgentPage() {
                   <div ref={tipsRef} className="w-full md:w-[54%] flex flex-col gap-3 px-1 pb-2 md:sticky md:top-[8px] md:self-start">
 
                     {/* ── Embedded Chat Window — all screen sizes ── */}
-                    <div className="flex flex-col rounded-2xl overflow-hidden transition-all duration-300"
+                    <div className="flex flex-col rounded-2xl overflow-hidden transition-all duration-300 sticky top-[8px] self-start w-full"
                       style={{
                         height: "min(74vh, 720px)",
                         background: "rgba(10,4,22,0.28)",
