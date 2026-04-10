@@ -1,86 +1,73 @@
 /**
- * /api/tts  — ElevenLabs TTS proxy.
+ * /api/tts — Azure Neural TTS proxy.
  *
- * Required: ELEVENLABS_API_KEY
- * Optional: ELEVENLABS_VOICE_ID  (default: Adam — warm, natural, professional)
- *           ELEVENLABS_MODEL_ID  (default: eleven_multilingual_v2)
+ * Required env vars:
+ *   AZURE_SPEECH_KEY     — Azure Cognitive Services Speech API key
+ *   AZURE_SPEECH_REGION  — Azure region, e.g. "eastus" or "westus2"
  *
- * Returns 503 when key is absent → client auto-falls back to Web Speech API.
+ * Optional env vars:
+ *   AZURE_SPEECH_VOICE   — Neural voice name (default: en-US-AriaNeural)
+ *
+ * Returns 503 when key/region absent → client falls back to Web Speech API.
+ *
+ * Voice: en-US-AriaNeural — warm, natural, calm female (Microsoft's best).
+ * Style: "calm" + slight rate/pitch reduction for soothing delivery.
  */
 
 import { beautifulEloquentSpeech } from "@/lib/tts/speech-utils";
 
-// Charlotte — warm, clear, confident, articulate; bright feminine tone
-// (Hilary Duff / Natalie Portman energy: friendly but authoritative, never stiff)
-const VOICE_ID = process.env.ELEVENLABS_VOICE_ID ?? "XB0fDUnXU5powFXDhCwa";
-const MODEL_ID = process.env.ELEVENLABS_MODEL_ID ?? "eleven_multilingual_v2";
-const BASE_URL = "https://api.elevenlabs.io/v1";
+const VOICE  = process.env.AZURE_SPEECH_VOICE ?? "en-US-AriaNeural";
+const REGION = process.env.AZURE_SPEECH_REGION;
+const KEY    = process.env.AZURE_SPEECH_KEY;
 
-const VOICE_SETTINGS = {
-  stability:         0.42, // natural variation without wandering — crisp articulation
-  similarity_boost:  0.85, // consistent character across the full response
-  style:             0.38, // enough warmth and personality to feel human, not performative
-  use_speaker_boost: true, // ElevenLabs clarity boost — sharper presence
-};
-
-const LANG_HINTS: Record<string, string> = {
-  "en-US": "",
-  "es-ES": "Por favor, habla en español. ",
-  "hi-IN": "कृपया हिंदी में बोलें। ",
-  "zh-CN": "请用普通话朗读。",
-  "zh-HK": "請用廣東話朗讀。",
-  "vi-VN": "Vui lòng đọc bằng tiếng Việt. ",
-  "fr-FR": "Veuillez parler en français. ",
-  "ar-SA": "يُرجى التحدث باللغة العربية. ",
-};
+function escapeXml(s: string): string {
+  return s
+    .replace(/&/g,  "&amp;")
+    .replace(/</g,  "&lt;")
+    .replace(/>/g,  "&gt;")
+    .replace(/"/g,  "&quot;")
+    .replace(/'/g,  "&apos;");
+}
 
 export async function POST(req: Request) {
-  const apiKey = process.env.ELEVENLABS_API_KEY;
-  if (!apiKey) {
-    return new Response("ElevenLabs API key not configured", { status: 503 });
+  if (!KEY || !REGION) {
+    return new Response("Azure Speech key/region not configured", { status: 503 });
   }
 
-  const { text, lang = "en-US" } = (await req.json()) as {
-    text: string;
-    lang?: string;
-  };
+  const { text, lang = "en-US" } = (await req.json()) as { text: string; lang?: string };
+  if (!text?.trim()) return new Response("No text provided", { status: 400 });
 
-  if (!text?.trim()) {
-    return new Response("No text provided", { status: 400 });
-  }
+  const processed = escapeXml(beautifulEloquentSpeech(text).slice(0, 9000));
 
-  const processedText = beautifulEloquentSpeech(text);
-  const langHint = LANG_HINTS[lang] ?? "";
-  const spokenText = (langHint + processedText).slice(0, 4900);
+  const ssml = `<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xmlns:mstts='http://www.w3.org/2001/mstts' xml:lang='${lang}'>
+  <voice name='${VOICE}'>
+    <mstts:express-as style='calm'>
+      <prosody rate='-4%' pitch='-3%'>${processed}</prosody>
+    </mstts:express-as>
+  </voice>
+</speak>`;
 
-  const elevenRes = await fetch(
-    `${BASE_URL}/text-to-speech/${VOICE_ID}/stream?output_format=mp3_44100_128`,
+  const azureRes = await fetch(
+    `https://${REGION}.tts.speech.microsoft.com/cognitiveservices/v1`,
     {
       method: "POST",
       headers: {
-        "xi-api-key": apiKey,
-        "Content-Type": "application/json",
-        Accept: "audio/mpeg",
+        "Ocp-Apim-Subscription-Key": KEY,
+        "Content-Type": "application/ssml+xml",
+        "X-Microsoft-OutputFormat": "audio-24khz-48kbitrate-mono-mp3",
+        "User-Agent": "askGenie/1.0",
       },
-      body: JSON.stringify({
-        text: spokenText,
-        model_id: MODEL_ID,
-        voice_settings: VOICE_SETTINGS,
-        // "auto" lets the model handle number/abbreviation normalization naturally
-        apply_text_normalization: "auto",
-      }),
+      body: ssml,
     }
   );
 
-  if (!elevenRes.ok) {
-    const err = await elevenRes.text().catch(() => "");
-    console.error(`ElevenLabs ${elevenRes.status}:`, err);
-    return new Response(`ElevenLabs error: ${elevenRes.status}`, {
-      status: elevenRes.status,
-    });
+  if (!azureRes.ok) {
+    const err = await azureRes.text().catch(() => "");
+    console.error(`[AzureTTS] ${azureRes.status}:`, err);
+    return new Response(`Azure TTS error: ${azureRes.status}`, { status: azureRes.status >= 500 ? 502 : azureRes.status });
   }
 
-  return new Response(elevenRes.body, {
+  return new Response(azureRes.body, {
     headers: {
       "Content-Type": "audio/mpeg",
       "Cache-Control": "no-store",

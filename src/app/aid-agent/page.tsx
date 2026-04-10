@@ -3375,6 +3375,7 @@ export default function AidAgentPage() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const voiceRef = useRef<SpeechSynthesisVoice | null>(null);
   const ttsTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const ttsAbortRef = useRef<AbortController | null>(null);
   const [showDisclaimer, setShowDisclaimer] = useState(false);
   const [showMobileLeft, setShowMobileLeft] = useState(false);
   const [showMobileRight, setShowMobileRight] = useState(false);
@@ -3981,24 +3982,20 @@ export default function AidAgentPage() {
 
   const stopSpeaking = useCallback(() => {
     if (ttsTimerRef.current) { clearInterval(ttsTimerRef.current); ttsTimerRef.current = null; }
+    ttsAbortRef.current?.abort(); ttsAbortRef.current = null;
     audioRef.current?.pause();
-    if (audioRef.current) audioRef.current.src = "";
+    if (audioRef.current) { URL.revokeObjectURL(audioRef.current.src); audioRef.current.src = ""; }
     audioRef.current = null;
     if (typeof window !== "undefined") window.speechSynthesis?.cancel();
     setSpeakingMsgId(null);
   }, []);
 
-  // Synchronous — must NOT be async. Safari/Chrome block speechSynthesis.speak()
-  // if it's called after an await (outside the original user-gesture tick).
-  // Voice is pre-loaded into voiceRef by the mount useEffect above.
-  const speakMessage = (msgId: string, text: string) => {
+  const speakMessage = async (msgId: string, text: string) => {
     if (speakingMsgId === msgId) { stopSpeaking(); return; }
     stopSpeaking();
     setSpeakingMsgId(msgId);
 
-    if (typeof window === "undefined" || !window.speechSynthesis) { setSpeakingMsgId(null); return; }
-
-    // Strip markdown and emojis to clean plain text
+    // Strip markdown/emojis for plain text (used by both Azure and fallback)
     const plain = text
       .replace(/```[\s\S]*?```/g, "code block omitted")
       .replace(/`[^`]*`/g, "")
@@ -4011,30 +4008,53 @@ export default function AidAgentPage() {
       .replace(/\n{2,}/g, ". ")
       .replace(/\n/g, " ")
       .trim();
-
     if (!plain) { setSpeakingMsgId(null); return; }
 
+    // ── Azure Neural TTS ──────────────────────────────────────────────────────
+    try {
+      const abort = new AbortController();
+      ttsAbortRef.current = abort;
+      const res = await fetch("/api/tts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: plain }),
+        signal: abort.signal,
+      });
+      if (res.ok) {
+        const blob = await res.blob();
+        const url  = URL.createObjectURL(blob);
+        const audio = new Audio(url);
+        audioRef.current = audio;
+        const done = () => { URL.revokeObjectURL(url); setSpeakingMsgId(null); };
+        audio.onended = done;
+        audio.onerror = done;
+        await audio.play();
+        return;
+      }
+      // 503 = key not configured → fall through to Web Speech
+      if (res.status !== 503) console.warn(`[TTS] Azure returned ${res.status}`);
+    } catch (e: any) {
+      if (e?.name !== "AbortError") console.warn("[TTS] Azure fetch failed:", e);
+    }
+
+    // ── Web Speech API fallback ───────────────────────────────────────────────
+    if (typeof window === "undefined" || !window.speechSynthesis) { setSpeakingMsgId(null); return; }
     const utterance = new SpeechSynthesisUtterance(plain);
-    utterance.lang = ttsLang;
-    utterance.rate = 0.88;
+    utterance.lang  = ttsLang;
+    utterance.rate  = 0.88;
     utterance.pitch = 0.95;
     utterance.volume = 1.0;
     if (voiceRef.current) utterance.voice = voiceRef.current;
-
     const cleanup = () => {
       if (ttsTimerRef.current) { clearInterval(ttsTimerRef.current); ttsTimerRef.current = null; }
       setSpeakingMsgId(null);
     };
-    utterance.onend = cleanup;
+    utterance.onend   = cleanup;
     utterance.onerror = cleanup;
-
-    // Chrome bug: speechSynthesis pauses itself after ~15 s on long responses.
-    // Calling resume() on an interval keeps it alive for the full response.
     ttsTimerRef.current = setInterval(() => {
       if (window.speechSynthesis.speaking) window.speechSynthesis.resume();
       else { clearInterval(ttsTimerRef.current!); ttsTimerRef.current = null; }
     }, 10000);
-
     window.speechSynthesis.speak(utterance);
   };
 
