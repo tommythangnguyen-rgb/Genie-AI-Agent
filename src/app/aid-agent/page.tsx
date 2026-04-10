@@ -72,27 +72,40 @@ import {
 
 function GenieBottle({ className, style }: { className?: string; style?: React.CSSProperties }) {
   return (
-    <svg viewBox="0 0 48 56" fill="none" className={className} style={style} aria-hidden="true">
-      {/* Smoke / magic wisps emerging from top */}
-      <path d="M24 4 C22 1 26 -1 24 2" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.35"/>
-      <path d="M21 5 C18 2 20 7 19 4" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.22"/>
-      <path d="M27 5 C30 2 28 7 29 4" stroke="currentColor" strokeWidth="1" strokeLinecap="round" opacity="0.22"/>
-      {/* Neck collar ring */}
-      <rect x="17" y="8" width="14" height="3" rx="1.5" fill="currentColor" opacity="0.90"/>
+    <svg viewBox="0 0 48 60" fill="none" className={className} style={style} aria-hidden="true">
+      {/* Magic smoke wisps */}
+      <path d="M24 2.5C22.8 0.8 25.5 0.2 24 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.45"/>
+      <path d="M20.5 4C18 1.5 20 7 18.5 3.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.28"/>
+      <path d="M27.5 4C30 1.5 28 7 29.5 3.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.28"/>
+      {/* Stopper finial — jewel cap */}
+      <circle cx="24" cy="6" r="2.4" fill="currentColor" opacity="0.82"/>
+      <ellipse cx="24" cy="8.5" rx="5" ry="2" fill="currentColor" opacity="0.78"/>
+      {/* Jewel gleam */}
+      <circle cx="23" cy="5.3" r="0.9" fill="white" opacity="0.38"/>
+      {/* Upper collar ring */}
+      <rect x="17.5" y="10" width="13" height="2.8" rx="1.4" fill="currentColor" opacity="0.92"/>
+      <rect x="17.5" y="10" width="13" height="1" rx="0.5" fill="white" opacity="0.22"/>
       {/* Neck */}
-      <rect x="19.5" y="11" width="9" height="5" rx="1" fill="currentColor" opacity="0.80"/>
-      {/* Shoulder taper */}
-      <path d="M19.5 16 C16 18 13 22 12 27 L12 42 C12 45.5 17.5 48.5 24 48.5 C30.5 48.5 36 45.5 36 42 L36 27 C35 22 32 18 28.5 16 Z" fill="currentColor" opacity="0.92"/>
-      {/* Belly highlight — left shimmer */}
-      <path d="M17 26 C15.5 29 15 33 15.5 37" stroke="white" strokeWidth="2" strokeLinecap="round" opacity="0.18"/>
-      {/* Belly highlight — small gleam */}
-      <ellipse cx="19" cy="29" rx="2" ry="3.5" fill="white" opacity="0.12" transform="rotate(-15 19 29)"/>
-      {/* Base ring */}
-      <ellipse cx="24" cy="43.5" rx="9" ry="2.8" fill="currentColor" opacity="0.55"/>
-      {/* Gold band around belly */}
-      <path d="M13.5 32 C13.2 33.5 13 35 13 36.5 L35 36.5 C35 35 34.8 33.5 34.5 32 Z" fill="white" opacity="0.08"/>
-      {/* Stopper cap top */}
-      <ellipse cx="24" cy="8.5" rx="7.5" ry="2" fill="currentColor" opacity="0.6"/>
+      <rect x="20.5" y="12.8" width="7" height="6.5" rx="1" fill="currentColor" opacity="0.86"/>
+      {/* Lower collar ring */}
+      <rect x="17.5" y="18.5" width="13" height="2.5" rx="1.25" fill="currentColor" opacity="0.86"/>
+      <rect x="17.5" y="18.5" width="13" height="0.8" rx="0.4" fill="white" opacity="0.18"/>
+      {/* Shoulder taper — broad round belly */}
+      <path d="M17.5 21C13 23.5 10 29.5 10 36L10 47.5C10 52 16.5 55.5 24 55.5C31.5 55.5 38 52 38 47.5L38 36C38 29.5 35 23.5 30.5 21Z" fill="currentColor" opacity="0.94"/>
+      {/* Belly highlight — left edge shimmer */}
+      <path d="M15 31C13.2 35 12.8 41 13.5 46" stroke="white" strokeWidth="2.8" strokeLinecap="round" opacity="0.18"/>
+      {/* Belly gleam — upper left */}
+      <ellipse cx="18" cy="33" rx="2.2" ry="5" fill="white" opacity="0.12" transform="rotate(-18 18 33)"/>
+      {/* Top sparkle */}
+      <circle cx="17" cy="28.5" r="1.5" fill="white" opacity="0.22"/>
+      {/* Decorative belly band — twin lines */}
+      <path d="M10.2 39.5L37.8 39.5" stroke="white" strokeWidth="0.9" opacity="0.32"/>
+      <path d="M10.2 42.5L37.8 42.5" stroke="white" strokeWidth="0.6" opacity="0.18"/>
+      <path d="M10.2 39.5L37.8 39.5L37.8 42.5L10.2 42.5Z" fill="white" opacity="0.06"/>
+      {/* Base flare ring */}
+      <ellipse cx="24" cy="51.5" rx="12" ry="3.5" fill="currentColor" opacity="0.50"/>
+      {/* Base shadow accent */}
+      <ellipse cx="24" cy="53" rx="8.5" ry="2" fill="currentColor" opacity="0.26"/>
     </svg>
   );
 }
@@ -4740,16 +4753,16 @@ export default function AidAgentPage() {
 
         {/* ── Left Dropdown — Students & Parents ── */}
         <aside
-          className={`panel-white ${showMobileLeft ? "flex" : "hidden"} fixed z-[60] flex-col rounded-2xl overflow-hidden border border-white/[0.18] shadow-2xl shadow-black/70 backdrop-blur-2xl`}
-          style={{ top: "84px", left: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(40,15,70,0.55) 0%, rgba(25,8,50,0.50) 50%, rgba(35,10,60,0.55) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.50), 0 0 0 1px rgba(212,175,55,0.15), inset 0 1px 0 rgba(255,255,255,0.15)" }}
+          className={`panel-white ${showMobileLeft ? "flex" : "hidden"} fixed z-[60] flex-col rounded-2xl overflow-hidden backdrop-blur-2xl`}
+          style={{ top: "84px", left: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "rgba(10,4,22,0.28)", border: "1px solid rgba(212,175,55,0.18)", boxShadow: "0 32px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(212,175,55,0.08), inset 0 1px 0 rgba(255,255,255,0.10)" }}
         >
           {howItWorksActive === "panels" && <div className="hiw-scan-overlay" aria-hidden="true" />}
 
           {/* Header */}
           <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-white/[0.08]" style={{ background: "rgba(12,5,28,0.45)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
             <div className="flex items-center gap-2.5">
-              <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/25">
-                <GenieBottle className="h-4 w-4 text-white" />
+              <div className="p-1.5 rounded-lg" style={{ background: "rgba(212,175,55,0.18)", boxShadow: "0 0 12px rgba(212,175,55,0.45), 0 0 0 1px rgba(212,175,55,0.30)" }}>
+                <GenieBottle className="h-4 w-4 genie-icon-shimmer" style={{ color: "#D4AF37", filter: "drop-shadow(0 0 5px rgba(212,175,55,0.80))" }} />
               </div>
               <div>
                 <p className="text-[11px] font-bold text-white/50 uppercase tracking-widest">Student Aid Hub</p>
@@ -5862,16 +5875,16 @@ export default function AidAgentPage() {
 
         {/* ── Right Dropdown — Administrators, Leaders & Auditors ── */}
         <aside
-          className={`panel-white ${showMobileRight ? "flex" : "hidden"} fixed z-[60] flex-col rounded-2xl overflow-hidden border border-white/[0.18] shadow-2xl shadow-black/70 backdrop-blur-2xl`}
-          style={{ top: "84px", right: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "linear-gradient(160deg, rgba(40,15,70,0.55) 0%, rgba(25,8,50,0.50) 50%, rgba(35,10,60,0.55) 100%)", boxShadow: "0 25px 60px rgba(0,0,0,0.50), 0 0 0 1px rgba(212,175,55,0.15), inset 0 1px 0 rgba(255,255,255,0.15)" }}
+          className={`panel-white ${showMobileRight ? "flex" : "hidden"} fixed z-[60] flex-col rounded-2xl overflow-hidden backdrop-blur-2xl`}
+          style={{ top: "84px", right: "8px", width: "min(620px, calc(100vw - 16px))", maxHeight: "calc(100dvh - 96px)", background: "rgba(10,4,22,0.28)", border: "1px solid rgba(212,175,55,0.18)", boxShadow: "0 32px 80px rgba(0,0,0,0.55), 0 0 0 1px rgba(212,175,55,0.08), inset 0 1px 0 rgba(255,255,255,0.10)" }}
         >
           {howItWorksActive === "panels" && <div className="hiw-scan-overlay" aria-hidden="true" />}
 
           {/* Header */}
           <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-white/[0.08]" style={{ background: "rgba(12,5,28,0.45)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
             <div className="flex items-center gap-2.5">
-              <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/25">
-                <Zap className="h-4 w-4 text-white" />
+              <div className="p-1.5 rounded-lg" style={{ background: "rgba(212,175,55,0.18)", boxShadow: "0 0 12px rgba(212,175,55,0.45), 0 0 0 1px rgba(212,175,55,0.30)" }}>
+                <GenieBottle className="h-4 w-4 genie-icon-shimmer" style={{ color: "#D4AF37", filter: "drop-shadow(0 0 5px rgba(212,175,55,0.80))" }} />
               </div>
               <div>
                 <p className="text-[11px] font-bold text-white/50 uppercase tracking-widest">Student Aid Hub</p>
