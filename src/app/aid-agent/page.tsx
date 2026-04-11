@@ -66,6 +66,11 @@ import {
   Bookmark,
   BookmarkCheck,
   Star,
+  GraduationCap,
+  Brain,
+  Cpu,
+  HeartHandshake,
+  Newspaper,
 } from "lucide-react";
 
 // ─── Genie Bottle Logo ────────────────────────────────────────────────────────
@@ -4997,39 +5002,35 @@ export default function AidAgentPage() {
               {/* Section icon grid */}
               <div className="grid grid-cols-2 gap-2">
                 {([
-                  { key: "lc-s-qa",     label: "Students",        img: "/images/sec-students.jpg",        pos: "object-[50%_15%]" },
-                  { key: "lc-p-qa",     label: "Parents",          img: "/images/sec-parents.jpg",         pos: "object-[50%_18%]" },
-                  { key: "lc-fed-sp",   label: "Federal Aid",      img: "/images/sec-fed-aid.jpg",         pos: "object-[50%_18%]", Icon: Landmark },
-                  { key: "lc-resume",   label: "Resume",            img: "/images/sec-resume.jpg",          pos: "object-[50%_15%]", Icon: FileText },
-                  { key: "lc-schol",    label: "Scholarships",      img: "/images/sec-scholarship.jpg",     pos: "object-[50%_12%]", Icon: Award },
-                  { key: "lc-intern",   label: "Internships",       img: "/images/sec-internship.jpg",      pos: "object-[50%_14%]", Icon: Briefcase },
-                  { key: "lc-jobs",     label: "Student Jobs",      img: "/images/sec-jobs.jpg",            pos: "object-[50%_12%]", Icon: Briefcase },
-                  { key: "lc-finlit",   label: "Financial Literacy", img: "/images/sec-fin-literacy.jpg",   pos: "object-[50%_22%]", Icon: TrendingUp },
-                  { key: "lc-loans",    label: "Private Loans",     img: "/images/sec-priv-loans.jpg",      pos: "object-[50%_18%]", Icon: PiggyBank },
-                  { key: "lc-consumer", label: "Consumer Rights",   img: "/images/sec-consumer.jpg",        pos: "object-[50%_45%]", Icon: Scale },
-                  { key: "lc-mental",   label: "Mental Health",     img: "/images/mental.jpg",              pos: "object-[50%_14%]", Icon: Sparkles },
-                  { key: "lc-ai",       label: "AI Literacy",       img: "/images/sec-ai-literacy.jpg",     pos: "object-[50%_14%]", Icon: Lightbulb },
-                  { key: "lc-faith",    label: "Faith & Spirit",    img: "/images/sec-faith-student.jpg",   pos: "object-[50%_22%]", Icon: Star },
-                  { key: "lc-vol",      label: "Volunteer",         img: "/images/sec-volunteer.jpg",       pos: "object-[50%_16%]", Icon: Users },
-                  { key: "lc-va",       label: "VA Resources",      img: "/images/sec-va.jpg",              pos: "object-[50%_18%]", Icon: ShieldCheck },
-                  { key: "lc-research", label: "Research & Journals", img: "/images/sec-research-student.jpg", pos: "object-[50%_20%]", Icon: BookOpen },
-                  { key: "lc-indep",    label: "Independent Resources", img: "/images/sec-indep-student.jpg",   pos: "object-[50%_25%]", Icon: Gavel },
-                ]).map(({ key, label, img, pos, Icon }) => (
+                  { key: "lc-s-qa",     label: "Students",             Icon: GraduationCap, accent: "#3B82F6" },
+                  { key: "lc-p-qa",     label: "Parents",              Icon: Home,           accent: "#FB923C" },
+                  { key: "lc-fed-sp",   label: "Federal Aid",          Icon: Landmark,       accent: "#D4AF37" },
+                  { key: "lc-resume",   label: "Resume",               Icon: FileText,       accent: "#818CF8" },
+                  { key: "lc-schol",    label: "Scholarships",         Icon: Award,          accent: "#34D399" },
+                  { key: "lc-intern",   label: "Internships",          Icon: Briefcase,      accent: "#2DD4BF" },
+                  { key: "lc-jobs",     label: "Student Jobs",         Icon: Search,         accent: "#38BDF8" },
+                  { key: "lc-finlit",   label: "Fin. Literacy",        Icon: TrendingUp,     accent: "#4ADE80" },
+                  { key: "lc-loans",    label: "Private Loans",        Icon: PiggyBank,      accent: "#A78BFA" },
+                  { key: "lc-consumer", label: "Consumer Rights",      Icon: Scale,          accent: "#F87171" },
+                  { key: "lc-mental",   label: "Mental Health",        Icon: Brain,          accent: "#F472B6" },
+                  { key: "lc-ai",       label: "AI Literacy",          Icon: Cpu,            accent: "#22D3EE" },
+                  { key: "lc-faith",    label: "Faith & Spirit",       Icon: Star,           accent: "#FCD34D" },
+                  { key: "lc-vol",      label: "Volunteer",            Icon: HeartHandshake, accent: "#A3E635" },
+                  { key: "lc-va",       label: "VA Resources",         Icon: ShieldCheck,    accent: "#60A5FA" },
+                  { key: "lc-research", label: "Research & Journals",  Icon: BookOpen,       accent: "#C084FC" },
+                  { key: "lc-indep",    label: "Independent Resources", Icon: Gavel,         accent: "#94A3B8" },
+                ] as { key: string; label: string; Icon: React.ElementType; accent: string }[]).map(({ key, label, Icon, accent }) => (
                   <button
                     key={key}
                     onClick={() => setOverlaySection(key)}
-                    className="relative group cursor-pointer overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4FF]/60 shadow-md shadow-black/40 hover:scale-[1.02] active:scale-[0.97] transition-all duration-200"
-                    style={{ aspectRatio: "1.6 / 1" }}
+                    className="group flex items-center gap-2.5 px-3 py-2.5 rounded-xl ring-1 ring-white/[0.07] hover:ring-white/[0.20] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50 hover:scale-[1.02] active:scale-[0.97] transition-all duration-150"
+                    style={{ background: "rgba(8,14,36,0.80)", boxShadow: "0 2px 10px rgba(0,0,0,0.35)" }}
                   >
-                    <img src={img} alt="" className={`w-full h-full object-cover ${pos}`} style={{ filter: "saturate(1.18) contrast(1.04) brightness(1.10)", opacity: 0.38 }} onError={(e) => { e.currentTarget.style.display = "none"; const fb = e.currentTarget.nextElementSibling as HTMLElement | null; if (fb) fb.style.display = "flex"; }} />
-                    <div style={{ display: "none" }} className="absolute inset-0 items-center justify-center bg-gradient-to-br from-indigo-900/80 via-slate-900/90 to-[#04091A]">
-                      {Icon && <Icon className="h-9 w-9 text-indigo-300/60" />}
+                    <div className="shrink-0 p-2 rounded-lg" style={{ background: `${accent}1A`, boxShadow: `0 0 0 1px ${accent}33` }}>
+                      <Icon className="h-4 w-4" style={{ color: accent }} />
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#04091A]/65 via-[#04091A]/20 to-transparent group-hover:from-[#04091A]/50 transition-all duration-200" />
-                    <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/[0.08] group-hover:ring-[#00D4FF]/40 transition-all duration-200" />
-                    <div className="absolute bottom-0 left-0 right-0 px-3 pb-2.5">
-                      <span className="text-[12px] font-bold uppercase tracking-[0.10em] text-white/90">{label}</span>
-                    </div>
+                    <span className="text-[11px] font-semibold text-white/72 group-hover:text-white/95 leading-tight tracking-wide transition-colors text-left flex-1">{label}</span>
+                    <ChevronRight className="h-3 w-3 text-white/15 group-hover:text-white/45 shrink-0 transition-colors" />
                   </button>
                 ))}
               </div>
@@ -5534,9 +5535,10 @@ export default function AidAgentPage() {
                   <div ref={tipsRef} className="w-full md:w-[54%] flex flex-col gap-3 px-1 pb-2 md:sticky md:top-[8px] md:self-start">
 
                     {/* ── Embedded Chat Window — all screen sizes ── */}
-                    <div className="flex flex-col rounded-2xl overflow-hidden transition-all duration-300 sticky top-[8px] self-start w-full"
+                    <div className="flex flex-col rounded-2xl overflow-hidden transition-shadow duration-300 sticky top-[8px] self-start w-full"
                       style={{
                         height: "min(74vh, 720px)",
+                        zIndex: 10,
                         background: "rgba(10,4,22,0.28)",
                         backdropFilter: "blur(32px)",
                         WebkitBackdropFilter: "blur(32px)",
@@ -6245,35 +6247,31 @@ export default function AidAgentPage() {
               {/* Section icon grid */}
               <div className="grid grid-cols-2 gap-2">
                 {([
-                  { key: "rc-adm-qa",       label: "Admin Actions",    img: "/images/sec-admin.jpg",              pos: "object-[50%_14%]", Icon: ClipboardList },
-                  { key: "rc-lea-qa",       label: "Leader Actions",   img: "/images/sec-leaders.jpg",            pos: "object-[50%_18%]", Icon: Users },
-                  { key: "rc-aud-qa",       label: "Compliance QA",    img: "/images/sec-compliance.jpg",         pos: "object-[50%_45%]", Icon: ShieldCheck },
-                  { key: "rc-fa-adm",       label: "Admin Resources",  img: "/images/sec-admin-advisors.jpg",     pos: "object-[50%_22%]", Icon: BookOpen },
-                  { key: "rc-lac",          label: "Compliance",       img: "/images/sec-leaders-compliance.jpg", pos: "object-[50%_18%]", Icon: Scale },
-                  { key: "rc-loan-portals", label: "Loan Portals",     img: "/images/sec-loan-portals.jpg",       pos: "object-[50%_20%]", Icon: DollarSign },
-                  { key: "rc-hw",           label: "Health & Wellness", img: "/images/sec-wellness.jpg",          pos: "object-[50%_12%]", Icon: Sparkles },
-                  { key: "rc-va",           label: "VA Resources",     img: "/images/sec-va-right.jpg",           pos: "object-[50%_18%]", Icon: ShieldCheck },
-                  { key: "rc-mh-admin",     label: "Mental Health",    img: "/images/mental.jpg",                 pos: "object-[50%_14%]", Icon: Sparkles },
-                  { key: "rc-vol-admin",    label: "Volunteer",        img: "/images/sec-volunteer-right.jpg",    pos: "object-[50%_18%]", Icon: Users },
-                  { key: "rc-faith",        label: "Faith & Spirit",   img: "/images/sec-faith-admin.jpg",         pos: "object-[50%_30%]", Icon: Star },
-                  { key: "rc-research",     label: "Research & Policy", img: "/images/sec-research-admin.jpg",      pos: "object-[50%_22%]", Icon: BookOpen },
-                  { key: "rc-indep",        label: "Independent Resources", img: "/images/sec-indep-admin.jpg",    pos: "object-[50%_30%]", Icon: Gavel },
-                ]).map(({ key, label, img, pos, Icon }) => (
+                  { key: "rc-adm-qa",       label: "Admin Actions",         Icon: ClipboardList,  accent: "#34D399" },
+                  { key: "rc-lea-qa",       label: "Leader Actions",        Icon: Landmark,       accent: "#A78BFA" },
+                  { key: "rc-aud-qa",       label: "Compliance QA",         Icon: ShieldCheck,    accent: "#F87171" },
+                  { key: "rc-fa-adm",       label: "Admin Resources",       Icon: BookOpen,       accent: "#818CF8" },
+                  { key: "rc-lac",          label: "Compliance",            Icon: Scale,          accent: "#FCD34D" },
+                  { key: "rc-loan-portals", label: "Loan Portals",          Icon: DollarSign,     accent: "#22D3EE" },
+                  { key: "rc-hw",           label: "Health & Wellness",     Icon: Sparkles,       accent: "#4ADE80" },
+                  { key: "rc-va",           label: "VA Resources",          Icon: ShieldCheck,    accent: "#60A5FA" },
+                  { key: "rc-mh-admin",     label: "Mental Health",         Icon: Brain,          accent: "#F472B6" },
+                  { key: "rc-vol-admin",    label: "Volunteer",             Icon: HeartHandshake, accent: "#A3E635" },
+                  { key: "rc-faith",        label: "Faith & Spirit",        Icon: Star,           accent: "#FCD34D" },
+                  { key: "rc-research",     label: "Research & Policy",     Icon: Newspaper,      accent: "#C084FC" },
+                  { key: "rc-indep",        label: "Independent Resources", Icon: Gavel,          accent: "#94A3B8" },
+                ] as { key: string; label: string; Icon: React.ElementType; accent: string }[]).map(({ key, label, Icon, accent }) => (
                   <button
                     key={key}
                     onClick={() => setOverlaySection(key)}
-                    className="relative group cursor-pointer overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00D4FF]/60 shadow-md shadow-black/40 hover:scale-[1.02] active:scale-[0.97] transition-all duration-200"
-                    style={{ aspectRatio: "1.6 / 1" }}
+                    className="group flex items-center gap-2.5 px-3 py-2.5 rounded-xl ring-1 ring-white/[0.07] hover:ring-white/[0.20] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50 hover:scale-[1.02] active:scale-[0.97] transition-all duration-150"
+                    style={{ background: "rgba(8,14,36,0.80)", boxShadow: "0 2px 10px rgba(0,0,0,0.35)" }}
                   >
-                    <img src={img} alt="" className={`w-full h-full object-cover ${pos}`} style={{ filter: "saturate(1.18) contrast(1.04) brightness(1.10)", opacity: 0.38 }} onError={(e) => { e.currentTarget.style.display = "none"; const fb = e.currentTarget.nextElementSibling as HTMLElement | null; if (fb) fb.style.display = "flex"; }} />
-                    <div style={{ display: "none" }} className="absolute inset-0 items-center justify-center bg-gradient-to-br from-indigo-900/80 via-slate-900/90 to-[#04091A]">
-                      {Icon && <Icon className="h-9 w-9 text-indigo-300/60" />}
+                    <div className="shrink-0 p-2 rounded-lg" style={{ background: `${accent}1A`, boxShadow: `0 0 0 1px ${accent}33` }}>
+                      <Icon className="h-4 w-4" style={{ color: accent }} />
                     </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#04091A]/65 via-[#04091A]/20 to-transparent group-hover:from-[#04091A]/50 transition-all duration-200" />
-                    <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/[0.08] group-hover:ring-[#00D4FF]/40 transition-all duration-200" />
-                    <div className="absolute bottom-0 left-0 right-0 px-3 pb-2.5">
-                      <span className="text-[12px] font-bold uppercase tracking-[0.10em] text-white/90">{label}</span>
-                    </div>
+                    <span className="text-[11px] font-semibold text-white/72 group-hover:text-white/95 leading-tight tracking-wide transition-colors text-left flex-1">{label}</span>
+                    <ChevronRight className="h-3 w-3 text-white/15 group-hover:text-white/45 shrink-0 transition-colors" />
                   </button>
                 ))}
               </div>
