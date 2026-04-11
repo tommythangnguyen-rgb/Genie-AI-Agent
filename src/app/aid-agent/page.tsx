@@ -5008,6 +5008,8 @@ export default function AidAgentPage() {
                   { key: "lc-va",       label: "VA Resources",         Icon: ShieldCheck,    accent: "#60A5FA" },
                   { key: "lc-research", label: "Research & Journals",  Icon: BookOpen,       accent: "#C084FC" },
                   { key: "lc-indep",    label: "Independent Resources", Icon: Gavel,         accent: "#94A3B8" },
+                  { key: "lc-tutor",    label: "Tutoring",              Icon: Lightbulb,     accent: "#FBBF24" },
+                  { key: "lc-gov-assist", label: "Gov't Assistance",    Icon: Landmark,      accent: "#38BDF8" },
                 ] as { key: string; label: string; Icon: React.ElementType; accent: string }[]).map(({ key, label, Icon, accent }) => (
                   <button
                     key={key}
@@ -6198,6 +6200,8 @@ export default function AidAgentPage() {
                   { key: "rc-faith",        label: "Faith & Spirit",        Icon: Star,           accent: "#FCD34D" },
                   { key: "rc-research",     label: "Research & Policy",     Icon: Newspaper,      accent: "#C084FC" },
                   { key: "rc-indep",        label: "Independent Resources", Icon: Gavel,          accent: "#94A3B8" },
+                  { key: "rc-tutor",        label: "Tutoring Resources",    Icon: Lightbulb,      accent: "#FBBF24" },
+                  { key: "rc-gov-assist",   label: "Gov't Assistance",      Icon: Landmark,       accent: "#38BDF8" },
                 ] as { key: string; label: string; Icon: React.ElementType; accent: string }[]).map(({ key, label, Icon, accent }) => (
                   <button
                     key={key}
@@ -6361,6 +6365,10 @@ export default function AidAgentPage() {
                 "lc-indep":      { title: "Validated Independent Resources",       banner: "/images/banner-ov-editor.jpg",        bannerPos: "50% 30%" },
                 "rc-research":   { title: "Research, Policy & Journals",           banner: "/images/banner-ov-admin.jpg",         bannerPos: "50% 25%" },
                 "rc-indep":      { title: "Validated Independent Resources",       banner: "/images/banner-ov-leader.jpg",        bannerPos: "50% 28%" },
+                "lc-tutor":     { title: "Tutoring — 1st Grade through Grad School", banner: "/images/banner-ov-student.jpg",    bannerPos: "50% 28%" },
+                "rc-tutor":     { title: "Tutoring — 1st Grade through Grad School", banner: "/images/banner-ov-admin.jpg",      bannerPos: "50% 28%" },
+                "lc-gov-assist":{ title: "Government Assistance Programs",           banner: "/images/banner-ov-editor.jpg",     bannerPos: "50% 30%" },
+                "rc-gov-assist":{ title: "Government Assistance Programs",           banner: "/images/banner-ov-leader.jpg",     bannerPos: "50% 28%" },
               };
               const sec = overlaySection!;
               const meta = OVERLAY_META[sec] ?? { title: sec, banner: "/images/banner-ov-admin.jpg", bannerPos: "50% 30%" };
@@ -6448,7 +6456,91 @@ export default function AidAgentPage() {
               })()}
 
               {/* === Subcategorized link sections — banner + favicon icon grid === */}
-              {["lc-resume", "lc-schol", "lc-intern", "lc-jobs", "lc-finlit", "lc-loans", "lc-consumer", "lc-mental", "lc-ai", "lc-faith", "rc-faith", "lc-vol", "rc-va", "lc-va", "lc-research", "lc-indep", "rc-research", "rc-indep"].includes(overlaySection!) && (() => {
+              {["lc-resume", "lc-schol", "lc-intern", "lc-jobs", "lc-finlit", "lc-loans", "lc-consumer", "lc-mental", "lc-ai", "lc-faith", "rc-faith", "lc-vol", "rc-va", "lc-va", "lc-research", "lc-indep", "rc-research", "rc-indep", "lc-tutor", "rc-tutor", "lc-gov-assist", "rc-gov-assist"].includes(overlaySection!) && (() => {
+                const TUTORING_DATA: MaybeSubcat[] = [
+                  { subcat: "K–5 Elementary" },
+                  { name: "Khan Academy Kids",   url: "https://www.khanacademy.org/kids" },
+                  { name: "IXL Learning",        url: "https://www.ixl.com" },
+                  { name: "Starfall",            url: "https://www.starfall.com" },
+                  { name: "ABCmouse",            url: "https://www.abcmouse.com" },
+                  { name: "PBS LearningMedia",   url: "https://pbslearningmedia.org" },
+                  { name: "SplashLearn",         url: "https://www.splashlearn.com" },
+                  { name: "Education.com",       url: "https://www.education.com" },
+                  { name: "Wyzant Tutors",       url: "https://www.wyzant.com" },
+                  { subcat: "Grades 6–8 Middle School" },
+                  { name: "Khan Academy",        url: "https://www.khanacademy.org" },
+                  { name: "IXL Learning",        url: "https://www.ixl.com" },
+                  { name: "CK-12",               url: "https://www.ck12.org" },
+                  { name: "Mathway",             url: "https://www.mathway.com" },
+                  { name: "Math.com",            url: "https://www.math.com" },
+                  { name: "Quizlet",             url: "https://quizlet.com" },
+                  { name: "Tutor.com",           url: "https://www.tutor.com" },
+                  { name: "Varsity Tutors",      url: "https://www.varsitytutors.com" },
+                  { subcat: "Grades 9–12 High School" },
+                  { name: "Khan Academy",        url: "https://www.khanacademy.org" },
+                  { name: "Chegg Study",         url: "https://www.chegg.com/study" },
+                  { name: "Tutor.com",           url: "https://www.tutor.com" },
+                  { name: "Varsity Tutors",      url: "https://www.varsitytutors.com" },
+                  { name: "Quizlet",             url: "https://quizlet.com" },
+                  { name: "SparkNotes",          url: "https://www.sparknotes.com" },
+                  { name: "Khan SAT Prep",       url: "https://www.khanacademy.org/sat" },
+                  { name: "Wolfram Alpha",       url: "https://www.wolframalpha.com" },
+                  { subcat: "College & Undergraduate" },
+                  { name: "Chegg Study",         url: "https://www.chegg.com/study" },
+                  { name: "Coursera",            url: "https://www.coursera.org" },
+                  { name: "edX",                 url: "https://www.edx.org" },
+                  { name: "MIT OpenCourseWare",  url: "https://ocw.mit.edu" },
+                  { name: "Khan Academy",        url: "https://www.khanacademy.org" },
+                  { name: "Wolfram Alpha",       url: "https://www.wolframalpha.com" },
+                  { name: "Purdue OWL",          url: "https://owl.purdue.edu" },
+                  { name: "Wyzant Tutors",       url: "https://www.wyzant.com" },
+                  { subcat: "Graduate School" },
+                  { name: "Coursera",            url: "https://www.coursera.org" },
+                  { name: "edX",                 url: "https://www.edx.org" },
+                  { name: "Wolfram Alpha",       url: "https://www.wolframalpha.com" },
+                  { name: "Scribbr",             url: "https://www.scribbr.com" },
+                  { name: "Purdue OWL",          url: "https://owl.purdue.edu" },
+                  { name: "Google Scholar",      url: "https://scholar.google.com" },
+                  { name: "Grammarly",           url: "https://www.grammarly.com" },
+                  { name: "Wyzant Tutors",       url: "https://www.wyzant.com" },
+                ];
+                const GOV_ASSIST_DATA: MaybeSubcat[] = [
+                  { subcat: "Federal Student Aid" },
+                  { name: "FAFSA",                    url: "https://studentaid.gov/h/apply-for-aid/fafsa" },
+                  { name: "StudentAid.gov",           url: "https://studentaid.gov" },
+                  { name: "Pell Grants",              url: "https://studentaid.gov/understand-aid/types/grants/pell" },
+                  { name: "College Scorecard",        url: "https://collegescorecard.ed.gov" },
+                  { subcat: "Food & Nutrition" },
+                  { name: "SNAP Benefits",            url: "https://www.fns.usda.gov/snap/recipient/eligibility" },
+                  { name: "WIC Program",              url: "https://www.fns.usda.gov/wic" },
+                  { name: "School Lunch Program",     url: "https://www.fns.usda.gov/nslp" },
+                  { name: "Feeding America",          url: "https://www.feedingamerica.org" },
+                  { subcat: "Healthcare" },
+                  { name: "Medicaid",                 url: "https://www.medicaid.gov" },
+                  { name: "CHIP – Children's Health", url: "https://www.insurekidsnow.gov" },
+                  { name: "HealthCare.gov",           url: "https://www.healthcare.gov" },
+                  { name: "Community Health Centers", url: "https://findahealthcenter.hrsa.gov" },
+                  { subcat: "Housing" },
+                  { name: "HUD Housing Assistance",   url: "https://www.hud.gov/topics/rental_assistance" },
+                  { name: "Section 8 Vouchers",       url: "https://www.hud.gov/topics/housing_choice_voucher_program_section_8" },
+                  { name: "Emergency Rental Assist.", url: "https://www.consumerfinance.gov/coronavirus/mortgage-and-housing-assistance/renter-protections" },
+                  { name: "USA.gov Housing Help",     url: "https://www.usa.gov/housing-help" },
+                  { subcat: "Income & Employment" },
+                  { name: "Benefits.gov",             url: "https://www.benefits.gov" },
+                  { name: "EITC Tax Credits",         url: "https://www.irs.gov/credits-deductions/individuals/earned-income-tax-credit-eitc" },
+                  { name: "Social Security",          url: "https://www.ssa.gov" },
+                  { name: "Dept. of Labor",           url: "https://www.dol.gov" },
+                  { subcat: "Childcare & Early Ed." },
+                  { name: "Child Care.gov",           url: "https://childcare.gov" },
+                  { name: "Head Start",               url: "https://eclkc.ohs.acf.hhs.gov" },
+                  { name: "Child Care Subsidies",     url: "https://childcareta.acf.hhs.gov/ccdf-fundamentals/child-care-subsidy-program" },
+                  { name: "USA.gov Benefit Finder",   url: "https://www.usa.gov/benefit-finder" },
+                  { subcat: "State & Local" },
+                  { name: "State Social Services",    url: "https://www.usa.gov/state-social-services" },
+                  { name: "211 Helpline",             url: "https://www.211.org" },
+                  { name: "BenefitsCheckUp (NCOA)",   url: "https://benefitscheckup.org" },
+                  { name: "Modest Needs",             url: "https://www.modestneeds.org" },
+                ];
                 const rawMap: Record<string, MaybeSubcat[]> = {
                   "lc-resume": [...RESUME_ASSISTANCE, ...RESUME_ASSISTANCE_MORE],
                   "lc-schol":  ([{ subcat: "All" }, ...SCHOLARSHIP_ENGINES, ...SCHOLARSHIP_ENGINES_MORE] as MaybeSubcat[]),
@@ -6468,6 +6560,10 @@ export default function AidAgentPage() {
                   "lc-indep":    INDEPENDENT_RESOURCES_STUDENT,
                   "rc-research": RESEARCH_JOURNALS_ADMIN,
                   "rc-indep":    INDEPENDENT_RESOURCES_ADMIN,
+                  "lc-tutor":      TUTORING_DATA,
+                  "rc-tutor":      TUTORING_DATA,
+                  "lc-gov-assist": GOV_ASSIST_DATA,
+                  "rc-gov-assist": GOV_ASSIST_DATA,
                 };
                 const raw = rawMap[overlaySection!] ?? [];
                 const sections = parseSections(raw);
