@@ -5534,7 +5534,7 @@ export default function AidAgentPage() {
                   <div ref={tipsRef} className="w-full md:w-[54%] flex flex-col gap-3 px-1 pb-2 md:sticky md:top-[8px] md:self-start">
 
                     {/* ── Embedded Chat Window — all screen sizes ── */}
-                    <div className="flex flex-col rounded-2xl overflow-hidden transition-all duration-300 sticky top-[8px] self-start w-full"
+                    <div className="flex flex-col rounded-2xl overflow-hidden transition-all duration-300 w-full"
                       style={{
                         height: "min(74vh, 720px)",
                         background: "rgba(10,4,22,0.28)",
