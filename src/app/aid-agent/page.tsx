@@ -3629,7 +3629,7 @@ export default function AidAgentPage() {
   const [howItWorksActive, setHowItWorksActive] = useState<"role" | "chatbox" | "panels" | "guidance" | null>(null);
   const [slideIndex, setSlideIndex] = useState(0);
   const [openAccordions, setOpenAccordions] = useState<Set<string>>(new Set());
-  const [isDark, setIsDark] = useState(true);
+  const [isDark, setIsDark] = useState(false);
   const GENIE_WELCOME = useMemo(
     () => GENIE_WELCOME_MESSAGES[Math.floor(Math.random() * GENIE_WELCOME_MESSAGES.length)],
     []
