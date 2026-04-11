@@ -3149,20 +3149,6 @@ function EducationalBackground({ isDark = true, guidanceActive = false }: { isDa
     { top: "55%", left: "44%", size: 3, dur: "3.5s", delay: "0.9s" },
   ];
 
-  if (!isDark) {
-    // Bright mode — polished premium beige
-    return (
-      <div className="fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
-        {/* Warm beige base */}
-        <div className="absolute inset-0" style={{ background: "linear-gradient(160deg, #f5f0e8 0%, #faf6ef 30%, #f0ead8 60%, #e8e0cc 100%)" }} />
-        {/* Warm sheen at top — gives depth like fine linen */}
-        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 120% 80% at 50% 0%, rgba(255,252,240,0.65) 0%, transparent 60%)" }} />
-        {/* Subtle warm shadow at bottom-right */}
-        <div className="absolute inset-0" style={{ background: "radial-gradient(ellipse 80% 60% at 85% 100%, rgba(200,185,155,0.30) 0%, transparent 60%)" }} />
-      </div>
-    );
-  }
-
   // Rich background images — desktop / mobile
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
@@ -4971,7 +4957,7 @@ export default function AidAgentPage() {
         </div>
       )}
 
-      <div className={`h-screen flex overflow-hidden${!isDark ? " bright-mode" : ""}`} style={{ height: "100dvh" }} onClick={triggerBurst}>
+      <div className="h-screen flex overflow-hidden" style={{ height: "100dvh" }} onClick={triggerBurst}>
 
         {/* ── Left Dropdown — Students & Parents ── */}
         <aside
@@ -5287,7 +5273,7 @@ export default function AidAgentPage() {
                         className="w-full flex items-center justify-between px-4 py-3 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400"
                       >
                         <div className="flex items-center gap-2">
-                          <div className={`h-px w-8 ${isDark ? "bg-white/30" : "bg-black/20"}`} />
+                          <div className="h-px w-8 bg-white/30" />
                           <span className={`text-xs font-bold uppercase tracking-[0.16em] ${isDark ? "text-white/70" : "text-gray-800"}`}>How it works</span>
                         </div>
                         <ChevronDown className={`h-4 w-4 text-white/35 transition-transform duration-200 shrink-0 ${openAccordions.has("hiw") ? "rotate-180" : ""}`} />
@@ -5859,7 +5845,7 @@ export default function AidAgentPage() {
                       <span className="text-sm font-semibold tracking-wide">
                         <span style={{ background: "linear-gradient(90deg, #FFFFFF 0%, #D8EEFF 20%, #FFFFFF 40%, #EAF5FF 60%, #FFFFFF 80%, #D0E8FF 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-white-shimmer 4s linear infinite" }}>askGenie</span>
                       </span>
-                      <div className={`h-px flex-1 ${isDark ? "bg-white/[0.06]" : "bg-black/[0.12]"}`} />
+                      <div className="h-px flex-1 bg-white/[0.06]" />
                     </div>
                     <div className={`flex items-center gap-1.5 flex-wrap mb-2.5 px-1 rounded-xl transition-all duration-300 ${howItWorksActive === "role" ? "hiw-active-shimmer py-1.5 -mx-1" : ""}`}>
                       <span className={`text-[10px] font-semibold tracking-wide mr-0.5 shrink-0 ${isDark ? "text-white" : "text-gray-900"}`}>I am a:</span>
