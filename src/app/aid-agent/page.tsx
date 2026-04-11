@@ -5330,8 +5330,8 @@ export default function AidAgentPage() {
                     {/* ── Hero Headline ── */}
                     <div className="mb-3 text-center md:text-left">
                       <h2
-                        className={`font-black tracking-[0.06em] leading-tight mb-2 transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-guidance-headline" : ""}`}
-                        style={howItWorksActive === "guidance" ? { fontSize: "clamp(2rem, 5vw, 3.2rem)" } : { fontSize: "clamp(2rem, 5vw, 3.2rem)", color: "#FFFFFF" }}
+                        className={`font-black tracking-[0.06em] leading-tight mb-2 transition-all duration-300 hiw-guidance-headline ${howItWorksActive === "guidance" ? "hiw-guidance-headline" : ""}`}
+                        style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)" }}
                       >
                         STUDENT AID HUB
                       </h2>
