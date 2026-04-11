@@ -757,16 +757,16 @@
 }
 .hiw-guidance-headline {
   background: linear-gradient(90deg,
-    #D4AF37 0%, #FFE066 18%, #FFF4A0 34%,
-    #D4AF37 50%, #FFE066 66%, #FFF4A0 82%,
-    #D4AF37 100%
+    #e8e8e8 0%, #ffffff 25%, #f0f0f0 50%,
+    #ffffff 75%, #e8e8e8 100%
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   color: transparent;
-  animation: hiw-guidance-headline 2.4s linear infinite;
+  animation: hiw-guidance-headline 3s linear infinite;
+  filter: drop-shadow(0 0 12px rgba(255,255,255,0.55));
 }
 
 /* ── Get Clear Guidance: gold chatbox shimmer ── */
