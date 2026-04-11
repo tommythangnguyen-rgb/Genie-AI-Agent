@@ -66,7 +66,6 @@ import {
   Bookmark,
   BookmarkCheck,
   Star,
-  GraduationCap,
   Brain,
   Cpu,
   HeartHandshake,
