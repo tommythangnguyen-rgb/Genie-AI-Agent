@@ -5332,7 +5332,7 @@ export default function AidAgentPage() {
                         className={`font-black tracking-[0.06em] leading-tight mb-2 transition-all duration-300 hiw-guidance-headline ${howItWorksActive === "guidance" ? "hiw-guidance-headline" : ""}`}
                         style={{ fontSize: "clamp(2rem, 5vw, 3.2rem)" }}
                       >
-                        STUDENT AID HUB
+                        Student Aid Hub
                       </h2>
                     </div>
 
