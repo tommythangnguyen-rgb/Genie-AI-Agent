@@ -5161,9 +5161,8 @@ export default function AidAgentPage() {
                   type="button"
                   onClick={goHome}
                   title="Return to home"
-                  className="text-2xl font-black tracking-tight leading-none whitespace-nowrap px-2 py-0.5 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 transition-all duration-150"
+                  className="text-2xl font-black tracking-tight leading-none whitespace-nowrap px-2 py-0.5 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/40 transition-all duration-150 hiw-guidance-headline"
                   style={{
-                    color: "#FFFFFF",
                     letterSpacing: "-0.02em",
                   }}
                 >
