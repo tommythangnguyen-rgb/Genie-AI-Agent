@@ -3621,7 +3621,7 @@ export default function AidAgentPage() {
     []
   );
   const [welcomeTyped, setWelcomeTyped] = useState("");
-  const [heroMuted, setHeroMuted] = useState(false);
+  const [heroMuted, setHeroMuted] = useState(true);
   const heroVideoDesktopRef = useRef<HTMLVideoElement>(null);
   const heroVideoMobileRef = useRef<HTMLVideoElement>(null);
   // Daily rotation offset — shifts which tips appear first, updates each day
@@ -4815,6 +4815,7 @@ export default function AidAgentPage() {
               autoPlay
               loop
               playsInline
+              muted
               className="w-full h-full object-cover object-center"
             >
               <source src="/videos/superhero-genie.mp4" type="video/mp4" />
@@ -4833,6 +4834,7 @@ export default function AidAgentPage() {
               autoPlay
               loop
               playsInline
+              muted
               className="w-full h-full object-cover object-center"
             >
               <source src="/videos/superhero-genie.mp4" type="video/mp4" />
