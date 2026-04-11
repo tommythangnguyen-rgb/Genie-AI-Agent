@@ -105,7 +105,7 @@ const TIERS: Tier[] = [
     id: "pro",
     name: "Pro",
     badge: "Most Popular",
-    badgeColor: "from-cyan-500 to-teal-600",
+    badgeColor: "from-amber-500 to-yellow-600",
     monthlyPrice: 5.99,
     yearlyPrice: process.env.NEXT_PUBLIC_PRO_ANNUAL_PRICE ? Number(process.env.NEXT_PUBLIC_PRO_ANNUAL_PRICE) : 59,
     yearlyMonthly: process.env.NEXT_PUBLIC_PRO_ANNUAL_PRICE ? Math.round((Number(process.env.NEXT_PUBLIC_PRO_ANNUAL_PRICE) / 12) * 100) / 100 : 4.92,
@@ -255,31 +255,28 @@ export default function PricingPage() {
   }
 
   return (
-    <div
-      className="min-h-screen text-white relative"
-      style={{ background: "linear-gradient(135deg, #1e3a6e 0%, #253d7a 50%, #1a3060 100%)" }}
-    >
-      {/* Genie Orbs */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }} aria-hidden="true">
-        <div className="genie-orb-bg" style={{ width: 700, height: 700, top: "-15%", left: "-10%", background: "rgba(99,102,241,0.10)" }} />
-        <div className="genie-orb-bg" style={{ width: 550, height: 550, top: "40%", left: "65%", background: "rgba(139,92,246,0.08)", ["--dur" as any]: "10s", ["--delay" as any]: "2s" }} />
-        <div className="genie-orb-bg" style={{ width: 400, height: 400, top: "80%", left: "5%", background: "rgba(0,209,201,0.06)", ["--dur" as any]: "13s", ["--delay" as any]: "4s" }} />
+    <div className="min-h-screen text-white relative">
+      {/* Background */}
+      <div className="fixed inset-0 -z-10" aria-hidden="true">
+        <img src="/images/desktop-bg.jpg" alt="" className="w-full h-full object-cover object-center" />
+        <div className="absolute inset-0" style={{ background: "rgba(5,2,14,0.55)" }} />
       </div>
+
       {/* ── Header ── */}
-      <header className="sticky top-0 z-50 border-b border-white/[0.15] bg-white/[0.08] backdrop-blur-xl">
+      <header className="sticky top-0 z-50 shrink-0">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link
             href="/aid-agent"
-            className="flex items-center gap-2 text-[#94A3B8]/70 hover:text-[#00E5C0] transition-colors text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded-lg px-2 py-1 ring-1 ring-white/10 hover:bg-white/[0.05]"
+            className="flex items-center gap-2 text-[#94A3B8]/70 hover:text-[#D4AF37] transition-colors text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/50 rounded-lg px-2 py-1 ring-1 ring-white/10 hover:bg-white/[0.05]"
           >
             <Home className="h-4 w-4" />
             <span className="hidden sm:inline">Back to Genie</span>
           </Link>
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/25">
+            <div className="p-1.5 rounded-xl" style={{ background: "rgba(212,175,55,0.18)" }}>
               <GenieBottle className="h-4 w-4 text-white" />
             </div>
-            <span className="font-bold tracking-tight text-[#00E5C0]">Genie</span>
+            <span className="font-bold tracking-tight text-[#D4AF37]">Genie</span>
             <ChevronRight className="h-3.5 w-3.5 text-white/30" />
             <span className="text-white/75 text-sm font-semibold">Pricing</span>
           </div>
@@ -291,20 +288,21 @@ export default function PricingPage() {
 
         {/* ── Hero ── */}
         <section className="pt-16 pb-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-500/[0.12] ring-1 ring-cyan-400/40 text-cyan-300 text-xs font-semibold mb-6 tracking-widest uppercase shadow-sm shadow-cyan-500/20">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/[0.15] ring-1 ring-amber-400/40 text-amber-400 text-xs font-semibold mb-6 tracking-widest uppercase shadow-sm">
             <Zap className="h-3.5 w-3.5" />
             Simple, transparent pricing
           </div>
           <h1
             className="text-4xl sm:text-5xl font-black tracking-tight leading-tight mb-4"
             style={{
-              background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)",
+              background: "linear-gradient(90deg, #e8e8e8 0%, #ffffff 25%, #f0f0f0 50%, #ffffff 75%, #e8e8e8 100%)",
               backgroundSize: "200% auto",
               WebkitBackgroundClip: "text",
               backgroundClip: "text",
               WebkitTextFillColor: "transparent",
               color: "transparent",
-              animation: "genie-teal-shimmer 3.5s linear infinite",
+              animation: "hiw-guidance-headline 3s linear infinite",
+              filter: "drop-shadow(0 0 12px rgba(255,255,255,0.55))",
             }}
           >
             Simple Pricing for Real<br className="hidden sm:block" /> Financial Aid Relief
@@ -333,7 +331,7 @@ export default function PricingPage() {
               checked={annual}
               onCheckedChange={setAnnual}
               aria-label="Toggle annual billing"
-              className="data-[state=checked]:bg-cyan-500"
+              className="data-[state=checked]:bg-amber-500"
             />
             <span className={`text-sm font-semibold transition-colors ${annual ? "text-white" : "text-white/40"}`}>
               Annual
@@ -362,16 +360,20 @@ export default function PricingPage() {
                 key={tier.id}
                 className={`relative rounded-2xl flex flex-col px-6 py-7 ${
                   isHighlight
-                    ? "bg-gradient-to-b from-cyan-600/25 to-teal-800/20 ring-2 ring-cyan-400/50 shadow-2xl shadow-cyan-900/30"
+                    ? "ring-2 ring-[#D4AF37]/50"
                     : ""
                 }`}
-                style={!isHighlight ? {
-                  background: "rgba(255,255,255,0.08)",
+                style={isHighlight ? {
+                  background: "rgba(212,175,55,0.12)",
                   backdropFilter: "blur(16px)",
                   WebkitBackdropFilter: "blur(16px)",
+                } : {
+                  background: "rgba(255,255,255,0.05)",
+                  backdropFilter: "blur(12px)",
+                  WebkitBackdropFilter: "blur(12px)",
                   border: "1px solid rgba(255,255,255,0.14)",
                   boxShadow: "0 8px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.10)",
-                } : undefined}
+                }}
               >
                 {/* Badge */}
                 {tier.badge && (
@@ -419,7 +421,7 @@ export default function PricingPage() {
                 {/* Daily limit chip */}
                 {tier.dailyLimit && (
                   <div className="mb-5 px-3 py-2 rounded-lg bg-white/[0.06] ring-1 ring-white/[0.08] text-center">
-                    <span className="text-xs font-semibold text-cyan-300">{tier.dailyLimit}</span>
+                    <span className="text-xs font-semibold text-amber-400">{tier.dailyLimit}</span>
                   </div>
                 )}
 
@@ -427,13 +429,14 @@ export default function PricingPage() {
                 <button
                   onClick={() => subscribe(tier)}
                   disabled={loading === tier.id}
-                  className={`w-full py-3 rounded-xl font-semibold text-sm mb-6 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${
+                  className={`w-full py-3 rounded-xl font-semibold text-sm mb-6 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/50 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${
                     tier.ctaVariant === "primary"
-                      ? "bg-gradient-to-r from-cyan-500 to-teal-600 text-white shadow-lg hover:opacity-90 active:scale-[0.98]"
+                      ? "text-[#D4AF37] hover:bg-amber-500/30 active:scale-[0.98]"
                       : tier.ctaVariant === "outline"
                       ? "bg-white/[0.08] text-white ring-1 ring-white/[0.18] hover:bg-white/[0.14] active:scale-[0.98]"
-                      : "bg-white/[0.05] text-cyan-300 ring-1 ring-cyan-400/30 hover:bg-cyan-500/15 active:scale-[0.98]"
+                      : "bg-white/[0.05] text-amber-400 ring-1 ring-[#D4AF37]/30 hover:bg-amber-500/15 active:scale-[0.98]"
                   }`}
+                  style={tier.ctaVariant === "primary" ? { background: "rgba(212,175,55,0.20)", border: "1px solid rgba(212,175,55,0.35)" } : undefined}
                 >
                   {loading === tier.id ? "Redirecting…" : tier.ctaLabel}
                   {loading !== tier.id && tier.ctaVariant === "primary" && <ArrowRight className="h-4 w-4" />}
@@ -455,7 +458,7 @@ export default function PricingPage() {
                 <ul className="space-y-2.5 flex-1">
                   {tier.includes.map((key) => (
                     <li key={key} className="flex items-start gap-2">
-                      <Check className="h-3.5 w-3.5 text-cyan-400 shrink-0 mt-0.5" aria-hidden="true" />
+                      <Check className="h-3.5 w-3.5 text-amber-400 shrink-0 mt-0.5" aria-hidden="true" />
                       <span className="text-xs text-white/75">{FEATURES[key]}</span>
                     </li>
                   ))}
@@ -476,16 +479,16 @@ export default function PricingPage() {
           <div className="flex items-center gap-2 mb-6">
             <div className="h-px flex-1 bg-gradient-to-r from-transparent to-white/[0.10]" />
             <h2 id="why-pro-heading" className="text-xs font-bold uppercase tracking-widest text-white/60 px-3 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 shrink-0" />
+              <span className="w-1.5 h-1.5 rounded-full bg-amber-400 shrink-0" />
               Why Pro pays for itself
             </h2>
             <div className="h-px flex-1 bg-gradient-to-l from-transparent to-white/[0.10]" />
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             {WHY_PRO.map(({ icon: Icon, title, body }) => (
-              <div key={title} className="flex gap-4 p-5 rounded-2xl bg-white/[0.04] ring-1 ring-white/[0.07]">
-                <div className="p-2.5 rounded-xl bg-cyan-500/[0.15] ring-1 ring-cyan-500/[0.28] shrink-0 self-start">
-                  <Icon className="h-4 w-4 text-cyan-300" aria-hidden="true" />
+              <div key={title} className="flex gap-4 p-5 rounded-2xl bg-white/[0.05] ring-1 ring-white/[0.10]" style={{ backdropFilter: "blur(12px)" }}>
+                <div className="p-2.5 rounded-xl bg-amber-500/[0.15] ring-1 ring-amber-500/[0.28] shrink-0 self-start">
+                  <Icon className="h-4 w-4 text-amber-400" aria-hidden="true" />
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-white mb-1 leading-snug">{title}</p>
@@ -504,7 +507,7 @@ export default function PricingPage() {
               { icon: Users,      text: "Students, parents & FA offices" },
             ].map(({ icon: Icon, text }) => (
               <div key={text} className="flex items-center gap-1.5">
-                <Icon className="h-3.5 w-3.5 text-cyan-400/60 shrink-0" aria-hidden="true" />
+                <Icon className="h-3.5 w-3.5 text-amber-400/60 shrink-0" aria-hidden="true" />
                 <span className="text-xs text-white/40">{text}</span>
               </div>
             ))}
@@ -518,11 +521,11 @@ export default function PricingPage() {
           </h2>
           <div className="max-w-2xl mx-auto space-y-2">
             {FAQ_ITEMS.map((item, i) => (
-              <div key={i} className="rounded-xl bg-white/[0.04] ring-1 ring-white/[0.08] overflow-hidden">
+              <div key={i} className="rounded-xl bg-white/[0.05] ring-1 ring-white/[0.08] overflow-hidden" style={{ backdropFilter: "blur(12px)" }}>
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   aria-expanded={openFaq === i}
-                  className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-500 hover:bg-white/[0.04] transition-colors"
+                  className="w-full flex items-center justify-between gap-3 px-5 py-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#D4AF37]/50 hover:bg-white/[0.04] transition-colors"
                 >
                   <span className="text-sm font-semibold text-white/85">{item.q}</span>
                   <ChevronDown
@@ -540,11 +543,11 @@ export default function PricingPage() {
           </div>
           <p className="text-xs text-white/30 text-center mt-6">
             More questions?{" "}
-            <Link href="/about#contact" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-2">
+            <Link href="/about#contact" className="text-amber-400 hover:text-[#D4AF37] underline underline-offset-2">
               Contact us
             </Link>
             {" "}or{" "}
-            <Link href="/about" className="text-cyan-400 hover:text-cyan-300 underline underline-offset-2">
+            <Link href="/about" className="text-amber-400 hover:text-[#D4AF37] underline underline-offset-2">
               learn about Genie
             </Link>
             .
@@ -561,7 +564,7 @@ export default function PricingPage() {
             { label: "Legal", href: "/legal" },
             { label: "School DPA", href: "/dpa" },
           ].map(({ label, href }) => (
-            <Link key={label} href={href} className="px-3 py-1 rounded-full text-[11px] font-medium text-white/35 hover:text-cyan-300 hover:bg-cyan-500/[0.10] ring-1 ring-white/[0.08] hover:ring-cyan-500/25 transition-all">{label}</Link>
+            <Link key={label} href={href} className="px-3 py-1 rounded-full text-[11px] font-medium text-white/35 hover:text-amber-400 hover:bg-amber-500/[0.10] ring-1 ring-white/[0.08] hover:ring-amber-400/25 transition-all">{label}</Link>
           ))}
         </div>
 
@@ -581,7 +584,8 @@ export default function PricingPage() {
             </Link>
             <Link
               href="/aid-agent"
-              className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold transition-colors"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-[#D4AF37] text-xs font-semibold transition-colors hover:bg-amber-500/30"
+              style={{ background: "rgba(212,175,55,0.25)", border: "1px solid rgba(212,175,55,0.40)" }}
             >
               <GenieBottle className="h-3.5 w-3.5" />
               Open Genie

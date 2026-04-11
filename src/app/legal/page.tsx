@@ -145,33 +145,29 @@ export default function LegalPage() {
   const effectiveDate = "March 29, 2026";
 
   return (
-    <div
-      className="min-h-screen text-white relative"
-      style={{ background: "linear-gradient(135deg, #1e3a6e 0%, #253d7a 50%, #1a3060 100%)" }}
-    >
-      {/* Genie Orbs */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }} aria-hidden="true">
-        <div className="genie-orb-bg" style={{ width: 600, height: 600, top: "-10%", left: "-8%", background: "rgba(0,229,192,0.07)" }} />
-        <div className="genie-orb-bg" style={{ width: 480, height: 480, top: "50%", left: "70%", background: "rgba(99,102,241,0.07)", ["--dur" as any]: "11s", ["--delay" as any]: "2s" }} />
-        <div className="genie-orb-bg" style={{ width: 350, height: 350, top: "75%", left: "10%", background: "rgba(20,184,166,0.05)", ["--dur" as any]: "14s", ["--delay" as any]: "5s" }} />
+    <div className="min-h-screen text-white relative">
+      {/* Background */}
+      <div className="fixed inset-0 -z-10" aria-hidden="true">
+        <img src="/images/desktop-bg.jpg" alt="" className="w-full h-full object-cover object-center" />
+        <div className="absolute inset-0" style={{ background: "rgba(5,2,14,0.55)" }} />
       </div>
 
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-white/[0.15] bg-white/[0.08] backdrop-blur-xl">
+      <header className="sticky top-0 z-50 shrink-0">
         <div className="max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link
             href="/aid-agent"
-            className="flex items-center gap-2 text-[#94A3B8]/70 hover:text-[#00E5C0] transition-colors text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded-lg px-2 py-1 ring-1 ring-white/10 hover:bg-white/[0.05]"
+            className="flex items-center gap-2 text-[#94A3B8]/70 hover:text-[#D4AF37] transition-colors text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/50 rounded-lg px-2 py-1 ring-1 ring-white/10 hover:bg-white/[0.05]"
           >
             <Home className="h-4 w-4" />
             <span className="hidden sm:inline">Back to Genie</span>
           </Link>
 
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/25">
+            <div className="p-1.5 rounded-xl" style={{ background: "rgba(212,175,55,0.18)" }}>
               <GenieBottle className="h-4 w-4 text-white" />
             </div>
-            <span className="font-bold tracking-tight text-[#00E5C0]">Genie</span>
+            <span className="font-bold tracking-tight text-[#D4AF37]">Genie</span>
             <ChevronRight className="h-3.5 w-3.5 text-white/30" />
             <span className="text-white/75 text-sm font-semibold">Legal</span>
           </div>
@@ -193,22 +189,24 @@ export default function LegalPage() {
         <div className="flex gap-2 p-1 rounded-xl bg-white/[0.05] ring-1 ring-white/[0.08] w-fit">
           <button
             onClick={() => setTab("tos")}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/50 ${
               tab === "tos"
-                ? "bg-cyan-600 text-white shadow-lg shadow-cyan-900/40"
+                ? "text-[#D4AF37]"
                 : "text-white/45 hover:text-white/75 hover:bg-white/[0.06]"
             }`}
+            style={tab === "tos" ? { background: "rgba(212,175,55,0.20)", border: "1px solid rgba(212,175,55,0.35)" } : undefined}
           >
             <Scale className="h-4 w-4" />
             Terms of Service
           </button>
           <button
             onClick={() => setTab("privacy")}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/50 ${
               tab === "privacy"
-                ? "bg-cyan-600 text-white shadow-lg shadow-cyan-900/40"
+                ? "text-[#D4AF37]"
                 : "text-white/45 hover:text-white/75 hover:bg-white/[0.06]"
             }`}
+            style={tab === "privacy" ? { background: "rgba(212,175,55,0.20)", border: "1px solid rgba(212,175,55,0.35)" } : undefined}
           >
             <Shield className="h-4 w-4" />
             Privacy Policy
@@ -222,13 +220,14 @@ export default function LegalPage() {
           <h1
             className="text-4xl sm:text-5xl font-black tracking-tight leading-tight mb-1"
             style={{
-              background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)",
+              background: "linear-gradient(90deg, #e8e8e8 0%, #ffffff 25%, #f0f0f0 50%, #ffffff 75%, #e8e8e8 100%)",
               backgroundSize: "200% auto",
               WebkitBackgroundClip: "text",
               backgroundClip: "text",
               WebkitTextFillColor: "transparent",
               color: "transparent",
-              animation: "genie-teal-shimmer 3.5s linear infinite",
+              animation: "hiw-guidance-headline 3s linear infinite",
+              filter: "drop-shadow(0 0 12px rgba(255,255,255,0.55))",
             }}
           >
             {tab === "tos" ? "Terms of Service" : "Privacy Policy"}
@@ -242,15 +241,15 @@ export default function LegalPage() {
               key={n}
               className="group rounded-xl transition-all duration-150 overflow-hidden"
               style={{
-                background: "rgba(255,255,255,0.08)",
-                backdropFilter: "blur(16px)",
-                WebkitBackdropFilter: "blur(16px)",
+                background: "rgba(255,255,255,0.05)",
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
                 border: "1px solid rgba(255,255,255,0.14)",
                 boxShadow: "0 8px 32px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.10)",
               }}
             >
               <div className="flex items-start gap-4 px-6 py-5">
-                <span className="shrink-0 mt-0.5 w-8 h-8 flex items-center justify-center rounded-lg bg-cyan-500/[0.15] ring-1 ring-cyan-500/[0.28] text-cyan-300 text-xs font-bold">
+                <span className="shrink-0 mt-0.5 w-8 h-8 flex items-center justify-center rounded-lg bg-amber-500/[0.15] ring-1 ring-amber-500/[0.28] text-amber-400 text-xs font-bold">
                   {n}
                 </span>
                 <div className="flex-1 min-w-0">
@@ -272,7 +271,7 @@ export default function LegalPage() {
             { label: "Legal", href: "/legal" },
             { label: "School DPA", href: "/dpa" },
           ].map(({ label, href }) => (
-            <Link key={label} href={href} className="px-3 py-1 rounded-full text-[11px] font-medium text-white/35 hover:text-cyan-300 hover:bg-cyan-500/[0.10] ring-1 ring-white/[0.08] hover:ring-cyan-500/25 transition-all">{label}</Link>
+            <Link key={label} href={href} className="px-3 py-1 rounded-full text-[11px] font-medium text-white/35 hover:text-amber-400 hover:bg-amber-500/[0.10] ring-1 ring-white/[0.08] hover:ring-amber-400/25 transition-all">{label}</Link>
           ))}
         </div>
 
@@ -284,7 +283,8 @@ export default function LegalPage() {
           </div>
           <Link
             href="/aid-agent"
-            className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-[#D4AF37] text-xs font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/50 hover:bg-amber-500/30"
+            style={{ background: "rgba(212,175,55,0.25)", border: "1px solid rgba(212,175,55,0.40)" }}
           >
             <GenieBottle className="h-3.5 w-3.5" />
             Back to Genie

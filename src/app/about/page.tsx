@@ -28,27 +28,25 @@ export default function AboutPage() {
   };
 
   return (
-    <div className="min-h-screen text-white relative" style={{ background: "linear-gradient(135deg, #1e3a6e 0%, #253d7a 50%, #1a3060 100%)" }}>
-
-      {/* Genie Orbs */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }} aria-hidden="true">
-        <div className="genie-orb-bg" style={{ width: 700, height: 700, top: "-15%", left: "-15%", background: "rgba(99,102,241,0.10)" }} />
-        <div className="genie-orb-bg" style={{ width: 550, height: 550, top: "45%", left: "60%", background: "rgba(139,92,246,0.08)", ["--dur" as any]: "10s", ["--delay" as any]: "2s" }} />
-        <div className="genie-orb-bg" style={{ width: 400, height: 400, top: "80%", left: "5%", background: "rgba(0,209,201,0.06)", ["--dur" as any]: "13s", ["--delay" as any]: "4s" }} />
+    <div className="min-h-screen text-white relative">
+      {/* Background */}
+      <div className="fixed inset-0 -z-10" aria-hidden="true">
+        <img src="/images/desktop-bg.jpg" alt="" className="w-full h-full object-cover object-center" />
+        <div className="absolute inset-0" style={{ background: "rgba(5,2,14,0.55)" }} />
       </div>
 
       {/* Header */}
-      <header className="sticky top-0 z-10 border-b border-white/[0.15] bg-white/[0.08] backdrop-blur-xl" style={{ zIndex: 50 }}>
+      <header className="sticky top-0 z-50 shrink-0">
         <div className="max-w-4xl mx-auto px-6 h-14 flex items-center justify-between">
-          <Link href="/aid-agent" className="flex items-center gap-2 text-[#94A3B8]/70 hover:text-[#00E5C0] transition-colors text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded-lg px-2 py-1 ring-1 ring-white/10 hover:bg-white/[0.05]">
+          <Link href="/aid-agent" className="flex items-center gap-2 text-[#94A3B8]/70 hover:text-[#D4AF37] transition-colors text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/50 rounded-lg px-2 py-1 ring-1 ring-white/10 hover:bg-white/[0.05]">
             <Home className="h-4 w-4" />
             <span className="hidden sm:inline">Back to Genie</span>
           </Link>
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/25">
+            <div className="p-1.5 rounded-xl" style={{ background: "rgba(212,175,55,0.18)" }}>
               <GenieBottle className="h-4 w-4 text-white" />
             </div>
-            <span className="font-bold tracking-tight text-[#00E5C0]">Genie</span>
+            <span className="font-bold tracking-tight text-[#D4AF37]">Genie</span>
             <ChevronRight className="h-3.5 w-3.5 text-white/30" />
             <span className="text-white/75 text-sm font-semibold">About</span>
           </div>
@@ -71,13 +69,14 @@ export default function AboutPage() {
             <h1
               className="text-4xl sm:text-5xl font-black tracking-tight leading-tight drop-shadow-lg"
               style={{
-                background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)",
+                background: "linear-gradient(90deg, #e8e8e8 0%, #ffffff 25%, #f0f0f0 50%, #ffffff 75%, #e8e8e8 100%)",
                 backgroundSize: "200% auto",
                 WebkitBackgroundClip: "text",
                 backgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 color: "transparent",
-                animation: "genie-teal-shimmer 3.5s linear infinite",
+                animation: "hiw-guidance-headline 3s linear infinite",
+                filter: "drop-shadow(0 0 12px rgba(255,255,255,0.55))",
               }}
             >
               Built From the Inside
@@ -87,7 +86,7 @@ export default function AboutPage() {
 
         {/* Hero */}
         <section className="pt-8 pb-14 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-500/[0.12] ring-1 ring-cyan-400/40 text-cyan-300 text-xs font-semibold mb-6 tracking-widest uppercase shadow-sm shadow-cyan-500/20">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/[0.15] ring-1 ring-amber-400/40 text-amber-400 text-xs font-semibold mb-6 tracking-widest uppercase shadow-sm">
             <ShieldCheck className="h-3.5 w-3.5" />
             15 Years · Student Financial Aid · For-Profit Post-Secondary Education
           </div>
@@ -96,7 +95,8 @@ export default function AboutPage() {
           </p>
           <Link
             href="/aid-agent"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-600 text-white font-semibold text-sm shadow-lg shadow-cyan-900/40 hover:opacity-90 active:scale-[0.98] transition-all ring-1 ring-cyan-400/30"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-[#D4AF37] font-semibold text-sm shadow-lg hover:bg-amber-500/30 active:scale-[0.98] transition-all ring-1 ring-[#D4AF37]/35"
+            style={{ background: "rgba(212,175,55,0.20)", border: "1px solid rgba(212,175,55,0.35)" }}
           >
             <GenieBottle className="h-4 w-4" />
             Try Genie — It&apos;s Free
@@ -104,7 +104,7 @@ export default function AboutPage() {
         </section>
 
         {/* Origin Story */}
-        <section className="mb-12 rounded-2xl px-8 py-8" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
+        <section className="mb-12 rounded-2xl px-8 py-8" style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
           <h2 className="text-lg font-bold text-white mb-5">The Story Behind Genie</h2>
 
           {/* Photo + first two paragraphs side-by-side on md+ */}
@@ -141,12 +141,12 @@ export default function AboutPage() {
         {/* Our Mission */}
         <section className="mb-10">
           <div className="flex items-center gap-3 mb-5">
-            <div className="p-2 rounded-xl bg-cyan-500/[0.15] ring-1 ring-cyan-500/[0.28]">
-              <Target className="h-5 w-5 text-cyan-300" />
+            <div className="p-2 rounded-xl bg-amber-500/[0.15] ring-1 ring-amber-500/[0.28]">
+              <Target className="h-5 w-5 text-amber-400" />
             </div>
             <h2 className="text-xl font-bold text-white">Our Mission</h2>
           </div>
-          <div className="rounded-2xl px-8 py-6 space-y-4" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
+          <div className="rounded-2xl px-8 py-6 space-y-4" style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
             <p className="text-white/90 leading-relaxed">
               Make financial aid <strong className="text-white">understandable, accessible, and actionable</strong> for every person who touches it — whether you are a first-generation student, a parent decoding an award letter, or a financial aid administrator running an R2T4 withdrawal.
             </p>
@@ -154,7 +154,7 @@ export default function AboutPage() {
               But the mission reaches further: <strong className="text-white">to inspire curiosity and lifelong learning.</strong> Education does not end at graduation. Understanding how systems work — your rights, your options, your obligations — is a skill that pays dividends for life. If you are here, that curiosity deserves to be met with clarity, not confusion.
             </p>
             <p className="text-white/90 leading-relaxed">
-              <strong className="text-white">Genie is designed to cover API and hosting costs initially.</strong> If genuine demand grows, we will explore sustainable paths that keep the tool affordable and accessible for the students and families who need it most. The tool exists to serve users — not the other way around. If growth is successful, the developer hopes to create <strong className="text-cyan-300">scholarship opportunities for subscribed users</strong> — giving back directly to the students this platform is built to serve.
+              <strong className="text-white">Genie is designed to cover API and hosting costs initially.</strong> If genuine demand grows, we will explore sustainable paths that keep the tool affordable and accessible for the students and families who need it most. The tool exists to serve users — not the other way around. If growth is successful, the developer hopes to create <strong className="text-amber-400">scholarship opportunities for subscribed users</strong> — giving back directly to the students this platform is built to serve.
             </p>
             <div className="grid sm:grid-cols-2 gap-3 mt-2">
               {[
@@ -166,7 +166,7 @@ export default function AboutPage() {
                 "Accessible to anyone, regardless of background",
               ].map((item) => (
                 <div key={item} className="flex items-start gap-2.5">
-                  <CheckCircle className="h-4 w-4 text-cyan-400 shrink-0 mt-0.5" />
+                  <CheckCircle className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
                   <span className="text-sm text-white/85">{item}</span>
                 </div>
               ))}
@@ -177,12 +177,12 @@ export default function AboutPage() {
         {/* AI & Intentions */}
         <section className="mb-10">
           <div className="flex items-center gap-3 mb-5">
-            <div className="p-2 rounded-xl bg-cyan-500/[0.15] ring-1 ring-cyan-500/[0.28]">
-              <Sparkles className="h-5 w-5 text-cyan-300" />
+            <div className="p-2 rounded-xl bg-amber-500/[0.15] ring-1 ring-amber-500/[0.28]">
+              <Sparkles className="h-5 w-5 text-amber-400" />
             </div>
             <h2 className="text-xl font-bold text-white">AI, Transparency & Our Intentions</h2>
           </div>
-          <div className="rounded-2xl px-8 py-6 space-y-4" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
+          <div className="rounded-2xl px-8 py-6 space-y-4" style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
             <p className="text-white/90 leading-relaxed">
               We want to be direct with you: <strong className="text-white">AI is a powerful tool — and a responsibility.</strong> The conversations around artificial intelligence are real: job displacement, misinformation, loss of human connection. Those concerns deserve to be taken seriously, and they shaped how Genie was built.
             </p>
@@ -216,8 +216,8 @@ export default function AboutPage() {
         {/* Who We Serve */}
         <section className="mb-10">
           <div className="flex items-center gap-3 mb-5">
-            <div className="p-2 rounded-xl bg-cyan-500/[0.15] ring-1 ring-cyan-500/[0.28]">
-              <Users className="h-5 w-5 text-cyan-300" />
+            <div className="p-2 rounded-xl bg-amber-500/[0.15] ring-1 ring-amber-500/[0.28]">
+              <Users className="h-5 w-5 text-amber-400" />
             </div>
             <h2 className="text-xl font-bold text-white">Who We Serve</h2>
           </div>
@@ -239,9 +239,9 @@ export default function AboutPage() {
                 desc: "Compliance officers, executives, and auditors needing quick, reliable reference to federal regulations, program requirements, and audit preparation.",
               },
             ].map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="rounded-2xl px-6 py-5" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
-                <div className="p-2 rounded-xl bg-cyan-500/[0.12] w-fit mb-3">
-                  <Icon className="h-4 w-4 text-cyan-300" />
+              <div key={title} className="rounded-2xl px-6 py-5" style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
+                <div className="p-2 rounded-xl bg-amber-500/[0.12] w-fit mb-3">
+                  <Icon className="h-4 w-4 text-amber-400" />
                 </div>
                 <h3 className="text-sm font-semibold text-white mb-2">{title}</h3>
                 <p className="text-xs text-white/85 leading-relaxed">{desc}</p>
@@ -262,8 +262,8 @@ export default function AboutPage() {
         {/* Why Genie */}
         <section className="mb-12">
           <div className="flex items-center gap-3 mb-5">
-            <div className="p-2 rounded-xl bg-cyan-500/[0.15] ring-1 ring-cyan-500/[0.28]">
-              <Lightbulb className="h-5 w-5 text-cyan-300" />
+            <div className="p-2 rounded-xl bg-amber-500/[0.15] ring-1 ring-amber-500/[0.28]">
+              <Lightbulb className="h-5 w-5 text-amber-400" />
             </div>
             <h2 className="text-xl font-bold text-white">Why Genie — and Not Something Else</h2>
           </div>
@@ -290,7 +290,7 @@ export default function AboutPage() {
                 body: "The most empowered users are the ones who ask follow-up questions, do their own research, and confirm information with official sources. Genie is here to help you start — not finish — that journey.",
               },
             ].map(({ label, body }) => (
-              <div key={label} className="rounded-xl bg-white/[0.04] ring-1 ring-white/[0.07] px-6 py-4">
+              <div key={label} className="rounded-xl bg-white/[0.05] ring-1 ring-white/[0.10] px-6 py-4" style={{ backdropFilter: "blur(12px)" }}>
                 <p className="text-sm font-semibold text-white mb-1">{label}</p>
                 <p className="text-sm text-white/85 leading-relaxed">{body}</p>
               </div>
@@ -301,15 +301,15 @@ export default function AboutPage() {
         {/* Contact / Demo Request */}
         <section id="contact" className="mb-12">
           <div className="flex items-center gap-3 mb-5">
-            <div className="p-2 rounded-xl bg-cyan-500/[0.15] ring-1 ring-cyan-500/[0.28]">
-              <Mail className="h-5 w-5 text-cyan-300" />
+            <div className="p-2 rounded-xl bg-amber-500/[0.15] ring-1 ring-amber-500/[0.28]">
+              <Mail className="h-5 w-5 text-amber-400" />
             </div>
             <h2 className="text-xl font-bold text-white">Contact & Demo Request</h2>
           </div>
-          <div className="rounded-2xl px-8 py-7" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
+          <div className="rounded-2xl px-8 py-7" style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
             {submitted ? (
               <div className="flex flex-col items-center gap-3 py-6 text-center">
-                <CheckCircle className="h-10 w-10 text-cyan-400" />
+                <CheckCircle className="h-10 w-10 text-amber-400" />
                 <p className="text-base font-semibold text-white">Message received!</p>
                 <p className="text-sm text-white/85">We will be in touch within 2 business days.</p>
               </div>
@@ -324,7 +324,7 @@ export default function AboutPage() {
                       value={formState.name}
                       onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                       placeholder="Your full name"
-                      className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+                      className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all"
                     />
                   </div>
                   <div>
@@ -335,7 +335,7 @@ export default function AboutPage() {
                       value={formState.email}
                       onChange={(e) => setFormState({ ...formState, email: e.target.value })}
                       placeholder="you@example.com"
-                      className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+                      className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all"
                     />
                   </div>
                 </div>
@@ -344,7 +344,7 @@ export default function AboutPage() {
                   <select
                     value={formState.role}
                     onChange={(e) => setFormState({ ...formState, role: e.target.value })}
-                    className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all appearance-none"
+                    className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all appearance-none"
                   >
                     <option value="" className="bg-[#0e4099]">Select your role</option>
                     <option value="student" className="bg-[#0e4099]">Student</option>
@@ -363,12 +363,13 @@ export default function AboutPage() {
                     value={formState.message}
                     onChange={(e) => setFormState({ ...formState, message: e.target.value })}
                     placeholder="Tell us about your needs, your institution, or request a demo..."
-                    className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all resize-none"
+                    className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all resize-none"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-600 text-white font-semibold text-sm shadow-lg hover:opacity-90 active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+                  className="w-full py-3 rounded-xl text-[#D4AF37] font-semibold text-sm shadow-lg hover:bg-amber-500/30 active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/50"
+                  style={{ background: "rgba(212,175,55,0.20)", border: "1px solid rgba(212,175,55,0.35)" }}
                 >
                   Send Message
                 </button>
@@ -397,7 +398,7 @@ export default function AboutPage() {
             { label: "Legal", href: "/legal" },
             { label: "School DPA", href: "/dpa" },
           ].map(({ label, href }) => (
-            <Link key={label} href={href} className="px-3 py-1 rounded-full text-[11px] font-medium text-white/35 hover:text-cyan-300 hover:bg-cyan-500/[0.10] ring-1 ring-white/[0.08] hover:ring-cyan-500/25 transition-all">{label}</Link>
+            <Link key={label} href={href} className="px-3 py-1 rounded-full text-[11px] font-medium text-white/35 hover:text-amber-400 hover:bg-amber-500/[0.10] ring-1 ring-white/[0.08] hover:ring-amber-400/25 transition-all">{label}</Link>
           ))}
         </div>
 
@@ -410,7 +411,11 @@ export default function AboutPage() {
           <div className="flex items-center gap-2">
             <Link href="/institutions" className="px-3 py-1.5 rounded-lg text-white/40 hover:text-white text-xs font-medium transition-colors">For Schools</Link>
             <Link href="/legal" className="px-3 py-1.5 rounded-lg text-white/40 hover:text-white text-xs font-medium transition-colors">Legal</Link>
-            <Link href="/aid-agent" className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold transition-colors">
+            <Link
+              href="/aid-agent"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-[#D4AF37] text-xs font-semibold transition-colors hover:bg-amber-500/30"
+              style={{ background: "rgba(212,175,55,0.25)", border: "1px solid rgba(212,175,55,0.40)" }}
+            >
               <GenieBottle className="h-3.5 w-3.5" />
               Open Genie
             </Link>

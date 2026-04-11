@@ -61,29 +61,25 @@ export default function InstitutionsPage() {
   };
 
   return (
-    <div
-      className="min-h-screen text-white relative"
-      style={{ background: "linear-gradient(135deg, #1e3a6e 0%, #253d7a 50%, #1a3060 100%)" }}
-    >
-      {/* Genie Orbs */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden" style={{ zIndex: 0 }} aria-hidden="true">
-        <div className="genie-orb-bg" style={{ width: 700, height: 700, top: "-15%", left: "-10%", background: "rgba(0,229,192,0.08)" }} />
-        <div className="genie-orb-bg" style={{ width: 550, height: 550, top: "40%", left: "65%", background: "rgba(99,102,241,0.07)", ["--dur" as any]: "11s", ["--delay" as any]: "2s" }} />
-        <div className="genie-orb-bg" style={{ width: 400, height: 400, top: "80%", left: "5%", background: "rgba(20,184,166,0.05)", ["--dur" as any]: "14s", ["--delay" as any]: "5s" }} />
+    <div className="min-h-screen text-white relative">
+      {/* Background */}
+      <div className="fixed inset-0 -z-10" aria-hidden="true">
+        <img src="/images/desktop-bg.jpg" alt="" className="w-full h-full object-cover object-center" />
+        <div className="absolute inset-0" style={{ background: "rgba(5,2,14,0.55)" }} />
       </div>
 
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-white/[0.15] bg-white/[0.08] backdrop-blur-xl">
+      <header className="sticky top-0 z-50 shrink-0">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-          <Link href="/aid-agent" className="flex items-center gap-2 text-[#94A3B8]/70 hover:text-[#00E5C0] transition-colors text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 rounded-lg px-2 py-1 ring-1 ring-white/10 hover:bg-white/[0.05]">
+          <Link href="/aid-agent" className="flex items-center gap-2 text-[#94A3B8]/70 hover:text-[#D4AF37] transition-colors text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/50 rounded-lg px-2 py-1 ring-1 ring-white/10 hover:bg-white/[0.05]">
             <Home className="h-4 w-4" />
             <span className="hidden sm:inline">Back to Genie</span>
           </Link>
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/25">
+            <div className="p-1.5 rounded-xl" style={{ background: "rgba(212,175,55,0.18)" }}>
               <GenieBottle className="h-4 w-4 text-white" />
             </div>
-            <span className="font-bold tracking-tight text-[#00E5C0]">Genie</span>
+            <span className="font-bold tracking-tight text-[#D4AF37]">Genie</span>
             <ChevronRight className="h-3.5 w-3.5 text-white/30" />
             <span className="text-white/75 text-sm font-semibold">For Schools</span>
           </div>
@@ -100,20 +96,21 @@ export default function InstitutionsPage() {
             <img src="/images/advisor-student.jpg" alt="" className="w-full h-64 object-cover object-[50%_30%]" />
             <div className="absolute inset-0 bg-gradient-to-b from-[#020C1B]/40 to-[#020C1B]/80" />
             <div className="absolute inset-0 flex flex-col items-center justify-center px-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-500/[0.20] ring-1 ring-cyan-400/50 text-cyan-300 text-xs font-semibold mb-4 tracking-widest uppercase shadow-sm shadow-cyan-500/20">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/[0.20] ring-1 ring-amber-400/50 text-amber-400 text-xs font-semibold mb-4 tracking-widest uppercase shadow-sm">
                 <Building2 className="h-3.5 w-3.5" />
                 For Financial Aid Offices &amp; Institutions
               </div>
               <h1
                 className="text-4xl sm:text-5xl font-black tracking-tight leading-tight"
                 style={{
-                  background: "linear-gradient(90deg, #00B8D4 0%, #00E5C0 18%, #7FFFEA 34%, #00D4FF 50%, #00E5C0 66%, #7FFFEA 82%, #00B8D4 100%)",
+                  background: "linear-gradient(90deg, #e8e8e8 0%, #ffffff 25%, #f0f0f0 50%, #ffffff 75%, #e8e8e8 100%)",
                   backgroundSize: "200% auto",
                   WebkitBackgroundClip: "text",
                   backgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   color: "transparent",
-                  animation: "genie-teal-shimmer 3.5s linear infinite",
+                  animation: "hiw-guidance-headline 3s linear infinite",
+                  filter: "drop-shadow(0 0 12px rgba(255,255,255,0.55))",
                 }}
               >
                 Built by someone who sat<br className="hidden sm:block" /> where you sit.
@@ -126,7 +123,8 @@ export default function InstitutionsPage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <Link
               href="#request-demo"
-              className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-600 text-white font-semibold text-sm shadow-lg shadow-cyan-900/30 hover:opacity-90 transition-all"
+              className="px-6 py-3 rounded-xl text-[#D4AF37] font-semibold text-sm shadow-lg hover:bg-amber-500/30 transition-all"
+              style={{ background: "rgba(212,175,55,0.20)", border: "1px solid rgba(212,175,55,0.35)" }}
             >
               Request a Demo
             </Link>
@@ -140,7 +138,7 @@ export default function InstitutionsPage() {
         </section>
 
         {/* Why Genie for Institutions */}
-        <section className="mb-14 rounded-2xl px-8 py-8" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
+        <section className="mb-14 rounded-2xl px-8 py-8" style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
           <h2 className="text-xl font-bold text-white mb-6">Why Financial Aid Offices Choose Genie</h2>
           <div className="grid sm:grid-cols-2 gap-6">
             {[
@@ -150,8 +148,8 @@ export default function InstitutionsPage() {
               { stat: "FERPA", label: "Compliant by design — no student PII required" },
             ].map(({ stat, label }) => (
               <div key={stat} className="flex items-center gap-4">
-                <div className="shrink-0 w-16 h-16 rounded-2xl bg-cyan-500/[0.15] ring-1 ring-cyan-500/[0.28] flex items-center justify-center">
-                  <span className="text-sm font-extrabold text-cyan-300">{stat}</span>
+                <div className="shrink-0 w-16 h-16 rounded-2xl bg-amber-500/[0.15] ring-1 ring-amber-500/[0.28] flex items-center justify-center">
+                  <span className="text-sm font-extrabold text-amber-400">{stat}</span>
                 </div>
                 <p className="text-sm text-white/85 leading-snug">{label}</p>
               </div>
@@ -164,9 +162,9 @@ export default function InstitutionsPage() {
           <h2 className="text-xl font-bold text-white mb-6">What Genie Does for Your Office</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {FEATURES.map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="rounded-2xl px-6 py-5 transition-all" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
-                <div className="p-2 rounded-xl bg-cyan-500/[0.15] ring-1 ring-cyan-500/[0.28] w-fit mb-3">
-                  <Icon className="h-4 w-4 text-cyan-300" />
+              <div key={title} className="rounded-2xl px-6 py-5 transition-all" style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
+                <div className="p-2 rounded-xl bg-amber-500/[0.15] ring-1 ring-amber-500/[0.28] w-fit mb-3">
+                  <Icon className="h-4 w-4 text-amber-400" />
                 </div>
                 <h3 className="text-sm font-semibold text-white mb-2">{title}</h3>
                 <p className="text-xs text-white/65 leading-relaxed">{desc}</p>
@@ -176,7 +174,7 @@ export default function InstitutionsPage() {
         </section>
 
         {/* Compliance Section */}
-        <section className="mb-14 rounded-2xl px-8 py-7" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
+        <section className="mb-14 rounded-2xl px-8 py-7" style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
           <h2 className="text-xl font-bold text-white mb-4">Built for Compliance</h2>
           <div className="space-y-2.5">
             {[
@@ -188,7 +186,7 @@ export default function InstitutionsPage() {
               "Conversations not stored — no long-term retention of institution queries",
             ].map((item) => (
               <div key={item} className="flex items-start gap-2.5">
-                <CheckCircle className="h-4 w-4 text-cyan-400 shrink-0 mt-0.5" />
+                <CheckCircle className="h-4 w-4 text-amber-400 shrink-0 mt-0.5" />
                 <span className="text-sm text-white/80">{item}</span>
               </div>
             ))}
@@ -198,15 +196,15 @@ export default function InstitutionsPage() {
         {/* Demo Request Form */}
         <section id="request-demo" className="mb-12">
           <div className="flex items-center gap-3 mb-5">
-            <div className="p-2 rounded-xl bg-cyan-500/[0.15] ring-1 ring-cyan-500/[0.28]">
-              <Mail className="h-5 w-5 text-cyan-300" />
+            <div className="p-2 rounded-xl bg-amber-500/[0.15] ring-1 ring-amber-500/[0.28]">
+              <Mail className="h-5 w-5 text-amber-400" />
             </div>
             <h2 className="text-xl font-bold text-white">Request a Demo</h2>
           </div>
-          <div className="rounded-2xl px-8 py-7" style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
+          <div className="rounded-2xl px-8 py-7" style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 24px rgba(0,0,0,0.40), inset 0 1px 0 rgba(255,255,255,0.04)" }}>
             {submitted ? (
               <div className="flex flex-col items-center gap-3 py-8 text-center">
-                <CheckCircle className="h-10 w-10 text-cyan-400" />
+                <CheckCircle className="h-10 w-10 text-amber-400" />
                 <p className="text-base font-semibold text-white">Demo request received!</p>
                 <p className="text-sm text-white/65">We will reach out to your institution email within 2 business days.</p>
               </div>
@@ -221,7 +219,7 @@ export default function InstitutionsPage() {
                       value={formState.name}
                       onChange={(e) => setFormState({ ...formState, name: e.target.value })}
                       placeholder="Director of Financial Aid"
-                      className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+                      className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all"
                     />
                   </div>
                   <div>
@@ -232,7 +230,7 @@ export default function InstitutionsPage() {
                       value={formState.email}
                       onChange={(e) => setFormState({ ...formState, email: e.target.value })}
                       placeholder="you@college.edu"
-                      className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+                      className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all"
                     />
                   </div>
                 </div>
@@ -244,7 +242,7 @@ export default function InstitutionsPage() {
                     value={formState.institution}
                     onChange={(e) => setFormState({ ...formState, institution: e.target.value })}
                     placeholder="Your College or University"
-                    className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all"
+                    className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all"
                   />
                 </div>
                 <div>
@@ -254,12 +252,13 @@ export default function InstitutionsPage() {
                     value={formState.message}
                     onChange={(e) => setFormState({ ...formState, message: e.target.value })}
                     placeholder="Tell us about your team size, current challenges, or specific features you want to explore..."
-                    className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all resize-none"
+                    className="w-full bg-white/[0.08] ring-1 ring-white/[0.20] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-amber-500 transition-all resize-none"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="w-full py-3 rounded-xl bg-gradient-to-r from-cyan-500 to-teal-600 text-white font-semibold text-sm shadow-lg shadow-cyan-900/30 hover:opacity-90 active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+                  className="w-full py-3 rounded-xl text-[#D4AF37] font-semibold text-sm shadow-lg hover:bg-amber-500/30 active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/50"
+                  style={{ background: "rgba(212,175,55,0.20)", border: "1px solid rgba(212,175,55,0.35)" }}
                 >
                   Request Demo
                 </button>
@@ -278,7 +277,7 @@ export default function InstitutionsPage() {
             { label: "Legal", href: "/legal" },
             { label: "School DPA", href: "/dpa" },
           ].map(({ label, href }) => (
-            <Link key={label} href={href} className="px-3 py-1 rounded-full text-[11px] font-medium text-white/35 hover:text-cyan-300 hover:bg-cyan-500/[0.10] ring-1 ring-white/[0.08] hover:ring-cyan-500/25 transition-all">{label}</Link>
+            <Link key={label} href={href} className="px-3 py-1 rounded-full text-[11px] font-medium text-white/35 hover:text-amber-400 hover:bg-amber-500/[0.10] ring-1 ring-white/[0.08] hover:ring-amber-400/25 transition-all">{label}</Link>
           ))}
         </div>
 
@@ -292,7 +291,11 @@ export default function InstitutionsPage() {
             <Link href="/about" className="px-3 py-1.5 rounded-lg text-white/40 hover:text-white text-xs font-medium transition-colors">About</Link>
             <Link href="/dpa" className="px-3 py-1.5 rounded-lg text-white/40 hover:text-white text-xs font-medium transition-colors">DPA</Link>
             <Link href="/legal" className="px-3 py-1.5 rounded-lg text-white/40 hover:text-white text-xs font-medium transition-colors">Legal</Link>
-            <Link href="/aid-agent" className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold transition-colors">
+            <Link
+              href="/aid-agent"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-[#D4AF37] text-xs font-semibold transition-colors hover:bg-amber-500/30"
+              style={{ background: "rgba(212,175,55,0.25)", border: "1px solid rgba(212,175,55,0.40)" }}
+            >
               <GenieBottle className="h-3.5 w-3.5" />
               Open Genie
             </Link>
