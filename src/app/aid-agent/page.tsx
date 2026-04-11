@@ -4979,7 +4979,7 @@ export default function AidAgentPage() {
           {howItWorksActive === "panels" && <div className="hiw-scan-overlay" aria-hidden="true" />}
 
           {/* Header */}
-          <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-white/[0.08]" style={{ background: "rgba(12,5,28,0.45)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
+          <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-white/[0.08]" style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
             <div className="flex items-center gap-2.5">
               <div className="p-1.5 rounded-lg" style={{ background: "rgba(212,175,55,0.18)", boxShadow: "0 0 12px rgba(212,175,55,0.45), 0 0 0 1px rgba(212,175,55,0.30)" }}>
                 <GenieBottle className="h-4 w-4 genie-icon-shimmer" style={{ color: "#D4AF37", filter: "drop-shadow(0 0 5px rgba(212,175,55,0.80))" }} />
@@ -6223,7 +6223,7 @@ export default function AidAgentPage() {
           {howItWorksActive === "panels" && <div className="hiw-scan-overlay" aria-hidden="true" />}
 
           {/* Header */}
-          <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-white/[0.08]" style={{ background: "rgba(12,5,28,0.45)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
+          <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-white/[0.08]" style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
             <div className="flex items-center gap-2.5">
               <div className="p-1.5 rounded-lg" style={{ background: "rgba(212,175,55,0.18)", boxShadow: "0 0 12px rgba(212,175,55,0.45), 0 0 0 1px rgba(212,175,55,0.30)" }}>
                 <GenieBottle className="h-4 w-4 genie-icon-shimmer" style={{ color: "#D4AF37", filter: "drop-shadow(0 0 5px rgba(212,175,55,0.80))" }} />
