@@ -6279,7 +6279,7 @@ export default function AidAgentPage() {
                       <div className="h-px w-3 bg-red-500/[0.14]" />
                     </div>
                     {expanded && <div className="grid grid-cols-2 gap-2">
-                      {[{ id: "P6FORpg0KVo", title: "Aid Packaging & Verification" }, { id: "HAnw168huqA", title: "Regulatory Compliance" }, { id: "rhgwIhB58PA", title: "Student Aid Overview" }, { id: "kKvK2foOTJM", title: "Financial Aid Administration" }].map(({ id, title }) => (
+                      {[{ id: "P6FORpg0KVo", title: "Aid Packaging & Verification" }, { id: "HAnw168huqA", title: "Regulatory Compliance" }, { id: "rhgwIhB58PA", title: "Student Aid Overview" }, { id: "kKvK2foOTJM", title: "Financial Aid Administration" }, { id: "sdo_CDbaNt0", title: "Admin Resource 1" }, { id: "OuoB0m5zLHY", title: "Admin Resource 2" }, { id: "MDkqp93Nigg", title: "Admin Resource 3" }, { id: "RzAUxU2RXtM", title: "Admin Resource 4" }, { id: "ke5ppFWmhwk", title: "Admin Resource 5" }, { id: "mDSOBVPLiDc", title: "Admin Resource 6" }].map(({ id, title }) => (
                         <div key={id} className="relative rounded-xl overflow-hidden ring-1 ring-white/[0.08] shadow-sm shadow-black/30" style={{ aspectRatio: "16/9" }}>
                           {expandedSections.has(`vid-rp-${id}`) ? (
                             <iframe
