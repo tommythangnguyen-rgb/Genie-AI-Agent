@@ -5409,7 +5409,7 @@ export default function AidAgentPage() {
                       <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]" style={{ background: "rgba(12,5,28,0.55)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", boxShadow: "0 4px 20px rgba(0,0,0,0.35)" }}>
                         <button type="button" onClick={() => setOpenAccordions(prev => { const n = new Set(prev); n.has("iam") ? n.delete("iam") : n.add("iam"); return n; })} className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400">
                           <div className="flex items-center gap-2.5">
-                            <div className="p-1 rounded-lg" style={{ background: "rgba(212,175,55,0.14)" }}><Users className="h-3.5 w-3.5 text-amber-400/80" /></div>
+                            <div className="p-2 rounded-xl" style={{ background: "rgba(212,175,55,0.14)" }}><Users className="h-4 w-4 text-amber-400/80" /></div>
                             <span className={`text-xs font-bold tracking-[0.08em] uppercase ${isDark ? "text-white/65" : "text-gray-700"}`}>Quick Prompts by Role</span>
                             <span className="text-[9px] text-white/25 font-medium">{openAccordions.has("iam") ? "" : "· tap to expand"}</span>
                           </div>
@@ -5440,7 +5440,7 @@ export default function AidAgentPage() {
                       <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]" style={{ background: "rgba(12,5,28,0.55)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", boxShadow: "0 4px 20px rgba(0,0,0,0.35)" }}>
                         <button type="button" onClick={() => setOpenAccordions(prev => { const n = new Set(prev); n.has("tips") ? n.delete("tips") : n.add("tips"); return n; })} className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400">
                           <div className="flex items-center gap-2.5">
-                            <div className="p-1 rounded-lg" style={{ background: "rgba(251,191,36,0.14)" }}><Lightbulb className="h-3.5 w-3.5 text-amber-400" /></div>
+                            <div className="p-2 rounded-xl" style={{ background: "rgba(251,191,36,0.14)" }}><Lightbulb className="h-4 w-4 text-amber-400" /></div>
                             <span className={`text-xs font-bold tracking-[0.08em] uppercase ${isDark ? "text-white/65" : "text-gray-700"}`}>Tips by Role</span>
                             <span className="text-[9px] text-white/25 font-medium">{openAccordions.has("tips") ? "" : "· tap to expand"}</span>
                           </div>
@@ -5476,7 +5476,7 @@ export default function AidAgentPage() {
                       <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]" style={{ background: "rgba(12,5,28,0.55)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", boxShadow: "0 4px 20px rgba(0,0,0,0.35)" }}>
                         <button type="button" onClick={() => setOpenAccordions(prev => { const n = new Set(prev); n.has("covers") ? n.delete("covers") : n.add("covers"); return n; })} className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400">
                           <div className="flex items-center gap-2.5">
-                            <div className="p-1 rounded-lg shrink-0" style={{ background: "rgba(212,175,55,0.14)" }}><Sparkles className="h-3.5 w-3.5 text-[#D4AF37]" /></div>
+                            <div className="p-2 rounded-xl shrink-0" style={{ background: "rgba(212,175,55,0.14)" }}><Sparkles className="h-4 w-4 text-[#D4AF37]" /></div>
                             <span className={`text-xs font-bold tracking-[0.08em] uppercase ${isDark ? "text-white/65" : "text-gray-700"}`}>What Genie Covers</span>
                             <span className="text-[9px] text-white/25 font-medium">{openAccordions.has("covers") ? "" : "· 28 topic areas"}</span>
                           </div>
@@ -5658,7 +5658,7 @@ export default function AidAgentPage() {
                       style={{
                         transform: mobileDrawerDocked ? "translateY(calc(100% - 44px))" : "translateY(0)",
                         transition: "transform 0.36s cubic-bezier(0.32,0.72,0,1)",
-                        maxHeight: "82vh",
+                        maxHeight: "48vh",
                         background: "rgba(10,4,22,0.28)",
                         backdropFilter: "blur(32px)",
                         WebkitBackdropFilter: "blur(32px)",
@@ -5708,8 +5708,8 @@ export default function AidAgentPage() {
                         className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400"
                       >
                         <div className="flex items-center gap-2.5">
-                          <div className="p-1 rounded-lg" style={{ background: "rgba(212,175,55,0.14)" }}>
-                            <Users className="h-3.5 w-3.5 text-amber-400/80" />
+                          <div className="p-2 rounded-xl" style={{ background: "rgba(212,175,55,0.14)" }}>
+                            <Users className="h-4 w-4 text-amber-400/80" />
                           </div>
                           <span className={`text-xs font-bold tracking-[0.08em] uppercase ${isDark ? "text-white/65" : "text-gray-700"}`}>Quick Prompts by Role</span>
                           <span className="text-[9px] text-white/25 font-medium">{openAccordions.has("iam") ? "" : "· tap to expand"}</span>
@@ -5763,8 +5763,8 @@ export default function AidAgentPage() {
                         className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400"
                       >
                         <div className="flex items-center gap-2.5">
-                          <div className="p-1 rounded-lg" style={{ background: "rgba(251,191,36,0.14)" }}>
-                            <Lightbulb className="h-3.5 w-3.5 text-amber-400" />
+                          <div className="p-2 rounded-xl" style={{ background: "rgba(251,191,36,0.14)" }}>
+                            <Lightbulb className="h-4 w-4 text-amber-400" />
                           </div>
                           <span className={`text-xs font-bold tracking-[0.08em] uppercase ${isDark ? "text-white/65" : "text-gray-700"}`}>Tips by Role</span>
                           <span className="text-[9px] text-white/25 font-medium">{openAccordions.has("tips") ? "" : "· tap to expand"}</span>
@@ -5818,8 +5818,8 @@ export default function AidAgentPage() {
                         className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400"
                       >
                         <div className="flex items-center gap-2.5">
-                          <div className="p-1 rounded-lg shrink-0" style={{ background: "rgba(212,175,55,0.14)" }}>
-                            <Sparkles className="h-3.5 w-3.5 text-[#D4AF37]" />
+                          <div className="p-2 rounded-xl shrink-0" style={{ background: "rgba(212,175,55,0.14)" }}>
+                            <Sparkles className="h-4 w-4 text-[#D4AF37]" />
                           </div>
                           <span className={`text-xs font-bold tracking-[0.08em] uppercase ${isDark ? "text-white/65" : "text-gray-700"}`}>What Genie Covers</span>
                           <span className="text-[9px] text-white/25 font-medium">{openAccordions.has("covers") ? "" : "· 28 topic areas"}</span>
