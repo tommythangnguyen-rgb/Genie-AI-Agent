@@ -5145,7 +5145,7 @@ export default function AidAgentPage() {
         >
 
           {/* ── Header ── */}
-          <header className="sticky top-0 z-50 shrink-0" style={{ background: "rgba(8,3,18,0.55)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", borderBottom: "1px solid rgba(212,175,55,0.12)" }}>
+          <header className="sticky top-0 z-50 shrink-0">
             <div className="relative px-3 py-1.5 flex items-center justify-between gap-2">
 
               {/* Left — left panel toggle + Genie branding (always visible) */}
