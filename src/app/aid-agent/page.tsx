@@ -4730,45 +4730,47 @@ export default function AidAgentPage() {
         .bright-mode .panel-white .hw-footer-glow { color: white !important; text-shadow: 0 0 9px rgba(255,255,255,0.55); }
       `}</style>
       {showDisclaimer && (
-        <div role="dialog" aria-modal="true" aria-labelledby="disclaimer-title" className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
-          <div className="relative w-full max-w-md bg-[#071035] border border-indigo-500/25 rounded-2xl shadow-2xl overflow-hidden">
+        <div role="dialog" aria-modal="true" aria-labelledby="disclaimer-title" className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-md">
+          <div className="relative w-full max-w-md rounded-2xl overflow-hidden" style={{ background: "rgba(10,4,22,0.82)", backdropFilter: "blur(32px)", WebkitBackdropFilter: "blur(32px)", border: "1px solid rgba(212,175,55,0.25)", boxShadow: "0 32px 80px rgba(0,0,0,0.70), 0 0 0 1px rgba(212,175,55,0.08), inset 0 1px 0 rgba(255,255,255,0.08)" }}>
+            {/* Gold accent line */}
+            <div className="h-0.5 w-full" style={{ background: "linear-gradient(90deg, transparent, rgba(212,175,55,0.80), transparent)" }} />
             {/* Header */}
-            <div className="bg-gradient-to-r from-indigo-600 to-violet-700 px-7 py-5 flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-white/15 shrink-0">
-                <GenieBottle className="h-5 w-5 text-white" />
+            <div className="px-7 py-5 flex items-center gap-3 border-b" style={{ background: "rgba(255,255,255,0.04)", borderColor: "rgba(212,175,55,0.12)" }}>
+              <div className="p-2 rounded-xl shrink-0" style={{ background: "rgba(212,175,55,0.18)", boxShadow: "0 0 12px rgba(212,175,55,0.35)" }}>
+                <GenieBottle className="h-5 w-5" style={{ color: "#D4AF37" }} />
               </div>
               <div>
                 <h2 id="disclaimer-title" className="text-base font-bold text-white leading-tight">askGenie — Student Aid Hub</h2>
-                <p className="text-xs text-white/75 mt-0.5">Developed by a 15-year Financial Aid Professional</p>
+                <p className="text-xs text-white/55 mt-0.5">Developed by a 15-year Financial Aid Professional</p>
               </div>
             </div>
 
             {/* Body */}
             <div className="px-7 py-6 space-y-4">
-              <div className="rounded-xl bg-amber-500/10 ring-1 ring-amber-500/25 px-4 py-3">
+              <div className="rounded-xl px-4 py-3" style={{ background: "rgba(212,175,55,0.08)", border: "1px solid rgba(212,175,55,0.20)" }}>
                 <p className="text-sm text-amber-200/90 leading-relaxed">
                   <strong className="text-amber-300">Not professional advice.</strong> Genie provides general informational guidance only and does not constitute legal, financial, or professional advice. Always verify with your institution's financial aid office and the official FSA Handbook.
                 </p>
               </div>
 
-              <ul className="space-y-2.5 text-sm text-white/80">
+              <ul className="space-y-2.5 text-sm text-white/75">
                 <li className="flex items-start gap-2.5">
-                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-indigo-400 shrink-0" />
-                  <span>All responses are <strong className="text-white/80">AI-generated</strong> and may contain errors. Cross-reference with official sources.</span>
+                  <span className="mt-1 h-1.5 w-1.5 rounded-full shrink-0" style={{ background: "#D4AF37" }} />
+                  <span>All responses are <strong className="text-white/90">AI-generated</strong> and may contain errors. Cross-reference with official sources.</span>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-indigo-400 shrink-0" />
-                  <span>Your conversations are <strong className="text-white/80">not stored or logged.</strong> Do not enter SSNs, student IDs, or FERPA-protected data.</span>
+                  <span className="mt-1 h-1.5 w-1.5 rounded-full shrink-0" style={{ background: "#D4AF37" }} />
+                  <span>Your conversations are <strong className="text-white/90">not stored or logged.</strong> Do not enter SSNs, student IDs, or FERPA-protected data.</span>
                 </li>
                 <li className="flex items-start gap-2.5">
-                  <span className="mt-1 h-1.5 w-1.5 rounded-full bg-indigo-400 shrink-0" />
-                  <span>You must be <strong className="text-white/80">13 or older</strong> to use this service.</span>
+                  <span className="mt-1 h-1.5 w-1.5 rounded-full shrink-0" style={{ background: "#D4AF37" }} />
+                  <span>You must be <strong className="text-white/90">13 or older</strong> to use this service.</span>
                 </li>
               </ul>
 
               <p className="text-xs text-white/30 leading-relaxed">
                 By clicking "I Accept" you agree to our{" "}
-                <Link href="/legal" className="text-indigo-400 hover:text-indigo-300 underline underline-offset-2 transition-colors">
+                <Link href="/legal" className="text-amber-400/80 hover:text-amber-300 underline underline-offset-2 transition-colors">
                   Terms of Service &amp; Privacy Policy
                 </Link>
                 . Powered by Claude AI (Anthropic) in compliance with Anthropic's usage policies.
@@ -4779,8 +4781,8 @@ export default function AidAgentPage() {
             <div className="px-7 pb-6">
               <button
                 onClick={handleAccept}
-                className="w-full py-3 rounded-xl text-white font-semibold text-sm active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[#00D1C9]"
-                style={{ background: "linear-gradient(135deg, #00B8C8 0%, #00D1C9 50%, #007FA8 100%)", boxShadow: "0 2px 18px rgba(0,209,201,0.35), inset 0 1px 0 rgba(255,255,255,0.12)" }}
+                className="w-full py-3 rounded-xl font-semibold text-sm active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/50"
+                style={{ background: "rgba(212,175,55,0.22)", border: "1px solid rgba(212,175,55,0.45)", color: "#FFE066", boxShadow: "0 2px 18px rgba(212,175,55,0.20), inset 0 1px 0 rgba(255,255,255,0.08)" }}
               >
                 I Accept — Continue to Genie
               </button>

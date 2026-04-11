@@ -93,7 +93,6 @@ export function UpgradeModal({ feature, onClose, onUpgrade }: UpgradeModalProps)
       } else if (res.status === 401) {
         setErrorMsg("Please sign in to upgrade to Pro.");
       } else {
-        // Fallback: send to pricing page
         window.location.href = "/pricing";
       }
     } catch {
@@ -104,7 +103,6 @@ export function UpgradeModal({ feature, onClose, onUpgrade }: UpgradeModalProps)
   }
 
   return (
-    /* Backdrop */
     <div
       className="fixed inset-0 z-50 flex items-center justify-center px-4"
       role="dialog"
@@ -113,83 +111,98 @@ export function UpgradeModal({ feature, onClose, onUpgrade }: UpgradeModalProps)
     >
       {/* Scrim */}
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/75 backdrop-blur-sm"
         onClick={onClose}
         aria-hidden="true"
       />
 
       {/* Card */}
-      <div className="relative w-full max-w-md rounded-2xl bg-[#071035] border border-white/[0.12] shadow-2xl shadow-black/50 p-6 animate-in fade-in zoom-in-95 duration-200">
-        {/* Close */}
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400"
-          aria-label="Close"
-        >
-          <X className="h-4 w-4" />
-        </button>
+      <div
+        className="relative w-full max-w-md rounded-2xl overflow-hidden animate-in fade-in zoom-in-95 duration-200"
+        style={{
+          background: "rgba(10,4,22,0.82)",
+          backdropFilter: "blur(32px)",
+          WebkitBackdropFilter: "blur(32px)",
+          border: "1px solid rgba(212,175,55,0.25)",
+          boxShadow: "0 32px 80px rgba(0,0,0,0.70), 0 0 0 1px rgba(212,175,55,0.08), inset 0 1px 0 rgba(255,255,255,0.08)",
+        }}
+      >
+        {/* Gold accent line */}
+        <div className="h-0.5 w-full" style={{ background: "linear-gradient(90deg, transparent, rgba(212,175,55,0.80), transparent)" }} />
 
-        {/* Icon + badge */}
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-2.5 rounded-xl bg-gradient-to-br from-indigo-500/30 to-violet-600/30 ring-1 ring-indigo-400/30">
-            <Icon className="h-5 w-5 text-indigo-300" aria-hidden="true" />
+        <div className="p-6">
+          {/* Close */}
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 p-1.5 rounded-lg text-white/40 hover:text-white hover:bg-white/[0.08] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/50"
+            aria-label="Close"
+          >
+            <X className="h-4 w-4" />
+          </button>
+
+          {/* Icon + badge */}
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2.5 rounded-xl ring-1" style={{ background: "rgba(212,175,55,0.15)", ringColor: "rgba(212,175,55,0.30)", boxShadow: "0 0 0 1px rgba(212,175,55,0.28)" }}>
+              <Icon className="h-5 w-5" style={{ color: "#D4AF37" }} aria-hidden="true" />
+            </div>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold tracking-wide" style={{ background: "rgba(212,175,55,0.12)", border: "1px solid rgba(212,175,55,0.28)", color: "#FFE066" }}>
+              <Zap className="h-3 w-3" />
+              Pro Feature
+            </span>
           </div>
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gradient-to-r from-sky-500/20 to-indigo-500/20 ring-1 ring-indigo-400/30 text-indigo-300 text-xs font-bold tracking-wide">
-            <Zap className="h-3 w-3" />
-            Pro Feature
-          </span>
+
+          {/* Copy */}
+          <h2 id="upgrade-modal-title" className="text-lg font-bold text-white mb-2 leading-snug">
+            {meta.title}
+          </h2>
+          <p className="text-sm text-white/60 leading-relaxed mb-5">{meta.body}</p>
+
+          {/* Pro highlights */}
+          <ul className="space-y-2 mb-6">
+            {[
+              "Unlimited daily conversations",
+              "Document & photo upload + AI analysis",
+              "R2T4 & advanced calculators",
+              "Full PDF exports & comparisons",
+              "Chat history saved forever",
+            ].map((item) => (
+              <li key={item} className="flex items-center gap-2.5">
+                <div className="h-4 w-4 rounded-full flex items-center justify-center shrink-0" style={{ background: "rgba(212,175,55,0.18)" }}>
+                  <div className="h-1.5 w-1.5 rounded-full" style={{ background: "#D4AF37" }} />
+                </div>
+                <span className="text-xs text-white/75">{item}</span>
+              </li>
+            ))}
+          </ul>
+
+          {/* Pricing note */}
+          <p className="text-xs text-white/35 text-center mb-4">
+            Pro starts at <strong className="text-white/60">$5.99/month</strong> — or $59/year (save 18%).
+            14-day free trial. Card required.
+          </p>
+
+          {/* Error */}
+          {errorMsg && (
+            <p className="text-xs text-rose-400 text-center mb-3">{errorMsg}</p>
+          )}
+
+          {/* CTAs */}
+          <button
+            onClick={handleUpgrade}
+            disabled={loading}
+            className="w-full py-3 rounded-xl font-semibold text-sm active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/50 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 mb-2"
+            style={{ background: "rgba(212,175,55,0.22)", border: "1px solid rgba(212,175,55,0.45)", color: "#FFE066", boxShadow: "0 2px 18px rgba(212,175,55,0.20), inset 0 1px 0 rgba(255,255,255,0.08)" }}
+          >
+            {loading ? "Redirecting…" : ctaLabel}
+            {!loading && <ArrowRight className="h-4 w-4" />}
+          </button>
+          <button
+            onClick={onClose}
+            className="w-full py-2 rounded-xl text-white/40 text-sm hover:text-white/60 transition-colors"
+          >
+            Maybe later
+          </button>
         </div>
-
-        {/* Copy */}
-        <h2 id="upgrade-modal-title" className="text-lg font-bold text-white mb-2 leading-snug">
-          {meta.title}
-        </h2>
-        <p className="text-sm text-white/65 leading-relaxed mb-5">{meta.body}</p>
-
-        {/* Pro highlights */}
-        <ul className="space-y-2 mb-6">
-          {[
-            "Unlimited daily conversations",
-            "Document & photo upload + AI analysis",
-            "R2T4 & advanced calculators",
-            "Full PDF exports & comparisons",
-            "Chat history saved forever",
-          ].map((item) => (
-            <li key={item} className="flex items-center gap-2.5">
-              <div className="h-4 w-4 rounded-full flex items-center justify-center bg-indigo-500/20 shrink-0">
-                <div className="h-1.5 w-1.5 rounded-full bg-indigo-400" />
-              </div>
-              <span className="text-xs text-white/75">{item}</span>
-            </li>
-          ))}
-        </ul>
-
-        {/* Pricing note */}
-        <p className="text-xs text-white/35 text-center mb-4">
-          Pro starts at <strong className="text-white/60">$5.99/month</strong> — or $59/year (save 18%).
-          14-day free trial. Card required.
-        </p>
-
-        {/* Error */}
-        {errorMsg && (
-          <p className="text-xs text-rose-400 text-center mb-3">{errorMsg}</p>
-        )}
-
-        {/* CTAs */}
-        <button
-          onClick={handleUpgrade}
-          disabled={loading}
-          className="w-full py-3 rounded-xl bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-600 text-white font-semibold text-sm shadow-lg hover:opacity-90 active:scale-[0.98] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 disabled:opacity-60 disabled:cursor-not-allowed flex items-center justify-center gap-2 mb-2"
-        >
-          {loading ? "Redirecting…" : ctaLabel}
-          {!loading && <ArrowRight className="h-4 w-4" />}
-        </button>
-        <button
-          onClick={onClose}
-          className="w-full py-2 rounded-xl text-white/40 text-sm hover:text-white/60 transition-colors"
-        >
-          Maybe later
-        </button>
       </div>
     </div>
   );

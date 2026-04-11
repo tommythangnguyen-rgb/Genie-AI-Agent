@@ -2,9 +2,6 @@
 
 import { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 
 interface SignUpFormProps {
   onSuccess?: () => void;
@@ -25,8 +22,8 @@ function getPasswordStrength(password: string): {
   if (/[^A-Za-z0-9]/.test(password)) score++;
 
   if (score <= 1) return { level: 1, label: "Weak", color: "bg-red-500" };
-  if (score <= 2) return { level: 2, label: "Fair", color: "bg-yellow-500" };
-  return { level: 3, label: "Strong", color: "bg-green-500" };
+  if (score <= 2) return { level: 2, label: "Fair", color: "bg-amber-400" };
+  return { level: 3, label: "Strong", color: "bg-emerald-400" };
 }
 
 export function SignUpForm({ onSuccess }: SignUpFormProps) {
@@ -43,14 +40,11 @@ export function SignUpForm({ onSuccess }: SignUpFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-
     if (password !== confirmPassword) {
       setError("Passwords do not match");
       return;
     }
-
     const result = await signUp(email, password);
-
     if (result.success) {
       onSuccess?.();
     } else {
@@ -58,11 +52,14 @@ export function SignUpForm({ onSuccess }: SignUpFormProps) {
     }
   };
 
+  const inputClass = "w-full px-3 py-2 rounded-xl text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/50 disabled:opacity-50 transition-all";
+  const inputStyle = { background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)" };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="space-y-2">
-        <Label htmlFor="signup-email">Email</Label>
-        <Input
+      <div className="space-y-1.5">
+        <label htmlFor="signup-email" className="text-sm font-medium text-white/70">Email</label>
+        <input
           id="signup-email"
           type="email"
           placeholder="you@example.com"
@@ -71,12 +68,14 @@ export function SignUpForm({ onSuccess }: SignUpFormProps) {
           required
           disabled={isLoading}
           autoComplete="email"
+          className={inputClass}
+          style={inputStyle}
         />
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="signup-password">Password</Label>
-        <Input
+      <div className="space-y-1.5">
+        <label htmlFor="signup-password" className="text-sm font-medium text-white/70">Password</label>
+        <input
           id="signup-password"
           type="password"
           value={password}
@@ -84,6 +83,8 @@ export function SignUpForm({ onSuccess }: SignUpFormProps) {
           required
           disabled={isLoading}
           autoComplete="new-password"
+          className={inputClass}
+          style={inputStyle}
         />
         {password.length > 0 && (
           <div className="space-y-1">
@@ -91,25 +92,23 @@ export function SignUpForm({ onSuccess }: SignUpFormProps) {
               {[1, 2, 3].map((i) => (
                 <div
                   key={i}
-                  className={`flex-1 rounded-full transition-colors ${
-                    strength.level >= i ? strength.color : "bg-gray-200"
-                  }`}
+                  className={`flex-1 rounded-full transition-colors ${strength.level >= i ? strength.color : "bg-white/[0.10]"}`}
                 />
               ))}
             </div>
-            <p className={`text-xs ${strength.level === 1 ? "text-red-500" : strength.level === 2 ? "text-yellow-600" : "text-green-600"}`}>
+            <p className={`text-xs ${strength.level === 1 ? "text-red-400" : strength.level === 2 ? "text-amber-400" : "text-emerald-400"}`}>
               {strength.label}
             </p>
           </div>
         )}
         {password.length === 0 && (
-          <p className="text-xs text-gray-500">At least 8 characters</p>
+          <p className="text-xs text-white/30">At least 8 characters</p>
         )}
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="signup-confirm-password">Confirm Password</Label>
-        <Input
+      <div className="space-y-1.5">
+        <label htmlFor="signup-confirm-password" className="text-sm font-medium text-white/70">Confirm Password</label>
+        <input
           id="signup-confirm-password"
           type="password"
           value={confirmPassword}
@@ -117,22 +116,35 @@ export function SignUpForm({ onSuccess }: SignUpFormProps) {
           required
           disabled={isLoading}
           autoComplete="new-password"
-          className={passwordsMismatch ? "border-red-400" : passwordsMatch ? "border-green-400" : ""}
+          className={inputClass}
+          style={{
+            ...inputStyle,
+            border: passwordsMismatch
+              ? "1px solid rgba(239,68,68,0.50)"
+              : passwordsMatch
+              ? "1px solid rgba(52,211,153,0.40)"
+              : inputStyle.border,
+          }}
         />
         {passwordsMismatch && (
-          <p className="text-xs text-red-500">Passwords do not match</p>
+          <p className="text-xs text-red-400">Passwords do not match</p>
         )}
       </div>
 
       {error && (
-        <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded p-2">
+        <div className="text-sm text-red-300 rounded-xl px-3 py-2" style={{ background: "rgba(239,68,68,0.10)", border: "1px solid rgba(239,68,68,0.25)" }}>
           {error}
         </div>
       )}
 
-      <Button type="submit" className="w-full" disabled={isLoading || password.length < 8}>
+      <button
+        type="submit"
+        disabled={isLoading || password.length < 8}
+        className="w-full py-2.5 rounded-xl font-semibold text-sm transition-all active:scale-[0.98] disabled:opacity-60"
+        style={{ background: "rgba(212,175,55,0.22)", border: "1px solid rgba(212,175,55,0.45)", color: "#FFE066" }}
+      >
         {isLoading ? "Creating account..." : "Sign Up"}
-      </Button>
+      </button>
     </form>
   );
 }

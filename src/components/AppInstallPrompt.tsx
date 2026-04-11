@@ -21,15 +21,12 @@ function isStandalone() {
 function isIOS() {
   if (typeof window === "undefined") return false;
   const ua = window.navigator.userAgent;
-  // iPhone / iPod
   if (/iphone|ipod/i.test(ua)) return true;
-  // iPad on iOS 13+ reports as MacIntel with touch support
   if (/ipad/i.test(ua)) return true;
   if (/macintosh/i.test(ua) && navigator.maxTouchPoints > 1) return true;
   return false;
 }
 
-// ShareIcon — matches the iOS native share symbol (box + up arrow)
 function ShareIcon() {
   return (
     <svg
@@ -39,7 +36,7 @@ function ShareIcon() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="inline-block h-3.5 w-3.5 align-text-bottom text-sky-400"
+      className="inline-block h-3.5 w-3.5 align-text-bottom text-amber-400"
       aria-hidden="true"
     >
       <path d="M8 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-2" />
@@ -64,9 +61,6 @@ export function AppInstallPrompt() {
     const ios = isIOS();
     setIosDevice(ios);
 
-    // For iOS we can always show instructions (no deferred prompt needed).
-    // For Android we show immediately too; the install button activates when
-    // the browser fires beforeinstallprompt.
     const timer = setTimeout(() => {
       localStorage.setItem(LAST_SHOWN_KEY, todayStr());
       setShow(true);
@@ -112,14 +106,23 @@ export function AppInstallPrompt() {
 
   return (
     <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[9999] w-[calc(100%-2rem)] max-w-sm animate-in slide-in-from-top-4 fade-in duration-300">
-      <div className="rounded-2xl bg-[#071035] ring-1 ring-indigo-500/30 shadow-2xl shadow-black/60 overflow-hidden">
-        {/* Top gradient bar */}
-        <div className="h-0.5 w-full bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-600" />
+      <div
+        className="rounded-2xl overflow-hidden"
+        style={{
+          background: "rgba(10,4,22,0.82)",
+          backdropFilter: "blur(32px)",
+          WebkitBackdropFilter: "blur(32px)",
+          border: "1px solid rgba(212,175,55,0.25)",
+          boxShadow: "0 32px 80px rgba(0,0,0,0.70), 0 0 0 1px rgba(212,175,55,0.08), inset 0 1px 0 rgba(255,255,255,0.08)",
+        }}
+      >
+        {/* Gold accent bar */}
+        <div className="h-0.5 w-full" style={{ background: "linear-gradient(90deg, transparent, rgba(212,175,55,0.80), transparent)" }} />
 
         <div className="px-4 pt-4 pb-4">
           <div className="flex items-start gap-3">
-            <div className="shrink-0 p-2 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 shadow-md shadow-indigo-500/30">
-              <Smartphone className="h-5 w-5 text-white" />
+            <div className="shrink-0 p-2 rounded-xl" style={{ background: "rgba(212,175,55,0.18)", boxShadow: "0 0 12px rgba(212,175,55,0.35)" }}>
+              <Smartphone className="h-5 w-5" style={{ color: "#D4AF37" }} />
             </div>
 
             <div className="flex-1 min-w-0">
@@ -143,36 +146,27 @@ export function AppInstallPrompt() {
           </div>
 
           {iosDevice ? (
-            /* ── iOS step-by-step instructions ── */
-            <div className="mt-3 rounded-xl bg-white/[0.05] ring-1 ring-white/[0.08] px-3 py-2.5 space-y-2">
+            <div className="mt-3 rounded-xl ring-1 ring-white/[0.08] px-3 py-2.5 space-y-2" style={{ background: "rgba(255,255,255,0.03)" }}>
               <p className="text-[11px] font-semibold uppercase tracking-widest text-white/40 mb-1">
                 3 quick steps in Safari
               </p>
-              <div className="flex items-start gap-2">
-                <span className="shrink-0 mt-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-sky-500/20 text-[10px] font-bold text-sky-400">1</span>
-                <p className="text-xs text-white/70 leading-snug">
-                  Tap the <ShareIcon /> <span className="font-semibold text-white/90">Share</span> button at the bottom of Safari
-                </p>
-              </div>
-              <div className="flex items-start gap-2">
-                <span className="shrink-0 mt-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-indigo-500/20 text-[10px] font-bold text-indigo-400">2</span>
-                <p className="text-xs text-white/70 leading-snug">
-                  Scroll down and tap <span className="font-semibold text-white/90">Add to Home Screen</span>
-                </p>
-              </div>
-              <div className="flex items-start gap-2">
-                <span className="shrink-0 mt-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-violet-500/20 text-[10px] font-bold text-violet-400">3</span>
-                <p className="text-xs text-white/70 leading-snug">
-                  Tap <span className="font-semibold text-white/90">Add</span> — done!
-                </p>
-              </div>
+              {[
+                { n: "1", content: <>Tap the <ShareIcon /> <span className="font-semibold text-white/90">Share</span> button at the bottom of Safari</> },
+                { n: "2", content: <>Scroll down and tap <span className="font-semibold text-white/90">Add to Home Screen</span></> },
+                { n: "3", content: <>Tap <span className="font-semibold text-white/90">Add</span> — done!</> },
+              ].map(({ n, content }) => (
+                <div key={n} className="flex items-start gap-2">
+                  <span className="shrink-0 mt-0.5 flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold" style={{ background: "rgba(212,175,55,0.15)", color: "#D4AF37", boxShadow: "0 0 0 1px rgba(212,175,55,0.30)" }}>{n}</span>
+                  <p className="text-xs text-white/70 leading-snug">{content}</p>
+                </div>
+              ))}
             </div>
           ) : (
-            /* ── Android / Chrome native install button ── */
             <div className="flex gap-2 mt-3">
               <button
                 onClick={handleAndroidInstall}
-                className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-600 text-white text-xs font-semibold shadow-md hover:opacity-90 active:scale-[0.98] transition-all"
+                className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-semibold transition-all hover:opacity-90 active:scale-[0.98]"
+                style={{ background: "rgba(212,175,55,0.22)", border: "1px solid rgba(212,175,55,0.45)", color: "#FFE066" }}
               >
                 <Download className="h-3.5 w-3.5" />
                 Add to Home Screen
@@ -186,7 +180,6 @@ export function AppInstallPrompt() {
             </div>
           )}
 
-          {/* iOS dismiss row */}
           {iosDevice && (
             <div className="flex gap-2 mt-2.5">
               <button

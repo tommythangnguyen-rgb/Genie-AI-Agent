@@ -19,7 +19,7 @@ function isMobile() {
 
 function ShareIcon() {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="inline-block h-3.5 w-3.5 align-text-bottom text-sky-400" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="inline-block h-3.5 w-3.5 align-text-bottom text-amber-400" aria-hidden="true">
       <path d="M8 6H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-2" />
       <polyline points="16 6 12 2 8 6" />
       <line x1="12" y1="2" x2="12" y2="15" />
@@ -40,7 +40,6 @@ export function AppInstallModal({ open, onClose }: Props) {
 
   useEffect(() => {
     setIos(isIOS());
-    // Auto-select view based on device when opening
     if (open) setView(isMobile() ? "mobile" : "choose");
   }, [open]);
 
@@ -64,17 +63,26 @@ export function AppInstallModal({ open, onClose }: Props) {
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-end sm:items-center justify-center p-4" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
-      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl shadow-black/70" style={{ background: "linear-gradient(160deg, rgba(7,16,53,0.99) 0%, rgba(6,14,44,0.99) 100%)", border: "1px solid rgba(6,182,212,0.22)" }}>
-        {/* Accent bar */}
-        <div className="h-0.5 w-full bg-gradient-to-r from-cyan-500 via-teal-400 to-emerald-500" />
+      <div className="absolute inset-0 bg-black/75 backdrop-blur-sm" onClick={onClose} />
+      <div
+        className="relative w-full max-w-sm rounded-2xl overflow-hidden"
+        style={{
+          background: "rgba(10,4,22,0.82)",
+          backdropFilter: "blur(32px)",
+          WebkitBackdropFilter: "blur(32px)",
+          border: "1px solid rgba(212,175,55,0.25)",
+          boxShadow: "0 32px 80px rgba(0,0,0,0.70), 0 0 0 1px rgba(212,175,55,0.08), inset 0 1px 0 rgba(255,255,255,0.08)",
+        }}
+      >
+        {/* Gold accent bar */}
+        <div className="h-0.5 w-full" style={{ background: "linear-gradient(90deg, transparent, rgba(212,175,55,0.80), transparent)" }} />
 
         <div className="px-5 pt-5 pb-5">
           {/* Header */}
           <div className="flex items-start justify-between mb-4">
             <div className="flex items-center gap-3">
-              <div className="p-2 rounded-xl bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/30">
-                <Download className="h-5 w-5 text-white" />
+              <div className="p-2 rounded-xl shrink-0" style={{ background: "rgba(212,175,55,0.18)", boxShadow: "0 0 12px rgba(212,175,55,0.35)" }}>
+                <Download className="h-5 w-5" style={{ color: "#D4AF37" }} />
               </div>
               <div>
                 <p className="text-base font-black text-white leading-tight">Get the Genie App</p>
@@ -92,10 +100,10 @@ export function AppInstallModal({ open, onClose }: Props) {
               <button
                 onClick={() => setView("mobile")}
                 className="w-full flex items-center gap-3 p-4 rounded-xl text-left transition-all hover:scale-[1.02] active:scale-[0.98]"
-                style={{ background: "linear-gradient(135deg, rgba(6,182,212,0.12) 0%, rgba(20,184,166,0.08) 100%)", border: "1px solid rgba(6,182,212,0.25)" }}
+                style={{ background: "rgba(212,175,55,0.08)", border: "1px solid rgba(212,175,55,0.20)" }}
               >
-                <div className="p-2 rounded-lg bg-cyan-500/20 ring-1 ring-cyan-500/30 shrink-0">
-                  <Smartphone className="h-5 w-5 text-cyan-300" />
+                <div className="p-2 rounded-lg shrink-0" style={{ background: "rgba(212,175,55,0.15)", boxShadow: "0 0 0 1px rgba(212,175,55,0.25)" }}>
+                  <Smartphone className="h-5 w-5" style={{ color: "#D4AF37" }} />
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-bold text-white">Mobile</p>
@@ -106,10 +114,10 @@ export function AppInstallModal({ open, onClose }: Props) {
               <button
                 onClick={() => setView("desktop")}
                 className="w-full flex items-center gap-3 p-4 rounded-xl text-left transition-all hover:scale-[1.02] active:scale-[0.98]"
-                style={{ background: "linear-gradient(135deg, rgba(139,92,246,0.12) 0%, rgba(99,102,241,0.08) 100%)", border: "1px solid rgba(139,92,246,0.22)" }}
+                style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.10)" }}
               >
-                <div className="p-2 rounded-lg bg-violet-500/20 ring-1 ring-violet-500/30 shrink-0">
-                  <Monitor className="h-5 w-5 text-violet-300" />
+                <div className="p-2 rounded-lg shrink-0 bg-white/[0.08] ring-1 ring-white/[0.14]">
+                  <Monitor className="h-5 w-5 text-white/70" />
                 </div>
                 <div className="flex-1">
                   <p className="text-sm font-bold text-white">Desktop</p>
@@ -122,7 +130,7 @@ export function AppInstallModal({ open, onClose }: Props) {
 
           {view === "mobile" && (
             <div>
-              <button onClick={() => setView("choose")} className="text-xs text-cyan-400/60 hover:text-cyan-300 mb-3 flex items-center gap-1 transition-colors">
+              <button onClick={() => setView("choose")} className="text-xs text-amber-400/60 hover:text-amber-300 mb-3 flex items-center gap-1 transition-colors">
                 ← Back
               </button>
               {ios ? (
@@ -131,12 +139,12 @@ export function AppInstallModal({ open, onClose }: Props) {
                     <p className="text-[11px] font-bold uppercase tracking-widest text-white/40">3 steps in Safari</p>
                   </div>
                   {[
-                    { n: "1", color: "text-sky-400 bg-sky-500/20 ring-sky-500/30", content: <>Tap the <ShareIcon /> <span className="font-semibold text-white/90">Share</span> button at the bottom of Safari</> },
-                    { n: "2", color: "text-indigo-400 bg-indigo-500/20 ring-indigo-500/30", content: <>Scroll and tap <span className="font-semibold text-white/90">Add to Home Screen</span></> },
-                    { n: "3", color: "text-violet-400 bg-violet-500/20 ring-violet-500/30", content: <>Tap <span className="font-semibold text-white/90">Add</span> — Genie is on your home screen!</> },
-                  ].map(({ n, color, content }) => (
+                    { n: "1", content: <>Tap the <ShareIcon /> <span className="font-semibold text-white/90">Share</span> button at the bottom of Safari</> },
+                    { n: "2", content: <>Scroll and tap <span className="font-semibold text-white/90">Add to Home Screen</span></> },
+                    { n: "3", content: <>Tap <span className="font-semibold text-white/90">Add</span> — Genie is on your home screen!</> },
+                  ].map(({ n, content }) => (
                     <div key={n} className="flex items-start gap-3 px-4 py-3 border-b border-white/[0.05] last:border-0">
-                      <span className={`shrink-0 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full ring-1 text-[11px] font-bold ${color}`}>{n}</span>
+                      <span className="shrink-0 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full ring-1 text-[11px] font-bold" style={{ background: "rgba(212,175,55,0.15)", color: "#D4AF37", boxShadow: "0 0 0 1px rgba(212,175,55,0.30)" }}>{n}</span>
                       <p className="text-sm text-white/70 leading-snug">{content}</p>
                     </div>
                   ))}
@@ -147,8 +155,8 @@ export function AppInstallModal({ open, onClose }: Props) {
                   {deferredPrompt ? (
                     <button
                       onClick={handleAndroidInstall}
-                      className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-white text-sm font-bold transition-all hover:opacity-90 active:scale-[0.98]"
-                      style={{ background: "linear-gradient(135deg, #00B8C8 0%, #00D1C9 100%)", boxShadow: "0 0 0 1px rgba(0,209,201,0.40), 0 4px 20px rgba(0,209,201,0.30)" }}
+                      className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm transition-all hover:opacity-90 active:scale-[0.98]"
+                      style={{ background: "rgba(212,175,55,0.22)", border: "1px solid rgba(212,175,55,0.45)", color: "#FFE066", boxShadow: "0 2px 18px rgba(212,175,55,0.20)" }}
                     >
                       <Download className="h-4 w-4" />
                       Install Genie Now
@@ -165,15 +173,15 @@ export function AppInstallModal({ open, onClose }: Props) {
 
           {view === "desktop" && (
             <div>
-              <button onClick={() => setView("choose")} className="text-xs text-cyan-400/60 hover:text-cyan-300 mb-3 flex items-center gap-1 transition-colors">
+              <button onClick={() => setView("choose")} className="text-xs text-amber-400/60 hover:text-amber-300 mb-3 flex items-center gap-1 transition-colors">
                 ← Back
               </button>
               <div className="space-y-3">
                 {deferredPrompt ? (
                   <button
                     onClick={handleAndroidInstall}
-                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl text-white text-sm font-bold transition-all hover:opacity-90 active:scale-[0.98]"
-                    style={{ background: "linear-gradient(135deg, #00B8C8 0%, #00D1C9 100%)", boxShadow: "0 0 0 1px rgba(0,209,201,0.40), 0 4px 20px rgba(0,209,201,0.30)" }}
+                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl font-bold text-sm transition-all hover:opacity-90 active:scale-[0.98]"
+                    style={{ background: "rgba(212,175,55,0.22)", border: "1px solid rgba(212,175,55,0.45)", color: "#FFE066", boxShadow: "0 2px 18px rgba(212,175,55,0.20)" }}
                   >
                     <Download className="h-4 w-4" />
                     Install Genie App
@@ -184,12 +192,12 @@ export function AppInstallModal({ open, onClose }: Props) {
                     <p className="text-[11px] font-bold uppercase tracking-widest text-white/40">Manual install steps</p>
                   </div>
                   {[
-                    { n: "1", color: "text-cyan-400 bg-cyan-500/20 ring-cyan-500/30", text: "Open Genie in Chrome or Edge" },
-                    { n: "2", color: "text-teal-400 bg-teal-500/20 ring-teal-500/30", text: 'Click the install icon (⊕) in the address bar, or open the menu and choose "Install Genie"' },
-                    { n: "3", color: "text-emerald-400 bg-emerald-500/20 ring-emerald-500/30", text: 'Click "Install" — Genie opens like a native app' },
-                  ].map(({ n, color, text }) => (
+                    { n: "1", text: "Open Genie in Chrome or Edge" },
+                    { n: "2", text: 'Click the install icon (⊕) in the address bar, or open the menu and choose "Install Genie"' },
+                    { n: "3", text: 'Click "Install" — Genie opens like a native app' },
+                  ].map(({ n, text }) => (
                     <div key={n} className="flex items-start gap-3 px-4 py-3 border-b border-white/[0.05] last:border-0">
-                      <span className={`shrink-0 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full ring-1 text-[11px] font-bold ${color}`}>{n}</span>
+                      <span className="shrink-0 mt-0.5 flex h-5 w-5 items-center justify-center rounded-full ring-1 text-[11px] font-bold" style={{ background: "rgba(212,175,55,0.15)", color: "#D4AF37", boxShadow: "0 0 0 1px rgba(212,175,55,0.30)" }}>{n}</span>
                       <p className="text-sm text-white/70 leading-snug">{text}</p>
                     </div>
                   ))}
@@ -199,9 +207,9 @@ export function AppInstallModal({ open, onClose }: Props) {
           )}
 
           {installed && (
-            <div className="mt-3 flex items-center gap-2 px-3 py-2.5 rounded-xl bg-emerald-500/15 ring-1 ring-emerald-400/30">
-              <span className="text-emerald-400 text-base">✓</span>
-              <p className="text-sm font-semibold text-emerald-300">Genie installed successfully!</p>
+            <div className="mt-3 flex items-center gap-2 px-3 py-2.5 rounded-xl" style={{ background: "rgba(212,175,55,0.12)", border: "1px solid rgba(212,175,55,0.28)" }}>
+              <span style={{ color: "#D4AF37" }} className="text-base">✓</span>
+              <p className="text-sm font-semibold" style={{ color: "#FFE066" }}>Genie installed successfully!</p>
             </div>
           )}
         </div>
