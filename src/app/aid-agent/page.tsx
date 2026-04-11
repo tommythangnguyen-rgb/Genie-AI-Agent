@@ -5537,6 +5537,7 @@ export default function AidAgentPage() {
                     <div className="flex flex-col rounded-2xl overflow-hidden transition-all duration-300 sticky top-[8px] self-start w-full"
                       style={{
                         height: "min(74vh, 720px)",
+                        zIndex: 10,
                         background: "rgba(10,4,22,0.28)",
                         backdropFilter: "blur(32px)",
                         WebkitBackdropFilter: "blur(32px)",
