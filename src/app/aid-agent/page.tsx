@@ -3624,6 +3624,8 @@ export default function AidAgentPage() {
   const [mobileOrbRoaming, setMobileOrbRoaming] = useState(false);
   const [orbCelebrating, setOrbCelebrating] = useState(false);
   const orbGlowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [mobileDrawerDocked, setMobileDrawerDocked] = useState(true);
+  const drawerTouchStartY = useRef<number | null>(null);
   const tipsRef = useRef<HTMLDivElement>(null);
   const pcOrbRef = useRef<HTMLDivElement>(null);
   const [howItWorksActive, setHowItWorksActive] = useState<"role" | "chatbox" | "panels" | "guidance" | null>(null);
@@ -5534,10 +5536,9 @@ export default function AidAgentPage() {
                   <div ref={tipsRef} className="w-full md:w-[54%] flex flex-col gap-3 px-1 pb-2 md:sticky md:top-[8px] md:self-start">
 
                     {/* ── Embedded Chat Window — all screen sizes ── */}
-                    <div className="flex flex-col rounded-2xl overflow-hidden transition-shadow duration-300 sticky top-[8px] self-start w-full"
+                    <div className="flex flex-col rounded-2xl overflow-hidden transition-all duration-300 sticky top-[8px] self-start w-full"
                       style={{
                         height: "min(74vh, 720px)",
-                        zIndex: 10,
                         background: "rgba(10,4,22,0.28)",
                         backdropFilter: "blur(32px)",
                         WebkitBackdropFilter: "blur(32px)",
@@ -5651,8 +5652,46 @@ export default function AidAgentPage() {
                       </div>
                     </div>{/* end embedded chat window */}
 
-                    {/* ── Accordions — mobile only (desktop moved to left column) ── */}
-                    <div className="flex md:hidden flex-col gap-3">
+                    {/* ── Accordions — mobile bottom drawer ── */}
+                    <div
+                      className="md:hidden fixed bottom-0 left-0 right-0 z-[55] flex flex-col overflow-hidden"
+                      style={{
+                        transform: mobileDrawerDocked ? "translateY(calc(100% - 44px))" : "translateY(0)",
+                        transition: "transform 0.36s cubic-bezier(0.32,0.72,0,1)",
+                        maxHeight: "82vh",
+                        background: "rgba(5,2,14,0.97)",
+                        backdropFilter: "blur(28px)",
+                        WebkitBackdropFilter: "blur(28px)",
+                        borderTop: "1px solid rgba(212,175,55,0.22)",
+                        borderRadius: "20px 20px 0 0",
+                        boxShadow: "0 -8px 40px rgba(0,0,0,0.60), 0 -1px 0 rgba(212,175,55,0.10)",
+                      }}
+                    >
+                      {/* ── Drag handle ── */}
+                      <div
+                        className="shrink-0 flex flex-col items-center gap-1 pt-2.5 pb-2 cursor-pointer select-none touch-none"
+                        onTouchStart={(e) => { drawerTouchStartY.current = e.touches[0].clientY; }}
+                        onTouchEnd={(e) => {
+                          if (drawerTouchStartY.current === null) return;
+                          const dy = e.changedTouches[0].clientY - drawerTouchStartY.current;
+                          drawerTouchStartY.current = null;
+                          if (dy < -30) setMobileDrawerDocked(false);
+                          if (dy > 30)  setMobileDrawerDocked(true);
+                        }}
+                        onClick={() => setMobileDrawerDocked(d => !d)}
+                      >
+                        <div className="w-10 h-1 rounded-full bg-white/25" />
+                        <div className="flex items-center gap-1.5 mt-0.5">
+                          <ChevronUp className={`h-3 w-3 text-[#D4AF37]/55 transition-transform duration-300 ${mobileDrawerDocked ? "" : "rotate-180"}`} />
+                          <span className="text-[9px] font-bold uppercase tracking-[0.14em] text-white/30">
+                            {mobileDrawerDocked ? "Resources ↑" : "Close ↓"}
+                          </span>
+                          <ChevronUp className={`h-3 w-3 text-[#D4AF37]/55 transition-transform duration-300 ${mobileDrawerDocked ? "" : "rotate-180"}`} />
+                        </div>
+                      </div>
+
+                      {/* ── Scrollable accordion content ── */}
+                      <div className="flex-1 overflow-y-auto genie-scroll flex flex-col gap-3 px-3 pb-8">
 
                     {/* ── I am a… accordion (tips) ── */}
                     <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]"
@@ -5847,7 +5886,8 @@ export default function AidAgentPage() {
                       )}{/* end covers accordion content */}
                     </div>{/* end What Genie Covers accordion */}
 
-                    </div>{/* end accordions */}
+                      </div>{/* end scrollable accordion content */}
+                    </div>{/* end mobile bottom drawer */}
 
                   </div>{/* end right column */}
 
