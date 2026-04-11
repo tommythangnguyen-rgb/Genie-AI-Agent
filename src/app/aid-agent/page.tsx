@@ -5352,7 +5352,7 @@ export default function AidAgentPage() {
 
                     {/* How It Works — accordion, open by default */}
                     <div className="w-full flex flex-col mb-3 rounded-2xl overflow-hidden ring-1 ring-white/[0.10]"
-                      style={{ background: "rgba(12,5,28,0.48)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)" }}>
+                      style={{ background: "rgba(12,5,28,0.28)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)" }}>
                       <button
                         type="button"
                         onClick={() => setOpenAccordions(prev => { const n = new Set(prev); n.has("hiw") ? n.delete("hiw") : n.add("hiw"); return n; })}
@@ -5403,7 +5403,7 @@ export default function AidAgentPage() {
                     {/* ── Desktop-only: accordions below How It Works ── */}
                     <div className="hidden md:flex flex-col gap-3 mt-0">
                       {/* Quick Prompts by Role */}
-                      <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]" style={{ background: "rgba(12,5,28,0.55)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", boxShadow: "0 4px 20px rgba(0,0,0,0.35)" }}>
+                      <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]" style={{ background: "rgba(12,5,28,0.28)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", boxShadow: "0 4px 20px rgba(0,0,0,0.35)" }}>
                         <button type="button" onClick={() => setOpenAccordions(prev => { const n = new Set(prev); n.has("iam") ? n.delete("iam") : n.add("iam"); return n; })} className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400">
                           <div className="flex items-center gap-2.5">
                             <div className="p-2 rounded-xl" style={{ background: "rgba(212,175,55,0.14)" }}><Users className="h-4 w-4 text-amber-400/80" /></div>
@@ -5434,7 +5434,7 @@ export default function AidAgentPage() {
                       </div>
 
                       {/* Tips by Role */}
-                      <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]" style={{ background: "rgba(12,5,28,0.55)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", boxShadow: "0 4px 20px rgba(0,0,0,0.35)" }}>
+                      <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]" style={{ background: "rgba(12,5,28,0.28)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", boxShadow: "0 4px 20px rgba(0,0,0,0.35)" }}>
                         <button type="button" onClick={() => setOpenAccordions(prev => { const n = new Set(prev); n.has("tips") ? n.delete("tips") : n.add("tips"); return n; })} className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400">
                           <div className="flex items-center gap-2.5">
                             <div className="p-2 rounded-xl" style={{ background: "rgba(251,191,36,0.14)" }}><Lightbulb className="h-4 w-4 text-amber-400" /></div>
@@ -5470,7 +5470,7 @@ export default function AidAgentPage() {
                       </div>
 
                       {/* What Genie Covers */}
-                      <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]" style={{ background: "rgba(12,5,28,0.55)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", boxShadow: "0 4px 20px rgba(0,0,0,0.35)" }}>
+                      <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]" style={{ background: "rgba(12,5,28,0.28)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", boxShadow: "0 4px 20px rgba(0,0,0,0.35)" }}>
                         <button type="button" onClick={() => setOpenAccordions(prev => { const n = new Set(prev); n.has("covers") ? n.delete("covers") : n.add("covers"); return n; })} className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400">
                           <div className="flex items-center gap-2.5">
                             <div className="p-2 rounded-xl shrink-0" style={{ background: "rgba(212,175,55,0.14)" }}><Sparkles className="h-4 w-4 text-[#D4AF37]" /></div>
@@ -5655,7 +5655,7 @@ export default function AidAgentPage() {
                     {/* ── I am a… accordion (tips) ── */}
                     <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]"
                       style={{
-                        background: "rgba(12,5,28,0.55)",
+                        background: "rgba(12,5,28,0.28)",
                         backdropFilter: "blur(20px)",
                         WebkitBackdropFilter: "blur(20px)",
                         boxShadow: "0 4px 20px rgba(0,0,0,0.35)",
@@ -5710,7 +5710,7 @@ export default function AidAgentPage() {
                     {/* ── Tips by Role accordion ── */}
                     <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]"
                       style={{
-                        background: "rgba(12,5,28,0.55)",
+                        background: "rgba(12,5,28,0.28)",
                         backdropFilter: "blur(20px)",
                         WebkitBackdropFilter: "blur(20px)",
                         boxShadow: "0 4px 20px rgba(0,0,0,0.35)",
@@ -5766,7 +5766,7 @@ export default function AidAgentPage() {
                     {/* ── What Genie Covers accordion ── */}
                     <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]"
                       style={{
-                        background: "rgba(12,5,28,0.55)",
+                        background: "rgba(12,5,28,0.28)",
                         backdropFilter: "blur(20px)",
                         WebkitBackdropFilter: "blur(20px)",
                         boxShadow: "0 4px 20px rgba(0,0,0,0.35)",
