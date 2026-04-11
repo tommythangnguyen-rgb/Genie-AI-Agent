@@ -5458,14 +5458,27 @@ export default function AidAgentPage() {
                       }}>
 
                       {/* Panel header */}
-                      <div className="shrink-0 flex items-center justify-between px-5 py-3 border-b border-white/[0.10]" style={{ background: "rgba(255,255,255,0.05)" }}>
-                        <div className="flex items-center gap-2.5">
-                          <div className="p-1.5 rounded-lg" style={{ background: "rgba(212,175,55,0.18)", boxShadow: "0 0 12px rgba(212,175,55,0.45), 0 0 0 1px rgba(212,175,55,0.30)" }}>
-                            <GenieBottle className="h-3.5 w-3.5 genie-icon-shimmer" style={{ color: "#D4AF37", filter: "drop-shadow(0 0 5px rgba(212,175,55,0.80))" }} />
+                      <div className="shrink-0 flex items-center justify-center px-5 py-4 border-b border-white/[0.10]" style={{ background: "rgba(255,255,255,0.05)" }}>
+                        <div className="flex items-center gap-3">
+                          <div className="p-1.5 rounded-lg" style={{ background: "rgba(212,175,55,0.18)", boxShadow: "0 0 14px rgba(212,175,55,0.55), 0 0 0 1px rgba(212,175,55,0.35)" }}>
+                            <GenieBottle className="h-4 w-4 genie-icon-shimmer" style={{ color: "#D4AF37", filter: "drop-shadow(0 0 6px rgba(212,175,55,0.90))" }} />
                           </div>
-                          <span className="text-sm font-bold text-white tracking-tight">Genie</span>
+                          <span
+                            className="text-2xl font-black tracking-tight"
+                            style={{
+                              background: "linear-gradient(90deg, #C8A84B 0%, #FFE066 22%, #FFF4A0 40%, #D4AF37 55%, #FFE066 70%, #FFF4A0 85%, #C8A84B 100%)",
+                              backgroundSize: "200% auto",
+                              WebkitBackgroundClip: "text",
+                              backgroundClip: "text",
+                              WebkitTextFillColor: "transparent",
+                              color: "transparent",
+                              animation: "hiw-guidance-headline 2.8s linear infinite",
+                              filter: "drop-shadow(0 0 10px rgba(212,175,55,0.45))",
+                              letterSpacing: "-0.02em",
+                            }}
+                          >Genie</span>
                         </div>
-                        </div>
+                      </div>
 
                       {/* Messages area — welcome typewriter when idle, real messages when chatting */}
                       {messages.length > 0 ? (
