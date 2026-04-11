@@ -3167,7 +3167,7 @@ function EducationalBackground({ isDark = true, guidanceActive = false }: { isDa
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
       <img src="/images/desktop-bg.jpg" alt="" className="hidden md:block w-full h-full object-cover object-center" />
-      <img src="/images/mobile-bg.jpg"  alt="" className="block md:hidden w-full h-full object-cover object-center" />
+      <img src="/images/desktop-bg.jpg"  alt="" className="block md:hidden w-full h-full object-cover object-center" />
       {/* Unified dark veil for text legibility across all overlaid cards */}
       <div className="absolute inset-0" style={{ background: "rgba(5,2,14,0.48)" }} />
     </div>
@@ -4848,7 +4848,7 @@ export default function AidAgentPage() {
               className="w-full h-full object-cover object-center"
             >
               <source src="/videos/superhero-genie.mp4" type="video/mp4" />
-              <img src="/images/mobile-bg.jpg" alt="" className="w-full h-full object-cover object-center" />
+              <img src="/images/desktop-bg.jpg" alt="" className="w-full h-full object-cover object-center" />
             </video>
             <div className="absolute inset-0" style={{ background: "linear-gradient(180deg, rgba(8,3,20,0.40) 0%, rgba(5,2,14,0.18) 35%, rgba(7,2,18,0.40) 70%, rgba(5,2,14,0.96) 100%)" }} />
           </div>
