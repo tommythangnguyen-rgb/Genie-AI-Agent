@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -47,9 +47,6 @@ export const metadata: Metadata = {
     statusBarStyle: "black-translucent",
   },
   manifest: "/site.webmanifest",
-  other: {
-    "theme-color": "#000000",
-  },
   openGraph: {
     title: "askGenie | Student Aid HUB — AI Financial Aid Expert",
     description:
@@ -68,6 +65,10 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#000000",
 };
 
 export default function RootLayout({
