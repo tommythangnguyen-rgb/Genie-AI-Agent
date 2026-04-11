@@ -65,9 +65,10 @@ interface UpgradeModalProps {
   feature: Feature;
   onClose: () => void;
   onUpgrade?: () => void;
+  onSignIn?: () => void;
 }
 
-export function UpgradeModal({ feature, onClose, onUpgrade }: UpgradeModalProps) {
+export function UpgradeModal({ feature, onClose, onUpgrade, onSignIn }: UpgradeModalProps) {
   const [loading, setLoading] = useState(false);
   const [ctaLabel] = useState(pickVariant);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -91,7 +92,12 @@ export function UpgradeModal({ feature, onClose, onUpgrade }: UpgradeModalProps)
       if (data.url) {
         window.location.href = data.url;
       } else if (res.status === 401) {
-        setErrorMsg("Please sign in to upgrade to Pro.");
+        if (onSignIn) {
+          onClose();
+          onSignIn();
+        } else {
+          setErrorMsg("Please sign in to upgrade to Pro.");
+        }
       } else {
         window.location.href = "/pricing";
       }

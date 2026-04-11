@@ -16,11 +16,18 @@ export function MarkdownRenderer({
     <div className={cn("prose leading-tight max-w-none", className)}>
       <ReactMarkdown
         components={{
-          a: ({ href, children, ...props }) => (
-            <a href={href} target="_blank" rel="noopener noreferrer" {...props}>
-              {children}
-            </a>
-          ),
+          a: ({ href, children, ...props }) => {
+            const isExternal = !!href && (href.startsWith("http") || href.startsWith("//"));
+            return (
+              <a
+                href={href}
+                {...(isExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                {...props}
+              >
+                {children}
+              </a>
+            );
+          },
           code: ({ children, className, ...props }) => {
             const match = /language-(\w+)/.exec(className || "");
             const isInline = !match;

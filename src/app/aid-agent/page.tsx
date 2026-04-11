@@ -3670,6 +3670,11 @@ export default function AidAgentPage() {
   const [userEmail, setUserEmail] = useState<string | null>(null);
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const [authDialogMode, setAuthDialogMode] = useState<"signin" | "signup">("signin");
+  useEffect(() => {
+    const auth = new URLSearchParams(window.location.search).get("auth");
+    if (auth === "signup") { setAuthDialogMode("signup"); setAuthDialogOpen(true); }
+    else if (auth === "signin") { setAuthDialogMode("signin"); setAuthDialogOpen(true); }
+  }, []);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [showHistory, setShowHistory] = useState(false);
   const [expandedHistoryId, setExpandedHistoryId] = useState<string | null>(null);
@@ -4135,7 +4140,7 @@ export default function AidAgentPage() {
             id: assistantId,
             role: "assistant",
             content: isGuest
-              ? "You've used your free preview question. **[Create a free account](/aid-agent)** to get 10 questions per day, or **[upgrade to Pro](/pricing)** for unlimited access."
+              ? "You've used your free preview question. **[Create a free account](/aid-agent?auth=signup)** to get 10 messages/day, or **[upgrade to Pro](/pricing)** for unlimited access."
               : `You've reached your daily limit (${data.limit ?? 10} messages/day). Resets at midnight. **[Upgrade to Pro](/pricing)** for unlimited conversations.`,
           },
         ]);
@@ -6830,6 +6835,7 @@ export default function AidAgentPage() {
         <UpgradeModal
           feature={upgradeState.feature}
           onClose={closeUpgrade}
+          onSignIn={() => { closeUpgrade(); setAuthDialogMode("signup"); setAuthDialogOpen(true); }}
         />
       )}
 
