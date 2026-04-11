@@ -5089,7 +5089,7 @@ export default function AidAgentPage() {
                     {expanded && <div className="grid grid-cols-2 gap-2">
                       {[{ id: "RtDYpEfAa5U", title: "How to Fill Out the FAFSA" }, { id: "NmEP38x-1Z8", title: "FAFSA Tips & Common Mistakes" }, { id: "rhgwIhB58PA", title: "Student Aid Overview" }, { id: "C5OJJD3Eytk", title: "Understanding Aid Offers" }, { id: "vArU4--VUlA", title: "Financial Aid Resource" }, { id: "Cwew4nDBAnE", title: "Student Aid Guide" }, { id: "pPLy-qk13cg", title: "Aid Planning Tips" }].map(({ id, title }) => (
                         <div key={id} className="relative rounded-xl overflow-hidden ring-1 ring-white/[0.08] shadow-sm shadow-black/30" style={{ aspectRatio: "16/9" }}>
-                          {expandedSections.has(`vid-${id}`) ? (
+                          {expandedSections.has(`vid-lp-${id}`) ? (
                             <iframe
                               src={`https://www.youtube.com/embed/${id}?autoplay=1&rel=0`}
                               title={title}
@@ -5098,7 +5098,7 @@ export default function AidAgentPage() {
                               className="w-full h-full border-0"
                             />
                           ) : (
-                            <button type="button" onClick={() => setExpandedSections(p => { const n = new Set(p); n.add(`vid-${id}`); return n; })} className="w-full h-full group">
+                            <button type="button" onClick={() => setExpandedSections(p => { const n = new Set(p); n.add(`vid-lp-${id}`); return n; })} className="w-full h-full group">
                               <img src={`https://img.youtube.com/vi/${id}/mqdefault.jpg`} alt={title} className="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition-opacity"/>
                               <div className="absolute inset-0 flex items-center justify-center">
                                 <div className="w-9 h-9 rounded-full bg-black/60 flex items-center justify-center group-hover:bg-red-600 transition-colors shadow-lg">
@@ -6281,7 +6281,7 @@ export default function AidAgentPage() {
                     {expanded && <div className="grid grid-cols-2 gap-2">
                       {[{ id: "P6FORpg0KVo", title: "Aid Packaging & Verification" }, { id: "HAnw168huqA", title: "Regulatory Compliance" }, { id: "rhgwIhB58PA", title: "Student Aid Overview" }, { id: "kKvK2foOTJM", title: "Financial Aid Administration" }].map(({ id, title }) => (
                         <div key={id} className="relative rounded-xl overflow-hidden ring-1 ring-white/[0.08] shadow-sm shadow-black/30" style={{ aspectRatio: "16/9" }}>
-                          {expandedSections.has(`vid-${id}`) ? (
+                          {expandedSections.has(`vid-rp-${id}`) ? (
                             <iframe
                               src={`https://www.youtube.com/embed/${id}?autoplay=1&rel=0`}
                               title={title}
@@ -6290,7 +6290,7 @@ export default function AidAgentPage() {
                               className="w-full h-full border-0"
                             />
                           ) : (
-                            <button type="button" onClick={() => setExpandedSections(p => { const n = new Set(p); n.add(`vid-${id}`); return n; })} className="w-full h-full group">
+                            <button type="button" onClick={() => setExpandedSections(p => { const n = new Set(p); n.add(`vid-rp-${id}`); return n; })} className="w-full h-full group">
                               <img src={`https://img.youtube.com/vi/${id}/mqdefault.jpg`} alt={title} className="w-full h-full object-cover opacity-75 group-hover:opacity-100 transition-opacity"/>
                               <div className="absolute inset-0 flex items-center justify-center">
                                 <div className="w-9 h-9 rounded-full bg-black/60 flex items-center justify-center group-hover:bg-red-600 transition-colors shadow-lg">
