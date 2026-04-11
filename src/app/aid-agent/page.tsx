@@ -5274,7 +5274,7 @@ export default function AidAgentPage() {
                       >
                         <div className="flex items-center gap-2">
                           <div className="h-px w-8 bg-white/30" />
-                          <span className={`text-xs font-bold uppercase tracking-[0.16em] ${isDark ? "text-white/70" : "text-gray-800"}`}>How it works</span>
+                          <span className={`text-xs font-bold uppercase tracking-[0.16em] text-white/70`}>How it works</span>
                         </div>
                         <ChevronDown className={`h-4 w-4 text-white/35 transition-transform duration-200 shrink-0 ${openAccordions.has("hiw") ? "rotate-180" : ""}`} />
                       </button>
@@ -5321,7 +5321,7 @@ export default function AidAgentPage() {
                         <button type="button" onClick={() => setOpenAccordions(prev => { const n = new Set(prev); n.has("iam") ? n.delete("iam") : n.add("iam"); return n; })} className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400">
                           <div className="flex items-center gap-2.5">
                             <div className="p-2 rounded-xl" style={{ background: "rgba(212,175,55,0.14)" }}><Users className="h-4 w-4 text-amber-400/80" /></div>
-                            <span className={`text-xs font-bold tracking-[0.08em] uppercase ${isDark ? "text-white/65" : "text-gray-700"}`}>Quick Prompts by Role</span>
+                            <span className={`text-xs font-bold tracking-[0.08em] uppercase text-white/65`}>Quick Prompts by Role</span>
                             <span className="text-[9px] text-white/25 font-medium">{openAccordions.has("iam") ? "" : "· tap to expand"}</span>
                           </div>
                           <ChevronDown className={`h-4 w-4 text-white/35 transition-transform duration-200 shrink-0 ${openAccordions.has("iam") ? "rotate-180" : ""}`} />
@@ -5352,7 +5352,7 @@ export default function AidAgentPage() {
                         <button type="button" onClick={() => setOpenAccordions(prev => { const n = new Set(prev); n.has("tips") ? n.delete("tips") : n.add("tips"); return n; })} className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400">
                           <div className="flex items-center gap-2.5">
                             <div className="p-2 rounded-xl" style={{ background: "rgba(251,191,36,0.14)" }}><Lightbulb className="h-4 w-4 text-amber-400" /></div>
-                            <span className={`text-xs font-bold tracking-[0.08em] uppercase ${isDark ? "text-white/65" : "text-gray-700"}`}>Tips by Role</span>
+                            <span className={`text-xs font-bold tracking-[0.08em] uppercase text-white/65`}>Tips by Role</span>
                             <span className="text-[9px] text-white/25 font-medium">{openAccordions.has("tips") ? "" : "· tap to expand"}</span>
                           </div>
                           <ChevronDown className={`h-4 w-4 text-white/35 transition-transform duration-200 shrink-0 ${openAccordions.has("tips") ? "rotate-180" : ""}`} />
@@ -5388,7 +5388,7 @@ export default function AidAgentPage() {
                         <button type="button" onClick={() => setOpenAccordions(prev => { const n = new Set(prev); n.has("covers") ? n.delete("covers") : n.add("covers"); return n; })} className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400">
                           <div className="flex items-center gap-2.5">
                             <div className="p-2 rounded-xl shrink-0" style={{ background: "rgba(212,175,55,0.14)" }}><Sparkles className="h-4 w-4 text-[#D4AF37]" /></div>
-                            <span className={`text-xs font-bold tracking-[0.08em] uppercase ${isDark ? "text-white/65" : "text-gray-700"}`}>What Genie Covers</span>
+                            <span className={`text-xs font-bold tracking-[0.08em] uppercase text-white/65`}>What Genie Covers</span>
                             <span className="text-[9px] text-white/25 font-medium">{openAccordions.has("covers") ? "" : "· 28 topic areas"}</span>
                           </div>
                           <ChevronDown className={`h-4 w-4 text-white/35 transition-transform duration-200 shrink-0 ${openAccordions.has("covers") ? "rotate-180" : ""}`} />
@@ -5510,14 +5510,14 @@ export default function AidAgentPage() {
                       <div className={`shrink-0 px-4 py-2 border-t border-white/[0.08] transition-all duration-300 ${howItWorksActive === "role" ? "hiw-active-shimmer" : ""}`}
                         style={{ background: "rgba(255,255,255,0.025)" }}>
                         <div className="flex items-center gap-1.5 flex-wrap">
-                          <span className={`text-[10px] font-semibold tracking-wide mr-0.5 shrink-0 ${isDark ? "text-white/55" : "text-gray-700"}`}>I am a:</span>
+                          <span className={`text-[10px] font-semibold tracking-wide mr-0.5 shrink-0 text-white/55`}>I am a:</span>
                           {ROLE_OPTIONS.map(({ label, icon: RoleIcon, color, ring, bg }) => (
                             <button key={label} type="button" aria-pressed={selectedRole === label}
                               onClick={() => { syncRoles(selectedRole === label ? null : label); }}
                               className={`flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ring-1 ${
                                 selectedRole === label
                                   ? `${color} ${bg} ${ring}`
-                                  : isDark ? "text-white/75 bg-transparent ring-white/[0.18] hover:text-white hover:bg-white/[0.10] hover:ring-white/45" : "text-gray-800 bg-transparent ring-black/[0.18] hover:text-gray-900 hover:bg-black/[0.06] hover:ring-black/30"
+                                  : "text-white/75 bg-transparent ring-white/[0.18] hover:text-white hover:bg-white/[0.10] hover:ring-white/45"
                               }`}>
                               <RoleIcon className="h-2.5 w-2.5 shrink-0" />{label}
                             </button>
@@ -5597,7 +5597,7 @@ export default function AidAgentPage() {
                           <div className="p-2 rounded-xl" style={{ background: "rgba(212,175,55,0.14)" }}>
                             <Users className="h-4 w-4 text-amber-400/80" />
                           </div>
-                          <span className={`text-xs font-bold tracking-[0.08em] uppercase ${isDark ? "text-white/65" : "text-gray-700"}`}>Quick Prompts by Role</span>
+                          <span className={`text-xs font-bold tracking-[0.08em] uppercase text-white/65`}>Quick Prompts by Role</span>
                           <span className="text-[9px] text-white/25 font-medium">{openAccordions.has("iam") ? "" : "· tap to expand"}</span>
                         </div>
                         <ChevronDown className={`h-4 w-4 text-white/35 transition-transform duration-200 shrink-0 ${openAccordions.has("iam") ? "rotate-180" : ""}`} />
@@ -5652,7 +5652,7 @@ export default function AidAgentPage() {
                           <div className="p-2 rounded-xl" style={{ background: "rgba(251,191,36,0.14)" }}>
                             <Lightbulb className="h-4 w-4 text-amber-400" />
                           </div>
-                          <span className={`text-xs font-bold tracking-[0.08em] uppercase ${isDark ? "text-white/65" : "text-gray-700"}`}>Tips by Role</span>
+                          <span className={`text-xs font-bold tracking-[0.08em] uppercase text-white/65`}>Tips by Role</span>
                           <span className="text-[9px] text-white/25 font-medium">{openAccordions.has("tips") ? "" : "· tap to expand"}</span>
                         </div>
                         <ChevronDown className={`h-4 w-4 text-white/35 transition-transform duration-200 shrink-0 ${openAccordions.has("tips") ? "rotate-180" : ""}`} />
@@ -5707,7 +5707,7 @@ export default function AidAgentPage() {
                           <div className="p-2 rounded-xl shrink-0" style={{ background: "rgba(212,175,55,0.14)" }}>
                             <Sparkles className="h-4 w-4 text-[#D4AF37]" />
                           </div>
-                          <span className={`text-xs font-bold tracking-[0.08em] uppercase ${isDark ? "text-white/65" : "text-gray-700"}`}>What Genie Covers</span>
+                          <span className={`text-xs font-bold tracking-[0.08em] uppercase text-white/65`}>What Genie Covers</span>
                           <span className="text-[9px] text-white/25 font-medium">{openAccordions.has("covers") ? "" : "· 28 topic areas"}</span>
                         </div>
                         <ChevronDown className={`h-4 w-4 text-white/35 transition-transform duration-200 shrink-0 ${openAccordions.has("covers") ? "rotate-180" : ""}`} />
@@ -5861,11 +5861,11 @@ export default function AidAgentPage() {
                       <div className="h-px flex-1 bg-white/[0.06]" />
                     </div>
                     <div className={`flex items-center gap-1.5 flex-wrap mb-2.5 px-1 rounded-xl transition-all duration-300 ${howItWorksActive === "role" ? "hiw-active-shimmer py-1.5 -mx-1" : ""}`}>
-                      <span className={`text-[10px] font-semibold tracking-wide mr-0.5 shrink-0 ${isDark ? "text-white" : "text-gray-900"}`}>I am a:</span>
+                      <span className={`text-[10px] font-semibold tracking-wide mr-0.5 shrink-0 text-white`}>I am a:</span>
                       {ROLE_OPTIONS.map(({ label, icon: RoleIcon, color, ring, bg }) => (
                         <button key={label} type="button" aria-pressed={selectedRole === label}
                           onClick={() => { syncRoles(selectedRole === label ? null : label); if (selectedRole !== label) setSlideIndex(1); }}
-                          className={`flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ring-1 ${selectedRole === label ? `${color} ${bg} ${ring}` : isDark ? "text-white/80 bg-transparent ring-white/[0.22] hover:text-white hover:bg-white/[0.10] hover:ring-white/50" : "text-gray-800 bg-transparent ring-black/[0.18] hover:text-gray-900 hover:bg-black/[0.06] hover:ring-black/30"}`}>
+                          className={`flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ring-1 ${selectedRole === label ? `${color} ${bg} ${ring}` : "text-white/80 bg-transparent ring-white/[0.22] hover:text-white hover:bg-white/[0.10] hover:ring-white/50"}`}>
                           <RoleIcon className="h-2.5 w-2.5 shrink-0" />{label}
                         </button>
                       ))}
@@ -5960,7 +5960,7 @@ export default function AidAgentPage() {
                 )}
               </div>
               <div className={`hidden md:flex items-center gap-1.5 flex-wrap md:mb-2.5 px-1 rounded-xl transition-all duration-300 ${howItWorksActive === "role" ? "hiw-active-shimmer py-1.5 -mx-1" : ""}`}>
-                <span className={`text-[10px] font-semibold tracking-wide mr-0.5 shrink-0 ${isDark ? "text-white" : "text-gray-900"}`}>I am a:</span>
+                <span className={`text-[10px] font-semibold tracking-wide mr-0.5 shrink-0 text-white`}>I am a:</span>
                 {ROLE_OPTIONS.map(({ label, icon: RoleIcon, color, ring, bg }) => (
                   <button
                     key={label}
@@ -5970,7 +5970,7 @@ export default function AidAgentPage() {
                     className={`flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ring-1 ${
                       selectedRole === label
                         ? `${color} ${bg} ${ring}`
-                        : isDark ? "text-white/80 bg-transparent ring-white/[0.22] hover:text-white hover:bg-white/[0.10] hover:ring-white/50" : "text-gray-800 bg-transparent ring-black/[0.18] hover:text-gray-900 hover:bg-black/[0.06] hover:ring-black/30"
+                        : "text-white/80 bg-transparent ring-white/[0.22] hover:text-white hover:bg-white/[0.10] hover:ring-white/50"
                     }`}
                     style={selectedRole === label ? {} : undefined}
                   >
