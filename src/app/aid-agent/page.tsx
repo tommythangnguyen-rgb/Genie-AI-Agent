@@ -5659,12 +5659,12 @@ export default function AidAgentPage() {
                         transform: mobileDrawerDocked ? "translateY(calc(100% - 44px))" : "translateY(0)",
                         transition: "transform 0.36s cubic-bezier(0.32,0.72,0,1)",
                         maxHeight: "82vh",
-                        background: "rgba(5,2,14,0.97)",
-                        backdropFilter: "blur(28px)",
-                        WebkitBackdropFilter: "blur(28px)",
-                        borderTop: "1px solid rgba(212,175,55,0.22)",
+                        background: "rgba(10,4,22,0.28)",
+                        backdropFilter: "blur(32px)",
+                        WebkitBackdropFilter: "blur(32px)",
+                        borderTop: "1px solid rgba(212,175,55,0.18)",
                         borderRadius: "20px 20px 0 0",
-                        boxShadow: "0 -8px 40px rgba(0,0,0,0.60), 0 -1px 0 rgba(212,175,55,0.10)",
+                        boxShadow: "0 -4px 24px rgba(0,0,0,0.25), 0 -1px 0 rgba(212,175,55,0.08)",
                       }}
                     >
                       {/* ── Drag handle ── */}
