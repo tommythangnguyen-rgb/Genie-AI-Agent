@@ -47,6 +47,9 @@ export const metadata: Metadata = {
     statusBarStyle: "black-translucent",
   },
   manifest: "/site.webmanifest",
+  other: {
+    "theme-color": "#000000",
+  },
   openGraph: {
     title: "askGenie | Student Aid HUB — AI Financial Aid Expert",
     description:

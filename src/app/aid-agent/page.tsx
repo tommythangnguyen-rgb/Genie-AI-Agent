@@ -5023,7 +5023,7 @@ export default function AidAgentPage() {
                     key={key}
                     onClick={() => setOverlaySection(key)}
                     className="group flex items-center gap-2.5 px-3 py-2.5 rounded-xl ring-1 ring-white/[0.07] hover:ring-white/[0.20] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50 hover:scale-[1.02] active:scale-[0.97] transition-all duration-150"
-                    style={{ background: "rgba(8,14,36,0.80)", boxShadow: "0 2px 10px rgba(0,0,0,0.35)" }}
+                    style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}
                   >
                     <div className="shrink-0 p-2 rounded-lg" style={{ background: `${accent}1A`, boxShadow: `0 0 0 1px ${accent}33` }}>
                       <Icon className="h-4 w-4" style={{ color: accent }} />
@@ -6263,7 +6263,7 @@ export default function AidAgentPage() {
                     key={key}
                     onClick={() => setOverlaySection(key)}
                     className="group flex items-center gap-2.5 px-3 py-2.5 rounded-xl ring-1 ring-white/[0.07] hover:ring-white/[0.20] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/50 hover:scale-[1.02] active:scale-[0.97] transition-all duration-150"
-                    style={{ background: "rgba(8,14,36,0.80)", boxShadow: "0 2px 10px rgba(0,0,0,0.35)" }}
+                    style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}
                   >
                     <div className="shrink-0 p-2 rounded-lg" style={{ background: `${accent}1A`, boxShadow: `0 0 0 1px ${accent}33` }}>
                       <Icon className="h-4 w-4" style={{ color: accent }} />
