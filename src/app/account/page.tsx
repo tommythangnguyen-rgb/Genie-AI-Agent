@@ -477,27 +477,35 @@ function AccountPageInner() {
         )}
 
         {/* Footer */}
-        <div className="pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="text-center sm:text-left">
-            <p className="text-xs text-white/25">
-              © 2026 askGenie Student Aid Hub | Developed by One27 | All Rights Reserved
-            </p>
+        <div className="pt-8 border-t border-white/[0.08]">
+          <div className="flex flex-wrap justify-center items-center gap-x-0 gap-y-0.5 mb-1.5">
+            {[
+              { label: "Plans & Pricing",     href: "/pricing"      },
+              { label: "FAQ",                 href: "/pricing#faq"  },
+              { label: "Support Dev",         href: "/support"      },
+              { label: "@one27__",            href: "https://x.com/one27__" },
+              { label: "Terms & Privacy",     href: "/legal"        },
+              { label: "School DPA",          href: "/dpa"          },
+              { label: "About",               href: "/about"        },
+              { label: "For Schools",         href: "/institutions" },
+              { label: "Do Not Sell My Info", href: "/legal#ccpa"   },
+            ].map(({ label, href }, i, arr) => (
+              <span key={label} className="contents">
+                <a
+                  href={href}
+                  {...(href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                  className="px-1 py-px rounded-full text-[7px] md:text-[9px] md:px-1.5 font-medium text-white hover:text-white hover:bg-white/[0.08] transition-all duration-150"
+                  style={{ textShadow: "0 0 9px rgba(255,255,255,0.55)" }}
+                >
+                  {label}
+                </a>
+                {i < arr.length - 1 && <span className="text-white/10 text-[7px] md:text-[9px] select-none px-0.5">·</span>}
+              </span>
+            ))}
           </div>
-          <div className="flex items-center gap-2">
-            <Link
-              href="/pricing"
-              className="px-3 py-1.5 rounded-lg text-white/40 hover:text-white text-xs font-medium transition-colors"
-            >
-              Pricing
-            </Link>
-            <Link
-              href="/aid-agent"
-              className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition-colors"
-            >
-              <GenieBottle className="h-3.5 w-3.5" />
-              Open askGenie
-            </Link>
-          </div>
+          <p className="text-[8px] text-center text-cyan-400/70">
+            © 2026 Genie Student Aid Hub | Developed by One27 | All Rights Reserved · Not affiliated with U.S. Dept. of Education
+          </p>
         </div>
       </main>
     </div>
