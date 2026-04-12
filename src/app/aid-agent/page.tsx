@@ -3998,7 +3998,10 @@ export default function AidAgentPage() {
     setSelectedRole(chatboxLabel);
     if (chatboxLabel) {
       setActiveRole(chatboxLabel);
-      setActiveActionRole((chatboxLabel + "s") as "Students" | "Parents" | "Administrators" | "Leaders" | "Auditors");
+      const actionRole = chatboxLabel === "Compliance/Auditor"
+        ? "Auditors"
+        : (chatboxLabel + "s") as "Students" | "Parents" | "Administrators" | "Leaders" | "Auditors";
+      setActiveActionRole(actionRole);
       // Open Quick Prompts accordion without scrolling
       setOpenAccordions(prev => { const n = new Set(prev); n.add("iam"); return n; });
     }
