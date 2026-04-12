@@ -76,40 +76,33 @@ import {
 
 function GenieBottle({ className, style }: { className?: string; style?: React.CSSProperties }) {
   return (
-    <svg viewBox="0 0 48 60" fill="none" className={className} style={style} aria-hidden="true">
-      {/* Magic smoke wisps */}
-      <path d="M24 2.5C22.8 0.8 25.5 0.2 24 2" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.45"/>
-      <path d="M20.5 4C18 1.5 20 7 18.5 3.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.28"/>
-      <path d="M27.5 4C30 1.5 28 7 29.5 3.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.28"/>
-      {/* Stopper finial — jewel cap */}
-      <circle cx="24" cy="6" r="2.4" fill="currentColor" opacity="0.82"/>
-      <ellipse cx="24" cy="8.5" rx="5" ry="2" fill="currentColor" opacity="0.78"/>
-      {/* Jewel gleam */}
-      <circle cx="23" cy="5.3" r="0.9" fill="white" opacity="0.38"/>
-      {/* Upper collar ring */}
-      <rect x="17.5" y="10" width="13" height="2.8" rx="1.4" fill="currentColor" opacity="0.92"/>
-      <rect x="17.5" y="10" width="13" height="1" rx="0.5" fill="white" opacity="0.22"/>
-      {/* Neck */}
-      <rect x="20.5" y="12.8" width="7" height="6.5" rx="1" fill="currentColor" opacity="0.86"/>
-      {/* Lower collar ring */}
-      <rect x="17.5" y="18.5" width="13" height="2.5" rx="1.25" fill="currentColor" opacity="0.86"/>
-      <rect x="17.5" y="18.5" width="13" height="0.8" rx="0.4" fill="white" opacity="0.18"/>
-      {/* Shoulder taper — broad round belly */}
-      <path d="M17.5 21C13 23.5 10 29.5 10 36L10 47.5C10 52 16.5 55.5 24 55.5C31.5 55.5 38 52 38 47.5L38 36C38 29.5 35 23.5 30.5 21Z" fill="currentColor" opacity="0.94"/>
-      {/* Belly highlight — left edge shimmer */}
-      <path d="M15 31C13.2 35 12.8 41 13.5 46" stroke="white" strokeWidth="2.8" strokeLinecap="round" opacity="0.18"/>
-      {/* Belly gleam — upper left */}
-      <ellipse cx="18" cy="33" rx="2.2" ry="5" fill="white" opacity="0.12" transform="rotate(-18 18 33)"/>
-      {/* Top sparkle */}
-      <circle cx="17" cy="28.5" r="1.5" fill="white" opacity="0.22"/>
-      {/* Decorative belly band — twin lines */}
-      <path d="M10.2 39.5L37.8 39.5" stroke="white" strokeWidth="0.9" opacity="0.32"/>
-      <path d="M10.2 42.5L37.8 42.5" stroke="white" strokeWidth="0.6" opacity="0.18"/>
-      <path d="M10.2 39.5L37.8 39.5L37.8 42.5L10.2 42.5Z" fill="white" opacity="0.06"/>
-      {/* Base flare ring */}
-      <ellipse cx="24" cy="51.5" rx="12" ry="3.5" fill="currentColor" opacity="0.50"/>
-      {/* Base shadow accent */}
-      <ellipse cx="24" cy="53" rx="8.5" ry="2" fill="currentColor" opacity="0.26"/>
+    <svg viewBox="0 0 64 52" fill="none" className={className} style={style} aria-hidden="true">
+      {/* Sparkle dots */}
+      <circle cx="10" cy="8" r="1.9" fill="currentColor" opacity="0.88"/>
+      <circle cx="17" cy="4" r="1.3" fill="currentColor" opacity="0.75"/>
+      <path d="M5 15 L6.3 18.5 L9.8 15 L6.3 11.5 Z" fill="currentColor" opacity="0.82"/>
+      {/* Lid dome */}
+      <path d="M24 26 C24 15 44 15 44 26" fill="currentColor" opacity="0.90"/>
+      {/* Lid rim */}
+      <ellipse cx="34" cy="26" rx="10" ry="2.8" fill="currentColor" opacity="0.97"/>
+      {/* Lid knob */}
+      <ellipse cx="34" cy="13" rx="3" ry="2.3" fill="currentColor" opacity="0.88"/>
+      {/* Lid gleam */}
+      <ellipse cx="34" cy="25" rx="6" ry="1.2" fill="white" opacity="0.22"/>
+      {/* Main body */}
+      <path d="M24 26 C14 28 13 36 14 41 C15 46 22 49 34 49 C46 49 53 46 53 41 C53 36 50 28 44 26 Z" fill="currentColor" opacity="0.95"/>
+      {/* Body highlight shimmer */}
+      <ellipse cx="26" cy="34" rx="3.5" ry="7.5" fill="white" opacity="0.13" transform="rotate(-12 26 34)"/>
+      {/* Decorative band */}
+      <path d="M14.5 39 Q34 42 53 39" stroke="white" strokeWidth="0.8" opacity="0.20" fill="none"/>
+      {/* Spout */}
+      <path d="M18 33 C10 29 6 22 8 18 C10 14 14 16 16 23 C17.5 27.5 18.5 31 19 33 Z" fill="currentColor" opacity="0.90"/>
+      {/* Spout tip gleam */}
+      <path d="M9 20 C9.5 18 11 17 12.5 18.5" stroke="white" strokeWidth="1" strokeLinecap="round" opacity="0.28"/>
+      {/* Handle loop */}
+      <path d="M50 31 C59 26 61 35 59 39 C57.5 43 53 44 51 42" stroke="currentColor" strokeWidth="4" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.92"/>
+      {/* Base */}
+      <ellipse cx="34" cy="49" rx="14" ry="2.8" fill="currentColor" opacity="0.48"/>
     </svg>
   );
 }
