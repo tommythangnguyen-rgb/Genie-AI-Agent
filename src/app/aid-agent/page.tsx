@@ -5300,49 +5300,52 @@ export default function AidAgentPage() {
                         <ChevronDown className={`h-4 w-4 text-white/35 transition-transform duration-200 shrink-0 ${openAccordions.has("hiw") ? "rotate-180" : ""}`} />
                       </button>
                       {openAccordions.has("hiw") && (
-                        <div className="grid grid-cols-2 gap-3 px-4 pb-4">
-                          {([
-                            { icon: Sparkles,    step: "1", title: "Choose Your Role",  body: "Select Student, Parent, Admin, Leader, or Compliance/Auditor for role-specific prompts, resources, and tailored guidance.",      color: "text-purple-200",  iconBg: "bg-purple-600/[0.38]",  cardRing: "ring-purple-400/[0.55]",   glowColor: "rgba(120,60,210,0.40)",  cardBg: "linear-gradient(145deg, rgba(88,28,135,0.42) 0%, rgba(40,10,80,0.30) 100%)",   idleGlow: "0 4px 24px rgba(88,28,135,0.28), 0 1px 0 rgba(255,255,255,0.12) inset",  activeKey: "role"     as const },
-                            { icon: Send,        step: "2", title: "Ask Anything",       body: "Type any student aid question in plain English. Upload documents, letters, or forms for instant AI analysis.",                   color: "text-indigo-200",  iconBg: "bg-indigo-600/[0.38]",  cardRing: "ring-indigo-400/[0.55]",   glowColor: "rgba(99,80,210,0.40)",   cardBg: "linear-gradient(145deg, rgba(67,40,180,0.42) 0%, rgba(30,15,110,0.30) 100%)",  idleGlow: "0 4px 24px rgba(67,40,180,0.28), 0 1px 0 rgba(255,255,255,0.12) inset",  activeKey: "chatbox"  as const },
-                            { icon: Library,     step: "3", title: "Explore the Hub",    body: "Access 500+ curated resources — scholarships, VA benefits, loan tools, federal aid portals, and institutional guides.",          color: "text-amber-200",   iconBg: "bg-[#D4AF37]/[0.28]",   cardRing: "ring-[#D4AF37]/[0.55]",    glowColor: "rgba(212,175,55,0.35)",  cardBg: "linear-gradient(145deg, rgba(212,175,55,0.22) 0%, rgba(150,110,20,0.14) 100%)", idleGlow: "0 4px 24px rgba(212,175,55,0.20), 0 1px 0 rgba(255,255,255,0.12) inset",  activeKey: "panels"   as const },
-                            { icon: CheckCircle, step: "4", title: "Get Clear Guidance", body: "Receive plain-English answers grounded in 34 CFR, FSA Handbook, and HEA Title IV. Free, always — no jargon.",                 color: "text-violet-200",  iconBg: "bg-violet-600/[0.38]",  cardRing: "ring-violet-400/[0.55]",   glowColor: "rgba(150,100,240,0.40)", cardBg: "linear-gradient(145deg, rgba(110,50,200,0.42) 0%, rgba(55,18,120,0.30) 100%)",  idleGlow: "0 4px 24px rgba(110,50,200,0.28), 0 1px 0 rgba(255,255,255,0.12) inset",  activeKey: "guidance" as const },
-                          ] as const).map(({ icon: Icon, step, title, body, color, iconBg, cardRing, glowColor, cardBg, idleGlow, activeKey }) => (
-                            <button
-                              key={step}
-                              type="button"
-                              onClick={() => { setHowItWorksActive(activeKey); triggerOrbGold(); }}
-                              className={`flex flex-col gap-2 p-4 rounded-2xl ring-1 ${cardRing} text-left transition-all duration-200 hover:scale-[1.04] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${howItWorksActive === activeKey ? "hiw-active-ring brightness-125" : ""}`}
-                              style={{
-                                background: cardBg,
-                                backdropFilter: "blur(14px)",
-                                WebkitBackdropFilter: "blur(14px)",
-                                boxShadow: howItWorksActive === activeKey
-                                  ? `0 0 0 1px rgba(212,175,55,0.55), 0 6px 24px ${glowColor}, 0 0 48px ${glowColor}, inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -1px 0 rgba(0,0,0,0.10)`
-                                  : idleGlow,
-                              }}
-                            >
-                              <div className="flex items-center justify-between">
-                                <div className={`p-2 rounded-xl ${iconBg} ring-1 ${cardRing} shadow-sm`}>
-                                  <Icon className={`h-4 w-4 ${color} ${howItWorksActive === activeKey ? "animate-pulse" : ""}`} aria-hidden="true" />
-                                </div>
-                                <span className="text-xl font-black text-white/50 tabular-nums leading-none" style={{ textShadow: "0 1px 6px rgba(0,0,0,0.80)" }}>{step}</span>
-                              </div>
-                              <p className="text-sm font-bold text-white leading-tight" style={{ textShadow: "0 1px 5px rgba(0,0,0,0.80)" }}>{title}</p>
-                              <p className="text-xs text-white/80 leading-snug" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.70)" }}>{body}</p>
-                            </button>
-                          ))}
-                        </div>
+                        <>
+                          {/* Explainer video */}
+                          <div className="px-4 pt-4 pb-3">
+                            <video
+                              src="/videos/explainer.mp4"
+                              controls
+                              playsInline
+                              className="w-full rounded-2xl overflow-hidden"
+                              style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.07)" }}
+                            />
+                          </div>
 
-                        {/* Explainer video */}
-                        <div className="px-4 pb-4">
-                          <video
-                            src="/videos/explainer.mp4"
-                            controls
-                            playsInline
-                            className="w-full rounded-2xl overflow-hidden"
-                            style={{ boxShadow: "0 4px 24px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.07)" }}
-                          />
-                        </div>
+                          {/* 4 step cards */}
+                          <div className="grid grid-cols-2 gap-3 px-4 pb-4">
+                            {([
+                              { icon: Sparkles,    step: "1", title: "Choose Your Role",  body: "Select Student, Parent, Admin, Leader, or Compliance/Auditor for role-specific prompts, resources, and tailored guidance.",      color: "text-purple-200",  iconBg: "bg-purple-600/[0.38]",  cardRing: "ring-purple-400/[0.55]",   glowColor: "rgba(120,60,210,0.40)",  cardBg: "linear-gradient(145deg, rgba(88,28,135,0.42) 0%, rgba(40,10,80,0.30) 100%)",   idleGlow: "0 4px 24px rgba(88,28,135,0.28), 0 1px 0 rgba(255,255,255,0.12) inset",  activeKey: "role"     as const },
+                              { icon: Send,        step: "2", title: "Ask Anything",       body: "Type any student aid question in plain English. Upload documents, letters, or forms for instant AI analysis.",                   color: "text-indigo-200",  iconBg: "bg-indigo-600/[0.38]",  cardRing: "ring-indigo-400/[0.55]",   glowColor: "rgba(99,80,210,0.40)",   cardBg: "linear-gradient(145deg, rgba(67,40,180,0.42) 0%, rgba(30,15,110,0.30) 100%)",  idleGlow: "0 4px 24px rgba(67,40,180,0.28), 0 1px 0 rgba(255,255,255,0.12) inset",  activeKey: "chatbox"  as const },
+                              { icon: Library,     step: "3", title: "Explore the Hub",    body: "Access 500+ curated resources — scholarships, VA benefits, loan tools, federal aid portals, and institutional guides.",          color: "text-amber-200",   iconBg: "bg-[#D4AF37]/[0.28]",   cardRing: "ring-[#D4AF37]/[0.55]",    glowColor: "rgba(212,175,55,0.35)",  cardBg: "linear-gradient(145deg, rgba(212,175,55,0.22) 0%, rgba(150,110,20,0.14) 100%)", idleGlow: "0 4px 24px rgba(212,175,55,0.20), 0 1px 0 rgba(255,255,255,0.12) inset",  activeKey: "panels"   as const },
+                              { icon: CheckCircle, step: "4", title: "Get Clear Guidance", body: "Receive plain-English answers grounded in 34 CFR, FSA Handbook, and HEA Title IV. Free, always — no jargon.",                 color: "text-violet-200",  iconBg: "bg-violet-600/[0.38]",  cardRing: "ring-violet-400/[0.55]",   glowColor: "rgba(150,100,240,0.40)", cardBg: "linear-gradient(145deg, rgba(110,50,200,0.42) 0%, rgba(55,18,120,0.30) 100%)",  idleGlow: "0 4px 24px rgba(110,50,200,0.28), 0 1px 0 rgba(255,255,255,0.12) inset",  activeKey: "guidance" as const },
+                            ] as const).map(({ icon: Icon, step, title, body, color, iconBg, cardRing, glowColor, cardBg, idleGlow, activeKey }) => (
+                              <button
+                                key={step}
+                                type="button"
+                                onClick={() => { setHowItWorksActive(activeKey); triggerOrbGold(); }}
+                                className={`flex flex-col gap-2 p-4 rounded-2xl ring-1 ${cardRing} text-left transition-all duration-200 hover:scale-[1.04] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 ${howItWorksActive === activeKey ? "hiw-active-ring brightness-125" : ""}`}
+                                style={{
+                                  background: cardBg,
+                                  backdropFilter: "blur(14px)",
+                                  WebkitBackdropFilter: "blur(14px)",
+                                  boxShadow: howItWorksActive === activeKey
+                                    ? `0 0 0 1px rgba(212,175,55,0.55), 0 6px 24px ${glowColor}, 0 0 48px ${glowColor}, inset 0 1px 0 rgba(255,255,255,0.22), inset 0 -1px 0 rgba(0,0,0,0.10)`
+                                    : idleGlow,
+                                }}
+                              >
+                                <div className="flex items-center justify-between">
+                                  <div className={`p-2 rounded-xl ${iconBg} ring-1 ${cardRing} shadow-sm`}>
+                                    <Icon className={`h-4 w-4 ${color} ${howItWorksActive === activeKey ? "animate-pulse" : ""}`} aria-hidden="true" />
+                                  </div>
+                                  <span className="text-xl font-black text-white/50 tabular-nums leading-none" style={{ textShadow: "0 1px 6px rgba(0,0,0,0.80)" }}>{step}</span>
+                                </div>
+                                <p className="text-sm font-bold text-white leading-tight" style={{ textShadow: "0 1px 5px rgba(0,0,0,0.80)" }}>{title}</p>
+                                <p className="text-xs text-white/80 leading-snug" style={{ textShadow: "0 1px 4px rgba(0,0,0,0.70)" }}>{body}</p>
+                              </button>
+                            ))}
+                          </div>
+                        </>
                       )}
                     </div>
 
