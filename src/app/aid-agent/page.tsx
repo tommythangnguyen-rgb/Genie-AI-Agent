@@ -3605,6 +3605,9 @@ export default function AidAgentPage() {
   const orbGlowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const tipsRef = useRef<HTMLDivElement>(null);
   const iamDesktopRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const pipVideoRef = useRef<HTMLVideoElement>(null);
+  const [videoPipActive, setVideoPipActive] = useState(false);
   const pcOrbRef = useRef<HTMLDivElement>(null);
   const [howItWorksActive, setHowItWorksActive] = useState<"role" | "chatbox" | "panels" | "guidance" | null>(null);
   const [slideIndex, setSlideIndex] = useState(0);
@@ -4831,6 +4834,42 @@ export default function AidAgentPage() {
         </div>
       ))}
 
+      {/* ── Explainer Video PiP — fixed bottom-right, shown when HIW accordion collapses mid-play ── */}
+      {videoPipActive && (
+        <div
+          className="fixed bottom-4 right-4 z-[220] w-72 rounded-2xl overflow-hidden genie-fade-in-up"
+          style={{
+            background: "rgba(10,4,28,0.94)",
+            backdropFilter: "blur(24px)",
+            WebkitBackdropFilter: "blur(24px)",
+            border: "1px solid rgba(212,175,55,0.28)",
+            boxShadow: "0 16px 56px rgba(0,0,0,0.75), 0 0 0 1px rgba(255,255,255,0.07), inset 0 1px 0 rgba(255,255,255,0.10)"
+          }}
+        >
+          <div className="flex items-center justify-between px-3 py-2" style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+            <div className="flex items-center gap-1.5">
+              <GenieBottle className="h-3 w-3 text-amber-400 genie-icon-shimmer shrink-0" style={{ color: "#D4AF37" }} />
+              <span className="text-[10px] font-semibold tracking-widest uppercase text-white/55">Now Playing</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => { pipVideoRef.current?.pause(); setVideoPipActive(false); }}
+              className="p-1 rounded-md text-white/30 hover:text-white hover:bg-white/[0.10] transition-all"
+            >
+              <X className="h-3 w-3" />
+            </button>
+          </div>
+          <video
+            ref={pipVideoRef}
+            src="/videos/explainer.mp4"
+            controls
+            playsInline
+            onEnded={() => setVideoPipActive(false)}
+            className="w-full block"
+          />
+        </div>
+      )}
+
       {/* ── Intro Splash ── */}
       {introVisible && (
         <div
@@ -5314,7 +5353,33 @@ export default function AidAgentPage() {
                       style={{ background: "rgba(12,5,28,0.28)", backdropFilter: "blur(18px)", WebkitBackdropFilter: "blur(18px)" }}>
                       <button
                         type="button"
-                        onClick={() => setOpenAccordions(prev => { const n = new Set(prev); n.has("hiw") ? n.delete("hiw") : n.add("hiw"); return n; })}
+                        onClick={() => {
+                          const isOpen = openAccordions.has("hiw");
+                          if (isOpen && videoRef.current && !videoRef.current.paused) {
+                            // Closing while playing → hand off to PiP
+                            const t = videoRef.current.currentTime;
+                            videoRef.current.pause();
+                            setVideoPipActive(true);
+                            setTimeout(() => {
+                              if (pipVideoRef.current) {
+                                pipVideoRef.current.currentTime = t;
+                                pipVideoRef.current.play().catch(() => {});
+                              }
+                            }, 80);
+                          } else if (!isOpen && videoPipActive) {
+                            // Re-opening while PiP is running → hand back to accordion video
+                            const t = pipVideoRef.current?.currentTime ?? 0;
+                            pipVideoRef.current?.pause();
+                            setVideoPipActive(false);
+                            setTimeout(() => {
+                              if (videoRef.current) {
+                                videoRef.current.currentTime = t;
+                                videoRef.current.play().catch(() => {});
+                              }
+                            }, 80);
+                          }
+                          setOpenAccordions(prev => { const n = new Set(prev); n.has("hiw") ? n.delete("hiw") : n.add("hiw"); return n; });
+                        }}
                         className="w-full flex items-center justify-between px-4 py-3 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400"
                       >
                         <div className="flex items-center gap-2">
@@ -5328,6 +5393,7 @@ export default function AidAgentPage() {
                           {/* Explainer video */}
                           <div className="px-4 pt-4 pb-3">
                             <video
+                              ref={videoRef}
                               src="/videos/explainer.mp4"
                               poster="/images/hiw-poster.jpg"
                               controls
