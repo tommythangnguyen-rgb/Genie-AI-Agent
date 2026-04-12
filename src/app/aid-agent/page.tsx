@@ -3604,6 +3604,7 @@ export default function AidAgentPage() {
   const [orbCelebrating, setOrbCelebrating] = useState(false);
   const orbGlowTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const tipsRef = useRef<HTMLDivElement>(null);
+  const iamDesktopRef = useRef<HTMLDivElement>(null);
   const pcOrbRef = useRef<HTMLDivElement>(null);
   const [howItWorksActive, setHowItWorksActive] = useState<"role" | "chatbox" | "panels" | "guidance" | null>(null);
   const [slideIndex, setSlideIndex] = useState(0);
@@ -3999,6 +4000,17 @@ export default function AidAgentPage() {
     return () => clearTimeout(t);
   }, [howItWorksActive]);
 
+  // Auto-open "How It Works" accordion for first 3 visits only
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const key = "hiw-expand-count";
+    const count = parseInt(localStorage.getItem(key) ?? "0", 10);
+    if (count < 3) {
+      setOpenAccordions(prev => { const n = new Set(prev); n.add("hiw"); return n; });
+      localStorage.setItem(key, String(count + 1));
+    }
+  }, []);
+
   // Shared role sync helper — keeps chatbox pill, "I am a…" grid, and Tips by Role in sync
   // chatboxLabel uses singular (Student/Parent/Administrator/Leader/Auditor)
   // actionRole uses plural (Students/…); tipsRole uses singular (same as chatboxLabel)
@@ -4010,8 +4022,9 @@ export default function AidAgentPage() {
         ? "Auditors"
         : (chatboxLabel + "s") as "Students" | "Parents" | "Administrators" | "Leaders" | "Auditors";
       setActiveActionRole(actionRole);
-      // Open Quick Prompts accordion without scrolling
+      // Open Quick Prompts accordion and scroll into view on desktop
       setOpenAccordions(prev => { const n = new Set(prev); n.add("iam"); return n; });
+      setTimeout(() => iamDesktopRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }), 120);
     }
   }, []);
 
@@ -5316,6 +5329,7 @@ export default function AidAgentPage() {
                           <div className="px-4 pt-4 pb-3">
                             <video
                               src="/videos/explainer.mp4"
+                              poster="/images/hiw-poster.jpg"
                               controls
                               playsInline
                               className="w-full rounded-2xl overflow-hidden"
@@ -5361,7 +5375,7 @@ export default function AidAgentPage() {
                     </div>
 
                     {/* ── Desktop-only: accordions below How It Works ── */}
-                    <div className="hidden md:flex flex-col gap-3 mt-0">
+                    <div ref={iamDesktopRef} className="hidden md:flex flex-col gap-3 mt-0">
                       {/* Quick Prompts by Role */}
                       <div className="rounded-2xl overflow-hidden ring-1 ring-white/[0.10]" style={{ background: "rgba(12,5,28,0.28)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", boxShadow: "0 4px 20px rgba(0,0,0,0.35)" }}>
                         <button type="button" onClick={() => setOpenAccordions(prev => { const n = new Set(prev); n.has("iam") ? n.delete("iam") : n.add("iam"); return n; })} className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-white/[0.03] transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-cyan-400">
@@ -5528,7 +5542,7 @@ export default function AidAgentPage() {
 
                       {/* Messages area — welcome typewriter when idle, real messages when chatting */}
                       {messages.length > 0 ? (
-                        <div ref={desktopChatScrollRef} className="flex-1 overflow-y-auto min-h-0 genie-scroll-main px-5 py-5 space-y-5">
+                        <div ref={desktopChatScrollRef} tabIndex={-1} onMouseEnter={e => (e.currentTarget as HTMLElement).focus({ preventScroll: true })} className="flex-1 overflow-y-auto min-h-0 genie-scroll-main px-5 py-5 space-y-5 focus:outline-none">
                           {messageBubbles}
                           {typingIndicator}
                           <div ref={desktopBottomRef} />
@@ -5890,7 +5904,7 @@ export default function AidAgentPage() {
                 </div>
 
                 {/* Messages scroll area */}
-                <div ref={desktopChatScrollRef} className="flex-1 overflow-y-auto min-h-0 genie-scroll-main px-5 py-5 space-y-5">
+                <div ref={desktopChatScrollRef} tabIndex={-1} onMouseEnter={e => (e.currentTarget as HTMLElement).focus({ preventScroll: true })} className="flex-1 overflow-y-auto min-h-0 genie-scroll-main px-5 py-5 space-y-5 focus:outline-none">
                   {messageBubbles}
                   {typingIndicator}
                   <div ref={desktopBottomRef} />
@@ -6365,40 +6379,40 @@ export default function AidAgentPage() {
             {/* Banner header */}
             {(() => {
               const OVERLAY_META: Record<string, { title: string; banner: string; bannerPos: string }> = {
-                "lc-s-qa":        { title: "Students Quick Actions",                banner: "/images/banner-ov-student.jpg",       bannerPos: "50% 30%" },
-                "lc-p-qa":        { title: "Parents Quick Actions",                 banner: "/images/banner-ov-parent.jpg",        bannerPos: "50% 30%" },
-                "lc-fed-sp":      { title: "Federal Student Aid",                   banner: "/images/banner-ov-student.jpg",       bannerPos: "50% 40%" },
-                "lc-resume":      { title: "Resume Assistance",                     banner: "/images/banner-ov-editor.jpg",        bannerPos: "50% 25%" },
-                "lc-schol":       { title: "Scholarship Search Engines",            banner: "/images/banner-ov-student.jpg",       bannerPos: "50% 20%" },
-                "lc-intern":      { title: "Internship / Career Search",            banner: "/images/banner-ov-editor.jpg",        bannerPos: "50% 30%" },
-                "lc-jobs":        { title: "Student Job Search",                    banner: "/images/banner-ov-night.jpg",         bannerPos: "50% 35%" },
-                "lc-finlit":      { title: "Financial Literacy",                    banner: "/images/banner-ov-parent.jpg",        bannerPos: "50% 25%" },
-                "lc-loans":       { title: "Private Student Loans",                 banner: "/images/banner-ov-night.jpg",         bannerPos: "50% 30%" },
-                "lc-consumer":    { title: "Bills & Consumer Rights",               banner: "/images/banner-ov-editor.jpg",        bannerPos: "50% 35%" },
-                "lc-mental":      { title: "Mental Health Resources",               banner: "/images/banner-ov-contemplative.jpg", bannerPos: "50% 25%" },
-                "lc-ai":          { title: "AI Literacy",                           banner: "/images/banner-ov-night.jpg",         bannerPos: "50% 20%" },
-                "lc-faith":       { title: "Religion & Faith",                      banner: "/images/banner-ov-contemplative.jpg", bannerPos: "50% 30%" },
-                "lc-vol":         { title: "Volunteer & Community",                 banner: "/images/banner-ov-student.jpg",       bannerPos: "50% 35%" },
-                "lc-va":          { title: "VA Resources",                          banner: "/images/banner-ov-admin.jpg",         bannerPos: "50% 28%" },
-                "rc-adm-qa":      { title: "Administrators Quick Actions",          banner: "/images/banner-ov-admin.jpg",         bannerPos: "50% 25%" },
-                "rc-lea-qa":      { title: "Leaders Quick Actions",                 banner: "/images/banner-ov-leader.jpg",        bannerPos: "50% 25%" },
-                "rc-aud-qa":      { title: "Compliance/Auditors Quick Actions",     banner: "/images/banner-ov-leader.jpg",        bannerPos: "50% 30%" },
-                "rc-fa-adm":      { title: "Administrators & Advisors",             banner: "/images/banner-ov-admin.jpg",         bannerPos: "50% 30%" },
-                "rc-lac":         { title: "Leaders & Compliance/Auditors",         banner: "/images/banner-ov-leader.jpg",        bannerPos: "50% 28%" },
-                "rc-loan-portals":{ title: "Private Loan Administrator Portals",    banner: "/images/banner-ov-admin.jpg",         bannerPos: "50% 35%" },
-                "rc-hw":          { title: "Health & Wellness Support",             banner: "/images/banner-ov-contemplative.jpg", bannerPos: "50% 22%" },
-                "rc-va":          { title: "VA Resources",                          banner: "/images/banner-ov-admin.jpg",         bannerPos: "50% 30%" },
-                "rc-mh-admin":    { title: "Mental Health — Professional Wellness", banner: "/images/banner-ov-contemplative.jpg", bannerPos: "50% 25%" },
-                "rc-vol-admin":   { title: "Volunteer & Community Service",         banner: "/images/banner-ov-student.jpg",       bannerPos: "50% 30%" },
-                "rc-faith":      { title: "Faith, Spirit & Wellness",              banner: "/images/banner-ov-contemplative.jpg", bannerPos: "50% 28%" },
-                "lc-research":   { title: "Research & Peer-Reviewed Journals",     banner: "/images/banner-ov-night.jpg",         bannerPos: "50% 20%" },
-                "lc-indep":      { title: "Validated Independent Resources",       banner: "/images/banner-ov-editor.jpg",        bannerPos: "50% 30%" },
-                "rc-research":   { title: "Research, Policy & Journals",           banner: "/images/banner-ov-admin.jpg",         bannerPos: "50% 25%" },
-                "rc-indep":      { title: "Validated Independent Resources",       banner: "/images/banner-ov-leader.jpg",        bannerPos: "50% 28%" },
-                "lc-tutor":     { title: "Tutoring — 1st Grade through Grad School", banner: "/images/banner-ov-student.jpg",    bannerPos: "50% 28%" },
-                "rc-tutor":     { title: "Tutoring — 1st Grade through Grad School", banner: "/images/banner-ov-admin.jpg",      bannerPos: "50% 28%" },
-                "lc-gov-assist":{ title: "Government Assistance Programs",           banner: "/images/banner-ov-editor.jpg",     bannerPos: "50% 30%" },
-                "rc-gov-assist":{ title: "Government Assistance Programs",           banner: "/images/banner-ov-leader.jpg",     bannerPos: "50% 28%" },
+                "lc-s-qa":        { title: "Students Quick Actions",                banner: "/images/banner-ov-student.jpg",        bannerPos: "50% 30%" },
+                "lc-p-qa":        { title: "Parents Quick Actions",                 banner: "/images/banner-ov-parent1.jpg",        bannerPos: "50% 35%" },
+                "lc-fed-sp":      { title: "Federal Student Aid",                   banner: "/images/banner-ov-students1.jpg",      bannerPos: "50% 40%" },
+                "lc-resume":      { title: "Resume Assistance",                     banner: "/images/banner-ov-prof1.jpg",          bannerPos: "50% 25%" },
+                "lc-schol":       { title: "Scholarship Search Engines",            banner: "/images/banner-ov-students1.jpg",      bannerPos: "50% 20%" },
+                "lc-intern":      { title: "Internship / Career Search",            banner: "/images/banner-ov-prof2.jpg",          bannerPos: "50% 30%" },
+                "lc-jobs":        { title: "Student Job Search",                    banner: "/images/banner-ov-night.jpg",          bannerPos: "50% 35%" },
+                "lc-finlit":      { title: "Financial Literacy",                    banner: "/images/banner-ov-research2.jpg",      bannerPos: "50% 25%" },
+                "lc-loans":       { title: "Private Student Loans",                 banner: "/images/banner-ov-night.jpg",          bannerPos: "50% 30%" },
+                "lc-consumer":    { title: "Bills & Consumer Rights",               banner: "/images/banner-ov-prof3.jpg",          bannerPos: "50% 35%" },
+                "lc-mental":      { title: "Mental Health Resources",               banner: "/images/banner-ov-faith1.jpg",         bannerPos: "50% 25%" },
+                "lc-ai":          { title: "AI Literacy",                           banner: "/images/banner-ov-night.jpg",          bannerPos: "50% 20%" },
+                "lc-faith":       { title: "Religion & Faith",                      banner: "/images/banner-ov-faith2.jpg",         bannerPos: "50% 30%" },
+                "lc-vol":         { title: "Volunteer & Community",                 banner: "/images/banner-ov-student.jpg",        bannerPos: "50% 35%" },
+                "lc-va":          { title: "VA Resources",                          banner: "/images/banner-ov-admin.jpg",          bannerPos: "50% 28%" },
+                "rc-adm-qa":      { title: "Administrators Quick Actions",          banner: "/images/banner-ov-admin.jpg",          bannerPos: "50% 25%" },
+                "rc-lea-qa":      { title: "Leaders Quick Actions",                 banner: "/images/banner-ov-leader2.jpg",        bannerPos: "50% 25%" },
+                "rc-aud-qa":      { title: "Compliance/Auditors Quick Actions",     banner: "/images/banner-ov-roleLeader.jpg",     bannerPos: "50% 30%" },
+                "rc-fa-adm":      { title: "Administrators & Advisors",             banner: "/images/banner-ov-prof2.jpg",          bannerPos: "50% 30%" },
+                "rc-lac":         { title: "Leaders & Compliance/Auditors",         banner: "/images/banner-ov-leader.jpg",         bannerPos: "50% 28%" },
+                "rc-loan-portals":{ title: "Private Loan Administrator Portals",    banner: "/images/banner-ov-research.jpg",       bannerPos: "50% 35%" },
+                "rc-hw":          { title: "Health & Wellness Support",             banner: "/images/banner-ov-contemplative.jpg",  bannerPos: "50% 22%" },
+                "rc-va":          { title: "VA Resources",                          banner: "/images/banner-ov-prof1.jpg",          bannerPos: "50% 30%" },
+                "rc-mh-admin":    { title: "Mental Health — Professional Wellness", banner: "/images/banner-ov-faith1.jpg",         bannerPos: "50% 25%" },
+                "rc-vol-admin":   { title: "Volunteer & Community Service",         banner: "/images/banner-ov-students1.jpg",      bannerPos: "50% 30%" },
+                "rc-faith":       { title: "Faith, Spirit & Wellness",              banner: "/images/banner-ov-faith2.jpg",         bannerPos: "50% 28%" },
+                "lc-research":    { title: "Research & Peer-Reviewed Journals",     banner: "/images/banner-ov-research4.jpg",      bannerPos: "50% 20%" },
+                "lc-indep":       { title: "Validated Independent Resources",       banner: "/images/banner-ov-research2.jpg",      bannerPos: "50% 30%" },
+                "rc-research":    { title: "Research, Policy & Journals",           banner: "/images/banner-ov-research.jpg",       bannerPos: "50% 25%" },
+                "rc-indep":       { title: "Validated Independent Resources",       banner: "/images/banner-ov-prof3.jpg",          bannerPos: "50% 28%" },
+                "lc-tutor":       { title: "Tutoring — 1st Grade through Grad School", banner: "/images/banner-ov-students1.jpg",  bannerPos: "50% 28%" },
+                "rc-tutor":       { title: "Tutoring — 1st Grade through Grad School", banner: "/images/banner-ov-prof2.jpg",      bannerPos: "50% 28%" },
+                "lc-gov-assist":  { title: "Government Assistance Programs",        banner: "/images/banner-ov-editor.jpg",         bannerPos: "50% 30%" },
+                "rc-gov-assist":  { title: "Government Assistance Programs",        banner: "/images/banner-ov-leader2.jpg",        bannerPos: "50% 28%" },
               };
               const sec = overlaySection!;
               const meta = OVERLAY_META[sec] ?? { title: sec, banner: "/images/banner-ov-admin.jpg", bannerPos: "50% 30%" };
