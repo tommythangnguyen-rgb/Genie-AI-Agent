@@ -5151,17 +5151,11 @@ export default function AidAgentPage() {
                   type="button"
                   onClick={goHome}
                   title="Return to home"
-                  className="text-2xl font-black tracking-tight leading-none whitespace-nowrap px-2 py-0.5 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/50 transition-all duration-150"
+                  className="text-2xl font-black tracking-tight leading-none whitespace-nowrap px-2 py-0.5 rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 transition-all duration-150"
                   style={{
                     letterSpacing: "-0.02em",
-                    background: "linear-gradient(90deg, #C8A84B 0%, #FFE066 22%, #FFF4A0 40%, #D4AF37 55%, #FFE066 70%, #FFF4A0 85%, #C8A84B 100%)",
-                    backgroundSize: "200% auto",
-                    WebkitBackgroundClip: "text",
-                    backgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    color: "transparent",
-                    animation: "hiw-guidance-headline 2.8s linear infinite",
-                    filter: "drop-shadow(0 0 10px rgba(212,175,55,0.45))",
+                    color: "#FFFFFF",
+                    textShadow: "0 0 24px rgba(255,255,255,0.55), 0 0 60px rgba(255,255,255,0.20), 0 2px 4px rgba(0,0,0,0.50)",
                   }}
                 >
                   AskGenie
