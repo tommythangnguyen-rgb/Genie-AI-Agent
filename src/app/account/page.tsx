@@ -168,25 +168,28 @@ function AccountPageInner() {
   }
 
   return (
-    <div
-      className="min-h-screen text-white"
-      style={{ background: "linear-gradient(135deg, #1e3a6e 0%, #253d7a 50%, #1a3060 100%)" }}
-    >
+    <div className="min-h-screen text-white">
+      {/* Background — matches aid-agent wallpaper */}
+      <div className="fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
+        <img src="/images/desktop-bg.jpg" alt="" className="w-full h-full object-cover object-center" />
+        <div className="absolute inset-0" style={{ background: "rgba(5,2,14,0.55)" }} />
+      </div>
+
       {/* Header */}
-      <header className="sticky top-0 z-10 border-b border-white/[0.15] bg-white/[0.08] backdrop-blur-xl">
+      <header className="sticky top-0 z-10 border-b border-white/[0.10]" style={{ background: "rgba(5,2,14,0.55)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)" }}>
         <div className="max-w-3xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link
             href="/aid-agent"
-            className="flex items-center gap-2 text-white/50 hover:text-white transition-colors text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400 rounded-lg px-2 py-1"
+            className="flex items-center gap-2 text-white/50 hover:text-amber-300 transition-colors text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-400/50 rounded-lg px-2 py-1"
           >
             <Home className="h-4 w-4" />
             <span className="hidden sm:inline">Back to askGenie</span>
           </Link>
           <div className="flex items-center gap-2">
-            <div className="p-1.5 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600">
-              <GenieBottle className="h-4 w-4 text-white" />
+            <div className="p-1.5 rounded-xl" style={{ background: "rgba(212,175,55,0.18)", boxShadow: "0 0 12px rgba(212,175,55,0.35)" }}>
+              <GenieBottle className="h-4 w-4 text-amber-300" />
             </div>
-            <span className="font-bold text-white tracking-tight">askGenie</span>
+            <span className="font-bold text-white tracking-tight" style={{ textShadow: "0 0 20px rgba(255,255,255,0.40)" }}>askGenie</span>
             <ChevronRight className="h-3.5 w-3.5 text-white/30" />
             <span className="text-white/50 text-sm">My Account</span>
           </div>
@@ -210,7 +213,7 @@ function AccountPageInner() {
         {/* Welcome banner image */}
         <div className="relative rounded-2xl overflow-hidden mb-6">
           <img src="/images/student-fafsa.jpg" alt="" className="w-full h-32 object-cover object-[50%_30%]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-[#020C1B]/40 to-[#020C1B]/80" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/70" />
         </div>
 
         {/* Success banner */}
@@ -228,7 +231,7 @@ function AccountPageInner() {
 
         {loadingStatus ? (
           <div className="flex items-center justify-center py-20">
-            <RefreshCw className="h-6 w-6 text-indigo-400 animate-spin" />
+            <RefreshCw className="h-6 w-6 text-amber-400 animate-spin" />
           </div>
         ) : !status?.authenticated ? (
           /* Not signed in */
@@ -238,8 +241,8 @@ function AccountPageInner() {
               onOpenChange={(open) => setAuthDialog((s) => ({ ...s, open }))}
               defaultMode={authDialog.mode}
             />
-            <div className="rounded-2xl bg-white/[0.08] ring-1 ring-white/[0.18] px-8 py-10 text-center">
-              <AlertCircle className="h-10 w-10 text-indigo-400 mx-auto mb-4" />
+            <div className="rounded-2xl ring-1 ring-white/[0.14] px-8 py-10 text-center" style={{ background: "rgba(255,255,255,0.06)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)" }}>
+              <AlertCircle className="h-10 w-10 text-amber-400 mx-auto mb-4" />
               <h2 className="text-lg font-bold text-white mb-2">Sign in to view your account</h2>
               <p className="text-sm text-white/60 mb-6">
                 You need to be signed in to manage your subscription.
@@ -247,7 +250,8 @@ function AccountPageInner() {
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                 <button
                   onClick={() => setAuthDialog({ open: true, mode: "signin" })}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition-colors"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all active:scale-[0.98]"
+                  style={{ background: "rgba(212,175,55,0.22)", border: "1px solid rgba(212,175,55,0.45)", color: "#FFE066" }}
                 >
                   Sign In
                 </button>
@@ -268,13 +272,13 @@ function AccountPageInner() {
             {/* Subscription card */}
             <section className="mb-8">
               <div className="flex items-center gap-3 mb-4">
-                <div className="p-2 rounded-xl bg-indigo-600/30 ring-1 ring-indigo-500/30">
-                  <Crown className="h-5 w-5 text-indigo-300" />
+                <div className="p-2 rounded-xl" style={{ background: "rgba(212,175,55,0.18)", boxShadow: "0 0 12px rgba(212,175,55,0.30)" }}>
+                  <Crown className="h-5 w-5 text-amber-300" />
                 </div>
                 <h2 className="text-lg font-bold text-white">Subscription</h2>
               </div>
 
-              <div className="rounded-2xl bg-white/[0.08] ring-1 ring-white/[0.18] px-7 py-6">
+              <div className="rounded-2xl ring-1 ring-white/[0.14] px-7 py-6" style={{ background: "rgba(255,255,255,0.06)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)" }}>
                 <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-5">
                   <div>
                     <p className="text-xs text-white/50 mb-1">Current plan</p>
@@ -317,9 +321,10 @@ function AccountPageInner() {
                   {!status.unlimited && (
                     <div className="h-1.5 rounded-full bg-white/[0.08] overflow-hidden">
                       <div
-                        className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 transition-all"
+                        className="h-full rounded-full transition-all"
                         style={{
                           width: `${Math.min(100, (status.dailyCount / status.dailyLimit) * 100)}%`,
+                          background: "linear-gradient(90deg, rgba(212,175,55,0.80), rgba(251,191,36,0.90))",
                         }}
                       />
                     </div>
@@ -331,7 +336,8 @@ function AccountPageInner() {
                     <button
                       onClick={openPortal}
                       disabled={portalLoading}
-                      className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-white/[0.08] ring-1 ring-white/[0.15] text-white text-sm font-semibold hover:bg-white/[0.14] active:scale-[0.98] transition-all disabled:opacity-60"
+                      className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold active:scale-[0.98] transition-all disabled:opacity-60"
+                      style={{ background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.14)", color: "rgba(255,255,255,0.85)" }}
                     >
                       <ExternalLink className="h-4 w-4" />
                       {portalLoading ? "Loading..." : "Manage Subscription"}
@@ -339,7 +345,8 @@ function AccountPageInner() {
                   ) : (
                     <Link
                       href="/pricing"
-                      className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 via-indigo-500 to-violet-600 text-white text-sm font-semibold shadow-lg hover:opacity-90 active:scale-[0.98] transition-all"
+                      className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold active:scale-[0.98] transition-all hover:opacity-90"
+                      style={{ background: "rgba(212,175,55,0.22)", border: "1px solid rgba(212,175,55,0.45)", color: "#FFE066", boxShadow: "0 2px 18px rgba(212,175,55,0.20)" }}
                     >
                       <Crown className="h-4 w-4" />
                       Upgrade Plan
@@ -348,7 +355,8 @@ function AccountPageInner() {
                   <button
                     onClick={syncAndFetch}
                     disabled={syncLoading}
-                    className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-white/[0.06] ring-1 ring-white/[0.10] text-white/60 text-sm font-medium hover:bg-white/[0.10] hover:text-white active:scale-[0.98] transition-all disabled:opacity-40"
+                    className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium active:scale-[0.98] transition-all disabled:opacity-40"
+                    style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.10)", color: "rgba(255,255,255,0.55)" }}
                   >
                     <RefreshCw className={`h-4 w-4 ${syncLoading ? "animate-spin" : ""}`} />
                     {syncLoading ? "Syncing…" : "Sync with Stripe"}
@@ -382,14 +390,14 @@ function AccountPageInner() {
             {status.tier !== "FREE" && (
               <section className="mb-8">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="p-2 rounded-xl bg-indigo-600/30 ring-1 ring-indigo-500/30">
-                    <Users className="h-5 w-5 text-indigo-300" />
+                  <div className="p-2 rounded-xl" style={{ background: "rgba(212,175,55,0.18)", boxShadow: "0 0 12px rgba(212,175,55,0.30)" }}>
+                    <Users className="h-5 w-5 text-amber-300" />
                   </div>
                   <h2 className="text-lg font-bold text-white">Account Members</h2>
                   <span className="text-xs text-white/40">({members.length + 1} / 3 seats)</span>
                 </div>
 
-                <div className="rounded-2xl bg-white/[0.08] ring-1 ring-white/[0.18] px-7 py-6">
+                <div className="rounded-2xl ring-1 ring-white/[0.14] px-7 py-6" style={{ background: "rgba(255,255,255,0.06)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)" }}>
                   {/* Current members */}
                   <div className="space-y-3 mb-6">
                     <div className="flex items-center justify-between py-2.5 px-3 rounded-lg bg-white/[0.04]">
@@ -439,7 +447,8 @@ function AccountPageInner() {
                             placeholder="Email address"
                             value={addForm.email}
                             onChange={(e) => setAddForm({ ...addForm, email: e.target.value })}
-                            className="w-full bg-white/[0.06] ring-1 ring-white/[0.10] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                            className="w-full rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-amber-400/50 transition-all"
+                            style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)" }}
                           />
                           <input
                             type="password"
@@ -447,7 +456,8 @@ function AccountPageInner() {
                             placeholder="Temporary password"
                             value={addForm.password}
                             onChange={(e) => setAddForm({ ...addForm, password: e.target.value })}
-                            className="w-full bg-white/[0.06] ring-1 ring-white/[0.10] rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+                            className="w-full rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-amber-400/50 transition-all"
+                            style={{ background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)" }}
                           />
                         </div>
                         {addError && (
@@ -456,7 +466,8 @@ function AccountPageInner() {
                         <button
                           type="submit"
                           disabled={addLoading}
-                          className="flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold transition-colors disabled:opacity-60"
+                          className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all active:scale-[0.98] disabled:opacity-60"
+                          style={{ background: "rgba(212,175,55,0.22)", border: "1px solid rgba(212,175,55,0.45)", color: "#FFE066" }}
                         >
                           <Plus className="h-4 w-4" />
                           {addLoading ? "Adding..." : "Add Member"}
@@ -516,11 +527,8 @@ export default function AccountPage() {
   return (
     <Suspense
       fallback={
-        <div
-          className="min-h-screen flex items-center justify-center text-white"
-          style={{ background: "linear-gradient(135deg, #1e3a6e 0%, #253d7a 50%, #1a3060 100%)" }}
-        >
-          <RefreshCw className="h-6 w-6 text-indigo-400 animate-spin" />
+        <div className="min-h-screen flex items-center justify-center text-white" style={{ background: "#05020e" }}>
+          <RefreshCw className="h-6 w-6 text-amber-400 animate-spin" />
         </div>
       }
     >
