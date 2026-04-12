@@ -76,7 +76,7 @@ export function useAuth() {
     try {
       const result = await signUpAction(email, password);
 
-      if (result.success) {
+      if (result.success && !result.pendingVerification) {
         await handlePostSignIn();
       }
 

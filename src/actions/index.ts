@@ -1,9 +1,11 @@
 "use server";
 
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
 import { createSession, deleteSession, getSession } from "@/lib/auth";
 import { checkRateLimit } from "@/lib/rate-limiter";
+import { sendVerificationEmail } from "@/lib/send-email";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
@@ -22,6 +24,8 @@ async function getDummyHash(): Promise<string> {
 export interface AuthResult {
   success: boolean;
   error?: string;
+  pendingVerification?: boolean;
+  notVerified?: boolean;
 }
 
 export async function signUp(
@@ -62,17 +66,22 @@ export async function signUp(
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    const verificationToken = crypto.randomBytes(32).toString("hex");
+    const verificationExpiry = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
+
     const user = await prisma.user.create({
       data: {
         email: normalizedEmail,
         password: hashedPassword,
+        emailVerified: false,
+        emailVerificationToken: verificationToken,
+        emailVerificationExpiry: verificationExpiry,
       },
     });
 
-    await createSession(user.id, user.email);
+    await sendVerificationEmail(user.email, verificationToken);
 
-    revalidatePath("/");
-    return { success: true };
+    return { success: true, pendingVerification: true };
   } catch (error) {
     console.error("Sign up error:", error);
     const msg = error instanceof Error ? error.message : String(error);
@@ -114,6 +123,14 @@ export async function signIn(
 
     if (!user || !isValidPassword) {
       return { success: false, error: "Invalid credentials" };
+    }
+
+    if (!user.emailVerified) {
+      return {
+        success: false,
+        error: "Please verify your email before signing in. Check your inbox for a verification link.",
+        notVerified: true,
+      };
     }
 
     await createSession(user.id, user.email);

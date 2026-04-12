@@ -32,6 +32,9 @@ export function SignUpForm({ onSuccess }: SignUpFormProps) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
+  const [pendingEmail, setPendingEmail] = useState<string | null>(null);
+  const [resendLoading, setResendLoading] = useState(false);
+  const [resendSent, setResendSent] = useState(false);
 
   const strength = getPasswordStrength(password);
   const passwordsMatch = confirmPassword.length > 0 && password === confirmPassword;
@@ -45,12 +48,51 @@ export function SignUpForm({ onSuccess }: SignUpFormProps) {
       return;
     }
     const result = await signUp(email, password);
-    if (result.success) {
+    if (result.pendingVerification) {
+      setPendingEmail(email);
+    } else if (result.success) {
       onSuccess?.();
     } else {
       setError(result.error || "Failed to sign up");
     }
   };
+
+  const handleResend = async () => {
+    if (!pendingEmail || resendLoading) return;
+    setResendLoading(true);
+    await fetch("/api/auth/resend-verification", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: pendingEmail }),
+    }).catch(() => {});
+    setResendLoading(false);
+    setResendSent(true);
+  };
+
+  if (pendingEmail) {
+    return (
+      <div className="text-center space-y-4">
+        <div className="text-4xl">📬</div>
+        <div>
+          <p className="text-sm font-semibold text-white mb-1">Check your inbox</p>
+          <p className="text-xs text-white/55 leading-relaxed">
+            We sent a verification link to <strong className="text-white/80">{pendingEmail}</strong>. Click it to activate your account.
+          </p>
+        </div>
+        <p className="text-xs text-white/35 leading-snug">
+          The link expires in 24 hours. Check your spam folder if you don&apos;t see it.
+        </p>
+        <button
+          type="button"
+          onClick={handleResend}
+          disabled={resendLoading || resendSent}
+          className="text-xs text-amber-400/80 hover:text-amber-300 transition-colors disabled:opacity-50"
+        >
+          {resendSent ? "Sent! Check your inbox." : resendLoading ? "Sending…" : "Resend verification email"}
+        </button>
+      </div>
+    );
+  }
 
   const inputClass = "w-full px-3 py-2 rounded-xl text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/50 disabled:opacity-50 transition-all";
   const inputStyle = { background: "rgba(255,255,255,0.07)", border: "1px solid rgba(255,255,255,0.12)" };

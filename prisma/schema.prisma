@@ -41,6 +41,11 @@ model User {
   dailyQuestionCount   Int       @default(0)
   dailyQuestionResetAt DateTime?
 
+  // Email verification
+  emailVerified              Boolean   @default(true)
+  emailVerificationToken     String?   @unique
+  emailVerificationExpiry    DateTime?
+
   // Password reset
   passwordResetToken  String?   @unique
   passwordResetExpiry DateTime?

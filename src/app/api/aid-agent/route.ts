@@ -25,10 +25,13 @@ export async function POST(req: NextRequest) {
     const user = await withTimeout(
       prisma.user.findUnique({
         where: { id: session.userId },
-        select: { subscriptionTier: true, accountOwnerId: true },
+        select: { subscriptionTier: true, accountOwnerId: true, emailVerified: true },
       }),
       8000
     );
+    if (user && user.emailVerified === false) {
+      return NextResponse.json({ error: "EMAIL_NOT_VERIFIED" }, { status: 403 });
+    }
     const tier = (user?.subscriptionTier ?? "FREE") as string;
     rateLimitResult = await withTimeout(
       checkAndIncrementUserLimit(session.userId, tier),

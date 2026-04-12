@@ -13,16 +13,34 @@ export function SignInForm({ onSuccess, onForgotPassword }: SignInFormProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [notVerified, setNotVerified] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
+  const [resendSent, setResendSent] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setNotVerified(false);
+    setResendSent(false);
     const result = await signIn(email, password);
     if (result.success) {
       onSuccess?.();
     } else {
       setError(result.error || "Failed to sign in");
+      if (result.notVerified) setNotVerified(true);
     }
+  };
+
+  const handleResend = async () => {
+    if (resendLoading) return;
+    setResendLoading(true);
+    await fetch("/api/auth/resend-verification", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    }).catch(() => {});
+    setResendLoading(false);
+    setResendSent(true);
   };
 
   const inputClass = "w-full px-3 py-2 rounded-xl text-sm text-white placeholder-white/25 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]/50 disabled:opacity-50 transition-all";
@@ -69,8 +87,18 @@ export function SignInForm({ onSuccess, onForgotPassword }: SignInFormProps) {
       </div>
 
       {error && (
-        <div className="text-sm text-red-300 rounded-xl px-3 py-2" style={{ background: "rgba(239,68,68,0.10)", border: "1px solid rgba(239,68,68,0.25)" }}>
-          {error}
+        <div className="rounded-xl px-3 py-2" style={{ background: "rgba(239,68,68,0.10)", border: "1px solid rgba(239,68,68,0.25)" }}>
+          <p className="text-sm text-red-300">{error}</p>
+          {notVerified && (
+            <button
+              type="button"
+              onClick={handleResend}
+              disabled={resendLoading || resendSent}
+              className="mt-1.5 text-xs text-amber-400/80 hover:text-amber-300 transition-colors disabled:opacity-50"
+            >
+              {resendSent ? "✓ Verification email sent — check your inbox" : resendLoading ? "Sending…" : "Resend verification email →"}
+            </button>
+          )}
         </div>
       )}
 

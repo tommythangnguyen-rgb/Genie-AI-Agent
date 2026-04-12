@@ -3664,9 +3664,17 @@ export default function AidAgentPage() {
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const [authDialogMode, setAuthDialogMode] = useState<"signin" | "signup">("signin");
   useEffect(() => {
-    const auth = new URLSearchParams(window.location.search).get("auth");
+    const params = new URLSearchParams(window.location.search);
+    const auth = params.get("auth");
     if (auth === "signup") { setAuthDialogMode("signup"); setAuthDialogOpen(true); }
     else if (auth === "signin") { setAuthDialogMode("signin"); setAuthDialogOpen(true); }
+    if (params.get("verified") === "1") {
+      setMessages(prev => prev.length === 0 ? [{
+        id: "verified-welcome",
+        role: "assistant",
+        content: "Your email has been verified. Welcome to AskGenie! You can now send messages. How can I help you today?",
+      }] : prev);
+    }
   }, []);
   const [history, setHistory] = useState<HistoryEntry[]>([]);
   const [showHistory, setShowHistory] = useState(false);
@@ -4125,6 +4133,19 @@ export default function AidAgentPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ messages: apiMessages }),
       });
+
+      if (res.status === 403) {
+        setIsLoading(false);
+        setMessages((prev) => [
+          ...prev,
+          {
+            id: assistantId,
+            role: "assistant",
+            content: "Your email address hasn't been verified yet. Please check your inbox for a verification link, or request a new one from the sign-in screen.",
+          },
+        ]);
+        return;
+      }
 
       if (res.status === 429) {
         const data = await res.json().catch(() => ({}));
