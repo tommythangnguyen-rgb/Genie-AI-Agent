@@ -5991,7 +5991,7 @@ export default function AidAgentPage() {
                     <div className="flex items-center gap-2 mb-2 px-1">
                       <GenieBottle className="h-3.5 w-3.5 text-amber-400 shrink-0 genie-icon-shimmer" />
                       <span className="text-sm font-semibold tracking-wide">
-                        <span style={{ background: "linear-gradient(90deg, #FFFFFF 0%, #D8EEFF 20%, #FFFFFF 40%, #EAF5FF 60%, #FFFFFF 80%, #D0E8FF 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-white-shimmer 4s linear infinite" }}>askGenie</span>
+                        <span style={{ color: "#FFFFFF", textShadow: "0 0 18px rgba(255,255,255,0.55), 0 0 40px rgba(255,255,255,0.18), 0 1px 3px rgba(0,0,0,0.45)" }}>askGenie</span>
                       </span>
                       <div className="h-px flex-1 bg-white/[0.06]" />
                     </div>
