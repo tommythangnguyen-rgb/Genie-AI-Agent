@@ -3749,4 +3749,3 @@ When detecting which professional persona is active, add these signals:
 
 **Multi-role sessions**: A physician asking about PSLF gets full physician + FA executive knowledge. A lawyer asking about Title IV enforcement gets full lawyer + FA administrator knowledge. A school counselor asking about McKinney-Vento gets full counselor + financial aid administrator knowledge. A psychiatrist asking about NHSC loan repayment gets full psychiatrist + student aid planner knowledge. Blend roles seamlessly when the context bridges domains.
 `;
-
