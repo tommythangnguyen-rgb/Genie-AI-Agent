@@ -4643,7 +4643,7 @@ export default function AidAgentPage() {
       {msg.role === "assistant" && (
         <div className="shrink-0 mt-1">
           <div className="p-1.5 rounded-xl" style={{ background: "rgba(212,175,55,0.18)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", boxShadow: "0 0 14px rgba(212,175,55,0.40), 0 0 0 1px rgba(212,175,55,0.28), inset 0 1px 0 rgba(255,255,255,0.15)" }}>
-            <GenieBottle className="h-4 w-4 genie-icon-shimmer" style={{ color: "#D4AF37", filter: "drop-shadow(0 0 6px rgba(212,175,55,0.75))" }} />
+            <img src="/logo.png" alt="Genie" className="h-4 w-4 object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(212,175,55,0.75))" }} />
           </div>
         </div>
       )}
@@ -4698,7 +4698,7 @@ export default function AidAgentPage() {
   const typingIndicator = isLoading ? (
     <div className="flex gap-3 justify-start genie-fade-in-up">
       <div className="shrink-0 mt-1 p-1.5 rounded-xl" style={{ background: "rgba(212,175,55,0.18)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", boxShadow: "0 0 14px rgba(212,175,55,0.40), 0 0 0 1px rgba(212,175,55,0.28), inset 0 1px 0 rgba(255,255,255,0.15)" }}>
-        <GenieBottle className="h-4 w-4 genie-icon-shimmer" style={{ color: "#D4AF37", filter: "drop-shadow(0 0 6px rgba(212,175,55,0.75))" }} />
+        <img src="/logo.png" alt="Genie" className="h-4 w-4 object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(212,175,55,0.75))" }} />
       </div>
       <div className="px-5 py-4 rounded-2xl rounded-tl-sm" style={{ background: "rgba(255,255,255,0.07)", backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)", border: "1px solid rgba(255,255,255,0.14)", boxShadow: "0 4px 28px rgba(0,0,0,0.35), 0 1px 0 rgba(255,255,255,0.12) inset" }}>
         <div className="flex items-center gap-1.5">
@@ -4764,7 +4764,7 @@ export default function AidAgentPage() {
             {/* Header */}
             <div className="px-7 py-5 flex items-center gap-3 border-b" style={{ background: "rgba(255,255,255,0.04)", borderColor: "rgba(212,175,55,0.12)" }}>
               <div className="p-2 rounded-xl shrink-0" style={{ background: "rgba(212,175,55,0.18)", boxShadow: "0 0 12px rgba(212,175,55,0.35)" }}>
-                <GenieBottle className="h-5 w-5" style={{ color: "#D4AF37" }} />
+                <img src="/logo.png" alt="Genie" className="h-5 w-5 object-contain" />
               </div>
               <div>
                 <h2 id="disclaimer-title" className="text-base font-bold text-white leading-tight">askGenie — Student Aid Hub</h2>
@@ -4851,7 +4851,7 @@ export default function AidAgentPage() {
         >
           <div className="flex items-center justify-between px-3 py-2" style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
             <div className="flex items-center gap-1.5">
-              <GenieBottle className="h-3 w-3 text-amber-400 genie-icon-shimmer shrink-0" style={{ color: "#D4AF37" }} />
+              <img src="/logo.png" alt="Genie" className="h-3 w-3 object-contain shrink-0" />
               <span className="text-[10px] font-semibold tracking-widest uppercase text-white/55">Now Playing</span>
             </div>
             <button
@@ -4945,7 +4945,7 @@ export default function AidAgentPage() {
             <div className="flex flex-col items-center gap-5">
               <div className="relative flex items-center justify-center">
                 <div className="absolute" style={{ width: 96, height: 96, borderRadius: "50%", background: "radial-gradient(ellipse at center, rgba(212,175,55,0.22) 0%, transparent 70%)", filter: "blur(14px)" }} />
-                <GenieBottle className="relative h-14 w-14 genie-icon-shimmer" style={{ color: "#D4AF37", filter: "drop-shadow(0 0 18px rgba(212,175,55,0.70)) drop-shadow(0 0 40px rgba(212,175,55,0.35))" }} />
+                <img src="/logo.png" alt="Genie" className="relative h-14 w-auto object-contain" style={{ filter: "drop-shadow(0 0 18px rgba(212,175,55,0.70)) drop-shadow(0 0 40px rgba(212,175,55,0.35))" }} />
               </div>
               {/* Brand name */}
               <div className="flex flex-col items-center gap-2">
@@ -4996,7 +4996,7 @@ export default function AidAgentPage() {
             <div className="flex flex-col items-center gap-4">
               <div className="relative flex items-center justify-center">
                 <div className="absolute" style={{ width: 72, height: 72, borderRadius: "50%", background: "radial-gradient(ellipse at center, rgba(212,175,55,0.25) 0%, transparent 70%)", filter: "blur(12px)" }} />
-                <GenieBottle className="relative h-11 w-11 genie-icon-shimmer" style={{ color: "#D4AF37", filter: "drop-shadow(0 0 14px rgba(212,175,55,0.70)) drop-shadow(0 0 30px rgba(212,175,55,0.35))" }} />
+                <img src="/logo.png" alt="Genie" className="relative h-11 w-auto object-contain" style={{ filter: "drop-shadow(0 0 14px rgba(212,175,55,0.70)) drop-shadow(0 0 30px rgba(212,175,55,0.35))" }} />
               </div>
               <div className="flex flex-col items-center gap-1.5">
                 <h1 className="font-black tracking-[-0.03em] leading-none" style={{
@@ -5049,7 +5049,7 @@ export default function AidAgentPage() {
           <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-white/[0.08]" style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
             <div className="flex items-center gap-2.5">
               <div className="p-1.5 rounded-lg" style={{ background: "rgba(212,175,55,0.18)", boxShadow: "0 0 12px rgba(212,175,55,0.45), 0 0 0 1px rgba(212,175,55,0.30)" }}>
-                <GenieBottle className="h-4 w-4 genie-icon-shimmer" style={{ color: "#D4AF37", filter: "drop-shadow(0 0 5px rgba(212,175,55,0.80))" }} />
+                <img src="/logo.png" alt="Genie" className="h-4 w-4 object-contain" style={{ filter: "drop-shadow(0 0 5px rgba(212,175,55,0.80))" }} />
               </div>
               <div>
                 <p className="text-[11px] font-bold text-white/50 uppercase tracking-widest">Student Aid Hub</p>
@@ -5232,7 +5232,7 @@ export default function AidAgentPage() {
                   title="Students & Parents panel"
                   className={`shrink-0 p-1.5 rounded-lg transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#D4AF37]/60 hover:text-[#D4AF37] hover:bg-[#D4AF37]/[0.12] hover:shadow-[0_0_10px_rgba(212,175,55,0.25)] ${howItWorksActive === "panels" ? "text-[#D4AF37] bg-[#D4AF37]/[0.15] shadow-[0_0_18px_rgba(212,175,55,0.55)] ring-1 ring-[#D4AF37]/50" : "text-[#FFD700] hw-gold-glow"}`}
                 >
-                  {showMobileLeft ? <X className="h-5 w-5" /> : <GenieBottle className="h-5 w-5" />}
+                  {showMobileLeft ? <X className="h-5 w-5" /> : <img src="/logo.png" alt="Genie" className="h-5 w-5 object-contain" />}
                 </button>
                 <button
                   type="button"
@@ -5598,19 +5598,13 @@ export default function AidAgentPage() {
                       <div className="shrink-0 flex items-center justify-center px-5 py-4 border-b border-white/[0.10]" style={{ background: "rgba(255,255,255,0.05)" }}>
                         <div className="flex items-center gap-3">
                           <div className="p-1.5 rounded-lg" style={{ background: "rgba(212,175,55,0.18)", boxShadow: "0 0 14px rgba(212,175,55,0.55), 0 0 0 1px rgba(212,175,55,0.35)" }}>
-                            <GenieBottle className="h-4 w-4 genie-icon-shimmer" style={{ color: "#D4AF37", filter: "drop-shadow(0 0 6px rgba(212,175,55,0.90))" }} />
+                            <img src="/logo.png" alt="Genie" className="h-4 w-4 object-contain" style={{ filter: "drop-shadow(0 0 6px rgba(212,175,55,0.90))" }} />
                           </div>
                           <span
                             className="text-2xl font-black tracking-tight"
                             style={{
-                              background: "linear-gradient(90deg, #C8A84B 0%, #FFE066 22%, #FFF4A0 40%, #D4AF37 55%, #FFE066 70%, #FFF4A0 85%, #C8A84B 100%)",
-                              backgroundSize: "200% auto",
-                              WebkitBackgroundClip: "text",
-                              backgroundClip: "text",
-                              WebkitTextFillColor: "transparent",
-                              color: "transparent",
-                              animation: "hiw-guidance-headline 2.8s linear infinite",
-                              filter: "drop-shadow(0 0 10px rgba(212,175,55,0.45))",
+                              color: "#FFFFFF",
+                              textShadow: "0 0 18px rgba(255,255,255,0.90), 0 0 40px rgba(255,255,255,0.55), 0 0 80px rgba(255,255,255,0.20), 0 1px 3px rgba(0,0,0,0.50)",
                               letterSpacing: "-0.02em",
                             }}
                           >Genie</span>
@@ -5628,7 +5622,7 @@ export default function AidAgentPage() {
                         <div className="flex-1 overflow-y-auto min-h-0 genie-scroll-main px-5 py-5">
                           <div className="flex items-start gap-2.5">
                             <div className="shrink-0 p-1.5 rounded-xl mt-0.5" style={{ background: "rgba(212,175,55,0.18)", boxShadow: "0 0 12px rgba(212,175,55,0.45), 0 0 0 1px rgba(212,175,55,0.30)" }}>
-                              <GenieBottle className="h-3.5 w-3.5 genie-icon-shimmer" style={{ color: "#D4AF37", filter: "drop-shadow(0 0 5px rgba(212,175,55,0.80))" }} />
+                              <img src="/logo.png" alt="Genie" className="h-3.5 w-3.5 object-contain" style={{ filter: "drop-shadow(0 0 5px rgba(212,175,55,0.80))" }} />
                             </div>
                             <div className="flex-1 px-3.5 py-2.5 rounded-2xl rounded-tl-sm ring-1 ring-white/[0.10]"
                               style={{ background: "rgba(255,255,255,0.07)", boxShadow: "0 2px 12px rgba(0,0,0,0.30)" }}>
@@ -5704,7 +5698,7 @@ export default function AidAgentPage() {
                               </button>
                             ) : (
                               <button type="submit" disabled={(!input.trim() && !attachedFile) || isLoading} onClick={triggerOrbGold} className="shrink-0 mb-0.5 flex items-center gap-1.5 px-4 py-2 rounded-xl text-white text-xs font-bold tracking-wide active:scale-95 transition-all duration-150 disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-cyan-400" style={{ background: "linear-gradient(135deg, #00B8C8 0%, #00D1C9 50%, #0099B8 100%)", boxShadow: "0 0 0 1px rgba(0,209,201,0.50), 0 2px 16px rgba(0,209,201,0.40), 0 0 32px rgba(0,229,192,0.20), inset 0 1px 0 rgba(255,255,255,0.15)" }}>
-                                <GenieBottle className="h-4 w-4 text-amber-200 genie-send-icon" />Send
+                                <img src="/logo.png" alt="" className="h-4 w-4 object-contain" />Send
                               </button>
                             )}
                           </form>
@@ -5956,7 +5950,7 @@ export default function AidAgentPage() {
                 <div className="shrink-0 flex items-center justify-between px-5 py-3 border-b border-white/[0.10]" style={{ background: "rgba(255,255,255,0.05)" }}>
                   <div className="flex items-center gap-2.5">
                     <div className="p-1.5 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-600 shadow-md shadow-cyan-500/25">
-                      <GenieBottle className="h-3.5 w-3.5 text-white genie-icon-shimmer" />
+                      <img src="/logo.png" alt="Genie" className="h-3.5 w-3.5 object-contain" />
                     </div>
                     <span className="text-sm font-bold text-white tracking-tight">askGenie</span>
                     <span className="text-xs text-white/30 font-medium">— Student Aid Hub</span>
@@ -5991,7 +5985,7 @@ export default function AidAgentPage() {
                 <div className="shrink-0 relative px-4 pt-3 pb-3">
                         <div className="relative w-full max-w-xl mx-auto">
                     <div className="flex items-center gap-2 mb-2 px-1">
-                      <GenieBottle className="h-3.5 w-3.5 text-amber-400 shrink-0 genie-icon-shimmer" />
+                      <img src="/logo.png" alt="Genie" className="h-3.5 w-3.5 object-contain shrink-0" />
                       <span className="text-sm font-semibold tracking-wide">
                         <span style={{ color: "#FFFFFF", textShadow: "0 0 18px rgba(255,255,255,0.55), 0 0 40px rgba(255,255,255,0.18), 0 1px 3px rgba(0,0,0,0.45)" }}>askGenie</span>
                       </span>
@@ -6042,7 +6036,7 @@ export default function AidAgentPage() {
                           </button>
                         ) : (
                           <button type="submit" disabled={(!input.trim() && !attachedFile) || isLoading} onClick={triggerOrbGold} className="shrink-0 mb-0.5 flex items-center gap-1.5 px-4 py-2 rounded-xl text-white text-xs font-bold tracking-wide active:scale-95 transition-all duration-150 disabled:opacity-30 disabled:cursor-not-allowed disabled:active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-cyan-400" style={{ background: "linear-gradient(135deg, #00B8C8 0%, #00D1C9 50%, #0099B8 100%)", boxShadow: "0 0 0 1px rgba(0,209,201,0.50), 0 2px 16px rgba(0,209,201,0.40), 0 0 32px rgba(0,229,192,0.20), inset 0 1px 0 rgba(255,255,255,0.15)" }}>
-                            <GenieBottle className="h-4 w-4 text-amber-200 genie-send-icon" />Send
+                            <img src="/logo.png" alt="" className="h-4 w-4 object-contain" />Send
                           </button>
                         )}
                       </form>
@@ -6061,7 +6055,7 @@ export default function AidAgentPage() {
             <div className="relative w-full max-w-xl mx-auto">
               {/* Prompt label row — hidden (desktop uses right column card) */}
               <div className="hidden items-center gap-2 mb-2 px-1">
-                <GenieBottle className="h-3.5 w-3.5 text-amber-400 shrink-0 genie-icon-shimmer" />
+                <img src="/logo.png" alt="Genie" className="h-3.5 w-3.5 object-contain shrink-0" />
                 <span className="text-sm font-semibold tracking-wide">
                   <span style={{ background: "linear-gradient(90deg, #FFFFFF 0%, #D8EEFF 20%, #FFFFFF 40%, #EAF5FF 60%, #FFFFFF 80%, #D0E8FF 100%)", backgroundSize: "200% auto", WebkitBackgroundClip: "text", backgroundClip: "text", WebkitTextFillColor: "transparent", color: "transparent", animation: "genie-white-shimmer 4s linear infinite" }}>askGenie</span>
                 </span>
@@ -6233,7 +6227,7 @@ export default function AidAgentPage() {
                         boxShadow: "0 0 0 1px rgba(0,209,201,0.50), 0 2px 16px rgba(0,209,201,0.40), 0 0 32px rgba(0,229,192,0.20), inset 0 1px 0 rgba(255,255,255,0.15)",
                       }}
                     >
-                      <GenieBottle className="h-4 w-4 text-amber-200 genie-send-icon" />
+                      <img src="/logo.png" alt="" className="h-4 w-4 object-contain" />
                       Send
                     </button>
                   )}
@@ -6289,7 +6283,7 @@ export default function AidAgentPage() {
           <div className="shrink-0 flex items-center justify-between px-4 py-3 border-b border-white/[0.08]" style={{ background: "rgba(255,255,255,0.05)", backdropFilter: "blur(16px)", WebkitBackdropFilter: "blur(16px)" }}>
             <div className="flex items-center gap-2.5">
               <div className="p-1.5 rounded-lg" style={{ background: "rgba(212,175,55,0.18)", boxShadow: "0 0 12px rgba(212,175,55,0.45), 0 0 0 1px rgba(212,175,55,0.30)" }}>
-                <GenieBottle className="h-4 w-4 genie-icon-shimmer" style={{ color: "#D4AF37", filter: "drop-shadow(0 0 5px rgba(212,175,55,0.80))" }} />
+                <img src="/logo.png" alt="Genie" className="h-4 w-4 object-contain" style={{ filter: "drop-shadow(0 0 5px rgba(212,175,55,0.80))" }} />
               </div>
               <div>
                 <p className="text-[11px] font-bold text-white/50 uppercase tracking-widest">Student Aid Hub</p>
