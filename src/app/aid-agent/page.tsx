@@ -139,8 +139,8 @@ interface Message {
 
 interface AttachedFile {
   name: string;
-  content: string;           // base64 for images, raw text for documents/audio transcripts
-  type: "image" | "text" | "audio";
+  content: string;           // base64 for images/pdfs, raw text for documents/audio transcripts
+  type: "image" | "text" | "audio" | "pdf";
   mimeType?: string;
 }
 
@@ -3952,6 +3952,13 @@ export default function AidAgentPage() {
         setAttachedFile({ name: file.name, content: base64, type: "image", mimeType: file.type });
       };
       reader.readAsDataURL(file);
+    } else if (file.type === "application/pdf" || file.name.endsWith(".pdf")) {
+      reader.onload = (e) => {
+        const dataUrl = e.target?.result as string;
+        const base64 = dataUrl.split(",")[1];
+        setAttachedFile({ name: file.name, content: base64, type: "pdf", mimeType: "application/pdf" });
+      };
+      reader.readAsDataURL(file);
     } else {
       reader.onload = (e) => {
         setAttachedFile({ name: file.name, content: e.target?.result as string, type: "text" });
@@ -4083,6 +4090,11 @@ export default function AidAgentPage() {
         { type: "image", source: { type: "base64", media_type: attachedFile.mimeType ?? "image/jpeg", data: attachedFile.content } },
         ...(trimmed ? [{ type: "text", text: trimmed }] : [{ type: "text", text: "Please review this image and provide relevant financial aid information or analysis." }]),
       ];
+    } else if (attachedFile?.type === "pdf") {
+      apiContent = [
+        { type: "document", source: { type: "base64", media_type: "application/pdf", data: attachedFile.content } },
+        ...(trimmed ? [{ type: "text", text: trimmed }] : [{ type: "text", text: "Please analyze this PDF document and provide relevant financial aid information or insights." }]),
+      ];
     } else if (attachedFile?.type === "text") {
       apiContent = `${trimmed}\n\n[Attached document: ${attachedFile.name}]\n\n${attachedFile.content}`;
     } else if (attachedFile?.type === "audio") {
@@ -4110,7 +4122,8 @@ export default function AidAgentPage() {
     const assistantId = (Date.now() + 1).toString();
 
     // ── Cache check: if same question answered within last 24 h, serve locally ──
-    if (trimmed) {
+    // Skip cache when a file is attached — the file content must be analyzed fresh.
+    if (trimmed && !currentFile) {
       const normalized = trimmed.toLowerCase().replace(/\s+/g, " ").trim();
       const cached = history.find(h =>
         h.prompt.toLowerCase().replace(/\s+/g, " ").trim() === normalized &&
