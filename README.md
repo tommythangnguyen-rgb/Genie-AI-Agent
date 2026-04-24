@@ -1,2 +1,3 @@
 # Genie-AI-Agent
-Student Planning &amp; Administrator Expert
+Student Planning &amp; Administrator
+
