@@ -412,6 +412,91 @@
   opacity: 0.85;
 }
 
+/* ── Premium shimmering orbs ────────────────────────────────────────────
+   Layered effect simulating light catching a glass sphere:
+   - Base radial gradient (the orb body)
+   - Slow drift + breathe (transform + opacity)
+   - ::before  conic-gradient sweep rotating CW   (angular shimmer)
+   - ::after   inner highlight rotating CCW      (counter-light)
+   Colors are themed via --orb-c1 / --orb-c2 / --orb-shimmer custom props. */
+@keyframes genie-orb-shimmer-rotate {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(360deg); }
+}
+@keyframes genie-orb-shimmer-counter {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to   { transform: translate(-50%, -50%) rotate(-360deg); }
+}
+@keyframes genie-orb-breathe {
+  0%, 100% { transform: scale(1)    translate(0,   0);   opacity: 0.95; }
+  33%       { transform: scale(1.08) translate(10px, -8px); opacity: 1;    }
+  66%       { transform: scale(0.94) translate(-8px, 6px);  opacity: 0.78; }
+}
+@keyframes genie-orb-hue-drift {
+  0%, 100% { filter: blur(60px) hue-rotate(0deg)   brightness(1);    }
+  50%       { filter: blur(60px) hue-rotate(18deg)  brightness(1.08); }
+}
+
+.genie-orb-premium {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  will-change: transform, opacity, filter;
+  background: radial-gradient(
+    circle at 50% 50%,
+    var(--orb-c1, rgba(6,182,212,0.55)) 0%,
+    var(--orb-c2, rgba(6,182,212,0.12)) 55%,
+    transparent 78%
+  );
+  animation:
+    genie-orb-breathe   var(--dur, 10s)         ease-in-out infinite var(--delay, 0s),
+    genie-orb-hue-drift var(--hue-dur, 16s)     ease-in-out infinite var(--delay, 0s);
+}
+.genie-orb-premium::before,
+.genie-orb-premium::after {
+  content: "";
+  position: absolute;
+  top: 50%; left: 50%;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.genie-orb-premium::before {
+  width: 116%; height: 116%;
+  background: conic-gradient(
+    from 0deg,
+    transparent             0deg,
+    var(--orb-shimmer, rgba(255,255,255,0.55)) 55deg,
+    transparent           115deg,
+    var(--orb-shimmer-2, rgba(255,255,255,0.30)) 190deg,
+    transparent           255deg,
+    var(--orb-shimmer, rgba(255,255,255,0.45)) 325deg,
+    transparent           360deg
+  );
+  filter: blur(36px);
+  mix-blend-mode: screen;
+  opacity: 0.55;
+  animation: genie-orb-shimmer-rotate var(--shimmer-dur, 14s) linear infinite;
+}
+.genie-orb-premium::after {
+  width: 64%; height: 64%;
+  background: radial-gradient(
+    circle at 32% 28%,
+    rgba(255,255,255,0.55) 0%,
+    rgba(255,255,255,0.18) 32%,
+    rgba(255,255,255,0.04) 58%,
+    transparent 75%
+  );
+  filter: blur(24px);
+  mix-blend-mode: screen;
+  opacity: 0.70;
+  animation: genie-orb-shimmer-counter var(--shimmer-dur-2, 18s) linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .genie-orb-premium,
+  .genie-orb-premium::before,
+  .genie-orb-premium::after { animation: none; }
+}
+
 /* ── Orb earth-axis rotation ──────────────────────────────────────────── */
 @keyframes orb-earth-bands {
   from { transform: translateX(0); }

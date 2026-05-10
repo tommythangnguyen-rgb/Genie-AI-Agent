@@ -5329,10 +5329,90 @@ export default function AidAgentPage() {
           {/* Messages / Welcome */}
           <div ref={scrollContainerRef} className={`flex-1 overflow-y-auto min-h-0 genie-scroll-main transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-active-panel" : ""}`} role="log" aria-live="polite" aria-label="Conversation" style={{ position: "relative", zIndex: 3 }}>
             {/* ── Dashboard — always visible on all screen sizes ── */}
-            <div>
+            <div className="relative">
+
+              {/* ── Premium shimmering orbs — desktop ── */}
+              <div className="pointer-events-none hidden md:block absolute inset-0 overflow-hidden" aria-hidden="true" style={{ zIndex: 0 }}>
+                <div className="genie-orb-premium" style={{ top: "-6%",  left: "-4%",  width: "520px", height: "520px",
+                  ["--orb-c1"        as any]: "rgba(6,182,212,0.55)",
+                  ["--orb-c2"        as any]: "rgba(6,182,212,0.12)",
+                  ["--orb-shimmer"   as any]: "rgba(165,243,252,0.55)",
+                  ["--orb-shimmer-2" as any]: "rgba(255,255,255,0.30)",
+                  ["--dur"           as any]: "9s",  ["--delay" as any]: "0s",
+                  ["--shimmer-dur"   as any]: "14s", ["--shimmer-dur-2" as any]: "18s",
+                }} />
+                <div className="genie-orb-premium" style={{ top: "4%",   right: "-6%", width: "560px", height: "560px",
+                  ["--orb-c1"        as any]: "rgba(212,175,55,0.55)",
+                  ["--orb-c2"        as any]: "rgba(212,175,55,0.12)",
+                  ["--orb-shimmer"   as any]: "rgba(255,236,139,0.60)",
+                  ["--orb-shimmer-2" as any]: "rgba(255,255,255,0.32)",
+                  ["--dur"           as any]: "11s", ["--delay" as any]: "1.4s",
+                  ["--shimmer-dur"   as any]: "16s", ["--shimmer-dur-2" as any]: "20s",
+                }} />
+                <div className="genie-orb-premium" style={{ top: "44%",  left: "32%",  width: "640px", height: "640px",
+                  ["--orb-c1"        as any]: "rgba(139,92,246,0.50)",
+                  ["--orb-c2"        as any]: "rgba(139,92,246,0.10)",
+                  ["--orb-shimmer"   as any]: "rgba(196,181,253,0.55)",
+                  ["--orb-shimmer-2" as any]: "rgba(255,255,255,0.26)",
+                  ["--dur"           as any]: "13s", ["--delay" as any]: "2.6s",
+                  ["--shimmer-dur"   as any]: "18s", ["--shimmer-dur-2" as any]: "22s",
+                }} />
+                <div className="genie-orb-premium" style={{ bottom: "8%",left: "-3%",  width: "440px", height: "440px",
+                  ["--orb-c1"        as any]: "rgba(99,102,241,0.52)",
+                  ["--orb-c2"        as any]: "rgba(99,102,241,0.12)",
+                  ["--orb-shimmer"   as any]: "rgba(199,210,254,0.55)",
+                  ["--orb-shimmer-2" as any]: "rgba(255,255,255,0.30)",
+                  ["--dur"           as any]: "10s", ["--delay" as any]: "0.8s",
+                  ["--shimmer-dur"   as any]: "15s", ["--shimmer-dur-2" as any]: "19s",
+                }} />
+                <div className="genie-orb-premium" style={{ bottom: "2%",right: "4%",  width: "500px", height: "500px",
+                  ["--orb-c1"        as any]: "rgba(0,229,192,0.48)",
+                  ["--orb-c2"        as any]: "rgba(0,229,192,0.10)",
+                  ["--orb-shimmer"   as any]: "rgba(127,255,234,0.55)",
+                  ["--orb-shimmer-2" as any]: "rgba(255,255,255,0.30)",
+                  ["--dur"           as any]: "12s", ["--delay" as any]: "3.2s",
+                  ["--shimmer-dur"   as any]: "17s", ["--shimmer-dur-2" as any]: "21s",
+                }} />
+              </div>
+
+              {/* ── Premium shimmering orbs — mobile (smaller, fewer) ── */}
+              <div className="pointer-events-none md:hidden absolute inset-0 overflow-hidden" aria-hidden="true" style={{ zIndex: 0 }}>
+                <div className="genie-orb-premium" style={{ top: "-4%",  left: "-12%", width: "300px", height: "300px",
+                  ["--orb-c1"        as any]: "rgba(6,182,212,0.55)",
+                  ["--orb-c2"        as any]: "rgba(6,182,212,0.12)",
+                  ["--orb-shimmer"   as any]: "rgba(165,243,252,0.55)",
+                  ["--orb-shimmer-2" as any]: "rgba(255,255,255,0.30)",
+                  ["--dur"           as any]: "9s",  ["--delay" as any]: "0s",
+                  ["--shimmer-dur"   as any]: "14s", ["--shimmer-dur-2" as any]: "18s",
+                }} />
+                <div className="genie-orb-premium" style={{ top: "18%",  right: "-14%",width: "320px", height: "320px",
+                  ["--orb-c1"        as any]: "rgba(212,175,55,0.55)",
+                  ["--orb-c2"        as any]: "rgba(212,175,55,0.12)",
+                  ["--orb-shimmer"   as any]: "rgba(255,236,139,0.60)",
+                  ["--orb-shimmer-2" as any]: "rgba(255,255,255,0.32)",
+                  ["--dur"           as any]: "11s", ["--delay" as any]: "1.6s",
+                  ["--shimmer-dur"   as any]: "16s", ["--shimmer-dur-2" as any]: "20s",
+                }} />
+                <div className="genie-orb-premium" style={{ top: "52%",  left: "-10%", width: "340px", height: "340px",
+                  ["--orb-c1"        as any]: "rgba(139,92,246,0.50)",
+                  ["--orb-c2"        as any]: "rgba(139,92,246,0.10)",
+                  ["--orb-shimmer"   as any]: "rgba(196,181,253,0.55)",
+                  ["--orb-shimmer-2" as any]: "rgba(255,255,255,0.28)",
+                  ["--dur"           as any]: "12s", ["--delay" as any]: "2.4s",
+                  ["--shimmer-dur"   as any]: "17s", ["--shimmer-dur-2" as any]: "21s",
+                }} />
+                <div className="genie-orb-premium" style={{ bottom: "4%",right: "-12%",width: "300px", height: "300px",
+                  ["--orb-c1"        as any]: "rgba(0,229,192,0.48)",
+                  ["--orb-c2"        as any]: "rgba(0,229,192,0.10)",
+                  ["--orb-shimmer"   as any]: "rgba(127,255,234,0.55)",
+                  ["--orb-shimmer-2" as any]: "rgba(255,255,255,0.30)",
+                  ["--dur"           as any]: "10s", ["--delay" as any]: "3.0s",
+                  ["--shimmer-dur"   as any]: "15s", ["--shimmer-dur-2" as any]: "19s",
+                }} />
+              </div>
 
               {/* ── Welcome state ── */}
-              <div className="relative flex flex-col items-center px-1 py-4 sm:px-2 sm:py-6 genie-fade-in-up">
+              <div className="relative flex flex-col items-center px-1 py-4 sm:px-2 sm:py-6 genie-fade-in-up" style={{ zIndex: 1 }}>
 
 
                 <div className="relative w-full flex flex-col items-center">
