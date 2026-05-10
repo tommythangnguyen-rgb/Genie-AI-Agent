@@ -5427,11 +5427,10 @@ export default function AidAgentPage() {
                     {/* ── Hero Headline ── */}
                     <div className="mb-3 text-center md:text-left">
                       <h2
-                        className="font-black tracking-[0.06em] leading-tight mb-2 transition-all duration-300"
+                        className="genie-shimmer-text font-black tracking-[0.06em] leading-tight mb-2 transition-all duration-300"
                         style={{
                           fontSize: "clamp(2rem, 5vw, 3.2rem)",
-                          color: "#FFFFFF",
-                          textShadow: "0 0 40px rgba(255,255,255,0.35), 0 0 80px rgba(255,255,255,0.15), 0 2px 4px rgba(0,0,0,0.60)",
+                          filter: "drop-shadow(0 0 24px rgba(255,215,0,0.45)) drop-shadow(0 2px 4px rgba(0,0,0,0.60))",
                         }}
                       >
                         Student Aid Hub
