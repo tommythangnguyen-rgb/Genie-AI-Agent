@@ -905,7 +905,7 @@
   border-radius: 20px;
   background-size: cover;
   background-position: center;
-  filter: blur(3px) saturate(1.05);
+  filter: blur(1.5px) saturate(1.1);
   flex-shrink: 0;
 }
 @media (max-width: 768px) {

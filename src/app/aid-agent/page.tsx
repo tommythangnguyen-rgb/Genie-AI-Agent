@@ -5359,7 +5359,7 @@ export default function AidAgentPage() {
               <div
                 className="pointer-events-none absolute inset-0 overflow-hidden"
                 aria-hidden="true"
-                style={{ zIndex: 0, opacity: 0.16 }}
+                style={{ zIndex: 0, opacity: 0.42 }}
               >
                 <div className="genie-dash-scroll-track h-full">
                   {/* 9 photos, duplicated once so translateX(-50%) loops seamlessly */}
@@ -5376,7 +5376,7 @@ export default function AidAgentPage() {
                   className="absolute inset-0"
                   style={{
                     background:
-                      "linear-gradient(180deg, rgba(6,8,18,0.72) 0%, rgba(6,8,18,0.55) 40%, rgba(6,8,18,0.72) 100%)",
+                      "linear-gradient(180deg, rgba(6,8,18,0.55) 0%, rgba(6,8,18,0.35) 40%, rgba(6,8,18,0.55) 100%)",
                   }}
                 />
                 {/* Left/right feathering so the strip doesn't feel like a hard band */}
