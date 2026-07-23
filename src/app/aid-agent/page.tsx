@@ -4303,14 +4303,12 @@ export default function AidAgentPage() {
     // ── iOS Safari / mobile Chrome autoplay: the <audio> element must be
     //    created AND have .play() called synchronously inside the user
     //    gesture. Once activated, we can swap .src after fetch and play again.
-    //    Prime with a 1-frame silent MP3 so the initial play() is a no-op.
+    //    Prime with a 213-byte silent MP3 so the initial play() is a no-op.
     const SILENT_MP3 =
       "data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjI5LjEwMAAAAAAAAAAAAAAA//tQxAADB8AhSmxhIIEVCSiJrDCQBTcu3UrAIwUdkRgQbFAZC1CQEwTJ9mjRvBA4UOLD8nKVOWfh+UlK4E7Mpc7Dq6ceuQINdCe9v1kickcCg8DYHthXvKmpsSFAJmwXQzTIeu7yr0Iuw6VVFAiw8/eMi5r48UkylIeZAgvUYlPPQwuOAj5F7NlBQ8CGvdlLdCJvbG8UcAiI8s6vD7yWiWSCq6nAAAAA";
-    const audio = new Audio();
-    audio.src = SILENT_MP3;
-    audio.load();
+    const audio = new Audio(SILENT_MP3);
     // Fire-and-forget primer play — activates the element for iOS.
-    audio.play().catch(() => {});
+    audio.play().catch((e) => console.warn("[TTS] primer play failed:", e?.name, e?.message));
     audioRef.current = audio;
 
     // Strip markdown/emojis for plain text (used by both Azure and fallback)
@@ -4340,8 +4338,8 @@ export default function AidAgentPage() {
           signal: abort.signal,
         });
         if (!res.ok) {
-          if (res.status !== 503) console.warn(`[TTS] server returned ${res.status}`);
-          fallbackToWebSpeech(plain);
+          console.warn(`[TTS] server returned ${res.status}`);
+          setSpeakingMsgId(null);
           return;
         }
         // Abort while fetch was in flight → user hit stop/switched msg.
@@ -4351,40 +4349,23 @@ export default function AidAgentPage() {
         const url = URL.createObjectURL(blob);
         const done = () => { URL.revokeObjectURL(url); setSpeakingMsgId(null); };
         audio.onended = done;
-        audio.onerror = done;
+        audio.onerror = (ev) => { console.warn("[TTS] audio.onerror", ev); done(); };
+        // Do NOT call .load() after swap — resets media element on iOS and
+        // discards the gesture-activation we earned from the primer play.
         audio.src = url;
-        audio.load();
-        await audio.play();
+        try {
+          await audio.play();
+        } catch (playErr: any) {
+          console.warn("[TTS] real play() rejected:", playErr?.name, playErr?.message);
+          setSpeakingMsgId(null);
+        }
       } catch (e: any) {
         if (e?.name !== "AbortError") {
-          console.warn("[TTS] playback failed:", e?.message ?? e);
-          fallbackToWebSpeech(plain);
+          console.warn("[TTS] fetch/pipeline failed:", e?.message ?? e);
+          setSpeakingMsgId(null);
         }
       }
     })();
-  };
-
-  const fallbackToWebSpeech = (plain: string) => {
-
-    // ── Web Speech API fallback ───────────────────────────────────────────────
-    if (typeof window === "undefined" || !window.speechSynthesis) { setSpeakingMsgId(null); return; }
-    const utterance = new SpeechSynthesisUtterance(plain);
-    utterance.lang  = ttsLang;
-    utterance.rate  = 1.05;
-    utterance.pitch = 1.05;
-    utterance.volume = 1.0;
-    if (voiceRef.current) utterance.voice = voiceRef.current;
-    const cleanup = () => {
-      if (ttsTimerRef.current) { clearInterval(ttsTimerRef.current); ttsTimerRef.current = null; }
-      setSpeakingMsgId(null);
-    };
-    utterance.onend   = cleanup;
-    utterance.onerror = cleanup;
-    ttsTimerRef.current = setInterval(() => {
-      if (window.speechSynthesis.speaking) window.speechSynthesis.resume();
-      else { clearInterval(ttsTimerRef.current!); ttsTimerRef.current = null; }
-    }, 10000);
-    window.speechSynthesis.speak(utterance);
   };
 
   const printMessage = (content: string, promptSnippet?: string) => {
