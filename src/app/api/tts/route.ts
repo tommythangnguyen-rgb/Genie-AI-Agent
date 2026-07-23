@@ -1,97 +1,69 @@
 /**
- * /api/tts — Azure Neural TTS proxy.
+ * /api/tts — Free premium TTS via Microsoft Edge's read-aloud endpoint.
  *
- * Required env vars:
- *   AZURE_SPEECH_KEY     — Azure Cognitive Services Speech API key
- *   AZURE_SPEECH_REGION  — Azure region, e.g. "eastus" or "westus2"
+ * Uses msedge-tts, which speaks to the same neural voices Azure Cognitive
+ * Services exposes (AriaNeural, JennyNeural, etc.) but through the endpoint
+ * Edge's built-in read-aloud feature calls. No API key, no quota, no billing.
  *
  * Optional env vars:
- *   AZURE_SPEECH_VOICE   — Neural voice name (default: en-US-AriaNeural)
+ *   TTS_VOICE — Neural voice short name (default: en-US-AriaNeural)
  *
- * Returns 503 when key/region absent → client falls back to Web Speech API.
- *
- * GET /api/tts — returns config status (safe for diagnostics, no key exposed).
+ * GET  /api/tts — diagnostic (safe, no secrets)
+ * POST /api/tts — { text, lang? } → audio/mpeg
  */
 
+import { MsEdgeTTS, OUTPUT_FORMAT } from "msedge-tts";
 import { beautifulEloquentSpeech } from "@/lib/tts/speech-utils";
 
-// Strip both real whitespace AND literal \n / \r sequences — Vercel dashboard
-// sometimes encodes trailing newlines as the two-character sequence backslash-n
-// when values are pasted, which .trim() alone doesn't catch.
-const clean = (s: string | undefined) =>
-  s?.replace(/\\n/g, "").replace(/\\r/g, "").trim();
-const VOICE  = process.env.AZURE_SPEECH_VOICE ?? "en-US-AriaNeural";
-const REGION = clean(process.env.AZURE_SPEECH_REGION);
-const KEY    = clean(process.env.AZURE_SPEECH_KEY);
+export const runtime = "nodejs"; // msedge-tts uses ws — Node runtime only.
+export const maxDuration = 30;
 
-function escapeXml(s: string): string {
-  return s
-    .replace(/&/g,  "&amp;")
-    .replace(/</g,  "&lt;")
-    .replace(/>/g,  "&gt;")
-    .replace(/"/g,  "&quot;")
-    .replace(/'/g,  "&apos;");
-}
+const VOICE = process.env.TTS_VOICE ?? "en-US-AriaNeural";
 
-/** GET /api/tts — diagnostic: are credentials configured? */
 export async function GET() {
   return Response.json({
-    configured: !!(KEY && REGION),
-    region: REGION ?? null,
+    provider: "msedge-tts",
     voice: VOICE,
-    keyPresent: !!KEY,
-    regionPresent: !!REGION,
+    configured: true,
   });
 }
 
 export async function POST(req: Request) {
-  if (!KEY || !REGION) {
-    console.log("[AzureTTS] Missing credentials — AZURE_SPEECH_KEY or AZURE_SPEECH_REGION not set");
-    return new Response("Azure Speech key/region not configured", { status: 503 });
-  }
-
-  const { text, lang = "en-US" } = (await req.json()) as { text: string; lang?: string };
+  const { text } = (await req.json()) as { text: string; lang?: string };
   if (!text?.trim()) return new Response("No text provided", { status: 400 });
 
-  const processed = escapeXml(beautifulEloquentSpeech(text).slice(0, 9000));
+  const processed = beautifulEloquentSpeech(text).slice(0, 9000);
 
-  // Simple, widely-compatible SSML — no express-as style which can 400
-  // on some Azure subscription tiers. AriaNeural already sounds natural.
-  const ssml = `<speak version='1.0' xmlns='http://www.w3.org/2001/10/synthesis' xml:lang='${lang}'>
-  <voice name='${VOICE}'>
-    <prosody rate='-4%' pitch='-3%'>${processed}</prosody>
-  </voice>
-</speak>`;
+  const tts = new MsEdgeTTS();
+  try {
+    await tts.setMetadata(VOICE, OUTPUT_FORMAT.AUDIO_24KHZ_48KBITRATE_MONO_MP3);
+    const { audioStream } = tts.toStream(processed, { rate: "-4%", pitch: "-3%" });
 
-  console.log(`[AzureTTS] Requesting voice=${VOICE} region=${REGION} textLen=${processed.length}`);
-
-  const azureRes = await fetch(
-    `https://${REGION}.tts.speech.microsoft.com/cognitiveservices/v1`,
-    {
-      method: "POST",
-      headers: {
-        "Ocp-Apim-Subscription-Key": KEY,
-        "Content-Type": "application/ssml+xml",
-        "X-Microsoft-OutputFormat": "audio-24khz-48kbitrate-mono-mp3",
-        "User-Agent": "askGenie/1.0",
-      },
-      body: ssml,
-    }
-  );
-
-  if (!azureRes.ok) {
-    const err = await azureRes.text().catch(() => "");
-    console.error(`[AzureTTS] ${azureRes.status} from ${REGION}:`, err.slice(0, 500));
-    return new Response(`Azure TTS error: ${azureRes.status}`, {
-      status: azureRes.status >= 500 ? 502 : azureRes.status,
+    const chunks: Buffer[] = [];
+    await new Promise<void>((resolve, reject) => {
+      audioStream.on("data", (c: Buffer) => chunks.push(c));
+      audioStream.on("end", () => resolve());
+      audioStream.on("close", () => resolve());
+      audioStream.on("error", reject);
     });
-  }
 
-  console.log(`[AzureTTS] Success — streaming audio`);
-  return new Response(azureRes.body, {
-    headers: {
-      "Content-Type": "audio/mpeg",
-      "Cache-Control": "no-store",
-    },
-  });
+    const audio = Buffer.concat(chunks);
+    if (audio.length === 0) {
+      console.error("[EdgeTTS] Empty audio buffer");
+      return new Response("TTS produced empty audio", { status: 502 });
+    }
+
+    return new Response(audio, {
+      headers: {
+        "Content-Type": "audio/mpeg",
+        "Content-Length": String(audio.length),
+        "Cache-Control": "no-store",
+      },
+    });
+  } catch (err: any) {
+    console.error("[EdgeTTS] Synthesis failed:", err?.message ?? err);
+    return new Response(`TTS error: ${err?.message ?? "unknown"}`, { status: 502 });
+  } finally {
+    try { tts.close(); } catch {}
+  }
 }
