@@ -3438,6 +3438,149 @@ const GENIE_WELCOME_MESSAGES: string[] = [
   "Hello! Great financial decisions start with great information. Ask me anything about student aid today.",
 ];
 
+// ─── Role-specific Welcome Pool (combinatorial: 10 openers × 20 hooks × 6 closers = 1200/role) ──
+
+const ROLE_WELCOME_OPENERS = [
+  "Hey there!",
+  "Welcome in!",
+  "Hi!",
+  "Alright, welcome —",
+  "Well hello there!",
+  "Look who it is —",
+  "So glad you're here.",
+  "Right on — welcome!",
+  "Hello, hello!",
+  "You made it —",
+];
+
+const ROLE_WELCOME_CLOSERS = [
+  "Where should we start?",
+  "Ask me anything — no question too small.",
+  "What's on your mind?",
+  "Fire away.",
+  "What can I dig into for you?",
+  "Hit me with your first question.",
+];
+
+const ROLE_WELCOME_HOOKS: Record<string, string[]> = {
+  Student: [
+    "You're the reason I exist — helping students crack the FAFSA is my whole thing.",
+    "Loans, grants, work-study, scholarships — I've mapped every dollar the feds hand out.",
+    "Let's turn financial aid from a maze into a straight line.",
+    "Award letters can look like ancient hieroglyphics — I speak fluent hieroglyphic.",
+    "Free money first, then loans — that's the golden rule, and I'll help you find every last dollar.",
+    "The FAFSA looks scary but it's really just a big form. Big forms don't scare me.",
+    "Whether you're a first-year figuring it out or a senior planning grad school, I've got you.",
+    "I know every deadline, every form, every acronym — think of me as your aid Sherpa.",
+    "Verification, SAP appeals, R2T4, entrance counseling — the alphabet soup is my native language.",
+    "Studying's hard enough — paying for it shouldn't be a second full-time job.",
+    "You've got dreams. Let's figure out how to fund them.",
+    "Every ounce of aid left on the table is money you'd pay back with interest. Let's grab it all.",
+    "Community college, four-year, grad, trade — the aid rules cover it all and so do I.",
+    "Repayment doesn't start till you graduate, but the smart plays start now.",
+    "Scholarships are wild — some pay you to be left-handed. Seriously.",
+    "You've got questions the FAFSA can't answer cleanly? Those are my favorite kind.",
+    "Undocumented, DACA, international, first-gen — everyone's aid path looks different. Yours is not a dead end.",
+    "Independent status, dependency overrides, unusual circumstances — there's usually a door if you know where to knock.",
+    "Housing, meals, books, transportation — cost of attendance is more than tuition and I'll show you where it hides.",
+    "You're smart enough to be in college. You're smart enough to understand financial aid. Let's prove it.",
+  ],
+  Parent: [
+    "Raising a future grad is no small feat — I've got every piece of the FAFSA maze mapped out for you.",
+    "You've been saving for years. Let's make sure federal aid actually stacks on top of what you built.",
+    "The parent contribution can feel arbitrary — I can show you exactly how the SAI is calculated.",
+    "You want the best for your kid without going broke doing it. That's what I'm here for.",
+    "Two kids in college? Three? Divorced households? Blended families? I've seen every combo.",
+    "Parent PLUS loans are sneaky. Let me help you decide if they're right — or if there's a smarter play.",
+    "I'll help you understand which financial moves quietly boost aid and which quietly hurt it.",
+    "You fill out the FAFSA once a year. Do it right and it pays dividends for four years running.",
+    "Small business owners, self-employed, gig workers — the FAFSA has weird spots for you, and I know the workarounds.",
+    "Divorce, remarriage, custody arrangements — parent-of-record rules are strict but not impossible.",
+    "That first tuition bill is a punch. Let me help you land a few counter-punches with aid.",
+    "Cost of attendance vs. sticker price — they're not the same, and knowing the gap saves families thousands.",
+    "You want to help without hurting your retirement. There are smart ways to do both.",
+    "529 plans, UGMA, UTMA, savings bonds — how each asset counts on the FAFSA matters a lot.",
+    "Financial aid appeals are real, and they work more often than most parents realize.",
+    "Your kid's dream school might be more affordable than the state school. Sticker price lies. Aid tells the truth.",
+    "Every school plays by federal rules, but their institutional aid varies wildly. I'll help you decode it.",
+    "You've been holding it together through admissions season. Let me handle the FAFSA half.",
+    "Consumer protection, loan discharge, borrower defense — parents have rights too, and I know them.",
+    "You don't need to become an aid expert overnight. Just ask me and I'll translate.",
+  ],
+  Administrator: [
+    "Fellow aid professional — welcome. I've got 34 CFR at my fingertips whenever you need it.",
+    "R2T4, SAP appeals, verification tracking groups — I speak the language, no acronym unpacking needed.",
+    "Audit season getting close? I know the common findings and how to head them off.",
+    "Program review, single audit, quality assurance — the ED playbook is baked into my brain.",
+    "Federal Register updates roll in weekly. I read them so your office doesn't have to.",
+    "COD, NSLDS, ISIR-level detail — happy to dig into whatever edge case just hit your desk.",
+    "Every aid office runs on the razor's edge between compliance and student experience. Let's find both.",
+    "Return of Title IV calcs get gnarly with unearned aid. I can walk through it step by step.",
+    "Consortium agreements, DTS, additional eligibility — the messy stuff is my favorite stuff.",
+    "Reg citations on demand. Just name the topic and I'll pull the section number.",
+    "New hire on your team? I make a decent training sidekick.",
+    "Aid staffing is stretched thin everywhere. Let me handle the research so your team can handle the students.",
+    "You know the rules cold. Sometimes you just need a second brain to confirm. That's me.",
+    "PPA renewals, ECAR reviews, program eligibility — the fine print doesn't scare me.",
+    "Loan disbursement, refund policies, credit balance handling — the operational stuff, all covered.",
+    "Dear Colleague Letters are dense. I can boil them down to the operational impact.",
+    "Consumer info disclosures, campus crime reporting, HEA Title VIII — the compliance web is wide but I know its threads.",
+    "Cash management, drawdowns, G5 — treasury-side questions? Bring them.",
+    "Interpretation gray areas — you've got them, I've got informed opinions with citations.",
+    "The Dept keeps rewriting the rules. I keep up so your office can breathe.",
+  ],
+  Leader: [
+    "Welcome, decision-maker. Enrollment strategy meets aid policy — that intersection is where I live.",
+    "Discount rate, net tuition revenue, aid-to-yield — the numbers behind the numbers.",
+    "Board reports, cabinet briefings, strategic plans — I can help you frame the aid story.",
+    "Compliance risk, reputational risk, financial risk — an aid office touches all three. Let's assess.",
+    "Institutional aid budgets are strategic weapons. Use them wisely and enrollment follows.",
+    "Retention starts with the aid package. Let me help you see the levers your office isn't pulling yet.",
+    "Cabinet-level view of aid: it's not just a service — it's an enrollment funnel and a revenue engine.",
+    "Sector benchmarks, IPEDS comparisons, CDS analytics — I can help you make sense of where you stand.",
+    "New program launch? Aid eligibility isn't automatic. I'll walk you through the ED approval path.",
+    "Merger, acquisition, teach-out — the Title IV implications are big, and I'm here for the strategic view.",
+    "Enrollment management is aid strategy with a side of marketing. I know both sides.",
+    "State authorization, distance ed, professional licensure disclosures — leaders own these risks. Let me brief you.",
+    "Loan default rates carry consequences. I'll help you understand your CDR posture and options.",
+    "Endowment, gift aid, discount rate — the trade-offs deserve a fresh look.",
+    "Financial aid isn't just about students — it's about the institution's mission and long-term health.",
+    "Board members ask hard questions. I'll help you have crisp, cited answers.",
+    "Composite score, financial responsibility, CFRC — the sky-view metrics are here when you need them.",
+    "Regulatory shifts land at your desk. Let me help you translate them into strategic decisions.",
+    "Enrollment cliffs, demographic shifts, price sensitivity — aid strategy is your lever. Let's pull it.",
+    "Vision without execution stalls. Aid execution without vision loses students. Let's do both.",
+  ],
+  "Compliance/Auditor": [
+    "Welcome, auditor. My favorite documents are cited ones — and I always bring receipts.",
+    "Program review, single audit, compliance attestations — bring your sharpest questions.",
+    "Testing sample selection, judgmental vs. statistical — I can talk methodology all day.",
+    "SAS 115 comments, findings, corrective actions — the closeout memo game is real.",
+    "Every finding has a citation. Let's make sure yours are airtight.",
+    "34 CFR Part 668, Part 685, Part 690 — I know which subpart holds which rule.",
+    "Cash management, Return to Title IV, verification — the top audit findings, all mapped.",
+    "Common findings, resolved findings, appeal outcomes — the audit landscape is well-worn territory for me.",
+    "Documentation of professional judgment — a moving target and a frequent finding. Let's talk best practices.",
+    "R2T4 recalcs after the fact — the math has to work. I'll help you verify.",
+    "Institutional eligibility, program eligibility, gainful employment — the layered rules can be sliced clean.",
+    "Written policies vs. actual practice — the gap is where findings live. Let's close it.",
+    "GAAP, GAGAS, Yellow Book, Uniform Guidance — the auditor's toolbox is my toolbox.",
+    "Consumer info file, campus security reporting, GEER compliance — I cover the peripheral requirements too.",
+    "Does your SAP policy language hold up under scrutiny? Let's stress-test it before someone else does.",
+    "Refund policy, W/F posting, LDA determinations — attendance-adjacent audit gold.",
+    "Verification tolerance vs. required corrections — the guidance shifts and I'll pull the current version.",
+    "Loan disbursement timing, credit balance handling, escheatment — the boring stuff auditors love.",
+    "You're not looking for cheerleading. You're looking for citations. I've got both.",
+    "Assurance work, compliance testing, audit prep — pick a lane and I'll ride shotgun.",
+  ],
+};
+
+function getRoleWelcome(role: string): string {
+  const hooks = ROLE_WELCOME_HOOKS[role] ?? ROLE_WELCOME_HOOKS.Student;
+  const pick = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
+  return `${pick(ROLE_WELCOME_OPENERS)} ${pick(hooks)} ${pick(ROLE_WELCOME_CLOSERS)}`;
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function AidAgentPage() {
@@ -3486,9 +3629,8 @@ export default function AidAgentPage() {
   const [slideIndex, setSlideIndex] = useState(0);
   const [openAccordions, setOpenAccordions] = useState<Set<string>>(new Set());
   const [isDark, setIsDark] = useState(false);
-  const GENIE_WELCOME = useMemo(
-    () => GENIE_WELCOME_MESSAGES[Math.floor(Math.random() * GENIE_WELCOME_MESSAGES.length)],
-    []
+  const [GENIE_WELCOME, setGenieWelcome] = useState<string>(
+    () => GENIE_WELCOME_MESSAGES[Math.floor(Math.random() * GENIE_WELCOME_MESSAGES.length)]
   );
   const [welcomeTyped, setWelcomeTyped] = useState("");
   const [heroMuted, setHeroMuted] = useState(true);
@@ -3589,8 +3731,10 @@ export default function AidAgentPage() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [introVisible]);
 
-  // Typewriter animation for the Genie welcome message on page load
+  // Typewriter animation — re-runs whenever GENIE_WELCOME changes so that a
+  // role-selection swap in syncRoles retypes the new message from scratch.
   useEffect(() => {
+    setWelcomeTyped("");
     let i = 0;
     const id = setInterval(() => {
       i++;
@@ -3598,8 +3742,7 @@ export default function AidAgentPage() {
       if (i >= GENIE_WELCOME.length) clearInterval(id);
     }, 20);
     return () => clearInterval(id);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [GENIE_WELCOME]);
 
   // Pre-load TTS voice so speakMessage can be called synchronously (required for
   // Safari / mobile browsers that block speechSynthesis outside a user gesture).
@@ -3905,9 +4048,15 @@ export default function AidAgentPage() {
         ? "Auditors"
         : (chatboxLabel + "s") as "Students" | "Parents" | "Administrators" | "Leaders" | "Auditors";
       setActiveActionRole(actionRole);
+      // Swap the welcome typewriter to a role-specific message drawn from a
+      // 1000+ combinatorial pool (opener × role hook × closer).
+      setGenieWelcome(getRoleWelcome(chatboxLabel));
       // Open Quick Prompts accordion and scroll into view on desktop
       setOpenAccordions(prev => { const n = new Set(prev); n.add("iam"); return n; });
       setTimeout(() => iamDesktopRef.current?.scrollIntoView({ behavior: "smooth", block: "nearest" }), 120);
+    } else {
+      // Cleared role → restore a random generic welcome.
+      setGenieWelcome(GENIE_WELCOME_MESSAGES[Math.floor(Math.random() * GENIE_WELCOME_MESSAGES.length)]);
     }
   }, []);
 
