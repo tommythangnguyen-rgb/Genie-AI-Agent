@@ -15,9 +15,14 @@
 
 import { beautifulEloquentSpeech } from "@/lib/tts/speech-utils";
 
+// Strip both real whitespace AND literal \n / \r sequences — Vercel dashboard
+// sometimes encodes trailing newlines as the two-character sequence backslash-n
+// when values are pasted, which .trim() alone doesn't catch.
+const clean = (s: string | undefined) =>
+  s?.replace(/\\n/g, "").replace(/\\r/g, "").trim();
 const VOICE  = process.env.AZURE_SPEECH_VOICE ?? "en-US-AriaNeural";
-const REGION = process.env.AZURE_SPEECH_REGION?.trim();
-const KEY    = process.env.AZURE_SPEECH_KEY?.trim();
+const REGION = clean(process.env.AZURE_SPEECH_REGION);
+const KEY    = clean(process.env.AZURE_SPEECH_KEY);
 
 function escapeXml(s: string): string {
   return s
