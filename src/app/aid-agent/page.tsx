@@ -4295,10 +4295,23 @@ export default function AidAgentPage() {
     setSpeakingMsgId(null);
   }, []);
 
-  const speakMessage = async (msgId: string, text: string) => {
+  const speakMessage = (msgId: string, text: string) => {
     if (speakingMsgId === msgId) { stopSpeaking(); return; }
     stopSpeaking();
     setSpeakingMsgId(msgId);
+
+    // ── iOS Safari / mobile Chrome autoplay: the <audio> element must be
+    //    created AND have .play() called synchronously inside the user
+    //    gesture. Once activated, we can swap .src after fetch and play again.
+    //    Prime with a 1-frame silent MP3 so the initial play() is a no-op.
+    const SILENT_MP3 =
+      "data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjI5LjEwMAAAAAAAAAAAAAAA//tQxAADB8AhSmxhIIEVCSiJrDCQBTcu3UrAIwUdkRgQbFAZC1CQEwTJ9mjRvBA4UOLD8nKVOWfh+UlK4E7Mpc7Dq6ceuQINdCe9v1kickcCg8DYHthXvKmpsSFAJmwXQzTIeu7yr0Iuw6VVFAiw8/eMi5r48UkylIeZAgvUYlPPQwuOAj5F7NlBQ8CGvdlLdCJvbG8UcAiI8s6vD7yWiWSCq6nAAAAA";
+    const audio = new Audio();
+    audio.src = SILENT_MP3;
+    audio.load();
+    // Fire-and-forget primer play — activates the element for iOS.
+    audio.play().catch(() => {});
+    audioRef.current = audio;
 
     // Strip markdown/emojis for plain text (used by both Azure and fallback)
     const plain = text
@@ -4315,32 +4328,43 @@ export default function AidAgentPage() {
       .trim();
     if (!plain) { setSpeakingMsgId(null); return; }
 
-    // ── Azure Neural TTS ──────────────────────────────────────────────────────
-    try {
-      const abort = new AbortController();
-      ttsAbortRef.current = abort;
-      const res = await fetch("/api/tts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: plain }),
-        signal: abort.signal,
-      });
-      if (res.ok) {
+    const abort = new AbortController();
+    ttsAbortRef.current = abort;
+
+    void (async () => {
+      try {
+        const res = await fetch("/api/tts", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: plain }),
+          signal: abort.signal,
+        });
+        if (!res.ok) {
+          if (res.status !== 503) console.warn(`[TTS] server returned ${res.status}`);
+          fallbackToWebSpeech(plain);
+          return;
+        }
+        // Abort while fetch was in flight → user hit stop/switched msg.
+        if (audioRef.current !== audio) return;
+
         const blob = await res.blob();
-        const url  = URL.createObjectURL(blob);
-        const audio = new Audio(url);
-        audioRef.current = audio;
+        const url = URL.createObjectURL(blob);
         const done = () => { URL.revokeObjectURL(url); setSpeakingMsgId(null); };
         audio.onended = done;
         audio.onerror = done;
+        audio.src = url;
+        audio.load();
         await audio.play();
-        return;
+      } catch (e: any) {
+        if (e?.name !== "AbortError") {
+          console.warn("[TTS] playback failed:", e?.message ?? e);
+          fallbackToWebSpeech(plain);
+        }
       }
-      // 503 = key not configured → fall through to Web Speech
-      if (res.status !== 503) console.warn(`[TTS] Azure returned ${res.status}`);
-    } catch (e: any) {
-      if (e?.name !== "AbortError") console.warn("[TTS] Azure fetch failed:", e);
-    }
+    })();
+  };
+
+  const fallbackToWebSpeech = (plain: string) => {
 
     // ── Web Speech API fallback ───────────────────────────────────────────────
     if (typeof window === "undefined" || !window.speechSynthesis) { setSpeakingMsgId(null); return; }
