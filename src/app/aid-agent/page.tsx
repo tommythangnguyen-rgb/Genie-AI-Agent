@@ -5355,38 +5355,58 @@ export default function AidAgentPage() {
             {/* ── Dashboard — always visible on all screen sizes ── */}
             <div className="relative">
 
-              {/* ── Ambient scrolling photo marquee (behind orbs & content) ── */}
+              {/* ── Ambient hero background — golden-hour campus, sunlight bloomed ── */}
               <div
                 className="pointer-events-none absolute inset-0 overflow-hidden"
                 aria-hidden="true"
-                style={{ zIndex: 0, opacity: 0.42 }}
+                style={{ zIndex: 0 }}
               >
-                <div className="genie-dash-scroll-track h-full">
-                  {/* 9 photos, duplicated once so translateX(-50%) loops seamlessly */}
-                  {[1,2,3,4,5,6,7,8,9,1,2,3,4,5,6,7,8,9].map((n, i) => (
-                    <div
-                      key={i}
-                      className="genie-dash-scroll-tile"
-                      style={{ backgroundImage: `url(/dash/dash${n}.jpg)` }}
-                    />
-                  ))}
-                </div>
-                {/* Dark scrim to keep foreground text crisp */}
+                {/* Base photograph — position tuned so the sunlit tree canopy sits
+                    at the top-center on both mobile (position ~20%) and desktop
+                    (position ~30%). "cover" keeps the frame filled at any width. */}
+                <div
+                  className="absolute inset-0 genie-dash-hero"
+                  style={{
+                    backgroundImage: "url(/dash/dash8.jpg)",
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat",
+                  }}
+                />
+                {/* Warm sun bloom — a soft golden halo where the actual sun sits
+                    in the photograph (~48% from left, ~18% from top). Boosts the
+                    photo's own light rather than layering an artificial glow. */}
                 <div
                   className="absolute inset-0"
                   style={{
                     background:
-                      "linear-gradient(180deg, rgba(6,8,18,0.55) 0%, rgba(6,8,18,0.35) 40%, rgba(6,8,18,0.55) 100%)",
+                      "radial-gradient(ellipse 55% 45% at 48% 18%, rgba(255,220,140,0.30) 0%, rgba(255,200,110,0.14) 30%, rgba(255,180,90,0) 60%)",
+                    mixBlendMode: "screen",
                   }}
                 />
-                {/* Left/right feathering so the strip doesn't feel like a hard band */}
+                {/* Foreground scrim — darkens the bottom half where the tables
+                    and text-heavy content sits, preserving the bright sky. */}
                 <div
-                  className="absolute inset-y-0 left-0 w-24 sm:w-40"
-                  style={{ background: "linear-gradient(90deg, rgba(6,8,18,0.95), rgba(6,8,18,0))" }}
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "linear-gradient(180deg, rgba(6,8,18,0.15) 0%, rgba(6,8,18,0.28) 30%, rgba(6,8,18,0.55) 65%, rgba(6,8,18,0.80) 100%)",
+                  }}
                 />
+                {/* Cinematic vignette — soft edges pull focus toward center */}
                 <div
-                  className="absolute inset-y-0 right-0 w-24 sm:w-40"
-                  style={{ background: "linear-gradient(270deg, rgba(6,8,18,0.95), rgba(6,8,18,0))" }}
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      "radial-gradient(ellipse at center, transparent 45%, rgba(0,0,0,0.35) 100%)",
+                  }}
+                />
+                {/* Whisper of gold ambient tint to bind the photo to the site's palette */}
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background: "rgba(212,175,55,0.05)",
+                    mixBlendMode: "overlay",
+                  }}
                 />
               </div>
 
