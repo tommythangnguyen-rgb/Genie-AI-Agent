@@ -6,8 +6,8 @@ import {
   LanguageModelV2Message,
 } from "@ai-sdk/provider";
 
-const ANTHROPIC_MODEL = "claude-sonnet-4-20250514";
-const BEDROCK_MODEL = "us.anthropic.claude-sonnet-4-20250514-v1:0";
+const ANTHROPIC_MODEL = "claude-sonnet-4-6";
+const BEDROCK_MODEL = "us.anthropic.claude-sonnet-4-6-v1:0";
 
 export class MockLanguageModel implements LanguageModelV2 {
   readonly specificationVersion = "v2" as const;
