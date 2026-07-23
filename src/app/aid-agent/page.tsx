@@ -5448,18 +5448,49 @@ export default function AidAgentPage() {
                   <div className="w-full md:w-[46%] flex flex-col">
 
                     {/* Headline */}
-                    {/* ── Hero Headline ── */}
-                    <div className="mb-3 text-center md:text-left">
-                      <h2
-                        className="font-black tracking-[0.06em] leading-tight mb-2 transition-all duration-300"
+                    {/* ── Hero Headline with library-scene background ── */}
+                    <div
+                      className="relative mb-3 overflow-hidden rounded-2xl ring-1 ring-white/[0.10]"
+                      style={{
+                        backgroundImage: "url(/hero-library.jpg)",
+                        backgroundSize: "cover",
+                        backgroundPosition: "center 40%",
+                        boxShadow:
+                          "0 10px 40px rgba(0,0,0,0.45), 0 0 0 1px rgba(212,175,55,0.15), inset 0 1px 0 rgba(255,255,255,0.10)",
+                      }}
+                    >
+                      {/* Dark scrim — stronger on the left where the title sits */}
+                      <div
+                        aria-hidden="true"
+                        className="absolute inset-0"
                         style={{
-                          fontSize: "clamp(2rem, 5vw, 3.2rem)",
-                          color: "#FFFFFF",
-                          textShadow: "0 0 24px rgba(255,255,255,0.55), 0 0 56px rgba(255,255,255,0.28), 0 0 96px rgba(255,255,255,0.12), 0 2px 6px rgba(0,0,0,0.70)",
+                          background:
+                            "linear-gradient(90deg, rgba(8,10,20,0.82) 0%, rgba(8,10,20,0.55) 45%, rgba(8,10,20,0.30) 100%)",
                         }}
-                      >
-                        Student Aid Hub
-                      </h2>
+                      />
+                      {/* Vertical bloom — warms the top, deepens the bottom */}
+                      <div
+                        aria-hidden="true"
+                        className="absolute inset-0"
+                        style={{
+                          background:
+                            "linear-gradient(180deg, rgba(212,175,55,0.06) 0%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.35) 100%)",
+                        }}
+                      />
+                      {/* Title */}
+                      <div className="relative px-5 py-6 sm:px-7 sm:py-8 text-center md:text-left">
+                        <h2
+                          className="font-black tracking-[0.06em] leading-tight transition-all duration-300"
+                          style={{
+                            fontSize: "clamp(2rem, 5vw, 3.2rem)",
+                            color: "#FFFFFF",
+                            textShadow:
+                              "0 0 24px rgba(255,255,255,0.55), 0 0 56px rgba(255,255,255,0.28), 0 0 96px rgba(255,255,255,0.12), 0 2px 6px rgba(0,0,0,0.80)",
+                          }}
+                        >
+                          Student Aid Hub
+                        </h2>
+                      </div>
                     </div>
 
                     {/* Trust strip */}
