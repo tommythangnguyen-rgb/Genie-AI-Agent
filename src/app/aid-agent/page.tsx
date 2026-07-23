@@ -4087,12 +4087,12 @@ export default function AidAgentPage() {
     let apiContent: any;
     if (attachedFile?.type === "image") {
       apiContent = [
-        { type: "image", image: attachedFile.content, mimeType: attachedFile.mimeType ?? "image/jpeg" },
+        { type: "image", image: attachedFile.content, mediaType: attachedFile.mimeType ?? "image/jpeg" },
         ...(trimmed ? [{ type: "text", text: trimmed }] : [{ type: "text", text: "Please review this image and provide relevant financial aid information or analysis." }]),
       ];
     } else if (attachedFile?.type === "pdf") {
       apiContent = [
-        { type: "file", data: attachedFile.content, mimeType: "application/pdf" },
+        { type: "file", data: attachedFile.content, mediaType: "application/pdf" },
         ...(trimmed ? [{ type: "text", text: trimmed }] : [{ type: "text", text: "Please analyze this PDF document and provide relevant financial aid information or insights." }]),
       ];
     } else if (attachedFile?.type === "text") {
