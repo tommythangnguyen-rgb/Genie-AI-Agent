@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "askGenie | Student Aid HUB — AI Financial Aid Expert",
+  title: "askGenie | Student Aid HUB",
   description:
     "AI-powered financial aid expert built by a 15-year FA professional. Instant guidance on FAFSA, Title IV, R2T4 calculations, SAP policies, FSA audits, and 34 CFR compliance — for students, parents, administrators, leaders, and auditors.",
   keywords: [
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   },
   manifest: "/site.webmanifest",
   openGraph: {
-    title: "askGenie | Student Aid HUB — AI Financial Aid Expert",
+    title: "askGenie | Student Aid HUB",
     description:
       "Instant AI guidance on FAFSA, Title IV, R2T4, FSA audits, and more. Built by a 15-year financial aid professional for students, parents & FA offices.",
     type: "website",
