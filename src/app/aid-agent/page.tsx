@@ -6,6 +6,7 @@ import { MarkdownRenderer } from "@/components/chat/MarkdownRenderer";
 import { AppInstallPrompt } from "@/components/AppInstallPrompt";
 import { AppInstallModal } from "@/components/AppInstallModal";
 import { BackgroundMusic } from "@/components/BackgroundMusic";
+import { NewsTicker } from "@/components/NewsTicker";
 import { UsageMeter, LimitToast } from "@/components/usage-meter";
 import { UpgradeModal, useUpgradeModal } from "@/components/upgrade-modal";
 import { canAccessFeature } from "@/lib/feature-gates";
@@ -5349,6 +5350,9 @@ export default function AidAgentPage() {
             </div>
 
           </header>
+
+          {/* ── Live Aid News Ticker — pinned directly under the header ── */}
+          <NewsTicker />
 
           {/* Messages / Welcome */}
           <div ref={scrollContainerRef} className={`flex-1 overflow-y-auto min-h-0 genie-scroll-main transition-all duration-300 ${howItWorksActive === "guidance" ? "hiw-active-panel" : ""}`} role="log" aria-live="polite" aria-label="Conversation" style={{ position: "relative", zIndex: 3 }}>

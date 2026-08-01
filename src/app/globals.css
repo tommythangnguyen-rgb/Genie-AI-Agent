@@ -898,3 +898,30 @@
     background-position: 55% 22%;
   }
 }
+
+/* ── News ticker — seamless marquee strip pinned under the header ── */
+@keyframes genie-ticker-scroll {
+  from { transform: translate3d(0, 0, 0); }
+  /* The track renders the item list twice; -50% lands exactly on the start
+     of the duplicate, so the loop point is invisible. */
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+.genie-ticker-viewport {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 20px, #000 calc(100% - 44px), transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0, #000 20px, #000 calc(100% - 44px), transparent 100%);
+}
+.genie-ticker-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: genie-ticker-scroll var(--ticker-dur, 120s) linear infinite;
+}
+.genie-ticker-viewport:hover .genie-ticker-track,
+.genie-ticker-track:focus-within {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .genie-ticker-track { animation: none; }
+  .genie-ticker-viewport { overflow-x: auto; }
+}
