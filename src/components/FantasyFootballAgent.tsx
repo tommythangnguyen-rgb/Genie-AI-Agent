@@ -1,9 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { X, Send, Search, Loader2, ShieldCheck, ImagePlus, Volume2, Square, Printer } from "lucide-react";
+import { X, Send, Search, Loader2, ShieldCheck, ImagePlus, Volume2, Square, Printer, Mic, MicOff } from "lucide-react";
 import { printFantasyConversation } from "@/lib/fantasy/print";
 import { speakText, cancelSpeech, stripForSpeech, type SpeakHandle } from "@/lib/tts/speak-client";
+import { useSpeechInput } from "@/lib/tts/use-speech-input";
 import { SleeperLeaguePanel, loadSleeperLink, type SleeperLink } from "@/components/SleeperLeaguePanel";
 import { FantasyCreditsBar } from "@/components/FantasyCreditsBar";
 
@@ -70,6 +71,15 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
       stopSpeaking();
     };
   }, [onClose, stopSpeaking]);
+
+  // Dictation appends to the box rather than replacing it, so a user can
+  // type part of a question and speak the rest.
+  const mic = useSpeechInput(
+    useCallback((phrase: string) => {
+      if (!phrase) return;
+      setInput((cur) => (cur ? `${cur.replace(/\s+$/, "")} ${phrase}` : phrase));
+    }, [])
+  );
 
   const speak = (idx: number, text: string) => {
     if (speakingIdx === idx) { stopSpeaking(); return; }
@@ -394,6 +404,18 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
           </div>
         )}
 
+        {(mic.listening || mic.error) && (
+          <div className="shrink-0 px-3 pt-2">
+            {mic.listening && (
+              <p className="text-[10px] text-rose-200/80">
+                <span className="font-semibold">Listening…</span>
+                {mic.interim ? ` ${mic.interim}` : " speak now"}
+              </p>
+            )}
+            {mic.error && <p className="text-[10px] text-amber-300/80">{mic.error}</p>}
+          </div>
+        )}
+
         <form
           onSubmit={(e) => { e.preventDefault(); send(input); }}
           className="flex shrink-0 items-end gap-2 border-t border-[#D4AF37]/20 px-3 py-3"
@@ -406,6 +428,21 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
             className="hidden"
             onChange={(e) => { if (e.target.files) addFiles(e.target.files); e.target.value = ""; }}
           />
+          {mic.supported && (
+            <button
+              type="button"
+              onClick={mic.toggle}
+              title={mic.listening ? "Stop dictating" : "Dictate your question"}
+              aria-label={mic.listening ? "Stop dictating" : "Dictate your question"}
+              className={`flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-xl border transition-all ${
+                mic.listening
+                  ? "animate-pulse border-rose-400/60 bg-rose-500/20 text-rose-200"
+                  : "border-white/12 bg-black/40 text-white/60 hover:border-[#D4AF37]/50 hover:text-[#D4AF37]"
+              }`}
+            >
+              {mic.listening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+            </button>
+          )}
           <button
             type="button"
             onClick={() => fileRef.current?.click()}
