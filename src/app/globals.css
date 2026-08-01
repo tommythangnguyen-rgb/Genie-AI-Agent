@@ -917,11 +917,21 @@
   will-change: transform;
   animation: genie-ticker-scroll var(--ticker-dur, 120s) linear infinite;
 }
-.genie-ticker-viewport:hover .genie-ticker-track,
-.genie-ticker-track:focus-within {
-  animation-play-state: paused;
+/* Hover-pause only where a real pointer exists. On touch, :hover sticks after
+   a tap and would freeze the ticker until the user tapped elsewhere. */
+@media (hover: hover) and (pointer: fine) {
+  .genie-ticker-viewport:hover .genie-ticker-track { animation-play-state: paused; }
 }
+.genie-ticker-track:focus-within { animation-play-state: paused; }
+
+/* Reduced motion swaps headlines in place (see NewsTicker.tsx) rather than
+   sliding. Opacity-only, so there is no travelling motion to trigger
+   vestibular symptoms — but the strip still cycles instead of looking dead. */
+@keyframes genie-ticker-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.genie-ticker-fade { animation: genie-ticker-fade 450ms ease-out; }
 @media (prefers-reduced-motion: reduce) {
   .genie-ticker-track { animation: none; }
-  .genie-ticker-viewport { overflow-x: auto; }
 }
