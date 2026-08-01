@@ -42,9 +42,16 @@ export function scoreVoice(v: SpeechSynthesisVoice): number {
   const lang = (v.lang || "").toLowerCase();
   let score = 0;
 
-  if (lang.startsWith("en")) score += 40;
-  if (lang.startsWith("en-us") || lang.startsWith("en_us")) score += 10;
-  if (lang.startsWith("en-gb") || lang.startsWith("en_gb")) score += 6; // often warmer
+  // Locale dominates everything below it. Without this, every en-* variant
+  // scored the same and a device whose voice set is mostly en-IN (common on
+  // Android, or an India-region iPhone) would pick an Indian-accented voice
+  // while desktop picked a US one. Gating here keeps the two in agreement.
+  const loc = lang.replace("_", "-");
+  if (loc.startsWith("en-us")) score += 100;
+  else if (loc.startsWith("en-gb")) score += 70;
+  else if (loc.startsWith("en-au") || loc.startsWith("en-ca")) score += 40;
+  else if (loc.startsWith("en")) score += 5; // en-IN, en-ZA, en-IE, en-NG…
+  else score -= 100; // non-English: last resort only
 
   // Microsoft's Edge neural voices — the best free option anywhere.
   const isNatural = name.includes("natural") || name.includes("online");
