@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { X, Send, Search, Loader2, ShieldCheck, ImagePlus, Volume2, Square } from "lucide-react";
+import { X, Send, Search, Loader2, ShieldCheck, ImagePlus, Volume2, Square, Printer } from "lucide-react";
+import { printFantasyConversation } from "@/lib/fantasy/print";
 
 type Attachment = { id: string; name: string; mediaType: string; data: string; preview: string };
 type Turn = { role: "user" | "agent"; text: string; images?: string[] };
@@ -281,13 +282,24 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
               Searches live sources · reads screenshots · flags anything unverified
             </p>
           </div>
-          <button
-            onClick={onClose}
-            className="shrink-0 rounded-lg p-1.5 text-white/50 transition-all hover:bg-white/[0.12] hover:text-white"
-            aria-label="Close"
-          >
-            <X className="h-4 w-4" />
-          </button>
+          <div className="flex shrink-0 items-center gap-1">
+            <button
+              onClick={() => printFantasyConversation(turns)}
+              disabled={turns.length === 0 || busy}
+              title="Print or save the whole conversation as a PDF"
+              className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-[10px] font-semibold text-white/50 transition-all hover:bg-[#D4AF37]/[0.12] hover:text-[#D4AF37] disabled:cursor-not-allowed disabled:opacity-30"
+            >
+              <Printer className="h-3.5 w-3.5" />
+              PDF
+            </button>
+            <button
+              onClick={onClose}
+              className="rounded-lg p-1.5 text-white/50 transition-all hover:bg-white/[0.12] hover:text-white"
+              aria-label="Close"
+            >
+              <X className="h-4 w-4" />
+            </button>
+          </div>
         </header>
 
         <div ref={scrollRef} className="genie-scroll-main min-h-0 flex-1 overflow-y-auto px-4 py-4">
@@ -343,21 +355,30 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
                   {turn.text || (busy && i === turns.length - 1 ? "…" : "")}
                 </div>
                 {turn.role === "agent" && turn.text.length > 0 && (
-                  <button
-                    onClick={() => speak(i, turn.text)}
-                    className={`mt-1 flex items-center gap-1 rounded-lg px-1.5 py-1 text-[10px] font-semibold transition-colors ${
-                      speakingIdx === i
-                        ? "text-[#FFD700]"
-                        : "text-white/40 hover:text-[#D4AF37]"
-                    }`}
-                    aria-label={speakingIdx === i ? "Stop reading aloud" : "Read this answer aloud"}
-                  >
-                    {speakingIdx === i ? (
-                      <><Square className="h-3 w-3 fill-current" /> Stop</>
-                    ) : (
-                      <><Volume2 className="h-3 w-3" /> Listen</>
-                    )}
-                  </button>
+                  <div className="mt-1 flex items-center gap-1">
+                    <button
+                      onClick={() => speak(i, turn.text)}
+                      className={`flex items-center gap-1 rounded-lg px-1.5 py-1 text-[10px] font-semibold transition-colors ${
+                        speakingIdx === i ? "text-[#FFD700]" : "text-white/40 hover:text-[#D4AF37]"
+                      }`}
+                      aria-label={speakingIdx === i ? "Stop reading aloud" : "Read this answer aloud"}
+                    >
+                      {speakingIdx === i ? (
+                        <><Square className="h-3 w-3 fill-current" /> Stop</>
+                      ) : (
+                        <><Volume2 className="h-3 w-3" /> Listen</>
+                      )}
+                    </button>
+                    <button
+                      // Pair the answer with the question that produced it — a
+                      // printed answer alone loses the context that framed it.
+                      onClick={() => printFantasyConversation(turns.slice(Math.max(0, i - 1), i + 1))}
+                      className="flex items-center gap-1 rounded-lg px-1.5 py-1 text-[10px] font-semibold text-white/40 transition-colors hover:text-[#D4AF37]"
+                      aria-label="Print or save this answer as a PDF"
+                    >
+                      <Printer className="h-3 w-3" /> PDF
+                    </button>
+                  </div>
                 )}
               </div>
             </div>
