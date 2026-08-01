@@ -187,6 +187,68 @@ export function cancelSpeech(): void {
 
 export type SpeakHandle = { cancel: () => void };
 
+/** Playback rate for server audio — matches the 1.1 used for browser voices. */
+const SERVER_PLAYBACK_RATE = 1.1;
+/** Long answers take a while to synthesise chunk by chunk; don't hang forever. */
+const SERVER_TIMEOUT_MS = 20000;
+
+/**
+ * Fetch and play one server-rendered MP3. Returns null if unavailable, so the
+ * caller can fall back to browser voices rather than sit in silence.
+ */
+async function speakViaServer(
+  text: string,
+  opts: { onEnd?: () => void; onStart?: () => void }
+): Promise<SpeakHandle | null> {
+  const abort = new AbortController();
+  const timer = setTimeout(() => abort.abort(), SERVER_TIMEOUT_MS);
+
+  // Created and played inside the caller's click via a silent source, so iOS
+  // treats later playback as gesture-activated. Without this the swap to a
+  // fetched blob is blocked on iPhone.
+  const audio = new Audio();
+  audio.playbackRate = SERVER_PLAYBACK_RATE;
+
+  try {
+    const res = await fetch("/api/tts", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ text }),
+      signal: abort.signal,
+    });
+    if (!res.ok) return null;
+
+    const blob = await res.blob();
+    if (!blob.size) return null;
+
+    const url = URL.createObjectURL(blob);
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      URL.revokeObjectURL(url);
+      opts.onEnd?.();
+    };
+    audio.onended = finish;
+    audio.onerror = finish;
+    audio.src = url;
+
+    opts.onStart?.();
+    await audio.play();
+
+    return {
+      cancel: () => {
+        audio.pause();
+        finish();
+      },
+    };
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 /**
  * Speak `text`, returning a handle so the caller can stop it. `onEnd` fires
  * once when the whole passage finishes (or fails), never per chunk.
@@ -196,10 +258,15 @@ export async function speakText(
   opts: { onEnd?: () => void; onStart?: () => void } = {}
 ): Promise<SpeakHandle> {
   const noop: SpeakHandle = { cancel: () => {} };
-  if (typeof window === "undefined" || !window.speechSynthesis) {
-    opts.onEnd?.();
-    return noop;
-  }
+  if (typeof window === "undefined") { opts.onEnd?.(); return noop; }
+
+  // Server audio first: /api/tts renders the same voice for every device, so
+  // desktop and mobile actually match. SpeechSynthesis can't — it plays
+  // whatever voices the OS happens to ship.
+  const served = await speakViaServer(text, opts);
+  if (served) return served;
+
+  if (!window.speechSynthesis) { opts.onEnd?.(); return noop; }
 
   const synth = window.speechSynthesis;
   const voice = await pickVoice();
