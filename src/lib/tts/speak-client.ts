@@ -17,7 +17,9 @@
  * the server path, with no network round trip.
  */
 
-const PREFERRED_RATE = 0.94; // slightly under 1.0 reads as calm rather than rushed
+// Above 1.0 so long answers don't drag. Kept under ~1.15 because the neural
+// voices start clipping consonants past that, which undoes the "calm" quality.
+const PREFERRED_RATE = 1.1;
 const PREFERRED_PITCH = 1.0;
 const MAX_CHUNK_CHARS = 190;
 
