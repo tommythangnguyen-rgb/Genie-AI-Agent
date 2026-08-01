@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { cookies } from "next/headers";
 import Anthropic from "@anthropic-ai/sdk";
 import { verifySession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { checkAndIncrementUserLimit, checkAndIncrementGuestLimit } from "@/lib/rate-limit";
+import { canAccessFeature } from "@/lib/feature-gates";
+import { chargeTurn, millsToUsd, MIN_BALANCE_MILLS, type TokenUsage } from "@/lib/fantasy/billing";
 import {
   FANTASY_AGENT_ID,
   FANTASY_ENVIRONMENT_ID,
@@ -155,39 +155,40 @@ export async function POST(req: NextRequest) {
   const sleeperUserId = typeof sleeper?.userId === "string" ? sleeper.userId : null;
   const leagueConnected = Boolean(leagueId && sleeperUserId);
 
-  // Same quota system as the aid agent. This agent is materially more
-  // expensive per turn (Opus at xhigh effort, plus web search), so it is
-  // metered rather than left open.
+  // Pro gates access; prepaid credits pay for the tokens. Both are required,
+  // and there is no guest path — a turn here costs real money.
   const session = await verifySession(req);
-  let rateLimit: { allowed: boolean; remaining: number; limit: number } | undefined;
-
-  if (session?.userId) {
-    const user = await withTimeout(
-      prisma.user.findUnique({
-        where: { id: session.userId },
-        select: { subscriptionTier: true, emailVerified: true },
-      }),
-      8000
-    );
-    if (user && user.emailVerified === false) {
-      return NextResponse.json({ error: "EMAIL_NOT_VERIFIED" }, { status: 403 });
-    }
-    rateLimit = await withTimeout(
-      checkAndIncrementUserLimit(session.userId, (user?.subscriptionTier ?? "FREE") as string),
-      8000
-    );
-  } else {
-    const jar = await cookies();
-    const sid = jar.get("genie_guest_id")?.value ?? null;
-    if (sid) rateLimit = await withTimeout(checkAndIncrementGuestLimit(sid), 8000);
+  if (!session?.userId) {
+    return NextResponse.json({ error: "SIGN_IN_REQUIRED" }, { status: 401 });
   }
 
-  if (rateLimit && !rateLimit.allowed) {
+  const user = await withTimeout(
+    prisma.user.findUnique({
+      where: { id: session.userId },
+      select: { subscriptionTier: true, emailVerified: true, fantasyCreditsMills: true },
+    }),
+    8000
+  );
+  if (!user) return NextResponse.json({ error: "USER_NOT_FOUND" }, { status: 404 });
+  if (user.emailVerified === false) {
+    return NextResponse.json({ error: "EMAIL_NOT_VERIFIED" }, { status: 403 });
+  }
+
+  const tier = (user.subscriptionTier ?? "FREE") as string;
+  if (!canAccessFeature("fantasy_agent", tier)) {
+    return NextResponse.json({ error: "PRO_REQUIRED", tier }, { status: 402 });
+  }
+
+  // Gate before starting rather than mid-answer: we can't know a turn's true
+  // cost until it finishes, so require enough headroom for a typical one.
+  if (user.fantasyCreditsMills < MIN_BALANCE_MILLS) {
     return NextResponse.json(
-      { error: "RATE_LIMIT", limit: rateLimit.limit, remaining: rateLimit.remaining },
-      { status: 429 }
+      { error: "INSUFFICIENT_CREDITS", balanceUsd: millsToUsd(user.fantasyCreditsMills) },
+      { status: 402 }
     );
   }
+
+  const billingUserId = session.userId;
 
   const client = new Anthropic();
   const encoder = new TextEncoder();
@@ -222,6 +223,10 @@ export async function POST(req: NextRequest) {
           /* already closed by client disconnect */
         }
       };
+
+      // Declared outside the try so the finally block can bill from them.
+      const turnUsageRef: TokenUsage = { input_tokens: 0, output_tokens: 0, cache_read_input_tokens: 0, cache_creation_input_tokens: 0 };
+      let sessionIdRef: string | null = priorSessionId;
 
       try {
         let sessionId = priorSessionId;
@@ -264,6 +269,7 @@ export async function POST(req: NextRequest) {
           });
           sessionId = created.id;
         }
+        sessionIdRef = sessionId;
         emit({ type: "session", sessionId });
 
         // Stream-first: the SSE feed only delivers events emitted after it
@@ -328,6 +334,17 @@ export async function POST(req: NextRequest) {
 
           // Built-in tools (web_search / web_fetch) run server-side; surface
           // them as status so the UI can show what the agent is doing.
+          if (type === "span.model_request_end") {
+            const mu = (event as { model_usage?: Record<string, number> }).model_usage;
+            if (mu) {
+              turnUsageRef.input_tokens = (turnUsageRef.input_tokens ?? 0) + (mu.input_tokens ?? 0);
+              turnUsageRef.output_tokens = (turnUsageRef.output_tokens ?? 0) + (mu.output_tokens ?? 0);
+              turnUsageRef.cache_read_input_tokens = (turnUsageRef.cache_read_input_tokens ?? 0) + (mu.cache_read_input_tokens ?? 0);
+              turnUsageRef.cache_creation_input_tokens = (turnUsageRef.cache_creation_input_tokens ?? 0) + (mu.cache_creation_input_tokens ?? 0);
+            }
+            continue;
+          }
+
           if (type === "agent.tool_use") {
             emit({ type: "activity", tool: (event as { name?: string }).name ?? "tool" });
             continue;
@@ -387,6 +404,16 @@ export async function POST(req: NextRequest) {
         console.error("[fantasy] stream failed:", msg);
         emit({ type: "error", message: "The assistant connection dropped. Try again." });
       } finally {
+        // Bill whatever was actually consumed, even on error or disconnect —
+        // those tokens were spent. A turn that produced nothing costs nothing.
+        try {
+          if ((turnUsageRef.input_tokens ?? 0) + (turnUsageRef.output_tokens ?? 0) > 0) {
+            const { billedMills, balanceMills } = await chargeTurn(billingUserId, sessionIdRef, turnUsageRef);
+            emit({ type: "billing", chargedUsd: millsToUsd(billedMills), balanceUsd: millsToUsd(balanceMills) });
+          }
+        } catch (e) {
+          console.error("[fantasy] billing failed:", e);
+        }
         close();
       }
     },

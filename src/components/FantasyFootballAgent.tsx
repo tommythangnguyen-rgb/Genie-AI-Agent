@@ -5,6 +5,7 @@ import { X, Send, Search, Loader2, ShieldCheck, ImagePlus, Volume2, Square, Prin
 import { printFantasyConversation } from "@/lib/fantasy/print";
 import { speakText, cancelSpeech, stripForSpeech, type SpeakHandle } from "@/lib/tts/speak-client";
 import { SleeperLeaguePanel, loadSleeperLink, type SleeperLink } from "@/components/SleeperLeaguePanel";
+import { FantasyCreditsBar } from "@/components/FantasyCreditsBar";
 
 type Attachment = { id: string; name: string; mediaType: string; data: string; preview: string };
 type Turn = { role: "user" | "agent"; text: string; images?: string[] };
@@ -30,6 +31,8 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
   const [dragOver, setDragOver] = useState(false);
   const [speakingIdx, setSpeakingIdx] = useState<number | null>(null);
   const [league, setLeague] = useState<SleeperLink | null>(null);
+  // Bumped after each billed turn so the balance refreshes without a poll.
+  const [creditTick, setCreditTick] = useState(0);
   // Restore after mount so the server render and first client render match.
   useEffect(() => { setLeague(loadSleeperLink()); }, []);
 
@@ -149,6 +152,9 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
       if (!res.ok || !res.body) {
         const detail = await res.json().catch(() => ({}));
         const map: Record<string, string> = {
+          SIGN_IN_REQUIRED: "Sign in to use the fantasy assistant.",
+          PRO_REQUIRED: "The fantasy assistant is a Pro feature — $5.99/mo unlocks it.",
+          INSUFFICIENT_CREDITS: "You are out of usage credit. Add credit above to keep asking.",
           RATE_LIMIT: "You've hit your question limit for now.",
           TOO_MANY_IMAGES: `Up to ${MAX_IMAGES} screenshots per message.`,
           IMAGE_TOO_LARGE: "That screenshot is over 4 MB.",
@@ -191,6 +197,7 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
             case "message": finalized += String(evt.text ?? ""); preview = ""; setActivity(null); paint(); break;
             case "activity": setActivity(String(evt.tool ?? "working")); break;
             case "error": setError(String(evt.message ?? "Something went wrong.")); break;
+            case "billing": setCreditTick((t) => t + 1); break;
             case "done": setActivity(null); break;
           }
         }
@@ -266,6 +273,7 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
           </div>
         </header>
 
+        <FantasyCreditsBar refreshKey={creditTick} />
         <SleeperLeaguePanel link={league} onLink={setLeague} />
 
         <div ref={scrollRef} className="genie-scroll-main min-h-0 flex-1 overflow-y-auto px-4 py-4">

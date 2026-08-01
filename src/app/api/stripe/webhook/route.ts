@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
+import { addCredits } from "@/lib/fantasy/billing";
 
 export const config = { api: { bodyParser: false } };
 
@@ -26,6 +27,19 @@ export async function POST(req: NextRequest) {
     case "checkout.session.completed": {
       const session = event.data.object;
       const userId = session.metadata?.userId;
+
+      // One-off fantasy credit packs. Handled before the subscription checks
+      // below, which bail without a `tier`/`subscription` — a credit purchase
+      // has neither, so it would otherwise be silently dropped.
+      if (session.metadata?.kind === "fantasy_credits") {
+        const usd = Number(session.metadata?.usd ?? 0);
+        if (userId && usd > 0 && session.payment_status === "paid") {
+          await addCredits(userId, usd);
+          console.log(`[stripe] credited $${usd} of fantasy usage to ${userId}`);
+        }
+        break;
+      }
+
       const tier = session.metadata?.tier?.toUpperCase();
       const subscriptionId = session.subscription;
       if (!userId || !tier || !subscriptionId) break;

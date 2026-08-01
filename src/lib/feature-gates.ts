@@ -12,7 +12,8 @@ export type Feature =
   | "unlimited_chat"
   | "team_sharing"
   | "admin_dashboard"
-  | "branded_exports";
+  | "branded_exports"
+  | "fantasy_agent";
 
 export type SubscriptionTier = "FREE" | "PRO" | "TEAM" | "MONTHLY" | "MONTHLY_PLUS" | "YEARLY";
 
@@ -34,6 +35,8 @@ export function canAccessFeature(feature: Feature, tier: string): boolean {
     case "advanced_analysis":
     case "chat_history":
     case "unlimited_chat":
+    // Pro unlocks the fantasy agent; each turn then draws down prepaid credits.
+    case "fantasy_agent":
       return PRO_AND_ABOVE.has(tier);
     case "team_sharing":
     case "admin_dashboard":

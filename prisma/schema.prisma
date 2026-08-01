@@ -14,9 +14,9 @@ datasource db {
 
 enum SubscriptionTier {
   FREE
-  MONTHLY       // legacy
-  MONTHLY_PLUS  // legacy
-  YEARLY        // legacy
+  MONTHLY // legacy
+  MONTHLY_PLUS // legacy
+  YEARLY // legacy
   PRO
   TEAM
 }
@@ -28,7 +28,7 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  projects  Project[]
+  projects Project[]
 
   // Subscription
   subscriptionTier      SubscriptionTier @default(FREE)
@@ -41,10 +41,15 @@ model User {
   dailyQuestionCount   Int       @default(0)
   dailyQuestionResetAt DateTime?
 
+  // Fantasy agent usage credits. Held in tenths of a cent so a sub-cent turn
+  // still deducts something real instead of rounding to zero.
+  fantasyCreditsMills Int            @default(0)
+  fantasyUsage        FantasyUsage[]
+
   // Email verification
-  emailVerified              Boolean   @default(true)
-  emailVerificationToken     String?   @unique
-  emailVerificationExpiry    DateTime?
+  emailVerified           Boolean   @default(true)
+  emailVerificationToken  String?   @unique
+  emailVerificationExpiry DateTime?
 
   // Password reset
   passwordResetToken  String?   @unique
@@ -65,13 +70,13 @@ model Project {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // Stores the latest fetched regulatory updates for the aid agent
 model RegulationUpdate {
   id          String    @id @default(cuid())
-  category    String    // "TitleIV" | "IRS" | "Legislative" | "SchoolUpdates"
+  category    String // "TitleIV" | "IRS" | "Legislative" | "SchoolUpdates"
   title       String
   summary     String
   sourceUrl   String?
@@ -103,4 +108,24 @@ model GuestSession {
   dailyQuestionResetAt DateTime?
   createdAt            DateTime  @default(now())
   updatedAt            DateTime  @updatedAt
+}
+
+/// One row per billed fantasy-agent turn. Keeps an auditable trail so a user
+/// can see exactly what a turn cost and we can reconcile against Anthropic.
+model FantasyUsage {
+  id               String   @id @default(cuid())
+  userId           String
+  user             User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessionId        String?
+  inputTokens      Int      @default(0)
+  outputTokens     Int      @default(0)
+  cacheReadTokens  Int      @default(0)
+  cacheWriteTokens Int      @default(0)
+  /// Raw Anthropic cost, tenths of a cent.
+  rawCostMills     Int      @default(0)
+  /// What the user was actually charged (raw x markup), tenths of a cent.
+  billedMills      Int      @default(0)
+  createdAt        DateTime @default(now())
+
+  @@index([userId, createdAt])
 }
