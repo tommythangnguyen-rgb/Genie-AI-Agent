@@ -154,7 +154,7 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
           IMAGE_TOO_LARGE: "That screenshot is over 4 MB.",
           UNSUPPORTED_IMAGE_TYPE: "Use a PNG, JPEG, GIF or WebP screenshot.",
         };
-        setError(map[detail?.error as string] ?? detail?.detail ?? "The strategist is unavailable right now.");
+        setError(map[detail?.error as string] ?? detail?.detail ?? "The assistant is unavailable right now.");
         setTurns((t) => t.slice(0, -1));
         return;
       }
@@ -210,7 +210,7 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
       style={{ background: "rgba(4,6,14,0.72)" }}
       role="dialog"
       aria-modal="true"
-      aria-label="Elite Fantasy Football Strategist"
+      aria-label="NFL Fantasy Football Aid Assistant"
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div
@@ -240,7 +240,7 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
         <header className="flex shrink-0 items-center justify-between border-b border-[#D4AF37]/20 px-4 py-3">
           <div className="min-w-0">
             <h2 className="truncate text-sm font-black tracking-tight text-white">
-              Elite Fantasy Football Strategist
+              NFL Fantasy Football Aid Assistant
             </h2>
             <p className="mt-0.5 truncate text-[10px] text-cyan-300/70">
               Searches live sources · reads screenshots · flags anything unverified

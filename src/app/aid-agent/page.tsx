@@ -6660,7 +6660,7 @@ export default function AidAgentPage() {
             {/* Body */}
             <div className="flex-1 overflow-y-auto p-5">
 
-              {/* === Fantasy Football Strategist — launcher, both Hobbies panels === */}
+              {/* === Fantasy Football Aid Assistant — launcher, both Hobbies panels === */}
               {["lc-hobbies", "rc-hobbies"].includes(overlaySection!) && (
                 <button
                   onClick={() => setShowFantasy(true)}
@@ -6672,7 +6672,7 @@ export default function AidAgentPage() {
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
                       <span className="text-[13px] font-black tracking-tight text-white">
-                        Elite Fantasy Football Strategist
+                        NFL Fantasy Football Aid Assistant
                       </span>
                       <span className="rounded-full bg-[#D4AF37]/20 px-1.5 py-px text-[8px] font-bold uppercase tracking-wider text-[#FFD700]">
                         AI Agent

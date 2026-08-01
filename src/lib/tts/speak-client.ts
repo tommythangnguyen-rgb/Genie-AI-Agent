@@ -1,7 +1,7 @@
 "use client";
 
 /**
- * Shared browser speech for the aid agent and the fantasy strategist.
+ * Shared browser speech for the aid agent and the fantasy assistant.
  *
  * Why browser-native rather than /api/tts: that route uses msedge-tts, which
  * opens a WebSocket to Microsoft's read-aloud endpoint. Vercel's serverless

@@ -1,5 +1,5 @@
 /**
- * System prompt for the Elite Fantasy Football Strategist managed agent.
+ * System prompt for the NFL Fantasy Football Aid Assistant managed agent.
  *
  * Lives on the agent object (Managed Agents puts `system` on the agent, never
  * the session), so editing this file only takes effect after re-running

@@ -46,6 +46,8 @@ function modelConfig(cfg) {
   };
 }
 
+const AGENT_NAME = "NFL Fantasy Football Aid Assistant";
+
 async function main() {
   if (!process.env.ANTHROPIC_API_KEY) {
     console.error(
@@ -88,6 +90,7 @@ async function main() {
     const current = await client.beta.agents.retrieve(agentId);
     const updated = await client.beta.agents.update(agentId, {
       version: current.version,
+      name: AGENT_NAME,
       system,
       model: modelConfig(cfg),
       tools,
@@ -98,7 +101,7 @@ async function main() {
 
   const environment = await client.beta.environments.create({
     name: `genie-fantasy-football-${Date.now()}`,
-    description: "Sandbox for the fantasy football strategist agent.",
+    description: "Sandbox for the NFL Fantasy Football Aid Assistant.",
     config: {
       type: "cloud",
       // The agent reaches the network through built-in web_search/web_fetch and
@@ -114,7 +117,7 @@ async function main() {
   });
 
   const agent = await client.beta.agents.create({
-    name: "Elite Fantasy Football Strategist",
+    name: AGENT_NAME,
     description:
       "A premium, professional-grade fantasy football advisor with deep analytics, sports medicine, " +
       "coaching, betting/odds, and NFL history expertise — confident, verified, and up to date.",

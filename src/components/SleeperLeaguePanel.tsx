@@ -105,7 +105,7 @@ export function SleeperLeaguePanel({
         </div>
         <p className="mb-2 text-[10px] leading-snug text-white/50">
           Sleeper only needs your public username — no password, no login, nothing stored on our side.
-          Once connected the strategist reads your real roster, matchup and waivers.
+          Once connected the assistant reads your real roster, matchup and waivers.
         </p>
         <div className="flex gap-2">
           <input
