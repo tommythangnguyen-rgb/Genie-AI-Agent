@@ -7,6 +7,7 @@ import { AppInstallPrompt } from "@/components/AppInstallPrompt";
 import { AppInstallModal } from "@/components/AppInstallModal";
 import { BackgroundMusic } from "@/components/BackgroundMusic";
 import { NewsTicker } from "@/components/NewsTicker";
+import { FantasyFootballAgent } from "@/components/FantasyFootballAgent";
 import { UsageMeter, LimitToast } from "@/components/usage-meter";
 import { UpgradeModal, useUpgradeModal } from "@/components/upgrade-modal";
 import { canAccessFeature } from "@/lib/feature-gates";
@@ -74,6 +75,7 @@ import {
   Newspaper,
   UtensilsCrossed,
   Bitcoin,
+  Trophy,
 } from "lucide-react";
 
 // ─── Genie Bottle Logo ────────────────────────────────────────────────────────
@@ -3665,6 +3667,7 @@ export default function AidAgentPage() {
     return [...tips.slice(offset), ...tips.slice(0, offset)];
   }, [activeTipData, tipsRotationOffset]);
   const [showAppModal, setShowAppModal] = useState(false);
+  const [showFantasy, setShowFantasy] = useState(false);
   const [showCookieNotice, setShowCookieNotice] = useState(false);
   const [attachedFile, setAttachedFile] = useState<AttachedFile | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -6706,6 +6709,35 @@ export default function AidAgentPage() {
             {/* Body */}
             <div className="flex-1 overflow-y-auto p-5">
 
+              {/* === Fantasy Football Strategist — launcher, both Hobbies panels === */}
+              {["lc-hobbies", "rc-hobbies"].includes(overlaySection!) && (
+                <button
+                  onClick={() => setShowFantasy(true)}
+                  className="group mb-5 flex w-full items-center gap-3 rounded-2xl border border-[#D4AF37]/30 bg-gradient-to-r from-[#D4AF37]/[0.12] to-transparent px-4 py-3.5 text-left transition-all hover:border-[#D4AF37]/60 hover:from-[#D4AF37]/[0.20] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37]/50"
+                >
+                  <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[14px] bg-[#D4AF37]/20 ring-1 ring-[#D4AF37]/40 transition-all group-hover:bg-[#D4AF37]/30 group-hover:shadow-[0_0_18px_rgba(212,175,55,0.35)]">
+                    <Trophy className="h-5 w-5 text-[#FFD700]" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[13px] font-black tracking-tight text-white">
+                        Elite Fantasy Football Strategist
+                      </span>
+                      <span className="rounded-full bg-[#D4AF37]/20 px-1.5 py-px text-[8px] font-bold uppercase tracking-wider text-[#FFD700]">
+                        AI Agent
+                      </span>
+                    </div>
+                    <p className="mt-0.5 text-[10px] leading-snug text-white/60">
+                      Live-searched start/sit, waiver, trade, and draft calls — with sources and
+                      confidence levels.
+                    </p>
+                  </div>
+                  <span className="shrink-0 text-[10px] font-bold text-[#D4AF37]/70 transition-colors group-hover:text-[#FFD700]">
+                    Ask →
+                  </span>
+                </button>
+              )}
+
               {/* === Quick Action sections — Android icon grid === */}
               {["lc-s-qa", "lc-p-qa", "rc-adm-qa", "rc-lea-qa", "rc-aud-qa"].includes(overlaySection!) && (() => {
                 const cfgMap: Record<string, { role: string; tileHover: string; ringFocus: string; bgHover: string; ringHover: string; iconHover: string; glow: string }> = {
@@ -7896,6 +7928,8 @@ export default function AidAgentPage() {
       <AppInstallPrompt />
       {/* App install modal — triggered by "Get the App" footer link */}
       <AppInstallModal open={showAppModal} onClose={() => setShowAppModal(false)} />
+
+      {showFantasy && <FantasyFootballAgent onClose={() => setShowFantasy(false)} />}
     </>
   );
 }

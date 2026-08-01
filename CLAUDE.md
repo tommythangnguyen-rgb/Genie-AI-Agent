@@ -25,7 +25,18 @@ ANTHROPIC_API_KEY="..."           # Anthropic Claude API
 AWS_BEARER_TOKEN_BEDROCK="..."    # AWS Bedrock (preferred over Anthropic if both set)
 AWS_REGION="us-west-2"
 PROXY_MODE=true                   # Enable for AWS/Nginx proxy deployments
+
+FANTASY_AGENT_ID="agent_..."      # From `npm run fantasy:setup`
+FANTASY_ENVIRONMENT_ID="env_..."  # From `npm run fantasy:setup`
+TAVILY_API_KEY="..."              # Optional — enables the sports_search tool
+FANTASY_MODEL="claude-opus-5"     # Optional override
+FANTASY_EFFORT="xhigh"            # Optional override
 ```
+
+The fantasy football agent uses **Managed Agents**, which runs on the Anthropic
+API only — it is not available on Bedrock. It therefore requires
+`ANTHROPIC_API_KEY` regardless of whether `AWS_BEARER_TOKEN_BEDROCK` is set,
+and deliberately bypasses the Bedrock-first selection in `src/lib/provider.ts`.
 
 ## Architecture
 

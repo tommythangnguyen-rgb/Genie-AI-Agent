@@ -1,0 +1,29 @@
+{
+  "model": "claude-opus-5",
+  "effort": "xhigh",
+  "toolName": "sports_search",
+  "toolDescription": "Sports-tuned web retrieval returning cleaned article text from fantasy, beat-writer, and odds sources. Call this for injury designations, practice reports, snap counts, depth charts, inactives, betting lines, and player news — it surfaces primary sources that general web search buries, and returns extracted body text rather than snippets. Use the built-in web_search for general reporting and web_fetch when you need to read one specific page end to end.",
+  "toolInputSchema": {
+    "type": "object",
+    "properties": {
+      "query": {
+        "type": "string",
+        "description": "Search query. Include player name, team, and week or date when relevant — e.g. 'Bijan Robinson ankle practice report Week 5'."
+      },
+      "recency_days": {
+        "type": "integer",
+        "description": "Only return results published within this many days. Use 2-3 for injury and inactive news, 7 for trend pieces, 30 for season-long analysis."
+      }
+    },
+    "required": ["query"]
+  },
+  "allowedHosts": [
+    "api.tavily.com",
+    "www.espn.com",
+    "site.api.espn.com",
+    "www.nfl.com",
+    "www.pro-football-reference.com",
+    "www.rotowire.com",
+    "www.fantasypros.com"
+  ]
+}
