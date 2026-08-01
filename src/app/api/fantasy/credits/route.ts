@@ -50,11 +50,15 @@ export async function POST(req: NextRequest) {
   }
 
   const origin = req.nextUrl.origin;
-  try {
-    const checkout = await stripe.checkout.sessions.create({
-      mode: "payment",
-      customer: user.stripeCustomerId ?? undefined,
-      customer_email: user.stripeCustomerId ? undefined : user.email,
+
+  // A stored customer ID can be from the wrong Stripe mode (a test-mode ID
+  // against a live key, say, after switching keys). Stripe rejects that with
+  // resource_missing, so fall back to email and clear the stale ID rather
+  // than failing the purchase.
+  const build = (customerId: string | null) => ({
+      mode: "payment" as const,
+      customer: customerId ?? undefined,
+      customer_email: customerId ? undefined : user.email,
       line_items: [
         {
           quantity: 1,
@@ -76,10 +80,32 @@ export async function POST(req: NextRequest) {
       },
       success_url: `${origin}/aid-agent?credits=ok`,
       cancel_url: `${origin}/aid-agent?credits=cancelled`,
-    });
+  });
+
+  try {
+    let checkout;
+    try {
+      checkout = await stripe.checkout.sessions.create(build(user.stripeCustomerId));
+    } catch (err) {
+      const e = err as { code?: string; message?: string };
+      const staleCustomer =
+        user.stripeCustomerId && (e?.code === "resource_missing" || /No such customer/i.test(e?.message ?? ""));
+      if (!staleCustomer) throw err;
+
+      console.warn(`[fantasy/credits] stale stripeCustomerId for ${session.userId}; retrying by email`);
+      await prisma.user
+        .update({ where: { id: session.userId }, data: { stripeCustomerId: null } })
+        .catch(() => {});
+      checkout = await stripe.checkout.sessions.create(build(null));
+    }
     return NextResponse.json({ url: checkout.url });
   } catch (err) {
-    console.error("[fantasy/credits] checkout failed:", err);
-    return NextResponse.json({ error: "CHECKOUT_FAILED" }, { status: 502 });
+    const e = err as { message?: string };
+    console.error("[fantasy/credits] checkout failed:", e?.message ?? err);
+    // Surface the reason — a silent failure here just looks like a dead button.
+    return NextResponse.json(
+      { error: "CHECKOUT_FAILED", detail: e?.message ?? "Stripe rejected the request." },
+      { status: 502 }
+    );
   }
 }

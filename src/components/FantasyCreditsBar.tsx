@@ -14,6 +14,7 @@ export function FantasyCreditsBar({ refreshKey }: { refreshKey: number }) {
   const [status, setStatus] = useState<Status | null>(null);
   const [buying, setBuying] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     try {
@@ -27,16 +28,27 @@ export function FantasyCreditsBar({ refreshKey }: { refreshKey: number }) {
 
   const buy = async (packId: string) => {
     setBuying(packId);
+    setError(null);
     try {
       const res = await fetch("/api/fantasy/credits", {
         method: "POST",
         headers: { "content-type": "application/json" },
         body: JSON.stringify({ packId }),
       });
-      const data = await res.json();
-      if (data?.url) window.location.href = data.url;
-      else setBuying(null);
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data?.url) {
+        window.location.href = data.url;
+        return;
+      }
+      const map: Record<string, string> = {
+        SIGN_IN_REQUIRED: "Please sign in again.",
+        PRO_REQUIRED: "Credits need an active Pro subscription.",
+        UNKNOWN_PACK: "That pack is no longer available.",
+      };
+      setError(map[data?.error] ?? data?.detail ?? "Checkout could not be started. Try again.");
     } catch {
+      setError("Could not reach checkout. Check your connection.");
+    } finally {
       setBuying(null);
     }
   };
@@ -96,6 +108,10 @@ export function FantasyCreditsBar({ refreshKey }: { refreshKey: number }) {
           ))}
         </div>
       )}
+      {error && (
+        <p className="mt-1.5 rounded-lg border border-rose-400/30 bg-rose-500/10 px-2 py-1 text-[10px] text-rose-200">{error}</p>
+      )}
+
       {open && (
         <p className="mt-1.5 text-[9px] leading-snug text-white/35">
           Charged per question at roughly twice the underlying model cost. A typical question runs a
