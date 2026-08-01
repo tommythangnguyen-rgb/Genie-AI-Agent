@@ -24,6 +24,8 @@ export const FANTASY_AGENT_ID = process.env.FANTASY_AGENT_ID ?? "";
 export const FANTASY_ENVIRONMENT_ID = process.env.FANTASY_ENVIRONMENT_ID ?? "";
 
 export const SPORTS_SEARCH_TOOL = agentConfig.toolName;
+export const LEAGUE_TOOLS = agentConfig.leagueTools ?? [];
+export const LEAGUE_TOOL_NAMES = LEAGUE_TOOLS.map((t) => t.name);
 export const ALLOWED_HOSTS = agentConfig.allowedHosts;
 
 export const fantasyConfigured = (): boolean =>

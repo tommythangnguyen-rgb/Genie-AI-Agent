@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { X, Send, Search, Loader2, ShieldCheck, ImagePlus, Volume2, Square, Printer } from "lucide-react";
 import { printFantasyConversation } from "@/lib/fantasy/print";
 import { speakText, cancelSpeech, stripForSpeech, type SpeakHandle } from "@/lib/tts/speak-client";
+import { SleeperLeaguePanel, loadSleeperLink, type SleeperLink } from "@/components/SleeperLeaguePanel";
 
 type Attachment = { id: string; name: string; mediaType: string; data: string; preview: string };
 type Turn = { role: "user" | "agent"; text: string; images?: string[] };
@@ -28,6 +29,9 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
   const [error, setError] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
   const [speakingIdx, setSpeakingIdx] = useState<number | null>(null);
+  const [league, setLeague] = useState<SleeperLink | null>(null);
+  // Restore after mount so the server render and first client render match.
+  useEffect(() => { setLeague(loadSleeperLink()); }, []);
 
   const sessionRef = useRef<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -37,7 +41,11 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
   // Mirrors speakingIdx so the async voice-load in speak() can tell whether
   // its request is still the current one without going stale in the closure.
   const speakingIdxRef = useRef<number | null>(null);
+  // send() is memoised on [attachments, busy]; read the league through a ref so
+  // connecting one mid-conversation takes effect without rebuilding the callback.
+  const leagueRef = useRef<SleeperLink | null>(null);
   useEffect(() => { speakingIdxRef.current = speakingIdx; }, [speakingIdx]);
+  useEffect(() => { leagueRef.current = league; }, [league]);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -132,6 +140,7 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
         body: JSON.stringify({
           message: question,
           sessionId: sessionRef.current,
+          sleeper: leagueRef.current ? { userId: leagueRef.current.userId, leagueId: leagueRef.current.leagueId } : null,
           images: pending.map((a) => ({ media_type: a.mediaType, data: a.data })),
         }),
         signal: controller.signal,
@@ -256,6 +265,8 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
             </button>
           </div>
         </header>
+
+        <SleeperLeaguePanel link={league} onLink={setLeague} />
 
         <div ref={scrollRef} className="genie-scroll-main min-h-0 flex-1 overflow-y-auto px-4 py-4">
           {turns.length === 0 && (

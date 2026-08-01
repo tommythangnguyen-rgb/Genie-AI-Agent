@@ -68,6 +68,15 @@ async function main() {
       description: cfg.toolDescription,
       input_schema: cfg.toolInputSchema,
     },
+    // Sleeper league tools. Declared on the agent always; the session drops
+    // them when no league is connected, so the model never offers to read a
+    // roster it can't reach.
+    ...(cfg.leagueTools ?? []).map((t) => ({
+      type: "custom",
+      name: t.name,
+      description: t.description,
+      input_schema: t.input_schema,
+    })),
   ];
 
   if (update) {

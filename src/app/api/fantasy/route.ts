@@ -12,8 +12,10 @@ import {
   MAX_IMAGES_PER_MESSAGE,
   MAX_IMAGE_BYTES,
   ALLOWED_IMAGE_TYPES,
+  LEAGUE_TOOLS,
 } from "@/lib/fantasy/config";
 import { runSportsSearch, sportsSearchAvailable } from "@/lib/fantasy/search";
+import { getLeagueSnapshot, getWaiverActivity, getTrending } from "@/lib/fantasy/sleeper";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
@@ -22,6 +24,63 @@ const MAX_MESSAGE_CHARS = 4000;
 
 function withTimeout<T>(p: Promise<T>, ms: number): Promise<T | undefined> {
   return Promise.race([p, new Promise<undefined>((res) => setTimeout(() => res(undefined), ms))]);
+}
+
+/** Render the connected league as plain text the model can reason over. */
+async function runLeagueContext(
+  leagueId: string | null,
+  userId: string | null
+): Promise<{ text: string; isError: boolean }> {
+  if (!leagueId || !userId) {
+    return { text: "No Sleeper league is connected. Ask the user to connect one in the League panel.", isError: true };
+  }
+  const s = await getLeagueSnapshot(leagueId, userId);
+  if (!s) return { text: "Could not load that Sleeper league — it may be private or deleted.", isError: true };
+
+  const lines = [
+    `LEAGUE: ${s.league.name} (${s.league.season}, ${s.league.status})`,
+    `Format: ${s.league.teams}-team, ${s.league.scoring}, waivers: ${s.league.waiver}`,
+    `Roster slots: ${s.league.positions.join(", ") || "unknown"}`,
+    `Current week: ${s.week}`,
+  ];
+  if (s.me) {
+    lines.push(
+      "",
+      `MY TEAM: ${s.me.teamName} — ${s.me.record}, ${s.me.pointsFor} pts${s.me.faabUsed != null ? `, FAAB used $${s.me.faabUsed}` : ""}`,
+      `Starters: ${s.me.starters.join(" | ") || "none set"}`,
+      `Bench: ${s.me.bench.join(" | ") || "empty"}`
+    );
+  } else {
+    lines.push("", "The connected user does not have a roster in this league (they may be an observer).");
+  }
+  if (s.matchup) {
+    lines.push("", `THIS WEEK: vs ${s.matchup.opponent} — ${s.matchup.myPoints} to ${s.matchup.oppPoints}`);
+  }
+  lines.push("", "STANDINGS:");
+  s.standings.forEach((t, i) => lines.push(`  ${i + 1}. ${t.team} (${t.record}, ${t.pointsFor} pts)`));
+  lines.push("", "Player injury designations above come from Sleeper and may lag the official team report.");
+
+  return { text: lines.join("\n"), isError: false };
+}
+
+async function runWaiverActivity(
+  leagueId: string | null,
+  userId: string | null,
+  week?: number
+): Promise<{ text: string; isError: boolean }> {
+  if (!leagueId || !userId) {
+    return { text: "No Sleeper league is connected. Ask the user to connect one in the League panel.", isError: true };
+  }
+  const snapshot = await getLeagueSnapshot(leagueId, userId);
+  const wk = week ?? snapshot?.week ?? 1;
+  const [txns, trending] = await Promise.all([getWaiverActivity(leagueId, wk), getTrending("add")]);
+
+  const lines = [`LEAGUE TRANSACTIONS — week ${wk}:`];
+  lines.push(txns.length ? txns.map((t) => `  ${t}`).join("\n") : "  (none recorded this week)");
+  if (snapshot?.me?.faabUsed != null) lines.push("", `My FAAB spent so far: $${snapshot.me.faabUsed}`);
+  lines.push("", "TRENDING ADDS ACROSS SLEEPER (last 24h):");
+  lines.push(trending.length ? trending.map((t) => `  ${t}`).join("\n") : "  (unavailable)");
+  return { text: lines.join("\n"), isError: false };
 }
 
 /**
@@ -44,7 +103,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  let body: { message?: unknown; sessionId?: unknown; images?: unknown };
+  let body: { message?: unknown; sessionId?: unknown; images?: unknown; sleeper?: unknown };
   try {
     body = await req.json();
   } catch {
@@ -84,6 +143,17 @@ export async function POST(req: NextRequest) {
   }
 
   const priorSessionId = typeof body.sessionId === "string" ? body.sessionId : null;
+
+  // The connected Sleeper league is bound here, server-side, and injected when
+  // a league tool runs. The model never supplies these — so it can't be talked
+  // into reading someone else's team.
+  const sleeper =
+    body.sleeper && typeof body.sleeper === "object"
+      ? (body.sleeper as { userId?: unknown; leagueId?: unknown })
+      : null;
+  const leagueId = typeof sleeper?.leagueId === "string" ? sleeper.leagueId : null;
+  const sleeperUserId = typeof sleeper?.userId === "string" ? sleeper.userId : null;
+  const leagueConnected = Boolean(leagueId && sleeperUserId);
 
   // Same quota system as the aid agent. This agent is materially more
   // expensive per turn (Opus at xhigh effort, plus web search), so it is
@@ -156,22 +226,39 @@ export async function POST(req: NextRequest) {
       try {
         let sessionId = priorSessionId;
         if (!sessionId) {
-          // Without a Tavily key, sports_search can only soft-fail — and the
-          // agent still burns a full tool round trip discovering that before
-          // falling back to web_search. Drop the tool from the session instead
-          // so the first search is the one that works.
-          const agent = sportsSearchAvailable()
-            ? FANTASY_AGENT_ID
-            : {
-                type: "agent_with_overrides" as const,
-                id: FANTASY_AGENT_ID,
-                // Overrides replace in full, so the built-in toolset must be
-                // restated here even though only the custom tool is dropping.
-                tools: [{ type: "agent_toolset_20260401", default_config: { enabled: true } }],
-              };
+          // Only offer tools that can actually succeed this session. A tool
+          // that can only soft-fail still costs a full round trip before the
+          // agent discovers that, so dropping it is a real latency win —
+          // measured at 20.9s -> 12.0s when sports_search was removed.
+          const tools: Array<Record<string, unknown>> = [
+            { type: "agent_toolset_20260401", default_config: { enabled: true } },
+          ];
+          if (sportsSearchAvailable()) {
+            tools.push({
+              type: "custom",
+              name: SPORTS_SEARCH_TOOL,
+              description: "Sports-tuned retrieval for injuries, snaps, depth charts and odds.",
+              input_schema: {
+                type: "object",
+                properties: { query: { type: "string" }, recency_days: { type: "integer" } },
+                required: ["query"],
+              },
+            });
+          }
+          if (leagueConnected) {
+            for (const t of LEAGUE_TOOLS) {
+              tools.push({ type: "custom", name: t.name, description: t.description, input_schema: t.input_schema });
+            }
+          }
 
+          // Overrides replace in full, so every tool the session should have
+          // must be listed — including the built-in toolset.
           const created = await client.beta.sessions.create({
-            agent: agent as never,
+            agent: {
+              type: "agent_with_overrides",
+              id: FANTASY_AGENT_ID,
+              tools,
+            } as never,
             environment_id: FANTASY_ENVIRONMENT_ID,
             title: "Fantasy football strategy",
           });
@@ -251,8 +338,15 @@ export async function POST(req: NextRequest) {
             emit({ type: "activity", tool: e.name ?? SPORTS_SEARCH_TOOL });
 
             let result = { text: `Unknown tool: ${e.name}`, isError: true };
+            const input = (e.input ?? {}) as Record<string, unknown>;
+
             if (e.name === SPORTS_SEARCH_TOOL) {
-              result = await runSportsSearch((e.input ?? {}) as Record<string, unknown>);
+              result = await runSportsSearch(input);
+            } else if (e.name === "get_league_context") {
+              result = await runLeagueContext(leagueId, sleeperUserId);
+            } else if (e.name === "get_waiver_activity") {
+              const wk = typeof input.week === "number" ? input.week : undefined;
+              result = await runWaiverActivity(leagueId, sleeperUserId, wk);
             }
 
             await client.beta.sessions.events.send(sessionId, {

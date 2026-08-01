@@ -18,6 +18,24 @@
     },
     "required": ["query"]
   },
+  "leagueTools": [
+    {
+      "name": "get_league_context",
+      "description": "Fetch the user's actual fantasy league from Sleeper: league name, scoring format, waiver type, roster slots, their current starters and bench with injury designations, their record and points, this week's matchup and opponent, and full standings. Call this FIRST on any question about the user's own team, lineup, matchup, or league — it replaces guessing about their roster. Takes no arguments; the server knows which league is connected.",
+      "input_schema": { "type": "object", "properties": {}, "required": [] }
+    },
+    {
+      "name": "get_waiver_activity",
+      "description": "Recent completed waiver claims, FAAB bids, free-agent adds and trades in the user's league, plus league-wide trending adds/drops across all of Sleeper. Call this for waiver-wire advice, FAAB bid sizing, or to see what opponents just claimed. Optional `week` defaults to the current week.",
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "week": { "type": "integer", "description": "NFL week number. Omit for the current week." }
+        },
+        "required": []
+      }
+    }
+  ],
   "allowedHosts": [
     "api.tavily.com",
     "www.espn.com",
