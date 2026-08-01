@@ -33,6 +33,16 @@ function loadConfig() {
     ...cfg,
     model: process.env.FANTASY_MODEL ?? cfg.model,
     effort: process.env.FANTASY_EFFORT ?? cfg.effort,
+    speed: process.env.FANTASY_SPEED ?? cfg.speed ?? "standard",
+  };
+}
+
+/** `speed` is only accepted when it's "fast"; omit it otherwise. */
+function modelConfig(cfg) {
+  return {
+    id: cfg.model,
+    effort: { type: cfg.effort },
+    ...(cfg.speed === "fast" ? { speed: "fast" } : {}),
   };
 }
 
@@ -70,7 +80,7 @@ async function main() {
     const updated = await client.beta.agents.update(agentId, {
       version: current.version,
       system,
-      model: { id: cfg.model, effort: { type: cfg.effort } },
+      model: modelConfig(cfg),
       tools,
     });
     console.log(`Updated agent ${updated.id} -> version ${updated.version}`);
@@ -99,7 +109,7 @@ async function main() {
     description:
       "A premium, professional-grade fantasy football advisor with deep analytics, sports medicine, " +
       "coaching, betting/odds, and NFL history expertise — confident, verified, and up to date.",
-    model: { id: cfg.model, effort: { type: cfg.effort } },
+    model: modelConfig(cfg),
     system,
     tools,
   });
@@ -107,7 +117,9 @@ async function main() {
   console.log("\nCreated. Add these to your .env:\n");
   console.log(`FANTASY_AGENT_ID="${agent.id}"`);
   console.log(`FANTASY_ENVIRONMENT_ID="${environment.id}"`);
-  console.log(`\nagent version: ${agent.version}   model: ${cfg.model} (effort: ${cfg.effort})`);
+  console.log(
+    `\nagent version: ${agent.version}   model: ${cfg.model} (effort: ${cfg.effort}, speed: ${cfg.speed})`
+  );
   console.log("Optional: TAVILY_API_KEY to enable the sports_search tool.\n");
 }
 

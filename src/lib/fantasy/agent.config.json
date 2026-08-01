@@ -1,6 +1,7 @@
 {
   "model": "claude-opus-5",
-  "effort": "xhigh",
+  "effort": "medium",
+  "speed": "standard",
   "toolName": "sports_search",
   "toolDescription": "Sports-tuned web retrieval returning cleaned article text from fantasy, beat-writer, and odds sources. Call this for injury designations, practice reports, snap counts, depth charts, inactives, betting lines, and player news — it surfaces primary sources that general web search buries, and returns extracted body text rather than snippets. Use the built-in web_search for general reporting and web_fetch when you need to read one specific page end to end.",
   "toolInputSchema": {

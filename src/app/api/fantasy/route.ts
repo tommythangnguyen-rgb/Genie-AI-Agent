@@ -9,8 +9,11 @@ import {
   FANTASY_ENVIRONMENT_ID,
   SPORTS_SEARCH_TOOL,
   fantasyConfigured,
+  MAX_IMAGES_PER_MESSAGE,
+  MAX_IMAGE_BYTES,
+  ALLOWED_IMAGE_TYPES,
 } from "@/lib/fantasy/config";
-import { runSportsSearch } from "@/lib/fantasy/search";
+import { runSportsSearch, sportsSearchAvailable } from "@/lib/fantasy/search";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
@@ -41,7 +44,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  let body: { message?: unknown; sessionId?: unknown };
+  let body: { message?: unknown; sessionId?: unknown; images?: unknown };
   try {
     body = await req.json();
   } catch {
@@ -49,10 +52,37 @@ export async function POST(req: NextRequest) {
   }
 
   const message = typeof body.message === "string" ? body.message.trim() : "";
-  if (!message) return NextResponse.json({ error: "EMPTY_MESSAGE" }, { status: 400 });
+  const rawImages = Array.isArray(body.images) ? body.images : [];
+
+  // A screenshot on its own is a valid ask ("what do you make of this?").
+  if (!message && rawImages.length === 0) {
+    return NextResponse.json({ error: "EMPTY_MESSAGE" }, { status: 400 });
+  }
   if (message.length > MAX_MESSAGE_CHARS) {
     return NextResponse.json({ error: "MESSAGE_TOO_LONG" }, { status: 413 });
   }
+  if (rawImages.length > MAX_IMAGES_PER_MESSAGE) {
+    return NextResponse.json(
+      { error: "TOO_MANY_IMAGES", max: MAX_IMAGES_PER_MESSAGE },
+      { status: 400 }
+    );
+  }
+
+  const images: Array<{ media_type: string; data: string }> = [];
+  for (const raw of rawImages) {
+    const img = raw as { media_type?: unknown; data?: unknown };
+    const mediaType = typeof img?.media_type === "string" ? img.media_type : "";
+    const data = typeof img?.data === "string" ? img.data : "";
+    if (!ALLOWED_IMAGE_TYPES.includes(mediaType)) {
+      return NextResponse.json({ error: "UNSUPPORTED_IMAGE_TYPE", mediaType }, { status: 400 });
+    }
+    // base64 inflates by ~4/3; check the decoded size.
+    if (!data || (data.length * 3) / 4 > MAX_IMAGE_BYTES) {
+      return NextResponse.json({ error: "IMAGE_TOO_LARGE", maxBytes: MAX_IMAGE_BYTES }, { status: 413 });
+    }
+    images.push({ media_type: mediaType, data });
+  }
+
   const priorSessionId = typeof body.sessionId === "string" ? body.sessionId : null;
 
   // Same quota system as the aid agent. This agent is materially more
@@ -92,12 +122,26 @@ export async function POST(req: NextRequest) {
   const client = new Anthropic();
   const encoder = new TextEncoder();
 
+  // Set when the consumer cancels (tab closed, navigation, client abort) so we
+  // stop writing and stop driving the agent session for a listener that's gone.
+  let clientGone = false;
+
   const stream = new ReadableStream<Uint8Array>({
+    cancel() {
+      clientGone = true;
+    },
     async start(controller) {
       let closed = false;
       const emit = (payload: Record<string, unknown>) => {
-        if (closed) return;
-        controller.enqueue(encoder.encode(`data: ${JSON.stringify(payload)}\n\n`));
+        if (closed || clientGone) return;
+        try {
+          controller.enqueue(encoder.encode(`data: ${JSON.stringify(payload)}\n\n`));
+        } catch {
+          // The consumer went away (tab closed, navigation, abort). The
+          // controller is already closed, so stop trying to write to it —
+          // `closed` alone can't catch this, since nothing on our side set it.
+          closed = true;
+        }
       };
       const close = () => {
         if (closed) return;
@@ -112,8 +156,22 @@ export async function POST(req: NextRequest) {
       try {
         let sessionId = priorSessionId;
         if (!sessionId) {
+          // Without a Tavily key, sports_search can only soft-fail — and the
+          // agent still burns a full tool round trip discovering that before
+          // falling back to web_search. Drop the tool from the session instead
+          // so the first search is the one that works.
+          const agent = sportsSearchAvailable()
+            ? FANTASY_AGENT_ID
+            : {
+                type: "agent_with_overrides" as const,
+                id: FANTASY_AGENT_ID,
+                // Overrides replace in full, so the built-in toolset must be
+                // restated here even though only the custom tool is dropping.
+                tools: [{ type: "agent_toolset_20260401", default_config: { enabled: true } }],
+              };
+
           const created = await client.beta.sessions.create({
-            agent: FANTASY_AGENT_ID,
+            agent: agent as never,
             environment_id: FANTASY_ENVIRONMENT_ID,
             title: "Fantasy football strategy",
           });
@@ -127,8 +185,23 @@ export async function POST(req: NextRequest) {
           event_deltas: ["agent.message"],
         });
 
+        // Images first, then the question — the model reads the screenshot as
+        // context for the text rather than the other way round.
+        const content: Array<Record<string, unknown>> = [
+          ...images.map((img) => ({
+            type: "image",
+            source: { type: "base64", media_type: img.media_type, data: img.data },
+          })),
+          {
+            type: "text",
+            text:
+              message ||
+              "Review the attached screenshot and tell me what you make of it — call out anything that changes a lineup, waiver, or trade decision.",
+          },
+        ];
+
         await client.beta.sessions.events.send(sessionId, {
-          events: [{ type: "user.message", content: [{ type: "text", text: message }] }],
+          events: [{ type: "user.message", content: content as never }],
         });
 
         // Accumulate live-preview deltas per event id; the buffered
@@ -136,6 +209,7 @@ export async function POST(req: NextRequest) {
         const previews = new Map<string, string>();
 
         for await (const event of events) {
+          if (clientGone) break;
           const type = (event as { type?: string }).type;
 
           if (type === "event_start") {

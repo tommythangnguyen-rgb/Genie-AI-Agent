@@ -1,9 +1,10 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { X, Send, Search, Loader2, ShieldCheck } from "lucide-react";
+import { X, Send, Search, Loader2, ShieldCheck, ImagePlus, Volume2, Square } from "lucide-react";
 
-type Turn = { role: "user" | "agent"; text: string; id?: string };
+type Attachment = { id: string; name: string; mediaType: string; data: string; preview: string };
+type Turn = { role: "user" | "agent"; text: string; images?: string[] };
 
 const SUGGESTIONS = [
   "Start/sit: my WR2 vs a top-5 pass defense this week?",
@@ -12,34 +13,158 @@ const SUGGESTIONS = [
   "Build me a tiered RB board for a 12-team half-PPR draft.",
 ];
 
+const MAX_IMAGES = 4;
+const MAX_IMAGE_BYTES = 4 * 1024 * 1024;
+const ALLOWED = ["image/png", "image/jpeg", "image/gif", "image/webp"];
+
+// 213-byte silent MP3. iOS Safari only lets an <audio> element play later if
+// it was created and played inside a user gesture — priming with silence
+// earns that activation so we can swap in the real clip after the fetch.
+const SILENT_MP3 =
+  "data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjI5LjEwMAAAAAAAAAAAAAAA//tQxAADB8AhSmxhIIEVCSiJrDCQBTcu3UrAIwUdkRgQbFAZC1CQEwTJ9mjRvBA4UOLD8nKVOWfh+UlK4E7Mpc7Dq6ceuQINdCe9v1kickcCg8DYHthXvKmpsSFAJmwXQzTIeu7yr0Iuw6VVFAiw8/eMi5r48UkylIeZAgvUYlPPQwuOAj5F7NlBQ8CGvdlLdCJvbG8UcAiI8s6vD7yWiWSCq6nAAAAA";
+
+/** Strip markdown so the voice reads prose, not syntax. */
+function speakable(text: string): string {
+  return text
+    .replace(/```[\s\S]*?```/g, "code block omitted")
+    .replace(/`[^`]*`/g, "")
+    .replace(/#{1,6}\s/g, "")
+    .replace(/\*\*(.+?)\*\*/g, "$1")
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/[*_~>|]/g, "")
+    .replace(/\p{Extended_Pictographic}/gu, "")
+    .replace(/\n{2,}/g, ". ")
+    .replace(/\n/g, " ")
+    .trim();
+}
+
 export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
   const [turns, setTurns] = useState<Turn[]>([]);
   const [input, setInput] = useState("");
+  const [attachments, setAttachments] = useState<Attachment[]>([]);
   const [busy, setBusy] = useState(false);
   const [activity, setActivity] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [dragOver, setDragOver] = useState(false);
+  const [speakingIdx, setSpeakingIdx] = useState<number | null>(null);
+
   const sessionRef = useRef<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const ttsAbortRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [turns, activity]);
 
+  const stopSpeaking = useCallback(() => {
+    ttsAbortRef.current?.abort();
+    ttsAbortRef.current = null;
+    const a = audioRef.current;
+    if (a) {
+      a.pause();
+      if (a.src.startsWith("blob:")) URL.revokeObjectURL(a.src);
+      a.src = "";
+    }
+    audioRef.current = null;
+    setSpeakingIdx(null);
+  }, []);
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
     window.addEventListener("keydown", onKey);
-    return () => { window.removeEventListener("keydown", onKey); abortRef.current?.abort(); };
-  }, [onClose]);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      abortRef.current?.abort();
+      stopSpeaking();
+    };
+  }, [onClose, stopSpeaking]);
+
+  const speak = (idx: number, text: string) => {
+    if (speakingIdx === idx) { stopSpeaking(); return; }
+    stopSpeaking();
+    setSpeakingIdx(idx);
+
+    const plain = speakable(text);
+    if (!plain) { setSpeakingIdx(null); return; }
+
+    // Must be created and played synchronously inside the click handler.
+    const audio = new Audio(SILENT_MP3);
+    audio.play().catch(() => { /* primer is best-effort */ });
+    audioRef.current = audio;
+
+    const abort = new AbortController();
+    ttsAbortRef.current = abort;
+
+    void (async () => {
+      try {
+        const res = await fetch("/api/tts", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ text: plain }),
+          signal: abort.signal,
+        });
+        if (!res.ok || audioRef.current !== audio) { setSpeakingIdx(null); return; }
+        const url = URL.createObjectURL(await res.blob());
+        const done = () => { URL.revokeObjectURL(url); setSpeakingIdx(null); };
+        audio.onended = done;
+        audio.onerror = done;
+        // No .load() after the swap — that resets the element on iOS and
+        // throws away the gesture activation the primer earned.
+        audio.src = url;
+        await audio.play().catch(() => setSpeakingIdx(null));
+      } catch (e) {
+        if ((e as Error)?.name !== "AbortError") setSpeakingIdx(null);
+      }
+    })();
+  };
+
+  const addFiles = useCallback((files: FileList | File[]) => {
+    const incoming = Array.from(files).filter((f) => f.type.startsWith("image/"));
+    if (incoming.length === 0) return;
+
+    setAttachments((prev) => {
+      const room = MAX_IMAGES - prev.length;
+      if (room <= 0) { setError(`Up to ${MAX_IMAGES} screenshots per message.`); return prev; }
+      const accepted: File[] = [];
+      for (const f of incoming.slice(0, room)) {
+        if (!ALLOWED.includes(f.type)) { setError(`${f.type} isn't supported — use PNG, JPEG, GIF or WebP.`); continue; }
+        if (f.size > MAX_IMAGE_BYTES) { setError(`"${f.name}" is over 4 MB.`); continue; }
+        accepted.push(f);
+      }
+      accepted.forEach((file) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const result = String(reader.result);
+          const data = result.split(",")[1] ?? "";
+          setAttachments((cur) =>
+            cur.length >= MAX_IMAGES
+              ? cur
+              : [...cur, { id: `${file.name}-${Date.now()}-${Math.round(performance.now())}`, name: file.name, mediaType: file.type, data, preview: result }]
+          );
+        };
+        reader.readAsDataURL(file);
+      });
+      return prev;
+    });
+  }, []);
 
   const send = useCallback(async (text: string) => {
     const question = text.trim();
-    if (!question || busy) return;
+    const pending = attachments;
+    if ((!question && pending.length === 0) || busy) return;
 
     setError(null);
     setBusy(true);
     setInput("");
-    setTurns((t) => [...t, { role: "user", text: question }, { role: "agent", text: "" }]);
+    setAttachments([]);
+    setTurns((t) => [
+      ...t,
+      { role: "user", text: question, images: pending.map((a) => a.preview) },
+      { role: "agent", text: "" },
+    ]);
 
     const controller = new AbortController();
     abortRef.current = controller;
@@ -48,17 +173,23 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
       const res = await fetch("/api/fantasy", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ message: question, sessionId: sessionRef.current }),
+        body: JSON.stringify({
+          message: question,
+          sessionId: sessionRef.current,
+          images: pending.map((a) => ({ media_type: a.mediaType, data: a.data })),
+        }),
         signal: controller.signal,
       });
 
       if (!res.ok || !res.body) {
         const detail = await res.json().catch(() => ({}));
-        setError(
-          detail?.error === "RATE_LIMIT"
-            ? "You've hit your question limit for now."
-            : detail?.detail ?? "The strategist is unavailable right now."
-        );
+        const map: Record<string, string> = {
+          RATE_LIMIT: "You've hit your question limit for now.",
+          TOO_MANY_IMAGES: `Up to ${MAX_IMAGES} screenshots per message.`,
+          IMAGE_TOO_LARGE: "That screenshot is over 4 MB.",
+          UNSUPPORTED_IMAGE_TYPE: "Use a PNG, JPEG, GIF or WebP screenshot.",
+        };
+        setError(map[detail?.error as string] ?? detail?.detail ?? "The strategist is unavailable right now.");
         setTurns((t) => t.slice(0, -1));
         return;
       }
@@ -66,9 +197,6 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let buffer = "";
-
-      // Track the authoritative text separately from streamed deltas so a
-      // buffered agent.message can replace its own preview cleanly.
       let finalized = "";
       let preview = "";
 
@@ -83,53 +211,33 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
         const { done, value } = await reader.read();
         if (done) break;
         buffer += decoder.decode(value, { stream: true });
-
         const frames = buffer.split("\n\n");
         buffer = frames.pop() ?? "";
 
         for (const frame of frames) {
           const line = frame.split("\n").find((l) => l.startsWith("data: "));
           if (!line) continue;
-
           let evt: Record<string, unknown>;
           try { evt = JSON.parse(line.slice(6)); } catch { continue; }
 
           switch (evt.type) {
-            case "session":
-              sessionRef.current = String(evt.sessionId);
-              break;
-            case "delta":
-              preview += String(evt.text ?? "");
-              paint();
-              break;
-            case "message":
-              finalized += String(evt.text ?? "");
-              preview = "";
-              setActivity(null);
-              paint();
-              break;
-            case "activity":
-              setActivity(String(evt.tool ?? "working"));
-              break;
-            case "error":
-              setError(String(evt.message ?? "Something went wrong."));
-              break;
-            case "done":
-              setActivity(null);
-              break;
+            case "session": sessionRef.current = String(evt.sessionId); break;
+            case "delta": preview += String(evt.text ?? ""); paint(); break;
+            case "message": finalized += String(evt.text ?? ""); preview = ""; setActivity(null); paint(); break;
+            case "activity": setActivity(String(evt.tool ?? "working")); break;
+            case "error": setError(String(evt.message ?? "Something went wrong.")); break;
+            case "done": setActivity(null); break;
           }
         }
       }
     } catch (err) {
-      if ((err as Error)?.name !== "AbortError") {
-        setError("Connection lost. Try again.");
-      }
+      if ((err as Error)?.name !== "AbortError") setError("Connection lost. Try again.");
     } finally {
       setBusy(false);
       setActivity(null);
       abortRef.current = null;
     }
-  }, [busy]);
+  }, [attachments, busy]);
 
   return (
     <div
@@ -141,21 +249,36 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div
-        className="flex w-full max-w-3xl flex-col overflow-hidden rounded-2xl"
+        className="relative flex w-full max-w-3xl flex-col overflow-hidden rounded-2xl"
         style={{
           height: "min(88dvh, 780px)",
           background: "rgba(10,6,20,0.92)",
-          border: "1px solid rgba(212,175,55,0.28)",
+          border: `1px solid ${dragOver ? "rgba(212,175,55,0.8)" : "rgba(212,175,55,0.28)"}`,
           boxShadow: "0 40px 90px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08)",
         }}
+        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={(e) => { e.preventDefault(); setDragOver(false); addFiles(e.dataTransfer.files); }}
+        onPaste={(e) => {
+          const imgs = Array.from(e.clipboardData.files).filter((f) => f.type.startsWith("image/"));
+          if (imgs.length) { e.preventDefault(); addFiles(imgs); }
+        }}
       >
+        {dragOver && (
+          <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-[#D4AF37]/10">
+            <span className="rounded-xl bg-black/70 px-4 py-2 text-xs font-bold text-[#FFD700]">
+              Drop screenshots to attach
+            </span>
+          </div>
+        )}
+
         <header className="flex shrink-0 items-center justify-between border-b border-[#D4AF37]/20 px-4 py-3">
           <div className="min-w-0">
             <h2 className="truncate text-sm font-black tracking-tight text-white">
               Elite Fantasy Football Strategist
             </h2>
             <p className="mt-0.5 truncate text-[10px] text-cyan-300/70">
-              Searches live sources before answering · flags anything unverified
+              Searches live sources · reads screenshots · flags anything unverified
             </p>
           </div>
           <button
@@ -172,8 +295,8 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
             <div className="space-y-3">
               <p className="text-xs leading-relaxed text-white/70">
                 Professional-grade fantasy analysis — draft boards, start/sit, waivers, trades, and
-                betting-market context. It searches current sources before answering and tells you
-                what it could not verify.
+                betting-market context. Paste or drop a screenshot of your roster, a trade offer, or
+                the waiver wire and it will read it directly.
               </p>
               <div className="grid gap-2 sm:grid-cols-2">
                 {SUGGESTIONS.map((s) => (
@@ -196,14 +319,46 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
 
           {turns.map((turn, i) => (
             <div key={i} className={`mb-3 flex ${turn.role === "user" ? "justify-end" : "justify-start"}`}>
-              <div
-                className={`max-w-[85%] whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed ${
-                  turn.role === "user"
-                    ? "bg-cyan-600/25 text-white ring-1 ring-cyan-400/25"
-                    : "bg-white/[0.06] text-white/90 ring-1 ring-white/10"
-                }`}
-              >
-                {turn.text || (busy && i === turns.length - 1 ? "…" : "")}
+              <div className="max-w-[85%]">
+                {turn.images && turn.images.length > 0 && (
+                  <div className="mb-1.5 flex flex-wrap justify-end gap-1.5">
+                    {turn.images.map((src, n) => (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        key={n}
+                        src={src}
+                        alt={`Attached screenshot ${n + 1}`}
+                        className="h-20 w-auto rounded-lg ring-1 ring-white/15"
+                      />
+                    ))}
+                  </div>
+                )}
+                <div
+                  className={`whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed ${
+                    turn.role === "user"
+                      ? "bg-cyan-600/25 text-white ring-1 ring-cyan-400/25"
+                      : "bg-white/[0.06] text-white/90 ring-1 ring-white/10"
+                  }`}
+                >
+                  {turn.text || (busy && i === turns.length - 1 ? "…" : "")}
+                </div>
+                {turn.role === "agent" && turn.text.length > 0 && (
+                  <button
+                    onClick={() => speak(i, turn.text)}
+                    className={`mt-1 flex items-center gap-1 rounded-lg px-1.5 py-1 text-[10px] font-semibold transition-colors ${
+                      speakingIdx === i
+                        ? "text-[#FFD700]"
+                        : "text-white/40 hover:text-[#D4AF37]"
+                    }`}
+                    aria-label={speakingIdx === i ? "Stop reading aloud" : "Read this answer aloud"}
+                  >
+                    {speakingIdx === i ? (
+                      <><Square className="h-3 w-3 fill-current" /> Stop</>
+                    ) : (
+                      <><Volume2 className="h-3 w-3" /> Listen</>
+                    )}
+                  </button>
+                )}
               </div>
             </div>
           ))}
@@ -226,10 +381,45 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
           )}
         </div>
 
+        {attachments.length > 0 && (
+          <div className="flex shrink-0 flex-wrap gap-2 border-t border-white/10 px-3 pt-2">
+            {attachments.map((a) => (
+              <div key={a.id} className="group relative">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={a.preview} alt={a.name} className="h-14 w-auto rounded-lg ring-1 ring-white/20" />
+                <button
+                  onClick={() => setAttachments((cur) => cur.filter((x) => x.id !== a.id))}
+                  className="absolute -right-1.5 -top-1.5 rounded-full bg-black/85 p-0.5 text-white/70 ring-1 ring-white/25 transition-colors hover:text-white"
+                  aria-label={`Remove ${a.name}`}
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+
         <form
           onSubmit={(e) => { e.preventDefault(); send(input); }}
           className="flex shrink-0 items-end gap-2 border-t border-[#D4AF37]/20 px-3 py-3"
         >
+          <input
+            ref={fileRef}
+            type="file"
+            accept={ALLOWED.join(",")}
+            multiple
+            className="hidden"
+            onChange={(e) => { if (e.target.files) addFiles(e.target.files); e.target.value = ""; }}
+          />
+          <button
+            type="button"
+            onClick={() => fileRef.current?.click()}
+            disabled={attachments.length >= MAX_IMAGES}
+            title="Attach a screenshot (or paste / drag one in)"
+            className="flex h-[42px] w-[42px] shrink-0 items-center justify-center rounded-xl border border-white/12 bg-black/40 text-white/60 transition-all hover:border-[#D4AF37]/50 hover:text-[#D4AF37] disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <ImagePlus className="h-4 w-4" />
+          </button>
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -237,12 +427,12 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
               if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(input); }
             }}
             rows={1}
-            placeholder="Ask about a start/sit, waiver claim, trade, or draft plan…"
+            placeholder="Ask, or paste a screenshot of your roster or a trade offer…"
             className="max-h-32 min-h-[42px] flex-1 resize-y rounded-xl border border-white/12 bg-black/40 px-3 py-2.5 text-xs text-white placeholder-white/35 outline-none transition-colors focus:border-[#D4AF37]/50"
           />
           <button
             type="submit"
-            disabled={busy || !input.trim()}
+            disabled={busy || (!input.trim() && attachments.length === 0)}
             className="flex h-[42px] shrink-0 items-center gap-1.5 rounded-xl bg-[#D4AF37] px-4 text-xs font-bold text-black transition-all hover:bg-[#E5C158] disabled:cursor-not-allowed disabled:opacity-40"
           >
             {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Send className="h-3.5 w-3.5" />}

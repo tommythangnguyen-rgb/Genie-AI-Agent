@@ -12,6 +12,13 @@ import agentConfig from "./agent.config.json";
  */
 export const FANTASY_MODEL = process.env.FANTASY_MODEL ?? agentConfig.model;
 export const FANTASY_EFFORT = process.env.FANTASY_EFFORT ?? agentConfig.effort;
+/** "fast" roughly doubles output tokens/sec at 2x the token price ($10/$50). */
+export const FANTASY_SPEED = process.env.FANTASY_SPEED ?? agentConfig.speed;
+
+/** Anthropic caps image input at 5 per request; keep the payload well under 32 MB. */
+export const MAX_IMAGES_PER_MESSAGE = 4;
+export const MAX_IMAGE_BYTES = 4 * 1024 * 1024;
+export const ALLOWED_IMAGE_TYPES = ["image/png", "image/jpeg", "image/gif", "image/webp"];
 
 export const FANTASY_AGENT_ID = process.env.FANTASY_AGENT_ID ?? "";
 export const FANTASY_ENVIRONMENT_ID = process.env.FANTASY_ENVIRONMENT_ID ?? "";
