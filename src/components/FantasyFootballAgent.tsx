@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { X, Send, Search, Loader2, ShieldCheck, ImagePlus, Volume2, Square, Printer } from "lucide-react";
 import { printFantasyConversation } from "@/lib/fantasy/print";
+import { speakText, cancelSpeech, stripForSpeech, type SpeakHandle } from "@/lib/tts/speak-client";
 
 type Attachment = { id: string; name: string; mediaType: string; data: string; preview: string };
 type Turn = { role: "user" | "agent"; text: string; images?: string[] };
@@ -18,27 +19,6 @@ const MAX_IMAGES = 4;
 const MAX_IMAGE_BYTES = 4 * 1024 * 1024;
 const ALLOWED = ["image/png", "image/jpeg", "image/gif", "image/webp"];
 
-// 213-byte silent MP3. iOS Safari only lets an <audio> element play later if
-// it was created and played inside a user gesture — priming with silence
-// earns that activation so we can swap in the real clip after the fetch.
-const SILENT_MP3 =
-  "data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjI5LjEwMAAAAAAAAAAAAAAA//tQxAADB8AhSmxhIIEVCSiJrDCQBTcu3UrAIwUdkRgQbFAZC1CQEwTJ9mjRvBA4UOLD8nKVOWfh+UlK4E7Mpc7Dq6ceuQINdCe9v1kickcCg8DYHthXvKmpsSFAJmwXQzTIeu7yr0Iuw6VVFAiw8/eMi5r48UkylIeZAgvUYlPPQwuOAj5F7NlBQ8CGvdlLdCJvbG8UcAiI8s6vD7yWiWSCq6nAAAAA";
-
-/** Strip markdown so the voice reads prose, not syntax. */
-function speakable(text: string): string {
-  return text
-    .replace(/```[\s\S]*?```/g, "code block omitted")
-    .replace(/`[^`]*`/g, "")
-    .replace(/#{1,6}\s/g, "")
-    .replace(/\*\*(.+?)\*\*/g, "$1")
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-    .replace(/[*_~>|]/g, "")
-    .replace(/\p{Extended_Pictographic}/gu, "")
-    .replace(/\n{2,}/g, ". ")
-    .replace(/\n/g, " ")
-    .trim();
-}
-
 export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
   const [turns, setTurns] = useState<Turn[]>([]);
   const [input, setInput] = useState("");
@@ -53,47 +33,21 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const ttsAbortRef = useRef<AbortController | null>(null);
+  const speakRef = useRef<SpeakHandle | null>(null);
+  // Mirrors speakingIdx so the async voice-load in speak() can tell whether
+  // its request is still the current one without going stale in the closure.
+  const speakingIdxRef = useRef<number | null>(null);
+  useEffect(() => { speakingIdxRef.current = speakingIdx; }, [speakingIdx]);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
   }, [turns, activity]);
 
   const stopSpeaking = useCallback(() => {
-    ttsAbortRef.current?.abort();
-    ttsAbortRef.current = null;
-    const a = audioRef.current;
-    if (a) {
-      a.pause();
-      if (a.src.startsWith("blob:")) URL.revokeObjectURL(a.src);
-      a.src = "";
-    }
-    audioRef.current = null;
-    if (typeof window !== "undefined") window.speechSynthesis?.cancel();
+    speakRef.current?.cancel();
+    speakRef.current = null;
+    cancelSpeech();
     setSpeakingIdx(null);
-  }, []);
-
-  /**
-   * Browser-native speech, used when /api/tts can't deliver.
-   * msedge-tts opens a WebSocket to Microsoft, which Vercel's serverless
-   * runtime won't hold — so in production that route times out and the
-   * neural voice is simply unavailable. This keeps the button functional.
-   */
-  const speakLocally = useCallback((text: string, idx: number) => {
-    const synth = typeof window !== "undefined" ? window.speechSynthesis : undefined;
-    if (!synth) { setSpeakingIdx(null); return false; }
-    const utter = new SpeechSynthesisUtterance(text);
-    const preferred = synth
-      .getVoices()
-      .find((v) => /en-US/i.test(v.lang) && /aria|jenny|samantha|female|zira/i.test(v.name));
-    if (preferred) utter.voice = preferred;
-    utter.rate = 1.02;
-    utter.onend = () => setSpeakingIdx((cur) => (cur === idx ? null : cur));
-    utter.onerror = () => setSpeakingIdx((cur) => (cur === idx ? null : cur));
-    synth.cancel();
-    synth.speak(utter);
-    return true;
   }, []);
 
   useEffect(() => {
@@ -109,54 +63,18 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
   const speak = (idx: number, text: string) => {
     if (speakingIdx === idx) { stopSpeaking(); return; }
     stopSpeaking();
+
+    const plain = stripForSpeech(text);
+    if (!plain) return;
     setSpeakingIdx(idx);
 
-    const plain = speakable(text);
-    if (!plain) { setSpeakingIdx(null); return; }
-
-    // Must be created and played synchronously inside the click handler.
-    const audio = new Audio(SILENT_MP3);
-    audio.play().catch(() => { /* primer is best-effort */ });
-    audioRef.current = audio;
-
-    const abort = new AbortController();
-    ttsAbortRef.current = abort;
-    // Don't make the user sit through the route's full 30s maxDuration before
-    // falling back — if the neural voice hasn't answered in 6s, it isn't coming.
-    const giveUp = setTimeout(() => abort.abort(), 6000);
-
-    void (async () => {
-      let servedNeural = false;
-      try {
-        const res = await fetch("/api/tts", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ text: plain }),
-          signal: abort.signal,
-        });
-        if (res.ok && audioRef.current === audio) {
-          const url = URL.createObjectURL(await res.blob());
-          const done = () => { URL.revokeObjectURL(url); setSpeakingIdx((c) => (c === idx ? null : c)); };
-          audio.onended = done;
-          audio.onerror = done;
-          // No .load() after the swap — that resets the element on iOS and
-          // throws away the gesture activation the primer earned.
-          audio.src = url;
-          await audio.play();
-          servedNeural = true;
-        }
-      } catch {
-        // Timed out, aborted, or playback rejected — fall through.
-      } finally {
-        clearTimeout(giveUp);
-      }
-
-      // Only fall back if this request is still the active one.
-      if (!servedNeural && audioRef.current === audio) {
-        audioRef.current = null;
-        speakLocally(plain, idx);
-      }
-    })();
+    void speakText(plain, {
+      onEnd: () => setSpeakingIdx((cur) => (cur === idx ? null : cur)),
+    }).then((handle) => {
+      // A newer Listen may have started while voices were loading.
+      if (speakingIdxRef.current !== idx) { handle.cancel(); return; }
+      speakRef.current = handle;
+    });
   };
 
   const addFiles = useCallback((files: FileList | File[]) => {

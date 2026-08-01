@@ -8,6 +8,7 @@ import { AppInstallModal } from "@/components/AppInstallModal";
 import { BackgroundMusic } from "@/components/BackgroundMusic";
 import { NewsTicker } from "@/components/NewsTicker";
 import { FantasyFootballAgent } from "@/components/FantasyFootballAgent";
+import { speakText, cancelSpeech, stripForSpeech, type SpeakHandle } from "@/lib/tts/speak-client";
 import { UsageMeter, LimitToast } from "@/components/usage-meter";
 import { UpgradeModal, useUpgradeModal } from "@/components/upgrade-modal";
 import { canAccessFeature } from "@/lib/feature-gates";
@@ -3612,6 +3613,10 @@ export default function AidAgentPage() {
   const voiceRef = useRef<SpeechSynthesisVoice | null>(null);
   const ttsTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const ttsAbortRef = useRef<AbortController | null>(null);
+  const speakHandleRef = useRef<SpeakHandle | null>(null);
+  // Mirrors speakingMsgId so the async voice-load in speakMessage() can tell
+  // whether its request is still current without a stale closure.
+  const speakingMsgIdRef = useRef<string | null>(null);
   const [showDisclaimer, setShowDisclaimer] = useState(false);
   const [showMobileLeft, setShowMobileLeft] = useState(false);
   const [showMobileRight, setShowMobileRight] = useState(false);
@@ -3668,6 +3673,7 @@ export default function AidAgentPage() {
   }, [activeTipData, tipsRotationOffset]);
   const [showAppModal, setShowAppModal] = useState(false);
   const [showFantasy, setShowFantasy] = useState(false);
+  useEffect(() => { speakingMsgIdRef.current = speakingMsgId; }, [speakingMsgId]);
   const [showCookieNotice, setShowCookieNotice] = useState(false);
   const [attachedFile, setAttachedFile] = useState<AttachedFile | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -4314,81 +4320,26 @@ export default function AidAgentPage() {
     audioRef.current?.pause();
     if (audioRef.current) { URL.revokeObjectURL(audioRef.current.src); audioRef.current.src = ""; }
     audioRef.current = null;
-    if (typeof window !== "undefined") window.speechSynthesis?.cancel();
+    speakHandleRef.current?.cancel();
+    speakHandleRef.current = null;
+    cancelSpeech();
     setSpeakingMsgId(null);
   }, []);
 
   const speakMessage = (msgId: string, text: string) => {
     if (speakingMsgId === msgId) { stopSpeaking(); return; }
     stopSpeaking();
+
+    const plain = stripForSpeech(text);
+    if (!plain) return;
     setSpeakingMsgId(msgId);
 
-    // ── iOS Safari / mobile Chrome autoplay: the <audio> element must be
-    //    created AND have .play() called synchronously inside the user
-    //    gesture. Once activated, we can swap .src after fetch and play again.
-    //    Prime with a 213-byte silent MP3 so the initial play() is a no-op.
-    const SILENT_MP3 =
-      "data:audio/mpeg;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4LjI5LjEwMAAAAAAAAAAAAAAA//tQxAADB8AhSmxhIIEVCSiJrDCQBTcu3UrAIwUdkRgQbFAZC1CQEwTJ9mjRvBA4UOLD8nKVOWfh+UlK4E7Mpc7Dq6ceuQINdCe9v1kickcCg8DYHthXvKmpsSFAJmwXQzTIeu7yr0Iuw6VVFAiw8/eMi5r48UkylIeZAgvUYlPPQwuOAj5F7NlBQ8CGvdlLdCJvbG8UcAiI8s6vD7yWiWSCq6nAAAAA";
-    const audio = new Audio(SILENT_MP3);
-    // Fire-and-forget primer play — activates the element for iOS.
-    audio.play().catch((e) => console.warn("[TTS] primer play failed:", e?.name, e?.message));
-    audioRef.current = audio;
-
-    // Strip markdown/emojis for plain text (used by both Azure and fallback)
-    const plain = text
-      .replace(/```[\s\S]*?```/g, "code block omitted")
-      .replace(/`[^`]*`/g, "")
-      .replace(/#{1,6}\s/g, "")
-      .replace(/\*\*(.+?)\*\*/g, "$1")
-      .replace(/[*_~>|]/g, "")
-      .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
-      .replace(/\p{Emoji_Presentation}/gu, "")
-      .replace(/\p{Extended_Pictographic}/gu, "")
-      .replace(/\n{2,}/g, ". ")
-      .replace(/\n/g, " ")
-      .trim();
-    if (!plain) { setSpeakingMsgId(null); return; }
-
-    const abort = new AbortController();
-    ttsAbortRef.current = abort;
-
-    void (async () => {
-      try {
-        const res = await fetch("/api/tts", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text: plain }),
-          signal: abort.signal,
-        });
-        if (!res.ok) {
-          console.warn(`[TTS] server returned ${res.status}`);
-          setSpeakingMsgId(null);
-          return;
-        }
-        // Abort while fetch was in flight → user hit stop/switched msg.
-        if (audioRef.current !== audio) return;
-
-        const blob = await res.blob();
-        const url = URL.createObjectURL(blob);
-        const done = () => { URL.revokeObjectURL(url); setSpeakingMsgId(null); };
-        audio.onended = done;
-        audio.onerror = (ev) => { console.warn("[TTS] audio.onerror", ev); done(); };
-        // Do NOT call .load() after swap — resets media element on iOS and
-        // discards the gesture-activation we earned from the primer play.
-        audio.src = url;
-        try {
-          await audio.play();
-        } catch (playErr: any) {
-          console.warn("[TTS] real play() rejected:", playErr?.name, playErr?.message);
-          setSpeakingMsgId(null);
-        }
-      } catch (e: any) {
-        if (e?.name !== "AbortError") {
-          console.warn("[TTS] fetch/pipeline failed:", e?.message ?? e);
-          setSpeakingMsgId(null);
-        }
-      }
-    })();
+    void speakText(plain, {
+      onEnd: () => setSpeakingMsgId((cur) => (cur === msgId ? null : cur)),
+    }).then((handle) => {
+      if (speakingMsgIdRef.current !== msgId) { handle.cancel(); return; }
+      speakHandleRef.current = handle;
+    });
   };
 
   const printMessage = (content: string, promptSnippet?: string) => {
