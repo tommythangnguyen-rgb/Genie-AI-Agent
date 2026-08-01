@@ -70,7 +70,30 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
       a.src = "";
     }
     audioRef.current = null;
+    if (typeof window !== "undefined") window.speechSynthesis?.cancel();
     setSpeakingIdx(null);
+  }, []);
+
+  /**
+   * Browser-native speech, used when /api/tts can't deliver.
+   * msedge-tts opens a WebSocket to Microsoft, which Vercel's serverless
+   * runtime won't hold — so in production that route times out and the
+   * neural voice is simply unavailable. This keeps the button functional.
+   */
+  const speakLocally = useCallback((text: string, idx: number) => {
+    const synth = typeof window !== "undefined" ? window.speechSynthesis : undefined;
+    if (!synth) { setSpeakingIdx(null); return false; }
+    const utter = new SpeechSynthesisUtterance(text);
+    const preferred = synth
+      .getVoices()
+      .find((v) => /en-US/i.test(v.lang) && /aria|jenny|samantha|female|zira/i.test(v.name));
+    if (preferred) utter.voice = preferred;
+    utter.rate = 1.02;
+    utter.onend = () => setSpeakingIdx((cur) => (cur === idx ? null : cur));
+    utter.onerror = () => setSpeakingIdx((cur) => (cur === idx ? null : cur));
+    synth.cancel();
+    synth.speak(utter);
+    return true;
   }, []);
 
   useEffect(() => {
@@ -98,8 +121,12 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
 
     const abort = new AbortController();
     ttsAbortRef.current = abort;
+    // Don't make the user sit through the route's full 30s maxDuration before
+    // falling back — if the neural voice hasn't answered in 6s, it isn't coming.
+    const giveUp = setTimeout(() => abort.abort(), 6000);
 
     void (async () => {
+      let servedNeural = false;
       try {
         const res = await fetch("/api/tts", {
           method: "POST",
@@ -107,17 +134,27 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
           body: JSON.stringify({ text: plain }),
           signal: abort.signal,
         });
-        if (!res.ok || audioRef.current !== audio) { setSpeakingIdx(null); return; }
-        const url = URL.createObjectURL(await res.blob());
-        const done = () => { URL.revokeObjectURL(url); setSpeakingIdx(null); };
-        audio.onended = done;
-        audio.onerror = done;
-        // No .load() after the swap — that resets the element on iOS and
-        // throws away the gesture activation the primer earned.
-        audio.src = url;
-        await audio.play().catch(() => setSpeakingIdx(null));
-      } catch (e) {
-        if ((e as Error)?.name !== "AbortError") setSpeakingIdx(null);
+        if (res.ok && audioRef.current === audio) {
+          const url = URL.createObjectURL(await res.blob());
+          const done = () => { URL.revokeObjectURL(url); setSpeakingIdx((c) => (c === idx ? null : c)); };
+          audio.onended = done;
+          audio.onerror = done;
+          // No .load() after the swap — that resets the element on iOS and
+          // throws away the gesture activation the primer earned.
+          audio.src = url;
+          await audio.play();
+          servedNeural = true;
+        }
+      } catch {
+        // Timed out, aborted, or playback rejected — fall through.
+      } finally {
+        clearTimeout(giveUp);
+      }
+
+      // Only fall back if this request is still the active one.
+      if (!servedNeural && audioRef.current === audio) {
+        audioRef.current = null;
+        speakLocally(plain, idx);
       }
     })();
   };
