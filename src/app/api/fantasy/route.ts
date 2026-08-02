@@ -17,6 +17,7 @@ import {
 import { runSportsSearch, sportsSearchAvailable } from "@/lib/fantasy/search";
 import { getLeagueSnapshot, getWaiverActivity, getTrending } from "@/lib/fantasy/sleeper";
 import { appendTurn, isOwner } from "@/lib/fantasy/history";
+import { effectiveTier } from "@/lib/subscription";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
@@ -166,7 +167,13 @@ export async function POST(req: NextRequest) {
   const user = await withTimeout(
     prisma.user.findUnique({
       where: { id: session.userId },
-      select: { email: true, subscriptionTier: true, emailVerified: true, fantasyCreditsMills: true },
+      select: {
+        email: true,
+        subscriptionTier: true,
+        subscriptionStatus: true,
+        emailVerified: true,
+        fantasyCreditsMills: true,
+      },
     }),
     8000
   );
@@ -180,7 +187,7 @@ export async function POST(req: NextRequest) {
   // it just never blocks or deducts.
   const owner = isOwner(user.email);
 
-  const tier = (user.subscriptionTier ?? "FREE") as string;
+  const tier = effectiveTier(user.subscriptionTier, user.subscriptionStatus);
   if (!owner && !canAccessFeature("fantasy_agent", tier)) {
     return NextResponse.json({ error: "PRO_REQUIRED", tier }, { status: 402 });
   }

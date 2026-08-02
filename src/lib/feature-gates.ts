@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { DAILY_LIMITS } from "@/lib/stripe";
+import { effectiveTier } from "@/lib/subscription";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -73,9 +74,9 @@ export function isUnlimited(tier: string): boolean {
 export async function getUserSubscriptionTier(userId: string): Promise<string> {
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    select: { subscriptionTier: true },
+    select: { subscriptionTier: true, subscriptionStatus: true },
   });
-  return user?.subscriptionTier ?? "FREE";
+  return effectiveTier(user?.subscriptionTier, user?.subscriptionStatus);
 }
 
 /**
@@ -92,12 +93,13 @@ export async function getUserDailyUsage(userId: string): Promise<{
     where: { id: userId },
     select: {
       subscriptionTier: true,
+      subscriptionStatus: true,
       dailyQuestionCount: true,
       dailyQuestionResetAt: true,
     },
   });
 
-  const tier = user?.subscriptionTier ?? "FREE";
+  const tier = effectiveTier(user?.subscriptionTier, user?.subscriptionStatus);
   const limit = getDailyMessageLimit(tier);
 
   // Determine effective count (reset if date has rolled over)

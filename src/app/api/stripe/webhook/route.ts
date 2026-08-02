@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 import { addCredits } from "@/lib/fantasy/billing";
+import { isEntitled } from "@/lib/subscription";
 
 export const config = { api: { bodyParser: false } };
 
@@ -96,19 +97,38 @@ export async function POST(req: NextRequest) {
 
     case "customer.subscription.updated": {
       const subscription = event.data.object;
-      const userId = subscription.metadata?.userId;
-      if (!userId) break;
-      const tier = (subscription.metadata?.tier ?? "FREE").toUpperCase();
+
+      // Deliberately not requiring metadata.userId: the row is found by
+      // subscription id, and subscriptions created outside our checkout (or
+      // edited in the Stripe dashboard) carry no metadata. Bailing on a missing
+      // userId dropped those status changes on the floor.
+      const metaTier = subscription.metadata?.tier?.toUpperCase();
+
+      // Only downgrade on a dead status. When the subscription is still live but
+      // carries no tier metadata, leave the tier alone rather than defaulting to
+      // FREE — that default silently stripped Pro from paying subscribers.
+      const tierUpdate = !isEntitled(subscription.status)
+        ? { subscriptionTier: "FREE" as any }
+        : metaTier
+          ? { subscriptionTier: metaTier as any }
+          : {};
+
       await prisma.user
         .update({
           where: { stripeSubscriptionId: subscription.id },
           data: {
-            subscriptionTier: tier as any,
+            ...tierUpdate,
             subscriptionStatus: subscription.status,
-            subscriptionPeriodEnd: new Date(subscription.current_period_end * 1000),
+            subscriptionPeriodEnd: subscription.current_period_end
+              ? new Date(subscription.current_period_end * 1000)
+              : null,
           },
         })
-        .catch(() => {});
+        .catch((e) => {
+          // Swallowing this is how the tier/status drift went unnoticed for
+          // weeks. Still non-fatal — Stripe must get its 200 — but it gets logged.
+          console.error(`[stripe] subscription.updated failed for ${subscription.id}:`, e?.message);
+        });
       break;
     }
 

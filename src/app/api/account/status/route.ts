@@ -3,6 +3,7 @@ import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { DAILY_LIMITS } from "@/lib/stripe";
 import { cookies } from "next/headers";
+import { effectiveTier } from "@/lib/subscription";
 
 export async function GET(req: NextRequest) {
   const session = await getSession();
@@ -26,7 +27,7 @@ export async function GET(req: NextRequest) {
     today.setUTCHours(0, 0, 0, 0);
     const needsReset = !user.dailyQuestionResetAt || user.dailyQuestionResetAt < today;
     const count = needsReset ? 0 : user.dailyQuestionCount;
-    const tier = user.subscriptionTier ?? "FREE";
+    const tier = effectiveTier(user.subscriptionTier, user.subscriptionStatus);
     const limit = DAILY_LIMITS[tier] ?? 3;
 
     return NextResponse.json({

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
 import { stripe, PLANS } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
+import { isEntitled } from "@/lib/subscription";
 
 /** Map from Stripe price ID → tier string, built from the PLANS config. */
 function buildPriceToTierMap(): Record<string, string> {
@@ -70,7 +71,12 @@ export async function POST() {
   const priceId = subscription.items?.data?.[0]?.price?.id ?? "";
   const tierFromPrice = priceId ? priceToTier[priceId] : undefined;
   const tierFromMeta = subscription.metadata?.tier?.toUpperCase();
-  const tier = tierFromMeta || tierFromPrice || "FREE";
+  // A canceled/unpaid subscription still carries its price and metadata, so
+  // deriving the tier from those alone re-grants Pro to someone who cancelled.
+  // Status decides; price/metadata only says *which* paid tier.
+  const tier = isEntitled(subscription.status)
+    ? tierFromMeta || tierFromPrice || "FREE"
+    : "FREE";
 
   console.log(
     `[stripe/sync] userId=${session.userId} sub=${subscription.id} status=${subscription.status} tier=${tier} (meta=${tierFromMeta} price=${tierFromPrice})`

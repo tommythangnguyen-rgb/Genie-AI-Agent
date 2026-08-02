@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import { canAccessFeature } from "@/lib/feature-gates";
 import { CREDIT_PACKS, creditPacksWithNet, netAfterStripe, packById, getBalanceMills, millsToUsd, MIN_BALANCE_MILLS } from "@/lib/fantasy/billing";
 import { agentTitleFor, isOwner } from "@/lib/fantasy/history";
+import { effectiveTier } from "@/lib/subscription";
 
 export const dynamic = "force-dynamic";
 
@@ -15,9 +16,9 @@ export async function GET(req: NextRequest) {
 
   const user = await prisma.user.findUnique({
     where: { id: session.userId },
-    select: { subscriptionTier: true, email: true },
+    select: { subscriptionTier: true, subscriptionStatus: true, email: true },
   });
-  const tier = (user?.subscriptionTier ?? "FREE") as string;
+  const tier = effectiveTier(user?.subscriptionTier, user?.subscriptionStatus);
   const owner = isOwner(user?.email);
   const balanceMills = await getBalanceMills(session.userId);
 
@@ -43,13 +44,13 @@ export async function POST(req: NextRequest) {
 
   const user = await prisma.user.findUnique({
     where: { id: session.userId },
-    select: { email: true, stripeCustomerId: true, subscriptionTier: true },
+    select: { email: true, stripeCustomerId: true, subscriptionTier: true, subscriptionStatus: true },
   });
   if (!user) return NextResponse.json({ error: "USER_NOT_FOUND" }, { status: 404 });
 
   // Credits are only usable with Pro, so don't let someone buy them first and
   // then discover the agent is still locked.
-  if (!canAccessFeature("fantasy_agent", (user.subscriptionTier ?? "FREE") as string)) {
+  if (!canAccessFeature("fantasy_agent", effectiveTier(user.subscriptionTier, user.subscriptionStatus))) {
     return NextResponse.json({ error: "PRO_REQUIRED" }, { status: 402 });
   }
 

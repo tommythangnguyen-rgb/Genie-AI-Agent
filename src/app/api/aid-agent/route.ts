@@ -5,6 +5,7 @@ import { getLatestUpdatesContext } from "@/lib/regulation-fetcher";
 import { fetchResourcePage } from "@/lib/tools/resource-fetch";
 import { verifySession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { effectiveTier } from "@/lib/subscription";
 import { checkAndIncrementUserLimit, checkAndIncrementGuestLimit } from "@/lib/rate-limit";
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
@@ -25,14 +26,19 @@ export async function POST(req: NextRequest) {
     const user = await withTimeout(
       prisma.user.findUnique({
         where: { id: session.userId },
-        select: { subscriptionTier: true, accountOwnerId: true, emailVerified: true },
+        select: {
+          subscriptionTier: true,
+          subscriptionStatus: true,
+          accountOwnerId: true,
+          emailVerified: true,
+        },
       }),
       8000
     );
     if (user && user.emailVerified === false) {
       return NextResponse.json({ error: "EMAIL_NOT_VERIFIED" }, { status: 403 });
     }
-    const tier = (user?.subscriptionTier ?? "FREE") as string;
+    const tier = effectiveTier(user?.subscriptionTier, user?.subscriptionStatus);
     rateLimitResult = await withTimeout(
       checkAndIncrementUserLimit(session.userId, tier),
       8000
