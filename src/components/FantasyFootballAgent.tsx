@@ -36,9 +36,18 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
   // Bumped after each billed turn so the balance refreshes without a poll.
   const [creditTick, setCreditTick] = useState(0);
   const [showHistory, setShowHistory] = useState(false);
+  // Owners see their league name; everyone else the product name. Resolved
+  // server-side so the mapping never ships to the browser.
+  const [agentTitle, setAgentTitle] = useState("NFL Fantasy Football Aid Assistant");
   const [convos, setConvos] = useState<Array<{id:string;sessionId:string|null;title:string;turnCount:number;updatedAt:string}>>([]);
   // Restore after mount so the server render and first client render match.
   useEffect(() => { setLeague(loadSleeperLink()); }, []);
+  useEffect(() => {
+    void fetch("/api/fantasy/credits")
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => { if (d?.agentTitle) setAgentTitle(d.agentTitle); })
+      .catch(() => {});
+  }, []);
 
   // Pick up the most recent conversation on open, so closing the window
   // doesn't lose the thread. History lives on the account, not the tab.
@@ -279,7 +288,7 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
       style={{ background: "rgba(4,6,14,0.72)" }}
       role="dialog"
       aria-modal="true"
-      aria-label="NFL Fantasy Football Aid Assistant"
+      aria-label={agentTitle}
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <div
@@ -309,7 +318,7 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
         <header className="flex shrink-0 items-center justify-between border-b border-[#D4AF37]/20 px-4 py-3">
           <div className="min-w-0">
             <h2 className="truncate text-sm font-black tracking-tight text-white">
-              NFL Fantasy Football Aid Assistant
+              {agentTitle}
             </h2>
             <p className="mt-0.5 truncate text-[10px] text-cyan-300/70">
               Searches live sources · reads screenshots · flags anything unverified
@@ -317,7 +326,7 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
           </div>
           <div className="flex shrink-0 items-center gap-1">
             <button
-              onClick={() => printFantasyConversation(turns)}
+              onClick={() => printFantasyConversation(turns, agentTitle)}
               disabled={turns.length === 0 || busy}
               title="Print or save the whole conversation as a PDF"
               className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-[10px] font-semibold text-white/50 transition-all hover:bg-[#D4AF37]/[0.12] hover:text-[#D4AF37] disabled:cursor-not-allowed disabled:opacity-30"
@@ -475,7 +484,7 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
                     <button
                       // Pair the answer with the question that produced it — a
                       // printed answer alone loses the context that framed it.
-                      onClick={() => printFantasyConversation(turns.slice(Math.max(0, i - 1), i + 1))}
+                      onClick={() => printFantasyConversation(turns.slice(Math.max(0, i - 1), i + 1), agentTitle)}
                       className="flex items-center gap-1 rounded-lg px-1.5 py-1 text-[10px] font-semibold text-white/40 transition-colors hover:text-[#D4AF37]"
                       aria-label="Print or save this answer as a PDF"
                     >

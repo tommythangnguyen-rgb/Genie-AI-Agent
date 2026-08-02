@@ -4,6 +4,7 @@ import { verifySession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { canAccessFeature } from "@/lib/feature-gates";
 import { CREDIT_PACKS, packById, getBalanceMills, millsToUsd, MIN_BALANCE_MILLS } from "@/lib/fantasy/billing";
+import { agentTitleFor, isOwner } from "@/lib/fantasy/history";
 
 export const dynamic = "force-dynamic";
 
@@ -14,14 +15,17 @@ export async function GET(req: NextRequest) {
 
   const user = await prisma.user.findUnique({
     where: { id: session.userId },
-    select: { subscriptionTier: true },
+    select: { subscriptionTier: true, email: true },
   });
   const tier = (user?.subscriptionTier ?? "FREE") as string;
+  const owner = isOwner(user?.email);
   const balanceMills = await getBalanceMills(session.userId);
 
   return NextResponse.json({
     tier,
-    hasPro: canAccessFeature("fantasy_agent", tier),
+    hasPro: owner || canAccessFeature("fantasy_agent", tier),
+    owner,
+    agentTitle: agentTitleFor(user?.email),
     balanceUsd: millsToUsd(balanceMills),
     lowBalance: balanceMills < MIN_BALANCE_MILLS,
     packs: CREDIT_PACKS,

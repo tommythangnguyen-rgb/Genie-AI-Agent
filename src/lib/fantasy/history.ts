@@ -24,6 +24,16 @@ export function isOwner(email: string | null | undefined): boolean {
   return ownerEmails().includes(email.toLowerCase());
 }
 
+/** Default product name, and the personalised one owners see. */
+export const DEFAULT_AGENT_TITLE = "NFL Fantasy Football Aid Assistant";
+export const OWNER_AGENT_TITLE =
+  process.env.FANTASY_OWNER_TITLE ?? "NO CHILL MFs - Fantasy Football Assistant";
+
+/** Owners see their league name; everyone else sees the product name. */
+export function agentTitleFor(email: string | null | undefined): string {
+  return isOwner(email) ? OWNER_AGENT_TITLE : DEFAULT_AGENT_TITLE;
+}
+
 /** First line of the opening question, trimmed to something list-friendly. */
 function deriveTitle(text: string): string {
   const line = text.replace(/\s+/g, " ").trim();
