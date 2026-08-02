@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { X, Send, Search, Loader2, ShieldCheck, ImagePlus, Volume2, Square, Printer, Mic, MicOff, History, Trash2 } from "lucide-react";
+import { X, Send, Search, Loader2, ShieldCheck, ImagePlus, Volume2, Square, Printer, Mic, MicOff, History, Trash2, Download } from "lucide-react";
 import { printFantasyConversation } from "@/lib/fantasy/print";
 import { speakText, cancelSpeech, stripForSpeech, type SpeakHandle } from "@/lib/tts/speak-client";
 import { useSpeechInput } from "@/lib/tts/use-speech-input";
@@ -9,7 +9,8 @@ import { SleeperLeaguePanel, loadSleeperLink, type SleeperLink } from "@/compone
 import { FantasyCreditsBar } from "@/components/FantasyCreditsBar";
 
 type Attachment = { id: string; name: string; mediaType: string; data: string; preview: string };
-type Turn = { role: "user" | "agent"; text: string; images?: string[] };
+type OutFile = { id: string; filename: string; sizeBytes: number };
+type Turn = { role: "user" | "agent"; text: string; images?: string[]; files?: OutFile[] };
 
 const SUGGESTIONS = [
   "Start/sit: my WR2 vs a top-5 pass defense this week?",
@@ -38,6 +39,26 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
   const [convos, setConvos] = useState<Array<{id:string;sessionId:string|null;title:string;turnCount:number;updatedAt:string}>>([]);
   // Restore after mount so the server render and first client render match.
   useEffect(() => { setLeague(loadSleeperLink()); }, []);
+
+  // Pick up the most recent conversation on open, so closing the window
+  // doesn't lose the thread. History lives on the account, not the tab.
+  useEffect(() => {
+    let cancelled = false;
+    void (async () => {
+      try {
+        const list = await fetch("/api/fantasy/history");
+        if (!list.ok) return;
+        const [latest] = (await list.json()).conversations ?? [];
+        if (!latest || cancelled) return;
+        const one = await fetch(`/api/fantasy/history?id=${encodeURIComponent(latest.id)}`);
+        if (!one.ok || cancelled) return;
+        const c = (await one.json()).conversation;
+        sessionRef.current = c.sessionId ?? null;
+        setTurns((c.turns ?? []).map((t: { role: string; text: string }) => ({ role: t.role as "user" | "agent", text: t.text })));
+      } catch { /* offline — start empty rather than block the UI */ }
+    })();
+    return () => { cancelled = true; };
+  }, []);
 
   const sessionRef = useRef<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -233,6 +254,11 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
             case "message": finalized += String(evt.text ?? ""); preview = ""; setActivity(null); paint(); break;
             case "activity": setActivity(String(evt.tool ?? "working")); break;
             case "error": setError(String(evt.message ?? "Something went wrong.")); break;
+            case "files": {
+              const fl = (evt.files ?? []) as OutFile[];
+              if (fl.length) setTurns((t) => { const n=[...t]; n[n.length-1]={...n[n.length-1], files: fl}; return n; });
+              break;
+            }
             case "billing": setCreditTick((t) => t + 1); break;
             case "done": setActivity(null); break;
           }
@@ -409,6 +435,28 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
                 >
                   {turn.text || (busy && i === turns.length - 1 ? "…" : "")}
                 </div>
+                {turn.files && turn.files.length > 0 && (
+                  <div className="mt-1.5 space-y-1">
+                    {turn.files.map((f) => (
+                      <a
+                        key={f.id}
+                        href={`/api/fantasy/files?fileId=${encodeURIComponent(f.id)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 rounded-lg border border-[#D4AF37]/30 bg-[#D4AF37]/[0.08] px-2.5 py-2 text-[10px] text-white/85 transition-all hover:border-[#D4AF37]/60 hover:bg-[#D4AF37]/[0.15]"
+                      >
+                        <Download className="h-3.5 w-3.5 shrink-0 text-[#FFD700]" />
+                        <span className="min-w-0 flex-1 truncate font-semibold">{f.filename}</span>
+                        <span className="shrink-0 text-white/40">
+                          {f.sizeBytes > 1024 * 1024
+                            ? `${(f.sizeBytes / 1024 / 1024).toFixed(1)} MB`
+                            : `${Math.max(1, Math.round(f.sizeBytes / 1024))} KB`}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                )}
+
                 {turn.role === "agent" && turn.text.length > 0 && (
                   <div className="mt-1 flex items-center gap-1">
                     <button
