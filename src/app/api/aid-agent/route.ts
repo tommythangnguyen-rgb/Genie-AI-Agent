@@ -1,5 +1,5 @@
 import { streamText, stepCountIs } from "ai";
-import { getLanguageModel } from "@/lib/provider";
+import { selectProvider } from "@/lib/provider";
 import { aidAgentPrompt } from "@/lib/prompts/aid-agent";
 import { getLatestUpdatesContext } from "@/lib/regulation-fetcher";
 import { fetchResourcePage } from "@/lib/tools/resource-fetch";
@@ -79,7 +79,24 @@ export async function POST(req: NextRequest) {
     .filter((m: any) => m.role === "user" || m.role === "assistant")
     .map((m: any) => ({ role: m.role as "user" | "assistant", content: m.content }));
 
-  const model = getLanguageModel();
+  const selected = selectProvider();
+
+  // Live web search, matching what the fantasy agent gets from its managed
+  // toolset. Anthropic runs the search server-side and returns cited results,
+  // so nothing extra is hosted here and no search API key is needed.
+  //
+  // Attached only on the Anthropic provider: Bedrock and the mock model reject
+  // the tool outright, so a stray AWS_BEARER_TOKEN_BEDROCK would otherwise turn
+  // every askGenie request into a 400 rather than quietly losing search.
+  const tools: Record<string, unknown> = { fetchResourcePage };
+  if (selected.kind === "anthropic") {
+    tools.web_search = selected.provider.tools.webSearch_20250305({
+      // Enough for a couple of refinements without letting one question fan out
+      // into a dozen billed searches.
+      maxUses: 4,
+      userLocation: { type: "approximate", country: "US", timezone: "America/Los_Angeles" },
+    });
+  }
 
   // Build response headers up front
   const responseHeaders: Record<string, string> = {
@@ -93,13 +110,15 @@ export async function POST(req: NextRequest) {
 
   // No user input is logged or persisted — messages are processed in-memory only.
   const result = streamText({
-    model,
+    model: selected.model,
     system: systemContent,
     messages: coreMessages,
     maxOutputTokens: 3000,
     temperature: 0.4,
-    tools: { fetchResourcePage },
-    stopWhen: stepCountIs(4),
+    tools: tools as any,
+    // Raised from 4: a search-then-read-then-answer chain burns three steps on
+    // its own, which left nothing for a follow-up lookup.
+    stopWhen: stepCountIs(8),
   });
 
   // Translate raw API errors into user-friendly messages.

@@ -465,14 +465,25 @@ export default function App() {
   }
 }
 
-export function getLanguageModel() {
+/**
+ * Which backend answered. Callers need this because server-side tools —
+ * web search in particular — are Anthropic-first-party only. Attaching one
+ * while pointed at Bedrock is a request-time error, not a graceful no-op, so
+ * the tool has to be chosen from the same place the provider is.
+ */
+export type SelectedProvider =
+  | { kind: "anthropic"; model: LanguageModelV2; provider: ReturnType<typeof createAnthropic> }
+  | { kind: "bedrock"; model: LanguageModelV2 }
+  | { kind: "mock"; model: LanguageModelV2 };
+
+export function selectProvider(): SelectedProvider {
   const bedrockToken = process.env.AWS_BEARER_TOKEN_BEDROCK;
   const anthropicKey = process.env.ANTHROPIC_API_KEY;
 
   // Prefer Bedrock if both are available
   if (bedrockToken && bedrockToken.trim() !== "") {
     console.log("Using AWS Bedrock provider");
-    return bedrock(BEDROCK_MODEL);
+    return { kind: "bedrock", model: bedrock(BEDROCK_MODEL) };
   }
 
   if (anthropicKey && anthropicKey.trim() !== "") {
@@ -482,9 +493,13 @@ export function getLanguageModel() {
     const cleanKey = anthropicKey.replace(/\\n/g, "").replace(/\\r/g, "").trim();
     console.log("Using Anthropic provider");
     const provider = createAnthropic({ apiKey: cleanKey });
-    return provider(ANTHROPIC_MODEL);
+    return { kind: "anthropic", model: provider(ANTHROPIC_MODEL), provider };
   }
 
   console.log("No API keys found, using mock provider");
-  return new MockLanguageModel("mock-claude-sonnet-4-0");
+  return { kind: "mock", model: new MockLanguageModel("mock-claude-sonnet-4-0") };
+}
+
+export function getLanguageModel() {
+  return selectProvider().model;
 }
