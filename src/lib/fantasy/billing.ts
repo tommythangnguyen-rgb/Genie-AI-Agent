@@ -127,12 +127,27 @@ export async function chargeTurn(
   return { billedMills: billed, balanceMills: user.fantasyCreditsMills };
 }
 
-/** Credit packs. Priced so the smallest still clears Stripe's 30c fixed fee. */
+/** Stripe's standard US card rate, used only to preview the fee in the UI. */
+const STRIPE_PCT = 0.029;
+const STRIPE_FIXED = 0.3;
+
+/** What lands as usable credit after Stripe takes its cut. */
+export function netAfterStripe(usd: number): number {
+  return Math.max(0, Math.round((usd - (usd * STRIPE_PCT + STRIPE_FIXED)) * 100) / 100);
+}
+
+/**
+ * Credit packs. The larger packs lose proportionally less to Stripe's fixed
+ * 30c, which is why the credited amount is shown per pack rather than implied.
+ */
 export const CREDIT_PACKS = [
-  { id: "starter", label: "Starter", usd: 5, blurb: "~30 questions" },
-  { id: "regular", label: "Season", usd: 15, blurb: "~95 questions" },
-  { id: "heavy", label: "Commissioner", usd: 40, blurb: "~260 questions" },
+  { id: "starter", label: "Starter", usd: 5 },
+  { id: "regular", label: "Season", usd: 15 },
+  { id: "heavy", label: "Commissioner", usd: 40 },
 ] as const;
+
+export const creditPacksWithNet = () =>
+  CREDIT_PACKS.map((p) => ({ ...p, netUsd: netAfterStripe(p.usd), blurb: `$${netAfterStripe(p.usd).toFixed(2)} credit` }));
 
 export type CreditPackId = (typeof CREDIT_PACKS)[number]["id"];
 

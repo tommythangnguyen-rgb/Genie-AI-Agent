@@ -34,8 +34,26 @@ export async function POST(req: NextRequest) {
       if (session.metadata?.kind === "fantasy_credits") {
         const usd = Number(session.metadata?.usd ?? 0);
         if (userId && usd > 0 && session.payment_status === "paid") {
-          await addCredits(userId, usd);
-          console.log(`[stripe] credited $${usd} of fantasy usage to ${userId}`);
+          // Credit what Stripe actually deposited, not the sticker price.
+          // Usage is billed at exact API cost, so granting the gross amount
+          // would mean eating Stripe's 2.9% + 30c on every top-up. Reading
+          // the real balance transaction beats estimating the fee.
+          let netUsd = usd;
+          try {
+            const pi = await stripe.paymentIntents.retrieve(String(session.payment_intent), {
+              expand: ["latest_charge.balance_transaction"],
+            });
+            const bt = (pi as any)?.latest_charge?.balance_transaction;
+            if (bt?.net != null) netUsd = bt.net / 100;
+          } catch (e) {
+            // Fall back to Stripe's standard US card rate.
+            netUsd = Math.max(0, usd - (usd * 0.029 + 0.3));
+            console.warn("[stripe] balance transaction unavailable; estimating fee", e);
+          }
+          await addCredits(userId, netUsd);
+          console.log(
+            `[stripe] $${usd} purchase -> credited $${netUsd.toFixed(2)} usage to ${userId}`
+          );
         }
         break;
       }

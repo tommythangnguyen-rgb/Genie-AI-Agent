@@ -3,7 +3,7 @@ import { stripe } from "@/lib/stripe";
 import { verifySession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { canAccessFeature } from "@/lib/feature-gates";
-import { CREDIT_PACKS, packById, getBalanceMills, millsToUsd, MIN_BALANCE_MILLS } from "@/lib/fantasy/billing";
+import { CREDIT_PACKS, creditPacksWithNet, netAfterStripe, packById, getBalanceMills, millsToUsd, MIN_BALANCE_MILLS } from "@/lib/fantasy/billing";
 import { agentTitleFor, isOwner } from "@/lib/fantasy/history";
 
 export const dynamic = "force-dynamic";
@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
     agentTitle: agentTitleFor(user?.email),
     balanceUsd: millsToUsd(balanceMills),
     lowBalance: balanceMills < MIN_BALANCE_MILLS,
-    packs: CREDIT_PACKS,
+    packs: creditPacksWithNet(),
   });
 }
 
@@ -71,7 +71,9 @@ export async function POST(req: NextRequest) {
             unit_amount: pack.usd * 100,
             product_data: {
               name: `Fantasy AI credits — ${pack.label}`,
-              description: `$${pack.usd} of usage credit (${pack.blurb})`,
+              // State the credited amount, not the sticker price — the
+              // difference is Stripe's own fee and shouldn't be a surprise.
+              description: `$${netAfterStripe(pack.usd).toFixed(2)} of usage credit after processing fee`,
             },
           },
         },
