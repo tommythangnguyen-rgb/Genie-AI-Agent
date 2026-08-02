@@ -10,7 +10,8 @@ import { FantasyCreditsBar } from "@/components/FantasyCreditsBar";
 
 type Attachment = { id: string; name: string; mediaType: string; data: string; preview: string };
 type OutFile = { id: string; filename: string; sizeBytes: number };
-type Turn = { role: "user" | "agent"; text: string; images?: string[]; files?: OutFile[] };
+type Cost = { chargedUsd: number; costUsd: number; tokens: number; owner: boolean };
+type Turn = { role: "user" | "agent"; text: string; images?: string[]; files?: OutFile[]; cost?: Cost };
 
 const SUGGESTIONS = [
   "Start/sit: my WR2 vs a top-5 pass defense this week?",
@@ -288,7 +289,12 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
               if (fl.length) setTurns((t) => { const n=[...t]; n[n.length-1]={...n[n.length-1], files: fl}; return n; });
               break;
             }
-            case "billing": setCreditTick((t) => t + 1); break;
+            case "billing": {
+              const c: Cost = { chargedUsd: Number(evt.chargedUsd ?? 0), costUsd: Number(evt.costUsd ?? 0), tokens: Number(evt.tokens ?? 0), owner: Boolean(evt.owner) };
+              setTurns((t) => { const n=[...t]; n[n.length-1]={...n[n.length-1], cost:c}; return n; });
+              setCreditTick((t) => t + 1);
+              break;
+            }
             case "done": setActivity(null); break;
           }
         }
@@ -503,6 +509,16 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
                       </a>
                     ))}
                   </div>
+                )}
+
+                {turn.cost && (
+                  <p className="mt-1 text-[9px] text-white/30">
+                    {turn.cost.tokens.toLocaleString()} tokens · API cost $
+                    {turn.cost.costUsd.toFixed(4)}
+                    {turn.cost.owner
+                      ? " · not charged (owner)"
+                      : ` · charged $${turn.cost.chargedUsd.toFixed(4)}`}
+                  </p>
                 )}
 
                 {turn.role === "agent" && turn.text.length > 0 && (

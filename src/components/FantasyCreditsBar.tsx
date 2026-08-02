@@ -114,8 +114,8 @@ export function FantasyCreditsBar({ refreshKey }: { refreshKey: number }) {
 
       {open && (
         <p className="mt-1.5 text-[9px] leading-snug text-white/35">
-          Charged per question at roughly twice the underlying model cost. A typical question runs a
-          few cents; long research answers cost more. Credits never expire.
+          Charged at exactly what each question costs on the Anthropic API — no markup. A short
+          question runs a few cents; a long research answer costs more. Credits never expire.
         </p>
       )}
     </div>

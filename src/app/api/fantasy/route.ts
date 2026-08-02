@@ -3,7 +3,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { verifySession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { canAccessFeature } from "@/lib/feature-gates";
-import { chargeTurn, millsToUsd, MIN_BALANCE_MILLS, type TokenUsage } from "@/lib/fantasy/billing";
+import { chargeTurn, millsToUsd, rawCostMills, MIN_BALANCE_MILLS, type TokenUsage } from "@/lib/fantasy/billing";
 import {
   FANTASY_AGENT_ID,
   FANTASY_ENVIRONMENT_ID,
@@ -416,9 +416,26 @@ export async function POST(req: NextRequest) {
         // Bill whatever was actually consumed, even on error or disconnect —
         // those tokens were spent. A turn that produced nothing costs nothing.
         try {
-          if (!owner && (turnUsageRef.input_tokens ?? 0) + (turnUsageRef.output_tokens ?? 0) > 0) {
-            const { billedMills, balanceMills } = await chargeTurn(billingUserId, sessionIdRef, turnUsageRef);
-            emit({ type: "billing", chargedUsd: millsToUsd(billedMills), balanceUsd: millsToUsd(balanceMills) });
+          if ((turnUsageRef.input_tokens ?? 0) + (turnUsageRef.output_tokens ?? 0) > 0) {
+            // Owners are recorded but not deducted, so their real cost is
+            // still visible rather than invisible.
+            const { billedMills, balanceMills } = await chargeTurn(
+              billingUserId,
+              sessionIdRef,
+              turnUsageRef,
+              !owner
+            );
+            emit({
+              type: "billing",
+              chargedUsd: millsToUsd(billedMills),
+              costUsd: millsToUsd(rawCostMills(turnUsageRef)),
+              balanceUsd: millsToUsd(balanceMills),
+              tokens:
+                (turnUsageRef.input_tokens ?? 0) +
+                (turnUsageRef.output_tokens ?? 0) +
+                (turnUsageRef.cache_read_input_tokens ?? 0),
+              owner,
+            });
           }
         } catch (e) {
           console.error("[fantasy] billing failed:", e);

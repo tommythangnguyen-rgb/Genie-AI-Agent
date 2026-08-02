@@ -21,8 +21,15 @@ const PRICE_PER_MTOK = {
   cacheWrite: 6.25, // ~1.25x input
 };
 
-/** Charged at 2x raw cost — covers Stripe fees, hosting, and unbillable retries. */
-export const MARKUP = 2;
+/**
+ * Multiplier applied to the measured Anthropic cost.
+ *
+ * 1 = exact pass-through: a user is charged precisely what their turn cost on
+ * the API key, to the tenth of a cent. Note this does not break even — Stripe
+ * takes 2.9% + 30c per top-up, so a $5 pack nets ~$4.55 while granting $5.00
+ * of usage. Raise FANTASY_MARKUP without a deploy if that gap needs closing.
+ */
+export const MARKUP = Number(process.env.FANTASY_MARKUP ?? 1) || 1;
 
 /** Refuse to start a turn below this, so a turn can't strand mid-answer. */
 export const MIN_BALANCE_MILLS = 250; // 25 cents
@@ -75,24 +82,41 @@ export async function addCredits(userId: string, usd: number): Promise<number> {
 export async function chargeTurn(
   userId: string,
   sessionId: string | null,
-  usage: TokenUsage
+  usage: TokenUsage,
+  /**
+   * Owners run unmetered, but their turns are still recorded — otherwise
+   * there's no cost data to price against. Passing false writes the audit row
+   * and skips the deduction.
+   */
+  deduct = true
 ): Promise<{ billedMills: number; balanceMills: number }> {
   const raw = rawCostMills(usage);
-  const billed = Math.max(1, Math.round(raw * MARKUP)); // never free
+  const billed = Math.max(1, Math.round(raw * MARKUP)); // never literally free
+
+  const row = prisma.fantasyUsage.create({
+    data: {
+      userId,
+      sessionId,
+      inputTokens: usage.input_tokens ?? 0,
+      outputTokens: usage.output_tokens ?? 0,
+      cacheReadTokens: usage.cache_read_input_tokens ?? 0,
+      cacheWriteTokens: usage.cache_creation_input_tokens ?? 0,
+      rawCostMills: raw,
+      billedMills: deduct ? billed : 0,
+    },
+  });
+
+  if (!deduct) {
+    await row;
+    const u = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { fantasyCreditsMills: true },
+    });
+    return { billedMills: 0, balanceMills: u?.fantasyCreditsMills ?? 0 };
+  }
 
   const [, user] = await prisma.$transaction([
-    prisma.fantasyUsage.create({
-      data: {
-        userId,
-        sessionId,
-        inputTokens: usage.input_tokens ?? 0,
-        outputTokens: usage.output_tokens ?? 0,
-        cacheReadTokens: usage.cache_read_input_tokens ?? 0,
-        cacheWriteTokens: usage.cache_creation_input_tokens ?? 0,
-        rawCostMills: raw,
-        billedMills: billed,
-      },
-    }),
+    row,
     prisma.user.update({
       where: { id: userId },
       data: { fantasyCreditsMills: { decrement: billed } },
