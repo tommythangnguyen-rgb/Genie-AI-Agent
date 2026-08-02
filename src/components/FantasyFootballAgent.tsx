@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { X, Send, Search, Loader2, ShieldCheck, ImagePlus, Volume2, Square, Printer, Mic, MicOff, History, Trash2, Download } from "lucide-react";
+import { X, Send, Search, Loader2, ShieldCheck, ImagePlus, Volume2, Square, Printer, Mic, MicOff, History, Trash2, Download, SquarePen } from "lucide-react";
 import { printFantasyConversation } from "@/lib/fantasy/print";
 import { speakText, cancelSpeech, stripForSpeech, type SpeakHandle } from "@/lib/tts/speak-client";
 import { useSpeechInput } from "@/lib/tts/use-speech-input";
@@ -136,6 +136,26 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
     await fetch("/api/fantasy/history?id=" + encodeURIComponent(id), { method: "DELETE" }).catch(() => {});
     setConvos((c) => c.filter((x) => x.id !== id));
   }, []);
+
+  /**
+   * Drop the current thread and start clean. Clearing sessionRef is the part
+   * that matters — the next send then creates a fresh Anthropic session, so
+   * the model starts without the previous conversation's context (and without
+   * paying to replay it). The old conversation stays saved in History.
+   */
+  const startNewChat = useCallback(() => {
+    abortRef.current?.abort();
+    abortRef.current = null;
+    stopSpeaking();
+    sessionRef.current = null;
+    setTurns([]);
+    setInput("");
+    setAttachments([]);
+    setError(null);
+    setActivity(null);
+    setBusy(false);
+    setShowHistory(false);
+  }, [stopSpeaking]);
 
   const speak = (idx: number, text: string) => {
     if (speakingIdx === idx) { stopSpeaking(); return; }
@@ -325,6 +345,25 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
             </p>
           </div>
           <div className="flex shrink-0 items-center gap-1">
+            <button
+              onClick={startNewChat}
+              disabled={busy}
+              title="Start a new conversation"
+              className="flex items-center gap-1 rounded-lg px-2 py-1.5 text-[10px] font-semibold text-white/50 transition-all hover:bg-[#D4AF37]/[0.12] hover:text-[#D4AF37] disabled:cursor-not-allowed disabled:opacity-30"
+            >
+              <SquarePen className="h-3.5 w-3.5" />
+              New
+            </button>
+            <button
+              onClick={() => { setShowHistory((v) => !v); if (!showHistory) void loadHistoryList(); }}
+              title="Saved conversations"
+              className={`flex items-center gap-1 rounded-lg px-2 py-1.5 text-[10px] font-semibold transition-all hover:bg-[#D4AF37]/[0.12] hover:text-[#D4AF37] ${
+                showHistory ? "text-[#D4AF37]" : "text-white/50"
+              }`}
+            >
+              <History className="h-3.5 w-3.5" />
+              History
+            </button>
             <button
               onClick={() => printFantasyConversation(turns, agentTitle)}
               disabled={turns.length === 0 || busy}
