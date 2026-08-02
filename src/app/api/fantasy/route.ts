@@ -423,6 +423,39 @@ export async function POST(req: NextRequest) {
         } catch (e) {
           console.error("[fantasy] billing failed:", e);
         }
+
+        // Surface anything the agent wrote to /mnt/session/outputs/, otherwise
+        // a generated cheat sheet exists but the user has no way to reach it.
+        try {
+          if (sessionIdRef && !clientGone) {
+            let out: Array<{ id: string; filename: string; size_bytes: number }> = [];
+            for (let a = 0; a < 3 && out.length === 0; a++) {
+              // Indexing lags the idle event by a second or two.
+              if (a) await new Promise((res) => setTimeout(res, 1200));
+              const l = await client.beta.files.list({
+                scope_id: sessionIdRef,
+                betas: ["managed-agents-2026-04-01"],
+              } as never);
+              out = (l.data ?? []) as typeof out;
+            }
+            if (out.length) {
+              emit({
+                type: "files",
+                files: out.map((f) => ({ id: f.id, filename: f.filename, sizeBytes: f.size_bytes })),
+              });
+            }
+          }
+        } catch (e) {
+          console.error("[fantasy] output listing failed:", e);
+        }
+
+        // Persist the exchange so history survives closing the window.
+        try {
+          await appendTurn(billingUserId, sessionIdRef, message, answerRef);
+        } catch (e) {
+          console.error("[fantasy] history save failed:", e);
+        }
+
         close();
       }
     },
