@@ -16,6 +16,7 @@ import {
 } from "@/lib/fantasy/config";
 import { runSportsSearch, sportsSearchAvailable } from "@/lib/fantasy/search";
 import { getLeagueSnapshot, getWaiverActivity, getTrending } from "@/lib/fantasy/sleeper";
+import { appendTurn, isOwner } from "@/lib/fantasy/history";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300;
@@ -165,7 +166,7 @@ export async function POST(req: NextRequest) {
   const user = await withTimeout(
     prisma.user.findUnique({
       where: { id: session.userId },
-      select: { subscriptionTier: true, emailVerified: true, fantasyCreditsMills: true },
+      select: { email: true, subscriptionTier: true, emailVerified: true, fantasyCreditsMills: true },
     }),
     8000
   );
@@ -174,14 +175,19 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "EMAIL_NOT_VERIFIED" }, { status: 403 });
   }
 
+  // Owner accounts (FANTASY_OWNER_EMAILS) skip both gates — unmetered access
+  // for whoever runs the site. Usage is still recorded so spend stays visible;
+  // it just never blocks or deducts.
+  const owner = isOwner(user.email);
+
   const tier = (user.subscriptionTier ?? "FREE") as string;
-  if (!canAccessFeature("fantasy_agent", tier)) {
+  if (!owner && !canAccessFeature("fantasy_agent", tier)) {
     return NextResponse.json({ error: "PRO_REQUIRED", tier }, { status: 402 });
   }
 
   // Gate before starting rather than mid-answer: we can't know a turn's true
   // cost until it finishes, so require enough headroom for a typical one.
-  if (user.fantasyCreditsMills < MIN_BALANCE_MILLS) {
+  if (!owner && user.fantasyCreditsMills < MIN_BALANCE_MILLS) {
     return NextResponse.json(
       { error: "INSUFFICIENT_CREDITS", balanceUsd: millsToUsd(user.fantasyCreditsMills) },
       { status: 402 }
@@ -227,6 +233,7 @@ export async function POST(req: NextRequest) {
       // Declared outside the try so the finally block can bill from them.
       const turnUsageRef: TokenUsage = { input_tokens: 0, output_tokens: 0, cache_read_input_tokens: 0, cache_creation_input_tokens: 0 };
       let sessionIdRef: string | null = priorSessionId;
+      let answerRef = "";
 
       try {
         let sessionId = priorSessionId;
@@ -322,12 +329,14 @@ export async function POST(req: NextRequest) {
           }
 
           if (type === "agent.message") {
+            // Accumulated for the saved transcript.
             const e = event as { id?: string; content?: Array<{ type?: string; text?: string }> };
             const text = (e.content ?? [])
               .filter((b) => b.type === "text" && typeof b.text === "string")
               .map((b) => b.text)
               .join("");
             if (e.id) previews.delete(e.id);
+            answerRef += text;
             emit({ type: "message", id: e.id, text });
             continue;
           }
@@ -407,7 +416,7 @@ export async function POST(req: NextRequest) {
         // Bill whatever was actually consumed, even on error or disconnect —
         // those tokens were spent. A turn that produced nothing costs nothing.
         try {
-          if ((turnUsageRef.input_tokens ?? 0) + (turnUsageRef.output_tokens ?? 0) > 0) {
+          if (!owner && (turnUsageRef.input_tokens ?? 0) + (turnUsageRef.output_tokens ?? 0) > 0) {
             const { billedMills, balanceMills } = await chargeTurn(billingUserId, sessionIdRef, turnUsageRef);
             emit({ type: "billing", chargedUsd: millsToUsd(billedMills), balanceUsd: millsToUsd(balanceMills) });
           }

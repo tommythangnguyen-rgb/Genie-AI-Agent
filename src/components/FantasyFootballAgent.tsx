@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { X, Send, Search, Loader2, ShieldCheck, ImagePlus, Volume2, Square, Printer, Mic, MicOff } from "lucide-react";
+import { X, Send, Search, Loader2, ShieldCheck, ImagePlus, Volume2, Square, Printer, Mic, MicOff, History, Trash2 } from "lucide-react";
 import { printFantasyConversation } from "@/lib/fantasy/print";
 import { speakText, cancelSpeech, stripForSpeech, type SpeakHandle } from "@/lib/tts/speak-client";
 import { useSpeechInput } from "@/lib/tts/use-speech-input";
@@ -34,6 +34,8 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
   const [league, setLeague] = useState<SleeperLink | null>(null);
   // Bumped after each billed turn so the balance refreshes without a poll.
   const [creditTick, setCreditTick] = useState(0);
+  const [showHistory, setShowHistory] = useState(false);
+  const [convos, setConvos] = useState<Array<{id:string;sessionId:string|null;title:string;turnCount:number;updatedAt:string}>>([]);
   // Restore after mount so the server render and first client render match.
   useEffect(() => { setLeague(loadSleeperLink()); }, []);
 
@@ -80,6 +82,30 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
       setInput((cur) => (cur ? `${cur.replace(/\s+$/, "")} ${phrase}` : phrase));
     }, [])
   );
+
+  const loadHistoryList = useCallback(async () => {
+    try {
+      const r = await fetch("/api/fantasy/history");
+      if (r.ok) setConvos((await r.json()).conversations ?? []);
+    } catch { /* offline */ }
+  }, []);
+
+  const openConversation = useCallback(async (id: string) => {
+    try {
+      const r = await fetch("/api/fantasy/history?id=" + encodeURIComponent(id));
+      if (!r.ok) return;
+      const c = (await r.json()).conversation;
+      // Resume the same agent session so the model keeps its own context too.
+      sessionRef.current = c.sessionId ?? null;
+      setTurns((c.turns ?? []).map((t: {role:string;text:string}) => ({ role: t.role, text: t.text })));
+      setShowHistory(false);
+    } catch { /* offline */ }
+  }, []);
+
+  const removeConversation = useCallback(async (id: string) => {
+    await fetch("/api/fantasy/history?id=" + encodeURIComponent(id), { method: "DELETE" }).catch(() => {});
+    setConvos((c) => c.filter((x) => x.id !== id));
+  }, []);
 
   const speak = (idx: number, text: string) => {
     if (speakingIdx === idx) { stopSpeaking(); return; }
@@ -282,6 +308,51 @@ export function FantasyFootballAgent({ onClose }: { onClose: () => void }) {
             </button>
           </div>
         </header>
+
+        {showHistory && (
+          <div className="max-h-56 shrink-0 overflow-y-auto border-b border-[#D4AF37]/20 bg-black/30 px-3 py-2">
+            <div className="mb-1.5 flex items-center justify-between">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#D4AF37]/80">
+                Saved conversations
+              </span>
+              <button
+                onClick={() => { sessionRef.current = null; setTurns([]); setShowHistory(false); }}
+                className="rounded-lg border border-white/15 px-2 py-0.5 text-[10px] font-semibold text-white/70 hover:border-[#D4AF37]/50 hover:text-[#D4AF37]"
+              >
+                + New
+              </button>
+            </div>
+            {convos.length === 0 ? (
+              <p className="text-[10px] text-white/40">
+                Nothing saved yet — every question you ask is logged here automatically.
+              </p>
+            ) : (
+              <div className="space-y-1">
+                {convos.map((c) => (
+                  <div key={c.id} className="group flex items-center gap-1">
+                    <button
+                      onClick={() => void openConversation(c.id)}
+                      className="min-w-0 flex-1 rounded-lg border border-white/10 bg-white/[0.04] px-2 py-1.5 text-left transition-all hover:border-[#D4AF37]/40"
+                    >
+                      <div className="truncate text-[11px] text-white/85">{c.title}</div>
+                      <div className="text-[9px] text-white/35">
+                        {c.turnCount} {c.turnCount === 1 ? "question" : "questions"} ·{" "}
+                        {new Date(c.updatedAt).toLocaleDateString()}
+                      </div>
+                    </button>
+                    <button
+                      onClick={() => void removeConversation(c.id)}
+                      title="Delete"
+                      className="shrink-0 rounded p-1 text-white/25 hover:text-rose-300"
+                    >
+                      <Trash2 className="h-3 w-3" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         <FantasyCreditsBar refreshKey={creditTick} />
         <SleeperLeaguePanel link={league} onLink={setLeague} />
