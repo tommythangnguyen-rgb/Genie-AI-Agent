@@ -18,6 +18,7 @@ export async function GET(req: NextRequest) {
         dailyQuestionCount: true,
         dailyQuestionResetAt: true,
         accountOwnerId: true,
+        stripeCustomerId: true,
       },
     });
 
@@ -39,6 +40,10 @@ export async function GET(req: NextRequest) {
       dailyLimit: limit,
       remaining: Math.max(0, limit - count),
       unlimited: limit >= 999999,
+      // A paid tier does not imply a Stripe customer: comped and grandfathered
+      // accounts have none, and the portal 400s without one. The button is
+      // hidden rather than shown-and-broken.
+      canManageBilling: Boolean(user.stripeCustomerId),
     });
   }
 

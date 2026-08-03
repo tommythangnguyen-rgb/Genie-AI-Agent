@@ -37,6 +37,7 @@ interface AccountStatus {
   dailyLimit: number;
   remaining: number;
   unlimited: boolean;
+  canManageBilling?: boolean;
 }
 
 interface Member {
@@ -71,6 +72,7 @@ function AccountPageInner() {
   const [members, setMembers] = useState<Member[]>([]);
   const [loadingStatus, setLoadingStatus] = useState(true);
   const [portalLoading, setPortalLoading] = useState(false);
+  const [portalError, setPortalError] = useState<string | null>(null);
   const [syncLoading, setSyncLoading] = useState(false);
   const [syncMessage, setSyncMessage] = useState<string | null>(null);
   const [addForm, setAddForm] = useState({ email: "", password: "" });
@@ -125,9 +127,20 @@ function AccountPageInner() {
 
   async function openPortal() {
     setPortalLoading(true);
-    const res = await fetch("/api/stripe/portal", { method: "POST" });
-    const data = await res.json();
-    if (data.url) window.location.href = data.url;
+    setPortalError(null);
+    try {
+      const res = await fetch("/api/stripe/portal", { method: "POST" });
+      const data = await res.json().catch(() => ({}));
+      if (data.url) {
+        window.location.href = data.url;
+        return; // leave the spinner up through navigation
+      }
+      // Previously this branch did nothing, so a 400 or 500 was
+      // indistinguishable from a working button. Always say something.
+      setPortalError(data.error ?? "Couldn't open the billing portal. Please try again.");
+    } catch {
+      setPortalError("Couldn't reach the billing portal. Check your connection and try again.");
+    }
     setPortalLoading(false);
   }
 
@@ -332,7 +345,19 @@ function AccountPageInner() {
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-3">
-                  {status.tier !== "FREE" ? (
+                  {/* Three cases, not two: a paid tier with no Stripe customer
+                      is a comped account — it has nothing to manage and nothing
+                      to upgrade to, so it gets neither button. */}
+                  {status.tier === "FREE" ? (
+                    <Link
+                      href="/pricing"
+                      className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold active:scale-[0.98] transition-all hover:opacity-90"
+                      style={{ background: "rgba(212,175,55,0.22)", border: "1px solid rgba(212,175,55,0.45)", color: "#FFE066", boxShadow: "0 2px 18px rgba(212,175,55,0.20)" }}
+                    >
+                      <Crown className="h-4 w-4" />
+                      Upgrade Plan
+                    </Link>
+                  ) : status.canManageBilling ? (
                     <button
                       onClick={openPortal}
                       disabled={portalLoading}
@@ -342,16 +367,7 @@ function AccountPageInner() {
                       <ExternalLink className="h-4 w-4" />
                       {portalLoading ? "Loading..." : "Manage Subscription"}
                     </button>
-                  ) : (
-                    <Link
-                      href="/pricing"
-                      className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold active:scale-[0.98] transition-all hover:opacity-90"
-                      style={{ background: "rgba(212,175,55,0.22)", border: "1px solid rgba(212,175,55,0.45)", color: "#FFE066", boxShadow: "0 2px 18px rgba(212,175,55,0.20)" }}
-                    >
-                      <Crown className="h-4 w-4" />
-                      Upgrade Plan
-                    </Link>
-                  )}
+                  ) : null}
                   <button
                     onClick={syncAndFetch}
                     disabled={syncLoading}
@@ -363,8 +379,18 @@ function AccountPageInner() {
                   </button>
                 </div>
 
+                {portalError && (
+                  <p className="text-xs text-red-400/90 mt-3">{portalError}</p>
+                )}
+
                 {syncMessage && (
                   <p className="text-xs text-white/40 mt-3">{syncMessage}</p>
+                )}
+
+                {status.tier !== "FREE" && !status.canManageBilling && (
+                  <p className="text-xs text-white/40 mt-3">
+                    Complimentary {status.tier} account — no billing attached, nothing to manage.
+                  </p>
                 )}
 
                 {status.tier === "FREE" && !syncMessage && (
